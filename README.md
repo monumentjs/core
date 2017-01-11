@@ -18,6 +18,9 @@ This library should cover many aspects of application architecture. Some of them
 
 - Base types
   - Collections
+  - Errors
+  - Exceptions
+- Lifecycle
   - Event management
   - State management
 - Data
@@ -55,6 +58,11 @@ This library should cover many aspects of application architecture. Some of them
   - Feature detection
   - Animations and transitions
   - Widgets behavior
+- Security
+  - CSRF protection
+  - Content verification
+  - DDoS attack protection mechanism
+  - Access management
   
 
 ## Code Style
