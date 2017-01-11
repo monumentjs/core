@@ -24,6 +24,7 @@ This library should cover many aspects of application architecture. Some of them
   - Validation
   - Generation
   - Transformation
+  - Parsing
   - Serialization
 - Localization
   - Flexible translation mechanism
@@ -63,8 +64,8 @@ To ensure code style is the same across all library, `TSLint` is used.
 
 ## Contribution
 
-Feel free to make pull-requests if think it worth it ;). Your help is always welcome.
-You can also help transferring already existing solutions into this project.
+Feel free to make pull-requests if you think it worth it ;). Your help is always welcome.
+You can also help transferring already existing solutions into this project, maintaining typings and documentation.
 
 
 ## Project Initiator
