@@ -1,10 +1,10 @@
-import Dispatcher, {IAction, IActionListener, IActionListenerCancel} from '../../lib/Core/Dispatcher';
+import Dispatcher, {IAction, ActionListener, ActionListenerCancel} from '../../lib/Core/Dispatcher';
 
 
-describe('Core.Dispatcher', () => {
-    let dispatcher: Dispatcher<IAction, IActionListener<IAction>> = null;
-    let listener: IActionListener<IAction> = null;
-    let cancel: IActionListenerCancel = null;
+describe('Dispatcher', () => {
+    let dispatcher: Dispatcher<IAction, ActionListener<IAction>> = null;
+    let listener: ActionListener<IAction> = null;
+    let cancel: ActionListenerCancel = null;
     let cancelResult: boolean;
     let testAction: IAction = {
         type: 'test'
@@ -29,7 +29,7 @@ describe('Core.Dispatcher', () => {
         it('should attach listener', () => {
             listener = jest.fn();
 
-            expect(function() {
+            expect(function () {
                 dispatcher.subscribe(listener);
             }).not.toThrow();
         });
@@ -38,7 +38,7 @@ describe('Core.Dispatcher', () => {
         it('should return cancellation function', () => {
             listener = jest.fn();
 
-            expect(function() {
+            expect(function () {
                 cancel = dispatcher.subscribe(listener);
             }).not.toThrow();
 
@@ -46,7 +46,7 @@ describe('Core.Dispatcher', () => {
 
             // Cancellation function returns `true` when listener was un-subscribed.
 
-            expect(function() {
+            expect(function () {
                 cancelResult = cancel();
             }).not.toThrow();
 
@@ -54,7 +54,7 @@ describe('Core.Dispatcher', () => {
 
             // Cancellation function returns `false` if listener was already un-subscribed.
 
-            expect(function() {
+            expect(function () {
                 cancelResult = cancel();
             }).not.toThrow();
 

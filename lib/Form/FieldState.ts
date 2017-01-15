@@ -1,8 +1,8 @@
 import Store from '../Core/Store';
 import {IFieldState, IFieldAction, FieldActionType, IFieldProps} from './types';
-import ValidationError from '../Core/Data/Validation/ValidationError';
-import {ValidationRules} from '../Core/Data/Validation/types';
-import IDGenerator from '../Core/Data/Generation/IDGenerator';
+import ValidationError from '../Data/Validation/ValidationError';
+import {ValidationRules} from '../Data/Validation/types';
+import IDGenerator from '../Data/Generation/IDGenerator';
 import debounce from '../Core/Language/Decorators/Method/Debounce';
 
 

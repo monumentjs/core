@@ -2,9 +2,9 @@ import Store from '../Core/Store';
 import {IJSONSerializable, AsyncResult} from '../Core/types';
 import {IFormState, FormActionType, IFormAction} from './types';
 import FieldController from './FieldState';
-import {IActionListenerCancel} from '../Core/Dispatcher';
-import {IValidationRule, IAsyncValidator} from '../Core/Data/Validation/types';
-import ValidationError from '../Core/Data/Validation/ValidationError';
+import {ActionListenerCancel} from '../Core/Dispatcher';
+import {IValidationRule, IAsyncValidator} from '../Data/Validation/types';
+import ValidationError from '../Data/Validation/ValidationError';
 
 
 export default class FormState<M>
@@ -12,7 +12,7 @@ export default class FormState<M>
     implements IAsyncValidator<boolean>, IJSONSerializable<M> {
     
     private _fields: FieldController[] = [];
-    private _subscriptions: {[id: number]: IActionListenerCancel} = Object.create(null);
+    private _subscriptions: {[id: number]: ActionListenerCancel} = Object.create(null);
 
 
     get fields(): FieldController[] {
@@ -139,7 +139,7 @@ export default class FormState<M>
 
 
     protected startListenToFieldChanges(field: FieldController) {
-        let cancel: IActionListenerCancel;
+        let cancel: ActionListenerCancel;
 
         cancel = field.subscribe(function () {
             this.refreshState();
@@ -150,7 +150,7 @@ export default class FormState<M>
 
 
     protected stopListenToFieldChanges(field: FieldController) {
-        let cancel: IActionListenerCancel = this._subscriptions[field.id];
+        let cancel: ActionListenerCancel = this._subscriptions[field.id];
 
         cancel();
         delete this._subscriptions[field.id];

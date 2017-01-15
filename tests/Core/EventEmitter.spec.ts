@@ -1,10 +1,10 @@
-import Event from '../../lib/Core/Event';
-import EventEmitter, {IEventHandler} from '../../lib/Core/EventEmitter';
+import Event from '../../lib/Core/Events/Event';
+import EventEmitter, {EventHandler} from '../../lib/Core/Events/EventEmitter';
 
 
-describe('Core.EventEmitter', () => {
+describe('EventEmitter', () => {
     let emitter: EventEmitter = null;
-    let listener: IEventHandler = null;
+    let listener: EventHandler = null;
     let lastContext = null;
     let context = {
         TEST_CONTEXT: true

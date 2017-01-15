@@ -1,4 +1,4 @@
-import EventEmitter from '../../Core/EventEmitter';
+import EventEmitter from '../../Core/Events/EventEmitter';
 import Timeline from '../Animation/Timeline';
 import EasingFactory from '../Animation/EasingFactory';
 import TimelineEvent from '../Animation/TimelineEvent';

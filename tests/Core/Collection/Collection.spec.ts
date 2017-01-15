@@ -1,7 +1,7 @@
 import Collection from '../../../lib/Core/Collection/Collection';
 
 
-describe('Core.Collection.Collection', () => {
+describe('Collection', () => {
     describe('#constructor()', () => {
         it('should create new instance of Collection class', () => {
             let collection: Collection<string> = null;

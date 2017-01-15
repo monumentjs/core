@@ -1,4 +1,4 @@
-import Event from '../../Core/Event';
+import Event from '../../Core/Events/Event';
 import {TimelineEventType} from './types';
 
 

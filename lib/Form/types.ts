@@ -1,6 +1,6 @@
-import ValidationError from '../Core/Data/Validation/ValidationError';
+import ValidationError from '../Data/Validation/ValidationError';
 import {IAction} from '../Core/Dispatcher';
-import {ValidationRules} from '../Core/Data/Validation/types';
+import {ValidationRules} from '../Data/Validation/types';
 
 
 export interface IModelState {

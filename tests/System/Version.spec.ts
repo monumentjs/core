@@ -2,7 +2,7 @@ import Version from '../../lib/System/Version';
 import {ReleaseStatus} from '../../lib/System/types';
 
 
-describe('System.Version', () => {
+describe('Version', () => {
     describe('#constructor()', () => {
         it('should create new instance of Version class', () => {
             let version: Version = null;

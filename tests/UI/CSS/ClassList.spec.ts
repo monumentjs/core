@@ -2,7 +2,7 @@ import ClassList from '../../../lib/UI/CSS/ClassList';
 import Collection from '../../../lib/Core/Collection/Collection';
 
 
-describe('UI.CSS.ClassList', () => {
+describe('ClassList', () => {
     let list: ClassList;
 
 

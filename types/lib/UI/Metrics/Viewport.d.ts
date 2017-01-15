@@ -1,0 +1,44 @@
+export declare const DEFAULT_VIEWPORT: {
+    element: any;
+    left: number;
+    top: number;
+    width: number;
+    height: number;
+    scrollLeft: number;
+    scrollTop: number;
+    scrollWidth: number;
+    scrollHeight: number;
+};
+export default class Viewport {
+    static fromElement(element: HTMLElement): Viewport;
+    private _element;
+    private _left;
+    private _width;
+    private _height;
+    private _top;
+    private _scrollLeft;
+    private _scrollTop;
+    private _scrollWidth;
+    private _scrollHeight;
+    left: number;
+    top: number;
+    readonly right: number;
+    readonly bottom: number;
+    width: number;
+    height: number;
+    scrollLeft: number;
+    scrollTop: number;
+    scrollWidth: number;
+    scrollHeight: number;
+    readonly clientWidth: number;
+    readonly clientHeight: number;
+    readonly isOverflowX: boolean;
+    readonly isOverflowY: boolean;
+    readonly isAtTop: boolean;
+    readonly isAtLeft: boolean;
+    readonly isAtRight: boolean;
+    readonly isAtBottom: boolean;
+    readonly element: HTMLElement;
+    constructor(viewport: any);
+    _normalize(): void;
+}

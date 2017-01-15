@@ -1,4 +1,9 @@
-node_modules
-**/.*
+.idea
+.gitignore
 *.js
 *.js.map
+lib/**/*.d.ts
+node_modules
+docs
+typings
+tests

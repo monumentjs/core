@@ -2,7 +2,7 @@ import List from '../../../lib/Core/Collection/List';
 import Collection from '../../../lib/Core/Collection/Collection';
 
 
-describe('Core.Collection.List', () => {
+describe('List', () => {
     describe('#constructor()', () => {
         it('should create new instance of List class', () => {
             let list: List<string> = null;

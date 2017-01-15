@@ -12,6 +12,11 @@
     "trailing-comma": false,
     "switch-default": false,
     "no-string-literal": false,
+    "prefer-const": false,
+    "space-before-function-paren": [true, {"anonymous": "always", "named": "never", "asyncArrow": "always"}],
     "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"]
-  }
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }

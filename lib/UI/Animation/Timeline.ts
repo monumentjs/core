@@ -1,5 +1,5 @@
 import Helpers from './helpers';
-import EventEmitter from '../../Core/EventEmitter';
+import EventEmitter from '../../Core/Events/EventEmitter';
 import TimelineEvent from './TimelineEvent';
 import {TimelineEventType} from './types';
 
@@ -20,18 +20,12 @@ export default class Timeline extends EventEmitter {
         return this._originalDuration;
     }
 
-    /**
-     * Timeline duration in milliseconds.
-     * @return {number}
-     */
+
     get duration(): number {
         return this._duration;
     }
 
-    /**
-     * Set timeline duration.
-     * @param {number} duration
-     */
+
     set duration(duration: number) {
         this._duration = duration;
 

@@ -1,8 +1,8 @@
-import EventEmitter from '../../../lib/Core/EventEmitter';
+import EventEmitter from '../../../lib/Core/Events/EventEmitter';
 import Timeline from '../../../lib/UI/Animation/Timeline';
 
 
-describe('UI.Animation.Timeline', () => {
+describe('Timeline', () => {
     describe('#constructor()', () => {
         it('should create new instance of Timeline class', () => {
             let timeline: Timeline = null;

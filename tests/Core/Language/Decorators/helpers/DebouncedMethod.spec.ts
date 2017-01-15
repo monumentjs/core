@@ -1,7 +1,7 @@
 import DebouncedMethod from '../../../../../lib/Core/Language/Decorators/helpers/DebouncedMethod';
 
 
-describe('Core.Decorators.Helpers.DebouncedMethod', () => {
+describe('DebouncedMethod', () => {
     const TEST_ARGUMENTS = [1, 2, 3];
 
     let method: DebouncedMethod;

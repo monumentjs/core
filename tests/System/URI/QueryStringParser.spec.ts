@@ -17,7 +17,7 @@ const QUERY_STRING_OBJECTS = {
 };
 
 
-describe('System.URI.QueryStringParser', () => {
+describe('QueryStringParser', () => {
     describe('#constructor()', () => {
         it('should create new instance of QueryStringParser class', () => {
             let parser: QueryStringParser<SearchQuery> = null;

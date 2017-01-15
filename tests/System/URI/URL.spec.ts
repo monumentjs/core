@@ -50,7 +50,7 @@ const URL_ATTRIBUTES: Pool<URLAttributes> = {
 };
 
 
-describe('Net.URL', () => {
+describe('URL', () => {
     describe('#constructor()', () => {
         it('should create new instance of URL class', () => {
             let url: URL = null;

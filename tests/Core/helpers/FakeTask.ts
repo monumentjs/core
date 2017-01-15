@@ -1,27 +1,36 @@
-
-import Task from '../../../lib/System/Automation/Job';
-
-
-export interface IFakeTaskCredentials<R, E> {
-    result?: R;
-    error?: E;
-}
+import {Task} from '../../../lib/System/Automation/Task';
 
 
-export default class FakeTask<R, E> extends Task<R> {
-    constructor(credentials: IFakeTaskCredentials<R, E>) {
-        super(function (): Promise<R> {
-            return new Promise(function (resolve, reject) {
-                setTimeout(function () {
-                    if (credentials.result) {
-                        resolve(credentials.result);
-                    } else {
-                        reject(credentials.error);
-                    }
-                }, 1);
-            });
-        }, {
-            description: 'Test task'
-        });
+export default class FakeTask<R> extends Task<R> {
+    private _preparedResult: R;
+    private _preparedError: Error;
+    private _msWait: number;
+
+
+    constructor(result?: R, error?: Error, msWait?: number) {
+        super();
+
+        this._preparedResult = result;
+        this._preparedError = error;
+        this._msWait = msWait;
+    }
+
+
+    protected doJob() {
+        if (this._msWait) {
+            setTimeout(function () {
+                if (this._preparedResult) {
+                    this.resolve(this._preparedResult);
+                } else {
+                    this.reject(this._preparedError);
+                }
+            }, this._msWait);
+        } else {
+            if (this._preparedResult) {
+                this.resolve(this._preparedResult);
+            } else {
+                this.reject(this._preparedError);
+            }
+        }
     }
 }

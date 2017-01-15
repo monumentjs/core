@@ -4,16 +4,11 @@ export interface IAction {
 }
 
 
-export interface IActionListener<A> {
-    (action: A): void;
-}
-
-export interface IActionListenerCancel {
-    (): boolean;
-}
+export type ActionListener<A> = (action: A) => void;
+export type ActionListenerCancel = () => boolean;
 
 
-export default class Dispatcher<A extends IAction, L extends IActionListener<A>> {
+export default class Dispatcher<A extends IAction, L extends ActionListener<A>> {
     private _listeners: L[];
 
 
@@ -22,7 +17,7 @@ export default class Dispatcher<A extends IAction, L extends IActionListener<A>>
     }
 
 
-    public subscribe(listener: L): IActionListenerCancel {
+    public subscribe(listener: L): ActionListenerCancel {
         this._listeners.push(listener);
 
         return (): boolean => {
