@@ -1,8 +1,8 @@
 .idea
 .gitignore
 *.js
+!docs/**/*.js
 *.js.map
-*.spec.d.ts
 lib/**/*.d.ts
 node_modules
 typings
