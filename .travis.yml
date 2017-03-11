@@ -4,8 +4,9 @@ node_js:
   - "iojs"
   - "6"
 before_install:
-  - "npm i -g typescript jest-cli"
+  - "npm i -g typescript typings jest-cli"
 script:
   - "npm i"
+  - "typings install"
   - "tsc"
   - "npm test"
