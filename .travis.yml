@@ -6,7 +6,6 @@ node_js:
 before_install:
   - "npm i -g typescript typings jest-cli"
 script:
-  - "npm i"
   - "typings install"
   - "tsc"
   - "npm test"

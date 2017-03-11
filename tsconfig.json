@@ -6,8 +6,9 @@
     "declaration": false,
     "moduleResolution": "node",
     "jsx": "react",
-    "types": [
-      "typings"
+    "typeRoots": [
+      "./typings/globals",
+      "./typings/modules"
     ],
     "experimentalDecorators": true,
     "lib": [
