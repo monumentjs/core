@@ -19,7 +19,7 @@ const QUERY_STRING_OBJECTS = {
 
 describe('QueryStringParser', () => {
     describe('#constructor()', () => {
-        it('should create new instance of QueryStringParser class', () => {
+        it('create new instance of QueryStringParser class', () => {
             let parser: QueryStringParser<SearchQuery> = null;
 
             expect(function () {
@@ -32,7 +32,7 @@ describe('QueryStringParser', () => {
 
 
     describe('#parse()', () => {
-        it('should parse query string and return object in proper format', () => {
+        it('parse query string and return object in proper format', () => {
             let parser: QueryStringParser<SearchQuery> = new QueryStringParser<SearchQuery>(new SearchQueryMapper());
 
             QUERY_STRING_EXAMPLES.forEach((queryString: string) => {

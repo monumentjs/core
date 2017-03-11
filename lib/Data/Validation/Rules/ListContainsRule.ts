@@ -1,8 +1,5 @@
 import {IValidationRule, ValidationResult} from '../types';
 import ValidationError from '../ValidationError';
-import _includes from 'lodash/includes';
-import _isArrayLike from 'lodash/isArrayLike';
-import _each from 'lodash/each';
 
 
 export default class ListContainsRule implements IValidationRule<any> {
@@ -28,15 +25,6 @@ export default class ListContainsRule implements IValidationRule<any> {
         let values: ArrayLike<any> = model[property];
         let contains: boolean = true;
 
-        if (_isArrayLike(this._item)) {
-            _each(this._item, (item: any) => {
-                if (_includes(values, item) === false) {
-                    contains = false;
-                }
-            });
-        } else {
-            contains = _includes(values, this._item);
-        }
 
         if (!contains) {
             errors.push(new ValidationError('validation.error.list.contains', model, property, this));

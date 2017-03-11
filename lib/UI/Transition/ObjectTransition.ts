@@ -40,7 +40,7 @@ export default class ObjectTransition extends Transition {
         this._property = property;
         this._source = object;
 
-        this.on(TransitionEvent.PROGRESS, (event: TransitionEvent) => {
+        this.addEventListener(TransitionEvent.PROGRESS, (event: TransitionEvent) => {
             this._source[this._property] += event.delta;
         });
     }

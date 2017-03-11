@@ -1,21 +1,16 @@
-
-
-export interface IEvent {
-    type: string;
-}
+import {IEvent} from './IEvent';
 
 
 export default class Event implements IEvent {
     private _type: string;
 
 
-    get type(): string {
+    public get type(): string {
         return this._type;
     }
 
 
-    constructor(type: string) {
+    public constructor(type: string) {
         this._type = type;
     }
 }
-

@@ -6,79 +6,15 @@ server and client applications.
 
 ## Goals
 
-- Bring the most frequently used functionality (FUF) into TypeScript class library
-- Cover FUF with tests
+- Bring the most frequently used functionality into TypeScript class library
+- Cover frequently used functionality with tests
 - Create solutions base for isomorphic applications
-- Provide HQ level of abstraction that allow to scale application
-
-
-## Roadmap
-
-This library should cover many aspects of application architecture. Some of them are:
-
-- Base types
-  - Collections
-  - Errors
-  - Exceptions
-- Lifecycle
-  - Event management
-  - State management
-- Data
-  - Validation
-  - Generation
-  - Transformation
-  - Parsing
-  - Serialization
-- Localization
-  - Flexible translation mechanism
-  - Translations dictionary
-  - Translations resources management
-  - Culture information
-  - Calendar
-  - Date / time formatting
-  - Currency formatting
-- Automation
-  - Tasks management
-  - Jobs queue
-  - Jobs scheduling
-- Tooling
-  - Command-line tools framework
-- Client-server architecture
-  - Client-server data exchange
-    - Routing
-    - REST API
-    - AJAX
-  - DB integration, ORM
-  - Cache
-  - Realtime interaction
-    - Web Sockets
-    - WebRTC
-- UI & UX
-  - Abstract algorithms for UI components (UI frameworks changes, but widgets functionality does not)
-  - Feature detection
-  - Animations and transitions
-  - Widgets behavior
-- Security
-  - CSRF protection
-  - Content verification
-  - DDoS attack protection mechanism
-  - Access management
-  
-
-## Code Style
-
-To ensure code style is the same across all library, `TSLint` is used.
+- Provide high quality level of abstraction that allow to scale application
 
 
 ## Contribution
 
-Feel free to make pull-requests if you think it worth it ;). Your help is always welcome.
-You can also help transferring already existing solutions into this project, maintaining typings and documentation.
-
-
-## Project Initiator
-
-Project initiated by Alex Chugaev <achugaev93@gmail.com>
+Feel free to make pull-requests. Your help is always welcome.
 
 
 ## License

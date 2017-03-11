@@ -6,7 +6,7 @@ export default class IDGenerator {
     private _takenIDs: {[key: number]: boolean};
 
 
-    constructor() {
+    public constructor() {
         this._takenIDs = Object.create(null);
     }
 
@@ -34,8 +34,8 @@ export default class IDGenerator {
         if (id in this._takenIDs) {
             delete this._takenIDs[id];
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 }

@@ -8,7 +8,7 @@ describe('DebouncedMethod', () => {
 
 
     describe('#constructor(method, delay[, leading, trailing, maxWait])', () => {
-        it('should create new instance with only 2 arguments specified', () => {
+        it('create new instance with only 2 arguments specified', () => {
             let fn = jest.fn();
 
             expect(() => {
@@ -19,7 +19,7 @@ describe('DebouncedMethod', () => {
 
 
     describe('#call(context, args)', () => {
-        it('should schedule a call of method', () => {
+        it('schedule a call of method', () => {
             return new Promise((resolve: Function, reject: Function) => {
                 let fn = jest.fn(function () {
                     setTimeout(() => {
@@ -44,7 +44,7 @@ describe('DebouncedMethod', () => {
         });
 
 
-        describe('should suppress too rapidly method calls', () => {
+        describe('suppress too rapidly method calls', () => {
             it('trailing', () => {
                 return new Promise((resolve: Function, reject: Function) => {
                     let fn = jest.fn(function () {
@@ -154,7 +154,7 @@ describe('DebouncedMethod', () => {
         });
 
 
-        describe.skip('should force call after max wait time exceeded', () => {
+        describe.skip('force call after max wait time exceeded', () => {
             it('trailing', () => {
                 return new Promise((resolve: Function, reject: Function) => {
                     let fn = jest.fn(function () {

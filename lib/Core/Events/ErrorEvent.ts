@@ -2,16 +2,19 @@ import Event from './Event';
 
 
 export default class ErrorEvent extends Event {
+    public static ERROR: string = 'error';
+
+
     private _error: Error;
 
 
-    get error(): Error {
+    public get error(): Error {
         return this._error;
     }
 
 
-    constructor(error: Error) {
-        super('error');
+    public constructor(error: Error) {
+        super(ErrorEvent.ERROR);
 
         this._error = error;
     }

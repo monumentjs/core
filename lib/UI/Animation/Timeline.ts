@@ -107,7 +107,7 @@ export default class Timeline extends EventEmitter {
     
     
     protected notify(event: TimelineEventType) {
-        this.emit(new TimelineEvent(event, this._position, this._duration));
+        this.dispatchEvent(new TimelineEvent(event, this._position, this._duration));
     }
 
 

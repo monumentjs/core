@@ -2,11 +2,12 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "es6",
-    "declaration": true,
-    "declarationDir": "types",
     "sourceMap": true,
     "moduleResolution": "node",
     "jsx": "react",
+    "types": [
+      "typings"
+    ],
     "experimentalDecorators": true,
     "lib": [
       "dom",
@@ -30,6 +31,7 @@
     ]
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "types"
   ]
 }

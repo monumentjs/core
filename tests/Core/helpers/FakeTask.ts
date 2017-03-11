@@ -1,4 +1,5 @@
 import {Task} from '../../../lib/System/Automation/Task';
+import {AsyncResult} from '../../../lib/Core/types';
 
 
 export default class FakeTask<R> extends Task<R> {
@@ -16,7 +17,7 @@ export default class FakeTask<R> extends Task<R> {
     }
 
 
-    protected doJob() {
+    protected async doJob(): AsyncResult<void> {
         if (this._msWait) {
             setTimeout(function () {
                 if (this._preparedResult) {

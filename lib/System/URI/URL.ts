@@ -1,8 +1,8 @@
-import {IFormattable, IJSONSerializable, ICloneable} from '../../Core/types';
+import {IJSONSerializable, ICloneable} from '../../Core/types';
 import {URLAttributes, URL_PATTERN} from './types';
 
 
-export default class URL implements IFormattable, ICloneable<URL>, IJSONSerializable<URLAttributes> {
+export default class URL implements ICloneable<URL>, IJSONSerializable<URLAttributes> {
     public static parse(url: string): URL {
         return new URL(url);
     }

@@ -409,28 +409,28 @@ namespace _ {
 
   interface LoDashImplicitArrayWrapper<T> {
     /**
-     * @see _.chunk
+     * @see _.dataChunk
      */
     chunk(size?: number): LoDashImplicitArrayWrapper<T[]>;
   }
 
   interface LoDashImplicitObjectWrapper<T> {
     /**
-     * @see _.chunk
+     * @see _.dataChunk
      */
     chunk<TResult>(size?: number): LoDashImplicitArrayWrapper<TResult[]>;
   }
 
   interface LoDashExplicitArrayWrapper<T> {
     /**
-     * @see _.chunk
+     * @see _.dataChunk
      */
     chunk(size?: number): LoDashExplicitArrayWrapper<T[]>;
   }
 
   interface LoDashExplicitObjectWrapper<T> {
     /**
-     * @see _.chunk
+     * @see _.dataChunk
      */
     chunk<TResult>(size?: number): LoDashExplicitArrayWrapper<TResult[]>;
   }
@@ -2982,7 +2982,7 @@ namespace _ {
     ): T[];
 
     /**
-     * @see _.remove
+     * @see _.removeByKey
      */
     remove<T>(
       array: List<T>,
@@ -2991,7 +2991,7 @@ namespace _ {
     ): T[];
 
     /**
-     * @see _.remove
+     * @see _.removeByKey
      */
     remove<W, T>(
       array: List<T>,
@@ -3001,7 +3001,7 @@ namespace _ {
 
   interface LoDashImplicitArrayWrapper<T> {
     /**
-     * @see _.remove
+     * @see _.removeByKey
      */
     remove(
       predicate?: ListIterator<T, boolean>,
@@ -3009,7 +3009,7 @@ namespace _ {
     ): LoDashImplicitArrayWrapper<T>;
 
     /**
-     * @see _.remove
+     * @see _.removeByKey
      */
     remove(
       predicate?: string,
@@ -3017,7 +3017,7 @@ namespace _ {
     ): LoDashImplicitArrayWrapper<T>;
 
     /**
-     * @see _.remove
+     * @see _.removeByKey
      */
     remove<W>(
       predicate?: W
@@ -3026,7 +3026,7 @@ namespace _ {
 
   interface LoDashImplicitObjectWrapper<T> {
     /**
-     * @see _.remove
+     * @see _.removeByKey
      */
     remove<TResult>(
       predicate?: ListIterator<TResult, boolean>,
@@ -3034,7 +3034,7 @@ namespace _ {
     ): LoDashImplicitArrayWrapper<TResult>;
 
     /**
-     * @see _.remove
+     * @see _.removeByKey
      */
     remove<TResult>(
       predicate?: string,
@@ -3042,7 +3042,7 @@ namespace _ {
     ): LoDashImplicitArrayWrapper<TResult>;
 
     /**
-     * @see _.remove
+     * @see _.removeByKey
      */
     remove<W, TResult>(
       predicate?: W
@@ -3051,7 +3051,7 @@ namespace _ {
 
   interface LoDashExplicitArrayWrapper<T> {
     /**
-     * @see _.remove
+     * @see _.removeByKey
      */
     remove(
       predicate?: ListIterator<T, boolean>,
@@ -3059,7 +3059,7 @@ namespace _ {
     ): LoDashExplicitArrayWrapper<T>;
 
     /**
-     * @see _.remove
+     * @see _.removeByKey
      */
     remove(
       predicate?: string,
@@ -3067,7 +3067,7 @@ namespace _ {
     ): LoDashExplicitArrayWrapper<T>;
 
     /**
-     * @see _.remove
+     * @see _.removeByKey
      */
     remove<W>(
       predicate?: W
@@ -3076,7 +3076,7 @@ namespace _ {
 
   interface LoDashExplicitObjectWrapper<T> {
     /**
-     * @see _.remove
+     * @see _.removeByKey
      */
     remove<TResult>(
       predicate?: ListIterator<TResult, boolean>,
@@ -3084,7 +3084,7 @@ namespace _ {
     ): LoDashExplicitArrayWrapper<TResult>;
 
     /**
-     * @see _.remove
+     * @see _.removeByKey
      */
     remove<TResult>(
       predicate?: string,
@@ -3092,7 +3092,7 @@ namespace _ {
     ): LoDashExplicitArrayWrapper<TResult>;
 
     /**
-     * @see _.remove
+     * @see _.removeByKey
      */
     remove<W, TResult>(
       predicate?: W
@@ -7120,7 +7120,7 @@ namespace _ {
     ): T;
 
     /**
-     * @see _.find
+     * @see _.findByKey
      */
     find<T>(
       collection: Dictionary<T>,
@@ -7129,7 +7129,7 @@ namespace _ {
     ): T;
 
     /**
-     * @see _.find
+     * @see _.findByKey
      */
     find<T>(
       collection: List<T> | Dictionary<T>,
@@ -7138,7 +7138,7 @@ namespace _ {
     ): T;
 
     /**
-     * @see _.find
+     * @see _.findByKey
      */
     find<TObject extends {}, T>(
       collection: List<T> | Dictionary<T>,
@@ -7148,7 +7148,7 @@ namespace _ {
 
   interface LoDashImplicitArrayWrapper<T> {
     /**
-     * @see _.find
+     * @see _.findByKey
      */
     find(
       predicate?: ListIterator<T, boolean>,
@@ -7156,7 +7156,7 @@ namespace _ {
     ): T;
 
     /**
-     * @see _.find
+     * @see _.findByKey
      */
     find(
       predicate?: string,
@@ -7164,7 +7164,7 @@ namespace _ {
     ): T;
 
     /**
-     * @see _.find
+     * @see _.findByKey
      */
     find<TObject extends {}>(
       predicate?: TObject
@@ -7173,7 +7173,7 @@ namespace _ {
 
   interface LoDashImplicitObjectWrapper<T> {
     /**
-     * @see _.find
+     * @see _.findByKey
      */
     find<TResult>(
       predicate?: ListIterator<TResult, boolean> | DictionaryIterator<TResult, boolean>,
@@ -7181,7 +7181,7 @@ namespace _ {
     ): TResult;
 
     /**
-     * @see _.find
+     * @see _.findByKey
      */
     find<TResult>(
       predicate?: string,
@@ -7189,7 +7189,7 @@ namespace _ {
     ): TResult;
 
     /**
-     * @see _.find
+     * @see _.findByKey
      */
     find<TObject extends {}, TResult>(
       predicate?: TObject
@@ -7212,7 +7212,7 @@ namespace _ {
       thisArg?: any): T;
 
     /**
-     * @see _.find
+     * @see _.findByKey
      */
     findLast<T>(
       collection: List<T>,
@@ -7220,7 +7220,7 @@ namespace _ {
       thisArg?: any): T;
 
     /**
-     * @see _.find
+     * @see _.findByKey
      */
     findLast<T>(
       collection: Dictionary<T>,
@@ -7228,7 +7228,7 @@ namespace _ {
       thisArg?: any): T;
 
     /**
-     * @see _.find
+     * @see _.findByKey
      * @param _.pluck style callback
      */
     findLast<W, T>(
@@ -7236,7 +7236,7 @@ namespace _ {
       whereValue: W): T;
 
     /**
-     * @see _.find
+     * @see _.findByKey
      * @param _.pluck style callback
      */
     findLast<W, T>(
@@ -7244,7 +7244,7 @@ namespace _ {
       whereValue: W): T;
 
     /**
-     * @see _.find
+     * @see _.findByKey
      * @param _.pluck style callback
      */
     findLast<W, T>(
@@ -7252,7 +7252,7 @@ namespace _ {
       whereValue: W): T;
 
     /**
-     * @see _.find
+     * @see _.findByKey
      * @param _.where style callback
      */
     findLast<T>(
@@ -7260,7 +7260,7 @@ namespace _ {
       pluckValue: string): T;
 
     /**
-     * @see _.find
+     * @see _.findByKey
      * @param _.where style callback
      */
     findLast<T>(
@@ -7268,7 +7268,7 @@ namespace _ {
       pluckValue: string): T;
 
     /**
-     * @see _.find
+     * @see _.findByKey
      * @param _.where style callback
      */
     findLast<T>(
@@ -8548,7 +8548,7 @@ namespace _ {
       thisArg?: any): TResult;
 
     /**
-     * @see _.reduce
+     * @see _.parse
      */
     reduce<T, TResult>(
       collection: List<T>,
@@ -8557,7 +8557,7 @@ namespace _ {
       thisArg?: any): TResult;
 
     /**
-     * @see _.reduce
+     * @see _.parse
      */
     reduce<T, TResult>(
       collection: Dictionary<T>,
@@ -8566,7 +8566,7 @@ namespace _ {
       thisArg?: any): TResult;
 
     /**
-     * @see _.reduce
+     * @see _.parse
      */
     reduce<T, TResult>(
       collection: NumericDictionary<T>,
@@ -8575,7 +8575,7 @@ namespace _ {
       thisArg?: any): TResult;
 
     /**
-     * @see _.reduce
+     * @see _.parse
      */
     reduce<T, TResult>(
       collection: Array<T>,
@@ -8583,7 +8583,7 @@ namespace _ {
       thisArg?: any): TResult;
 
     /**
-     * @see _.reduce
+     * @see _.parse
      */
     reduce<T, TResult>(
       collection: List<T>,
@@ -8591,7 +8591,7 @@ namespace _ {
       thisArg?: any): TResult;
 
     /**
-     * @see _.reduce
+     * @see _.parse
      */
     reduce<T, TResult>(
       collection: Dictionary<T>,
@@ -8599,7 +8599,7 @@ namespace _ {
       thisArg?: any): TResult;
 
     /**
-     * @see _.reduce
+     * @see _.parse
      */
     reduce<T, TResult>(
       collection: NumericDictionary<T>,
@@ -8610,7 +8610,7 @@ namespace _ {
 
   interface LoDashImplicitArrayWrapper<T> {
     /**
-     * @see _.reduce
+     * @see _.parse
      */
     reduce<TResult>(
       callback: MemoIterator<T, TResult>,
@@ -8618,7 +8618,7 @@ namespace _ {
       thisArg?: any): TResult;
 
     /**
-     * @see _.reduce
+     * @see _.parse
      */
     reduce<TResult>(
       callback: MemoIterator<T, TResult>,
@@ -8627,7 +8627,7 @@ namespace _ {
 
   interface LoDashImplicitObjectWrapper<T> {
     /**
-     * @see _.reduce
+     * @see _.parse
      */
     reduce<TValue, TResult>(
       callback: MemoIterator<TValue, TResult>,
@@ -8635,7 +8635,7 @@ namespace _ {
       thisArg?: any): TResult;
 
     /**
-     * @see _.reduce
+     * @see _.parse
      */
     reduce<TValue, TResult>(
       callback: MemoIterator<TValue, TResult>,
@@ -10273,14 +10273,14 @@ namespace _ {
 
   interface LoDashImplicitObjectWrapper<T> {
     /**
-     * @see _.flow
+     * @see _.stream
      */
     flow<TResult extends Function>(...funcs: Function[]): LoDashImplicitObjectWrapper<TResult>;
   }
 
   interface LoDashExplicitObjectWrapper<T> {
     /**
-     * @see _.flow
+     * @see _.stream
      */
     flow<TResult extends Function>(...funcs: Function[]): LoDashExplicitObjectWrapper<TResult>;
   }
@@ -10443,14 +10443,14 @@ namespace _ {
 
   interface LoDashImplicitObjectWrapper<T> {
     /**
-     * @see _.once
+     * @see _.removeAfterExecution
      */
     once(): LoDashImplicitObjectWrapper<T>;
   }
 
   interface LoDashExplicitObjectWrapper<T> {
     /**
-     * @see _.once
+     * @see _.removeAfterExecution
      */
     once(): LoDashExplicitObjectWrapper<T>;
   }
@@ -15175,14 +15175,14 @@ namespace _ {
 
   interface LoDashImplicitObjectWrapper<T> {
     /**
-     * @see _.has
+     * @see _.contains
      */
     has(path: StringRepresentable | StringRepresentable[]): boolean;
   }
 
   interface LoDashExplicitObjectWrapper<T> {
     /**
-     * @see _.has
+     * @see _.contains
      */
     has(path: StringRepresentable | StringRepresentable[]): LoDashExplicitWrapper<boolean>;
   }

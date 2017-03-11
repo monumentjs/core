@@ -1,9 +1,10 @@
-import Collection from '../../../lib/Core/Collection/Collection';
+import Collection from '../../../lib/Core/Collections/Collection';
+import {ICollection} from '../../../lib/Core/Collections/ICollection';
 
 
 describe('Collection', () => {
     describe('#constructor()', () => {
-        it('should create new instance of Collection class', () => {
+        it('create new instance of Collection class', () => {
             let collection: Collection<string> = null;
 
             expect(function () {
@@ -17,7 +18,7 @@ describe('Collection', () => {
 
 
     describe('for...of loop', () => {
-        it('should allow iteration', () => {
+        it('allow iteration', () => {
             let items: string[] = [];
             let collection: Collection<string> = new Collection<string>();
 
@@ -37,7 +38,7 @@ describe('Collection', () => {
         });
 
 
-        it('should allow to break iteration', () => {
+        it('allow to break iteration', () => {
             let items: string[] = [];
             let collection: Collection<string> = new Collection<string>();
 
@@ -72,9 +73,9 @@ describe('Collection', () => {
 
 
     describe('#clone()', () => {
-        it('should create a copy of current instance', () => {
+        it('create a copy of current instance', () => {
             let collection: Collection<string> = new Collection<string>(['one', 'two']);
-            let clone: Collection<string> = collection.clone();
+            let clone: ICollection<string> = collection.clone();
 
             expect(clone).toBeInstanceOf(Collection);
             expect(clone).toBeInstanceOf(Collection);
@@ -87,7 +88,7 @@ describe('Collection', () => {
 
 
     describe('#add()', () => {
-        it('should add item into collection', () => {
+        it('add item into collection', () => {
             let collection: Collection<string> = new Collection<string>();
 
             expect(collection.length).toEqual(0);
@@ -104,30 +105,32 @@ describe('Collection', () => {
 
 
     describe('#has()', () => {
-        it('should detect is collection already contains specified item', () => {
+        it('detect is collection already contains specified item', () => {
             let collection: Collection<string> = new Collection<string>(['one', 'two']);
 
-            expect(collection.has('one')).toEqual(true);
-            expect(collection.has('two')).toEqual(true);
-            expect(collection.has('three')).toEqual(false);
+            expect(collection.contains('one')).toEqual(true);
+            expect(collection.contains('two')).toEqual(true);
+            expect(collection.contains('three')).toEqual(false);
         });
     });
 
 
     describe('#remove()', () => {
-        it('should remove item from collection', () => {
+        it('remove item from collection', () => {
             let collection: Collection<string> = new Collection<string>(['one', 'two']);
 
             expect(collection.length).toEqual(2);
             expect(collection[0]).toEqual('one');
             expect(collection[1]).toEqual('two');
 
-            expect(collection.remove('two')).toEqual('two');
+            expect(collection.remove('itemThatNotInCollection')).toEqual(false);
+
+            expect(collection.remove('two')).toEqual(true);
             expect(collection.length).toEqual(1);
             expect(collection[0]).toEqual('one');
             expect(collection[1]).toEqual(undefined);
 
-            expect(collection.remove('one')).toEqual('one');
+            expect(collection.remove('one')).toEqual(true);
             expect(collection.length).toEqual(0);
             expect(collection[0]).toEqual(undefined);
             expect(collection[1]).toEqual(undefined);
@@ -136,7 +139,7 @@ describe('Collection', () => {
 
 
     describe('#clear()', () => {
-        it('should clear collection', () => {
+        it('clear collection', () => {
             let collection: Collection<string> = new Collection<string>(['one', 'two']);
 
             collection.clear();
@@ -149,7 +152,7 @@ describe('Collection', () => {
 
 
     describe('#toJSON()', () => {
-        it('should return pure JS array for JSON serialization', () => {
+        it('return pure JS array for JSON serialization', () => {
             let collection: Collection<string> = new Collection<string>(['one', 'two']);
 
             expect(collection.toJSON()).toEqual(['one', 'two']);

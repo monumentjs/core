@@ -6,4 +6,4 @@
 lib/**/*.d.ts
 node_modules
 typings
-types/tests
+types

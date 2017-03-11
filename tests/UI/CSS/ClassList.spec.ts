@@ -1,5 +1,5 @@
 import ClassList from '../../../lib/UI/CSS/ClassList';
-import Collection from '../../../lib/Core/Collection/Collection';
+import Collection from '../../../lib/Core/Collections/Collection';
 
 
 describe('ClassList', () => {
@@ -7,7 +7,7 @@ describe('ClassList', () => {
 
 
     describe('#constructor()', () => {
-        it('should create new instance of ClassList class', () => {
+        it('create new instance of ClassList class', () => {
             expect(function () {
                 list = new ClassList();
             }).not.toThrow();

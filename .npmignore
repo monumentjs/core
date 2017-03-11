@@ -4,6 +4,5 @@
 *.js.map
 lib/**/*.d.ts
 node_modules
-docs
 typings
 tests

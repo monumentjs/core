@@ -1,47 +1,44 @@
-
-export interface IAction {
-    type: any;
-}
+import Collection from './Collections/Collection';
+import ArgumentNullException from './Exceptions/ArgumentNullException';
 
 
-export type ActionListener<A> = (action: A) => void;
+export type ActionListener = (action: object) => void;
 export type ActionListenerCancel = () => boolean;
 
 
-export default class Dispatcher<A extends IAction, L extends ActionListener<A>> {
-    private _listeners: L[];
+export default class Dispatcher {
+    protected _listeners: Collection<ActionListener> = new Collection<ActionListener>();
 
 
-    constructor() {
-        this._listeners = [];
-    }
+    public addListener(listener: ActionListener): ActionListenerCancel {
+        if (listener == null) {
+            throw new ArgumentNullException('listener');
+        }
 
-
-    public subscribe(listener: L): ActionListenerCancel {
-        this._listeners.push(listener);
+        this._listeners.add(listener);
 
         return (): boolean => {
-            return this.unsubscribe(listener);
+            return this.removeListener(listener);
         };
     }
 
 
-    public unsubscribe(listener: L): boolean {
-        let index = this._listeners.indexOf(listener);
-
-        if (index < 0) {
-            return false;
+    public removeListener(listener: ActionListener): boolean {
+        if (listener == null) {
+            throw new ArgumentNullException('listener');
         }
 
-        this._listeners.splice(index, 1);
-
-        return true;
+        return this._listeners.remove(listener);
     }
 
 
-    public dispatch(action: A) {
-        this._listeners.forEach((listener) => {
+    public dispatchAction(action: object): void {
+        if (action == null) {
+            throw new ArgumentNullException('action');
+        }
+
+        for (let listener of this._listeners) {
             listener(action);
-        });
+        }
     }
 }

@@ -1,104 +1,85 @@
-import Event, {IEvent} from './Event';
-import {Pool} from '../types';
-
-
-interface IEventListener {
-    once: boolean;
-    context: Object;
-    handler: EventHandler;
-}
-
-
-export type EventHandler = (event: IEvent) => void;
+import Event from './Event';
+import {IEvent} from './IEvent';
+import List from '../Collections/List';
+import {EventListener} from './types';
+import EventHandler from './EventHandler';
 
 
 export default class EventEmitter {
-    private _events: Pool<IEventListener[]>;
+    private _handlers: List<EventHandler> = new List<EventHandler>();
+    private _duplicatedListenersAllowed: boolean = false;
 
 
-    get types(): string[] {
-        return Object.keys(this._events);
+    public get types(): List<string> {
+        return this._handlers.select((eventHandler: EventHandler): string => {
+            return eventHandler.eventType;
+        });
     }
 
 
-    constructor() {
-        this._events = Object.create(null);
+    public get duplicatedListenersAllowed(): boolean {
+        return this._duplicatedListenersAllowed;
     }
 
 
-    public on(type: string, handler: EventHandler, context: Object = this): EventEmitter {
-        this.checkEventSlot(type);
-        this._events[type].push({handler, context, once: false});
-        return this;
+    public set duplicatedListenersAllowed(value: boolean) {
+        this._duplicatedListenersAllowed = value;
     }
 
 
-    public once(type: string, handler: EventHandler, context: Object = this): EventEmitter {
-        this.checkEventSlot(type);
-        this._events[type].push({handler, context, once: true});
-        return this;
-    }
-
-
-    public emit(event: IEvent) {
-        let handlers: IEventListener[] = this._events[event.type];
-
-        if (!Array.isArray(handlers)) {
-            return;
+    public addEventListener(
+        eventType: string,
+        eventListener: EventListener,
+        removeAfterExecution: boolean = false
+    ): void {
+        if (!this._duplicatedListenersAllowed) {
+            this.removeEventListener(eventType, eventListener);
         }
 
-        for (let item of handlers) {
-            let { handler, context, once } = item;
+        this._handlers.add(new EventHandler(eventType, eventListener, removeAfterExecution));
+    }
 
-            handler.call(context, event);
 
-            if (once) {
-                this.off(event.type, handler);
+    public removeEventListener(
+        eventType: string,
+        eventListener: EventListener
+    ): void {
+        this._handlers.removeBy((eventHandler: EventHandler): boolean => {
+            return eventHandler.eventType === eventType && eventHandler.eventListener === eventListener;
+        });
+    }
+
+
+    public dispatchEvent(event: IEvent): void {
+        this._handlers.forEach((eventHandler: EventHandler): void => {
+            if (eventHandler.eventType === event.type) {
+                eventHandler.eventListener(event);
+
+                if (eventHandler.removeAfterExecution) {
+                    this._handlers.remove(eventHandler);
+                }
             }
-        }
+        });
     }
 
 
-    public off(type: string, handler?: EventHandler) {
-        if (handler) {
-            let handlers = this._events[type];
-
-            if (!Array.isArray(handlers)) {
-                return;
-            }
-
-            handlers = handlers.filter(function(item) {
-                return item.handler !== handler;
-            });
-
-            this._events[type] = handlers;
-        } else {
-            delete this._events[type];
-        }
+    public removeAllEventListeners(eventType: string): void {
+        this._handlers.removeBy((eventHandler: EventHandler): boolean => {
+            return eventHandler.eventType === eventType;
+        });
     }
 
 
-    public removeAllListeners(type?: string) {
-        if (type) {
-            this.off(type);
-        } else {
-            this.types.forEach((t: string) => {
-                this.off(t);
-            });
-        }
+    public clearEventListeners(): void {
+        this._handlers.clear();
     }
 
     /**
-     * Creates and emits events of specified type.
-     * Usually it overridden in sub-classes to unify process of events emitting.
+     * Creates and dispatches events of specified type.
+     * Usually it is overridden in sub-classes to unify process of events emitting.
      * @param type Event type.
      */
     protected notify(type: string) {
-        this.emit(new Event(type));
-    }
-
-
-    private checkEventSlot(type: string) {
-        this._events[type] = this._events[type] || [];
+        this.dispatchEvent(new Event(type));
     }
 }

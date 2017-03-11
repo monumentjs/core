@@ -52,7 +52,7 @@ const URL_ATTRIBUTES: Pool<URLAttributes> = {
 
 describe('URL', () => {
     describe('#constructor()', () => {
-        it('should create new instance of URL class', () => {
+        it('create new instance of URL class', () => {
             let url: URL = null;
 
             expect(function () {
@@ -63,7 +63,7 @@ describe('URL', () => {
         });
 
 
-        it('should parse given URL string', () => {
+        it('parse given URL string', () => {
             URL_SAMPLES.forEach((sampleURL: string) => {
                 let url: URL = URL.parse(sampleURL);
                 let attributes: URLAttributes = URL_ATTRIBUTES[sampleURL];
@@ -79,7 +79,7 @@ describe('URL', () => {
 
 
     describe('#toString()', () => {
-        it('should stringify URL', () => {
+        it('stringify URL', () => {
             URL_SAMPLES.forEach((sampleURL: string) => {
                 let url: URL = URL.parse(sampleURL);
 
@@ -90,7 +90,7 @@ describe('URL', () => {
 
 
     describe('#toJSON()', () => {
-        it('should return URL attributes as simple object', () => {
+        it('return URL attributes as simple object', () => {
             URL_SAMPLES.forEach((sampleURL: string) => {
                 let url: URL = URL.parse(sampleURL);
                 let attributes: URLAttributes = URL_ATTRIBUTES[sampleURL];
@@ -102,7 +102,7 @@ describe('URL', () => {
 
 
     describe('#clone()', () => {
-        it('should clone current instance', () => {
+        it('clone current instance', () => {
             URL_SAMPLES.forEach((sampleURL: string) => {
                 let url: URL = URL.parse(sampleURL);
                 let clone: URL = url.clone();

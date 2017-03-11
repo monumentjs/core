@@ -62,42 +62,30 @@ export default class Transition extends EventEmitter implements ICloneable<Trans
         this._from = from;
         this._to = to;
 
-        // Notify transition progress.
-
-        timeline.on(TimelineEvent.PROGRESS, (event: TimelineEvent) => {
+        timeline.addEventListener(TimelineEvent.PROGRESS, (event: TimelineEvent) => {
             this.updateState(event);
             this.notify(TransitionEvent.PROGRESS);
         });
 
-        // Notify transition start.
-
-        timeline.on(TimelineEvent.START, (event: TimelineEvent) => {
+        timeline.addEventListener(TimelineEvent.START, (event: TimelineEvent) => {
             this.updateState(event);
             this.notify(TransitionEvent.START);
         });
 
-        // Notify transition ended.
-
-        timeline.on(TimelineEvent.END, (event: TimelineEvent) => {
+        timeline.addEventListener(TimelineEvent.END, (event: TimelineEvent) => {
             this.updateState(event);
             this.notify(TransitionEvent.END);
         });
 
-        // Notify transition paused.
-
-        timeline.on(TimelineEvent.PAUSE, (event: TimelineEvent) => {
+        timeline.addEventListener(TimelineEvent.PAUSE, (event: TimelineEvent) => {
             this.updateState(event);
             this.notify(TransitionEvent.PAUSE);
         });
 
-        // Notify transition stopped.
-
-        timeline.on(TimelineEvent.STOP, (event: TimelineEvent) => {
+        timeline.addEventListener(TimelineEvent.STOP, (event: TimelineEvent) => {
             this.updateState(event);
             this.notify(TransitionEvent.STOP);
         });
-
-        // Play timeline to run transition.
 
         timeline.play();
 
@@ -117,7 +105,7 @@ export default class Transition extends EventEmitter implements ICloneable<Trans
 
 
     protected notify(type: TransitionEventType) {
-        this.emit(new TransitionEvent(
+        this.dispatchEvent(new TransitionEvent(
             type,
             this._value, this._delta,
             this._progress, this._scale,

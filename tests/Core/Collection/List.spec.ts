@@ -1,10 +1,10 @@
-import List from '../../../lib/Core/Collection/List';
-import Collection from '../../../lib/Core/Collection/Collection';
+import List from '../../../lib/Core/Collections/List';
+import Collection from '../../../lib/Core/Collections/Collection';
 
 
 describe('List', () => {
     describe('#constructor()', () => {
-        it('should create new instance of List class', () => {
+        it('create new instance of List class', () => {
             let list: List<string> = null;
 
             expect(function () {
@@ -18,7 +18,7 @@ describe('List', () => {
 
 
     describe('#insert()', () => {
-        it('should insert item into list', () => {
+        it('insert item into list', () => {
             let list: List<string> = new List<string>();
 
             expect(list.length).toEqual(0);
@@ -51,19 +51,25 @@ describe('List', () => {
 
 
     describe('#removeAt()', () => {
-        it('should remove item with specified index from list', () => {
+        it('remove item with specified index from list', () => {
             let list: List<string> = new List<string>(['one', 'two']);
 
             expect(list.length).toEqual(2);
             expect(list[0]).toEqual('one');
             expect(list[1]).toEqual('two');
+            
+            expect(() => {
+                list.removeAt(2);
+            }).toThrow();
 
-            expect(list.removeAt(1)).toEqual('two');
+            list.removeAt(1);
+            
             expect(list.length).toEqual(1);
             expect(list[0]).toEqual('one');
             expect(list[1]).toEqual(undefined);
 
-            expect(list.removeAt(0)).toEqual('one');
+            list.removeAt(0);
+            
             expect(list.length).toEqual(0);
             expect(list[0]).toEqual(undefined);
             expect(list[1]).toEqual(undefined);
@@ -72,7 +78,7 @@ describe('List', () => {
 
 
     describe('#indexOf()', () => {
-        it('should get index of given item in current sequence', () => {
+        it('get index of given item in current sequence', () => {
             let list: List<string> = new List<string>(['one', 'two']);
 
             expect(list.indexOf('one')).toEqual(0);

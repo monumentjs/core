@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - "node"
+  - "iojs"
+  - "6"
+before_install:
+  - "npm i -g typescript jest-cli"
+install:
+  - "tsc"

@@ -4,7 +4,7 @@ import Timeline from '../../../lib/UI/Animation/Timeline';
 
 describe('Timeline', () => {
     describe('#constructor()', () => {
-        it('should create new instance of Timeline class', () => {
+        it('create new instance of Timeline class', () => {
             let timeline: Timeline = null;
 
             expect(function () {

@@ -1,5 +1,9 @@
 import EventEmitter from '../../Core/Events/EventEmitter';
 import ErrorEvent from '../../Core/Events/ErrorEvent';
+import {TaskEventType} from './types';
+import TaskEvent from './TaskEvent';
+import InvalidOperationException from '../../Core/Exceptions/InvalidOperationException';
+import {AsyncResult} from '../../Core/types';
 
 
 export abstract class Task<T> extends EventEmitter {
@@ -8,90 +12,105 @@ export abstract class Task<T> extends EventEmitter {
     private _isResolved: boolean = false;
     private _isRejected: boolean = false;
     private _isAborted: boolean = false;
-    private _result: T;
-    private _error: Error;
+    private _result: T = null;
+    private _error: Error = null;
 
 
-    get result(): T {
+    public get result(): T {
         return this._result;
     }
 
 
-    get error(): Error {
+    public get error(): Error {
         return this._error;
     }
 
 
-    get isPending(): boolean {
+    public get isPending(): boolean {
         return this._isPending;
     }
 
 
-    get isComplete(): boolean {
+    public get isComplete(): boolean {
         return this._isComplete;
     }
 
 
-    get isResolved(): boolean {
+    public get isResolved(): boolean {
         return this._isResolved;
     }
 
 
-    get isRejected(): boolean {
+    public get isRejected(): boolean {
         return this._isRejected;
     }
 
 
-    get isAborted(): boolean {
+    public get isAborted(): boolean {
         return this._isAborted;
     }
 
 
-    public run() {
+    public async start(): AsyncResult<void> {
         if (this._isPending) {
-            throw new Error('Task already in progress.');
+            throw new InvalidOperationException('Task already in progress.');
         }
 
-        if (this._isComplete) {
-            if (this._error) {
-                throw new Error('Task already complete (with error).');
-            } else {
-                throw new Error('Task already complete (successfully).');
-            }
-        }
+        this.ensureTaskIsNotComplete();
 
         this._isPending = true;
         this._isComplete = false;
 
-        this.doJob();
+        await this.doJob();
     }
 
 
-    public abort() {
+    public abort(): void {
+        this.ensureTaskIsNotComplete();
+
         this._isPending = false;
         this._isComplete = true;
         this._isAborted = true;
-        this.emit(new Event('abort'));
+
+        this.notify(TaskEvent.ABORT);
     }
 
 
-    protected abstract doJob();
+    protected abstract async doJob(): AsyncResult<void>;
 
 
-    protected resolve(result: T) {
+    protected resolve(result: T): void {
         this._isPending = false;
         this._isComplete = true;
         this._isResolved = true;
         this._result = result;
-        this.emit(new Event('complete'));
+
+        this.notify(TaskEvent.COMPLETE);
     }
 
 
-    protected reject(error: Error) {
+    protected reject(error: Error): void {
         this._isPending = false;
         this._isComplete = true;
         this._isRejected = true;
         this._error = error;
-        this.emit(new ErrorEvent(error));
+
+        this.dispatchEvent(new ErrorEvent(error));
+    }
+
+
+    protected ensureTaskIsNotComplete(): void {
+        if (this._isComplete) {
+            if (this._error) {
+                throw new InvalidOperationException('Task already complete (with error).');
+            } else {
+                throw new InvalidOperationException('Task already complete (successfully).');
+            }
+        }
+    }
+
+
+    protected notify(eventType: TaskEventType): void {
+        this.dispatchEvent(new TaskEvent(eventType, this));
     }
 }

@@ -14,7 +14,10 @@
     "no-string-literal": false,
     "prefer-const": false,
     "space-before-function-paren": [true, {"anonymous": "always", "named": "never", "asyncArrow": "always"}],
-    "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"]
+    "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"],
+    "no-empty-interface": false,
+    "no-bitwise": false,
+    "no-console": false
   },
   "exclude": [
     "node_modules"

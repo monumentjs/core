@@ -1,9 +1,9 @@
-import Arguments from '../../../lib/System/Process/Arguments';
+import Arguments from '../../../lib/System/Process/Arguments/Arguments';
 
 
 describe('Arguments', () => {
     describe('#constructor()', () => {
-        it('should create new instance', () => {
+        it('create new instance', () => {
             let args: Arguments = new Arguments;
         });
     });

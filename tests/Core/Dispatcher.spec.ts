@@ -1,45 +1,47 @@
-import Dispatcher, {IAction, ActionListener, ActionListenerCancel} from '../../lib/Core/Dispatcher';
+import Dispatcher from '../../lib/Core/Dispatcher';
+import {ActionListener} from '../../lib/Core/Dispatcher';
+import {ActionListenerCancel} from '../../lib/Core/Dispatcher';
 
 
 describe('Dispatcher', () => {
-    let dispatcher: Dispatcher<IAction, ActionListener<IAction>> = null;
-    let listener: ActionListener<IAction> = null;
+    let dispatcher: Dispatcher = null;
+    let listener: ActionListener = null;
     let cancel: ActionListenerCancel = null;
     let cancelResult: boolean;
-    let testAction: IAction = {
+    let testAction: object = {
         type: 'test'
     };
 
 
     beforeEach(() => {
-        expect(function() {
+        expect(function () {
             dispatcher = new Dispatcher();
         }).not.toThrow();
     });
 
 
     describe('#constructor()', () => {
-        it('should create new instance of Dispatcher class', () => {
+        it('create new instance of Dispatcher class', () => {
             expect(dispatcher).toBeInstanceOf(Dispatcher);
         });
     });
 
 
-    describe('#subscribe(listener)', () => {
-        it('should attach listener', () => {
+    describe('#addListener()', () => {
+        it('attaches listener', () => {
             listener = jest.fn();
 
             expect(function () {
-                dispatcher.subscribe(listener);
+                dispatcher.addListener(listener);
             }).not.toThrow();
         });
 
 
-        it('should return cancellation function', () => {
+        it('returns cancellation function', () => {
             listener = jest.fn();
 
             expect(function () {
-                cancel = dispatcher.subscribe(listener);
+                cancel = dispatcher.addListener(listener);
             }).not.toThrow();
 
             expect(typeof cancel).toBe('function');
@@ -63,39 +65,39 @@ describe('Dispatcher', () => {
     });
 
 
-    describe('#unsubscribe(listener)', () => {
-        it('should return `true` when listener was un-subscribed', () => {
+    describe('#removeListener()', () => {
+        it('returns `true` when listener was un-subscribed', () => {
             listener = jest.fn();
 
-            dispatcher.subscribe(listener);
+            dispatcher.addListener(listener);
 
             expect(function () {
-                cancelResult = dispatcher.unsubscribe(listener);
+                cancelResult = dispatcher.removeListener(listener);
             }).not.toThrow();
 
             expect(cancelResult).toEqual(true);
         });
 
 
-        it('should return `false` if listener was already un-subscribed', () => {
+        it('return `false` if listener was already un-subscribed', () => {
             listener = jest.fn();
 
-            dispatcher.subscribe(listener);
-            dispatcher.unsubscribe(listener);
+            dispatcher.addListener(listener);
+            dispatcher.removeListener(listener);
 
             expect(function () {
-                cancelResult = dispatcher.unsubscribe(listener);
+                cancelResult = dispatcher.removeListener(listener);
             }).not.toThrow();
 
             expect(cancelResult).toEqual(false);
         });
 
 
-        it('should return `false` if listener was not subscribed', () => {
+        it('return `false` if listener was not subscribed', () => {
             listener = jest.fn();
 
             expect(function () {
-                cancelResult = dispatcher.unsubscribe(listener);
+                cancelResult = dispatcher.removeListener(listener);
             }).not.toThrow();
 
             expect(cancelResult).toEqual(false);
@@ -103,14 +105,14 @@ describe('Dispatcher', () => {
     });
 
 
-    describe('#dispatch(action)', () => {
-        it('should trigger all listeners with specified action', () => {
+    describe('#dispatchAction()', () => {
+        it('trigger all listeners with specified action', () => {
             listener = jest.fn();
 
-            dispatcher.subscribe(listener);
+            dispatcher.addListener(listener);
 
             expect(function () {
-                dispatcher.dispatch(testAction);
+                dispatcher.dispatchAction(testAction);
             }).not.toThrow();
 
             expect(listener).toHaveBeenCalledTimes(1);

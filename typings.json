@@ -1,14 +1,12 @@
 {
-  "name": "react-ui-kit",
+  "name": "typescript-standard-library-core",
   "dependencies": {
-    "gulp": "registry:npm/gulp#4.0.0-alpha.2+20160817105618",
-    "lodash": "registry:npm/lodash#4.0.0+20161015015725",
+    "expect": "registry:dt/expect#1.20.0+20170106021058",
     "react": "registry:npm/react#15.0.1+20160601175240",
     "react-dom": "registry:npm/react-dom#15.0.1+20160826174104"
   },
   "globalDependencies": {
     "jest": "registry:dt/jest#16.0.0+20161230173903",
-    "lodash-es": "registry:dt/lodash-es#4.14.0+20161119175446",
-    "node": "registry:env/node#6.0.0+20161225010013"
+    "node": "registry:dt/node#7.0.0+20170124134802"
   }
 }

@@ -1,15 +1,30 @@
 
+// PRIMITIVE TYPES
+
+
 export type Constructor = {
     new(...args: any[]): any
+};
+
+
+export type Pool<T> = {
+    [key: string]: T;
 };
 
 
 export type AsyncResult<T> = Promise<T>;
 
 
-export type Pool<T> = {
-    [key: string]: T;
-};
+
+// COMMON INTERFACES
+
+
+export enum ComparisonResult {
+    Equals = 0,
+    Greater = 1,
+    Less = -1
+}
+
 
 
 export interface IComparable<T> {
@@ -19,7 +34,7 @@ export interface IComparable<T> {
      * 0 - if current object has the same place in the sort order as other one;
      * 1 - if current object after other one in the sort order.
      */
-    compare(other: T): number;
+    compareTo(other: T): ComparisonResult;
 }
 
 
@@ -61,29 +76,30 @@ export interface IProgress<T> {
 }
 
 
-export interface IFormatProvider<F> {
+export interface IFormatProvider {
     /**
      * Provides formatting services.
      */
-    getFormat(): F;
+    getFormat(formatType: Constructor): object;
 }
 
 
 export interface ICustomFormatter<T> {
     /**
      * Formats given value to it's string representation using specified format and formatting information.
+     * @param format
      * @param value
      * @param [formatProvider]
      */
-    format(value: T, formatProvider?: IFormatProvider<any>): string;
+    format(format: string, value: T, formatProvider?: IFormatProvider): string;
 }
 
 
-export interface IParserProvider<P> {
+export interface IParserProvider {
     /**
      * Provides parsing services.
      */
-    getParser(): P;
+    getParser(): object;
 }
 
 
@@ -93,16 +109,17 @@ export interface ICustomParser<T> {
      * @param value
      * @param [parserProvider]
      */
-    parse(value: string, parserProvider?: IParserProvider<T>): T;
+    parse(value: string, parserProvider?: IParserProvider): T;
 }
 
 
-export interface IFormattable {
+export interface IFormattable<T> {
     /**
      * Formats the value of the current instance using the specified format.
+     * @param format
      * @param [formatProvider]
      */
-    toString(formatProvider?: IFormatProvider<any>): string;
+    toString(format: string, formatProvider?: IFormatProvider): string;
 }
 
 
@@ -120,25 +137,14 @@ export interface IServiceProvider {
      * Indicates whether the current object is equal to another object of the same type.
      * @param type
      */
-    getService(type: string | Constructor): any;
+    getService(type: string | Constructor): object;
 }
 
 
 export interface IJSONSerializable<T> {
     /**
-     * Returns pure data that will be serialized to JSON string.
+     * Returns pure data object that will be serialized to JSON string.
      */
     toJSON(): T;
 }
-
-
-export interface IFactory<T> {
-    /**
-     * Creates instances of specified type, encapsulating logic of constructing objects.
-     * @param [opts]
-     */
-    create(...opts: any[]): T;
-}
-
-
 
