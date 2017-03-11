@@ -5,5 +5,7 @@ node_js:
   - "6"
 before_install:
   - "npm i -g typescript jest-cli"
-install:
+script:
+  - "npm i"
   - "tsc"
+  - "npm test"
