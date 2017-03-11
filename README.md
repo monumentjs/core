@@ -1,5 +1,7 @@
 # TypeScript Standard Library
 
+[Travis CI Status](https://travis-ci.org/typescript-stdlib/Core.svg?branch=master)
+
 This project is aimed to provide a high quality standard library of common and specific functionality for 
 server and client applications.
 
