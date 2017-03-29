@@ -157,9 +157,7 @@ describe('DebouncedMethod', () => {
         describe.skip('force call after max wait time exceeded', () => {
             it('trailing', () => {
                 return new Promise((resolve, reject) => {
-                    let fn = jest.fn(function () {
-
-                    });
+                    let fn = jest.fn();
 
                     method = new DebouncedMethod(fn, 100, false, true, 200);
 

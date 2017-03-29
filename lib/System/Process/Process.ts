@@ -2,8 +2,8 @@ import {ChildProcess as NodeChildProcess, spawn, SpawnOptions} from 'child_proce
 import {assertArgumentNotNull} from '../../Assertion/Assert';
 import ErrorEvent from '../../Core/Events/ErrorEvent';
 import InvalidOperationException from '../../Core/Exceptions/InvalidOperationException';
-import {AsyncResult} from '../../Core/types';
-import Component from '../ComponentModel/Component';
+import {AsyncResult, IDisposable} from '../../Core/types';
+import Event from '../../Core/Events/Event';
 import NoAssociatedProcessException from './NoAssociatedProcessException';
 import ProcessEvent, {ProcessEventType} from './ProcessEvent';
 import ProcessStartInfo from './ProcessStartInfo';
@@ -12,9 +12,10 @@ import {IInternalStreamProvider} from '../Stream/IInternalStreamProvider';
 import InvalidArgumentException from '../../Core/Exceptions/InvalidArgumentException';
 import ArgumentNullException from '../../Core/Exceptions/ArgumentNullException';
 import {DEFAULT_STDIO_MODE, StandardIOMode} from './types';
+import EventEmitter from '../../Core/Events/EventEmitter';
 
 
-export default class Process extends Component {
+export default class Process extends EventEmitter implements IDisposable {
     /**
      *
      * @throws {ArgumentNullException} If 'fileName' argument is not defined.
@@ -36,8 +37,14 @@ export default class Process extends Component {
     private _nativeProcess: NodeChildProcess;
     private _terminationSignal: string = undefined;
     private _exitCode: number = undefined;
-    
-    
+    private _isDisposed: boolean = false;
+
+
+    public get isDisposed(): boolean {
+        return this._isDisposed;
+    }
+
+
     public get id(): number {
         this.throwIfNoAssociatedProcess();
         
@@ -119,11 +126,13 @@ export default class Process extends Component {
         this._nativeProcess.disconnect();
     }
 
-    
+
     public async dispose(): AsyncResult<void> {
         await this.kill();
 
-        super.dispose();
+        this._isDisposed = true;
+
+        this.dispatchEvent(new Event('disposed'));
     }
 
     /**

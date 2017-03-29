@@ -14,6 +14,5 @@ export enum TimingFunction {
 }
 
 
-export interface IEasingFunction {
-    (time: number, m?: number): number;
-}
+export type TransitionFunction = (time: number, m?: number) => number;
+

@@ -37,7 +37,7 @@ export default class CultureInfo implements ICloneable<CultureInfo>, IFormatProv
     }
 
 
-    public getFormat(type: Constructor): CultureInfo {
+    public getFormat(): CultureInfo {
         return this;
     }
 }

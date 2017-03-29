@@ -4,11 +4,11 @@ import EasingFactory from '../Animation/EasingFactory';
 import TimelineEvent from '../Animation/TimelineEvent';
 import TransitionEvent from './TransitionEvent';
 import {ICloneable} from '../../Core/types';
-import {TransitionEventType, IEasingFunction, TimingFunction, EasingFunction} from '../Animation/types';
+import {TransitionEventType, TransitionFunction, TimingFunction, EasingFunction} from '../Animation/types';
 
 
 export default class Transition extends EventEmitter implements ICloneable<Transition> {
-    private _ease: IEasingFunction;
+    private _ease: TransitionFunction;
     private _position: number;
     private _duration: number;
     private _value: number;

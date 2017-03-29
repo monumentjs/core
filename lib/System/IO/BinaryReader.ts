@@ -6,8 +6,6 @@ import {assertArgumentNotNull} from '../../Assertion/Assert';
 
 export default class BinaryReader {
     private _baseStream: Stream<Buffer>;
-    private _internalBuffer: Buffer;
-    private _internalBufferOffset: number = 0;
 
 
     public get baseStream(): Stream<Buffer> {
@@ -136,10 +134,5 @@ export default class BinaryReader {
         assertArgumentNotNull('byteOrder', byteOrder);
 
         return this.readInt(byteOrder, 4);
-    }
-
-
-    protected async fillBuffer(bytesToRead: number): AsyncResult<void> {
-
     }
 }

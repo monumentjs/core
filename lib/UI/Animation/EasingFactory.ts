@@ -1,57 +1,56 @@
 import {Pool} from '../../Core/types';
-import {IEasingFunction, TimingFunction, EasingFunction} from './types';
+import {TransitionFunction, TimingFunction, EasingFunction} from './types';
 
 
 export default class EasingFactory {
-    private _eases: Pool<IEasingFunction>;
+    private _eases: Pool<TransitionFunction>;
 
 
     // TODO: Refactor easing functions constructor. It should be more understandable.
-    constructor() {
-        let eases: Pool<IEasingFunction> = {};
+    public constructor() {
+        let eases: Pool<TransitionFunction> = {};
         let names = ['Quad', 'Cubic', 'Quart', 'Quint', 'Expo'];
         let functions = {
-            Sine: function (t: number): number {
-                return 1 - Math.cos(t * Math.PI / 2);
+            Sine: function (time: number): number {
+                return 1 - Math.cos(time * Math.PI / 2);
             },
-            Circ: function (t: number): number {
-                return 1 - Math.sqrt(1 - t * t);
+            Circ: function (time: number): number {
+                return 1 - Math.sqrt(1 - time * time);
             },
-            Elastic: function (t: number, m: number): number {
-                if (t === 0 || t === 1) {
-                    return t;
+            Elastic: function (time: number, m: number): number {
+                if (time === 0 || time === 1) {
+                    return time;
                 }
 
                 let p = (1 - Math.min(m, 998) / 1000);
-                let st = t / 1;
-                let st1 = st - 1;
+                let st1 = time - 1;
                 let s = p / (2 * Math.PI) * Math.asin(1);
 
                 return -(Math.pow(2, 10 * st1) * Math.sin((st1 - s) * (2 * Math.PI) / p));
             },
-            Back: function (t: number): number {
-                return t * t * (3 * t - 2);
+            Back: function (time: number): number {
+                return time * time * (3 * time - 2);
             },
-            Bounce: function (t: number): number {
+            Bounce: function (time: number): number {
                 let pow2;
                 let bounce = 4;
 
-                while (t < ((pow2 = Math.pow(2, --bounce)) - 1) / 11) {
+                do {
+                    pow2 = Math.pow(2, --bounce);
+                } while (time < ((pow2) - 1) / 11);
 
-                }
-
-                return 1 / Math.pow(4, 3 - bounce) - 7.5625 * Math.pow((pow2 * 3 - 2) / 22 - t, 2);
+                return 1 / Math.pow(4, 3 - bounce) - 7.5625 * Math.pow((pow2 * 3 - 2) / 22 - time, 2);
             }
         };
 
-        names.forEach(function (name: string, i: number) {
+        names.forEach(function (name: string, index: number) {
             functions[name] = function (t: number): number {
-                return Math.pow(t, i + 2);
+                return Math.pow(t, index + 2);
             };
         });
 
         Object.keys(functions).forEach(function (name) {
-            let easeIn: IEasingFunction = functions[name];
+            let easeIn: TransitionFunction = functions[name];
 
             eases['EaseIn' + name] = easeIn;
             eases['EaseOut' + name] = function (t: number, m: number): number {
@@ -73,7 +72,7 @@ export default class EasingFactory {
     }
 
 
-    public create(easingFunction: EasingFunction, timingFunction: TimingFunction): IEasingFunction {
+    public create(easingFunction: EasingFunction, timingFunction: TimingFunction): TransitionFunction {
         let name: string = EasingFunction[easingFunction] + TimingFunction[timingFunction];
 
         if (name in this._eases) {

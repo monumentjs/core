@@ -184,7 +184,7 @@ export default class NumberFormatInfo implements ICloneable<NumberFormatInfo> {
     }
 
 
-    public getFormat(type: Constructor): Object {
+    public getFormat(type: Constructor<any>): object {
         if (type === NumberFormatInfo) {
             return this;
         } else {

@@ -14,7 +14,7 @@ export abstract class Application extends EventEmitter {
      * @throws {UnknownRuntimeException} If unable to identify application's runtime.
      */
     public static bootstrap(): ClassDecorator {
-        return (applicationConstructor: Constructor): void => {
+        return <TApplication extends Application>(applicationConstructor: Constructor<TApplication>): void => {
             assertArgumentNotNull('applicationConstructor', applicationConstructor);
 
             this._instance = new applicationConstructor();

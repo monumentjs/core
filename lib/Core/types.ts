@@ -2,8 +2,8 @@
 // PRIMITIVE TYPES
 
 
-export type Constructor = {
-    new(...args: any[])
+export type Constructor<T> = {
+    new(...args: any[]): T;
 };
 
 
@@ -80,7 +80,7 @@ export interface IFormatProvider {
     /**
      * Provides formatting services.
      */
-    getFormat(formatType: Constructor): object;
+    getFormat<T>(formatType: Constructor<T>): T;
 }
 
 
@@ -137,7 +137,7 @@ export interface IServiceProvider {
      * Indicates whether the current object is equal to another object of the same type.
      * @param type
      */
-    getService(type: string | Constructor): object;
+    getService<T>(type: string | Constructor<T>): T;
 }
 
 

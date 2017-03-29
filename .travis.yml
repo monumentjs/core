@@ -3,9 +3,8 @@ node_js:
   - "node"
   - "6"
 before_install:
-  - "yarn global add typescript tslint typings jest-cli"
+  - "yarn global add typescript tslint jest-cli"
 script:
-  - "typings install"   # install project typings
-  - "tslint"            # lint TypeScript code
-  - "tsc"               # compile TypeScript code
-  - "jest"              # run tests
+  - "tslint --format stylish --project ."
+  - "tsc"
+  - "jest"

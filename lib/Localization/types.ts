@@ -4,7 +4,7 @@ import {Pool} from '../Core/types';
 export type Locale = string;
 export type PhraseToken = string;
 export type Phrase = string;
-export type Translation = Phrase | IPhraseTranslationFunction;
+export type Translation = Phrase | PhraseTranslationFunction;
 export type Translations = Pool<Translation>;
 
 
@@ -13,7 +13,5 @@ export interface ILocalizationResource {
 }
 
 
-export interface IPhraseTranslationFunction {
-    (...args: any[]): Phrase;
-}
+export type PhraseTranslationFunction = (...args: any[]) => Phrase;
 

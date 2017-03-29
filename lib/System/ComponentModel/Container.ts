@@ -5,8 +5,8 @@ import ComponentCollection from './ComponentCollection';
 
 
 export default class Container implements IContainer, IDisposable {
-    private _components: ComponentCollection;
-    private _isDisposed: boolean;
+    private _components: ComponentCollection = new ComponentCollection();
+    private _isDisposed: boolean = false;
 
 
     public get components(): ComponentCollection {
@@ -19,13 +19,13 @@ export default class Container implements IContainer, IDisposable {
     }
 
 
-    public add(component: IComponent, name?: string): void {
-
+    public add(component: IComponent): void {
+        this._components = this._components.add(component);
     }
 
 
     public remove(component: IComponent): void {
-
+        this._components = this._components.remove(component);
     }
 
 
