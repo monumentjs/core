@@ -10,5 +10,5 @@ export default class Runtime {
         } else {
             return RuntimeID.Unknown;
         }
-    };
+    }
 }

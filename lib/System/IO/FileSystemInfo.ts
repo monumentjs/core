@@ -13,7 +13,7 @@ export default class FileSystemInfo implements IFileSystemStats, IDisposable {
         await info.refresh();
 
         return info;
-    };
+    }
 
 
     // PROTECTED PROPERTIES
