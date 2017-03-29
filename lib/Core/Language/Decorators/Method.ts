@@ -30,8 +30,9 @@ export function deprecated(message?: string): MethodDecorator {
         descriptor: TypedPropertyDescriptor<Function>
     ): TypedPropertyDescriptor<Function> {
         let method: Function = descriptor.value;
+        let defaultMessage: string = `Method '${property}' is deprecated. It will be removed in future releases.`;
 
-        message = message || `Method '${property}' is deprecated. It will be removed in future releases.`;
+        message = message || defaultMessage;
 
         descriptor.value = function () {
             console.warn(message);

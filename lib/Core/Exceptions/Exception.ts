@@ -1,7 +1,8 @@
+import {IJSONSerializable} from '../types';
 
 
-export default class Exception extends Error {
-    public readonly timeStamp: number = Date.now();
+export default class Exception extends Error implements IJSONSerializable<string> {
+    public readonly timestamp: number = Date.now();
     public readonly helpInfo: string = '';
     public readonly helpLink: string = '';
 
@@ -14,7 +15,23 @@ export default class Exception extends Error {
 
 
     public toString(): string {
-        return `${this.constructor.name}: ${this.message}\n${this.stack}`;
+        let error: string = `${this.name}: ${this.message}\n`;
+
+        if (this.helpInfo) {
+            error += `Help information:\n${this.helpInfo}\n`;
+        }
+
+        if (this.helpLink) {
+            error += `See: ${this.helpLink}\n`;
+        }
+
+        error += `Stack:\n${this.stack}\n`;
+
+        return error;
+    }
+
+
+    public toJSON(): string {
+        return this.toString();
     }
 }
-

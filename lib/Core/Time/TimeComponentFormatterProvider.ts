@@ -1,15 +1,18 @@
-import {TimeComponentFormatterBase} from './Formatting/TimeComponentFormatterBase';
-import YearComponentFormatter from './Formatting/YearComponentFormatter';
-import MonthComponentFormatter from './Formatting/MonthComponentFormatter';
-import DayOfMonthComponentFormatter from './Formatting/DayOfMonthComponentFormatter';
-import DayOfWeekComponentFormatter from './Formatting/DayOfWeekComponentFormatter';
-import HoursComponentFormatter from './Formatting/HoursComponentFormatter';
-import MinutesComponentFormatter from './Formatting/MinutesComponentFormatter';
-import SecondsComponentFormatter from './Formatting/SecondsComponentFormatter';
-import MillisecondsComponentFormatter from './Formatting/MillisecondsComponentFormatter';
-import TimezoneComponentFormatter from './Formatting/TimezoneComponentFormatter';
+import {TimeComponentFormatterBase} from './Format/TimeComponentFormatterBase';
+import YearFormatter from './Format/YearFormatter';
+import MonthFormatter from './Format/MonthFormatter';
+import DayOfMonthFormatter from './Format/DayOfMonthFormatter';
+import DayOfWeekFormatter from './Format/DayOfWeekFormatter';
+import HoursFormatter from './Format/HoursFormatter';
+import MinutesFormatter from './Format/MinutesFormatter';
+import SecondsFormatter from './Format/SecondsFormatter';
+import MillisecondsFormatter from './Format/MillisecondsFormatter';
+import TimezoneFormatter from './Format/TimezoneFormatter';
 import ReadOnlyCollection from '../Collections/ReadOnlyCollection';
-import AMPMComponentFormatter from './Formatting/AMPMComponentFormatter';
+import AMPMFormatter from './Format/AMPMFormatter';
+import SignFormatter from './Format/SignFormatter';
+import DateTimeFormatException from './DateTimeFormatException';
+import {assertArgumentNotNull} from '../../Assertion/Assert';
 
 
 export default class TimeComponentFormatterProvider {
@@ -17,26 +20,29 @@ export default class TimeComponentFormatterProvider {
 
 
     private _formatters: ReadOnlyCollection<TimeComponentFormatterBase> = new ReadOnlyCollection([
-        YearComponentFormatter.instance,
-        MonthComponentFormatter.instance,
-        DayOfMonthComponentFormatter.instance,
-        DayOfWeekComponentFormatter.instance,
-        HoursComponentFormatter.instance,
-        MinutesComponentFormatter.instance,
-        SecondsComponentFormatter.instance,
-        MillisecondsComponentFormatter.instance,
-        AMPMComponentFormatter.instance,
-        TimezoneComponentFormatter.instance
+        YearFormatter.instance,
+        MonthFormatter.instance,
+        DayOfMonthFormatter.instance,
+        DayOfWeekFormatter.instance,
+        HoursFormatter.instance,
+        MinutesFormatter.instance,
+        SecondsFormatter.instance,
+        MillisecondsFormatter.instance,
+        AMPMFormatter.instance,
+        TimezoneFormatter.instance,
+        SignFormatter.instance
     ]);
 
 
-    public getFormatter(entry: string): TimeComponentFormatterBase | null {
+    public getFormatter(formatEntry: string): TimeComponentFormatterBase | null {
+        assertArgumentNotNull('formatEntry', formatEntry);
+
         for (let formatter of this._formatters) {
-            if (formatter.supportsEntry(entry)) {
+            if (formatter.supportsEntry(formatEntry)) {
                 return formatter;
             }
         }
 
-        return null;
+        throw new DateTimeFormatException(`Unknown format entry "${formatEntry}".`);
     }
 }

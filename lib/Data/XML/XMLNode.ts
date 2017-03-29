@@ -3,10 +3,11 @@ import XMLNodeList from './XMLNodeList';
 import XMLNodeAttributes from './XMLNodeAttributes';
 import {ICloneable} from '../../Core/types';
 import StringBuilder from '../../System/Text/StringBuilder';
+import {assertArgumentNotNull} from '../../Assertion/Assert';
 
 
 export default class XMLNode implements INode, ICloneable<XMLNode> {
-    private _type: string;
+    private _type: string = '';
     private _parentNode: XMLNode = null;
     private _childNodes: XMLNodeList = new XMLNodeList(this);
     private _attributes: XMLNodeAttributes = new XMLNodeAttributes(this);
@@ -61,6 +62,8 @@ export default class XMLNode implements INode, ICloneable<XMLNode> {
     
     
     public constructor(type: string) {
+        assertArgumentNotNull('type', type);
+
         this._type = type;
     }
     

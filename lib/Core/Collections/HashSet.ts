@@ -4,6 +4,7 @@ import {ISet} from './ISet';
 import {IEqualityComparator} from './IEqualityComparator';
 import ArgumentNullException from '../Exceptions/ArgumentNullException';
 import {IEnumerable} from './IEnumerable';
+import {assertArgumentNotNull} from '../../Assertion/Assert';
 
 
 export default class HashSet<T> extends Collection<T> implements ISet<T> {
@@ -20,6 +21,9 @@ export default class HashSet<T> extends Collection<T> implements ISet<T> {
         comparator: IEqualityComparator<T> = EqualityComparator.instance
     ) {
         super();
+
+        assertArgumentNotNull('items', items);
+        assertArgumentNotNull('comparator', comparator);
 
         this._comparator = comparator;
 
@@ -55,9 +59,7 @@ export default class HashSet<T> extends Collection<T> implements ISet<T> {
 
 
     public exceptWith(other: IEnumerable<T>): void {
-        if (other == null) {
-            throw new ArgumentNullException('other');
-        }
+        assertArgumentNotNull('other', other);
 
         for (let otherItem of other) {
             this.remove(otherItem);
@@ -66,9 +68,7 @@ export default class HashSet<T> extends Collection<T> implements ISet<T> {
 
 
     public intersectWith(other: IEnumerable<T>): void {
-        if (other == null) {
-            throw new ArgumentNullException('other');
-        }
+        assertArgumentNotNull('other', other);
 
         for (let currentItem of this) {
             let itemPresentInBothSets: boolean = false;
@@ -89,9 +89,7 @@ export default class HashSet<T> extends Collection<T> implements ISet<T> {
 
 
     public isSubsetOf(other: IEnumerable<T>): boolean {
-        if (other == null) {
-            throw new ArgumentNullException('other');
-        }
+        assertArgumentNotNull('other', other);
 
         let isValidSubset: boolean = true;
 
@@ -118,9 +116,7 @@ export default class HashSet<T> extends Collection<T> implements ISet<T> {
 
 
     public isSupersetOf(other: IEnumerable<T>): boolean {
-        if (other == null) {
-            throw new ArgumentNullException('other');
-        }
+        assertArgumentNotNull('other', other);
 
         let isValidSuperset: boolean = true;
 
@@ -147,9 +143,7 @@ export default class HashSet<T> extends Collection<T> implements ISet<T> {
 
 
     public isProperSubsetOf(other: IEnumerable<T>): boolean {
-        if (other == null) {
-            throw new ArgumentNullException('other');
-        }
+        assertArgumentNotNull('other', other);
 
         if (this.length >= other.length) {
             return false;
@@ -160,9 +154,7 @@ export default class HashSet<T> extends Collection<T> implements ISet<T> {
 
 
     public isProperSupersetOf(other: IEnumerable<T>): boolean {
-        if (other == null) {
-            throw new ArgumentNullException('other');
-        }
+        assertArgumentNotNull('other', other);
 
         if (this.length <= other.length) {
             return false;
@@ -173,9 +165,7 @@ export default class HashSet<T> extends Collection<T> implements ISet<T> {
 
 
     public overlaps(other: IEnumerable<T>): boolean {
-        if (other == null) {
-            throw new ArgumentNullException('other');
-        }
+        assertArgumentNotNull('other', other);
 
         for (let currentItem of this) {
             for (let otherItem of other) {
@@ -190,9 +180,7 @@ export default class HashSet<T> extends Collection<T> implements ISet<T> {
 
 
     public setEquals(other: IEnumerable<T>): boolean {
-        if (other == null) {
-            throw new ArgumentNullException('other');
-        }
+        assertArgumentNotNull('other', other);
 
         if (this.length !== other.length) {
             return false;
@@ -225,9 +213,7 @@ export default class HashSet<T> extends Collection<T> implements ISet<T> {
 
 
     public symmetricExceptWith(other: IEnumerable<T>): void {
-        if (other == null) {
-            throw new ArgumentNullException('other');
-        }
+        assertArgumentNotNull('other', other);
 
         for (let otherItem of other) {
             this.remove(otherItem);
@@ -244,9 +230,7 @@ export default class HashSet<T> extends Collection<T> implements ISet<T> {
 
 
     public unionWith(other: IEnumerable<T>): void {
-        if (other == null) {
-            throw new ArgumentNullException('other');
-        }
+        assertArgumentNotNull('other', other);
 
         for (let otherItem of other) {
             this.add(otherItem);

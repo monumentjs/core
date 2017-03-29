@@ -1,5 +1,6 @@
 import List from '../../Core/Collections/List';
 import XMLNode from './XMLNode';
+import {assertArgumentNotNull} from '../../Assertion/Assert';
 
 
 export default class XMLNodeList extends List<XMLNode> {
@@ -13,7 +14,9 @@ export default class XMLNodeList extends List<XMLNode> {
     
     public constructor(parentNode: XMLNode) {
         super();
-        
+
+        assertArgumentNotNull('parentNode', parentNode);
+
         this._parentNode = parentNode;
     }
     
@@ -30,6 +33,8 @@ export default class XMLNodeList extends List<XMLNode> {
     
     
     public add(node: XMLNode): void {
+        assertArgumentNotNull('node', node);
+
         node.parentNode = this._parentNode;
         
         super.add(node);
@@ -37,6 +42,8 @@ export default class XMLNodeList extends List<XMLNode> {
     
     
     public remove(node: XMLNode): boolean {
+        assertArgumentNotNull('node', node);
+
         node.parentNode = null;
         
         return super.remove(node);

@@ -1,4 +1,6 @@
 import {IEnumerable} from './IEnumerable';
+import RangeException from '../Exceptions/RangeException';
+import {assertArgumentNotNull} from '../../Assertion/Assert';
 
 
 export default class Enumerable<T> implements IEnumerable<T>, ArrayLike<T> {
@@ -13,18 +15,26 @@ export default class Enumerable<T> implements IEnumerable<T>, ArrayLike<T> {
     }
 
 
-    public set length(newLength: number) {
-        if (newLength < this._length) {
-            for (let i = newLength; i < this._length; i++) {
+    public set length(value: number) {
+        assertArgumentNotNull('value', value);
+
+        if (value < 0) {
+            throw new RangeException(`Length is not valid.`);
+        }
+
+        if (value < this._length) {
+            for (let i = value; i < this._length; i++) {
                 delete this[i];
             }
         }
     
-        this._length = newLength;
+        this._length = value;
     }
     
     
     public constructor(list: Iterable<T> = []) {
+        assertArgumentNotNull('list', list);
+
         Array.prototype.splice.call(this, 0, 0, ...list);
     }
     
@@ -42,8 +52,8 @@ export default class Enumerable<T> implements IEnumerable<T>, ArrayLike<T> {
                 index += 1;
 
                 return {
-                    value: index <= this._length ? this[index - 1] : undefined,
-                    done: index > this._length
+                    value: index <= this.length ? this[index - 1] : undefined,
+                    done: index > this.length
                 };
             }
         };

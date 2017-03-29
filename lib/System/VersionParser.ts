@@ -1,9 +1,13 @@
 import Version from './Version';
 import {ReleaseStatus, VERSION_PATTERN} from './types';
+import {assertArgumentNotNull} from '../Assertion/Assert';
+import VersionException from './VersionException';
 
 
 export default class VersionParser {
     public parse(version: string): Version {
+        assertArgumentNotNull('version', version);
+
         let major: number;
         let minor: number;
         let patch: number;
@@ -12,7 +16,7 @@ export default class VersionParser {
         let parts: RegExpExecArray = VERSION_PATTERN.exec(version);
     
         if (!parts) {
-            throw new Error('Given value is not a valid version.');
+            throw new VersionException(`Given value is not a valid version.`);
         }
     
         major = this.getMajor(parts);

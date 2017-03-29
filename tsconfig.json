@@ -1,14 +1,13 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "umd",
     "target": "es6",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
     "jsx": "react",
     "typeRoots": [
-      "./typings/globals",
-      "./typings/modules"
+      "./node_modules/@types"
     ],
     "experimentalDecorators": true,
     "lib": [

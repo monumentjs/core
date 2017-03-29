@@ -1,7 +1,7 @@
 import {AsyncResult} from '../../Core/types';
-import ArgumentNullException from '../../Core/Exceptions/ArgumentNullException';
 import {ByteOrder} from './types';
-import Stream from '../Stream/Stream';
+import {Stream} from '../Stream/Stream';
+import {assertArgumentNotNull} from '../../Assertion/Assert';
 
 
 export default class BinaryReader {
@@ -16,20 +16,23 @@ export default class BinaryReader {
 
 
     public constructor(baseStream: Stream<Buffer>) {
-        if (baseStream == null) {
-            throw new ArgumentNullException('fileStream');
-        }
+        assertArgumentNotNull('baseStream', baseStream);
 
         this._baseStream = baseStream;
     }
 
 
     public async read(bytesCount: number): AsyncResult<Buffer> {
+        assertArgumentNotNull('bytesCount', bytesCount);
+
         return this._baseStream.read(bytesCount);
     }
 
 
     public async readUInt(byteOrder: ByteOrder, bytesCount: number): AsyncResult<number> {
+        assertArgumentNotNull('byteOrder', byteOrder);
+        assertArgumentNotNull('bytesCount', bytesCount);
+
         let buffer: Buffer = await this.read(bytesCount);
 
         if (byteOrder === ByteOrder.BigEndian) {
@@ -41,6 +44,9 @@ export default class BinaryReader {
 
 
     public async readInt(byteOrder: ByteOrder, bytesCount: number): AsyncResult<number> {
+        assertArgumentNotNull('byteOrder', byteOrder);
+        assertArgumentNotNull('bytesCount', bytesCount);
+
         let buffer: Buffer = await this.read(bytesCount);
 
         if (byteOrder === ByteOrder.BigEndian) {
@@ -52,6 +58,8 @@ export default class BinaryReader {
 
 
     public async readFloat(byteOrder: ByteOrder): AsyncResult<number> {
+        assertArgumentNotNull('byteOrder', byteOrder);
+
         let buffer: Buffer = await this.read(4);
 
         if (byteOrder === ByteOrder.BigEndian) {
@@ -63,6 +71,8 @@ export default class BinaryReader {
 
 
     public async readDouble(byteOrder: ByteOrder): AsyncResult<number> {
+        assertArgumentNotNull('byteOrder', byteOrder);
+
         let buffer: Buffer = await this.read(8);
 
         if (byteOrder === ByteOrder.BigEndian) {
@@ -74,41 +84,57 @@ export default class BinaryReader {
 
 
     public async readUInt8(byteOrder: ByteOrder): AsyncResult<number> {
+        assertArgumentNotNull('byteOrder', byteOrder);
+
         return this.readUInt(byteOrder, 1);
     }
 
 
     public async readUInt16(byteOrder: ByteOrder): AsyncResult<number> {
+        assertArgumentNotNull('byteOrder', byteOrder);
+
         return this.readUInt(byteOrder, 2);
     }
 
 
     public async readUInt24(byteOrder: ByteOrder): AsyncResult<number> {
+        assertArgumentNotNull('byteOrder', byteOrder);
+
         return this.readUInt(byteOrder, 3);
     }
 
 
     public async readUInt32(byteOrder: ByteOrder): AsyncResult<number> {
+        assertArgumentNotNull('byteOrder', byteOrder);
+
         return this.readUInt(byteOrder, 4);
     }
 
 
     public async readInt8(byteOrder: ByteOrder): AsyncResult<number> {
+        assertArgumentNotNull('byteOrder', byteOrder);
+
         return this.readInt(byteOrder, 1);
     }
 
 
     public async readInt16(byteOrder: ByteOrder): AsyncResult<number> {
+        assertArgumentNotNull('byteOrder', byteOrder);
+
         return this.readInt(byteOrder, 2);
     }
 
 
     public async readInt24(byteOrder: ByteOrder): AsyncResult<number> {
+        assertArgumentNotNull('byteOrder', byteOrder);
+
         return this.readInt(byteOrder, 3);
     }
 
 
     public async readInt32(byteOrder: ByteOrder): AsyncResult<number> {
+        assertArgumentNotNull('byteOrder', byteOrder);
+
         return this.readInt(byteOrder, 4);
     }
 

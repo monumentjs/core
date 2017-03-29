@@ -3,6 +3,7 @@ import {ICloneable, IComparable, ComparisonResult, IEquatable, IFormattable} fro
 import {DayOfWeek} from './types';
 import ArgumentNullException from '../Exceptions/ArgumentNullException';
 import DateTimeFormatInfo from './DateTimeFormatInfo';
+import {assertArgumentNotNull} from '../../Assertion/Assert';
 
 const DAYS_TO_MONTH_365: number[] = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365];
 const DAYS_TO_MONTH_366: number[] = [0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366];
@@ -21,18 +22,14 @@ export default class DateTime implements
 
 
     public static fromDate(date: Date): DateTime {
-        if (date == null) {
-            throw new ArgumentNullException('date');
-        }
+        assertArgumentNotNull('date', date);
 
         return this.fromTimestamp(date.getTime());
     }
 
 
     public static fromTimestamp(timestamp: number): DateTime {
-        if (timestamp == null) {
-            throw new ArgumentNullException('date');
-        }
+        assertArgumentNotNull('timestamp', timestamp);
 
         let dateTime: DateTime = new DateTime();
 
@@ -43,9 +40,7 @@ export default class DateTime implements
 
 
     public static isLeapYear(year: number): boolean {
-        if (year == null) {
-            throw new ArgumentNullException('year');
-        }
+        assertArgumentNotNull('year', year);
 
         if ((year & 3) !== 0) {
             return false;
@@ -56,13 +51,8 @@ export default class DateTime implements
 
 
     public static daysInMonth(year: number, month: number): number {
-        if (year == null) {
-            throw new ArgumentNullException('year');
-        }
-
-        if (month == null) {
-            throw new ArgumentNullException('month');
-        }
+        assertArgumentNotNull('year', year);
+        assertArgumentNotNull('month', month);
 
         let daysToMonth: number[] = this.isLeapYear(year) ? DAYS_TO_MONTH_366 : DAYS_TO_MONTH_365;
 
@@ -150,6 +140,14 @@ export default class DateTime implements
         seconds: number = 0,
         milliseconds: number = 0
     ) {
+        assertArgumentNotNull('year', year);
+        assertArgumentNotNull('month', month);
+        assertArgumentNotNull('day', day);
+        assertArgumentNotNull('hours', hours);
+        assertArgumentNotNull('minutes', minutes);
+        assertArgumentNotNull('seconds', seconds);
+        assertArgumentNotNull('milliseconds', milliseconds);
+
         this._date = new Date(year, month, day, hours, minutes, seconds, milliseconds);
     }
 
@@ -160,9 +158,7 @@ export default class DateTime implements
 
 
     public compareTo(other: DateTime): ComparisonResult {
-        if (other == null) {
-            throw new ArgumentNullException('other');
-        }
+        assertArgumentNotNull('other', other);
 
         let currentTimeStamp: number = this._date.getTime();
         let otherTimeStamp: number = other._date.getTime();
@@ -178,73 +174,61 @@ export default class DateTime implements
 
 
     public equals(other: DateTime): boolean {
+        assertArgumentNotNull('other', other);
+
         return this.compareTo(other) === ComparisonResult.Equals;
     }
 
 
     public add(value: TimeSpan): DateTime {
-        if (value == null) {
-            throw new ArgumentNullException('value');
-        }
+        assertArgumentNotNull('value', value);
 
         return DateTime.fromTimestamp(this.toTimestamp() + value.totalMilliseconds);
     }
 
 
     public addMilliseconds(value: number): DateTime {
-        if (value == null) {
-            throw new ArgumentNullException('value');
-        }
+        assertArgumentNotNull('value', value);
 
         return this.add(new TimeSpan(0, 0, 0, 0, value));
     }
 
 
     public addSeconds(value: number): DateTime {
-        if (value == null) {
-            throw new ArgumentNullException('value');
-        }
+        assertArgumentNotNull('value', value);
 
         return this.add(new TimeSpan(0, 0, 0, value, 0));
     }
 
 
     public addMinutes(value: number): DateTime {
-        if (value == null) {
-            throw new ArgumentNullException('value');
-        }
+        assertArgumentNotNull('value', value);
 
         return this.add(new TimeSpan(0, 0, value, 0, 0));
     }
 
 
     public addHours(value: number): DateTime {
-        if (value == null) {
-            throw new ArgumentNullException('value');
-        }
+        assertArgumentNotNull('value', value);
 
         return this.add(new TimeSpan(0, value, 0, 0, 0));
     }
 
 
     public addDays(value: number): DateTime {
-        if (value == null) {
-            throw new ArgumentNullException('value');
-        }
+        assertArgumentNotNull('value', value);
 
         return this.add(new TimeSpan(value, 0, 0, 0, 0));
     }
 
 
-    public addMonths(months: number): DateTime {
-        if (months == null) {
-            throw new ArgumentNullException('value');
-        }
+    public addMonths(value: number): DateTime {
+        assertArgumentNotNull('value', value);
 
         let currentYear: number = this.year;
         let currentMonth: number = this.month;
         let currentDayOfMonth: number = this.dayOfMonth;
-        let newMonth: number = currentMonth - 1 + months;
+        let newMonth: number = currentMonth - 1 + value;
         let days: number;
 
         if (newMonth >= 0) {
@@ -268,28 +252,22 @@ export default class DateTime implements
     }
 
 
-    public addYears(years: number): DateTime {
-        if (years == null) {
-            throw new ArgumentNullException('years');
-        }
+    public addYears(value: number): DateTime {
+        assertArgumentNotNull('value', value);
 
-        return this.addMonths(years * 12);
+        return this.addMonths(value * 12);
     }
 
 
     public getTimeSpanTo(other: DateTime): TimeSpan {
-        if (other == null) {
-            throw new ArgumentNullException('other');
-        }
+        assertArgumentNotNull('other', other);
 
         return TimeSpan.fromTimestamp(this.toTimestamp() - other.toTimestamp());
     }
 
 
     public subtract(value: TimeSpan): DateTime {
-        if (value == null) {
-            throw new ArgumentNullException('value');
-        }
+        assertArgumentNotNull('value', value);
 
         return DateTime.fromTimestamp(this.toTimestamp() - value.totalMilliseconds);
     }
@@ -322,26 +300,37 @@ export default class DateTime implements
         format: string = DateTimeFormatInfo.invariantInfo.fullDateTimePattern,
         formatInfo: DateTimeFormatInfo = DateTimeFormatInfo.invariantInfo
     ): string {
+        assertArgumentNotNull('format', format);
+        assertArgumentNotNull('formatInfo', formatInfo);
+
         return formatInfo.format(format, this, formatInfo);
     }
 
 
     public toLongDateString(formatInfo: DateTimeFormatInfo = DateTimeFormatInfo.invariantInfo): string {
+        assertArgumentNotNull('formatInfo', formatInfo);
+
         return formatInfo.format(formatInfo.longDatePattern, this, formatInfo);
     }
 
 
     public toShortDateString(formatInfo: DateTimeFormatInfo = DateTimeFormatInfo.invariantInfo): string {
+        assertArgumentNotNull('formatInfo', formatInfo);
+
         return formatInfo.format(formatInfo.shortDatePattern, this, formatInfo);
     }
 
 
     public toLongTimeString(formatInfo: DateTimeFormatInfo = DateTimeFormatInfo.invariantInfo): string {
+        assertArgumentNotNull('formatInfo', formatInfo);
+
         return formatInfo.format(formatInfo.longTimePattern, this, formatInfo);
     }
 
 
     public toShortTimeString(formatInfo: DateTimeFormatInfo = DateTimeFormatInfo.invariantInfo): string {
+        assertArgumentNotNull('formatInfo', formatInfo);
+
         return formatInfo.format(formatInfo.shortTimePattern, this, formatInfo);
     }
 }

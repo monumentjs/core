@@ -1,5 +1,6 @@
 
 
+import {assertArgumentNotNull} from '../../Assertion/Assert';
 export default class CappedString {
     private _value: string;
     private _length: number;
@@ -21,17 +22,24 @@ export default class CappedString {
     
     
     public constructor(length: number, initialValue: string = '') {
+        assertArgumentNotNull('length', length);
+        assertArgumentNotNull('initialValue', initialValue);
+
         this._length = length;
         this._value = initialValue;
     }
     
     
     public append(text: string): void {
+        assertArgumentNotNull('text', text);
+
         this._value = this.cutText(this._value + text);
     }
     
     
     public prepend(text: string): void {
+        assertArgumentNotNull('text', text);
+
         this._value = this.cutText(text + this._value);
     }
     
@@ -42,16 +50,22 @@ export default class CappedString {
     
     
     public contains(substring: string): boolean {
+        assertArgumentNotNull('text', substring);
+
         return this._value.indexOf(substring) >= 0;
     }
     
     
     public startsWith(substring: string): boolean {
+        assertArgumentNotNull('text', substring);
+
         return this._value.startsWith(substring);
     }
     
     
     public endsWith(substring: string): boolean {
+        assertArgumentNotNull('text', substring);
+
         return this._value.endsWith(substring);
     }
     

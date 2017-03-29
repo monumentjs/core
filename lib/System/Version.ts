@@ -2,11 +2,14 @@ import {ICloneable, IJSONSerializable} from '../Core/types';
 import {ReleaseStatus, VERSION_PATTERN, VERSION_PRE_RELEASE_STAGES} from './types';
 import StringBuilder from './Text/StringBuilder';
 import VersionException from './VersionException';
+import {assertArgumentNotNull} from '../Assertion/Assert';
 
 
 export default class Version implements ICloneable<Version>, IJSONSerializable<string> {
     
     public static validate(version: string): boolean {
+        assertArgumentNotNull('version', version);
+
         return VERSION_PATTERN.test(version);
     }
 
@@ -24,6 +27,8 @@ export default class Version implements ICloneable<Version>, IJSONSerializable<s
     
     
     public set major(value: number) {
+        assertArgumentNotNull('value', value);
+
         if (value <= this._major) {
             throw new VersionException('New major version must be greater than current.');
         }
@@ -42,6 +47,8 @@ export default class Version implements ICloneable<Version>, IJSONSerializable<s
 
 
     public set minor(value: number) {
+        assertArgumentNotNull('value', value);
+
         if (value <= this._minor) {
             throw new VersionException('New minor version must be greater than current.');
         }
@@ -59,6 +66,8 @@ export default class Version implements ICloneable<Version>, IJSONSerializable<s
 
 
     public set patch(value: number) {
+        assertArgumentNotNull('value', value);
+
         if (value <= this._patch) {
             throw new VersionException('New patch version must be greater than current.');
         }
@@ -74,12 +83,14 @@ export default class Version implements ICloneable<Version>, IJSONSerializable<s
     }
 
 
-    public set status(newStatus: ReleaseStatus) {
-        if (newStatus !== ReleaseStatus.Stable && newStatus <= this._status) {
+    public set status(value: ReleaseStatus) {
+        assertArgumentNotNull('value', value);
+
+        if (value !== ReleaseStatus.Stable && value <= this._status) {
             throw new VersionException('New release stage should be greater than current.');
         }
         
-        this._status = newStatus;
+        this._status = value;
         this._revision = 0;
     }
 
@@ -90,6 +101,8 @@ export default class Version implements ICloneable<Version>, IJSONSerializable<s
 
 
     public set revision(value: number) {
+        assertArgumentNotNull('value', value);
+
         if (this._status === ReleaseStatus.Stable) {
             throw new VersionException('Cannot set pre-release version because release stage is final.');
         }
@@ -109,6 +122,12 @@ export default class Version implements ICloneable<Version>, IJSONSerializable<s
         status: ReleaseStatus = ReleaseStatus.Alpha,
         revision: number = 0
     ) {
+        assertArgumentNotNull('major', major);
+        assertArgumentNotNull('minor', minor);
+        assertArgumentNotNull('patch', patch);
+        assertArgumentNotNull('status', status);
+        assertArgumentNotNull('revision', revision);
+
         this._major = major;
         this._minor = minor;
         this._patch = patch;

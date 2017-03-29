@@ -1,4 +1,4 @@
-import ArgumentNullException from '../Exceptions/ArgumentNullException';
+import {assertArgumentNotNull} from '../../Assertion/Assert';
 
 
 export default class KeyValuePair<TKey, TValue> {
@@ -17,10 +17,8 @@ export default class KeyValuePair<TKey, TValue> {
     
 
     public constructor(key: TKey, value: TValue) {
-        if (key == null) {
-            throw new ArgumentNullException(`key`);
-        }
-        
+        assertArgumentNotNull('key', key);
+
         this._key = key;
         this._value = value;
     }

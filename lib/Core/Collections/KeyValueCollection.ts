@@ -3,21 +3,27 @@ import {IEqualityComparator} from './IEqualityComparator';
 import EqualityComparator from './EqualityComparator';
 import KeyValuePair from './KeyValuePair';
 import {IKeyValuePair} from './IKeyValuePair';
+import {assertArgumentNotNull} from '../../Assertion/Assert';
 
 
 export default class KeyValueCollection<TKey, TValue> extends Collection<IKeyValuePair<TKey, TValue>> {
 
     public put(key: TKey, value: TValue): void {
+        assertArgumentNotNull('key', key);
+
         this.add(new KeyValuePair(key, value));
     }
     
 
     public removeByKey(
         key: TKey,
-        keyComparer: IEqualityComparator<TKey> = EqualityComparator.instance
+        keyComparator: IEqualityComparator<TKey> = EqualityComparator.instance
     ): void {
+        assertArgumentNotNull('key', key);
+        assertArgumentNotNull('keyComparator', keyComparator);
+
         for (let entry of this) {
-            if (keyComparer.equals(entry.key, key)) {
+            if (keyComparator.equals(entry.key, key)) {
                 this.remove(entry);
                 break;
             }
@@ -27,10 +33,13 @@ export default class KeyValueCollection<TKey, TValue> extends Collection<IKeyVal
 
     public removeAllByKey(
         key: TKey,
-        keyComparer: IEqualityComparator<TKey> = EqualityComparator.instance
+        keyComparator: IEqualityComparator<TKey> = EqualityComparator.instance
     ): void {
+        assertArgumentNotNull('key', key);
+        assertArgumentNotNull('keyComparator', keyComparator);
+
         for (let entry of this) {
-            if (keyComparer.equals(entry.key, key)) {
+            if (keyComparator.equals(entry.key, key)) {
                 this.remove(entry);
             }
         }
@@ -39,10 +48,13 @@ export default class KeyValueCollection<TKey, TValue> extends Collection<IKeyVal
 
     public findByKey(
         key: TKey,
-        keyComparer: IEqualityComparator<TKey> = EqualityComparator.instance
+        keyComparator: IEqualityComparator<TKey> = EqualityComparator.instance
     ): TValue {
+        assertArgumentNotNull('key', key);
+        assertArgumentNotNull('keyComparator', keyComparator);
+
         for (let entry of this) {
-            if (keyComparer.equals(entry.key, key)) {
+            if (keyComparator.equals(entry.key, key)) {
                 return entry.value;
             }
         }
@@ -51,16 +63,19 @@ export default class KeyValueCollection<TKey, TValue> extends Collection<IKeyVal
     /**
      *
      * @param key
-     * @param keyComparer
+     * @param keyComparator
      */
     public findAllByKey(
         key: TKey,
-        keyComparer: IEqualityComparator<TKey> = EqualityComparator.instance
+        keyComparator: IEqualityComparator<TKey> = EqualityComparator.instance
     ): Collection<TValue> {
+        assertArgumentNotNull('key', key);
+        assertArgumentNotNull('keyComparator', keyComparator);
+
         let values: Collection<TValue> = new Collection<TValue>();
 
         for (let entry of this) {
-            if (keyComparer.equals(entry.key, key)) {
+            if (keyComparator.equals(entry.key, key)) {
                 values.add(entry.value);
             }
         }

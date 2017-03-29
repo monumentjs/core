@@ -1,4 +1,4 @@
-import Stream from '../Stream/Stream';
+import {Stream} from '../Stream/Stream';
 import IOException from './IOException';
 
 
@@ -7,7 +7,7 @@ export default class EndOfStreamExceptions extends IOException {
 
 
     public constructor(stream: Stream<any>) {
-        super(`Reached end of the stream.`);
+        super(`Reached the end of the stream.`);
 
         this.stream = stream;
     }

@@ -12,12 +12,12 @@ export default class DebouncedMethod {
     private _lastArgs: IArguments | ArrayLike<any>;
 
 
-    get pending(): boolean {
+    public get isPending(): boolean {
         return this._timeoutId != null;
     }
 
 
-    constructor(
+    public constructor(
         method: Function,
         delay: number,
         leading: boolean = false,
@@ -38,7 +38,7 @@ export default class DebouncedMethod {
     }
 
 
-    public call(context: any, args: IArguments | ArrayLike<any>) {
+    public call(context: any, args: IArguments | ArrayLike<any>): void {
         this.togglePending();
         this.cacheLastArguments(args);
         this.cancelLastTimeout();
@@ -47,36 +47,36 @@ export default class DebouncedMethod {
     }
 
 
-    protected togglePending() {
+    private togglePending(): void {
         this._timeoutId = this._timeoutId || -1;
     }
 
 
-    protected cacheLastArguments(args: IArguments | ArrayLike<any>) {
+    private cacheLastArguments(args: IArguments | ArrayLike<any>): void {
         this._lastArgs = args;
     }
 
 
-    protected cancelLastTimeout() {
+    private cancelLastTimeout(): void {
         clearTimeout(this._timeoutId);
     }
 
 
-    protected callOnLeadingEdge(context: any) {
+    private callOnLeadingEdge(context: any): void {
         if (this._leading && this._timeoutId === -1) {
             this._method.apply(context, this._lastArgs);
         }
     }
 
 
-    protected callOnTrailingEdge(context: any) {
+    private callOnTrailingEdge(context: any): void {
         if (this._trailing) {
             this._method.apply(context, this._lastArgs);
         }
     }
 
 
-    protected scheduleTrailingCall(context: any) {
+    private scheduleTrailingCall(context: any): void {
         this._timeoutId = setTimeout(() => {
             this.callOnTrailingEdge(context);
             this.resetState();
@@ -84,7 +84,7 @@ export default class DebouncedMethod {
     }
 
 
-    protected resetState() {
+    private resetState(): void {
         this._timestamp = 0;
         this._timeoutId = null;
         this._maxWaitTimeoutId = null;

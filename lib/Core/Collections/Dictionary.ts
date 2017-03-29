@@ -5,13 +5,14 @@ import {IEqualityComparator} from './IEqualityComparator';
 import KeyValuePair from './KeyValuePair';
 import EqualityComparator from './EqualityComparator';
 import {IEnumerable} from './IEnumerable';
+import {assertArgumentNotNull} from '../../Assertion/Assert';
 
 
 export default class Dictionary<TKey, TValue>
     extends Collection<IKeyValuePair<TKey, TValue>>
     implements IDictionary<TKey, TValue> {
     
-    public static fromObject<TValue>(obj: Object): Dictionary<string, TValue> {
+    public static fromObject<TValue>(obj: object): Dictionary<string, TValue> {
         let dictionary: Dictionary<string, TValue> = new Dictionary<string, TValue>();
         
         Object.keys(obj).forEach((key: string): void => {
@@ -49,6 +50,8 @@ export default class Dictionary<TKey, TValue>
         comparator: IEqualityComparator<TKey> = EqualityComparator.instance
     ) {
         super(list);
+
+        assertArgumentNotNull('comparator', comparator);
         
         this._comparator = comparator;
     }
@@ -60,6 +63,8 @@ export default class Dictionary<TKey, TValue>
     
     
     public set(key: TKey, value: TValue): void {
+        assertArgumentNotNull('key', key);
+
         if (this.containsKey(key)) {
             this.removeByKey(key);
         }
@@ -69,6 +74,8 @@ export default class Dictionary<TKey, TValue>
     
     
     public add(pair: IKeyValuePair<TKey, TValue>): void {
+        assertArgumentNotNull('pair', pair);
+
         if (this.containsKey(pair.key)) {
             throw new Error('Dictionary already contains value with such key.');
         }
@@ -78,6 +85,8 @@ export default class Dictionary<TKey, TValue>
     
     
     public get(key: TKey, defaultValue?: TValue): TValue {
+        assertArgumentNotNull('key', key);
+
         for (let pair of this) {
             if (this._comparator.equals(pair.key, key)) {
                 return pair.value;
@@ -89,6 +98,8 @@ export default class Dictionary<TKey, TValue>
     
     
     public containsKey(key: TKey): boolean {
+        assertArgumentNotNull('key', key);
+
         for (let pair of this) {
             if (this._comparator.equals(pair.key, key)) {
                 return true;
@@ -111,6 +122,8 @@ export default class Dictionary<TKey, TValue>
     
     
     public removeByKey(key: TKey): boolean {
+        assertArgumentNotNull('key', key);
+
         let length: number = this.length;
         
         for (let index = 0; index < length; index++) {

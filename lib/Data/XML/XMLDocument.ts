@@ -1,9 +1,10 @@
 import XMLNode from './XMLNode';
+import {assertArgumentNotNull} from '../../Assertion/Assert';
 
 
 export default class XMLDocument extends XMLNode {
-    private _version: string;
-    private _encoding: string;
+    private _version: string = '';
+    private _encoding: string = '';
     
     
     public get version(): string {
@@ -12,6 +13,8 @@ export default class XMLDocument extends XMLNode {
     
     
     public set version(value: string) {
+        assertArgumentNotNull('value', value);
+
         this._version = value;
     }
     
@@ -22,6 +25,8 @@ export default class XMLDocument extends XMLNode {
     
     
     public set encoding(value: string) {
+        assertArgumentNotNull('value', value);
+
         this._encoding = value;
     }
     

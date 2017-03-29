@@ -1,6 +1,7 @@
 import Dictionary from '../../Core/Collections/Dictionary';
 import XMLNode from './XMLNode';
 import StringBuilder from '../../System/Text/StringBuilder';
+import {assertArgumentNotNull} from '../../Assertion/Assert';
 
 
 export default class XMLNodeAttributes extends Dictionary<string, string> {
@@ -14,6 +15,8 @@ export default class XMLNodeAttributes extends Dictionary<string, string> {
     
     public constructor(node: XMLNode) {
         super();
+
+        assertArgumentNotNull('node', node);
         
         this._node = node;
     }

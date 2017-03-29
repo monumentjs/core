@@ -1,217 +1,218 @@
-import _defaults = require('lodash/defaults');
-import {getScrollBarWidth} from './helpers/ScrollBar';
-
-
-export const DEFAULT_VIEWPORT = {
-    element: null,
-    left: 0,
-    top: 0,
-    width: 0,
-    height: 0,
-    scrollLeft: 0,
-    scrollTop: 0,
-    scrollWidth: 0,
-    scrollHeight: 0
-};
+import {assertArgumentNotNull} from '../../Assertion/Assert';
+import InvalidArgumentException from '../../Core/Exceptions/InvalidArgumentException';
 
 
 export default class Viewport {
-    static fromElement(element: HTMLElement): Viewport {
-        let {
-            offsetLeft, offsetTop, offsetWidth, offsetHeight,
-            scrollLeft, scrollTop, scrollWidth, scrollHeight
-        } = element;
+    private _left: number = 0;
+    private _top: number = 0;
+    private _width: number = 0;
+    private _height: number = 0;
+    private _scrollLeft: number = 0;
+    private _scrollTop: number = 0;
+    private _scrollWidth: number = 0;
+    private _scrollHeight: number = 0;
 
-        return new Viewport({
-            element: element,
-            scrollLeft: scrollLeft,
-            scrollTop: scrollTop,
-            scrollWidth: scrollWidth,
-            scrollHeight: scrollHeight,
-            left: offsetLeft,
-            top: offsetTop,
-            width: offsetWidth,
-            height: offsetHeight
-        });
-    }
-
-    private _element: HTMLElement;
-    private _left: number;
-    private _width: number;
-    private _height: number;
-    private _top: number;
-    private _scrollLeft: number;
-    private _scrollTop: number;
-    private _scrollWidth: number;
-    private _scrollHeight: number;
+    private _verticalScrollBarWidth: number = 0;
+    private _horizontalScrollBarWidth: number = 0;
 
 
-    get left(): number {
+    public get left(): number {
         return this._left;
     }
 
 
-    set left(val: number) {
-        this._left = val;
-        this._normalize();
-    }
-
-
-    get top(): number {
+    public get top(): number {
         return this._top;
     }
 
 
-    set top(val: number) {
-        this._top = val;
-        this._normalize();
-    }
-
-
-    get right(): number {
+    public get right(): number {
         return this._left + this._width;
     }
 
 
-    get bottom(): number {
+    public get bottom(): number {
         return this._top + this._height;
     }
 
 
-    get width(): number {
+    public get width(): number {
         return this._width;
     }
 
 
-    set width(val: number) {
-        this._width = val;
-        this._normalize();
-    }
-
-    get height(): number {
+    public get height(): number {
         return this._height;
     }
 
 
-    set height(val: number) {
-        this._height = val;
-        this._normalize();
-    }
-
-
-    get scrollLeft(): number {
+    public get scrollLeft(): number {
         return this._scrollLeft;
     }
 
 
-    set scrollLeft(val: number) {
-        this._scrollLeft = val;
-        this._normalize();
-    }
-
-
-    get scrollTop(): number {
+    public get scrollTop(): number {
         return this._scrollTop;
     }
 
 
-    set scrollTop(val: number) {
-        this._scrollTop = val;
-        this._normalize();
-    }
-
-
-    get scrollWidth(): number {
+    public get scrollWidth(): number {
         return this._scrollWidth;
     }
 
 
-    set scrollWidth(val: number) {
-        this._scrollWidth = val;
-        this._normalize();
-    }
-
-
-    get scrollHeight(): number {
+    public get scrollHeight(): number {
         return this._scrollHeight;
     }
 
 
-    set scrollHeight(val: number) {
-        this._scrollHeight = val;
-        this._normalize();
+    public get horizontalScrollBarWidth(): number {
+        return this._horizontalScrollBarWidth;
     }
 
 
-    get clientWidth(): number {
+    public set horizontalScrollBarWidth(value: number) {
+        assertArgumentNotNull('value', value);
+
+        if (value < 0) {
+            throw new InvalidArgumentException(`Width cannot be less than zero.`);
+        }
+
+        this._horizontalScrollBarWidth = value;
+    }
+
+
+    public get verticalScrollBarWidth(): number {
+        return this._verticalScrollBarWidth;
+    }
+
+
+    public set verticalScrollBarWidth(value: number) {
+        assertArgumentNotNull('value', value);
+
+        if (value < 0) {
+            throw new InvalidArgumentException(`Width cannot be less than zero.`);
+        }
+
+        this._verticalScrollBarWidth = value;
+    }
+
+
+    public get clientWidth(): number {
         if (this._scrollWidth > this._width) {
-            return this._width - getScrollBarWidth();
+            return this._width - this._verticalScrollBarWidth;
         } else {
             return this._width;
         }
     }
 
 
-    get clientHeight(): number {
+    public get clientHeight(): number {
         if (this._scrollHeight > this._height) {
-            return this._height - getScrollBarWidth();
+            return this._height - this._horizontalScrollBarWidth;
         } else {
             return this._height;
         }
     }
 
 
-    get isOverflowX(): boolean {
+    public get isOverflowX(): boolean {
         return this._scrollWidth > this._width;
     }
 
 
-    get isOverflowY(): boolean {
+    public get isOverflowY(): boolean {
         return this._scrollHeight > this._height;
     }
 
 
-    get isAtTop(): boolean {
+    public get isAtTop(): boolean {
         return this._scrollTop === 0;
     }
 
 
-    get isAtLeft(): boolean {
+    public get isAtLeft(): boolean {
         return this._scrollLeft === 0;
     }
 
 
-    get isAtRight(): boolean {
+    public get isAtRight(): boolean {
         return this._scrollWidth - this._width === this._scrollWidth;
     }
 
 
-    get isAtBottom(): boolean {
+    public get isAtBottom(): boolean {
         return this._scrollHeight - this._height === this._scrollTop;
     }
 
 
-    get element(): HTMLElement {
-        return this._element;
+    public moveTo(left: number, top: number): void {
+        assertArgumentNotNull('left', left);
+        assertArgumentNotNull('top', top);
+
+        this._left = left;
+        this._top = top;
+
+        this.normalizeBounds();
     }
 
 
-    constructor(viewport) {
-        viewport = _defaults({}, viewport, DEFAULT_VIEWPORT);
-        this._element = viewport.element;
-        this._left = viewport.left;
-        this._top = viewport.top;
-        this._width = viewport.width;
-        this._height = viewport.height;
-        this._scrollLeft = viewport.scrollLeft;
-        this._scrollTop = viewport.scrollTop;
-        this._scrollWidth = viewport.scrollWidth;
-        this._scrollHeight = viewport.scrollHeight;
-        this._normalize();
+    public moveBy(leftOffset: number, topOffset: number): void {
+        assertArgumentNotNull('leftOffset', leftOffset);
+        assertArgumentNotNull('topOffset', topOffset);
+
+        this._left += leftOffset;
+        this._top += topOffset;
+
+        this.normalizeBounds();
     }
 
 
-    _normalize() {
+    public resizeTo(width: number, height: number): void {
+        assertArgumentNotNull('width', width);
+        assertArgumentNotNull('height', height);
+
+        this._width = width;
+        this._height = height;
+
+        this.normalizeBounds();
+    }
+
+
+    public resizeBy(widthDelta: number, heightDelta: number): void {
+        assertArgumentNotNull('widthDelta', widthDelta);
+        assertArgumentNotNull('heightDelta', heightDelta);
+
+        this._width += widthDelta;
+        this._height += heightDelta;
+
+        this.normalizeBounds();
+    }
+
+
+    public scrollTo(scrollLeft: number, scrollTop: number): void {
+        assertArgumentNotNull('scrollLeft', scrollLeft);
+        assertArgumentNotNull('scrollTop', scrollTop);
+
+        this._scrollLeft = scrollLeft;
+        this._scrollTop = scrollTop;
+
+        this.normalizeBounds();
+    }
+
+
+    public scrollBy(scrollLeftDelta: number, scrollTopDelta: number): void {
+        assertArgumentNotNull('scrollLeftDelta', scrollLeftDelta);
+        assertArgumentNotNull('scrollTopDelta', scrollTopDelta);
+
+        this._scrollLeft += scrollLeftDelta;
+        this._scrollTop += scrollTopDelta;
+
+        this.normalizeBounds();
+    }
+
+
+    private normalizeBounds(): void {
         if (this._scrollLeft < 0) {
             this._scrollLeft = 0;
         }

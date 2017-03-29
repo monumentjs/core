@@ -1,9 +1,10 @@
-import IndexOutOfBoundsException from '../../Core/Exceptions/IndexOutOfBoundsException';
 import MissingKeyException from '../../Core/Exceptions/MissingKeyException';
 import Collection from '../../Core/Collections/Collection';
 import ReadOnlyCollection from '../../Core/Collections/ReadOnlyCollection';
 import ParsingException from './ParsingException';
 import RegExpUtils from './RegExpUtils';
+import Sequence from '../../Core/Collections/Sequence';
+import {assertArgumentNotNull} from '../../Assertion/Assert';
 
 
 const NORMAL_ENTRY_PATTERN: RegExp = /\{(\w+)}/g;
@@ -23,6 +24,8 @@ export default class FormattableString {
 
 
     public constructor(template: string) {
+        assertArgumentNotNull('template', template);
+
         this._template = template;
         this._allEntries = this.getAllEntries();
         this._uniqueEntries = this.getUniqueEntries();
@@ -30,20 +33,22 @@ export default class FormattableString {
     }
 
 
-    public fillByPositions(values: Object[]): string {
+    public fillByPositions(values: any[]): string {
+        assertArgumentNotNull('values', values);
+
         return this.fillEntries((key: string): string => {
             let index: number = parseInt(key, 10);
 
-            if (index >= 0 && index < values.length) {
-                return values[index] + '';
-            } else {
-                throw new IndexOutOfBoundsException(index, 0, values.length);
-            }
+            Sequence.assertIndexBounds(values, index);
+
+            return values[index] + '';
         });
     }
 
 
     public fillByKeys(values: object): string {
+        assertArgumentNotNull('values', values);
+
         return this.fillEntries((key: string): string => {
             if (values[key] != null) {
                 return values[key] + '';
@@ -54,7 +59,9 @@ export default class FormattableString {
     }
 
 
-    public tryFillByPositions(values: Object[]): string {
+    public tryFillByPositions(values: any[]): string {
+        assertArgumentNotNull('values', values);
+
         return this.fillEntries((key: string): string => {
             let index: number = parseInt(key, 10);
 
@@ -68,6 +75,8 @@ export default class FormattableString {
 
 
     public tryFillByKeys(values: object): string {
+        assertArgumentNotNull('values', values);
+
         return this.fillEntries((key: string): string => {
             if (values[key] != null) {
                 return values[key] + '';
@@ -79,6 +88,8 @@ export default class FormattableString {
 
 
     public extractValues(source: string): object {
+        assertArgumentNotNull('source', source);
+
         let match: RegExpExecArray = this._extractingPattern.exec(source);
         let values: object = {};
 
@@ -97,6 +108,8 @@ export default class FormattableString {
 
 
     public tryExtractValues(source: string): object {
+        assertArgumentNotNull('source', source);
+
         try {
             return this.extractValues(source);
         } catch (ex) {

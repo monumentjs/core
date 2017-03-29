@@ -1,4 +1,6 @@
-import List from '../Collections/List';
+import ReadOnlyCollection from '../Collections/ReadOnlyCollection';
+import IndexOutOfBoundsException from '../Exceptions/IndexOutOfBoundsException';
+import {assertArgumentNotNull} from '../../Assertion/Assert';
 
 
 export const VALUABLE_NUMBER_BITS: number = 32;
@@ -6,37 +8,33 @@ export const VALUABLE_NUMBER_BITS: number = 32;
 
 export default class BitMask {
     public static fromFlags(flags: number[]): BitMask {
+        assertArgumentNotNull('flags', flags);
+
         let bitMask: BitMask = new BitMask();
 
         flags.forEach((flag: number) => {
-            bitMask.value = bitMask.value | flag;
+            bitMask._value = bitMask._value | flag;
         });
 
         return bitMask;
     }
 
 
+    private static validateBitIndex(bitIndex: number): void {
+        if (bitIndex < 0 || bitIndex >= VALUABLE_NUMBER_BITS) {
+            throw new IndexOutOfBoundsException(`Bit index is out of bounds (0...${VALUABLE_NUMBER_BITS})`);
+        }
+    }
+
+
     private _value: number;
-
-    /**
-     * Gets actual value.
-     */
-    public get value(): number {
-        return this._value;
-    }
-
-    /**
-     * Sets actual value.
-     * @param value
-     */
-    public set value(value: number) {
-        this._value = value;
-    }
 
     /**
      * Creates new instance of BitMask.
      */
     public constructor(initialValue: number = 0) {
+        assertArgumentNotNull('initialValue', initialValue);
+
         this._value = initialValue;
     }
 
@@ -45,65 +43,109 @@ export default class BitMask {
      * @param bitIndex
      * @param value
      */
-    public setBitAt(bitIndex: number, value: boolean) {
-        if (bitIndex < 0 || bitIndex >= VALUABLE_NUMBER_BITS) {
-            throw new RangeError(`Index out of range [0...${VALUABLE_NUMBER_BITS - 1}]`);
-        }
+    public set(bitIndex: number, value: boolean): void {
+        assertArgumentNotNull('bitIndex', bitIndex);
+        assertArgumentNotNull('value', value);
+
+        BitMask.validateBitIndex(bitIndex);
 
         if (value) {
-            this._value = this._value | (1 << bitIndex);
+            this.or(1 << bitIndex);
         } else {
-            this._value = this._value ^ (1 << bitIndex);
+            this.xor(1 << bitIndex);
         }
     }
 
-    /**
-     * Gets bit value at given position.
-     * @param bitIndex
-     */
-    public getBitAt(bitIndex: number): boolean {
-        if (bitIndex < 0 || bitIndex >= VALUABLE_NUMBER_BITS) {
-            throw new RangeError(`Index out of range [0...${VALUABLE_NUMBER_BITS - 1}]`);
-        }
+
+    public unset(bitIndex: number): void {
+        assertArgumentNotNull('bitIndex', bitIndex);
+
+        BitMask.validateBitIndex(bitIndex);
+
+        this.xor(1 << bitIndex);
+    }
+
+
+    public get(bitIndex: number): boolean {
+        assertArgumentNotNull('bitIndex', bitIndex);
+
+        BitMask.validateBitIndex(bitIndex);
 
         return (this._value & (1 << bitIndex)) !== 0;
     }
 
-    /**
-     * Gets list of indexes of bits with value equal to 1.
-     */
-    public getEnabledBitsIndexes(): List<number> {
-        let enabledBitsIndexes: List<number> = new List<number>();
+
+    public getEnabledBitsIndexes(): ReadOnlyCollection<number> {
+        let enabledBitsIndexes: number[] = [];
 
         for (let bitIndex = 0; bitIndex < VALUABLE_NUMBER_BITS; bitIndex++) {
-            if (this.getBitAt(bitIndex)) {
-                enabledBitsIndexes.add(bitIndex);
+            if (this.get(bitIndex)) {
+                enabledBitsIndexes.push(bitIndex);
             }
         }
 
-        return enabledBitsIndexes;
+        return new ReadOnlyCollection<number>(enabledBitsIndexes);
     }
 
-    /**
-     * Gets list of flags of bits with value equal to 1.
-     */
-    public getEnabledFlags(): List<number> {
-        let enabledBitsValues: List<number> = new List<number>();
+
+    public getEnabledFlags(): ReadOnlyCollection<number> {
+        let enabledBitsValues: number[] = [];
 
         for (let bitIndex = 0; bitIndex < VALUABLE_NUMBER_BITS; bitIndex++) {
-            if (this.getBitAt(bitIndex)) {
-                enabledBitsValues.add(1 << bitIndex);
+            if (this.get(bitIndex)) {
+                enabledBitsValues.push(1 << bitIndex);
             }
         }
 
-        return enabledBitsValues;
+        return new ReadOnlyCollection<number>(enabledBitsValues);
     }
 
-    /**
-     *
-     * @param flag
-     */
+
     public hasFlag(flag: number): boolean {
+        assertArgumentNotNull('flag', flag);
+
         return (this._value & flag) !== 0;
+    }
+
+
+    public and(value: number): void {
+        assertArgumentNotNull('value', value);
+
+        this._value = this._value & value;
+    }
+
+
+    public or(value: number): void {
+        assertArgumentNotNull('value', value);
+
+        this._value = this._value | value;
+    }
+
+
+    public xor(value: number): void {
+        assertArgumentNotNull('value', value);
+
+        this._value = this._value ^ value;
+    }
+
+
+    public toNumber(): number {
+        return this._value;
+    }
+
+
+    public valueOf(): number {
+        return this._value;
+    }
+
+
+    public toString(): string {
+        let value: string = '';
+
+        for (let i = 0; i < VALUABLE_NUMBER_BITS; i++) {
+            value += this.get(i) ? '1' : '0';
+        }
+
+        return value;
     }
 }

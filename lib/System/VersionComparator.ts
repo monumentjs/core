@@ -2,10 +2,14 @@ import {IComparator} from '../Core/Collections/IComparator';
 import {ComparisonResult} from '../Core/types';
 import {VERSION_COMPONENTS} from './types';
 import Version from './Version';
+import {assertArgumentNotNull} from '../Assertion/Assert';
 
 
 export default class VersionComparator implements IComparator<Version> {
     public compare(currentVersion: Version, otherVersion: Version): ComparisonResult {
+        assertArgumentNotNull('currentVersion', currentVersion);
+        assertArgumentNotNull('otherVersion', otherVersion);
+
         for (let componentName of VERSION_COMPONENTS) {
             let componentOfCurrentVersion: number = currentVersion[componentName];
             let componentOfOtherVersion: number = otherVersion[componentName];

@@ -16,10 +16,12 @@ export default class XMLParser extends TextParser<XMLParserState, XMLDocument> {
     }
 
     
-    public constructor() {
-        super(new XMLParserState());
-        
-        this._state.currentNode = this._document;
+    protected getInitialState(): XMLParserState {
+        let state: XMLParserState = new XMLParserState();
+
+        state.currentNode = this._document;
+
+        return state;
     }
     
     

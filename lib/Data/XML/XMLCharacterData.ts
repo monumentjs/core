@@ -1,5 +1,6 @@
 import XMLNode from './XMLNode';
 import StringBuilder from '../../System/Text/StringBuilder';
+import {assertArgumentNotNull} from '../../Assertion/Assert';
 
 
 export default class XMLCharacterData extends XMLNode {
@@ -12,12 +13,15 @@ export default class XMLCharacterData extends XMLNode {
     
     
     public set text(value: string) {
+        assertArgumentNotNull('value', value);
+
         this._text = value;
     }
     
     
     public constructor(text: string = '') {
         super('');
+
         this.text = text;
     }
     

@@ -1,5 +1,6 @@
 
 
+import {assertArgumentNotNull} from '../../Assertion/Assert';
 export abstract class TextParser<TState, TValue> {
     protected _state: TState;
     
@@ -12,22 +13,27 @@ export abstract class TextParser<TState, TValue> {
     public abstract get value(): TValue;
 
 
-    public constructor(initialState: TState) {
-        this._state = initialState;
+    public constructor() {
+        this.resetState();
     }
     
-    /**
-     *
-     * @param sourceString
-     */
+
     public parse(sourceString: string): void {
+        assertArgumentNotNull('sourceString', sourceString);
+
         for (let index = 0; index < sourceString.length; index++) {
             let currentChar: string = sourceString[index];
             
             this.reduce(currentChar, index);
         }
     }
+
+
+    public resetState(): void {
+        this._state = this.getInitialState();
+    }
     
  
+    protected abstract getInitialState(): TState;
     protected abstract reduce(currentChar: string, index: number): void;
 }

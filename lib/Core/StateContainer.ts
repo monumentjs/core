@@ -1,6 +1,5 @@
-import Dispatcher from './Dispatcher';
-import ArgumentNullException from './Exceptions/ArgumentNullException';
-import {ActionListenerCancel} from './Dispatcher';
+import Dispatcher, {ActionListenerCancel} from './Dispatcher';
+import {assertArgumentNotNull} from '../Assertion/Assert';
 
 
 export type StateWatcher<TState extends object> = (state: TState) => void;
@@ -18,26 +17,19 @@ export abstract class StateContainer<TState extends object> {
     private _dispatcher: Dispatcher = new Dispatcher();
     private _state: TState;
 
-    /**
-     * Returns state at the current moment of time.
-     * @return Current state.
-     */
+
     public get state(): TState {
         return this._state;
     }
 
-    /**
-     * Creates new instance of class Store.
-     */
+
     public constructor() {
         this._state = this.getInitialState();
     }
 
 
     public dispatchAction(action: object): void {
-        if (action == null) {
-            throw new ArgumentNullException('action');
-        }
+        assertArgumentNotNull('action', action);
 
         this.mutateState(action);
         this._dispatcher.dispatchAction(this._state);
@@ -45,18 +37,14 @@ export abstract class StateContainer<TState extends object> {
 
 
     public addWatcher(watcher: StateWatcher<TState>): ActionListenerCancel {
-        if (watcher == null) {
-            throw new ArgumentNullException('watcher');
-        }
+        assertArgumentNotNull('watcher', watcher);
 
         return this._dispatcher.addListener(watcher);
     }
 
 
     public removeWatcher(watcher: StateWatcher<TState>): boolean {
-        if (watcher == null) {
-            throw new ArgumentNullException('watcher');
-        }
+        assertArgumentNotNull('watcher', watcher);
 
         return this._dispatcher.removeListener(watcher);
     }

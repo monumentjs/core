@@ -1,5 +1,5 @@
 import Collection from './Collections/Collection';
-import ArgumentNullException from './Exceptions/ArgumentNullException';
+import {assertArgumentNotNull} from '../Assertion/Assert';
 
 
 export type ActionListener = (action: object) => void;
@@ -11,9 +11,7 @@ export default class Dispatcher {
 
 
     public addListener(listener: ActionListener): ActionListenerCancel {
-        if (listener == null) {
-            throw new ArgumentNullException('listener');
-        }
+        assertArgumentNotNull('listener', listener);
 
         this._listeners.add(listener);
 
@@ -24,18 +22,14 @@ export default class Dispatcher {
 
 
     public removeListener(listener: ActionListener): boolean {
-        if (listener == null) {
-            throw new ArgumentNullException('listener');
-        }
+        assertArgumentNotNull('listener', listener);
 
         return this._listeners.remove(listener);
     }
 
 
     public dispatchAction(action: object): void {
-        if (action == null) {
-            throw new ArgumentNullException('action');
-        }
+        assertArgumentNotNull('action', action);
 
         for (let listener of this._listeners) {
             listener(action);

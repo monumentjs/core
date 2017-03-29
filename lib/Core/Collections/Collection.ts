@@ -3,11 +3,17 @@ import {ICollection} from './ICollection';
 import Enumerable from './Enumerable';
 import EqualityComparator from './EqualityComparator';
 import {IEqualityComparator} from './IEqualityComparator';
+import InvalidOperationException from '../Exceptions/InvalidOperationException';
+import {assertArgumentNotNull} from '../../Assertion/Assert';
 
 
 export default class Collection<T>
     extends Enumerable<T>
     implements ICollection<T>, ICloneable<ICollection<T>>, IJSONSerializable<T[]> {
+
+    public static setReadOnly<T>(collection: Collection<T>, readOnly: boolean): void {
+        collection._isReadOnly = readOnly;
+    }
     
     
     protected _isReadOnly: boolean = false;
@@ -55,6 +61,8 @@ export default class Collection<T>
 
 
     public contains(otherItem: T, comparator: IEqualityComparator<T> = EqualityComparator.instance): boolean {
+        assertArgumentNotNull('comparator', comparator);
+
         for (let currentItem of this) {
             if (comparator.equals(currentItem, otherItem)) {
                 return true;
@@ -72,7 +80,7 @@ export default class Collection<T>
     
     protected throwIfReadOnly(): void {
         if (this.isReadOnly) {
-            throw new Error(`Write operation is not allowed on read-only collection.`);
+            throw new InvalidOperationException(`Operation is not allowed on read-only collection.`);
         }
     }
 }
