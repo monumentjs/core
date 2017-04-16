@@ -1,7 +1,7 @@
-import {IUriAttributes} from '../../../../lib/System/Uri/types';
-import Uri from '../../../../lib/System/Uri/Uri';
-import ArgumentNullException from '../../../../lib/Core/Exceptions/ArgumentNullException';
-import UriFormatException from '../../../../lib/System/Uri/UriFormatException';
+import {IUriAttributes} from '../../../../src/System/Uri/types';
+import Uri from '../../../../src/System/Uri/Uri';
+import ArgumentNullException from '../../../../src/Core/Exceptions/ArgumentNullException';
+import UriFormatException from '../../../../src/System/Uri/UriFormatException';
 import uriAttributesFixtures from './fixtures/UriAttributesFixture';
 
 const URL_VARIANTS = [

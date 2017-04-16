@@ -1,7 +1,7 @@
-import Event from '../../../lib/Core/Events/Event';
-import EventEmitter from '../../../lib/Core/Events/EventEmitter';
-import {EventListener} from '../../../lib/Core/Events/types';
-import ArgumentNullException from '../../../lib/Core/Exceptions/ArgumentNullException';
+import Event from '../../../src/Core/Events/Event';
+import EventEmitter from '../../../src/Core/Events/EventEmitter';
+import {EventListener} from '../../../src/Core/Events/types';
+import ArgumentNullException from '../../../src/Core/Exceptions/ArgumentNullException';
 
 
 describe('EventEmitter', () => {

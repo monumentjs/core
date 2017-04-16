@@ -1,9 +1,9 @@
-import {StateContainer} from '../../../lib/Core/StateContainer';
+import {StateContainer} from '../../../src/Core/Application/StateContainer';
 import TestStateContainer from '../../mocks/TestStateContainer';
 import TestAction from '../../mocks/TestAction';
 import TestState from '../../mocks/TestState';
-import ArgumentNullException from '../../../lib/Core/Exceptions/ArgumentNullException';
-import {ActionListenerCancel} from '../../../lib/Core/Dispatcher';
+import ArgumentNullException from '../../../src/Core/Exceptions/ArgumentNullException';
+import {ActionListenerCancel} from '../../../src/Core/Events/Dispatcher';
 
 
 describe(`StateContainer`, () => {

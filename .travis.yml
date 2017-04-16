@@ -9,9 +9,9 @@ before_install:
   - "tslint --version"
   - "jest --version"
 script:
-  - "tslint --format stylish --project ."
-  - "tsc"
-  - "jest"
+  - "yarn run lint"
+  - "yarn run compile"
+  - "yarn run test"
 os:
   - "linux"
   - "osx"

@@ -1,5 +1,5 @@
-import QueryStringParser from '../../../../lib/System/Uri/QueryStringParser';
-import KeyValueCollection from '../../../../lib/Core/Collections/KeyValueCollection';
+import QueryStringParser from '../../../../src/System/Uri/QueryStringParser';
+import KeyValueCollection from '../../../../src/Core/Collections/KeyValueCollection';
 import {QUERY_STRING_EXAMPLES, QUERY_STRING_OBJECTS} from './fixtures/QueryParamsFixtutes';
 
 

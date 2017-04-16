@@ -1,8 +1,7 @@
+.git
 .idea
 .gitignore
 *.js
 *.js.map
-lib/**/*.d.ts
 node_modules
-typings
 tests

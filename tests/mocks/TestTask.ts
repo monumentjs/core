@@ -1,5 +1,5 @@
-import {Task} from '../../lib/System/Automation/Task';
-import {AsyncResult} from '../../lib/Core/types';
+import {Task} from '../../src/Core/Async/Task';
+import {AsyncResult} from '../../src/Core/types';
 
 
 export default class FakeTask<R> extends Task<R> {
@@ -8,7 +8,7 @@ export default class FakeTask<R> extends Task<R> {
     private _msWait: number;
 
 
-    constructor(result?: R, error?: Error, msWait?: number) {
+    public constructor(result?: R, error?: Error, msWait?: number) {
         super();
 
         this._preparedResult = result;
@@ -17,7 +17,7 @@ export default class FakeTask<R> extends Task<R> {
     }
 
 
-    protected async doJob(): AsyncResult<void> {
+    protected async execute(): AsyncResult<void> {
         if (this._msWait) {
             setTimeout(function () {
                 if (this._preparedResult) {

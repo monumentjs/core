@@ -1,8 +1,6 @@
-import WordsStream from './stubs/WordsStream';
-import {Stream} from '../../../../lib/System/Stream/Stream';
-import StreamEvent from '../../../../lib/System/Stream/StreamEvent';
-import {WORDS_STREAM_TEST_DATA} from './stubs/WordsStream';
-import TextTransformStream from './stubs/TextTransformStream';
+import WordsStream, {WORDS_STREAM_TEST_DATA} from './mocks/WordsStream';
+import {Stream} from '../../../../src/System/Stream/Stream';
+import StreamEvent from '../../../../src/System/Stream/StreamEvent';
 
 
 describe(`Stream`, () => {
@@ -11,7 +9,7 @@ describe(`Stream`, () => {
 
     beforeEach(() => {
         expect(() => {
-            wordsStream = new WordsStream();
+            wordsStream = new WordsStream(WORDS_STREAM_TEST_DATA);
         }).not.toThrow();
     });
 
@@ -98,14 +96,14 @@ describe(`Stream`, () => {
             let onError = jest.fn();
 
             wordsStream.addEventListener(StreamEvent.ERROR, onError);
-            Stream.writeOnly(wordsStream);
+            Stream.setReadable(wordsStream, false);
 
             expect(wordsStream.canRead).toEqual(false);
 
             await wordsStream.open();
 
             try {
-                await wordsStream.read();
+                await wordsStream.read(1);
             } catch (ex) {
                 error = ex;
             }
@@ -123,7 +121,7 @@ describe(`Stream`, () => {
             wordsStream.addEventListener(StreamEvent.ERROR, onError);
 
             try {
-                await wordsStream.read();
+                await wordsStream.read(1);
             } catch (ex) {
                 error = ex;
             }
@@ -139,7 +137,7 @@ describe(`Stream`, () => {
 
             await wordsStream.open();
 
-            word = await wordsStream.read();
+            word = await wordsStream.read(1);
 
             expect(word).toEqual(WORDS_STREAM_TEST_DATA[0]);
             expect(wordsStream.position).toEqual(1);
@@ -159,7 +157,7 @@ describe(`Stream`, () => {
             await wordsStream.open();
 
             do {
-                word = await wordsStream.read();
+                word = await wordsStream.read(1);
                 iterations += 1;
 
                 if (word !== undefined) {
@@ -189,12 +187,12 @@ describe(`Stream`, () => {
 
             expect(wordsStream.isClosed).toEqual(false);
 
-            await wordsStream.read();
+            expect(await wordsStream.read(1)).toBeUndefined();
 
             expect(wordsStream.isClosed).toEqual(true);
 
             try {
-                await wordsStream.read();
+                await wordsStream.read(1);
             } catch (ex) {
                 error = ex;
             }
@@ -212,7 +210,8 @@ describe(`Stream`, () => {
             let onError = jest.fn();
 
             wordsStream.addEventListener(StreamEvent.ERROR, onError);
-            Stream.readOnly(wordsStream);
+
+            Stream.setWritable(wordsStream, false);
 
             expect(wordsStream.canWrite).toEqual(false);
 
@@ -266,7 +265,7 @@ describe(`Stream`, () => {
 
             expect(wordsStream.position).toEqual(6);
             expect(wordsStream.length).toEqual(6);
-            expect(onSeek).toHaveBeenCalledTimes(2);
+            expect(onSeek).toHaveBeenCalledTimes(1);
         });
 
 
@@ -292,111 +291,4 @@ describe(`Stream`, () => {
             expect(onError).toHaveBeenCalledTimes(1);
         });
     });
-
-
-    describe(`#pipe()`, () => {
-        let transformStream: TextTransformStream;
-
-
-        beforeEach(async () => {
-            transformStream = TextTransformStream.toLowerCase();
-        });
-
-
-        it(`throws if destination stream is not writable`, () => {
-            Stream.readOnly(transformStream);
-
-            expect(() => {
-                wordsStream.pipe(transformStream);
-            }).toThrowError('Destination stream is not writable.');
-        });
-
-
-        it(`dispatches 'pipe' event on destination stream`, () => {
-            let pipeEvent: StreamEvent;
-            let onPipe = jest.fn();
-            
-            transformStream.addEventListener(StreamEvent.PIPE, onPipe);
-            
-            wordsStream.pipe(transformStream);
-            
-            pipeEvent = onPipe.mock.calls[0][0];
-            
-            expect(onPipe).toHaveBeenCalledTimes(1);
-            expect(pipeEvent).toBeInstanceOf(StreamEvent);
-            expect(pipeEvent.sourceStream).toEqual(wordsStream);
-            expect(pipeEvent.destinationStream).toEqual(transformStream);
-        });
-
-
-        it(`returns destination stream`, () => {
-            expect(wordsStream.pipe(transformStream)).toEqual(transformStream);
-        });
-    });
-
-
-    describe(`#unpipe()`, () => {
-        let transformStream: TextTransformStream;
-
-
-        beforeEach(async () => {
-            transformStream = TextTransformStream.toLowerCase();
-        });
-
-
-        it(`removes destination stream from pipe chain`, () => {
-            wordsStream.pipe(transformStream);
-            wordsStream.unpipe(transformStream);
-        });
-
-
-        it(`dispatches 'unpipe' event on destination stream`, () => {
-            let unPipeEvent: StreamEvent;
-            let onUnPipe = jest.fn();
-
-            transformStream.addEventListener(StreamEvent.UNPIPE, onUnPipe);
-
-            wordsStream.pipe(transformStream);
-            wordsStream.unpipe(transformStream);
-
-            unPipeEvent = onUnPipe.mock.calls[0][0];
-
-            expect(onUnPipe).toHaveBeenCalledTimes(1);
-            expect(unPipeEvent).toBeInstanceOf(StreamEvent);
-            expect(unPipeEvent.sourceStream).toEqual(wordsStream);
-            expect(unPipeEvent.destinationStream).toEqual(transformStream);
-        });
-    });
-
-
-    describe(`#resume()`, () => {
-        let upperCaseTransformStream: TextTransformStream;
-        let lowerCaseTransformStream: TextTransformStream;
-
-
-        beforeEach(async () => {
-            upperCaseTransformStream = TextTransformStream.toUpperCase();
-            lowerCaseTransformStream = TextTransformStream.toLowerCase();
-            await upperCaseTransformStream.open();
-            await lowerCaseTransformStream.open();
-        });
-
-        // TODO: test 'read' and 'write' calls
-        it(`turns stream to flowing mode`, async () => {
-            let onEnd = jest.fn();
-            let writeMethodSpy = spyOn(upperCaseTransformStream, 'write');
-
-            wordsStream.addEventListener(StreamEvent.END, onEnd);
-
-            await wordsStream.open();
-
-            wordsStream.pipe(upperCaseTransformStream);
-
-            await wordsStream.resume();
-
-            expect(onEnd).toHaveBeenCalledTimes(1);
-            expect(writeMethodSpy).toHaveBeenCalledTimes(WORDS_STREAM_TEST_DATA.length);
-        });
-    });
-
 });

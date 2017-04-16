@@ -1,6 +1,6 @@
 import TestAction from './TestAction';
 import TestState from './TestState';
-import {StateContainer} from '../../lib/Core/StateContainer';
+import {StateContainer} from '../../src/Core/Application/StateContainer';
 
 
 export default class TestStateContainer extends StateContainer<TestState> {

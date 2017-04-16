@@ -1,5 +1,5 @@
 import FakeTask from '../../../mocks/TestTask';
-import {Task} from '../../../../lib/System/Automation/Task';
+import {Task} from '../../../../src/Core/Async/Task';
 
 
 describe.skip('class Task', () => {

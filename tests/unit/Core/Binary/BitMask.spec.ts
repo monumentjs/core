@@ -1,5 +1,5 @@
-import BitMask from '../../../../lib/Core/Binary/BitMask';
-import ReadOnlyCollection from '../../../../lib/Core/Collections/ReadOnlyCollection';
+import BitMask from '../../../../src/Core/Binary/BitMask';
+import ReadOnlyCollection from '../../../../src/Core/Collections/ReadOnlyCollection';
 
 
 describe('BitMask', () => {

@@ -1,5 +1,5 @@
-import {Stream} from '../../../../../lib/System/Stream/Stream';
-import {AsyncResult} from '../../../../../lib/Core/types';
+import {Stream} from '../../../../../src/System/Stream/Stream';
+import {AsyncResult} from '../../../../../src/Core/types';
 
 
 export const WORDS_STREAM_TEST_DATA = ['One', 'Two', 'Three', 'Four', 'Five'];

@@ -1,5 +1,5 @@
-import Timeline from '../../../../lib/UI/Animation/Timeline';
-import EventEmitter from '../../../../lib/Core/Events/EventEmitter';
+import Timeline from '../../../../src/UI/Animation/Timeline';
+import EventEmitter from '../../../../src/Core/Events/EventEmitter';
 
 
 describe('Timeline', () => {

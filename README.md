@@ -1,8 +1,8 @@
 # TypeScript Standard Library
 
-![Travis CI Status](https://travis-ci.org/typescript-stdlib/Core.svg?branch=master)
-![GitHub Downloads](https://img.shields.io/github/downloads/typescript-stdlib/Core/latest/total.svg)
-![GitHub Release](https://img.shields.io/github/release/typescript-stdlib/Core.svg)
+![Travis CI Status](https://travis-ci.org/typescript-standard-library/Core.svg?branch=master)
+![GitHub Downloads](https://img.shields.io/github/downloads/typescript-standard-library/Core/latest/total.svg)
+![GitHub Release](https://img.shields.io/github/release/typescript-standard-library/Core.svg)
 
 This project is aimed to provide a high quality standard library of common and specific functionality for 
 server and client applications.

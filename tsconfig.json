@@ -1,10 +1,14 @@
 {
   "compilerOptions": {
     "module": "umd",
-    "target": "es6",
-    "sourceMap": true,
-    "declaration": false,
+    "target": "es2016",
     "moduleResolution": "node",
+    "sourceMap": true,
+    "declaration": true,
+    "alwaysStrict": true,
+    "removeComments": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
     "jsx": "react",
     "typeRoots": [
       "./node_modules/@types"
@@ -32,7 +36,6 @@
     ]
   },
   "exclude": [
-    "node_modules",
-    "types"
+    "node_modules"
   ]
 }

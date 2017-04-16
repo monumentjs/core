@@ -1,10 +1,19 @@
-import DebouncedMethod from '../../../../../../lib/Core/Language/Decorators/helpers/DebouncedMethod';
+import DebouncedMethod from '../../../../../../src/Core/Language/Decorators/helpers/DebouncedMethod';
 
 
 describe('DebouncedMethod', () => {
     const TEST_ARGUMENTS = [1, 2, 3];
 
     let method: DebouncedMethod;
+
+
+    // beforeAll(() => {
+    //     jest.useFakeTimers();
+    // });
+    //
+    // afterAll(() => {
+    //     jest.useRealTimers();
+    // });
 
 
     describe('#constructor(method, delay[, leading, trailing, maxWait])', () => {

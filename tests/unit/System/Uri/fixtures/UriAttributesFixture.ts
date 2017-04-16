@@ -1,6 +1,6 @@
-import KeyValueCollection from '../../../../../lib/Core/Collections/KeyValueCollection';
-import {IUriAttributes} from '../../../../../lib/System/Uri/types';
-import {DefaultSchemePort} from '../../../../../lib/System/Uri/DefaultSchemePort';
+import KeyValueCollection from '../../../../../src/Core/Collections/KeyValueCollection';
+import {IUriAttributes} from '../../../../../src/System/Uri/types';
+import {DefaultSchemePort} from '../../../../../src/System/Uri/DefaultSchemePort';
 
 
 const parsedUriList: KeyValueCollection<string, IUriAttributes> = new KeyValueCollection<string, IUriAttributes>();

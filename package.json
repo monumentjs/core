@@ -1,6 +1,6 @@
 {
-  "name": "typescript-standard-library-core",
-  "version": "0.0.1",
+  "name": "@typescript-standard-library/core",
+  "version": "0.0.2",
   "description": "TypeScript standard library",
   "keywords": [
     "typescript",
@@ -12,6 +12,8 @@
     "node": ">=6"
   },
   "scripts": {
+    "lint": "tslint --format stylish --project .",
+    "compile": "tsc",
     "test": "jest"
   },
   "author": "Alex Chugaev <achugaev93@gmail.com>",
@@ -22,12 +24,11 @@
   },
   "devDependencies": {
     "jest": "^19.0.2",
-    "ts-jest": "^19.0.4",
-    "tslint": "^5.0.0",
-    "typescript": "^2.2.2",
-    "typescript-babel-jest": "^1.0.2"
+    "ts-jest": "^19.0.7",
+    "tslint": "^5.1.0",
+    "typescript": "^2.2.2"
   },
-  "repository": "https://github.com/typescript-stdlib/Core.git",
+  "repository": "https://github.com/typescript-standard-library/Core.git",
   "jest": {
     "automock": false,
     "moduleFileExtensions": [

@@ -1,13 +1,13 @@
-import List from '../../../../lib/Core/Collections/List';
-import Collection from '../../../../lib/Core/Collections/Collection';
-import IndexOutOfBoundsException from '../../../../lib/Core/Exceptions/IndexOutOfBoundsException';
-import ArgumentNullException from '../../../../lib/Core/Exceptions/ArgumentNullException';
-import InvalidOperationException from '../../../../lib/Core/Exceptions/InvalidOperationException';
-import IgnoreCaseComparator from '../../../../lib/System/Text/IgnoreCaseComparator';
-import InvalidArgumentException from '../../../../lib/Core/Exceptions/InvalidArgumentException';
-import Grouping from '../../../../lib/Core/Collections/Grouping';
-import {SortOrder} from '../../../../lib/Core/Collections/SortOrder';
-import RangeException from '../../../../lib/Core/Exceptions/RangeException';
+import List from '../../../../src/Core/Collections/List';
+import Collection from '../../../../src/Core/Collections/Collection';
+import IndexOutOfBoundsException from '../../../../src/Core/Exceptions/IndexOutOfBoundsException';
+import ArgumentNullException from '../../../../src/Core/Exceptions/ArgumentNullException';
+import InvalidOperationException from '../../../../src/Core/Exceptions/InvalidOperationException';
+import IgnoreCaseComparator from '../../../../src/Core/Text/IgnoreCaseComparator';
+import InvalidArgumentException from '../../../../src/Core/Exceptions/InvalidArgumentException';
+import Grouping from '../../../../src/Core/Collections/Grouping';
+import {SortOrder} from '../../../../src/Core/Collections/SortOrder';
+import RangeException from '../../../../src/Core/Exceptions/RangeException';
 
 
 describe('List', () => {
@@ -144,14 +144,6 @@ describe('List', () => {
 
 
     describe('#insert()', () => {
-        it(`throws if list is read-only`, () => {
-            List.setReadOnly(list, true);
-
-            expect(() => {
-                list.insert('one', 0);
-            }).toThrowError(InvalidOperationException);
-        });
-
         it(`throws if index is not defined`, () => {
             expect(() => {
                 list.insert('one', undefined);
@@ -194,14 +186,6 @@ describe('List', () => {
 
 
     describe(`#insertRange()`, () => {
-        it(`throws if list is read-only`, () => {
-            List.setReadOnly(list, true);
-
-            expect(() => {
-                list.insertRange(['one', 'four'], 0);
-            }).toThrowError(InvalidOperationException);
-        });
-
         it(`throws when 'items' argument is not defined`, () => {
             expect(() => {
                 list.insertRange(null, 0);
@@ -236,16 +220,6 @@ describe('List', () => {
 
 
     describe('#removeAt()', () => {
-        it(`throws if list is read-only`, () => {
-            list = new List(['one', 'four']);
-
-            List.setReadOnly(list, true);
-
-            expect(() => {
-                list.removeAt(0);
-            }).toThrowError(InvalidOperationException);
-        });
-
         it(`throws if 'index' argument is not defined`, () => {
             list = new List(['one', 'four']);
 
@@ -354,18 +328,6 @@ describe('List', () => {
 
 
     describe(`#removeBy()`, () => {
-        it(`throws if list is read-only`, () => {
-            list = new List(['one', 'four']);
-
-            List.setReadOnly(list, true);
-
-            expect(() => {
-                list.removeBy((): boolean => {
-                    return true;
-                });
-            }).toThrowError(InvalidOperationException);
-        });
-
         it(`throws if 'predicate' argument is not defined`, () => {
             expect(() => {
                 list.removeBy(null);
@@ -386,16 +348,6 @@ describe('List', () => {
 
 
     describe(`#removeAll()`, () => {
-        it(`throws if list is read-only`, () => {
-            list = new List(['one', 'four']);
-
-            List.setReadOnly(list, true);
-
-            expect(() => {
-                list.removeAll(['one']);
-            }).toThrowError(InvalidOperationException);
-        });
-
         it(`throws if 'other' argument is not defined`, () => {
             expect(() => {
                 list.removeAll(null);
@@ -704,7 +656,7 @@ describe('List', () => {
 
             expect(list.first((word: string): boolean => {
                 return word.length === 4;
-            })).toEqual(undefined);
+            })).toEqual(null);
 
             expect(list.first((word: string): boolean => {
                 return word.length === 4;
@@ -744,7 +696,7 @@ describe('List', () => {
 
             expect(list.last((word: string): boolean => {
                 return word.length === 4;
-            })).toEqual(undefined);
+            })).toEqual(null);
 
             expect(list.last((word: string): boolean => {
                 return word.length === 4;

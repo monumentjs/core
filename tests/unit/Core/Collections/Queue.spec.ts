@@ -1,7 +1,7 @@
-import Queue from '../../../../lib/Core/Collections/Queue';
-import InvalidOperationException from '../../../../lib/Core/Exceptions/InvalidOperationException';
-import ArgumentNullException from '../../../../lib/Core/Exceptions/ArgumentNullException';
-import IgnoreCaseComparator from '../../../../lib/System/Text/IgnoreCaseComparator';
+import Queue from '../../../../src/Core/Collections/Queue';
+import InvalidOperationException from '../../../../src/Core/Exceptions/InvalidOperationException';
+import ArgumentNullException from '../../../../src/Core/Exceptions/ArgumentNullException';
+import IgnoreCaseComparator from '../../../../src/Core/Text/IgnoreCaseComparator';
 
 
 describe(`Queue`, () => {

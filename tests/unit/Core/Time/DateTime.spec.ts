@@ -1,4 +1,4 @@
-import DateTime from '../../../../lib/Core/Time/DateTime';
+import DateTime from '../../../../src/Core/Time/DateTime';
 
 
 describe('DateTime', () => {

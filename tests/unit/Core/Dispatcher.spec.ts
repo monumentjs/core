@@ -1,6 +1,6 @@
-import Dispatcher from '../../../lib/Core/Dispatcher';
-import {ActionListener} from '../../../lib/Core/Dispatcher';
-import {ActionListenerCancel} from '../../../lib/Core/Dispatcher';
+import Dispatcher from '../../../src/Core/Events/Dispatcher';
+import {ActionListener} from '../../../src/Core/Events/Dispatcher';
+import {ActionListenerCancel} from '../../../src/Core/Events/Dispatcher';
 
 
 describe('Dispatcher', () => {
