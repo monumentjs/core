@@ -7,7 +7,7 @@ import {AccessPermissions} from '../../../src/System/IO/AccessPermissions';
 
 export default class DirectoryFixture extends Fixture {
     private _path: string;
-    private _access: AccessPermissions;
+    private _accessPermissions: AccessPermissions;
 
 
     public get path(): string {
@@ -16,18 +16,18 @@ export default class DirectoryFixture extends Fixture {
 
 
     public constructor(
-        fileName: string,
-        access: AccessPermissions = AccessPermissions.Default
+        fullPath: string,
+        accessPermissions: AccessPermissions = AccessPermissions.All
     ) {
         super();
 
-        this._path = fileName;
-        this._access = access;
+        this._path = fullPath;
+        this._accessPermissions = accessPermissions;
     }
 
 
     protected doCreate(): AsyncResult<void> {
-        return callAsyncMethod<void>(fs, 'mkdir', this._path, this._access);
+        return callAsyncMethod<void>(fs, 'mkdir', this._path, this._accessPermissions);
     }
 
 

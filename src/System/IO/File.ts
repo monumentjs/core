@@ -2,11 +2,12 @@ import {AsyncResult} from '../../Core/types';
 import {Encoding} from '../Text/Encoding';
 import {assertArgumentNotNull, assertArgumentType} from '../../Core/Assertion/Assert';
 import Utf8Encoding from '../Text/Utf8Encoding';
-import {FileSystemEntryStats} from './FileSystemEntryStats';
+import {FileSystemEntry} from './FileSystemEntry';
 import {AccessPermissions} from './AccessPermissions';
 import IOException from './IOException';
 import {IFileSystem} from './IFileSystem';
 import FileStorage from './FileStorage';
+import {FileSystemEntryType} from './FileSystemEntryType';
 
 
 export default class File {
@@ -14,7 +15,7 @@ export default class File {
     public static async exists(fileName: string): AsyncResult<boolean> {
         assertArgumentNotNull('fileName', fileName);
 
-        let fileStats: FileSystemEntryStats;
+        let fileStats: FileSystemEntry;
 
         try {
             fileStats = await this._fileSystem.getStats(fileName);
@@ -22,7 +23,7 @@ export default class File {
             return false;
         }
 
-        if (!fileStats.isFile) {
+        if (fileStats.type !== FileSystemEntryType.File) {
             throw new IOException(`File system entry '${fileName}' exists but it's not a file.`);
         }
 

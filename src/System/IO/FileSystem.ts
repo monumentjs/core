@@ -4,33 +4,47 @@ import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
 import {callAsyncMethod} from '../../Core/Async/Utils';
 import DateTime from '../../Core/Time/DateTime';
 import {IFileSystem} from './IFileSystem';
-import {FileSystemEntryStats} from './FileSystemEntryStats';
+import {FileSystemEntry} from './FileSystemEntry';
 import {AccessPermissions} from './AccessPermissions';
 import {FileMode} from './FileMode';
 import {AccessMode} from './AccessMode';
 import {FileDescriptor} from './types';
 import IOException from './IOException';
+import {FileSystemEntryType} from './FileSystemEntryType';
 
 
 export default class FileSystem implements IFileSystem {
-    public async getStats(fullName: string): AsyncResult<FileSystemEntryStats> {
+    public async getStats(fullName: string): AsyncResult<FileSystemEntry> {
         assertArgumentNotNull('fullName', fullName);
 
-        return new Promise<FileSystemEntryStats>((resolve, reject) => {
+        return new Promise<FileSystemEntry>((resolve, reject) => {
             fs.lstat(fullName, (error: Error, stats: fs.Stats) => {
                 if (error) {
-                    reject(error);
+                    reject(new IOException(error.message));
                     return;
                 }
 
+                let accessPermissions: AccessPermissions = stats.mode & 0o777;
+                let type: FileSystemEntryType;
+
+                if (stats.isFile()) {
+                    type = FileSystemEntryType.File;
+                } else if (stats.isDirectory()) {
+                    type = FileSystemEntryType.Directory;
+                } else if (stats.isSymbolicLink()) {
+                    type = FileSystemEntryType.SymbolicLink;
+                } else if (stats.isSocket()) {
+                    type = FileSystemEntryType.Socket;
+                } else if (stats.isCharacterDevice()) {
+                    type = FileSystemEntryType.CharacterDevice;
+                } else if (stats.isBlockDevice()) {
+                    type = FileSystemEntryType.BlockDevice;
+                } else {
+                    type = FileSystemEntryType.FIFO;
+                }
+
                 resolve({
-                    isFile: stats.isFile(),
-                    isFIFO: stats.isFIFO(),
-                    isDirectory: stats.isDirectory(),
-                    isBlockDevice: stats.isBlockDevice(),
-                    isCharacterDevice: stats.isCharacterDevice(),
-                    isSocket: stats.isSocket(),
-                    isSymbolicLink: stats.isSymbolicLink(),
+                    type: type,
 
                     length: stats.size,
 
@@ -43,7 +57,7 @@ export default class FileSystem implements IFileSystem {
                     specialDeviceId: stats.rdev,
                     inode: stats.ino,
 
-                    accessPermissions: stats.mode,
+                    accessPermissions: accessPermissions,
                     owner: {
                         userId: stats.uid,
                         groupId: stats.gid
@@ -118,15 +132,15 @@ export default class FileSystem implements IFileSystem {
     public async fileExists(fileName: string): AsyncResult<boolean> {
         assertArgumentNotNull('fileName', fileName);
 
-        let stats: FileSystemEntryStats;
+        let entry: FileSystemEntry;
 
         try {
-            stats = await this.getStats(fileName);
+            entry = await this.getStats(fileName);
         } catch (ex) {
             return false;
         }
 
-        if (!stats.isFile) {
+        if (entry.type !== FileSystemEntryType.File) {
             throw new IOException(`File system entry at path "${fileName}" exists but it is not a file.`);
         }
 
@@ -136,7 +150,7 @@ export default class FileSystem implements IFileSystem {
 
     public createDirectory(
         directoryName: string,
-        accessPermissions: AccessPermissions = AccessPermissions.Default
+        accessPermissions: AccessPermissions = AccessPermissions.All
     ): AsyncResult<void> {
         assertArgumentNotNull('directoryName', directoryName);
         assertArgumentNotNull('accessPermissions', accessPermissions);
@@ -162,7 +176,7 @@ export default class FileSystem implements IFileSystem {
     public async directoryExists(directoryName: string): AsyncResult<boolean> {
         assertArgumentNotNull('directoryName', directoryName);
 
-        let stats: FileSystemEntryStats;
+        let stats: FileSystemEntry;
 
         try {
             stats = await this.getStats(directoryName);
@@ -170,7 +184,7 @@ export default class FileSystem implements IFileSystem {
             return false;
         }
 
-        if (!stats.isDirectory) {
+        if (stats.type !== FileSystemEntryType.Directory) {
             throw new IOException(`File system entry at path "${directoryName}" exists but it is not a directory.`);
         }
 
@@ -189,7 +203,7 @@ export default class FileSystem implements IFileSystem {
     public async getPermissions(fullName: string): AsyncResult<AccessPermissions> {
         assertArgumentNotNull('fullName', fullName);
 
-        let stats: FileSystemEntryStats = await this.getStats(fullName);
+        let stats: FileSystemEntry = await this.getStats(fullName);
 
         return stats.accessPermissions;
     }

@@ -3,14 +3,15 @@ import {AsyncResult, IDisposable} from '../../Core/types';
 import DirectoryInfo from './DirectoryInfo';
 import InvalidOperationException from '../../Core/Exceptions/InvalidOperationException';
 import DateTime from '../../Core/Time/DateTime';
-import {FileSystemEntryStats} from './FileSystemEntryStats';
+import {FileSystemEntry} from './FileSystemEntry';
 import {AccessPermissions} from './AccessPermissions';
 import {FileSystemUser} from './FileSystemUser';
 import {IFileSystem} from './IFileSystem';
 import FileStorage from './FileStorage';
+import {FileSystemEntryType} from './FileSystemEntryType';
 
 
-export default class FileSystemInfo implements FileSystemEntryStats, IDisposable {
+export default class FileSystemInfo implements FileSystemEntry, IDisposable {
     public static async getInfo(fullPath: string): AsyncResult<FileSystemInfo> {
         let info: FileSystemInfo = new this(fullPath);
 
@@ -26,7 +27,7 @@ export default class FileSystemInfo implements FileSystemEntryStats, IDisposable
     protected _fullName: string;
 
     protected _exists: boolean;
-    protected _stats: FileSystemEntryStats;
+    protected _stats: FileSystemEntry;
 
     
     protected _fileSystem: IFileSystem = FileStorage.instance.fileSystem;
@@ -37,43 +38,48 @@ export default class FileSystemInfo implements FileSystemEntryStats, IDisposable
     }
 
 
+    public get type(): FileSystemEntryType {
+        return this._stats.type;
+    }
+
+
     public get exists(): boolean {
         return this._exists;
     }
 
 
     public get isFile(): boolean {
-        return this._stats.isFile;
+        return this._stats.type === FileSystemEntryType.File;
     }
 
 
     public get isDirectory(): boolean {
-        return this._stats.isDirectory;
+        return this._stats.type === FileSystemEntryType.Directory;
     }
 
 
     public get isFIFO(): boolean {
-        return this._stats.isFIFO;
+        return this._stats.type === FileSystemEntryType.FIFO;
     }
 
 
     public get isSymbolicLink(): boolean {
-        return this._stats.isSymbolicLink;
+        return this._stats.type === FileSystemEntryType.SymbolicLink;
     }
 
 
     public get isSocket(): boolean {
-        return this._stats.isSocket;
+        return this._stats.type === FileSystemEntryType.Socket;
     }
 
 
     public get isCharacterDevice(): boolean {
-        return this._stats.isCharacterDevice;
+        return this._stats.type === FileSystemEntryType.CharacterDevice;
     }
 
 
     public get isBlockDevice(): boolean {
-        return this._stats.isBlockDevice;
+        return this._stats.type === FileSystemEntryType.BlockDevice;
     }
 
 

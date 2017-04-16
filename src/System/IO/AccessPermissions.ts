@@ -18,7 +18,9 @@ export enum AccessPermissions {
 
     Default = WriteByOthers | ReadByOthers | WriteByGroup | ReadByGroup | WriteByOwner | ReadByOwner,
 
-    StickyBit       = 1 << 9
+    All = AllByOthers | AllByGroup | AllByOwner,
+
+    // StickyBit       = 1 << 9
 }
 
 

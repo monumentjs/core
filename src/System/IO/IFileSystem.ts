@@ -1,4 +1,4 @@
-import {FileSystemEntryStats} from './FileSystemEntryStats';
+import {FileSystemEntry} from './FileSystemEntry';
 import {AsyncResult} from '../../Core/types';
 import {AccessPermissions} from './AccessPermissions';
 import {AccessMode} from './AccessMode';
@@ -29,7 +29,7 @@ export interface IFileSystem {
     directoryExists(directoryName: string): AsyncResult<boolean>;
 
     checkAccess(fullName: string, accessMode?: AccessMode): AsyncResult<void>;
-    getStats(fullName: string): AsyncResult<FileSystemEntryStats>;
+    getStats(fullName: string): AsyncResult<FileSystemEntry>;
     getPermissions(fullName: string): AsyncResult<AccessPermissions>;
     setPermissions(fullName: string, accessPermissions: AccessPermissions): AsyncResult<void>;
     setOwner(fullName: string, userId: number, groupId: number): AsyncResult<void>;

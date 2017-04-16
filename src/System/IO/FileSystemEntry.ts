@@ -1,16 +1,11 @@
 import DateTime from '../../Core/Time/DateTime';
 import {AccessPermissions} from './AccessPermissions';
 import {FileSystemUser} from './FileSystemUser';
+import {FileSystemEntryType} from './FileSystemEntryType';
 
 
-export type FileSystemEntryStats = {
-    isFile: boolean;
-    isFIFO: boolean;
-    isDirectory: boolean;
-    isBlockDevice: boolean;
-    isCharacterDevice: boolean;
-    isSocket: boolean;
-    isSymbolicLink: boolean;
+export type FileSystemEntry = {
+    type: FileSystemEntryType;
 
     length: number;
 

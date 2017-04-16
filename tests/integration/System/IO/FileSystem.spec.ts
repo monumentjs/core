@@ -4,11 +4,12 @@ import ArgumentNullException from '../../../../src/Core/Exceptions/ArgumentNullE
 import DateTime from '../../../../src/Core/Time/DateTime';
 import Utf8Encoding from '../../../../src/System/Text/Utf8Encoding';
 import {FileMode} from '../../../../src/System/IO/FileMode';
-import {FileSystemEntryStats} from '../../../../src/System/IO/FileSystemEntryStats';
+import {FileSystemEntry} from '../../../../src/System/IO/FileSystemEntry';
 import {AccessPermissions} from '../../../../src/System/IO/AccessPermissions';
 import {IFileSystem} from '../../../../src/System/IO/IFileSystem';
 import asyncExpect from '../../../helpers/async-expect';
 import {FileDescriptor} from '../../../../src/System/IO/types';
+import {FileSystemEntryType} from '../../../../src/System/IO/FileSystemEntryType';
 
 
 describe(`FileSystem`, () => {
@@ -218,16 +219,10 @@ describe(`FileSystem`, () => {
         });
 
         it(`creates file with specified access permissions`, async () => {
-            let stats: FileSystemEntryStats = await fileSystem.getStats(fixtures.singleLineTextFile.fileName);
+            let stats: FileSystemEntry = await fileSystem.getStats(fixtures.singleLineTextFile.fileName);
 
             expect(stats).toBeInstanceOf(Object);
-            expect(stats.isFile).toBe(true);
-            expect(stats.isDirectory).toBe(false);
-            expect(stats.isBlockDevice).toBe(false);
-            expect(stats.isCharacterDevice).toBe(false);
-            expect(stats.isFIFO).toBe(false);
-            expect(stats.isSocket).toBe(false);
-            expect(stats.isSymbolicLink).toBe(false);
+            expect(stats.type).toBe(FileSystemEntryType.File);
             expect(stats.creationTime).toBeInstanceOf(DateTime);
             expect(stats.lastAccessTime).toBeInstanceOf(DateTime);
             expect(stats.lastChangeTime).toBeInstanceOf(DateTime);
@@ -282,9 +277,6 @@ describe(`FileSystem`, () => {
         });
 
         it(`changes access permissions of file / directory`, async () => {
-            console.info(await fileSystem.getStats(fixtures.singleLineTextFile.fileName));
-            console.info(await fileSystem.getPermissions(fixtures.singleLineTextFile.fileName));
-
             await fileSystem.setPermissions(fixtures.singleLineTextFile.fileName, AccessPermissions.Default);
 
             let permissions: AccessPermissions = await fileSystem.getPermissions(fixtures.singleLineTextFile.fileName);
