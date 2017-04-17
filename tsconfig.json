@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "umd",
-    "target": "es5",
+    "target": "es6",
     "moduleResolution": "node",
     "sourceMap": true,
     "declaration": true,
