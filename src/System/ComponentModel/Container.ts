@@ -23,14 +23,18 @@ export default class Container implements IContainer, IDisposable {
     public add(component: IComponent): void {
         assertArgumentNotNull('component', component);
 
-        this._components = this._components.add(component);
+        Array.prototype.push.call(this._components, component);
     }
 
 
     public remove(component: IComponent): void {
         assertArgumentNotNull('component', component);
 
-        this._components = this._components.remove(component);
+        let indexOfComponent: number = Array.prototype.indexOf.call(this._components, component);
+
+        if (indexOfComponent >= 0) {
+            Array.prototype.splice.call(this._components, indexOfComponent, 1);
+        }
     }
 
 

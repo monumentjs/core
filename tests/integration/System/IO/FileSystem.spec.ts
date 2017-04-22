@@ -1,18 +1,17 @@
 import FileSystem from '../../../../src/System/IO/FileSystem';
-import FileSystemFixtureCollection from './fixtures/FileSystemFixtureCollection';
+import FileSystemFixtureCollection from '../../../fixtures/node-fs/FileSystemFixtureCollection';
 import ArgumentNullException from '../../../../src/Core/Exceptions/ArgumentNullException';
 import DateTime from '../../../../src/Core/Time/DateTime';
 import Utf8Encoding from '../../../../src/System/Text/Utf8Encoding';
 import {FileMode} from '../../../../src/System/IO/FileMode';
-import {FileSystemEntry} from '../../../../src/System/IO/FileSystemEntry';
 import {AccessPermissions} from '../../../../src/System/IO/AccessPermissions';
 import {IFileSystem} from '../../../../src/System/IO/IFileSystem';
 import asyncExpect from '../../../helpers/async-expect';
 import {FileDescriptor} from '../../../../src/System/IO/types';
-import {FileSystemEntryType} from '../../../../src/System/IO/FileSystemEntryType';
+import FileSystemEntry from '../../../../src/System/IO/FileSystemEntry';
 
 
-describe(`FileSystem`, () => {
+describe.skip(`FileSystem`, () => {
     let fileSystem: IFileSystem = new FileSystem();
     let fixtures: FileSystemFixtureCollection = new FileSystemFixtureCollection('/playground');
 
@@ -20,7 +19,6 @@ describe(`FileSystem`, () => {
     beforeEach(async () => {
         await fixtures.createAll();
     });
-
 
     afterEach(async () => {
         await fixtures.destroyAll();
@@ -208,30 +206,29 @@ describe(`FileSystem`, () => {
     describe(`#getStats()`, () => {
         it(`throws if 'fullName' argument is not defined`, async () => {
             await asyncExpect(async () => {
-                await fileSystem.getStats(undefined);
+                await fileSystem.getEntry(undefined);
             }).toThrowError(ArgumentNullException);
         });
 
         it(`throws if 'fullName' argument is null`, async () => {
             await asyncExpect(async () => {
-                await fileSystem.getStats(null);
+                await fileSystem.getEntry(null);
             }).toThrowError(ArgumentNullException);
         });
 
         it(`creates file with specified access permissions`, async () => {
-            let stats: FileSystemEntry = await fileSystem.getStats(fixtures.singleLineTextFile.fileName);
+            let entry: FileSystemEntry = await fileSystem.getEntry(fixtures.singleLineTextFile.fileName);
 
-            expect(stats).toBeInstanceOf(Object);
-            expect(stats.type).toBe(FileSystemEntryType.File);
-            expect(stats.creationTime).toBeInstanceOf(DateTime);
-            expect(stats.lastAccessTime).toBeInstanceOf(DateTime);
-            expect(stats.lastChangeTime).toBeInstanceOf(DateTime);
-            expect(stats.lastWriteTime).toBeInstanceOf(DateTime);
-            expect(stats.length).toBeGreaterThan(0);
-            expect(typeof stats.inode).toBe('number');
-            expect(typeof stats.accessPermissions).toBe('number');
-            expect(typeof stats.deviceId).toBe('number');
-            expect(typeof stats.specialDeviceId).toBe('number');
+            expect(entry).toBeInstanceOf(File);
+            expect(entry.creationTime).toBeInstanceOf(DateTime);
+            expect(entry.lastAccessTime).toBeInstanceOf(DateTime);
+            expect(entry.lastChangeTime).toBeInstanceOf(DateTime);
+            expect(entry.lastWriteTime).toBeInstanceOf(DateTime);
+            expect(entry.length).toBeGreaterThan(0);
+            expect(typeof entry.inode).toBe('number');
+            expect(typeof entry.accessPermissions).toBe('number');
+            expect(typeof entry.deviceId).toBe('number');
+            expect(typeof entry.specialDeviceId).toBe('number');
         });
     });
 

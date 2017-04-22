@@ -1,7 +1,7 @@
-import FixtureCollection from '../../../../../src/Testing/FixtureCollection';
-import FileFixture from '../../../../fixtures/node-fs/FileFixture';
-import DirectoryFixture from '../../../../fixtures/node-fs/DirectoryFixture';
-import {AsyncResult} from '../../../../../src/Core/types';
+import FixtureCollection from '../../../src/Testing/FixtureCollection';
+import FileFixture from './FileFixture';
+import DirectoryFixture from './DirectoryFixture';
+import {AsyncResult} from '../../../src/Core/types';
 import * as path from 'path';
 
 

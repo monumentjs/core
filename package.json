@@ -20,7 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "@types/jest": "^19.2.2",
-    "@types/node": "^7.0.11"
+    "@types/node": "^7.0.13"
   },
   "devDependencies": {
     "jest": "^19.0.2",

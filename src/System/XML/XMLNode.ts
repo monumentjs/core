@@ -1,4 +1,3 @@
-import {INode} from '../INode';
 import XMLNodeList from './XMLNodeList';
 import XMLNodeAttributes from './XMLNodeAttributes';
 import {ICloneable} from '../../Core/types';
@@ -6,7 +5,7 @@ import StringBuilder from '../../Core/Text/StringBuilder';
 import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
 
 
-export default class XMLNode implements INode, ICloneable<XMLNode> {
+export default class XMLNode implements ICloneable<XMLNode> {
     private _type: string = '';
     private _parentNode: XMLNode = null;
     private _childNodes: XMLNodeList = new XMLNodeList(this);

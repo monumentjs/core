@@ -17,7 +17,6 @@
     "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"],
     "no-empty-interface": false,
     "no-bitwise": false,
-    "no-console": false,
     "ban-types": false,
     "interface-over-type-literal": false
   },

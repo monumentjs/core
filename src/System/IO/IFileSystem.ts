@@ -1,16 +1,18 @@
-import {FileSystemEntry} from './FileSystemEntry';
+import FileSystemEntry from './FileSystemEntry';
 import {AsyncResult} from '../../Core/types';
 import {AccessPermissions} from './AccessPermissions';
 import {AccessMode} from './AccessMode';
 import {FileMode} from './FileMode';
+import {FileDescriptor} from './types';
+import ReadOnlyCollection from '../../Core/Collections/ReadOnlyCollection';
 
 
 export interface IFileSystem {
-    open(fullName: string, fileMode?: FileMode, accessPermissions?: AccessPermissions): AsyncResult<number>;
-    read(fileDescriptor: number, position: number, length: number): AsyncResult<Buffer>;
-    write(fileDescriptor: number, position: number, buffer: Buffer): AsyncResult<number>;
-    flush(fileDescriptor: number): AsyncResult<void>;
-    close(fileDescriptor: number): AsyncResult<void>;
+    open(fullName: string, fileMode?: FileMode, accessPermissions?: AccessPermissions): AsyncResult<FileDescriptor>;
+    read(fileDescriptor: FileDescriptor, position: number, length: number): AsyncResult<Buffer>;
+    write(fileDescriptor: FileDescriptor, position: number, buffer: Buffer): AsyncResult<number>;
+    flush(fileDescriptor: FileDescriptor): AsyncResult<void>;
+    close(fileDescriptor: FileDescriptor): AsyncResult<void>;
 
     createFile(
         fileName: string,
@@ -24,12 +26,12 @@ export interface IFileSystem {
     fileExists(fileName: string): AsyncResult<boolean>;
 
     createDirectory(directoryName: string, accessPermissions?: AccessPermissions): AsyncResult<void>;
-    readDirectory(directoryName: string): AsyncResult<string[]>;
+    readDirectory(directoryName: string): AsyncResult<ReadOnlyCollection<FileSystemEntry>>;
     removeDirectory(directoryName: string): AsyncResult<void>;
     directoryExists(directoryName: string): AsyncResult<boolean>;
 
     checkAccess(fullName: string, accessMode?: AccessMode): AsyncResult<void>;
-    getStats(fullName: string): AsyncResult<FileSystemEntry>;
+    getEntry(fullName: string): AsyncResult<FileSystemEntry>;
     getPermissions(fullName: string): AsyncResult<AccessPermissions>;
     setPermissions(fullName: string, accessPermissions: AccessPermissions): AsyncResult<void>;
     setOwner(fullName: string, userId: number, groupId: number): AsyncResult<void>;

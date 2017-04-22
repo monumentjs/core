@@ -1,12 +1,12 @@
 
 
 export enum FileSystemEntryType {
-    File,
     Directory,
+    File,
+    FIFO,
     Socket,
     SymbolicLink,
     BlockDevice,
-    CharacterDevice,
-    FIFO
+    CharacterDevice
 }
 

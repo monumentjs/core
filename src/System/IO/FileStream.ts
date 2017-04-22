@@ -5,7 +5,6 @@ import {assertArgumentBounds, assertArgumentNotNull} from '../../Core/Assertion/
 import {DEFAULT_STREAM_CHUNK_SIZE} from './constants';
 import {FileMode} from './FileMode';
 import {AccessPermissions} from './AccessPermissions';
-import {IFileSystem} from './IFileSystem';
 import FileStorage from './FileStorage';
 
 
@@ -29,7 +28,6 @@ export default class FileStream extends Stream<Buffer> {
     protected _fileModeFlags: BitMask;
     protected _accessPermissions: AccessPermissions;
 
-    private _fileSystem: IFileSystem = FileStorage.instance.fileSystem;
     private _bufferSize: number = DEFAULT_STREAM_CHUNK_SIZE;
 
 
@@ -101,19 +99,19 @@ export default class FileStream extends Stream<Buffer> {
 
 
     protected async onOpen(): AsyncResult<void> {
-        this._fileDescriptor = await this._fileSystem.open(this.fileName, this.fileMode, this.accessPermissions);
+        this._fileDescriptor = await FileStorage.open(this.fileName, this.fileMode, this.accessPermissions);
     }
 
 
     protected async onClose(): AsyncResult<void> {
-        await this._fileSystem.close(this.fileDescriptor);
+        await FileStorage.close(this.fileDescriptor);
 
         delete this._fileDescriptor;
     }
 
 
     protected async onRead(length: number = this.bufferSize): AsyncResult<Buffer> {
-        let buffer: Buffer = await this._fileSystem.read(this.fileDescriptor, this.position, length);
+        let buffer: Buffer = await FileStorage.read(this.fileDescriptor, this.position, length);
 
         this._position += buffer.length;
 
@@ -122,7 +120,7 @@ export default class FileStream extends Stream<Buffer> {
 
 
     protected async onWrite(chunk: Buffer): AsyncResult<number> {
-        return this._fileSystem.write(this.fileDescriptor, this.position, chunk);
+        return FileStorage.write(this.fileDescriptor, this.position, chunk);
     }
 
 
@@ -132,7 +130,7 @@ export default class FileStream extends Stream<Buffer> {
 
 
     protected async onFlush(): AsyncResult<void> {
-        await this._fileSystem.flush(this.fileDescriptor);
+        await FileStorage.flush(this.fileDescriptor);
     }
 
 
