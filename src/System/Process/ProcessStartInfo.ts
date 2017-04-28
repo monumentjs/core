@@ -3,7 +3,7 @@ import {IInternalStreamProvider} from '../Stream/IInternalStreamProvider';
 import {StandardIOMode} from './types';
 
 
-export default class ProcessStartInfo {
+export class ProcessStartInfo {
     public fileName: string;
     public commandLineArguments: string[];
     public environment: {[key: string]: string} = undefined;    // TODO: create special class for environment variables

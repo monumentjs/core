@@ -1,6 +1,6 @@
-import Exception from '../../Exceptions/Exception';
+import {Exception} from '../../Exceptions/Exception';
 
 
-export default class ParsingException extends Exception {
+export class ParsingException extends Exception {
 
 }

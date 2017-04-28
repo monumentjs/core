@@ -1,13 +1,13 @@
 import {TimeComponentFormatterBase} from './TimeComponentFormatterBase';
-import DateTime from '../DateTime';
-import DateTimeFormatInfo from '../DateTimeFormatInfo';
-import TimeSpan from '../TimeSpan';
-import TextTransform from '../../Text/TextTransform';
+import {DateTime} from '../DateTime';
+import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
+import {TimeSpan} from '../TimeSpan';
+import {TextTransform} from '../../Text/TextTransform';
 import {assertArgumentNotNull} from '../../Assertion/Assert';
 
 
-export default class HoursFormatter extends TimeComponentFormatterBase {
-    public static readonly instance: HoursFormatter = new HoursFormatter();
+export class MinutesFormatter extends TimeComponentFormatterBase {
+    public static readonly instance: MinutesFormatter = new MinutesFormatter();
 
 
     protected _entryPattern: RegExp = /^(m+)$/;

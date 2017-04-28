@@ -2,7 +2,7 @@ import {ICloneable, Constructor} from '../../Core/types';
 import {DigitShapes} from './types';
 
 
-export default class NumberFormatInfo implements ICloneable<NumberFormatInfo> {
+export class NumberFormatInfo implements ICloneable<NumberFormatInfo> {
     /**
      * Gets a read-only NumberFormatInfo that formats values based on the current culture.
      */

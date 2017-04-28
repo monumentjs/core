@@ -1,7 +1,7 @@
 import {IJSONSerializable} from '../types';
 
 
-export default class Exception extends Error implements IJSONSerializable<string> {
+export class Exception extends Error implements IJSONSerializable<string> {
     public readonly timestamp: number = Date.now();
     public readonly helpInfo: string = '';
     public readonly helpLink: string = '';

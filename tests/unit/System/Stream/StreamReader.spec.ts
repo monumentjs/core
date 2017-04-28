@@ -1,12 +1,12 @@
 import {StreamReader} from '../../../../src/System/Stream/StreamReader';
-import WordsStreamReader from './mocks/WordsStreamReader';
-import WordsStream, {WORDS_STREAM_TEST_DATA} from './mocks/WordsStream';
-import WordsTransformWriter from './mocks/WordsTransformWriter';
-import TextTransform from '../../../../src/Core/Text/TextTransform';
-import StreamReaderEvent from '../../../../src/System/Stream/StreamReaderEvent';
-import ArgumentNullException from '../../../../src/Core/Exceptions/ArgumentNullException';
-import StreamWriterEvent from '../../../../src/System/Stream/StreamWriterEvent';
-import Exception from '../../../../src/Core/Exceptions/Exception';
+import {WordsStreamReader} from './mocks/WordsStreamReader';
+import {WordsStream, WORDS_STREAM_TEST_DATA} from './mocks/WordsStream';
+import {WordsTransformWriter} from './mocks/WordsTransformWriter';
+import {TextTransform} from '../../../../src/Core/Text/TextTransform';
+import {StreamReaderEvent} from '../../../../src/System/Stream/StreamReaderEvent';
+import {ArgumentNullException} from '../../../../src/Core/Exceptions/ArgumentNullException';
+import {StreamWriterEvent} from '../../../../src/System/Stream/StreamWriterEvent';
+import {Exception} from '../../../../src/Core/Exceptions/Exception';
 
 
 describe(`StreamReader`, () => {

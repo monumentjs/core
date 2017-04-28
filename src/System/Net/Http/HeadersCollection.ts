@@ -1,16 +1,16 @@
 import {assertArgumentNotNull} from '../../../Core/Assertion/Assert';
-import InvalidArgumentException from '../../../Core/Exceptions/InvalidArgumentException';
+import {InvalidArgumentException} from '../../../Core/Exceptions/InvalidArgumentException';
 import {STANDALONE_HTTP_HEADERS} from './constants';
-import Collection from '../../../Core/Collections/Collection';
-import Enumerable from '../../../Core/Collections/Enumerable';
-import Header from './Header';
-import List from '../../../Core/Collections/List';
+import {Collection} from '../../../Core/Collections/Collection';
+import {Enumerable} from '../../../Core/Collections/Enumerable';
+import {Header} from './Header';
+import {List} from '../../../Core/Collections/List';
 import {IEqualityComparator} from '../../../Core/Collections/IEqualityComparator';
 import {IteratorFunction} from '../../../Core/Collections/types';
-import IgnoreCaseComparator from '../../../Core/Text/IgnoreCaseComparator';
+import {IgnoreCaseComparator} from '../../../Core/Text/IgnoreCaseComparator';
 
 
-export default class HeadersCollection extends Enumerable<Header> {
+export class HeadersCollection extends Enumerable<Header> {
     private _headers: List<Header> = new List<Header>();
     private _nameComparator: IEqualityComparator<string>;
 
@@ -20,9 +20,7 @@ export default class HeadersCollection extends Enumerable<Header> {
     }
 
 
-    public constructor(
-        nameComparator: IEqualityComparator<string> = IgnoreCaseComparator.instance
-    ) {
+    public constructor(nameComparator: IEqualityComparator<string> = IgnoreCaseComparator.instance) {
         super();
 
         assertArgumentNotNull('nameComparator', nameComparator);
@@ -33,6 +31,9 @@ export default class HeadersCollection extends Enumerable<Header> {
 
 
     public set(headerName: string, headerValue: string): void {
+        this.assertHeaderNameNotEmpty(headerName);
+        assertArgumentNotNull('headerValue', headerValue);
+
         let newHeader: Header = new Header(headerName, headerValue);
 
         if (STANDALONE_HTTP_HEADERS.contains(newHeader.name, this.nameComparator)) {
@@ -57,6 +58,8 @@ export default class HeadersCollection extends Enumerable<Header> {
 
 
     public find(headerName: string): string {
+        this.assertHeaderNameNotEmpty(headerName);
+
         let foundHeader: Header = this._headers.first(this.getSelector(headerName));
 
         if (foundHeader) {
@@ -68,6 +71,8 @@ export default class HeadersCollection extends Enumerable<Header> {
 
 
     public findAll(headerName: string): Collection<string> {
+        this.assertHeaderNameNotEmpty(headerName);
+
         let foundHeaders: List<Header> = this._headers.where(this.getSelector(headerName));
 
         let values: List<string> = foundHeaders.select((header: Header): string => {
@@ -79,11 +84,15 @@ export default class HeadersCollection extends Enumerable<Header> {
 
 
     public remove(headerName: string): void {
+        this.assertHeaderNameNotEmpty(headerName);
+
         this._headers.removeBy(this.getSelector(headerName));
     }
 
 
     public contains(headerName: string): boolean {
+        this.assertHeaderNameNotEmpty(headerName);
+
         return this._headers.any(this.getSelector(headerName));
     }
 
@@ -94,14 +103,19 @@ export default class HeadersCollection extends Enumerable<Header> {
 
 
     private getSelector(headerName: string): IteratorFunction<Header, boolean> {
+        this.assertHeaderNameNotEmpty(headerName);
+
+        return (header: Header): boolean => {
+            return this.nameComparator.equals(header.name, headerName);
+        };
+    }
+
+
+    private assertHeaderNameNotEmpty(headerName: string): void {
         assertArgumentNotNull('headerName', headerName);
 
         if (headerName.length === 0) {
             throw new InvalidArgumentException(`Header name cannot be empty.`);
         }
-
-        return (header: Header): boolean => {
-            return this.nameComparator.equals(header.name, headerName);
-        };
     }
 }

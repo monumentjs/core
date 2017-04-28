@@ -1,4 +1,4 @@
-import FileStream from '../../../../src/System/IO/FileStream';
+import {FileStream} from '../../../../src/System/IO/FileStream';
 
 
 describe.skip(`FileStream`, () => {

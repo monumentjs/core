@@ -1,8 +1,8 @@
-import {StateContainer} from '../../../src/Core/Application/StateContainer';
-import TestStateContainer from '../../mocks/TestStateContainer';
-import TestAction from '../../mocks/TestAction';
-import TestState from '../../mocks/TestState';
-import ArgumentNullException from '../../../src/Core/Exceptions/ArgumentNullException';
+import {StateContainer} from '../../../src/System/ComponentModel/StateContainer';
+import {TestStateContainer} from '../../mocks/TestStateContainer';
+import {TestAction} from '../../mocks/TestAction';
+import {TestState} from '../../mocks/TestState';
+import {ArgumentNullException} from '../../../src/Core/Exceptions/ArgumentNullException';
 import {ActionListenerCancel} from '../../../src/Core/Events/Dispatcher';
 
 

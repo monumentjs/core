@@ -1,7 +1,7 @@
 import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
 
 
-export default class PathPattern {
+export class PathPattern {
     protected _pattern: RegExp;
 
 

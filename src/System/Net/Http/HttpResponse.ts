@@ -1,10 +1,10 @@
-import HeadersCollection from './HeadersCollection';
+import {HeadersCollection} from './HeadersCollection';
 import {HttpContent} from './HttpContent';
 import {assertArgumentNotNull} from '../../../Core/Assertion/Assert';
 import {StatusCode} from './StatusCode';
 
 
-export default class HttpResponse {
+export class HttpResponse {
     private _statusCode: StatusCode;
     private _statusMessage: string = '';
     private _headers: HeadersCollection = new HeadersCollection();
@@ -47,6 +47,11 @@ export default class HttpResponse {
 
     public set content(value: HttpContent) {
         this._content = value;
+    }
+
+
+    public get hasContent(): boolean {
+        return !!this.content;
     }
 
 

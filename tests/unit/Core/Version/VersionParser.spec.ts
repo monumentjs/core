@@ -1,6 +1,6 @@
-import VersionParser from '../../../../../src/Core/Application/Version/VersionParser';
-import Version from '../../../../../src/Core/Application/Version/Version';
-import ParsingException from '../../../../../src/Core/Text/Parsing/ParsingException';
+import {VersionParser} from '../../../../src/Core/Version/VersionParser';
+import {Version} from '../../../../src/Core/Version/Version';
+import {ParsingException} from '../../../../src/Core/Text/Parsing/ParsingException';
 
 
 describe(`VersionParser`, () => {

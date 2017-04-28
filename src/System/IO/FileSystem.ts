@@ -3,18 +3,18 @@ import {AsyncResult} from '../../Core/types';
 import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
 import {callAsyncMethod} from '../../Core/Async/Utils';
 import {IFileSystem} from './IFileSystem';
-import FileSystemEntry from './FileSystemEntry';
+import {FileSystemEntry} from './FileSystemEntry';
 import {AccessPermissions} from './AccessPermissions';
 import {FileMode} from './FileMode';
 import {AccessMode} from './AccessMode';
 import {FileDescriptor} from './types';
-import IOException from './IOException';
-import ReadOnlyCollection from '../../Core/Collections/ReadOnlyCollection';
-import Path from './Path';
+import {IOException} from './IOException';
+import {ReadOnlyCollection} from '../../Core/Collections/ReadOnlyCollection';
+import {Path} from './Path';
 import {FileSystemEntryType} from './FileSystemEntryType';
 
 
-export default class FileSystem implements IFileSystem {
+export class FileSystem implements IFileSystem {
 
     public getEntry(fullName: string): AsyncResult<FileSystemEntry> {
         assertArgumentNotNull('fullName', fullName);

@@ -1,5 +1,5 @@
-import PathPattern from '../../../../src/System/IO/PathPattern';
-import ArgumentNullException from '../../../../src/Core/Exceptions/ArgumentNullException';
+import {PathPattern} from '../../../../src/System/IO/PathPattern';
+import {ArgumentNullException} from '../../../../src/Core/Exceptions/ArgumentNullException';
 
 
 describe(`PathPattern`, () => {

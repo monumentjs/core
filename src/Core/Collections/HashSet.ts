@@ -1,12 +1,12 @@
-import Collection from './Collection';
-import EqualityComparator from './EqualityComparator';
+import {Collection} from './Collection';
+import {EqualityComparator} from './EqualityComparator';
 import {ISet} from './ISet';
 import {IEqualityComparator} from './IEqualityComparator';
 import {IEnumerable} from './IEnumerable';
 import {assertArgumentNotNull} from '../Assertion/Assert';
 
 
-export default class HashSet<T> extends Collection<T> implements ISet<T> {
+export class HashSet<T> extends Collection<T> implements ISet<T> {
     private _comparator: IEqualityComparator<T>;
 
 

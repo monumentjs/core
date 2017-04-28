@@ -1,10 +1,10 @@
-import Version from './Version';
+import {Version} from './Version';
 import {ReleaseStatus, VERSION_PATTERN} from './types';
-import {assertArgumentNotNull} from '../../Assertion/Assert';
-import ParsingException from '../../Text/Parsing/ParsingException';
+import {assertArgumentNotNull} from '../Assertion/Assert';
+import {ParsingException} from '../Text/Parsing/ParsingException';
 
 
-export default class VersionParser {
+export class VersionParser {
     public parse(version: string): Version {
         assertArgumentNotNull('version', version);
 

@@ -1,13 +1,13 @@
-import EventEmitter from '../../../Core/Events/EventEmitter';
-import Timeline from '../Timeline';
-import EasingFactory from '../EasingFactory';
-import TimelineEvent from '../TimelineEvent';
-import TransitionEvent from './TransitionEvent';
+import {EventEmitter} from '../../../Core/Events/EventEmitter';
+import {Timeline} from '../Timeline';
+import {EasingFactory} from '../EasingFactory';
+import {TimelineEvent} from '../TimelineEvent';
+import {TransitionEvent} from './TransitionEvent';
 import {ICloneable} from '../../../Core/types';
 import {TransitionEventType, TransitionFunction, TimingFunction, EasingFunction} from '../types';
 
 
-export default class Transition extends EventEmitter implements ICloneable<Transition> {
+export class Transition extends EventEmitter implements ICloneable<Transition> {
     private _ease: TransitionFunction;
     private _position: number;
     private _duration: number;

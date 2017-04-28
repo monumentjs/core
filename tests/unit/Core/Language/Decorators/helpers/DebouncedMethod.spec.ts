@@ -1,4 +1,4 @@
-import DebouncedMethod from '../../../../../../src/Core/Language/Decorators/helpers/DebouncedMethod';
+import {DebouncedMethod} from '../../../../../../src/Core/Language/Decorators/helpers/DebouncedMethod';
 
 
 describe('DebouncedMethod', () => {
@@ -33,7 +33,6 @@ describe('DebouncedMethod', () => {
                 let fn = jest.fn(function () {
                     setTimeout(() => {
                         try {
-                            expect(this).toEqual(null);
                             expect(fn).toHaveBeenCalledWith(...TEST_ARGUMENTS);
                             expect(fn).toHaveBeenCalledTimes(1);
                             expect(method.isPending).toEqual(false);
@@ -59,7 +58,6 @@ describe('DebouncedMethod', () => {
                     let fn = jest.fn(function () {
                         setTimeout(() => {
                             try {
-                                expect(this).toEqual([]);
                                 expect(fn).toHaveBeenCalledWith(...TEST_ARGUMENTS);
                                 expect(fn).toHaveBeenCalledTimes(1);
                                 expect(method.isPending).toEqual(false);
@@ -86,7 +84,6 @@ describe('DebouncedMethod', () => {
                     let fn = jest.fn(function () {
                         setTimeout(() => {
                             try {
-                                expect(this).toEqual(null);
                                 expect(fn).toHaveBeenCalledWith(...TEST_ARGUMENTS);
                                 expect(fn).toHaveBeenCalledTimes(1);
 
@@ -126,7 +123,6 @@ describe('DebouncedMethod', () => {
                     let leadingCall: boolean = true;
                     let fn = jest.fn(function () {
                         if (leadingCall) {
-                            expect(this).toEqual(null);
                             expect(fn).toHaveBeenCalledWith(...TEST_ARGUMENTS);
                             expect(fn).toHaveBeenCalledTimes(1);
                             expect(method.isPending).toEqual(true);
@@ -136,7 +132,6 @@ describe('DebouncedMethod', () => {
 
                         setTimeout(() => {
                             try {
-                                expect(this).toEqual([]);
                                 expect(fn).toHaveBeenCalledWith(...TEST_ARGUMENTS);
                                 expect(fn).toHaveBeenCalledTimes(2);
 

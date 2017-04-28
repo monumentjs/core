@@ -1,6 +1,6 @@
-import Exception from './Exception';
+import {Exception} from './Exception';
 
 
-export default class MissingKeyException extends Exception {
+export class MissingKeyException extends Exception {
 
 }

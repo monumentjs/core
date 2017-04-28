@@ -1,8 +1,8 @@
-import CappedString from '../../Core/Text/CappedString';
-import XMLNode from './XMLNode';
+import {CappedString} from '../../Core/Text/CappedString';
+import {XMLNode} from './XMLNode';
 
 
-export default class XMLParserState {
+export class XMLParserState {
     public isOpenTag: boolean = false;
     public isOpenTagStart: boolean = false;
     public isOpenTagName: boolean = false;

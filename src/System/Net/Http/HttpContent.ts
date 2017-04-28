@@ -1,6 +1,5 @@
-
 import {AsyncResult, IDisposable} from '../../../Core/types';
-import HeadersCollection from './HeadersCollection';
+import {HeadersCollection} from './HeadersCollection';
 import {StreamWriter} from '../../Stream/StreamWriter';
 
 

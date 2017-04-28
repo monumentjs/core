@@ -1,15 +1,15 @@
 import {IHttpRoute} from './IHttpRoute';
-import HttpRequest from '../HttpRequest';
-import HttpRouteValueDictionary from './HttpRouteValueDictionary';
+import {HttpRequest} from '../HttpRequest';
+import {HttpRouteValueDictionary} from './HttpRouteValueDictionary';
 import {IHttpRequestHandler} from '../IHttpRequestHandler';
-import HttpRouteData from './HttpRouteData';
-import FormattableString from '../../../../Core/Text/FormattableString';
-import Dictionary from '../../../../Core/Collections/Dictionary';
+import {HttpRouteData} from './HttpRouteData';
+import {FormattableString} from '../../../../Core/Text/FormattableString';
+import {Dictionary} from '../../../../Core/Collections/Dictionary';
 import {IEnumerable} from '../../../../Core/Collections/IEnumerable';
 import {IHttpRouteConstraint} from './IHttpRouteConstraint';
 
 
-export default class HttpRoute implements IHttpRoute {
+export class HttpRoute implements IHttpRoute {
     private _routeTemplate: string;
     private _handler: IHttpRequestHandler;
     private _constraints: IEnumerable<IHttpRouteConstraint>;
@@ -59,11 +59,9 @@ export default class HttpRoute implements IHttpRoute {
         this._template = new FormattableString(routeTemplate);
     }
 
-    /**
-     * @inheritDoc
-     */
+
     public getRouteData(request: HttpRequest): HttpRouteData {
-        let routeData: HttpRouteData = this.extractRouteData(request);
+        let routeData: HttpRouteData = this.extractRouteData(request.uri.path);
 
         if (routeData == null) {
             return null;
@@ -76,8 +74,7 @@ export default class HttpRoute implements IHttpRoute {
     }
 
 
-    private extractRouteData(request: HttpRequest): HttpRouteData {
-        let requestPath: string = request.uri.path;
+    private extractRouteData(requestPath: string): HttpRouteData {
         let values: Dictionary<string, string> = this._template.tryExtractValues(requestPath);
 
         if (values == null) {

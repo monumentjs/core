@@ -1,9 +1,9 @@
 import {ICloneable, IFormattable, IComparable, ComparisonResult, IEquatable} from '../types';
-import DateTimeFormatInfo from './DateTimeFormatInfo';
+import {DateTimeFormatInfo} from './DateTimeFormatInfo';
 import {assertArgumentNotNull} from '../Assertion/Assert';
 
 
-export default class TimeSpan implements
+export class TimeSpan implements
     ICloneable<TimeSpan>,
     IFormattable,
     IComparable<TimeSpan>,

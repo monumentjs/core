@@ -1,6 +1,6 @@
-import WordsStream, {WORDS_STREAM_TEST_DATA} from './mocks/WordsStream';
+import {WordsStream, WORDS_STREAM_TEST_DATA} from './mocks/WordsStream';
 import {Stream} from '../../../../src/System/Stream/Stream';
-import StreamEvent from '../../../../src/System/Stream/StreamEvent';
+import {StreamEvent} from '../../../../src/System/Stream/StreamEvent';
 
 
 describe(`Stream`, () => {

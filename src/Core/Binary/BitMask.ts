@@ -1,10 +1,10 @@
-import ReadOnlyCollection from '../Collections/ReadOnlyCollection';
-import IndexOutOfBoundsException from '../Exceptions/IndexOutOfBoundsException';
+import {ReadOnlyCollection} from '../Collections/ReadOnlyCollection';
+import {IndexOutOfBoundsException} from '../Exceptions/IndexOutOfBoundsException';
 import {assertArgumentNotNull} from '../Assertion/Assert';
 import {VALUABLE_NUMBER_BITS} from './constants';
 
 
-export default class BitMask {
+export class BitMask {
     public static fromFlags(flags: number[]): BitMask {
         assertArgumentNotNull('flags', flags);
 

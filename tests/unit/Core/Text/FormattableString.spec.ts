@@ -1,5 +1,5 @@
-import FormattableString from '../../../../src/Core/Text/FormattableString';
-import Dictionary from '../../../../src/Core/Collections/Dictionary';
+import {FormattableString} from '../../../../src/Core/Text/FormattableString';
+import {Dictionary} from '../../../../src/Core/Collections/Dictionary';
 
 
 describe('FormattableString', () => {

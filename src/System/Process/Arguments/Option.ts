@@ -1,7 +1,7 @@
-import KeyValuePair from '../../../Core/Collections/KeyValuePair';
+import {KeyValuePair} from '../../../Core/Collections/KeyValuePair';
 
 
-export default class Option extends KeyValuePair<string, string|boolean> {
+export class Option extends KeyValuePair<string, string|boolean> {
     public get isLogical(): boolean {
         return typeof this.value === 'boolean';
     }

@@ -1,6 +1,6 @@
 
 
-export default class TextTransform {
+export class TextTransform {
     public static toUpperCase(input: string): string {
         return input.toUpperCase();
     }

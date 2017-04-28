@@ -1,12 +1,12 @@
 import {TimeComponentFormatterBase} from './TimeComponentFormatterBase';
-import DateTime from '../DateTime';
-import DateTimeFormatInfo from '../DateTimeFormatInfo';
-import InvalidOperationException from '../../Exceptions/InvalidOperationException';
-import TimeSpan from '../TimeSpan';
+import {DateTime} from '../DateTime';
+import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
+import {InvalidOperationException} from '../../Exceptions/InvalidOperationException';
+import {TimeSpan} from '../TimeSpan';
 import {assertArgumentNotNull} from '../../Assertion/Assert';
 
 
-export default class TimezoneFormatter extends TimeComponentFormatterBase {
+export class TimezoneFormatter extends TimeComponentFormatterBase {
     public static readonly instance: TimezoneFormatter = new TimezoneFormatter();
 
 

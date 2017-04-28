@@ -1,7 +1,7 @@
-import TimeSpan from './TimeSpan';
+import {TimeSpan} from './TimeSpan';
 import {ICloneable, IComparable, ComparisonResult, IEquatable, IFormattable} from '../types';
 import {DayOfWeek} from './types';
-import DateTimeFormatInfo from './DateTimeFormatInfo';
+import {DateTimeFormatInfo} from './DateTimeFormatInfo';
 import {assertArgumentNotNull} from '../Assertion/Assert';
 
 const DAYS_TO_MONTH_365: number[] = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365];
@@ -9,7 +9,7 @@ const DAYS_TO_MONTH_366: number[] = [0, 31, 60, 91, 121, 152, 182, 213, 244, 274
 const DAYS_OFFSET_PER_MONTH: number[] = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
 
 
-export default class DateTime implements
+export class DateTime implements
     ICloneable<DateTime>,
     IComparable<DateTime>,
     IEquatable<DateTime>,

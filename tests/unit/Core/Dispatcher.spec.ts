@@ -1,4 +1,4 @@
-import Dispatcher from '../../../src/Core/Events/Dispatcher';
+import {Dispatcher} from '../../../src/Core/Events/Dispatcher';
 import {ActionListener} from '../../../src/Core/Events/Dispatcher';
 import {ActionListenerCancel} from '../../../src/Core/Events/Dispatcher';
 

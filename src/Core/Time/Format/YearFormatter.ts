@@ -1,13 +1,13 @@
 import {TimeComponentFormatterBase} from './TimeComponentFormatterBase';
-import DateTime from '../DateTime';
-import DateTimeFormatInfo from '../DateTimeFormatInfo';
-import InvalidOperationException from '../../Exceptions/InvalidOperationException';
-import TimeSpan from '../TimeSpan';
-import TextTransform from '../../Text/TextTransform';
+import {DateTime} from '../DateTime';
+import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
+import {InvalidOperationException} from '../../Exceptions/InvalidOperationException';
+import {TimeSpan} from '../TimeSpan';
+import {TextTransform} from '../../Text/TextTransform';
 import {assertArgumentNotNull} from '../../Assertion/Assert';
 
 
-export default class YearFormatter extends TimeComponentFormatterBase {
+export class YearFormatter extends TimeComponentFormatterBase {
     public static readonly instance: YearFormatter = new YearFormatter();
 
 

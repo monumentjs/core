@@ -1,9 +1,9 @@
-import Transition from './Transition';
-import TransitionEvent from './TransitionEvent';
+import {Transition} from './Transition';
+import {TransitionEvent} from './TransitionEvent';
 import {TimingFunction, EasingFunction} from '../types';
 
 
-export default class ObjectTransition extends Transition {
+export class ObjectTransition extends Transition {
     private _source: Object;
     private _property: string;
 

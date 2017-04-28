@@ -1,11 +1,11 @@
-import {ComparisonResult, ICloneable, IComparable, IEquatable, IJSONSerializable} from '../../types';
+import {ComparisonResult, ICloneable, IComparable, IEquatable, IJSONSerializable} from '../types';
 import {ReleaseStatus, VERSION_PATTERN, VERSION_PRE_RELEASE_STAGES} from './types';
-import StringBuilder from '../../Text/StringBuilder';
-import {assertArgumentNotNull} from '../../Assertion/Assert';
-import VersionComparator from './VersionComparator';
+import {StringBuilder} from '../Text/StringBuilder';
+import {assertArgumentNotNull} from '../Assertion/Assert';
+import {VersionComparator} from './VersionComparator';
 
 
-export default class Version
+export class Version
     implements IEquatable<Version>, IComparable<Version>, ICloneable<Version>, IJSONSerializable<string> {
 
     public static validate(version: string): boolean {

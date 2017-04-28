@@ -1,8 +1,8 @@
-import Enumerable from '../../../Core/Collections/Enumerable';
-import Option from './Option';
+import {Enumerable} from '../../../Core/Collections/Enumerable';
+import {Option} from './Option';
 
 
-export default class OptionsCollection extends Enumerable<Option> {
+export class OptionsCollection extends Enumerable<Option> {
 
     public contains(key: string): boolean {
         for (let option of this) {

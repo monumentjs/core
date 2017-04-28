@@ -1,6 +1,6 @@
-import Exception from '../../Core/Exceptions/Exception';
+import {Exception} from '../../Core/Exceptions/Exception';
 
 
-export default class UriFormatException extends Exception {
+export class UriFormatException extends Exception {
 
 }

@@ -1,7 +1,7 @@
-import HashSet from '../../Core/Collections/HashSet';
+import {HashSet} from '../../Core/Collections/HashSet';
 
 
-export default class ClassList extends HashSet<string> {
+export class ClassList extends HashSet<string> {
     public static concat(...lists: ClassList[]): ClassList {
         let resultList: ClassList = new ClassList();
 

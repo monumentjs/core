@@ -1,6 +1,6 @@
-import Enumerable from './Enumerable';
-import InvalidOperationException from '../Exceptions/InvalidOperationException';
-import EqualityComparator from './EqualityComparator';
+import {Enumerable} from './Enumerable';
+import {InvalidOperationException} from '../Exceptions/InvalidOperationException';
+import {EqualityComparator} from './EqualityComparator';
 import {IEqualityComparator} from './IEqualityComparator';
 import {assertArgumentNotNull} from '../Assertion/Assert';
 
@@ -8,7 +8,7 @@ import {assertArgumentNotNull} from '../Assertion/Assert';
 /**
  * Represents a variable size last-in-first-out (LIFO) collection of instances of the same specified type.
  */
-export default class Stack<T> extends Enumerable<T> {
+export class Stack<T> extends Enumerable<T> {
     public peek(): T {
         if (this.length === 0) {
             throw new InvalidOperationException(`Stack is empty.`);

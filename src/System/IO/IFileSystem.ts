@@ -1,10 +1,10 @@
-import FileSystemEntry from './FileSystemEntry';
+import {IFileSystemEntry} from './IFileSystemEntry';
 import {AsyncResult} from '../../Core/types';
 import {AccessPermissions} from './AccessPermissions';
 import {AccessMode} from './AccessMode';
 import {FileMode} from './FileMode';
 import {FileDescriptor} from './types';
-import ReadOnlyCollection from '../../Core/Collections/ReadOnlyCollection';
+import {ReadOnlyCollection} from '../../Core/Collections/ReadOnlyCollection';
 
 
 export interface IFileSystem {
@@ -26,12 +26,12 @@ export interface IFileSystem {
     fileExists(fileName: string): AsyncResult<boolean>;
 
     createDirectory(directoryName: string, accessPermissions?: AccessPermissions): AsyncResult<void>;
-    readDirectory(directoryName: string): AsyncResult<ReadOnlyCollection<FileSystemEntry>>;
+    readDirectory(directoryName: string): AsyncResult<ReadOnlyCollection<IFileSystemEntry>>;
     removeDirectory(directoryName: string): AsyncResult<void>;
     directoryExists(directoryName: string): AsyncResult<boolean>;
 
     checkAccess(fullName: string, accessMode?: AccessMode): AsyncResult<void>;
-    getEntry(fullName: string): AsyncResult<FileSystemEntry>;
+    getEntry(fullName: string): AsyncResult<IFileSystemEntry>;
     getPermissions(fullName: string): AsyncResult<AccessPermissions>;
     setPermissions(fullName: string, accessPermissions: AccessPermissions): AsyncResult<void>;
     setOwner(fullName: string, userId: number, groupId: number): AsyncResult<void>;

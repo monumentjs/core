@@ -1,12 +1,12 @@
 import {TimeComponentFormatterBase} from './TimeComponentFormatterBase';
-import DateTime from '../DateTime';
-import DateTimeFormatInfo from '../DateTimeFormatInfo';
-import TimeSpan from '../TimeSpan';
-import TextTransform from '../../Text/TextTransform';
+import {DateTime} from '../DateTime';
+import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
+import {TimeSpan} from '../TimeSpan';
+import {TextTransform} from '../../Text/TextTransform';
 import {assertArgumentNotNull} from '../../Assertion/Assert';
 
 
-export default class DayOfMonthFormatter extends TimeComponentFormatterBase {
+export class DayOfMonthFormatter extends TimeComponentFormatterBase {
     public static readonly instance: DayOfMonthFormatter = new DayOfMonthFormatter();
 
 

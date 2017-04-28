@@ -1,12 +1,12 @@
 import {TimeComponentFormatterBase} from './TimeComponentFormatterBase';
-import DateTime from '../DateTime';
-import DateTimeFormatInfo from '../DateTimeFormatInfo';
-import TimeSpan from '../TimeSpan';
-import TextTransform from '../../Text/TextTransform';
+import {DateTime} from '../DateTime';
+import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
+import {TimeSpan} from '../TimeSpan';
+import {TextTransform} from '../../Text/TextTransform';
 import {assertArgumentNotNull} from '../../Assertion/Assert';
 
 
-export default class SecondsFormatter extends TimeComponentFormatterBase {
+export class SecondsFormatter extends TimeComponentFormatterBase {
     public static readonly instance: SecondsFormatter = new SecondsFormatter();
 
 

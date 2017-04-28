@@ -3,7 +3,7 @@ import {IKeyValuePair} from './IKeyValuePair';
 import {assertArgumentNotNull} from '../Assertion/Assert';
 
 
-export default class KeyValueEqualityComparator<TKey, TValue>
+export class KeyValueEqualityComparator<TKey, TValue>
     implements IEqualityComparator<IKeyValuePair<TKey, TValue>> {
 
     public static readonly instance: KeyValueEqualityComparator<any, any> = new KeyValueEqualityComparator<any, any>();

@@ -1,14 +1,14 @@
-import Enumerable from './Enumerable';
-import InvalidOperationException from '../Exceptions/InvalidOperationException';
+import {Enumerable} from './Enumerable';
+import {InvalidOperationException} from '../Exceptions/InvalidOperationException';
 import {IEqualityComparator} from './IEqualityComparator';
-import EqualityComparator from './EqualityComparator';
+import {EqualityComparator} from './EqualityComparator';
 import {assertArgumentNotNull} from '../Assertion/Assert';
 
 
 /**
  * Represents a first-in, first-out collection of objects.
  */
-export default class Queue<T> extends Enumerable<T> {
+export class Queue<T> extends Enumerable<T> {
     public peek(): T {
         if (this.length === 0) {
             throw new InvalidOperationException(`Queue is empty.`);

@@ -1,7 +1,7 @@
 
 
 import {assertArgumentNotNull} from '../Assertion/Assert';
-export default class CappedString {
+export class CappedString {
     private _value: string;
     private _length: number;
     

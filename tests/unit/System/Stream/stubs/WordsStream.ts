@@ -6,7 +6,7 @@ export const WORDS_STREAM_TEST_DATA = ['One', 'Two', 'Three', 'Four', 'Five'];
 export const WORD_SEEK_OFFSET = 1;
 
 
-export default class WordsStream extends Stream<string> {
+export class WordsStream extends Stream<string> {
 
     private _words: string[] = Array.of(...WORDS_STREAM_TEST_DATA);
 

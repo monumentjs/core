@@ -1,10 +1,10 @@
-import ArgumentsParser from './ArgumentsParser';
+import {ArgumentsParser} from './ArgumentsParser';
 import {assertArgumentNotNull} from '../../../Core/Assertion/Assert';
-import OptionsCollection from './OptionsCollection';
-import ReadOnlyCollection from '../../../Core/Collections/ReadOnlyCollection';
+import {OptionsCollection} from './OptionsCollection';
+import {ReadOnlyCollection} from '../../../Core/Collections/ReadOnlyCollection';
 
 
-export default class Arguments {
+export class Arguments {
     public static parse(args: string): Arguments {
         let parser: ArgumentsParser = new ArgumentsParser();
 

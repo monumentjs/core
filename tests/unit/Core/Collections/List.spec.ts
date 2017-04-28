@@ -1,13 +1,13 @@
-import List from '../../../../src/Core/Collections/List';
-import Collection from '../../../../src/Core/Collections/Collection';
-import IndexOutOfBoundsException from '../../../../src/Core/Exceptions/IndexOutOfBoundsException';
-import ArgumentNullException from '../../../../src/Core/Exceptions/ArgumentNullException';
-import InvalidOperationException from '../../../../src/Core/Exceptions/InvalidOperationException';
-import IgnoreCaseComparator from '../../../../src/Core/Text/IgnoreCaseComparator';
-import InvalidArgumentException from '../../../../src/Core/Exceptions/InvalidArgumentException';
-import Grouping from '../../../../src/Core/Collections/Grouping';
+import {List} from '../../../../src/Core/Collections/List';
+import {Collection} from '../../../../src/Core/Collections/Collection';
+import {IndexOutOfBoundsException} from '../../../../src/Core/Exceptions/IndexOutOfBoundsException';
+import {ArgumentNullException} from '../../../../src/Core/Exceptions/ArgumentNullException';
+import {InvalidOperationException} from '../../../../src/Core/Exceptions/InvalidOperationException';
+import {IgnoreCaseComparator} from '../../../../src/Core/Text/IgnoreCaseComparator';
+import {InvalidArgumentException} from '../../../../src/Core/Exceptions/InvalidArgumentException';
+import {Grouping} from '../../../../src/Core/Collections/Grouping';
 import {SortOrder} from '../../../../src/Core/Collections/SortOrder';
-import RangeException from '../../../../src/Core/Exceptions/RangeException';
+import {RangeException} from '../../../../src/Core/Exceptions/RangeException';
 
 
 describe('List', () => {

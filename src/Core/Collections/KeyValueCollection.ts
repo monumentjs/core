@@ -1,12 +1,12 @@
-import Collection from './Collection';
+import {Collection} from './Collection';
 import {IEqualityComparator} from './IEqualityComparator';
-import EqualityComparator from './EqualityComparator';
-import KeyValuePair from './KeyValuePair';
+import {EqualityComparator} from './EqualityComparator';
+import {KeyValuePair} from './KeyValuePair';
 import {IKeyValuePair} from './IKeyValuePair';
 import {assertArgumentNotNull} from '../Assertion/Assert';
 
 
-export default class KeyValueCollection<TKey, TValue> extends Collection<IKeyValuePair<TKey, TValue>> {
+export class KeyValueCollection<TKey, TValue> extends Collection<IKeyValuePair<TKey, TValue>> {
 
     public put(key: TKey, value: TValue): void {
         assertArgumentNotNull('key', key);

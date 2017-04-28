@@ -1,9 +1,9 @@
 import {Fixture} from './Fixture';
 import {AsyncResult} from '../Core/types';
-import Enumerable from '../Core/Collections/Enumerable';
+import {Enumerable} from '../Core/Collections/Enumerable';
 
 
-export default class FixtureCollection extends Enumerable<Fixture> {
+export class FixtureCollection extends Enumerable<Fixture> {
     public async createAll(): AsyncResult<void> {
         await this.beforeCreate();
 

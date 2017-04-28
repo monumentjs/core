@@ -1,11 +1,11 @@
-import FixtureCollection from '../../../src/Testing/FixtureCollection';
-import FileFixture from './FileFixture';
-import DirectoryFixture from './DirectoryFixture';
+import {FixtureCollection} from '../../../src/Testing/FixtureCollection';
+import {FileFixture} from './FileFixture';
+import {DirectoryFixture} from './DirectoryFixture';
 import {AsyncResult} from '../../../src/Core/types';
 import * as path from 'path';
 
 
-export default class FileSystemFixtureCollection extends FixtureCollection {
+export class FileSystemFixtureCollection extends FixtureCollection {
     public get baseDirectory(): DirectoryFixture {
         return this[0] as DirectoryFixture;
     }

@@ -1,4 +1,4 @@
-import FakeTask from '../../../mocks/TestTask';
+import {FakeTask} from '../../../mocks/TestTask';
 import {Task} from '../../../../src/Core/Async/Task';
 
 

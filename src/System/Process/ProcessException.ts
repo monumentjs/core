@@ -1,8 +1,8 @@
-import Exception from '../../Core/Exceptions/Exception';
-import Process from './Process';
+import {Exception} from '../../Core/Exceptions/Exception';
+import {Process} from './Process';
 
 
-export default class ProcessException extends Exception {
+export class ProcessException extends Exception {
     public readonly process: Process;
     
 

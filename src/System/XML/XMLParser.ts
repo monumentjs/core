@@ -1,13 +1,13 @@
 import {TextParser} from '../../Core/Text/Parsing/TextParser';
-import XMLDocument from './XMLDocument';
-import XMLNode from './XMLNode';
-import XMLTextNode from './XMLTextNode';
-import XMLCommentNode from './XMLCommentNode';
-import XMLParserState from './XMLParserState';
-import XMLCharacterData from './XMLCharacterData';
+import {XMLDocument} from './XMLDocument';
+import {XMLNode} from './XMLNode';
+import {XMLTextNode} from './XMLTextNode';
+import {XMLCommentNode} from './XMLCommentNode';
+import {XMLParserState} from './XMLParserState';
+import {XMLCharacterData} from './XMLCharacterData';
 
 
-export default class XMLParser extends TextParser<XMLParserState, XMLDocument> {
+export class XMLParser extends TextParser<XMLParserState, XMLDocument> {
     private _document: XMLDocument = new XMLDocument();
     
     

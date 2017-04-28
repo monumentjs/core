@@ -1,10 +1,10 @@
-import Event from '../../Core/Events/Event';
+import {Event} from '../../Core/Events/Event';
 import {StreamWriterEventType} from './types';
 import {StreamReader} from './StreamReader';
 import {StreamWriter} from './StreamWriter';
 
 
-export default class StreamWriterEvent extends Event {
+export class StreamWriterEvent extends Event {
     public static PIPE: StreamWriterEventType = 'pipe';
     public static UNPIPE: StreamWriterEventType = 'unpipe';
 

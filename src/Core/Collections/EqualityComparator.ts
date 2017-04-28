@@ -1,7 +1,7 @@
 import {IEqualityComparator} from './IEqualityComparator';
 
 
-export default class EqualityComparator implements IEqualityComparator<any> {
+export class EqualityComparator implements IEqualityComparator<any> {
     public static readonly instance: EqualityComparator = new EqualityComparator();
 
 

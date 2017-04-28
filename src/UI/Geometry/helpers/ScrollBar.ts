@@ -1,4 +1,4 @@
-import Environment from '../../../Core/Runtime/Runtime';
+import {Runtime} from '../../../Core/Runtime/Runtime';
 import {RuntimeID} from '../../../Core/Runtime/RuntimeID';
 
 
@@ -11,7 +11,7 @@ export function updateScrollBarWidth() {
     let outerElement;
     let innerElement;
 
-    if (Environment.id !== RuntimeID.Browser) {
+    if (Runtime.id !== RuntimeID.Browser) {
         return 0;
     }
 
@@ -47,7 +47,7 @@ export function updateScrollBarWidth() {
 
 
 export function getScrollBarWidth() {
-    if (Environment.id !== RuntimeID.Browser) {
+    if (Runtime.id !== RuntimeID.Browser) {
         return 0;
     }
 

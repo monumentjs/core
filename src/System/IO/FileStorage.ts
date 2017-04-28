@@ -1,16 +1,16 @@
 import {IFileSystem} from './IFileSystem';
-import FileSystem from './FileSystem';
+import {FileSystem} from './FileSystem';
 import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
 import {FileMode} from './FileMode';
 import {AccessPermissions} from './AccessPermissions';
 import {AsyncResult} from '../../Core/types';
-import FileSystemEntry from './FileSystemEntry';
+import {FileSystemEntry} from './FileSystemEntry';
 import {AccessMode} from './AccessMode';
 import {FileDescriptor} from './types';
-import ReadOnlyCollection from '../../Core/Collections/ReadOnlyCollection';
+import {ReadOnlyCollection} from '../../Core/Collections/ReadOnlyCollection';
 
 
-export default class FileStorage {
+export class FileStorage {
     public static get fileSystem(): IFileSystem {
         return this._fileSystem;
     }

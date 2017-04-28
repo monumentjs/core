@@ -2,7 +2,7 @@ import {Task} from '../../src/Core/Async/Task';
 import {AsyncResult} from '../../src/Core/types';
 
 
-export default class FakeTask<R> extends Task<R> {
+export class FakeTask<R> extends Task<R> {
     private _preparedResult: R;
     private _preparedError: Error;
     private _msWait: number;
@@ -19,7 +19,7 @@ export default class FakeTask<R> extends Task<R> {
 
     protected async execute(): AsyncResult<void> {
         if (this._msWait) {
-            setTimeout(function () {
+            setTimeout(() => {
                 if (this._preparedResult) {
                     this.resolve(this._preparedResult);
                 } else {

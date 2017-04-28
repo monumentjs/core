@@ -1,6 +1,6 @@
-import Dictionary from '../../../../src/Core/Collections/Dictionary';
-import IgnoreCaseComparator from '../../../../src/Core/Text/IgnoreCaseComparator';
-import ArgumentNullException from '../../../../src/Core/Exceptions/ArgumentNullException';
+import {Dictionary} from '../../../../src/Core/Collections/Dictionary';
+import {IgnoreCaseComparator} from '../../../../src/Core/Text/IgnoreCaseComparator';
+import {ArgumentNullException} from '../../../../src/Core/Exceptions/ArgumentNullException';
 
 
 describe(`Dictionary`, () => {

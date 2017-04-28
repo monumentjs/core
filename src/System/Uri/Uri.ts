@@ -1,10 +1,10 @@
 import {ICloneable, IEquatable, IJSONSerializable} from '../../Core/types';
-import StringBuilder from '../../Core/Text/StringBuilder';
-import QueryParamsCollection from './QueryParamsCollection';
-import QueryStringParser from './QueryStringParser';
-import UriFormatException from './UriFormatException';
+import {StringBuilder} from '../../Core/Text/StringBuilder';
+import {QueryParamsCollection} from './QueryParamsCollection';
+import {QueryStringParser} from './QueryStringParser';
+import {UriFormatException} from './UriFormatException';
 import {DefaultSchemePort} from './DefaultSchemePort';
-import InvalidOperationException from '../../Core/Exceptions/InvalidOperationException';
+import {InvalidOperationException} from '../../Core/Exceptions/InvalidOperationException';
 import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
 
 
@@ -16,7 +16,7 @@ export const URI_AUTHORITY_PATTERN: RegExp = /^(([^:@]+)(:([^@]+))?@)?([^:]+)(:(
 // console.log(URI_PATTERN.exec('https://alex:test_pass@mysite.com/admin#users'));
 
 
-export default class Uri
+export class Uri
     implements
     ICloneable<Uri>,
     IJSONSerializable<string>,

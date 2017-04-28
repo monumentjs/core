@@ -1,11 +1,11 @@
 import {Task} from './Task';
 import {IDisposable} from '../types';
-import Queue from '../Collections/Queue';
-import TaskEvent from './TaskEvent';
+import {Queue} from '../Collections/Queue';
+import {TaskEvent} from './TaskEvent';
 import {assertArgumentBounds, assertArgumentNotNull} from '../Assertion/Assert';
 
 
-export default class TaskScheduler implements IDisposable {
+export class TaskScheduler implements IDisposable {
     private _queue: Queue<Task<any>> = new Queue<Task<any>>();
     private _isDisposed: boolean = false;
     private _concurrentTasksLimit: number;

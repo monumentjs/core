@@ -1,12 +1,12 @@
-import KeyValueCollection from '../../Core/Collections/KeyValueCollection';
-import StringBuilder from '../../Core/Text/StringBuilder';
-import Uri from './Uri';
+import {KeyValueCollection} from '../../Core/Collections/KeyValueCollection';
+import {StringBuilder} from '../../Core/Text/StringBuilder';
+import {Uri} from './Uri';
 import {IEquatable} from '../../Core/types';
-import KeyValueEqualityComparator from '../../Core/Collections/KeyValueEqualityComparator';
+import {KeyValueEqualityComparator} from '../../Core/Collections/KeyValueEqualityComparator';
 import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
 
 
-export default class QueryParamsCollection
+export class QueryParamsCollection
     extends KeyValueCollection<string, string>
     implements IEquatable<QueryParamsCollection> {
 

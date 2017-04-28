@@ -1,8 +1,8 @@
-import ProcessEvent from './ProcessEvent';
-import Process from './Process';
+import {ProcessEvent} from './ProcessEvent';
+import {Process} from './Process';
 
 
-export default class ProcessMessageEvent extends ProcessEvent {
+export class ProcessMessageEvent extends ProcessEvent {
     private _message: object;
 
 

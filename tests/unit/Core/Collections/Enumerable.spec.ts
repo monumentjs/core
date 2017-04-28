@@ -1,5 +1,5 @@
-import Enumerable from '../../../../src/Core/Collections/Enumerable';
-import TestEnumerable from './mocks/TestEnumerable';
+import {Enumerable} from '../../../../src/Core/Collections/Enumerable';
+import {TestEnumerable} from './mocks/TestEnumerable';
 
 
 describe(`Enumerable`, () => {

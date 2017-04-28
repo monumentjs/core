@@ -1,5 +1,5 @@
-import Dispatcher, {ActionListenerCancel} from '../Events/Dispatcher';
-import {assertArgumentNotNull} from '../Assertion/Assert';
+import {Dispatcher, ActionListenerCancel} from '../../Core/Events/Dispatcher';
+import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
 
 
 export type StateWatcher<TState extends object> = (state: TState) => void;

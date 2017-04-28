@@ -1,5 +1,5 @@
 import {FileSystemEntryType} from './FileSystemEntryType';
-import DateTime from '../../Core/Time/DateTime';
+import {DateTime} from '../../Core/Time/DateTime';
 import {AccessPermissions} from './AccessPermissions';
 
 

@@ -2,7 +2,7 @@ import {Pool} from '../../Core/types';
 import {TransitionFunction, TimingFunction, EasingFunction} from './types';
 
 
-export default class EasingFactory {
+export class EasingFactory {
     private _eases: Pool<TransitionFunction>;
 
 

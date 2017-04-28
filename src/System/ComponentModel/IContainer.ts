@@ -1,6 +1,6 @@
 import {IDisposable} from '../../Core/types';
 import {IComponent} from './IComponent';
-import ComponentCollection from './ComponentCollection';
+import {ComponentCollection} from './ComponentCollection';
 
 
 export interface IContainer extends IDisposable {

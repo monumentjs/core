@@ -2,20 +2,20 @@ import {AsyncResult} from '../../../Core/types';
 import {ServerResponse} from 'http';
 import {assertArgumentNotNull} from '../../../Core/Assertion/Assert';
 import {callAsyncMethod} from '../../../Core/Async/Utils';
-import HeadersCollection from './HeadersCollection';
+import {HeadersCollection} from './HeadersCollection';
 import {StatusCode} from './StatusCode';
 import {HttpContent} from './HttpContent';
 import {StreamWriter} from '../../Stream/StreamWriter';
-import HttpResponse from './HttpResponse';
+import {HttpResponse} from './HttpResponse';
 
 
-export default class HttpResponseWriter extends StreamWriter<ServerResponse, Buffer> {
+export class HttpResponseWriter extends StreamWriter<ServerResponse, Buffer> {
 
     public async send(response: HttpResponse): AsyncResult<void> {
         this.setStatus(response.statusCode, response.statusMessage);
         this.setHeaders(response.headers);
 
-        if (response.content) {
+        if (response.hasContent) {
             await this.writeContent(response.content);
         }
 

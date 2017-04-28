@@ -1,12 +1,12 @@
-import {IComparator} from '../../Collections/IComparator';
-import {ComparisonResult} from '../../types';
+import {IComparator} from '../Collections/IComparator';
+import {ComparisonResult} from '../types';
 import {VERSION_COMPONENTS} from './types';
-import Version from './Version';
-import {assertArgumentNotNull} from '../../Assertion/Assert';
-import {IEqualityComparator} from '../../Collections/IEqualityComparator';
+import {Version} from './Version';
+import {assertArgumentNotNull} from '../Assertion/Assert';
+import {IEqualityComparator} from '../Collections/IEqualityComparator';
 
 
-export default class VersionComparator implements IComparator<Version>, IEqualityComparator<Version> {
+export class VersionComparator implements IComparator<Version>, IEqualityComparator<Version> {
     public static readonly instance: VersionComparator = new VersionComparator();
 
 

@@ -1,14 +1,14 @@
 import {TimeComponentFormatterBase} from './TimeComponentFormatterBase';
-import DateTime from '../DateTime';
-import TimeSpan from '../TimeSpan';
-import DateTimeFormatInfo from '../DateTimeFormatInfo';
-import InvalidOperationException from '../../Exceptions/InvalidOperationException';
-import TextTransform from '../../Text/TextTransform';
+import {DateTime} from '../DateTime';
+import {TimeSpan} from '../TimeSpan';
+import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
+import {InvalidOperationException} from '../../Exceptions/InvalidOperationException';
+import {TextTransform} from '../../Text/TextTransform';
 import {assertArgumentNotNull} from '../../Assertion/Assert';
 import {EMPTY_STRING} from '../../Text/constants';
 
 
-export default class MonthFormatter extends TimeComponentFormatterBase {
+export class MonthFormatter extends TimeComponentFormatterBase {
     public static readonly instance: MonthFormatter = new MonthFormatter();
 
 

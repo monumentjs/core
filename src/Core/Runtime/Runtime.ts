@@ -1,7 +1,7 @@
 import {RuntimeID} from './RuntimeID';
 
 
-export default class Runtime {
+export class Runtime {
     public static get id(): RuntimeID {
         if (typeof window === 'object' && Object.prototype.toString.call(window) === '[object Window]') {
             return RuntimeID.Browser;

@@ -1,8 +1,8 @@
-import FormattableString from './FormattableString';
+import {FormattableString} from './FormattableString';
 import {assertArgumentNotNull} from '../Assertion/Assert';
 
 
-export default class StringBuilder {
+export class StringBuilder {
     private _value: string;
     private _capacity: number;
     private _linesSeparator = '\n';

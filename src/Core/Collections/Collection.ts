@@ -1,9 +1,9 @@
 import {ICloneable} from '../types';
 import {ICollection} from './ICollection';
-import ReadOnlyCollection from './ReadOnlyCollection';
+import {ReadOnlyCollection} from './ReadOnlyCollection';
 
 
-export default class Collection<T> extends ReadOnlyCollection<T> implements ICollection<T>, ICloneable<Collection<T>> {
+export class Collection<T> extends ReadOnlyCollection<T> implements ICollection<T>, ICloneable<Collection<T>> {
 
     public clone(): Collection<T> {
         return new Collection(this);

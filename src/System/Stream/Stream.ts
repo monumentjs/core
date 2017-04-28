@@ -1,14 +1,14 @@
 import {StreamEventType} from './types';
-import EventEmitter from '../../Core/Events/EventEmitter';
-import ErrorEvent from '../../Core/Events/ErrorEvent';
-import StreamEvent from './StreamEvent';
+import {EventEmitter} from '../../Core/Events/EventEmitter';
+import {ErrorEvent} from '../../Core/Events/ErrorEvent';
+import {StreamEvent} from './StreamEvent';
 import {AsyncResult, IDisposable} from '../../Core/types';
 import {assertArgumentBounds, assertArgumentNotNull} from '../../Core/Assertion/Assert';
-import InvalidOperationException from '../../Core/Exceptions/InvalidOperationException';
-import StreamNotReadableException from './StreamNotReadableException';
-import StreamNotSeekableException from './StreamNotSeekableException';
-import StreamNotWritableException from './StreamNotWritableException';
-import Exception from '../../Core/Exceptions/Exception';
+import {InvalidOperationException} from '../../Core/Exceptions/InvalidOperationException';
+import {StreamNotReadableException} from './StreamNotReadableException';
+import {StreamNotSeekableException} from './StreamNotSeekableException';
+import {StreamNotWritableException} from './StreamNotWritableException';
+import {Exception} from '../../Core/Exceptions/Exception';
 
 
 export abstract class Stream<TChunk> extends EventEmitter implements IDisposable {

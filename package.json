@@ -14,7 +14,7 @@
   "scripts": {
     "lint": "tslint --format stylish --project .",
     "compile": "tsc",
-    "test": "jest"
+    "test": "jest -i --verbose"
   },
   "author": "Alex Chugaev <achugaev93@gmail.com>",
   "license": "MIT",

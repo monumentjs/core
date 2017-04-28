@@ -1,4 +1,4 @@
-import Sequence from '../../Core/Collections/Sequence';
+import {Sequence} from '../../Core/Assertion/Sequence';
 import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
 
 

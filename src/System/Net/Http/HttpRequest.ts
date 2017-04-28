@@ -1,20 +1,20 @@
 import {IncomingMessage} from 'http';
 import {RequestMethod} from './RequestMethod';
-import TextTransform from '../../../Core/Text/TextTransform';
-import Uri from '../../Uri/Uri';
+import {TextTransform} from '../../../Core/Text/TextTransform';
+import {Uri} from '../../Uri/Uri';
 import {Encoding} from '../../Text/Encoding';
-import Version from '../../../Core/Application/Version/Version';
-import {ReleaseStatus} from '../../../Core/Application/Version/types';
+import {Version} from '../../../Core/Version/Version';
+import {ReleaseStatus} from '../../../Core/Version/types';
 import {StreamReader} from '../../Stream/StreamReader';
 import {AsyncResult} from '../../../Core/types';
+import {HeadersCollection} from './HeadersCollection';
 
 
-export default class HttpRequest extends StreamReader<IncomingMessage, Buffer> {
+export class HttpRequest extends StreamReader<IncomingMessage, Buffer> {
     private _httpVersion: Version;
     private _requestUri: Uri;
-    private _startTime: number;
-    private _endTime: number;
     private _requestMethod: RequestMethod;
+    private _headers: HeadersCollection;
 
 
     public get isPaused(): boolean {
@@ -22,39 +22,39 @@ export default class HttpRequest extends StreamReader<IncomingMessage, Buffer> {
     }
 
 
-    public get startTime(): number {
-        return this._startTime;
-    }
-
-
-    public get endTime(): number {
-        return this._endTime;
-    }
-
-
     public get method(): RequestMethod {
+        if (this._requestMethod == null) {
+            this._requestMethod = this.extractRequestMethod();
+        }
+
         return this._requestMethod;
     }
 
 
     public get uri(): Uri {
+        if (this._requestUri == null) {
+            this._requestUri = this.extractRequestUri();
+        }
+
         return this._requestUri;
     }
 
 
     public get httpVersion(): Version {
+        if (this._httpVersion == null) {
+            this._httpVersion = this.extractHttpVersion();
+        }
+
         return this._httpVersion;
     }
 
 
-    public constructor(sourceStream: IncomingMessage) {
-        super(sourceStream);
+    public get headers(): HeadersCollection {
+        if (this._headers == null) {
+            this._headers = this.extractHeaders();
+        }
 
-        this._startTime = Date.now();
-
-        this.extractRequestMethod();
-        this.extractRequestUri();
-        this.extractHttpVersion();
+        return this._headers;
     }
 
 
@@ -83,20 +83,25 @@ export default class HttpRequest extends StreamReader<IncomingMessage, Buffer> {
     }
 
 
-    private extractRequestMethod(): void {
-        let methodName: string = TextTransform.toCapitalCase(this.sourceStream.method);
+    private extractRequestMethod(): RequestMethod {
+        let enumKey: string = TextTransform.toCapitalCase(this.sourceStream.method);
+        let requestMethod: RequestMethod = RequestMethod[enumKey];
 
-        this._requestMethod = RequestMethod[methodName];
+        if (requestMethod == null) {
+            return RequestMethod.Get;
+        }
+
+        return requestMethod;
     }
 
 
-    private extractRequestUri(): void {
-        this._requestUri = new Uri(this.sourceStream.url);
+    private extractRequestUri(): Uri {
+        return new Uri(this.sourceStream.url);
     }
 
 
-    private extractHttpVersion(): void {
-        this._httpVersion = new Version(
+    private extractHttpVersion(): Version {
+        return new Version(
             this.sourceStream.httpVersionMajor,
             this.sourceStream.httpVersionMinor,
             0,
@@ -104,4 +109,16 @@ export default class HttpRequest extends StreamReader<IncomingMessage, Buffer> {
         );
     }
 
+
+    private extractHeaders(): HeadersCollection {
+        let headers: HeadersCollection = new HeadersCollection();
+
+        Object.keys(this.sourceStream.headers).forEach((headerName: string) => {
+            let headerValue: string = this.sourceStream.headers[headerName];
+
+            headers.set(headerName, headerValue);
+        });
+
+        return headers;
+    }
 }

@@ -1,6 +1,6 @@
-import IOException from './IOException';
+import {IOException} from './IOException';
 
 
-export default class FileNotFoundException extends IOException {
+export class FileNotFoundException extends IOException {
 
 }

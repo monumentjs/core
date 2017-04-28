@@ -1,9 +1,9 @@
 import {FileSystemEntryProcessor} from './types';
-import FileSystemEntry from './FileSystemEntry';
+import {FileSystemEntry} from './FileSystemEntry';
 import {AsyncResult} from '../../Core/types';
 
 
-export default class FileSystemWalkerContext {
+export class FileSystemWalkerContext {
     private _isCancelled: boolean = false;
     private _startDirectory: string;
     private _entryProcessor: FileSystemEntryProcessor;

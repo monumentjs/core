@@ -1,8 +1,8 @@
 import {assertArgumentNotNull} from '../../../Core/Assertion/Assert';
-import InvalidArgumentException from '../../../Core/Exceptions/InvalidArgumentException';
+import {InvalidArgumentException} from '../../../Core/Exceptions/InvalidArgumentException';
 
 
-export default class Header {
+export class Header {
     private _name: string;
     private _value: string;
 

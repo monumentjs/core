@@ -1,8 +1,8 @@
 import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
-import InvalidArgumentException from '../../Core/Exceptions/InvalidArgumentException';
+import {InvalidArgumentException} from '../../Core/Exceptions/InvalidArgumentException';
 
 
-export default class Viewport {
+export class Viewport {
     private _left: number = 0;
     private _top: number = 0;
     private _width: number = 0;

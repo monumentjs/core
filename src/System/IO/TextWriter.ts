@@ -3,10 +3,10 @@ import {StreamWriter} from '../Stream/StreamWriter';
 import {AsyncResult} from '../../Core/types';
 import {Stream} from '../Stream/Stream';
 import {Encoding} from '../Text/Encoding';
-import Utf8Encoding from '../Text/Utf8Encoding';
+import {Utf8Encoding} from '../Text/Utf8Encoding';
 
 
-export default class TextWriter
+export class TextWriter
     extends StreamWriter<Stream<Buffer>, string> {
 
     private _encoding: Encoding = Utf8Encoding.instance;

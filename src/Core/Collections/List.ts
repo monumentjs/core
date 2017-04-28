@@ -6,17 +6,17 @@ import {IList} from './IList';
 import {IQueryable} from './IQueryable';
 import {SortOrder} from './SortOrder';
 import {CombineFunction, IteratorFunction} from './types';
-import Collection from './Collection';
-import EqualityComparator from './EqualityComparator';
-import Sequence from './Sequence';
-import Grouping from './Grouping';
-import IndexOutOfBoundsException from '../Exceptions/IndexOutOfBoundsException';
-import InvalidArgumentException from '../Exceptions/InvalidArgumentException';
-import InvalidOperationException from '../Exceptions/InvalidOperationException';
+import {Collection} from './Collection';
+import {EqualityComparator} from './EqualityComparator';
+import {Sequence} from '../Assertion/Sequence';
+import {Grouping} from './Grouping';
+import {IndexOutOfBoundsException} from '../Exceptions/IndexOutOfBoundsException';
+import {InvalidArgumentException} from '../Exceptions/InvalidArgumentException';
+import {InvalidOperationException} from '../Exceptions/InvalidOperationException';
 import {assertArgumentNotNull, assertLength, assertRangeBounds} from '../Assertion/Assert';
 
 
-export default class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, IEquatable<IList<T>> {
+export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, IEquatable<IList<T>> {
     public static range(start: number, end: number, step: number = 1): List<number> {
         assertArgumentNotNull('start', start);
         assertArgumentNotNull('end', end);

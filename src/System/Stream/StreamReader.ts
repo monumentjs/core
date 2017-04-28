@@ -1,10 +1,10 @@
 import {assertArgumentBounds, assertArgumentNotNull, assertArgumentType} from '../../Core/Assertion/Assert';
 import {AsyncResult} from '../../Core/types';
-import List from '../../Core/Collections/List';
+import {List} from '../../Core/Collections/List';
 import {StreamWriter} from './StreamWriter';
-import StreamReaderEvent from './StreamReaderEvent';
-import StreamWriterEvent from './StreamWriterEvent';
-import EventEmitter from '../../Core/Events/EventEmitter';
+import {StreamReaderEvent} from './StreamReaderEvent';
+import {StreamWriterEvent} from './StreamWriterEvent';
+import {EventEmitter} from '../../Core/Events/EventEmitter';
 
 
 export abstract class StreamReader<TStream, TChunk> extends EventEmitter {

@@ -1,12 +1,13 @@
 import {ICloneable, IJSONSerializable} from '../../Core/types';
-import {parse, isAbsolute, relative, join, ParsedPath} from 'path';
+import {parse, isAbsolute, relative, resolve, join, ParsedPath} from 'path';
 import {IEnumerable} from '../../Core/Collections/IEnumerable';
+import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
 
 
 const PATH_SEGMENTS_DELIMITER: RegExp = /[\\/]+/g;
 
 
-export default class Path implements ICloneable<Path>, IJSONSerializable<string> {
+export class Path implements ICloneable<Path>, IJSONSerializable<string> {
     public static isAbsolute(path: string): boolean {
         return isAbsolute(path);
     }
@@ -14,6 +15,11 @@ export default class Path implements ICloneable<Path>, IJSONSerializable<string>
 
     public static relative(from: string, to: string): string {
         return relative(from, to);
+    }
+
+
+    public static resolve(segments: IEnumerable<string>): string {
+        return resolve(...segments);
     }
 
 
@@ -67,6 +73,8 @@ export default class Path implements ICloneable<Path>, IJSONSerializable<string>
 
 
     public constructor(path: string) {
+        assertArgumentNotNull('path', path);
+
         this._originalPath = path;
         this._parsedPath = parse(path);
     }

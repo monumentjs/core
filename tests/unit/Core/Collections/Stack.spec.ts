@@ -1,7 +1,7 @@
-import Stack from '../../../../src/Core/Collections/Stack';
-import InvalidOperationException from '../../../../src/Core/Exceptions/InvalidOperationException';
-import ArgumentNullException from '../../../../src/Core/Exceptions/ArgumentNullException';
-import IgnoreCaseComparator from '../../../../src/Core/Text/IgnoreCaseComparator';
+import {Stack} from '../../../../src/Core/Collections/Stack';
+import {InvalidOperationException} from '../../../../src/Core/Exceptions/InvalidOperationException';
+import {ArgumentNullException} from '../../../../src/Core/Exceptions/ArgumentNullException';
+import {IgnoreCaseComparator} from '../../../../src/Core/Text/IgnoreCaseComparator';
 
 
 describe(`Stack`, () => {

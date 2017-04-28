@@ -1,4 +1,4 @@
-import HttpRequest from '../HttpRequest';
+import {HttpRequest} from '../HttpRequest';
 import {AsyncResult} from '../../../../Core/types';
 import {IFilter} from './IFilter';
 

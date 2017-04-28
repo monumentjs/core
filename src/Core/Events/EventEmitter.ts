@@ -1,16 +1,16 @@
-import Event from './Event';
-import List from '../Collections/List';
+import {Event} from './Event';
+import {List} from '../Collections/List';
 import {EventListener} from './types';
-import EventHandler from './EventHandler';
+import {EventHandler} from './EventHandler';
 import {assertArgumentNotNull} from '../Assertion/Assert';
-import ReadOnlyCollection from '../Collections/ReadOnlyCollection';
+import {ReadOnlyCollection} from '../Collections/ReadOnlyCollection';
 
 
-export default class EventEmitter {
+export class EventEmitter {
     private _handlers: List<EventHandler> = new List<EventHandler>();
 
 
-    public get types(): ReadOnlyCollection<string> {
+    public get eventTypes(): ReadOnlyCollection<string> {
         let typesList: List<string> = this._handlers.select((eventHandler: EventHandler): string => {
             return eventHandler.eventType;
         });

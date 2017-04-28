@@ -1,5 +1,5 @@
-import FakeTask from '../../../mocks/TestTask';
-import TaskScheduler from '../../../../src/Core/Async/TaskScheduler';
+import {FakeTask} from '../../../mocks/TestTask';
+import {TaskScheduler} from '../../../../src/Core/Async/TaskScheduler';
 
 
 describe('TaskScheduler', () => {

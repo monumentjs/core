@@ -4,7 +4,7 @@ import {ComparisonResult} from '../types';
 import {assertArgumentNotNull} from '../Assertion/Assert';
 
 
-export default class IgnoreCaseComparator implements IEqualityComparator<string>, IComparator<string> {
+export class IgnoreCaseComparator implements IEqualityComparator<string>, IComparator<string> {
     public static readonly instance: IgnoreCaseComparator = new IgnoreCaseComparator();
 
 

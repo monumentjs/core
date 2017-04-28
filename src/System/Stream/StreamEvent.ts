@@ -1,9 +1,9 @@
-import Event from '../../Core/Events/Event';
+import {Event} from '../../Core/Events/Event';
 import {StreamEventType} from './types';
 import {Stream} from './Stream';
 
 
-export default class StreamEvent extends Event {
+export class StreamEvent extends Event {
     public static READY: StreamEventType = 'ready';
     public static END: StreamEventType = 'end';
     public static CLOSE: StreamEventType = 'close';

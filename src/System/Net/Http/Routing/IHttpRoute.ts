@@ -1,6 +1,6 @@
 import {IDictionary} from '../../../../Core/Collections/IDictionary';
 import {IHttpRequestHandler} from '../IHttpRequestHandler';
-import HttpRequest from '../HttpRequest';
+import {HttpRequest} from '../HttpRequest';
 import {IHttpRouteData} from './IHttpRouteData';
 import {IHttpRouteConstraint} from './IHttpRouteConstraint';
 import {IEnumerable} from '../../../../Core/Collections/IEnumerable';

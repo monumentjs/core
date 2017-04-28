@@ -1,8 +1,8 @@
-import Collection from '../../../../Core/Collections/Collection';
+import {Collection} from '../../../../Core/Collections/Collection';
 import {IFilter} from './IFilter';
 
 
-export default class HttpFilterCollection extends Collection<IFilter> {
+export class HttpFilterCollection extends Collection<IFilter> {
     
     
 

@@ -1,7 +1,7 @@
-import Exception from './Exception';
+import {Exception} from './Exception';
 
 
-export default class ArgumentNullException extends Exception {
+export class ArgumentNullException extends Exception {
     public readonly argumentName: string;
 
 

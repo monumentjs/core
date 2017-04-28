@@ -1,6 +1,6 @@
-import DateTimeFormatInfo from '../DateTimeFormatInfo';
-import TimeSpan from '../TimeSpan';
-import DateTime from '../DateTime';
+import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
+import {TimeSpan} from '../TimeSpan';
+import {DateTime} from '../DateTime';
 import {assertArgumentNotNull} from '../../Assertion/Assert';
 
 

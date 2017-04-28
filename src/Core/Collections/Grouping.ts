@@ -1,12 +1,12 @@
 import {IGrouping} from './IGrouping';
 import {IEnumerable} from './IEnumerable';
-import Collection from './Collection';
+import {Collection} from './Collection';
 import {assertArgumentNotNull} from '../Assertion/Assert';
 
 /**
  * Represents a collection of objects that have a common key.
  */
-export default class Grouping<TKey, TItem> extends Collection<TItem> implements IGrouping<TKey, TItem> {
+export class Grouping<TKey, TItem> extends Collection<TItem> implements IGrouping<TKey, TItem> {
     protected _key: TKey;
     
     

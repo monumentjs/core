@@ -1,12 +1,12 @@
-import Event from '../../Core/Events/Event';
-import ChildProcess from './Process';
+import {Event} from '../../Core/Events/Event';
+import {Process} from './Process';
 import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
 
 
 export type ProcessEventType = 'start' | 'exit' | 'close' | 'disconnect' | 'terminate' | 'message';
 
 
-export default class ProcessEvent extends Event {
+export class ProcessEvent extends Event {
     public static readonly EXIT: ProcessEventType = 'exit';
     public static readonly CLOSE: ProcessEventType = 'close';
     public static readonly TERMINATE: ProcessEventType = 'terminate';
@@ -15,15 +15,15 @@ export default class ProcessEvent extends Event {
     public static readonly MESSAGE: ProcessEventType = 'message';
 
 
-    private _process: ChildProcess;
+    private _process: Process;
 
 
-    public get process(): ChildProcess {
+    public get process(): Process {
         return this._process;
     }
     
     
-    public constructor(eventType: ProcessEventType, process: ChildProcess) {
+    public constructor(eventType: ProcessEventType, process: Process) {
         super(eventType);
 
         assertArgumentNotNull('process', process);

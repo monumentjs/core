@@ -1,6 +1,6 @@
 import {ICustomParser} from '../../Core/types';
-import QueryParamsCollection from './QueryParamsCollection';
-import Uri from './Uri';
+import {QueryParamsCollection} from './QueryParamsCollection';
+import {Uri} from './Uri';
 import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
 
 
@@ -8,7 +8,7 @@ const KEY_VALUE_PAIRS_DELIMITER: string = '&';
 const KEY_VALUE_DELIMITER: string = '=';
 
 
-export default class QueryStringParser implements ICustomParser<QueryParamsCollection> {
+export class QueryStringParser implements ICustomParser<QueryParamsCollection> {
     public static parse(queryString: string): QueryParamsCollection {
         let parser: QueryStringParser = new QueryStringParser();
 

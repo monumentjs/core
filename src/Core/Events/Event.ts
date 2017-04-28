@@ -1,7 +1,7 @@
 import {assertArgumentNotNull} from '../Assertion/Assert';
 
 
-export default class Event {
+export class Event {
     private _type: string;
     private _isCancelled: boolean = false;
 

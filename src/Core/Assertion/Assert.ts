@@ -1,6 +1,6 @@
-import ArgumentNullException from '../Exceptions/ArgumentNullException';
-import RangeException from '../Exceptions/RangeException';
-import ArgumentTypeException from '../Exceptions/ArgumentTypeException';
+import {ArgumentNullException} from '../Exceptions/ArgumentNullException';
+import {RangeException} from '../Exceptions/RangeException';
+import {ArgumentTypeException} from '../Exceptions/ArgumentTypeException';
 
 
 export function assertArgumentNotNull(argumentName: string, argumentValue: any): void {

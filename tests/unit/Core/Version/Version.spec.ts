@@ -1,5 +1,5 @@
-import {ReleaseStatus} from '../../../../../src/Core/Application/Version/types';
-import Version from '../../../../../src/Core/Application/Version/Version';
+import {ReleaseStatus} from '../../../../src/Core/Version/types';
+import {Version} from '../../../../src/Core/Version/Version';
 
 
 describe('Version', () => {

@@ -1,10 +1,10 @@
-import Dictionary from '../../Core/Collections/Dictionary';
-import XMLNode from './XMLNode';
-import StringBuilder from '../../Core/Text/StringBuilder';
+import {Dictionary} from '../../Core/Collections/Dictionary';
+import {XMLNode} from './XMLNode';
+import {StringBuilder} from '../../Core/Text/StringBuilder';
 import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
 
 
-export default class XMLNodeAttributes extends Dictionary<string, string> {
+export class XMLNodeAttributes extends Dictionary<string, string> {
     private _node: XMLNode;
     
     

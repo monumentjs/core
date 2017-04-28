@@ -1,9 +1,9 @@
 import {IHttpRouteData} from './IHttpRouteData';
-import HttpRouteValueDictionary from './HttpRouteValueDictionary';
+import {HttpRouteValueDictionary} from './HttpRouteValueDictionary';
 import {IHttpRoute} from './IHttpRoute';
 
 
-export default class HttpRouteData implements IHttpRouteData {
+export class HttpRouteData implements IHttpRouteData {
     private _route: IHttpRoute;
     private _values: HttpRouteValueDictionary;
 

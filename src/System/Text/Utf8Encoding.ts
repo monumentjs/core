@@ -1,7 +1,7 @@
 import {Encoding} from './Encoding';
 
 
-export default class Utf8Encoding extends Encoding {
+export class Utf8Encoding extends Encoding {
     public static readonly instance: Utf8Encoding = new Utf8Encoding();
 
     public readonly webName: string = 'utf-8';

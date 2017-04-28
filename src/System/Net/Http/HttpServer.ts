@@ -1,40 +1,33 @@
 import {createServer as createHttpServer, IncomingMessage, Server as NativeHttpServer, ServerResponse} from 'http';
 import {AsyncResult} from '../../../Core/types';
-import HttpServerStartInfo from './HttpServerStartInfo';
-import HttpRequest from './HttpRequest';
-import HttpResponse from './HttpResponse';
+import {HttpServerConfiguration} from './HttpServerConfiguration';
+import {HttpRequest} from './HttpRequest';
+import {HttpResponse} from './HttpResponse';
 import {callAsyncMethod} from '../../../Core/Async/Utils';
 import {assertArgumentNotNull} from '../../../Core/Assertion/Assert';
-import InvalidOperationException from '../../../Core/Exceptions/InvalidOperationException';
-import IHttpRequestHandler from './HttpRoutingDispatcher';
 import {StatusCode} from './StatusCode';
-import TextContent from './TextContent';
-import HttpResponseWriter from './HttpResponseWriter';
+import {TextContent} from './Content/TextContent';
+import {HttpResponseWriter} from './HttpResponseWriter';
+import {IHttpRequestHandler} from './IHttpRequestHandler';
 
 
 type RequestListener = (request: IncomingMessage, response: ServerResponse) => void;
 
 
-export default class HttpServer {
+export class HttpServer {
     private _requestListener: RequestListener;
     private _requestHandler: IHttpRequestHandler;
+    private _serverConfiguration: HttpServerConfiguration;
     private _server: NativeHttpServer;
+
+
+    public get serverConfiguration(): HttpServerConfiguration {
+        return this._serverConfiguration;
+    }
 
 
     public get isListening(): boolean {
         return this._server.listening;
-    }
-
-
-    public get maxHeadersCount(): number {
-        return this._server.maxHeadersCount;
-    }
-
-
-    public set maxHeadersCount(value: number) {
-        assertArgumentNotNull('value', value);
-
-        this._server.maxHeadersCount = value;
     }
 
 
@@ -50,36 +43,11 @@ export default class HttpServer {
     }
 
 
-    public get port(): number {
-        if (!this.isListening) {
-            throw new InvalidOperationException(`Cannot read address of server that is not started.`);
-        }
-
-        return this._server.address().port;
-    }
-
-
-    public get address(): string {
-        if (!this.isListening) {
-            throw new InvalidOperationException(`Cannot read address of server that is not started.`);
-        }
-
-        return this._server.address().address;
-    }
-
-
-    public get family(): string {
-        if (!this.isListening) {
-            throw new InvalidOperationException(`Cannot read address of server that is not started.`);
-        }
-
-        return this._server.address().family;
-    }
-
-
-    public constructor(requestHandler: IHttpRequestHandler) {
+    public constructor(serverConfiguration: HttpServerConfiguration, requestHandler: IHttpRequestHandler) {
+        assertArgumentNotNull('serverConfiguration', serverConfiguration);
         assertArgumentNotNull('requestHandler', requestHandler);
 
+        this._serverConfiguration = serverConfiguration;
         this._requestHandler = requestHandler;
 
         this.createRequestListener();
@@ -87,14 +55,18 @@ export default class HttpServer {
     }
 
 
-    public startListen(startInfo: HttpServerStartInfo): AsyncResult<void> {
-        assertArgumentNotNull('startInfo', startInfo);
-
-        return callAsyncMethod<void>(this._server, 'listen', startInfo.port, startInfo.host, startInfo.backlogSize);
+    public listen(): AsyncResult<void> {
+        return callAsyncMethod<void>(
+            this._server,
+            'listen',
+            this.serverConfiguration.port,
+            this.serverConfiguration.host,
+            this.serverConfiguration.backlogSize
+        );
     }
 
 
-    public stopListen(): AsyncResult<void> {
+    public stop(): AsyncResult<void> {
         return callAsyncMethod<void>(this._server, 'close');
     }
 
@@ -112,6 +84,8 @@ export default class HttpServer {
 
     protected createInternalServer(): void {
         this._server = createHttpServer(this._requestListener);
+        this._server.maxHeadersCount = this.serverConfiguration.maxHeadersCount;
+        this._server.timeout = this.serverConfiguration.requestTimeout;
     }
 
 
@@ -124,7 +98,7 @@ export default class HttpServer {
     }
 
 
-    private createErrorResponse(error?: Error): HttpResponse {
+    protected createErrorResponse(error?: Error): HttpResponse {
         let errorResponse: HttpResponse = new HttpResponse(StatusCode.InternalServerError);
 
         if (error) {

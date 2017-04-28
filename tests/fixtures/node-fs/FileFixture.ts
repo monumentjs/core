@@ -5,7 +5,7 @@ import {Fixture} from '../../../src/Testing/Fixture';
 import {AccessPermissions} from '../../../src/System/IO/AccessPermissions';
 
 
-export default class FileFixture extends Fixture {
+export class FileFixture extends Fixture {
     private _fileName: string;
     private _content: string | Buffer;
     private _accessPermissions: AccessPermissions;

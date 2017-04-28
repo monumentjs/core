@@ -1,9 +1,9 @@
-import IndexOutOfBoundsException from '../Exceptions/IndexOutOfBoundsException';
-import {IEnumerable} from './IEnumerable';
-import RangeException from '../Exceptions/RangeException';
+import {IndexOutOfBoundsException} from '../Exceptions/IndexOutOfBoundsException';
+import {IEnumerable} from '../Collections/IEnumerable';
+import {RangeException} from '../Exceptions/RangeException';
 
 
-export default class Sequence {
+export class Sequence {
     public static assertSliceBounds(
         sequence: IEnumerable<any>,
         offset: number = 0,

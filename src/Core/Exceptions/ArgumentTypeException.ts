@@ -1,8 +1,8 @@
-import Exception from './Exception';
+import {Exception} from './Exception';
 import {Constructor} from '../types';
 
 
-export default class ArgumentTypeException extends Exception {
+export class ArgumentTypeException extends Exception {
     public readonly argumentName: string;
     public readonly argumentType: Constructor<any>;
 

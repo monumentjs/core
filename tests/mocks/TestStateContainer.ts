@@ -1,9 +1,9 @@
-import TestAction from './TestAction';
-import TestState from './TestState';
-import {StateContainer} from '../../src/Core/Application/StateContainer';
+import {TestAction} from './TestAction';
+import {TestState} from './TestState';
+import {StateContainer} from '../../src/System/ComponentModel/StateContainer';
 
 
-export default class TestStateContainer extends StateContainer<TestState> {
+export class TestStateContainer extends StateContainer<TestState> {
     protected getInitialState(): TestState {
         return new TestState();
     }

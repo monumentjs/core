@@ -1,21 +1,21 @@
 import {TimeComponentFormatterBase} from './Format/TimeComponentFormatterBase';
-import YearFormatter from './Format/YearFormatter';
-import MonthFormatter from './Format/MonthFormatter';
-import DayOfMonthFormatter from './Format/DayOfMonthFormatter';
-import DayOfWeekFormatter from './Format/DayOfWeekFormatter';
-import HoursFormatter from './Format/HoursFormatter';
-import MinutesFormatter from './Format/MinutesFormatter';
-import SecondsFormatter from './Format/SecondsFormatter';
-import MillisecondsFormatter from './Format/MillisecondsFormatter';
-import TimezoneFormatter from './Format/TimezoneFormatter';
-import ReadOnlyCollection from '../Collections/ReadOnlyCollection';
-import AMPMFormatter from './Format/AMPMFormatter';
-import SignFormatter from './Format/SignFormatter';
-import DateTimeFormatException from './DateTimeFormatException';
+import {YearFormatter} from './Format/YearFormatter';
+import {MonthFormatter} from './Format/MonthFormatter';
+import {DayOfMonthFormatter} from './Format/DayOfMonthFormatter';
+import {DayOfWeekFormatter} from './Format/DayOfWeekFormatter';
+import {HoursFormatter} from './Format/HoursFormatter';
+import {MinutesFormatter} from './Format/MinutesFormatter';
+import {SecondsFormatter} from './Format/SecondsFormatter';
+import {MillisecondsFormatter} from './Format/MillisecondsFormatter';
+import {TimezoneFormatter} from './Format/TimezoneFormatter';
+import {ReadOnlyCollection} from '../Collections/ReadOnlyCollection';
+import {AMPMFormatter} from './Format/AMPMFormatter';
+import {SignFormatter} from './Format/SignFormatter';
+import {DateTimeFormatException} from './DateTimeFormatException';
 import {assertArgumentNotNull} from '../Assertion/Assert';
 
 
-export default class TimeComponentFormatterProvider {
+export class TimeComponentFormatterProvider {
     public static readonly instance: TimeComponentFormatterProvider = new TimeComponentFormatterProvider();
 
 

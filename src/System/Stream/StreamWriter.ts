@@ -1,5 +1,5 @@
 import {AsyncResult} from '../../Core/types';
-import EventEmitter from '../../Core/Events/EventEmitter';
+import {EventEmitter} from '../../Core/Events/EventEmitter';
 import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
 
 

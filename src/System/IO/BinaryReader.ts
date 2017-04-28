@@ -4,7 +4,7 @@ import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
 import {ByteOrder} from './ByteOrder';
 
 
-export default class BinaryReader {
+export class BinaryReader {
     private _baseStream: Stream<Buffer>;
 
 

@@ -1,9 +1,9 @@
-import List from '../../Core/Collections/List';
-import XMLNode from './XMLNode';
+import {List} from '../../Core/Collections/List';
+import {XMLNode} from './XMLNode';
 import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
 
 
-export default class XMLNodeList extends List<XMLNode> {
+export class XMLNodeList extends List<XMLNode> {
     private _parentNode: XMLNode;
     
     

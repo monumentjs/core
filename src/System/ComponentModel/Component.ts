@@ -1,9 +1,9 @@
-import Event from '../../Core/Events/Event';
-import EventEmitter from '../../Core/Events/EventEmitter';
+import {Event} from '../../Core/Events/Event';
+import {EventEmitter} from '../../Core/Events/EventEmitter';
 import {IDisposable} from '../../Core/types';
 
 
-export default class Component extends EventEmitter implements IDisposable {
+export class Component extends EventEmitter implements IDisposable {
     private _isDisposed: boolean = false;
     
     

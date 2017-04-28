@@ -1,8 +1,8 @@
-import XMLNode from './XMLNode';
+import {XMLNode} from './XMLNode';
 import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
 
 
-export default class XMLDocument extends XMLNode {
+export class XMLDocument extends XMLNode {
     private _version: string = '';
     private _encoding: string = '';
     

@@ -1,6 +1,6 @@
-import ReadOnlyCollection from '../../../../src/Core/Collections/ReadOnlyCollection';
-import ArgumentNullException from '../../../../src/Core/Exceptions/ArgumentNullException';
-import IgnoreCaseComparator from '../../../../src/Core/Text/IgnoreCaseComparator';
+import {ReadOnlyCollection} from '../../../../src/Core/Collections/ReadOnlyCollection';
+import {ArgumentNullException} from '../../../../src/Core/Exceptions/ArgumentNullException';
+import {IgnoreCaseComparator} from '../../../../src/Core/Text/IgnoreCaseComparator';
 
 
 describe(`ReadOnlyCollection`, () => {

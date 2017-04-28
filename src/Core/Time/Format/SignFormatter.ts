@@ -1,12 +1,12 @@
 import {TimeComponentFormatterBase} from './TimeComponentFormatterBase';
-import DateTime from '../DateTime';
-import DateTimeFormatInfo from '../DateTimeFormatInfo';
-import TimeSpan from '../TimeSpan';
-import DateTimeFormatException from '../DateTimeFormatException';
+import {DateTime} from '../DateTime';
+import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
+import {TimeSpan} from '../TimeSpan';
+import {DateTimeFormatException} from '../DateTimeFormatException';
 import {assertArgumentNotNull} from '../../Assertion/Assert';
 
 
-export default class SignFormatter extends TimeComponentFormatterBase {
+export class SignFormatter extends TimeComponentFormatterBase {
     public static readonly instance: SignFormatter = new SignFormatter();
 
 

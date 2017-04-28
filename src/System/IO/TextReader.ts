@@ -1,12 +1,12 @@
 import {StreamReader} from '../Stream/StreamReader';
 import {AsyncResult} from '../../Core/types';
 import {Encoding} from '../Text/Encoding';
-import Utf8Encoding from '../Text/Utf8Encoding';
+import {Utf8Encoding} from '../Text/Utf8Encoding';
 import {Stream} from '../Stream/Stream';
 import {assertArgumentNotNull, assertArgumentType} from '../../Core/Assertion/Assert';
 
 
-export default class TextReader
+export class TextReader
     extends StreamReader<Stream<Buffer>, string> {
 
     private _encoding: Encoding = Utf8Encoding.instance;

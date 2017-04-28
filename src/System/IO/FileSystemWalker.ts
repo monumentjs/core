@@ -1,18 +1,18 @@
-import FileSystemEntry from './FileSystemEntry';
+import {FileSystemEntry} from './FileSystemEntry';
 import {AsyncResult} from '../../Core/types';
-import FileStorage from './FileStorage';
-import Path from './Path';
-import ReadOnlyCollection from '../../Core/Collections/ReadOnlyCollection';
-import List from '../../Core/Collections/List';
-import PathPattern from './PathPattern';
+import {FileStorage} from './FileStorage';
+import {Path} from './Path';
+import {ReadOnlyCollection} from '../../Core/Collections/ReadOnlyCollection';
+import {List} from '../../Core/Collections/List';
+import {PathPattern} from './PathPattern';
 import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
 import {FileSystemEntryProcessor, FileSystemEntrySelector} from './types';
-import InvalidArgumentException from '../../Core/Exceptions/InvalidArgumentException';
-import FileSystemWalkerContext from './FileSystemWalkerContext';
+import {InvalidArgumentException} from '../../Core/Exceptions/InvalidArgumentException';
+import {FileSystemWalkerContext} from './FileSystemWalkerContext';
 import {FileSystemEntryType} from './FileSystemEntryType';
 
 
-export default class FileSystemWalker {
+export class FileSystemWalker {
     private _depth: number = 1;
     private _pathPatterns: List<PathPattern> = new List<PathPattern>();
     private _entrySelectors: List<FileSystemEntrySelector> = new List<FileSystemEntrySelector>();

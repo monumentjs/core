@@ -1,4 +1,4 @@
-import DebouncedMethod from './helpers/DebouncedMethod';
+import {DebouncedMethod} from './helpers/DebouncedMethod';
 
 
 export function debounce(

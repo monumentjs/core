@@ -1,4 +1,4 @@
-import KeyValueCollection from '../../../../../src/Core/Collections/KeyValueCollection';
+import {KeyValueCollection} from '../../../../../src/Core/Collections/KeyValueCollection';
 import {IUriAttributes} from '../../../../../src/System/Uri/types';
 import {DefaultSchemePort} from '../../../../../src/System/Uri/DefaultSchemePort';
 

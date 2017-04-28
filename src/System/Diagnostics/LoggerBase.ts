@@ -1,10 +1,10 @@
 import {ILogger} from './ILogger';
 import {ILogRecord} from './ILogRecord';
 import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
-import FormattableString from '../../Core/Text/FormattableString';
+import {FormattableString} from '../../Core/Text/FormattableString';
 import {EMPTY_STRING} from '../../Core/Text/constants';
 import {AsyncResult} from '../../Core/types';
-import InvalidArgumentException from '../../Core/Exceptions/InvalidArgumentException';
+import {InvalidArgumentException} from '../../Core/Exceptions/InvalidArgumentException';
 
 
 const NEW_LINE_SIGN: string = '\n';

@@ -1,9 +1,9 @@
-import PathPattern from './PathPattern';
+import {PathPattern} from './PathPattern';
 import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
-import InvalidArgumentException from '../../Core/Exceptions/InvalidArgumentException';
+import {InvalidArgumentException} from '../../Core/Exceptions/InvalidArgumentException';
 
 
-export default class GlobPattern extends PathPattern {
+export class GlobPattern extends PathPattern {
     public static toRegularExpression(glob: string, ignoreCase: boolean = false): RegExp {
         assertArgumentNotNull('glob', glob);
         assertArgumentNotNull('ignoreCase', ignoreCase);
@@ -36,7 +36,7 @@ export default class GlobPattern extends PathPattern {
                         if (nextLetter === '*') {               // **
                             expression += '.*';
                             index += 1;
-                            if (glob[index + 1] === '/') {
+                            if (glob[index + 1] === '/' || glob[index + 1] === '\\') {
                                 index += 1;
                             }
                         } else {                                // *

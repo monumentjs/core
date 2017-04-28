@@ -1,10 +1,10 @@
 import {ReleaseStatus} from './types';
-import Version from './Version';
-import {assertArgumentNotNull} from '../../Assertion/Assert';
-import VersionException from './VersionException';
+import {Version} from './Version';
+import {assertArgumentNotNull} from '../Assertion/Assert';
+import {VersionException} from './VersionException';
 
 
-export default class VersionBuilder {
+export class VersionBuilder {
     private _version: Version;
 
 

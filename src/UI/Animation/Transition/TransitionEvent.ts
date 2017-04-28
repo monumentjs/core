@@ -1,8 +1,8 @@
-import Event from '../../../Core/Events/Event';
+import {Event} from '../../../Core/Events/Event';
 import {TransitionEventType} from '../types';
 
 
-export default class TransitionEvent extends Event {
+export class TransitionEvent extends Event {
     public static START: TransitionEventType = 'start';
     public static PROGRESS: TransitionEventType = 'progress';
     public static END: TransitionEventType = 'end';

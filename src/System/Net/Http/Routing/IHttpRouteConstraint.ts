@@ -1,6 +1,6 @@
-import HttpRequest from '../HttpRequest';
+import {HttpRequest} from '../HttpRequest';
 import {IHttpRoute} from './IHttpRoute';
-import HttpRouteValueDictionary from './HttpRouteValueDictionary';
+import {HttpRouteValueDictionary} from './HttpRouteValueDictionary';
 
 
 export interface IHttpRouteConstraint {

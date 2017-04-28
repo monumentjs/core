@@ -1,21 +1,21 @@
 import {ChildProcess as NodeChildProcess, spawn, SpawnOptions} from 'child_process';
 import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
-import ErrorEvent from '../../Core/Events/ErrorEvent';
-import InvalidOperationException from '../../Core/Exceptions/InvalidOperationException';
+import {ErrorEvent} from '../../Core/Events/ErrorEvent';
+import {InvalidOperationException} from '../../Core/Exceptions/InvalidOperationException';
 import {AsyncResult, IDisposable} from '../../Core/types';
-import Event from '../../Core/Events/Event';
-import NoAssociatedProcessException from './NoAssociatedProcessException';
-import ProcessEvent, {ProcessEventType} from './ProcessEvent';
-import ProcessStartInfo from './ProcessStartInfo';
-import ProcessMessageEvent from './ProcessMessageEvent';
+import {Event} from '../../Core/Events/Event';
+import {NoAssociatedProcessException} from './NoAssociatedProcessException';
+import {ProcessEvent, ProcessEventType} from './ProcessEvent';
+import {ProcessStartInfo} from './ProcessStartInfo';
+import {ProcessMessageEvent} from './ProcessMessageEvent';
 import {IInternalStreamProvider} from '../Stream/IInternalStreamProvider';
-import InvalidArgumentException from '../../Core/Exceptions/InvalidArgumentException';
+import {InvalidArgumentException} from '../../Core/Exceptions/InvalidArgumentException';
 import {DEFAULT_STDIO_MODE, StandardIOMode} from './types';
-import EventEmitter from '../../Core/Events/EventEmitter';
-import Arguments from './Arguments/Arguments';
+import {EventEmitter} from '../../Core/Events/EventEmitter';
+import {Arguments} from './Arguments/Arguments';
 
 
-export default class Process extends EventEmitter implements IDisposable {
+export class Process extends EventEmitter implements IDisposable {
 
     public static getCurrentProcessArguments(): Arguments {
         let safeSegments: string[] = process.argv.map((segment: string): string => {

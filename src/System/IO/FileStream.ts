@@ -1,14 +1,14 @@
 import {Stream} from '../Stream/Stream';
-import BitMask from '../../Core/Binary/BitMask';
+import {BitMask} from '../../Core/Binary/BitMask';
 import {AsyncResult} from '../../Core/types';
 import {assertArgumentBounds, assertArgumentNotNull} from '../../Core/Assertion/Assert';
 import {DEFAULT_STREAM_CHUNK_SIZE} from './constants';
 import {FileMode} from './FileMode';
 import {AccessPermissions} from './AccessPermissions';
-import FileStorage from './FileStorage';
+import {FileStorage} from './FileStorage';
 
 
-export default class FileStream extends Stream<Buffer> {
+export class FileStream extends Stream<Buffer> {
     public static async open(
         fileName: string,
         fileMode: FileMode = FileMode.ReadWrite | FileMode.NonBlock,

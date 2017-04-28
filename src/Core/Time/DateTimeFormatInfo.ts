@@ -1,15 +1,15 @@
 import {ICustomFormatter, IFormatProvider} from '../types';
 import {CalendarWeekRule, DayOfWeek} from './types';
-import DateTime from './DateTime';
-import FormattableString from '../Text/FormattableString';
-import TimeComponentFormatterProvider from './TimeComponentFormatterProvider';
-import ReadOnlyCollection from '../Collections/ReadOnlyCollection';
+import {DateTime} from './DateTime';
+import {FormattableString} from '../Text/FormattableString';
+import {TimeComponentFormatterProvider} from './TimeComponentFormatterProvider';
+import {ReadOnlyCollection} from '../Collections/ReadOnlyCollection';
 import {TimeComponentFormatterBase} from './Format/TimeComponentFormatterBase';
-import TimeSpan from './TimeSpan';
+import {TimeSpan} from './TimeSpan';
 import {assertArgumentNotNull} from '../Assertion/Assert';
 
 
-export default class DateTimeFormatInfo implements
+export class DateTimeFormatInfo implements
     IFormatProvider,
     ICustomFormatter<DateTime> {
 

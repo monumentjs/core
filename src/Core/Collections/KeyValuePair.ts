@@ -3,7 +3,7 @@ import {IKeyValuePair} from './IKeyValuePair';
 import {IJSONSerializable} from '../types';
 
 
-export default class KeyValuePair<TKey, TValue>
+export class KeyValuePair<TKey, TValue>
     implements IKeyValuePair<TKey, TValue>, IJSONSerializable<IKeyValuePair<TKey, TValue>> {
 
     private _key: TKey;

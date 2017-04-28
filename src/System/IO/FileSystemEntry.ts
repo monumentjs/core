@@ -1,12 +1,12 @@
-import DateTime from '../../Core/Time/DateTime';
+import {DateTime} from '../../Core/Time/DateTime';
 import {AccessPermissions} from './AccessPermissions';
 import {Stats} from 'fs';
-import Path from './Path';
+import {Path} from './Path';
 import {FileSystemEntryType} from './FileSystemEntryType';
 import {IFileSystemEntry} from './IFileSystemEntry';
 
 
-export default class FileSystemEntry implements IFileSystemEntry {
+export class FileSystemEntry implements IFileSystemEntry {
     protected _stats: Stats;
 
     private _creationTime: DateTime;

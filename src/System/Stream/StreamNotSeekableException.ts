@@ -1,6 +1,6 @@
-import Exception from '../../Core/Exceptions/Exception';
+import {Exception} from '../../Core/Exceptions/Exception';
 
 
-export default class StreamNotSeekableException extends Exception {
+export class StreamNotSeekableException extends Exception {
 
 }

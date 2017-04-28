@@ -1,5 +1,5 @@
-import ArgumentsParser from '../../../../../src/System/Process/Arguments/ArgumentsParser';
-import Arguments from '../../../../../src/System/Process/Arguments/Arguments';
+import {ArgumentsParser} from '../../../../../src/System/Process/Arguments/ArgumentsParser';
+import {Arguments} from '../../../../../src/System/Process/Arguments/Arguments';
 
 
 describe(`ArgumentsParser`, () => {

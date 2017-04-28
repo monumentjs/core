@@ -1,13 +1,13 @@
 import Helpers from './helpers';
-import EventEmitter from '../../Core/Events/EventEmitter';
-import TimelineEvent from './TimelineEvent';
+import {EventEmitter} from '../../Core/Events/EventEmitter';
+import {TimelineEvent} from './TimelineEvent';
 import {TimelineEventType} from './types';
 
 
 const {requestAnimationFrame, cancelAnimationFrame} = Helpers;
 
 
-export default class Timeline extends EventEmitter {
+export class Timeline extends EventEmitter {
     private _originalDuration: number;
     private _duration: number;
     private _position: number;

@@ -5,7 +5,7 @@ import {assertArgumentNotNull, assertArgumentType} from '../../Core/Assertion/As
 import {StreamWriter} from '../Stream/StreamWriter';
 
 
-export default class LogWriter extends LoggerBase {
+export class LogWriter extends LoggerBase {
     private _targetWriter: StreamWriter<any, string>;
 
 

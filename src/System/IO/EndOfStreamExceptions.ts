@@ -1,8 +1,8 @@
 import {Stream} from '../Stream/Stream';
-import IOException from './IOException';
+import {IOException} from './IOException';
 
 
-export default class EndOfStreamExceptions extends IOException {
+export class EndOfStreamExceptions extends IOException {
     public readonly stream: Stream<any>;
 
 

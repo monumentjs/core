@@ -1,18 +1,18 @@
-import MissingKeyException from '../Exceptions/MissingKeyException';
-import Collection from '../Collections/Collection';
-import ReadOnlyCollection from '../Collections/ReadOnlyCollection';
-import ParsingException from './Parsing/ParsingException';
-import RegExpUtils from './RegExpUtils';
-import Sequence from '../Collections/Sequence';
+import {MissingKeyException} from '../Exceptions/MissingKeyException';
+import {Collection} from '../Collections/Collection';
+import {ReadOnlyCollection} from '../Collections/ReadOnlyCollection';
+import {ParsingException} from './Parsing/ParsingException';
+import {RegExpUtils} from './RegExpUtils';
+import {Sequence} from '../Assertion/Sequence';
 import {assertArgumentNotNull} from '../Assertion/Assert';
-import Dictionary from '../Collections/Dictionary';
+import {Dictionary} from '../Collections/Dictionary';
 
 
 const NORMAL_ENTRY_PATTERN: RegExp = /{(\w+)}/g;
 const ESCAPED_ENTRY_PATTERN: RegExp = /\\{(\w+)\\}/g;
 
 
-export default class FormattableString {
+export class FormattableString {
     private _template: string;
     private _allEntries: ReadOnlyCollection<string> = new ReadOnlyCollection<string>();
     private _uniqueEntries: ReadOnlyCollection<string>;

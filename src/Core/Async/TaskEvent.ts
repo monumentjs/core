@@ -1,10 +1,10 @@
-import Event from '../../Core/Events/Event';
+import {Event} from '../../Core/Events/Event';
 import {Task} from './Task';
 import {TaskEventType} from './types';
 
 
 
-export default class TaskEvent extends Event {
+export class TaskEvent extends Event {
     public static COMPLETE: TaskEventType = 'complete';
     public static ABORT: TaskEventType = 'abort';
     public static ERROR: TaskEventType = 'error';

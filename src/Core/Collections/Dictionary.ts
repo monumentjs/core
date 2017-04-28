@@ -3,14 +3,14 @@ import {IEnumerable} from './IEnumerable';
 import {IDictionary} from './IDictionary';
 import {IKeyValuePair} from './IKeyValuePair';
 import {IEqualityComparator} from './IEqualityComparator';
-import Enumerable from './Enumerable';
-import ReadOnlyCollection from './ReadOnlyCollection';
-import KeyValuePair from './KeyValuePair';
-import EqualityComparator from './EqualityComparator';
+import {Enumerable} from './Enumerable';
+import {ReadOnlyCollection} from './ReadOnlyCollection';
+import {KeyValuePair} from './KeyValuePair';
+import {EqualityComparator} from './EqualityComparator';
 import {assertArgumentNotNull} from '../Assertion/Assert';
 
 
-export default class Dictionary<TKey, TValue>
+export class Dictionary<TKey, TValue>
     extends Enumerable<IKeyValuePair<TKey, TValue>>
     implements IDictionary<TKey, TValue>, ICloneable<Dictionary<TKey, TValue>> {
     

@@ -1,18 +1,17 @@
-import FileSystem from '../../../../src/System/IO/FileSystem';
-import FileSystemFixtureCollection from '../../../fixtures/node-fs/FileSystemFixtureCollection';
-import ArgumentNullException from '../../../../src/Core/Exceptions/ArgumentNullException';
-import DateTime from '../../../../src/Core/Time/DateTime';
-import Utf8Encoding from '../../../../src/System/Text/Utf8Encoding';
+import {FileSystem} from '../../../../src/System/IO/FileSystem';
+import {FileSystemFixtureCollection} from '../../../fixtures/node-fs/FileSystemFixtureCollection';
+import {ArgumentNullException} from '../../../../src/Core/Exceptions/ArgumentNullException';
+import {DateTime} from '../../../../src/Core/Time/DateTime';
+import {Utf8Encoding} from '../../../../src/System/Text/Utf8Encoding';
 import {FileMode} from '../../../../src/System/IO/FileMode';
 import {AccessPermissions} from '../../../../src/System/IO/AccessPermissions';
-import {IFileSystem} from '../../../../src/System/IO/IFileSystem';
-import asyncExpect from '../../../helpers/async-expect';
+import {asyncExpect} from '../../../helpers/async-expect';
 import {FileDescriptor} from '../../../../src/System/IO/types';
-import FileSystemEntry from '../../../../src/System/IO/FileSystemEntry';
+import {FileSystemEntry} from '../../../../src/System/IO/FileSystemEntry';
 
 
 describe.skip(`FileSystem`, () => {
-    let fileSystem: IFileSystem = new FileSystem();
+    let fileSystem: FileSystem = new FileSystem();
     let fixtures: FileSystemFixtureCollection = new FileSystemFixtureCollection('/playground');
 
 

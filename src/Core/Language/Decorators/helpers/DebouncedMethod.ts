@@ -1,6 +1,6 @@
 
 
-export default class DebouncedMethod {
+export class DebouncedMethod {
     private _timeoutId: any;
     private _maxWaitTimeoutId: any;
     private _timestamp: number;

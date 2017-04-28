@@ -1,11 +1,11 @@
 import {IDisposable} from '../../Core/types';
 import {IContainer} from './IContainer';
 import {IComponent} from './IComponent';
-import ComponentCollection from './ComponentCollection';
+import {ComponentCollection} from './ComponentCollection';
 import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
 
 
-export default class Container implements IContainer, IDisposable {
+export class Container implements IContainer, IDisposable {
     private _components: ComponentCollection = new ComponentCollection();
     private _isDisposed: boolean = false;
 

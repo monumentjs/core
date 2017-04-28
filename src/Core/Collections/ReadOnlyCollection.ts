@@ -1,10 +1,10 @@
-import Enumerable from './Enumerable';
+import {Enumerable} from './Enumerable';
 import {IEqualityComparator} from './IEqualityComparator';
-import EqualityComparator from './EqualityComparator';
+import {EqualityComparator} from './EqualityComparator';
 import {assertArgumentNotNull} from '../Assertion/Assert';
 
 
-export default class ReadOnlyCollection<T> extends Enumerable<T> {
+export class ReadOnlyCollection<T> extends Enumerable<T> {
 
     public contains(otherItem: T, comparator: IEqualityComparator<T> = EqualityComparator.instance): boolean {
         assertArgumentNotNull('comparator', comparator);

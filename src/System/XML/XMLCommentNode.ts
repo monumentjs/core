@@ -1,9 +1,9 @@
-import XMLNode from './XMLNode';
-import StringBuilder from '../../Core/Text/StringBuilder';
+import {XMLNode} from './XMLNode';
+import {StringBuilder} from '../../Core/Text/StringBuilder';
 import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
 
 
-export default class XMLCommentNode extends XMLNode {
+export class XMLCommentNode extends XMLNode {
     private _text: string = '';
     
     

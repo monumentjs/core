@@ -1,10 +1,10 @@
-import List from './List';
+import {List} from './List';
 import {IComparator} from './IComparator';
 import {SortOrder} from './SortOrder';
 import {IEnumerable} from './IEnumerable';
 
 
-export default class SortedList<T> extends List<T> {
+export class SortedList<T> extends List<T> {
     private _comparator: IComparator<T>;
     private _sortOrder: SortOrder;
 

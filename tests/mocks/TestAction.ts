@@ -1,6 +1,6 @@
 
 
-export default class TestAction {
+export class TestAction {
     public readonly isPassed: boolean;
 
 

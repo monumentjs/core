@@ -1,5 +1,5 @@
-import Grouping from '../../../../src/Core/Collections/Grouping';
-import ArgumentNullException from '../../../../src/Core/Exceptions/ArgumentNullException';
+import {Grouping} from '../../../../src/Core/Collections/Grouping';
+import {ArgumentNullException} from '../../../../src/Core/Exceptions/ArgumentNullException';
 
 
 describe(`Grouping`, () => {

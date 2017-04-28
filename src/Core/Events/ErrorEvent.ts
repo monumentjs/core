@@ -1,8 +1,8 @@
-import Event from './Event';
+import {Event} from './Event';
 import {assertArgumentNotNull} from '../Assertion/Assert';
 
 
-export default class ErrorEvent extends Event {
+export class ErrorEvent extends Event {
     public static ERROR: string = 'error';
 
 

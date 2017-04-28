@@ -1,7 +1,7 @@
-import Option from '../../../../../src/System/Process/Arguments/Option';
-import Arguments from '../../../../../src/System/Process/Arguments/Arguments';
-import ReadOnlyCollection from '../../../../../src/Core/Collections/ReadOnlyCollection';
-import OptionsCollection from '../../../../../src/System/Process/Arguments/OptionsCollection';
+import {Option} from '../../../../../src/System/Process/Arguments/Option';
+import {Arguments} from '../../../../../src/System/Process/Arguments/Arguments';
+import {ReadOnlyCollection} from '../../../../../src/Core/Collections/ReadOnlyCollection';
+import {OptionsCollection} from '../../../../../src/System/Process/Arguments/OptionsCollection';
 
 
 describe('Arguments', () => {

@@ -1,13 +1,13 @@
 import {TextParser} from '../../../Core/Text/Parsing/TextParser';
-import ArgumentsParserState from './ArgumentsParserState';
-import Arguments from './Arguments';
+import {ArgumentsParserState} from './ArgumentsParserState';
+import {Arguments} from './Arguments';
 import {assertArgumentNotNull} from '../../../Core/Assertion/Assert';
-import InvalidOperationException from '../../../Core/Exceptions/InvalidOperationException';
-import Collection from '../../../Core/Collections/Collection';
+import {InvalidOperationException} from '../../../Core/Exceptions/InvalidOperationException';
+import {Collection} from '../../../Core/Collections/Collection';
 import {EMPTY_STRING} from '../../../Core/Text/constants';
-import ReadOnlyCollection from '../../../Core/Collections/ReadOnlyCollection';
-import OptionsCollection from './OptionsCollection';
-import Option from './Option';
+import {ReadOnlyCollection} from '../../../Core/Collections/ReadOnlyCollection';
+import {OptionsCollection} from './OptionsCollection';
+import {Option} from './Option';
 
 
 const SEGMENTS_DELIMITER_SIGN: string = ' ';
@@ -16,7 +16,7 @@ const DOUBLE_QUOT_CHAR: string = `"`;
 const SINGLE_QUOT_CHAR: string = `'`;
 
 
-export default class ArgumentsParser extends TextParser<ArgumentsParserState, Arguments> {
+export class ArgumentsParser extends TextParser<ArgumentsParserState, Arguments> {
     private _args: Arguments;
     private _segments: Collection<string>;
     

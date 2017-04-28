@@ -3,7 +3,7 @@ import {AsyncResult} from '../../../../../src/Core/types';
 import {Stream} from '../../../../../src/System/Stream/Stream';
 
 
-export default class WordsStreamReader extends StreamReader<Stream<string>, string> {
+export class WordsStreamReader extends StreamReader<Stream<string>, string> {
 
     protected async onRead(length: number): AsyncResult<string> {
         await this.openIfNotReady();

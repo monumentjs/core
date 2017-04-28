@@ -1,8 +1,8 @@
-import EventEmitter from '../Events/EventEmitter';
-import ErrorEvent from '../Events/ErrorEvent';
+import {EventEmitter} from '../Events/EventEmitter';
+import {ErrorEvent} from '../Events/ErrorEvent';
 import {TaskEventType} from './types';
-import TaskEvent from './TaskEvent';
-import InvalidOperationException from '../Exceptions/InvalidOperationException';
+import {TaskEvent} from './TaskEvent';
+import {InvalidOperationException} from '../Exceptions/InvalidOperationException';
 import {AsyncResult} from '../types';
 
 

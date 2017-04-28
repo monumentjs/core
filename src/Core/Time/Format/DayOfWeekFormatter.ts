@@ -1,13 +1,13 @@
 import {TimeComponentFormatterBase} from './TimeComponentFormatterBase';
-import DateTime from '../DateTime';
-import DateTimeFormatInfo from '../DateTimeFormatInfo';
-import InvalidOperationException from '../../Exceptions/InvalidOperationException';
-import TimeSpan from '../TimeSpan';
+import {DateTime} from '../DateTime';
+import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
+import {InvalidOperationException} from '../../Exceptions/InvalidOperationException';
+import {TimeSpan} from '../TimeSpan';
 import {assertArgumentNotNull} from '../../Assertion/Assert';
 import {EMPTY_STRING} from '../../Text/constants';
 
 
-export default class DayOfWeekFormatter extends TimeComponentFormatterBase {
+export class DayOfWeekFormatter extends TimeComponentFormatterBase {
     public static readonly instance: DayOfWeekFormatter = new DayOfWeekFormatter();
 
 

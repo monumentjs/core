@@ -1,7 +1,7 @@
-import Enumerable from '../../../../../src/Core/Collections/Enumerable';
+import {Enumerable} from '../../../../../src/Core/Collections/Enumerable';
 
 
-export default class TestEnumerable extends Enumerable<string> {
+export class TestEnumerable extends Enumerable<string> {
     public getIterator(): Iterator<string> {
         let index: number = -1;
 

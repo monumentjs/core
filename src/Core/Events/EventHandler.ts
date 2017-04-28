@@ -2,7 +2,7 @@ import {EventListener} from './types';
 import {assertArgumentNotNull} from '../Assertion/Assert';
 
 
-export default class EventHandler {
+export class EventHandler {
     public readonly eventType: string;
     public readonly eventListener: EventListener;
     public readonly removeAfterExecution: boolean;

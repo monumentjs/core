@@ -1,20 +1,22 @@
-import {HttpContent} from './HttpContent';
-import {AsyncResult} from '../../../Core/types';
-import {Encoding} from '../../Text/Encoding';
-import {StreamWriter} from '../../Stream/StreamWriter';
-import Utf8Encoding from '../../Text/Utf8Encoding';
+import {HttpContent} from '../HttpContent';
+import {AsyncResult} from '../../../../Core/types';
+import {Encoding} from '../../../Text/Encoding';
+import {StreamWriter} from '../../../Stream/StreamWriter';
+import {Utf8Encoding} from '../../../Text/Utf8Encoding';
+import {assertArgumentNotNull} from '../../../../Core/Assertion/Assert';
 
 
-export default class TextContent extends HttpContent {
-    private _content: string;
+export class TextContent extends HttpContent {
     private _encoding: Encoding;
     private _bytes: Buffer;
 
 
     public constructor(content: string, encoding: Encoding = Utf8Encoding.instance) {
+        assertArgumentNotNull('content', content);
+        assertArgumentNotNull('encoding', encoding);
+
         super();
 
-        this._content = content;
         this._encoding = encoding;
         this._bytes = encoding.getBytes(content);
 

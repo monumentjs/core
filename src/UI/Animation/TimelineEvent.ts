@@ -1,8 +1,8 @@
-import Event from '../../Core/Events/Event';
+import {Event} from '../../Core/Events/Event';
 import {TimelineEventType} from './types';
 
 
-export default class TimelineEvent extends Event {
+export class TimelineEvent extends Event {
     public static START: TimelineEventType = 'start';
     public static PROGRESS: TimelineEventType = 'progress';
     public static PAUSE: TimelineEventType = 'pause';

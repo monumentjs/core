@@ -1,11 +1,11 @@
 import {createReadStream, ReadStream} from 'fs';
 import {IInternalStreamProvider} from '../Stream/IInternalStreamProvider';
 import {StreamReader} from '../Stream/StreamReader';
-import FileStream from './FileStream';
+import {FileStream} from './FileStream';
 import {AsyncResult} from '../../Core/types';
 
 
-export default class FileReader
+export class FileReader
     extends StreamReader<FileStream, Buffer>
     implements IInternalStreamProvider<ReadStream> {
 

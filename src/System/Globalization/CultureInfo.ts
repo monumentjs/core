@@ -1,4 +1,4 @@
-import NumberFormatInfo from './NumberFormatInfo';
+import {NumberFormatInfo} from './NumberFormatInfo';
 import {ICloneable, IFormatProvider} from '../../Core/types';
 
 
@@ -20,7 +20,7 @@ export enum PersonNameComponent {
 export type PersonNameFormat = PersonNameComponent[];
 
 
-export default class CultureInfo implements ICloneable<CultureInfo>, IFormatProvider {
+export class CultureInfo implements ICloneable<CultureInfo>, IFormatProvider {
     public readonly id: string;
     public numberFormat: NumberFormatInfo;
     public dateTimeFormat: string;

@@ -1,8 +1,8 @@
-import VersionBuilder from '../../../../../src/Core/Application/Version/VersionBuilder';
-import Version from '../../../../../src/Core/Application/Version/Version';
-import {ReleaseStatus} from '../../../../../src/Core/Application/Version/types';
-import VersionException from '../../../../../src/Core/Application/Version/VersionException';
-import ArgumentNullException from '../../../../../src/Core/Exceptions/ArgumentNullException';
+import {VersionBuilder} from '../../../../src/Core/Version/VersionBuilder';
+import {Version} from '../../../../src/Core/Version/Version';
+import {ReleaseStatus} from '../../../../src/Core/Version/types';
+import {VersionException} from '../../../../src/Core/Version/VersionException';
+import {ArgumentNullException} from '../../../../src/Core/Exceptions/ArgumentNullException';
 
 
 describe(`VersionBuilder`, () => {

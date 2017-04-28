@@ -1,10 +1,10 @@
 import {IEnumerable} from './IEnumerable';
-import RangeException from '../Exceptions/RangeException';
+import {RangeException} from '../Exceptions/RangeException';
 import {assertArgumentNotNull} from '../Assertion/Assert';
 import {ICloneable, IJSONSerializable} from '../types';
 
 
-export default class Enumerable<T>
+export class Enumerable<T>
     implements IEnumerable<T>, IJSONSerializable<T[]>, ICloneable<Enumerable<T>>, ArrayLike<T> {
     [index: number]: T;
 
