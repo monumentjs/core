@@ -30,19 +30,19 @@ export abstract class LoggerBase implements ILogger {
     }
 
 
-    public async write(record: ILogRecord): AsyncResult<void> {
+    public async write(record: ILogRecord): AsyncResult {
         assertArgumentNotNull('record', record);
 
         await this.doWrite(record);
     }
 
 
-    public async writeLine(message: string): AsyncResult<void> {
+    public async writeLine(message: string): AsyncResult {
         await this.write(message + this._lineSeparator);
     }
 
 
-    public async writeFormat(format: string, ...values: any[]): AsyncResult<void> {
+    public async writeFormat(format: string, ...values: any[]): AsyncResult {
         assertArgumentNotNull('format', format);
 
         let template: FormattableString = new FormattableString(format);
@@ -51,5 +51,5 @@ export abstract class LoggerBase implements ILogger {
     }
 
 
-    protected abstract doWrite(record: ILogRecord): AsyncResult<void>;
+    protected abstract doWrite(record: ILogRecord): AsyncResult;
 }

@@ -8,7 +8,7 @@ import {EventEmitter} from '../../Core/Events/EventEmitter';
 
 
 export abstract class StreamReader<TStream, TChunk> extends EventEmitter {
-    protected _destinationStreams: List<StreamWriter<any, TChunk>>;
+    protected _destinations: List<StreamWriter<any, TChunk>>;
 
     private _isPaused: boolean;
     private _bufferSize: number;
@@ -42,7 +42,7 @@ export abstract class StreamReader<TStream, TChunk> extends EventEmitter {
 
         this._bufferSize = 1;
         this._isPaused = true;
-        this._destinationStreams = new List<StreamWriter<any, TChunk>>();
+        this._destinations = new List<StreamWriter<any, TChunk>>();
         this._sourceStream = sourceStream;
     }
 
@@ -65,7 +65,7 @@ export abstract class StreamReader<TStream, TChunk> extends EventEmitter {
     }
 
 
-    public async pause(): AsyncResult<void> {
+    public async pause(): AsyncResult {
         await this.onPause();
 
         this._isPaused = true;
@@ -74,7 +74,7 @@ export abstract class StreamReader<TStream, TChunk> extends EventEmitter {
     }
 
 
-    public async resume(): AsyncResult<void> {
+    public async resume(): AsyncResult {
         await this.onResume();
 
         this._isPaused = false;
@@ -91,7 +91,7 @@ export abstract class StreamReader<TStream, TChunk> extends EventEmitter {
         assertArgumentNotNull('destinationStream', destinationStream);
         assertArgumentType('destinationStream', destinationStream, StreamWriter);
 
-        this._destinationStreams.add(destinationStream);
+        this._destinations.add(destinationStream);
 
         destinationStream.dispatchEvent((() => {
             let event = new StreamWriterEvent(StreamWriterEvent.PIPE);
@@ -108,7 +108,7 @@ export abstract class StreamReader<TStream, TChunk> extends EventEmitter {
     public unpipe(destinationStream: StreamWriter<any, TChunk>): void {
         assertArgumentNotNull('destinationStream', destinationStream);
 
-        this._destinationStreams.remove(destinationStream);
+        this._destinations.remove(destinationStream);
 
         destinationStream.dispatchEvent((() => {
             let event = new StreamWriterEvent(StreamWriterEvent.UNPIPE);
@@ -121,14 +121,19 @@ export abstract class StreamReader<TStream, TChunk> extends EventEmitter {
 
 
     protected abstract onRead(length: number): AsyncResult<TChunk>;
-    protected abstract onPause(): AsyncResult<void>;
-    protected abstract onResume(): AsyncResult<void>;
-    protected abstract onClose(): AsyncResult<void>;
+    protected abstract onPause(): AsyncResult;
+    protected abstract onResume(): AsyncResult;
+    protected abstract onClose(): AsyncResult;
 
 
-    protected async distributeData(dataChunk: TChunk): AsyncResult<void> {
-        await Promise.all(this._destinationStreams.select(async (destinationStream: StreamWriter<any, TChunk>) => {
-            return await destinationStream.write(dataChunk);
+    protected async distributeData(chunk: TChunk): AsyncResult {
+        await Promise.all(this._destinations.select((destination: StreamWriter<any, TChunk>): AsyncResult => {
+            return this.writeChunkToDestination(chunk, destination);
         }));
+    }
+
+
+    protected writeChunkToDestination(chunk: TChunk, destinationStream: StreamWriter<any, TChunk>): AsyncResult {
+        return destinationStream.write(chunk);
     }
 }

@@ -12,7 +12,7 @@ export type Pool<T> = {
 };
 
 
-export type AsyncResult<T> = Promise<T>;
+export type AsyncResult<T = void> = Promise<T>;
 
 
 

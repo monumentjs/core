@@ -29,7 +29,7 @@ export class LogWriter extends LoggerBase {
     }
 
 
-    protected async doWrite(record: ILogRecord): AsyncResult<void> {
+    protected async doWrite(record: ILogRecord): AsyncResult {
         await this._targetWriter.write(record.toString());
     }
 }

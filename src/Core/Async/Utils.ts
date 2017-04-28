@@ -2,7 +2,7 @@ import {AsyncResult} from '../types';
 import {assertArgumentNotNull} from '../Assertion/Assert';
 
 
-export function wait(timeInMilliseconds: number): AsyncResult<void> {
+export function wait(timeInMilliseconds: number): AsyncResult {
     assertArgumentNotNull('timeInMilliseconds', timeInMilliseconds);
 
     return new Promise<void>((resolve: () => void): void => {

@@ -44,7 +44,7 @@ export class FileSystemWalker {
     }
 
 
-    public async walk(startDirectory: string, entryProcessor: FileSystemEntryProcessor): AsyncResult<void> {
+    public async walk(startDirectory: string, entryProcessor: FileSystemEntryProcessor): AsyncResult {
         assertArgumentNotNull('startDirectory', startDirectory);
         assertArgumentNotNull('entryProcessor', entryProcessor);
 
@@ -58,7 +58,7 @@ export class FileSystemWalker {
     }
 
 
-    private async processDirectory(context: FileSystemWalkerContext): AsyncResult<void> {
+    private async processDirectory(context: FileSystemWalkerContext): AsyncResult {
         let currentDirectory: string = context.currentDirectory;
         let entries: ReadOnlyCollection<FileSystemEntry> = await FileStorage.readDirectory(currentDirectory);
 
@@ -85,7 +85,7 @@ export class FileSystemWalker {
     }
 
 
-    private async processEntry(entry: FileSystemEntry, context: FileSystemWalkerContext): AsyncResult<void> {
+    private async processEntry(entry: FileSystemEntry, context: FileSystemWalkerContext): AsyncResult {
         if (!this.entryPathMatchesPatterns(entry)) {
             return;
         }

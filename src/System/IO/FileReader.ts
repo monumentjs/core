@@ -43,19 +43,19 @@ export class FileReader
     }
 
 
-    protected async onClose(): AsyncResult<void> {
+    protected async onClose(): AsyncResult {
         if (!this.sourceStream.isClosed) {
             await this.sourceStream.close();
         }
     }
 
 
-    protected async onPause(): AsyncResult<void> {
+    protected async onPause(): AsyncResult {
         // Stub
     }
 
 
-    protected async onResume(): AsyncResult<void> {
+    protected async onResume(): AsyncResult {
         // Stub
     }
 }

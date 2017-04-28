@@ -10,20 +10,20 @@ export abstract class Fixture {
     }
 
 
-    public async create(): AsyncResult<void> {
+    public async create(): AsyncResult {
         await this.doCreate();
 
         this._isCreated = true;
     }
 
 
-    public async destroy(): AsyncResult<void> {
+    public async destroy(): AsyncResult {
         await this.doDestroy();
 
         this._isCreated = false;
     }
 
 
-    protected abstract doCreate(): AsyncResult<void>;
-    protected abstract doDestroy(): AsyncResult<void>;
+    protected abstract doCreate(): AsyncResult;
+    protected abstract doDestroy(): AsyncResult;
 }

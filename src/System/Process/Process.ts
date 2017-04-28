@@ -10,7 +10,7 @@ import {ProcessStartInfo} from './ProcessStartInfo';
 import {ProcessMessageEvent} from './ProcessMessageEvent';
 import {IInternalStreamProvider} from '../Stream/IInternalStreamProvider';
 import {InvalidArgumentException} from '../../Core/Exceptions/InvalidArgumentException';
-import {DEFAULT_STDIO_MODE, StandardIOMode} from './types';
+import {ProcessIOMode} from './types';
 import {EventEmitter} from '../../Core/Events/EventEmitter';
 import {Arguments} from './Arguments/Arguments';
 
@@ -135,14 +135,14 @@ export class Process extends EventEmitter implements IDisposable {
     }
 
 
-    public async disconnect(): AsyncResult<void> {
+    public async disconnect(): AsyncResult {
         this.throwIfNoAssociatedProcess();
 
         this._nativeProcess.disconnect();
     }
 
 
-    public async dispose(): AsyncResult<void> {
+    public async dispose(): AsyncResult {
         await this.kill();
 
         this._isDisposed = true;
@@ -161,7 +161,7 @@ export class Process extends EventEmitter implements IDisposable {
 
 
     private spawnProcess(): void {
-        let startInfo: ProcessStartInfo = this._startInfo;
+        let startInfo: ProcessStartInfo = this.startInfo;
         
         this._nativeProcess = spawn(
             startInfo.fileName,
@@ -172,7 +172,7 @@ export class Process extends EventEmitter implements IDisposable {
 
 
     private getSpawnCommandOptions(): SpawnOptions {
-        let startInfo: ProcessStartInfo = this._startInfo;
+        let startInfo: ProcessStartInfo = this.startInfo;
 
         return {
             cwd: startInfo.workingDirectory,
@@ -190,30 +190,30 @@ export class Process extends EventEmitter implements IDisposable {
     }
 
 
-    private getStandardInput(): NodeJS.WritableStream | StandardIOMode {
-        let standardInput: IInternalStreamProvider<any> | StandardIOMode = this._startInfo.standardInput;
+    private getStandardInput(): NodeJS.WritableStream | ProcessIOMode {
+        let standardInput: IInternalStreamProvider<any> | ProcessIOMode = this.startInfo.standardInput;
 
-        if (typeof standardInput === 'object') {
+        if (standardInput && typeof standardInput === 'object') {
             return (standardInput as IInternalStreamProvider<any>).getInternalStream();
         }
 
         if (typeof standardInput === 'string') {
-            return standardInput || DEFAULT_STDIO_MODE;
+            return standardInput || ProcessIOMode.Pipe;
         }
 
         throw new InvalidArgumentException(`Standard input is not valid`);
     }
 
 
-    private getStandardOutput(): NodeJS.ReadableStream | StandardIOMode {
-        let standardOutput: IInternalStreamProvider<any> | StandardIOMode = this._startInfo.standardOutput;
+    private getStandardOutput(): NodeJS.ReadableStream | ProcessIOMode {
+        let standardOutput: IInternalStreamProvider<any> | ProcessIOMode = this.startInfo.standardOutput;
 
-        if (typeof standardOutput === 'object') {
+        if (standardOutput && typeof standardOutput === 'object') {
             return (standardOutput as IInternalStreamProvider<any>).getInternalStream();
         }
 
         if (typeof standardOutput === 'string') {
-            return standardOutput || DEFAULT_STDIO_MODE;
+            return standardOutput || ProcessIOMode.Pipe;
         }
 
         throw new InvalidArgumentException(`Standard output is not valid`);
@@ -221,15 +221,15 @@ export class Process extends EventEmitter implements IDisposable {
     }
 
 
-    private getStandardError(): NodeJS.WritableStream | StandardIOMode {
-        let standardError: IInternalStreamProvider<any> | StandardIOMode = this._startInfo.standardError;
+    private getStandardError(): NodeJS.WritableStream | ProcessIOMode {
+        let standardError: IInternalStreamProvider<any> | ProcessIOMode = this.startInfo.standardError;
 
-        if (typeof standardError === 'object') {
+        if (standardError && typeof standardError === 'object') {
             return (standardError as IInternalStreamProvider<any>).getInternalStream();
         }
 
         if (typeof standardError === 'string') {
-            return standardError || DEFAULT_STDIO_MODE;
+            return standardError || ProcessIOMode.Pipe;
         }
 
         throw new InvalidArgumentException(`Standard error input is not valid`);

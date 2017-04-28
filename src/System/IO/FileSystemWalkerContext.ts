@@ -58,7 +58,7 @@ export class FileSystemWalkerContext {
     }
 
 
-    public processEntry(entry: FileSystemEntry): AsyncResult<void> {
+    public processEntry(entry: FileSystemEntry): AsyncResult {
         return this.entryProcessor(entry, this);
     }
 }

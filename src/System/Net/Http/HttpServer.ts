@@ -55,7 +55,7 @@ export class HttpServer {
     }
 
 
-    public listen(): AsyncResult<void> {
+    public listen(): AsyncResult {
         return callAsyncMethod<void>(
             this._server,
             'listen',
@@ -66,13 +66,13 @@ export class HttpServer {
     }
 
 
-    public stop(): AsyncResult<void> {
+    public stop(): AsyncResult {
         return callAsyncMethod<void>(this._server, 'close');
     }
 
 
     protected createRequestListener(): void {
-        this._requestListener = async (req: IncomingMessage, res: ServerResponse): AsyncResult<void> => {
+        this._requestListener = async (req: IncomingMessage, res: ServerResponse): AsyncResult => {
             let request: HttpRequest = new HttpRequest(req);
             let response: HttpResponse = await this.getResponse(request);
             let responseWriter: HttpResponseWriter = new HttpResponseWriter(res);

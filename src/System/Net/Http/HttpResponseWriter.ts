@@ -11,7 +11,7 @@ import {HttpResponse} from './HttpResponse';
 
 export class HttpResponseWriter extends StreamWriter<ServerResponse, Buffer> {
 
-    public async send(response: HttpResponse): AsyncResult<void> {
+    public async send(response: HttpResponse): AsyncResult {
         this.setStatus(response.statusCode, response.statusMessage);
         this.setHeaders(response.headers);
 
@@ -43,7 +43,7 @@ export class HttpResponseWriter extends StreamWriter<ServerResponse, Buffer> {
     }
 
 
-    private writeContent(content: HttpContent): AsyncResult<void> {
+    private writeContent(content: HttpContent): AsyncResult {
         assertArgumentNotNull('content', content);
 
         this.setHeaders(content.headers);
@@ -52,7 +52,7 @@ export class HttpResponseWriter extends StreamWriter<ServerResponse, Buffer> {
     }
 
 
-    private endResponse(): AsyncResult<void> {
+    private endResponse(): AsyncResult {
         return callAsyncMethod<void>(this.targetStream, 'end');
     }
 }

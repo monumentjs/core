@@ -42,12 +42,12 @@ export class FileStorage {
     }
 
 
-    public static flush(fileDescriptor: FileDescriptor): AsyncResult<void> {
+    public static flush(fileDescriptor: FileDescriptor): AsyncResult {
         return this.fileSystem.flush(fileDescriptor);
     }
 
 
-    public static close(fileDescriptor: FileDescriptor): AsyncResult<void> {
+    public static close(fileDescriptor: FileDescriptor): AsyncResult {
         return this.fileSystem.close(fileDescriptor);
     }
 
@@ -57,7 +57,7 @@ export class FileStorage {
         accessPermissions?: AccessPermissions,
         truncate?: boolean,
         overwrite?: boolean
-    ): AsyncResult<void> {
+    ): AsyncResult {
         return this.fileSystem.createFile(fileName, accessPermissions, truncate, overwrite);
     }
 
@@ -66,7 +66,7 @@ export class FileStorage {
         fileName: string,
         fileContent: Buffer,
         accessPermissions?: AccessPermissions
-    ): AsyncResult<void> {
+    ): AsyncResult {
         return this.fileSystem.writeFile(fileName, fileContent, accessPermissions);
     }
 
@@ -76,7 +76,7 @@ export class FileStorage {
     }
 
 
-    public static removeFile(fileName: string): AsyncResult<void> {
+    public static removeFile(fileName: string): AsyncResult {
         return this.fileSystem.removeFile(fileName);
     }
 
@@ -86,7 +86,7 @@ export class FileStorage {
     }
 
 
-    public static createDirectory(directoryName: string, accessPermissions?: AccessPermissions): AsyncResult<void> {
+    public static createDirectory(directoryName: string, accessPermissions?: AccessPermissions): AsyncResult {
         return this.fileSystem.createDirectory(directoryName, accessPermissions);
     }
 
@@ -96,7 +96,7 @@ export class FileStorage {
     }
 
 
-    public static removeDirectory(directoryName: string): AsyncResult<void> {
+    public static removeDirectory(directoryName: string): AsyncResult {
         return this.fileSystem.removeDirectory(directoryName);
     }
 
@@ -106,7 +106,7 @@ export class FileStorage {
     }
 
 
-    public static checkAccess(fullName: string, accessMode?: AccessMode): AsyncResult<void> {
+    public static checkAccess(fullName: string, accessMode?: AccessMode): AsyncResult {
         return this.fileSystem.checkAccess(fullName, accessMode);
     }
 
@@ -121,22 +121,22 @@ export class FileStorage {
     }
 
 
-    public static setPermissions(fullName: string, accessPermissions: AccessPermissions): AsyncResult<void> {
+    public static setPermissions(fullName: string, accessPermissions: AccessPermissions): AsyncResult {
         return this.fileSystem.setPermissions(fullName, accessPermissions);
     }
 
 
-    public static setOwner(fullName: string, userId: number, groupId: number): AsyncResult<void> {
+    public static setOwner(fullName: string, userId: number, groupId: number): AsyncResult {
         return this.fileSystem.setOwner(fullName, userId, groupId);
     }
 
 
-    public static createSymbolicLink(fullName: string, linkName: string): AsyncResult<void> {
+    public static createSymbolicLink(fullName: string, linkName: string): AsyncResult {
         return this.fileSystem.createSymbolicLink(fullName, linkName);
     }
 
 
-    public static createLink(fullName: string, linkName: string): AsyncResult<void> {
+    public static createLink(fullName: string, linkName: string): AsyncResult {
         return this.fileSystem.createLink(fullName, linkName);
     }
 
@@ -151,7 +151,7 @@ export class FileStorage {
     }
 
 
-    public static move(sourceName: string, destinationName: string): AsyncResult<void> {
+    public static move(sourceName: string, destinationName: string): AsyncResult {
         return this.fileSystem.move(sourceName, destinationName);
     }
 

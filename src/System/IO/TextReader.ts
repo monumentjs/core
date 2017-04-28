@@ -38,17 +38,17 @@ export class TextReader
     }
 
 
-    protected async onPause(): AsyncResult<void> {
+    protected async onPause(): AsyncResult {
         // Stub
     }
 
 
-    protected async onResume(): AsyncResult<void> {
+    protected async onResume(): AsyncResult {
         // Stub
     }
 
 
-    protected async onClose(): AsyncResult<void> {
+    protected async onClose(): AsyncResult {
         this.sourceStream.close();
     }
 }

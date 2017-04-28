@@ -100,7 +100,7 @@ export abstract class Stream<TChunk> extends EventEmitter implements IDisposable
     }
 
 
-    public async open(): AsyncResult<void> {
+    public async open(): AsyncResult {
         await this.onOpen();
 
         this._isReady = true;
@@ -110,7 +110,7 @@ export abstract class Stream<TChunk> extends EventEmitter implements IDisposable
     }
 
 
-    public async close(): AsyncResult<void> {
+    public async close(): AsyncResult {
         this.throwIfClosed();
         this.throwIfNotReady();
 
@@ -124,7 +124,7 @@ export abstract class Stream<TChunk> extends EventEmitter implements IDisposable
     }
 
 
-    public async seek(position: number): AsyncResult<void> {
+    public async seek(position: number): AsyncResult {
         assertArgumentNotNull('position', position);
 
         this.throwIfClosed();
@@ -178,7 +178,7 @@ export abstract class Stream<TChunk> extends EventEmitter implements IDisposable
     }
 
 
-    public async flush(): AsyncResult<void> {
+    public async flush(): AsyncResult {
         this.throwIfClosed();
         this.throwIfNotWritable();
         this.throwIfNotReady();
@@ -187,7 +187,7 @@ export abstract class Stream<TChunk> extends EventEmitter implements IDisposable
     }
 
 
-    public async dispose(): AsyncResult<void> {
+    public async dispose(): AsyncResult {
         if (this.isDisposing || this.isDisposed) {
             return;
         }
@@ -208,13 +208,13 @@ export abstract class Stream<TChunk> extends EventEmitter implements IDisposable
     }
 
 
-    protected abstract onOpen(): AsyncResult<void>;
-    protected abstract onClose(): AsyncResult<void>;
+    protected abstract onOpen(): AsyncResult;
+    protected abstract onClose(): AsyncResult;
     protected abstract onSeek(position: number): AsyncResult<number>;
     protected abstract onRead(size?: number): AsyncResult<TChunk>;
     protected abstract onWrite(dataChunk: TChunk): AsyncResult<number>;
-    protected abstract onFlush(): AsyncResult<void>;
-    protected abstract onDispose(): AsyncResult<void>;
+    protected abstract onFlush(): AsyncResult;
+    protected abstract onDispose(): AsyncResult;
 
 
     protected throwException(exception: Exception): void {

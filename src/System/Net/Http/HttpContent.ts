@@ -23,5 +23,5 @@ export abstract class HttpContent implements IDisposable {
     }
 
 
-    public abstract copyTo(writer: StreamWriter<any, Buffer>): AsyncResult<void>;
+    public abstract copyTo(writer: StreamWriter<any, Buffer>): AsyncResult;
 }

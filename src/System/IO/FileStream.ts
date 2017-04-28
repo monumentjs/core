@@ -98,12 +98,12 @@ export class FileStream extends Stream<Buffer> {
     }
 
 
-    protected async onOpen(): AsyncResult<void> {
+    protected async onOpen(): AsyncResult {
         this._fileDescriptor = await FileStorage.open(this.fileName, this.fileMode, this.accessPermissions);
     }
 
 
-    protected async onClose(): AsyncResult<void> {
+    protected async onClose(): AsyncResult {
         await FileStorage.close(this.fileDescriptor);
 
         delete this._fileDescriptor;
@@ -129,12 +129,12 @@ export class FileStream extends Stream<Buffer> {
     }
 
 
-    protected async onFlush(): AsyncResult<void> {
+    protected async onFlush(): AsyncResult {
         await FileStorage.flush(this.fileDescriptor);
     }
 
 
-    protected async onDispose(): AsyncResult<void> {
+    protected async onDispose(): AsyncResult {
         // Stub
     }
 }

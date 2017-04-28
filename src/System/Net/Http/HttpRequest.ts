@@ -68,17 +68,17 @@ export class HttpRequest extends StreamReader<IncomingMessage, Buffer> {
     }
 
 
-    protected async onPause(): AsyncResult<void> {
+    protected async onPause(): AsyncResult {
         this.sourceStream.pause();
     }
 
 
-    protected async onResume(): AsyncResult<void> {
+    protected async onResume(): AsyncResult {
         this.sourceStream.resume();
     }
 
 
-    protected async onClose(): AsyncResult<void> {
+    protected async onClose(): AsyncResult {
         this.sourceStream.destroy();
     }
 

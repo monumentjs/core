@@ -51,7 +51,7 @@ export abstract class Task<T> extends EventEmitter {
     }
 
 
-    public async start(): AsyncResult<void> {
+    public start(): AsyncResult {
         if (this.isPending) {
             throw new InvalidOperationException('Task already in progress.');
         }
@@ -61,7 +61,7 @@ export abstract class Task<T> extends EventEmitter {
         this._isPending = true;
         this._isComplete = false;
 
-        await this.execute();
+        return this.execute();
     }
 
 
@@ -76,7 +76,7 @@ export abstract class Task<T> extends EventEmitter {
     }
 
 
-    protected abstract async execute(): AsyncResult<void>;
+    protected abstract execute(): AsyncResult;
 
 
     protected resolve(result: T): void {

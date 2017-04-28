@@ -25,7 +25,7 @@ export class TextContent extends HttpContent {
     }
 
 
-    public async copyTo(writer: StreamWriter<any, Buffer>): AsyncResult<void> {
+    public async copyTo(writer: StreamWriter<any, Buffer>): AsyncResult {
         await writer.write(this._bytes);
     }
 }

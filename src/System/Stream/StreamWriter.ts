@@ -33,7 +33,7 @@ export abstract class StreamWriter<TStream, TChunk> extends EventEmitter {
     }
 
 
-    public async write(chunk: TChunk): AsyncResult<void> {
+    public async write(chunk: TChunk): AsyncResult {
         await this.onWrite(chunk);
     }
 

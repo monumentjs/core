@@ -26,5 +26,5 @@ export abstract class Application extends EventEmitter {
     }
 
     
-    public abstract main(): AsyncResult<void>;
+    public abstract main(): AsyncResult;
 }
