@@ -6,7 +6,7 @@ import {InvalidOperationException} from '../Exceptions/InvalidOperationException
 import {AsyncResult} from '../types';
 
 
-export abstract class Task<T> extends EventEmitter {
+export abstract class Task<T = void> extends EventEmitter {
     private _isComplete: boolean = false;
     private _isPending: boolean = false;
     private _isResolved: boolean = false;

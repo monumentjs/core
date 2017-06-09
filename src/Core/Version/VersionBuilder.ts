@@ -6,10 +6,36 @@ import {VersionException} from './VersionException';
 
 export class VersionBuilder {
     private _version: Version;
-
+    private _forceReleaseStatus: boolean = false;
+    private _forcedReleaseStatus: ReleaseStatus = ReleaseStatus.Stable;
+    // TODO: Apply forced release status
 
     public get version(): Version {
         return this._version;
+    }
+
+
+    public get forceReleaseStatus(): boolean {
+        return this._forceReleaseStatus;
+    }
+
+
+    public set forceReleaseStatus(value: boolean) {
+        assertArgumentNotNull('value', value);
+
+        this._forceReleaseStatus = value;
+    }
+
+
+    public get forcedReleaseStatus(): ReleaseStatus {
+        return this._forcedReleaseStatus;
+    }
+
+
+    public set forcedReleaseStatus(value: ReleaseStatus) {
+        assertArgumentNotNull('value', value);
+
+        this._forcedReleaseStatus = value;
     }
 
 

@@ -11,8 +11,11 @@ import {assertArgumentNotNull} from '../Assertion/Assert';
 
 
 export class Dictionary<TKey, TValue>
-    extends Enumerable<IKeyValuePair<TKey, TValue>>
-    implements IDictionary<TKey, TValue>, ICloneable<Dictionary<TKey, TValue>> {
+    extends
+        Enumerable<IKeyValuePair<TKey, TValue>>
+    implements
+        IDictionary<TKey, TValue>,
+        ICloneable<Dictionary<TKey, TValue>> {
     
     private _keyComparator: IEqualityComparator<TKey>;
     
@@ -54,7 +57,7 @@ export class Dictionary<TKey, TValue>
     
     
     public clone(): Dictionary<TKey, TValue> {
-        return new Dictionary(this, this._keyComparator);
+        return new Dictionary(this, this.keyComparator);
     }
     
     
@@ -71,7 +74,7 @@ export class Dictionary<TKey, TValue>
         assertArgumentNotNull('key', key);
 
         for (let pair of this) {
-            if (this._keyComparator.equals(pair.key, key)) {
+            if (this.keyComparator.equals(pair.key, key)) {
                 return pair.value;
             }
         }
@@ -84,7 +87,7 @@ export class Dictionary<TKey, TValue>
         assertArgumentNotNull('key', key);
 
         for (let pair of this) {
-            if (this._keyComparator.equals(pair.key, key)) {
+            if (this.keyComparator.equals(pair.key, key)) {
                 return true;
             }
         }
@@ -117,7 +120,7 @@ export class Dictionary<TKey, TValue>
         for (let index = 0; index < length; index++) {
             let pair: IKeyValuePair<TKey, TValue> = this[index];
             
-            if (this._keyComparator.equals(pair.key, key)) {
+            if (this.keyComparator.equals(pair.key, key)) {
                 Array.prototype.splice.call(this, index, 1);
 
                 return true;

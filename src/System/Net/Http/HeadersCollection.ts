@@ -10,8 +10,10 @@ import {IteratorFunction} from '../../../Core/Collections/types';
 import {IgnoreCaseComparator} from '../../../Core/Text/IgnoreCaseComparator';
 
 
-export class HeadersCollection extends Enumerable<Header> {
-    private _headers: List<Header> = new List<Header>();
+export class HeadersCollection
+    extends
+        Enumerable<Header> {
+
     private _nameComparator: IEqualityComparator<string>;
 
 
@@ -26,7 +28,6 @@ export class HeadersCollection extends Enumerable<Header> {
         assertArgumentNotNull('nameComparator', nameComparator);
 
         this._nameComparator = nameComparator;
-
     }
 
 
@@ -37,17 +38,17 @@ export class HeadersCollection extends Enumerable<Header> {
         let newHeader: Header = new Header(headerName, headerValue);
 
         if (STANDALONE_HTTP_HEADERS.contains(newHeader.name, this.nameComparator)) {
-            this._headers.removeBy((header: Header): boolean => {
+            List.prototype.removeBy.call(this, (header: Header): boolean => {
                 return this.nameComparator.equals(header.name, newHeader.name);
             });
         }
 
-        this._headers.add(newHeader);
+        List.prototype.add.call(this, newHeader);
     }
 
 
     public getNames(): Collection<string> {
-        let allNames: List<string> = this._headers.select((header: Header): string => {
+        let allNames: List<string> = List.prototype.select.call(this, (header: Header): string => {
             return header.name;
         });
 
@@ -60,7 +61,7 @@ export class HeadersCollection extends Enumerable<Header> {
     public find(headerName: string): string {
         this.assertHeaderNameNotEmpty(headerName);
 
-        let foundHeader: Header = this._headers.first(this.getSelector(headerName));
+        let foundHeader: Header = List.prototype.first.call(this, this.getSelector(headerName));
 
         if (foundHeader) {
             return foundHeader.value;
@@ -73,7 +74,7 @@ export class HeadersCollection extends Enumerable<Header> {
     public findAll(headerName: string): Collection<string> {
         this.assertHeaderNameNotEmpty(headerName);
 
-        let foundHeaders: List<Header> = this._headers.where(this.getSelector(headerName));
+        let foundHeaders: List<Header> = List.prototype.where.call(this, this.getSelector(headerName));
 
         let values: List<string> = foundHeaders.select((header: Header): string => {
             return header.value;
@@ -86,19 +87,14 @@ export class HeadersCollection extends Enumerable<Header> {
     public remove(headerName: string): void {
         this.assertHeaderNameNotEmpty(headerName);
 
-        this._headers.removeBy(this.getSelector(headerName));
+        List.prototype.removeBy.call(this, this.getSelector(headerName));
     }
 
 
     public contains(headerName: string): boolean {
         this.assertHeaderNameNotEmpty(headerName);
 
-        return this._headers.any(this.getSelector(headerName));
-    }
-
-
-    public getIterator(): Iterator<Header> {
-        return this._headers.getIterator();
+        return List.prototype.any.call(this, this.getSelector(headerName));
     }
 
 

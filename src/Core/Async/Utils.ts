@@ -11,7 +11,7 @@ export function wait(timeInMilliseconds: number): AsyncResult {
 }
 
 
-export function callAsyncMethod<T>(instance: object, method: string|symbol, ...args: any[]): AsyncResult<T> {
+export function callAsyncMethod<T = void>(instance: object, method: string|symbol, ...args: any[]): AsyncResult<T> {
     return new Promise<T>((resolve, reject) => {
         instance[method](...args, (error: Error, value: any): void => {
             if (error) {

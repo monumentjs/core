@@ -1,8 +1,8 @@
-import {XMLNode} from './XMLNode';
-import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
+import {XmlNode} from './XmlNode';
+import {assertArgumentNotNull} from '../../../Core/Assertion/Assert';
 
 
-export class XMLDocument extends XMLNode {
+export class XmlDocument extends XmlNode {
     private _version: string = '';
     private _encoding: string = '';
     
@@ -33,12 +33,5 @@ export class XMLDocument extends XMLNode {
     
     public constructor() {
         super('');
-    }
-    
-    
-    public toString(): string {
-        return this.childNodes.toArray().map((childNode: XMLNode) => {
-            return childNode.toString();
-        }).join('\n');
     }
 }

@@ -9,6 +9,8 @@ export class FileReader
     extends StreamReader<FileStream, Buffer>
     implements IInternalStreamProvider<ReadStream> {
 
+    private _internalStream: ReadStream;
+
 
     public get isFlowing(): boolean {
         let sourceStream = this.sourceStream;
@@ -28,9 +30,13 @@ export class FileReader
 
 
     public getInternalStream(): ReadStream {
-        return createReadStream(this.sourceStream.fileName, {
-            fd: this.sourceStream.fileDescriptor
-        });
+        if (this._internalStream == null) {
+            this._internalStream = createReadStream(this.sourceStream.fileName, {
+                fd: this.sourceStream.fileDescriptor
+            });
+        }
+
+        return this._internalStream;
     }
 
 

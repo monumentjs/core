@@ -1,14 +1,14 @@
 import {createServer as createHttpServer, IncomingMessage, Server as NativeHttpServer, ServerResponse} from 'http';
 import {AsyncResult} from '../../../Core/types';
 import {HttpServerConfiguration} from './HttpServerConfiguration';
-import {HttpRequest} from './HttpRequest';
+import {HttpRequestReader} from './HttpRequestReader';
 import {HttpResponse} from './HttpResponse';
 import {callAsyncMethod} from '../../../Core/Async/Utils';
 import {assertArgumentNotNull} from '../../../Core/Assertion/Assert';
 import {StatusCode} from './StatusCode';
 import {TextContent} from './Content/TextContent';
 import {HttpResponseWriter} from './HttpResponseWriter';
-import {IHttpRequestHandler} from './IHttpRequestHandler';
+import {HttpRequest} from './HttpRequest';
 
 
 type RequestListener = (request: IncomingMessage, response: ServerResponse) => void;
@@ -16,13 +16,12 @@ type RequestListener = (request: IncomingMessage, response: ServerResponse) => v
 
 export class HttpServer {
     private _requestListener: RequestListener;
-    private _requestHandler: IHttpRequestHandler;
-    private _serverConfiguration: HttpServerConfiguration;
+    private _configuration: HttpServerConfiguration;
     private _server: NativeHttpServer;
 
 
-    public get serverConfiguration(): HttpServerConfiguration {
-        return this._serverConfiguration;
+    public get configuration(): HttpServerConfiguration {
+        return this._configuration;
     }
 
 
@@ -43,12 +42,10 @@ export class HttpServer {
     }
 
 
-    public constructor(serverConfiguration: HttpServerConfiguration, requestHandler: IHttpRequestHandler) {
+    public constructor(serverConfiguration: HttpServerConfiguration) {
         assertArgumentNotNull('serverConfiguration', serverConfiguration);
-        assertArgumentNotNull('requestHandler', requestHandler);
 
-        this._serverConfiguration = serverConfiguration;
-        this._requestHandler = requestHandler;
+        this._configuration = serverConfiguration;
 
         this.createRequestListener();
         this.createInternalServer();
@@ -56,26 +53,26 @@ export class HttpServer {
 
 
     public listen(): AsyncResult {
-        return callAsyncMethod<void>(
+        return callAsyncMethod(
             this._server,
             'listen',
-            this.serverConfiguration.port,
-            this.serverConfiguration.host,
-            this.serverConfiguration.backlogSize
+            this.configuration.port,
+            this.configuration.host,
+            this.configuration.backlogSize
         );
     }
 
 
     public stop(): AsyncResult {
-        return callAsyncMethod<void>(this._server, 'close');
+        return callAsyncMethod(this._server, 'close');
     }
 
 
     protected createRequestListener(): void {
         this._requestListener = async (req: IncomingMessage, res: ServerResponse): AsyncResult => {
-            let request: HttpRequest = new HttpRequest(req);
-            let response: HttpResponse = await this.getResponse(request);
+            let requestReader: HttpRequestReader = new HttpRequestReader(req);
             let responseWriter: HttpResponseWriter = new HttpResponseWriter(res);
+            let response: HttpResponse = await this.getResponse(requestReader.request);
 
             await responseWriter.send(response);
         };
@@ -84,14 +81,14 @@ export class HttpServer {
 
     protected createInternalServer(): void {
         this._server = createHttpServer(this._requestListener);
-        this._server.maxHeadersCount = this.serverConfiguration.maxHeadersCount;
-        this._server.timeout = this.serverConfiguration.requestTimeout;
+        this._server.maxHeadersCount = this.configuration.maxHeadersCount;
+        this._server.timeout = this.configuration.requestTimeout;
     }
 
 
     protected async getResponse(request: HttpRequest): AsyncResult<HttpResponse> {
         try {
-            return await this._requestHandler.send(request);
+            return await this._configuration.requestHandler.send(request);
         } catch (ex) {
             return this.createErrorResponse(ex);
         }

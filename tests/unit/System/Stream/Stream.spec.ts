@@ -91,29 +91,6 @@ describe(`Stream`, () => {
 
 
     describe(`#read()`, () => {
-        it(`throws when stream is not readable`, async () => {
-            let error: Error;
-            let onError = jest.fn();
-
-            wordsStream.addEventListener(StreamEvent.ERROR, onError);
-            Stream.setReadable(wordsStream, false);
-
-            expect(wordsStream.canRead).toEqual(false);
-
-            await wordsStream.open();
-
-            try {
-                await wordsStream.read(1);
-            } catch (ex) {
-                error = ex;
-            }
-
-            expect(error).toBeInstanceOf(Error);
-            expect(error.message).toEqual(`Stream is not readable.`);
-            expect(onError).toHaveBeenCalledTimes(1);
-        });
-
-
         it(`throws when stream is not ready`, async () => {
             let error: Error;
             let onError = jest.fn();
@@ -205,30 +182,6 @@ describe(`Stream`, () => {
 
 
     describe(`#write()`, () => {
-        it(`throws when stream is not writable`, async () => {
-            let error: Error;
-            let onError = jest.fn();
-
-            wordsStream.addEventListener(StreamEvent.ERROR, onError);
-
-            Stream.setWritable(wordsStream, false);
-
-            expect(wordsStream.canWrite).toEqual(false);
-
-            await wordsStream.open();
-
-            try {
-                await wordsStream.write('six');
-            } catch (ex) {
-                error = ex;
-            }
-
-            expect(error).toBeInstanceOf(Error);
-            expect(error.message).toEqual(`Stream is not writable.`);
-            expect(onError).toHaveBeenCalledTimes(1);
-        });
-
-
         it(`throws when stream is not ready`, async () => {
             let error: Error;
             let onError = jest.fn();

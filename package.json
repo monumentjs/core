@@ -19,14 +19,14 @@
   "author": "Alex Chugaev <achugaev93@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@types/jest": "^19.2.2",
-    "@types/node": "^7.0.13"
+    "@types/node": "^7.0.18"
   },
   "devDependencies": {
-    "jest": "^19.0.2",
-    "ts-jest": "^19.0.7",
-    "tslint": "^5.1.0",
-    "typescript": "^2.2.2"
+    "@types/jest": "^19.2.3",
+    "jest": "^20.0.1",
+    "ts-jest": "^20.0.3",
+    "tslint": "^5.2.0",
+    "typescript": "^2.3.2"
   },
   "repository": "https://github.com/typescript-standard-library/Core.git",
   "jest": {

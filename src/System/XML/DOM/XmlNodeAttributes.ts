@@ -1,19 +1,19 @@
-import {Dictionary} from '../../Core/Collections/Dictionary';
-import {XMLNode} from './XMLNode';
-import {StringBuilder} from '../../Core/Text/StringBuilder';
-import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
+import {Dictionary} from '../../../Core/Collections/Dictionary';
+import {XmlNode} from './XmlNode';
+import {StringBuilder} from '../../../Core/Text/StringBuilder';
+import {assertArgumentNotNull} from '../../../Core/Assertion/Assert';
 
 
-export class XMLNodeAttributes extends Dictionary<string, string> {
-    private _node: XMLNode;
+export class XmlNodeAttributes extends Dictionary<string, string> {
+    private _node: XmlNode;
     
     
-    public get node(): XMLNode {
+    public get node(): XmlNode {
         return this._node;
     }
     
     
-    public constructor(node: XMLNode) {
+    public constructor(node: XmlNode) {
         super();
 
         assertArgumentNotNull('node', node);
@@ -22,8 +22,8 @@ export class XMLNodeAttributes extends Dictionary<string, string> {
     }
     
     
-    public clone(): XMLNodeAttributes {
-        let clonedAttributes: XMLNodeAttributes = new XMLNodeAttributes(this._node);
+    public clone(): XmlNodeAttributes {
+        let clonedAttributes: XmlNodeAttributes = new XmlNodeAttributes(this._node);
         
         for (let attribute of this) {
             clonedAttributes.set(attribute.key, attribute.value);
@@ -38,6 +38,7 @@ export class XMLNodeAttributes extends Dictionary<string, string> {
         let index = 0;
         
         for (let {key, value} of this) {
+            value = value.replace(/"/g, '\\"');
             stringBuilder.append(` ${key}="${value}"`);
             index++;
         }

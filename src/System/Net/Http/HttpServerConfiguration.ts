@@ -1,4 +1,5 @@
 import {assertArgumentNotNull} from '../../../Core/Assertion/Assert';
+import {IHttpRequestHandler} from './IHttpRequestHandler';
 
 
 export class HttpServerConfiguration {
@@ -7,6 +8,7 @@ export class HttpServerConfiguration {
     private _backlogSize: number = 1000;
     private _maxHeadersCount: number = 1000;
     private _requestTimeout: number = 60000;
+    private _requestHandler: IHttpRequestHandler;
 
 
     public get host(): string {
@@ -58,6 +60,16 @@ export class HttpServerConfiguration {
 
     public set requestTimeout(value: number) {
         this._requestTimeout = value;
+    }
+
+
+    public get requestHandler(): IHttpRequestHandler {
+        return this._requestHandler;
+    }
+
+
+    public set requestHandler(value: IHttpRequestHandler) {
+        this._requestHandler = value;
     }
 
 

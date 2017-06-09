@@ -1,6 +1,6 @@
 
 
-export enum RequestMethod {
+export enum HttpMethod {
     Get,
     Post,
     Put,

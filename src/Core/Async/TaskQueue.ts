@@ -5,7 +5,7 @@ import {TaskEvent} from './TaskEvent';
 import {assertArgumentBounds, assertArgumentNotNull} from '../Assertion/Assert';
 
 
-export class TaskScheduler implements IDisposable {
+export class TaskQueue implements IDisposable {
     private _queue: Queue<Task<any>> = new Queue<Task<any>>();
     private _isDisposed: boolean = false;
     private _concurrentTasksLimit: number;
@@ -80,10 +80,8 @@ export class TaskScheduler implements IDisposable {
 
 
     protected tryRunNextTask(): void {
-        let task: Task<any>;
-
         if (this.canRunOneMoreTask) {
-            task = this._queue.dequeue();
+            let task: Task = this._queue.dequeue();
 
             task.start();
         }

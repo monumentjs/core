@@ -2,7 +2,7 @@ import {Stream} from '../Stream/Stream';
 import {BitMask} from '../../Core/Binary/BitMask';
 import {AsyncResult} from '../../Core/types';
 import {assertArgumentBounds, assertArgumentNotNull} from '../../Core/Assertion/Assert';
-import {DEFAULT_STREAM_CHUNK_SIZE} from './constants';
+import {FILE_STREAM_BUFFER_SIZE} from './constants';
 import {FileMode} from './FileMode';
 import {AccessPermissions} from './AccessPermissions';
 import {FileStorage} from './FileStorage';
@@ -28,7 +28,7 @@ export class FileStream extends Stream<Buffer> {
     protected _fileModeFlags: BitMask;
     protected _accessPermissions: AccessPermissions;
 
-    private _bufferSize: number = DEFAULT_STREAM_CHUNK_SIZE;
+    private _bufferSize: number = FILE_STREAM_BUFFER_SIZE;
 
 
     public get fileName(): string {

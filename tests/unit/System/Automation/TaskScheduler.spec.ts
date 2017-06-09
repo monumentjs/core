@@ -1,19 +1,19 @@
 import {FakeTask} from '../../../mocks/TestTask';
-import {TaskScheduler} from '../../../../src/Core/Async/TaskScheduler';
+import {TaskQueue} from '../../../../src/Core/Async/TaskQueue';
 
 
 describe('TaskScheduler', () => {
-    let scheduler: TaskScheduler;
+    let scheduler: TaskQueue;
 
 
     beforeEach(() => {
-        scheduler = new TaskScheduler();
+        scheduler = new TaskQueue();
     });
 
 
     describe('#constructor(options)', () => {
         it(`creates new single-threaded scheduler`, () => {
-            expect(scheduler).toBeInstanceOf(TaskScheduler);
+            expect(scheduler).toBeInstanceOf(TaskQueue);
             expect(scheduler.concurrentTasksLimit).toBe(1);
             expect(scheduler.isEmpty).toBe(true);
             expect(scheduler.isIdle).toBe(true);
@@ -23,9 +23,9 @@ describe('TaskScheduler', () => {
 
 
         it(`creates new multi-threaded scheduler`, () => {
-            scheduler = new TaskScheduler(10);
+            scheduler = new TaskQueue(10);
 
-            expect(scheduler).toBeInstanceOf(TaskScheduler);
+            expect(scheduler).toBeInstanceOf(TaskQueue);
             expect(scheduler.concurrentTasksLimit).toBe(10);
             expect(scheduler.isEmpty).toBe(true);
             expect(scheduler.isIdle).toBe(true);
@@ -37,7 +37,7 @@ describe('TaskScheduler', () => {
 
     describe('#addTask()', () => {
         it('adds task to the end of queue', () => {
-            let taskScheduler: TaskScheduler = new TaskScheduler(1);
+            let taskScheduler: TaskQueue = new TaskQueue(1);
             let task: FakeTask<string> = new FakeTask<string>('OK');
             let onTaskComplete = jest.fn();
             let onTaskError = jest.fn();

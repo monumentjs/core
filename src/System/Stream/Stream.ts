@@ -12,21 +12,7 @@ import {Exception} from '../../Core/Exceptions/Exception';
 
 
 export abstract class Stream<TChunk> extends EventEmitter implements IDisposable {
-    public static setReadable(stream: Stream<any>, readable: boolean): void {
-        stream._canRead = readable;
-    }
-
-
-    public static setWritable(stream: Stream<any>, writable: boolean): void {
-        stream._canWrite = writable;
-    }
-
-
-    public static setSeekable(stream: Stream<any>, seekable: boolean): void {
-        stream._canSeek = seekable;
-    }
-
-
+    protected _canTimeout: boolean = false;
     protected _canRead: boolean = true;
     protected _canWrite: boolean = true;
     protected _canSeek: boolean = true;
@@ -39,6 +25,8 @@ export abstract class Stream<TChunk> extends EventEmitter implements IDisposable
 
     protected _position: number = 0;
     protected _length: number = 0;
+    protected _readTimeout: number = 0;
+    protected _writeTimeout: number = 0;
 
     private _closeOnEnd: boolean = true;
 
@@ -68,8 +56,45 @@ export abstract class Stream<TChunk> extends EventEmitter implements IDisposable
     }
 
 
+    public get canTimeout(): boolean {
+        return this._canTimeout;
+    }
+
+
     public get length(): number {
         return this._length;
+    }
+
+
+    public get readTimeout(): number {
+        this.ensureCanTimeout();
+
+        return this._readTimeout;
+    }
+
+
+    public set readTimeout(value: number) {
+        this.ensureCanTimeout();
+
+        assertArgumentNotNull('value', value);
+
+        this._readTimeout = value;
+    }
+
+
+    public get writeTimeout(): number {
+        this.ensureCanTimeout();
+
+        return this._writeTimeout;
+    }
+
+
+    public set writeTimeout(value: number) {
+        this.ensureCanTimeout();
+
+        assertArgumentNotNull('value', value);
+
+        this._writeTimeout = value;
     }
 
 
@@ -111,8 +136,8 @@ export abstract class Stream<TChunk> extends EventEmitter implements IDisposable
 
 
     public async close(): AsyncResult {
-        this.throwIfClosed();
-        this.throwIfNotReady();
+        this.ensureNotClosed();
+        this.ensureIsReady();
 
         await this.onClose();
 
@@ -127,9 +152,9 @@ export abstract class Stream<TChunk> extends EventEmitter implements IDisposable
     public async seek(position: number): AsyncResult {
         assertArgumentNotNull('position', position);
 
-        this.throwIfClosed();
-        this.throwIfNotSeekable();
-        this.throwIfNotReady();
+        this.ensureNotClosed();
+        this.ensureCanSeek();
+        this.ensureIsReady();
 
         this._position = await this.onSeek(position);
 
@@ -143,9 +168,9 @@ export abstract class Stream<TChunk> extends EventEmitter implements IDisposable
 
         let dataChunk: TChunk;
 
-        this.throwIfClosed();
-        this.throwIfNotReadable();
-        this.throwIfNotReady();
+        this.ensureNotClosed();
+        this.ensureCanRead();
+        this.ensureIsReady();
 
         dataChunk = await this.onRead(size);
 
@@ -164,9 +189,9 @@ export abstract class Stream<TChunk> extends EventEmitter implements IDisposable
     public async write(dataChunk: TChunk): AsyncResult<number> {
         assertArgumentNotNull('dataChunk', dataChunk);
 
-        this.throwIfClosed();
-        this.throwIfNotWritable();
-        this.throwIfNotReady();
+        this.ensureNotClosed();
+        this.ensureCanWrite();
+        this.ensureIsReady();
 
         let offset: number;
 
@@ -179,9 +204,9 @@ export abstract class Stream<TChunk> extends EventEmitter implements IDisposable
 
 
     public async flush(): AsyncResult {
-        this.throwIfClosed();
-        this.throwIfNotWritable();
-        this.throwIfNotReady();
+        this.ensureNotClosed();
+        this.ensureCanWrite();
+        this.ensureIsReady();
 
         await this.onFlush();
     }
@@ -224,37 +249,44 @@ export abstract class Stream<TChunk> extends EventEmitter implements IDisposable
     }
 
 
-    protected throwIfNotReady(): void {
+    protected ensureIsReady(): void {
         if (!this.isReady) {
             this.throwException(new InvalidOperationException(`Stream is not ready.`));
         }
     }
 
 
-    protected throwIfClosed(): void {
+    protected ensureNotClosed(): void {
         if (this.isClosed) {
             this.throwException(new InvalidOperationException(`Stream is closed.`));
         }
     }
 
 
-    protected throwIfNotReadable(): void {
+    protected ensureCanRead(): void {
         if (!this.canRead) {
             this.throwException(new StreamNotReadableException(`Stream is not readable.`));
         }
     }
 
 
-    protected throwIfNotSeekable(): void {
+    protected ensureCanSeek(): void {
         if (!this.canSeek) {
             this.throwException(new StreamNotSeekableException(`Stream does not support seeking.`));
         }
     }
 
 
-    protected throwIfNotWritable(): void {
+    protected ensureCanWrite(): void {
         if (!this.canWrite) {
             this.throwException(new StreamNotWritableException(`Stream is not writable.`));
+        }
+    }
+
+
+    protected ensureCanTimeout(): void {
+        if (!this.canTimeout) {
+            this.throwException(new InvalidOperationException(`Stream does not support timing out.`));
         }
     }
 

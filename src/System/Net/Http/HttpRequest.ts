@@ -1,124 +1,46 @@
-import {IncomingMessage} from 'http';
-import {RequestMethod} from './RequestMethod';
-import {TextTransform} from '../../../Core/Text/TextTransform';
 import {Uri} from '../../Uri/Uri';
-import {Encoding} from '../../Text/Encoding';
-import {Version} from '../../../Core/Version/Version';
-import {ReleaseStatus} from '../../../Core/Version/types';
-import {StreamReader} from '../../Stream/StreamReader';
-import {AsyncResult} from '../../../Core/types';
+import {HttpMethod} from './HttpMethod';
 import {HeadersCollection} from './HeadersCollection';
+import {AcceptTypesCollection} from './AcceptTypesCollection';
+import {AcceptTypesParser} from './AcceptTypesParser';
 
 
-export class HttpRequest extends StreamReader<IncomingMessage, Buffer> {
-    private _httpVersion: Version;
-    private _requestUri: Uri;
-    private _requestMethod: RequestMethod;
-    private _headers: HeadersCollection;
+export class HttpRequest {
+    private _httpMethod: HttpMethod;
+    private _url: Uri;
+    private _headers: HeadersCollection = new HeadersCollection();
 
 
-    public get isPaused(): boolean {
-        return this.sourceStream.isPaused();
+    public get httpMethod(): HttpMethod {
+        return this._httpMethod;
     }
 
 
-    public get method(): RequestMethod {
-        if (this._requestMethod == null) {
-            this._requestMethod = this.extractRequestMethod();
-        }
-
-        return this._requestMethod;
-    }
-
-
-    public get uri(): Uri {
-        if (this._requestUri == null) {
-            this._requestUri = this.extractRequestUri();
-        }
-
-        return this._requestUri;
-    }
-
-
-    public get httpVersion(): Version {
-        if (this._httpVersion == null) {
-            this._httpVersion = this.extractHttpVersion();
-        }
-
-        return this._httpVersion;
+    public get url(): Uri {
+        return this._url;
     }
 
 
     public get headers(): HeadersCollection {
-        if (this._headers == null) {
-            this._headers = this.extractHeaders();
-        }
-
         return this._headers;
     }
 
 
-    public setEncoding(encoding: Encoding): void {
-        this.sourceStream.setEncoding(encoding.encodingName);
+    public get acceptTypes(): AcceptTypesCollection {
+        let acceptHeaderValue: string = this._headers.find('Accept');
+        let acceptTypesParser: AcceptTypesParser = new AcceptTypesParser();
+
+        return acceptTypesParser.parse(acceptHeaderValue);
     }
 
 
-    protected async onRead(length: number): AsyncResult<Buffer> {
-        return this.sourceStream.read(length);
+    public get userAgent(): string {
+        return this._headers.find('User-Agent');
     }
 
 
-    protected async onPause(): AsyncResult {
-        this.sourceStream.pause();
-    }
-
-
-    protected async onResume(): AsyncResult {
-        this.sourceStream.resume();
-    }
-
-
-    protected async onClose(): AsyncResult {
-        this.sourceStream.destroy();
-    }
-
-
-    private extractRequestMethod(): RequestMethod {
-        let enumKey: string = TextTransform.toCapitalCase(this.sourceStream.method);
-        let requestMethod: RequestMethod = RequestMethod[enumKey];
-
-        if (requestMethod == null) {
-            return RequestMethod.Get;
-        }
-
-        return requestMethod;
-    }
-
-
-    private extractRequestUri(): Uri {
-        return new Uri(this.sourceStream.url);
-    }
-
-
-    private extractHttpVersion(): Version {
-        return new Version(
-            this.sourceStream.httpVersionMajor,
-            this.sourceStream.httpVersionMinor,
-            0,
-            ReleaseStatus.Stable
-        );
-    }
-
-
-    private extractHeaders(): HeadersCollection {
-        let headers: HeadersCollection = new HeadersCollection();
-
-        Object.keys(this.sourceStream.headers).forEach((headerName: string) => {
-            let headerValue: string = this.sourceStream.headers[headerName];
-
-            headers.set(headerName, headerValue);
-        });
-
-        return headers;
+    public constructor(url: Uri, method: HttpMethod = HttpMethod.Get) {
+        this._httpMethod = method;
+        this._url = url;
     }
 }

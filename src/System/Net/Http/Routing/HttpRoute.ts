@@ -1,5 +1,4 @@
 import {IHttpRoute} from './IHttpRoute';
-import {HttpRequest} from '../HttpRequest';
 import {HttpRouteValueDictionary} from './HttpRouteValueDictionary';
 import {IHttpRequestHandler} from '../IHttpRequestHandler';
 import {HttpRouteData} from './HttpRouteData';
@@ -7,6 +6,7 @@ import {FormattableString} from '../../../../Core/Text/FormattableString';
 import {Dictionary} from '../../../../Core/Collections/Dictionary';
 import {IEnumerable} from '../../../../Core/Collections/IEnumerable';
 import {IHttpRouteConstraint} from './IHttpRouteConstraint';
+import {HttpRequest} from '../HttpRequest';
 
 
 export class HttpRoute implements IHttpRoute {
@@ -61,7 +61,7 @@ export class HttpRoute implements IHttpRoute {
 
 
     public getRouteData(request: HttpRequest): HttpRouteData {
-        let routeData: HttpRouteData = this.extractRouteData(request.uri.path);
+        let routeData: HttpRouteData = this.extractRouteData(request.url.path);
 
         if (routeData == null) {
             return null;

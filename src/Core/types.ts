@@ -38,11 +38,11 @@ export interface IComparable<T> {
 }
 
 
-export interface IConvertible<I, O> {
+export interface IConvertible<TFrom, TTo> {
     /**
      * Converts given value into another type.
      */
-    convert(obj: I): O;
+    convert(obj: TFrom): TTo;
 }
 
 
@@ -58,7 +58,7 @@ export interface IDisposable {
     /**
      * Indicates whether or not the instance was disposed.
      */
-    isDisposed: boolean;
+    readonly isDisposed: boolean;
 
     /**
      * Releases class resource to free memory.

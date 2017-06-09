@@ -1,5 +1,5 @@
 import {DataSizeUnits} from './DataSizeUnits';
 
 
-export const DEFAULT_STREAM_CHUNK_SIZE: number = 16 * DataSizeUnits.Kilobytes;
+export const FILE_STREAM_BUFFER_SIZE: number = 4 * DataSizeUnits.Kilobytes;
 

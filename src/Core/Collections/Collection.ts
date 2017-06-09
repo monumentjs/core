@@ -3,7 +3,12 @@ import {ICollection} from './ICollection';
 import {ReadOnlyCollection} from './ReadOnlyCollection';
 
 
-export class Collection<T> extends ReadOnlyCollection<T> implements ICollection<T>, ICloneable<Collection<T>> {
+export class Collection<T>
+    extends
+        ReadOnlyCollection<T>
+    implements
+        ICollection<T>,
+        ICloneable<Collection<T>> {
 
     public clone(): Collection<T> {
         return new Collection(this);
@@ -16,9 +21,7 @@ export class Collection<T> extends ReadOnlyCollection<T> implements ICollection<
 
 
     public remove(item: T): boolean {
-        let index: number;
-
-        index = Array.prototype.indexOf.call(this, item);
+        let index: number = Array.prototype.indexOf.call(this, item);
 
         if (index >= 0) {
             Array.prototype.splice.call(this, index, 1);
