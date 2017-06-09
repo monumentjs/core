@@ -3,7 +3,6 @@ import {FileSystem} from './FileSystem';
 import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
 import {FileMode} from './FileMode';
 import {AccessPermissions} from './AccessPermissions';
-import {AsyncResult} from '../../Core/types';
 import {FileSystemEntry} from './FileSystemEntry';
 import {AccessMode} from './AccessMode';
 import {FileDescriptor} from './types';
@@ -27,27 +26,27 @@ export class FileStorage {
         fullName: string,
         fileMode?: FileMode,
         accessPermissions?: AccessPermissions
-    ): AsyncResult<FileDescriptor> {
+    ): Promise<FileDescriptor> {
         return this.fileSystem.open(fullName, fileMode, accessPermissions);
     }
 
 
-    public static read(fileDescriptor: FileDescriptor, position: number, length: number): AsyncResult<Buffer> {
+    public static read(fileDescriptor: FileDescriptor, position: number, length: number): Promise<Buffer> {
         return this.fileSystem.read(fileDescriptor, position, length);
     }
 
 
-    public static write(fileDescriptor: FileDescriptor, position: number, buffer: Buffer): AsyncResult<number> {
+    public static write(fileDescriptor: FileDescriptor, position: number, buffer: Buffer): Promise<number> {
         return this.fileSystem.write(fileDescriptor, position, buffer);
     }
 
 
-    public static flush(fileDescriptor: FileDescriptor): AsyncResult {
+    public static flush(fileDescriptor: FileDescriptor): Promise<void> {
         return this.fileSystem.flush(fileDescriptor);
     }
 
 
-    public static close(fileDescriptor: FileDescriptor): AsyncResult {
+    public static close(fileDescriptor: FileDescriptor): Promise<void> {
         return this.fileSystem.close(fileDescriptor);
     }
 
@@ -57,7 +56,7 @@ export class FileStorage {
         accessPermissions?: AccessPermissions,
         truncate?: boolean,
         overwrite?: boolean
-    ): AsyncResult {
+    ): Promise<void> {
         return this.fileSystem.createFile(fileName, accessPermissions, truncate, overwrite);
     }
 
@@ -66,92 +65,92 @@ export class FileStorage {
         fileName: string,
         fileContent: Buffer,
         accessPermissions?: AccessPermissions
-    ): AsyncResult {
+    ): Promise<void> {
         return this.fileSystem.writeFile(fileName, fileContent, accessPermissions);
     }
 
 
-    public static readFile(fileName: string): AsyncResult<Buffer> {
+    public static readFile(fileName: string): Promise<Buffer> {
         return this.fileSystem.readFile(fileName);
     }
 
 
-    public static removeFile(fileName: string): AsyncResult {
+    public static removeFile(fileName: string): Promise<void> {
         return this.fileSystem.removeFile(fileName);
     }
 
 
-    public static fileExists(fileName: string): AsyncResult<boolean> {
+    public static fileExists(fileName: string): Promise<boolean> {
         return this.fileSystem.fileExists(fileName);
     }
 
 
-    public static createDirectory(directoryName: string, accessPermissions?: AccessPermissions): AsyncResult {
+    public static createDirectory(directoryName: string, accessPermissions?: AccessPermissions): Promise<void> {
         return this.fileSystem.createDirectory(directoryName, accessPermissions);
     }
 
 
-    public static readDirectory(directoryName: string): AsyncResult<ReadOnlyCollection<FileSystemEntry>> {
+    public static readDirectory(directoryName: string): Promise<ReadOnlyCollection<FileSystemEntry>> {
         return this.fileSystem.readDirectory(directoryName);
     }
 
 
-    public static removeDirectory(directoryName: string): AsyncResult {
+    public static removeDirectory(directoryName: string): Promise<void> {
         return this.fileSystem.removeDirectory(directoryName);
     }
 
 
-    public static directoryExists(directoryName: string): AsyncResult<boolean> {
+    public static directoryExists(directoryName: string): Promise<boolean> {
         return this.fileSystem.directoryExists(directoryName);
     }
 
 
-    public static checkAccess(fullName: string, accessMode?: AccessMode): AsyncResult {
+    public static checkAccess(fullName: string, accessMode?: AccessMode): Promise<void> {
         return this.fileSystem.checkAccess(fullName, accessMode);
     }
 
 
-    public static getEntry(fullName: string): AsyncResult<FileSystemEntry> {
+    public static getEntry(fullName: string): Promise<FileSystemEntry> {
         return this.fileSystem.getEntry(fullName);
     }
 
 
-    public static getPermissions(fullName: string): AsyncResult<AccessPermissions> {
+    public static getPermissions(fullName: string): Promise<AccessPermissions> {
         return this.fileSystem.getPermissions(fullName);
     }
 
 
-    public static setPermissions(fullName: string, accessPermissions: AccessPermissions): AsyncResult {
+    public static setPermissions(fullName: string, accessPermissions: AccessPermissions): Promise<void> {
         return this.fileSystem.setPermissions(fullName, accessPermissions);
     }
 
 
-    public static setOwner(fullName: string, userId: number, groupId: number): AsyncResult {
+    public static setOwner(fullName: string, userId: number, groupId: number): Promise<void> {
         return this.fileSystem.setOwner(fullName, userId, groupId);
     }
 
 
-    public static createSymbolicLink(fullName: string, linkName: string): AsyncResult {
+    public static createSymbolicLink(fullName: string, linkName: string): Promise<void> {
         return this.fileSystem.createSymbolicLink(fullName, linkName);
     }
 
 
-    public static createLink(fullName: string, linkName: string): AsyncResult {
+    public static createLink(fullName: string, linkName: string): Promise<void> {
         return this.fileSystem.createLink(fullName, linkName);
     }
 
 
-    public static readLink(linkName: string): AsyncResult<string> {
+    public static readLink(linkName: string): Promise<string> {
         return this.fileSystem.readLink(linkName);
     }
 
 
-    public static getAbsolutePath(path: string): AsyncResult<string> {
+    public static getAbsolutePath(path: string): Promise<string> {
         return this.fileSystem.getAbsolutePath(path);
     }
 
 
-    public static move(sourceName: string, destinationName: string): AsyncResult {
+    public static move(sourceName: string, destinationName: string): Promise<void> {
         return this.fileSystem.move(sourceName, destinationName);
     }
 

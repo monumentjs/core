@@ -12,10 +12,6 @@ export type Pool<T> = {
 };
 
 
-export type AsyncResult<T = void> = Promise<T>;
-
-
-
 // COMMON INTERFACES
 
 

@@ -1,5 +1,4 @@
 import * as fs from 'fs';
-import {AsyncResult} from '../../../src/Core/types';
 import {callAsyncMethod} from '../../../src/Core/Async/Utils';
 import {Fixture} from '../../../src/Testing/Fixture';
 import {AccessPermissions} from '../../../src/System/IO/AccessPermissions';
@@ -29,14 +28,14 @@ export class FileFixture extends Fixture {
     }
 
 
-    protected async doCreate(): AsyncResult<void> {
+    protected async doCreate(): Promise<void> {
         await callAsyncMethod(fs, 'writeFile', this._fileName, this._content/*, {
             mode: this._accessPermissions
         }*/);
     }
 
 
-    protected async doDestroy(): AsyncResult<void> {
+    protected async doDestroy(): Promise<void> {
         try {
             await callAsyncMethod(fs, 'unlink', this._fileName);
         } catch (ex) {/* */}

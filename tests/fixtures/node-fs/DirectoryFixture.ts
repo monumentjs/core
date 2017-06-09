@@ -1,5 +1,4 @@
 import * as fs from 'fs';
-import {AsyncResult} from '../../../src/Core/types';
 import {callAsyncMethod} from '../../../src/Core/Async/Utils';
 import {Fixture} from '../../../src/Testing/Fixture';
 import {AccessPermissions} from '../../../src/System/IO/AccessPermissions';
@@ -26,12 +25,12 @@ export class DirectoryFixture extends Fixture {
     }
 
 
-    protected doCreate(): AsyncResult<void> {
+    protected doCreate(): Promise<void> {
         return callAsyncMethod<void>(fs, 'mkdir', this._path, this._accessPermissions);
     }
 
 
-    protected doDestroy(): AsyncResult<void> {
+    protected doDestroy(): Promise<void> {
         return callAsyncMethod<void>(fs, 'rmdir', this._path);
     }
 }

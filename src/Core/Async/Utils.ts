@@ -1,8 +1,7 @@
-import {AsyncResult} from '../types';
 import {assertArgumentNotNull} from '../Assertion/Assert';
 
 
-export function wait(timeInMilliseconds: number): AsyncResult {
+export function wait(timeInMilliseconds: number): Promise<void> {
     assertArgumentNotNull('timeInMilliseconds', timeInMilliseconds);
 
     return new Promise<void>((resolve: () => void): void => {
@@ -11,7 +10,7 @@ export function wait(timeInMilliseconds: number): AsyncResult {
 }
 
 
-export function callAsyncMethod<T = void>(instance: object, method: string|symbol, ...args: any[]): AsyncResult<T> {
+export function callAsyncMethod<T = void>(instance: object, method: string|symbol, ...args: any[]): Promise<T> {
     return new Promise<T>((resolve, reject) => {
         instance[method](...args, (error: Error, value: any): void => {
             if (error) {

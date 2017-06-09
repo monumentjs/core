@@ -2,7 +2,7 @@ import {ChildProcess as NodeChildProcess, spawn, SpawnOptions} from 'child_proce
 import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
 import {ErrorEvent} from '../../Core/Events/ErrorEvent';
 import {InvalidOperationException} from '../../Core/Exceptions/InvalidOperationException';
-import {AsyncResult, IDisposable} from '../../Core/types';
+import {IDisposable} from '../../Core/types';
 import {Event} from '../../Core/Events/Event';
 import {NoAssociatedProcessException} from './NoAssociatedProcessException';
 import {ProcessEvent, ProcessEventType} from './ProcessEvent';
@@ -135,14 +135,14 @@ export class Process extends EventEmitter implements IDisposable {
     }
 
 
-    public async disconnect(): AsyncResult {
+    public async disconnect(): Promise<void> {
         this.throwIfNoAssociatedProcess();
 
         this._nativeProcess.disconnect();
     }
 
 
-    public async dispose(): AsyncResult {
+    public async dispose(): Promise<void> {
         await this.kill();
 
         this._isDisposed = true;

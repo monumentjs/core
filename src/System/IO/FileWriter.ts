@@ -1,7 +1,6 @@
 import {IInternalStreamProvider} from '../Stream/IInternalStreamProvider';
 import {FileStream} from './FileStream';
 import {StreamWriter} from '../Stream/StreamWriter';
-import {AsyncResult} from '../../Core/types';
 import {createReadStream, ReadStream} from 'fs';
 
 
@@ -27,7 +26,7 @@ export class FileWriter
     }
 
 
-    protected async onWrite(chunk: Buffer): AsyncResult<number> {
+    protected async onWrite(chunk: Buffer): Promise<number> {
         if (this.targetStream.isReady) {
             await this.targetStream.open();
         }

@@ -1,7 +1,6 @@
 import {FixtureCollection} from '../../../src/Testing/FixtureCollection';
 import {FileFixture} from './FileFixture';
 import {DirectoryFixture} from './DirectoryFixture';
-import {AsyncResult} from '../../../src/Core/types';
 import * as path from 'path';
 
 
@@ -32,7 +31,7 @@ export class FileSystemFixtureCollection extends FixtureCollection {
     }
 
 
-    protected async beforeCreate(): AsyncResult<void> {
+    protected async beforeCreate(): Promise<void> {
         for (let fixture of this.toArray().reverse()) {
             try {
                 await fixture.destroy();

@@ -1,5 +1,4 @@
 import {StreamReader} from '../Stream/StreamReader';
-import {AsyncResult} from '../../Core/types';
 import {Encoding} from '../Text/Encoding';
 import {Utf8Encoding} from '../Text/Utf8Encoding';
 import {Stream} from '../Stream/Stream';
@@ -25,7 +24,7 @@ export class TextReader
     }
 
 
-    protected async onRead(length: number): AsyncResult<string> {
+    protected async onRead(length: number): Promise<string> {
         let currentPosition: number = this.sourceStream.position;
         let bytesToRead: number = this.encoding.getStringSize(length);
         let bytes: Buffer = await this.sourceStream.read(bytesToRead);
@@ -38,17 +37,17 @@ export class TextReader
     }
 
 
-    protected async onPause(): AsyncResult {
+    protected async onPause(): Promise<void> {
         // Stub
     }
 
 
-    protected async onResume(): AsyncResult {
+    protected async onResume(): Promise<void> {
         // Stub
     }
 
 
-    protected async onClose(): AsyncResult {
-        this.sourceStream.close();
+    protected onClose(): Promise<void> {
+        return this.sourceStream.close();
     }
 }

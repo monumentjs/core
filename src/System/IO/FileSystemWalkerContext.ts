@@ -1,6 +1,5 @@
 import {FileSystemEntryProcessor} from './types';
 import {FileSystemEntry} from './FileSystemEntry';
-import {AsyncResult} from '../../Core/types';
 
 
 export class FileSystemWalkerContext {
@@ -58,7 +57,7 @@ export class FileSystemWalkerContext {
     }
 
 
-    public processEntry(entry: FileSystemEntry): AsyncResult {
+    public processEntry(entry: FileSystemEntry): Promise<void> {
         return this.entryProcessor(entry, this);
     }
 }

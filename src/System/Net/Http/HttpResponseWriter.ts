@@ -1,4 +1,3 @@
-import {AsyncResult} from '../../../Core/types';
 import {ServerResponse} from 'http';
 import {assertArgumentNotNull} from '../../../Core/Assertion/Assert';
 import {callAsyncMethod} from '../../../Core/Async/Utils';
@@ -11,7 +10,7 @@ import {HttpResponse} from './HttpResponse';
 
 export class HttpResponseWriter extends StreamWriter<ServerResponse, Buffer> {
 
-    public async send(response: HttpResponse): AsyncResult {
+    public async send(response: HttpResponse): Promise<void> {
         this.setStatus(response.statusCode, response.statusMessage);
         this.setHeaders(response.headers);
 
@@ -23,7 +22,7 @@ export class HttpResponseWriter extends StreamWriter<ServerResponse, Buffer> {
     }
 
 
-    protected async onWrite(chunk: Buffer): AsyncResult<number> {
+    protected async onWrite(chunk: Buffer): Promise<number> {
         await callAsyncMethod<void>(this.targetStream, 'write', chunk);
 
         return chunk.length;
@@ -43,7 +42,7 @@ export class HttpResponseWriter extends StreamWriter<ServerResponse, Buffer> {
     }
 
 
-    private writeContent(content: HttpContent): AsyncResult {
+    private writeContent(content: HttpContent): Promise<void> {
         assertArgumentNotNull('content', content);
 
         this.setHeaders(content.headers);
@@ -52,7 +51,7 @@ export class HttpResponseWriter extends StreamWriter<ServerResponse, Buffer> {
     }
 
 
-    private endResponse(): AsyncResult {
+    private endResponse(): Promise<void> {
         return callAsyncMethod<void>(this.targetStream, 'end');
     }
 }

@@ -1,4 +1,3 @@
-import {AsyncResult} from '../Core/types';
 
 
 export abstract class Fixture {
@@ -10,20 +9,20 @@ export abstract class Fixture {
     }
 
 
-    public async create(): AsyncResult {
+    public async create(): Promise<void> {
         await this.doCreate();
 
         this._isCreated = true;
     }
 
 
-    public async destroy(): AsyncResult {
+    public async destroy(): Promise<void> {
         await this.doDestroy();
 
         this._isCreated = false;
     }
 
 
-    protected abstract doCreate(): AsyncResult;
-    protected abstract doDestroy(): AsyncResult;
+    protected abstract doCreate(): Promise<void>;
+    protected abstract doDestroy(): Promise<void>;
 }

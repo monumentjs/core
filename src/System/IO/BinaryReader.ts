@@ -1,4 +1,3 @@
-import {AsyncResult} from '../../Core/types';
 import {Stream} from '../Stream/Stream';
 import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
 import {ByteOrder} from './ByteOrder';
@@ -20,14 +19,14 @@ export class BinaryReader {
     }
 
 
-    public async read(bytesCount: number): AsyncResult<Buffer> {
+    public async read(bytesCount: number): Promise<Buffer> {
         assertArgumentNotNull('bytesCount', bytesCount);
 
         return this._baseStream.read(bytesCount);
     }
 
 
-    public async readUInt(byteOrder: ByteOrder, bytesCount: number): AsyncResult<number> {
+    public async readUInt(byteOrder: ByteOrder, bytesCount: number): Promise<number> {
         assertArgumentNotNull('byteOrder', byteOrder);
         assertArgumentNotNull('bytesCount', bytesCount);
 
@@ -41,7 +40,7 @@ export class BinaryReader {
     }
 
 
-    public async readInt(byteOrder: ByteOrder, bytesCount: number): AsyncResult<number> {
+    public async readInt(byteOrder: ByteOrder, bytesCount: number): Promise<number> {
         assertArgumentNotNull('byteOrder', byteOrder);
         assertArgumentNotNull('bytesCount', bytesCount);
 
@@ -55,7 +54,7 @@ export class BinaryReader {
     }
 
 
-    public async readFloat(byteOrder: ByteOrder): AsyncResult<number> {
+    public async readFloat(byteOrder: ByteOrder): Promise<number> {
         assertArgumentNotNull('byteOrder', byteOrder);
 
         let buffer: Buffer = await this.read(4);
@@ -68,7 +67,7 @@ export class BinaryReader {
     }
 
 
-    public async readDouble(byteOrder: ByteOrder): AsyncResult<number> {
+    public async readDouble(byteOrder: ByteOrder): Promise<number> {
         assertArgumentNotNull('byteOrder', byteOrder);
 
         let buffer: Buffer = await this.read(8);
@@ -81,56 +80,56 @@ export class BinaryReader {
     }
 
 
-    public async readUInt8(byteOrder: ByteOrder): AsyncResult<number> {
+    public async readUInt8(byteOrder: ByteOrder): Promise<number> {
         assertArgumentNotNull('byteOrder', byteOrder);
 
         return this.readUInt(byteOrder, 1);
     }
 
 
-    public async readUInt16(byteOrder: ByteOrder): AsyncResult<number> {
+    public async readUInt16(byteOrder: ByteOrder): Promise<number> {
         assertArgumentNotNull('byteOrder', byteOrder);
 
         return this.readUInt(byteOrder, 2);
     }
 
 
-    public async readUInt24(byteOrder: ByteOrder): AsyncResult<number> {
+    public async readUInt24(byteOrder: ByteOrder): Promise<number> {
         assertArgumentNotNull('byteOrder', byteOrder);
 
         return this.readUInt(byteOrder, 3);
     }
 
 
-    public async readUInt32(byteOrder: ByteOrder): AsyncResult<number> {
+    public async readUInt32(byteOrder: ByteOrder): Promise<number> {
         assertArgumentNotNull('byteOrder', byteOrder);
 
         return this.readUInt(byteOrder, 4);
     }
 
 
-    public async readInt8(byteOrder: ByteOrder): AsyncResult<number> {
+    public async readInt8(byteOrder: ByteOrder): Promise<number> {
         assertArgumentNotNull('byteOrder', byteOrder);
 
         return this.readInt(byteOrder, 1);
     }
 
 
-    public async readInt16(byteOrder: ByteOrder): AsyncResult<number> {
+    public async readInt16(byteOrder: ByteOrder): Promise<number> {
         assertArgumentNotNull('byteOrder', byteOrder);
 
         return this.readInt(byteOrder, 2);
     }
 
 
-    public async readInt24(byteOrder: ByteOrder): AsyncResult<number> {
+    public async readInt24(byteOrder: ByteOrder): Promise<number> {
         assertArgumentNotNull('byteOrder', byteOrder);
 
         return this.readInt(byteOrder, 3);
     }
 
 
-    public async readInt32(byteOrder: ByteOrder): AsyncResult<number> {
+    public async readInt32(byteOrder: ByteOrder): Promise<number> {
         assertArgumentNotNull('byteOrder', byteOrder);
 
         return this.readInt(byteOrder, 4);

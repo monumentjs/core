@@ -1,5 +1,4 @@
 import {IFileSystemEntry} from './IFileSystemEntry';
-import {AsyncResult} from '../../Core/types';
 import {AccessPermissions} from './AccessPermissions';
 import {AccessMode} from './AccessMode';
 import {FileMode} from './FileMode';
@@ -8,40 +7,40 @@ import {ReadOnlyCollection} from '../../Core/Collections/ReadOnlyCollection';
 
 
 export interface IFileSystem {
-    open(fullName: string, fileMode?: FileMode, accessPermissions?: AccessPermissions): AsyncResult<FileDescriptor>;
-    read(fileDescriptor: FileDescriptor, position: number, length: number): AsyncResult<Buffer>;
-    write(fileDescriptor: FileDescriptor, position: number, buffer: Buffer): AsyncResult<number>;
-    flush(fileDescriptor: FileDescriptor): AsyncResult;
-    close(fileDescriptor: FileDescriptor): AsyncResult;
+    open(fullName: string, fileMode?: FileMode, accessPermissions?: AccessPermissions): Promise<FileDescriptor>;
+    read(fileDescriptor: FileDescriptor, position: number, length: number): Promise<Buffer>;
+    write(fileDescriptor: FileDescriptor, position: number, buffer: Buffer): Promise<number>;
+    flush(fileDescriptor: FileDescriptor): Promise<void>;
+    close(fileDescriptor: FileDescriptor): Promise<void>;
 
     createFile(
         fileName: string,
         accessPermissions?: AccessPermissions,
         truncate?: boolean,
         overwrite?: boolean
-    ): AsyncResult;
-    writeFile(fileName: string, fileContent: Buffer, accessPermissions?: AccessPermissions): AsyncResult;
-    readFile(fileName: string): AsyncResult<Buffer>;
-    removeFile(fileName: string): AsyncResult;
-    fileExists(fileName: string): AsyncResult<boolean>;
+    ): Promise<void>;
+    writeFile(fileName: string, fileContent: Buffer, accessPermissions?: AccessPermissions): Promise<void>;
+    readFile(fileName: string): Promise<Buffer>;
+    removeFile(fileName: string): Promise<void>;
+    fileExists(fileName: string): Promise<boolean>;
 
-    createDirectory(directoryName: string, accessPermissions?: AccessPermissions): AsyncResult;
-    readDirectory(directoryName: string): AsyncResult<ReadOnlyCollection<IFileSystemEntry>>;
-    removeDirectory(directoryName: string): AsyncResult;
-    directoryExists(directoryName: string): AsyncResult<boolean>;
+    createDirectory(directoryName: string, accessPermissions?: AccessPermissions): Promise<void>;
+    readDirectory(directoryName: string): Promise<ReadOnlyCollection<IFileSystemEntry>>;
+    removeDirectory(directoryName: string): Promise<void>;
+    directoryExists(directoryName: string): Promise<boolean>;
 
-    checkAccess(fullName: string, accessMode?: AccessMode): AsyncResult;
-    getEntry(fullName: string): AsyncResult<IFileSystemEntry>;
-    getPermissions(fullName: string): AsyncResult<AccessPermissions>;
-    setPermissions(fullName: string, accessPermissions: AccessPermissions): AsyncResult;
-    setOwner(fullName: string, userId: number, groupId: number): AsyncResult;
+    checkAccess(fullName: string, accessMode?: AccessMode): Promise<void>;
+    getEntry(fullName: string): Promise<IFileSystemEntry>;
+    getPermissions(fullName: string): Promise<AccessPermissions>;
+    setPermissions(fullName: string, accessPermissions: AccessPermissions): Promise<void>;
+    setOwner(fullName: string, userId: number, groupId: number): Promise<void>;
 
-    createSymbolicLink(fullName: string, linkName: string): AsyncResult;
-    createLink(fullName: string, linkName: string): AsyncResult;
-    readLink(linkName: string): AsyncResult<string>;
+    createSymbolicLink(fullName: string, linkName: string): Promise<void>;
+    createLink(fullName: string, linkName: string): Promise<void>;
+    readLink(linkName: string): Promise<string>;
 
-    getAbsolutePath(path: string): AsyncResult<string>;
+    getAbsolutePath(path: string): Promise<string>;
 
-    move(sourceName: string, destinationName: string): AsyncResult;
+    move(sourceName: string, destinationName: string): Promise<void>;
 }
 

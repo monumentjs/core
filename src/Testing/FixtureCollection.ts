@@ -1,10 +1,9 @@
 import {Fixture} from './Fixture';
-import {AsyncResult} from '../Core/types';
 import {Enumerable} from '../Core/Collections/Enumerable';
 
 
 export class FixtureCollection extends Enumerable<Fixture> {
-    public async createAll(): AsyncResult {
+    public async createAll(): Promise<void> {
         await this.beforeCreate();
 
         for (let fixture of this) {
@@ -15,7 +14,7 @@ export class FixtureCollection extends Enumerable<Fixture> {
     }
 
 
-    public async destroyAll(): AsyncResult {
+    public async destroyAll(): Promise<void> {
         await this.beforeDestroy();
 
         for (let fixture of this.toArray().reverse()) {
@@ -28,22 +27,22 @@ export class FixtureCollection extends Enumerable<Fixture> {
     }
 
 
-    protected async beforeCreate(): AsyncResult {
+    protected async beforeCreate(): Promise<void> {
         // Stub
     }
 
 
-    protected async afterCreate(): AsyncResult {
+    protected async afterCreate(): Promise<void> {
         // Stub
     }
 
 
-    protected async beforeDestroy(): AsyncResult {
+    protected async beforeDestroy(): Promise<void> {
         // Stub
     }
 
 
-    protected async afterDestroy(): AsyncResult {
+    protected async afterDestroy(): Promise<void> {
         // Stub
     }
 }

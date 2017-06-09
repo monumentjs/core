@@ -1,4 +1,4 @@
-import {AsyncResult, Constructor} from '../types';
+import {Constructor} from '../types';
 import {assertArgumentNotNull} from '../Assertion/Assert';
 import {EventEmitter} from '../Events/EventEmitter';
 
@@ -26,5 +26,5 @@ export abstract class Application extends EventEmitter {
     }
 
     
-    public abstract main(): AsyncResult;
+    public abstract main(): Promise<void>;
 }

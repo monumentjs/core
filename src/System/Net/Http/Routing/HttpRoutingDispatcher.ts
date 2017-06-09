@@ -1,4 +1,3 @@
-import {AsyncResult} from '../../../../Core/types';
 import {IHttpRequestHandler} from '../IHttpRequestHandler';
 import {IHttpRouteData} from './IHttpRouteData';
 import {assertArgumentNotNull} from '../../../../Core/Assertion/Assert';
@@ -31,7 +30,7 @@ export class HttpRoutingDispatcher implements IHttpRequestHandler {
     }
 
 
-    public send(request: HttpRequest): AsyncResult<HttpResponse> {
+    public send(request: HttpRequest): Promise<HttpResponse> {
         let routeData: IHttpRouteData = this._routes.getRouteData(request);
 
         if (routeData == null) {

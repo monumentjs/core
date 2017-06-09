@@ -2,7 +2,7 @@ import {StreamEventType} from './types';
 import {EventEmitter} from '../../Core/Events/EventEmitter';
 import {ErrorEvent} from '../../Core/Events/ErrorEvent';
 import {StreamEvent} from './StreamEvent';
-import {AsyncResult, IDisposable} from '../../Core/types';
+import {IDisposable} from '../../Core/types';
 import {assertArgumentBounds, assertArgumentNotNull} from '../../Core/Assertion/Assert';
 import {InvalidOperationException} from '../../Core/Exceptions/InvalidOperationException';
 import {StreamNotReadableException} from './StreamNotReadableException';
@@ -125,7 +125,7 @@ export abstract class Stream<TChunk> extends EventEmitter implements IDisposable
     }
 
 
-    public async open(): AsyncResult {
+    public async open(): Promise<void> {
         await this.onOpen();
 
         this._isReady = true;
@@ -135,7 +135,7 @@ export abstract class Stream<TChunk> extends EventEmitter implements IDisposable
     }
 
 
-    public async close(): AsyncResult {
+    public async close(): Promise<void> {
         this.ensureNotClosed();
         this.ensureIsReady();
 
@@ -149,7 +149,7 @@ export abstract class Stream<TChunk> extends EventEmitter implements IDisposable
     }
 
 
-    public async seek(position: number): AsyncResult {
+    public async seek(position: number): Promise<void> {
         assertArgumentNotNull('position', position);
 
         this.ensureNotClosed();
@@ -162,7 +162,7 @@ export abstract class Stream<TChunk> extends EventEmitter implements IDisposable
     }
 
 
-    public async read(size: number): AsyncResult<TChunk> {
+    public async read(size: number): Promise<TChunk> {
         assertArgumentNotNull('size', size);
         assertArgumentBounds('size', size, 1, Infinity);
 
@@ -186,7 +186,7 @@ export abstract class Stream<TChunk> extends EventEmitter implements IDisposable
     }
 
 
-    public async write(dataChunk: TChunk): AsyncResult<number> {
+    public async write(dataChunk: TChunk): Promise<number> {
         assertArgumentNotNull('dataChunk', dataChunk);
 
         this.ensureNotClosed();
@@ -203,7 +203,7 @@ export abstract class Stream<TChunk> extends EventEmitter implements IDisposable
     }
 
 
-    public async flush(): AsyncResult {
+    public async flush(): Promise<void> {
         this.ensureNotClosed();
         this.ensureCanWrite();
         this.ensureIsReady();
@@ -212,7 +212,7 @@ export abstract class Stream<TChunk> extends EventEmitter implements IDisposable
     }
 
 
-    public async dispose(): AsyncResult {
+    public async dispose(): Promise<void> {
         if (this.isDisposing || this.isDisposed) {
             return;
         }
@@ -233,13 +233,13 @@ export abstract class Stream<TChunk> extends EventEmitter implements IDisposable
     }
 
 
-    protected abstract onOpen(): AsyncResult;
-    protected abstract onClose(): AsyncResult;
-    protected abstract onSeek(position: number): AsyncResult<number>;
-    protected abstract onRead(size?: number): AsyncResult<TChunk>;
-    protected abstract onWrite(dataChunk: TChunk): AsyncResult<number>;
-    protected abstract onFlush(): AsyncResult;
-    protected abstract onDispose(): AsyncResult;
+    protected abstract onOpen(): Promise<void>;
+    protected abstract onClose(): Promise<void>;
+    protected abstract onSeek(position: number): Promise<number>;
+    protected abstract onRead(size?: number): Promise<TChunk>;
+    protected abstract onWrite(dataChunk: TChunk): Promise<number>;
+    protected abstract onFlush(): Promise<void>;
+    protected abstract onDispose(): Promise<void>;
 
 
     protected throwException(exception: Exception): void {

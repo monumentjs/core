@@ -2,7 +2,6 @@ import {createReadStream, ReadStream} from 'fs';
 import {IInternalStreamProvider} from '../Stream/IInternalStreamProvider';
 import {StreamReader} from '../Stream/StreamReader';
 import {FileStream} from './FileStream';
-import {AsyncResult} from '../../Core/types';
 
 
 export class FileReader
@@ -40,7 +39,7 @@ export class FileReader
     }
 
 
-    protected async onRead(size: number): AsyncResult<Buffer> {
+    protected async onRead(size: number): Promise<Buffer> {
         if (this.sourceStream.isReady) {
             await this.sourceStream.open();
         }
@@ -49,19 +48,19 @@ export class FileReader
     }
 
 
-    protected async onClose(): AsyncResult {
+    protected async onClose(): Promise<void> {
         if (!this.sourceStream.isClosed) {
             await this.sourceStream.close();
         }
     }
 
 
-    protected async onPause(): AsyncResult {
+    protected async onPause(): Promise<void> {
         // Stub
     }
 
 
-    protected async onResume(): AsyncResult {
+    protected async onResume(): Promise<void> {
         // Stub
     }
 }

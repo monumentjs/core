@@ -4,7 +4,6 @@ import {TextTransform} from '../../../Core/Text/TextTransform';
 import {Uri} from '../../Uri/Uri';
 import {Encoding} from '../../Text/Encoding';
 import {StreamReader} from '../../Stream/StreamReader';
-import {AsyncResult} from '../../../Core/types';
 import {HttpRequest} from './HttpRequest';
 
 
@@ -39,22 +38,22 @@ export class HttpRequestReader extends StreamReader<IncomingMessage, Buffer> {
     }
 
 
-    protected async onRead(length: number): AsyncResult<Buffer> {
+    protected async onRead(length: number): Promise<Buffer> {
         return this.sourceStream.read(length);
     }
 
 
-    protected async onPause(): AsyncResult {
+    protected async onPause(): Promise<void> {
         this.sourceStream.pause();
     }
 
 
-    protected async onResume(): AsyncResult {
+    protected async onResume(): Promise<void> {
         this.sourceStream.resume();
     }
 
 
-    protected async onClose(): AsyncResult {
+    protected async onClose(): Promise<void> {
         this.sourceStream.destroy();
     }
 

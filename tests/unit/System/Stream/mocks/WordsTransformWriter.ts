@@ -1,5 +1,4 @@
 import {Stream} from '../../../../../src/System/Stream/Stream';
-import {AsyncResult} from '../../../../../src/Core/types';
 import {StreamWriter} from '../../../../../src/System/Stream/StreamWriter';
 
 
@@ -14,14 +13,14 @@ export class WordsTransformWriter extends StreamWriter<Stream<string>, string> {
     }
 
 
-    protected async onWrite(chunk: string): AsyncResult<number> {
+    protected async onWrite(chunk: string): Promise<number> {
         await this.openIfNotReady();
 
         return this.targetStream.write(this._transformFunction(chunk));
     }
 
 
-    private async openIfNotReady(): AsyncResult<void> {
+    private async openIfNotReady(): Promise<void> {
         if (!this.targetStream.isReady) {
             await this.targetStream.open();
         }

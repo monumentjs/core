@@ -1,5 +1,4 @@
 import {createServer as createHttpServer, IncomingMessage, Server as NativeHttpServer, ServerResponse} from 'http';
-import {AsyncResult} from '../../../Core/types';
 import {HttpServerConfiguration} from './HttpServerConfiguration';
 import {HttpRequestReader} from './HttpRequestReader';
 import {HttpResponse} from './HttpResponse';
@@ -52,7 +51,7 @@ export class HttpServer {
     }
 
 
-    public listen(): AsyncResult {
+    public listen(): Promise<void> {
         return callAsyncMethod(
             this._server,
             'listen',
@@ -63,13 +62,13 @@ export class HttpServer {
     }
 
 
-    public stop(): AsyncResult {
+    public stop(): Promise<void> {
         return callAsyncMethod(this._server, 'close');
     }
 
 
     protected createRequestListener(): void {
-        this._requestListener = async (req: IncomingMessage, res: ServerResponse): AsyncResult => {
+        this._requestListener = async (req: IncomingMessage, res: ServerResponse): Promise<void> => {
             let requestReader: HttpRequestReader = new HttpRequestReader(req);
             let responseWriter: HttpResponseWriter = new HttpResponseWriter(res);
             let response: HttpResponse = await this.getResponse(requestReader.request);
@@ -86,7 +85,7 @@ export class HttpServer {
     }
 
 
-    protected async getResponse(request: HttpRequest): AsyncResult<HttpResponse> {
+    protected async getResponse(request: HttpRequest): Promise<HttpResponse> {
         try {
             return await this._configuration.requestHandler.send(request);
         } catch (ex) {

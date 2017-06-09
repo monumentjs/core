@@ -1,6 +1,5 @@
 import {Stream} from '../Stream/Stream';
 import {BitMask} from '../../Core/Binary/BitMask';
-import {AsyncResult} from '../../Core/types';
 import {assertArgumentBounds, assertArgumentNotNull} from '../../Core/Assertion/Assert';
 import {FILE_STREAM_BUFFER_SIZE} from './constants';
 import {FileMode} from './FileMode';
@@ -13,7 +12,7 @@ export class FileStream extends Stream<Buffer> {
         fileName: string,
         fileMode: FileMode = FileMode.ReadWrite | FileMode.NonBlock,
         accessPermissions: AccessPermissions = AccessPermissions.Default
-    ): AsyncResult<FileStream> {
+    ): Promise<FileStream> {
         let fileStream: FileStream = new FileStream(fileName, fileMode, accessPermissions);
 
         await fileStream.open();
@@ -98,19 +97,19 @@ export class FileStream extends Stream<Buffer> {
     }
 
 
-    protected async onOpen(): AsyncResult {
+    protected async onOpen(): Promise<void> {
         this._fileDescriptor = await FileStorage.open(this.fileName, this.fileMode, this.accessPermissions);
     }
 
 
-    protected async onClose(): AsyncResult {
+    protected async onClose(): Promise<void> {
         await FileStorage.close(this.fileDescriptor);
 
         delete this._fileDescriptor;
     }
 
 
-    protected async onRead(length: number = this.bufferSize): AsyncResult<Buffer> {
+    protected async onRead(length: number = this.bufferSize): Promise<Buffer> {
         let buffer: Buffer = await FileStorage.read(this.fileDescriptor, this.position, length);
 
         this._position += buffer.length;
@@ -119,22 +118,22 @@ export class FileStream extends Stream<Buffer> {
     }
 
 
-    protected async onWrite(chunk: Buffer): AsyncResult<number> {
+    protected async onWrite(chunk: Buffer): Promise<number> {
         return FileStorage.write(this.fileDescriptor, this.position, chunk);
     }
 
 
-    protected async onSeek(position: number): AsyncResult<number> {
+    protected async onSeek(position: number): Promise<number> {
         return position;
     }
 
 
-    protected async onFlush(): AsyncResult {
+    protected async onFlush(): Promise<void> {
         await FileStorage.flush(this.fileDescriptor);
     }
 
 
-    protected async onDispose(): AsyncResult {
+    protected async onDispose(): Promise<void> {
         // Stub
     }
 }

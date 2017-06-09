@@ -1,6 +1,5 @@
 import {LoggerBase} from './LoggerBase';
 import {ILogRecord} from './ILogRecord';
-import {AsyncResult} from '../../Core/types';
 import {assertArgumentNotNull, assertArgumentType} from '../../Core/Assertion/Assert';
 import {StreamWriter} from '../Stream/StreamWriter';
 
@@ -29,7 +28,7 @@ export class LogWriter extends LoggerBase {
     }
 
 
-    protected async doWrite(record: ILogRecord): AsyncResult {
+    protected async doWrite(record: ILogRecord): Promise<void> {
         await this._targetWriter.write(record.toString());
     }
 }

@@ -1,4 +1,4 @@
-import {AsyncResult, IDisposable} from '../../../Core/types';
+import {IDisposable} from '../../../Core/types';
 import {HeadersCollection} from './HeadersCollection';
 import {StreamWriter} from '../../Stream/StreamWriter';
 
@@ -23,5 +23,5 @@ export abstract class HttpContent implements IDisposable {
     }
 
 
-    public abstract copyTo(writer: StreamWriter<any, Buffer>): AsyncResult;
+    public abstract copyTo(writer: StreamWriter<any, Buffer>): Promise<void>;
 }

@@ -1,5 +1,4 @@
 import {assertArgumentBounds, assertArgumentNotNull, assertArgumentType} from '../../Core/Assertion/Assert';
-import {AsyncResult} from '../../Core/types';
 import {List} from '../../Core/Collections/List';
 import {StreamWriter} from './StreamWriter';
 import {StreamReaderEvent} from './StreamReaderEvent';
@@ -47,7 +46,7 @@ export abstract class StreamReader<TStream, TChunk> extends EventEmitter {
     }
 
 
-    public async read(length: number): AsyncResult<TChunk> {
+    public async read(length: number): Promise<TChunk> {
         assertArgumentNotNull('length', length);
         assertArgumentBounds('length', length, 1, Infinity);
 
@@ -65,7 +64,7 @@ export abstract class StreamReader<TStream, TChunk> extends EventEmitter {
     }
 
 
-    public async pause(): AsyncResult {
+    public async pause(): Promise<void> {
         await this.onPause();
 
         this._isPaused = true;
@@ -74,7 +73,7 @@ export abstract class StreamReader<TStream, TChunk> extends EventEmitter {
     }
 
 
-    public async resume(): AsyncResult {
+    public async resume(): Promise<void> {
         await this.onResume();
 
         this._isPaused = false;
@@ -120,20 +119,20 @@ export abstract class StreamReader<TStream, TChunk> extends EventEmitter {
     }
 
 
-    protected abstract onRead(length: number): AsyncResult<TChunk>;
-    protected abstract onPause(): AsyncResult;
-    protected abstract onResume(): AsyncResult;
-    protected abstract onClose(): AsyncResult;
+    protected abstract onRead(length: number): Promise<TChunk>;
+    protected abstract onPause(): Promise<void>;
+    protected abstract onResume(): Promise<void>;
+    protected abstract onClose(): Promise<void>;
 
 
-    protected async distributeData(chunk: TChunk): AsyncResult {
-        await Promise.all(this._destinations.select((destination: StreamWriter<any, TChunk>): AsyncResult => {
+    protected async distributeData(chunk: TChunk): Promise<void> {
+        await Promise.all(this._destinations.select((destination: StreamWriter<any, TChunk>): Promise<void> => {
             return this.writeChunkToDestination(chunk, destination);
         }));
     }
 
 
-    protected writeChunkToDestination(chunk: TChunk, destinationStream: StreamWriter<any, TChunk>): AsyncResult {
+    protected writeChunkToDestination(chunk: TChunk, destinationStream: StreamWriter<any, TChunk>): Promise<void> {
         return destinationStream.write(chunk);
     }
 }

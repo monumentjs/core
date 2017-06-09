@@ -3,7 +3,6 @@ import {ILogRecord} from './ILogRecord';
 import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
 import {FormattableString} from '../../Core/Text/FormattableString';
 import {EMPTY_STRING} from '../../Core/Text/constants';
-import {AsyncResult} from '../../Core/types';
 import {InvalidArgumentException} from '../../Core/Exceptions/InvalidArgumentException';
 
 
@@ -30,19 +29,19 @@ export abstract class LoggerBase implements ILogger {
     }
 
 
-    public async write(record: ILogRecord): AsyncResult {
+    public async write(record: ILogRecord): Promise<void> {
         assertArgumentNotNull('record', record);
 
         await this.doWrite(record);
     }
 
 
-    public async writeLine(message: string): AsyncResult {
+    public async writeLine(message: string): Promise<void> {
         await this.write(message + this._lineSeparator);
     }
 
 
-    public async writeFormat(format: string, ...values: any[]): AsyncResult {
+    public async writeFormat(format: string, ...values: any[]): Promise<void> {
         assertArgumentNotNull('format', format);
 
         let template: FormattableString = new FormattableString(format);
@@ -51,5 +50,5 @@ export abstract class LoggerBase implements ILogger {
     }
 
 
-    protected abstract doWrite(record: ILogRecord): AsyncResult;
+    protected abstract doWrite(record: ILogRecord): Promise<void>;
 }

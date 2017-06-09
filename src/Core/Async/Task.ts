@@ -3,7 +3,6 @@ import {ErrorEvent} from '../Events/ErrorEvent';
 import {TaskEventType} from './types';
 import {TaskEvent} from './TaskEvent';
 import {InvalidOperationException} from '../Exceptions/InvalidOperationException';
-import {AsyncResult} from '../types';
 
 
 export abstract class Task<T = void> extends EventEmitter {
@@ -51,7 +50,7 @@ export abstract class Task<T = void> extends EventEmitter {
     }
 
 
-    public start(): AsyncResult {
+    public start(): Promise<void> {
         if (this.isPending) {
             throw new InvalidOperationException('Task already in progress.');
         }
@@ -76,7 +75,7 @@ export abstract class Task<T = void> extends EventEmitter {
     }
 
 
-    protected abstract execute(): AsyncResult;
+    protected abstract execute(): Promise<void>;
 
 
     protected resolve(result: T): void {

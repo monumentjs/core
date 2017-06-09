@@ -1,5 +1,4 @@
 import {HttpContent} from '../HttpContent';
-import {AsyncResult} from '../../../../Core/types';
 import {Encoding} from '../../../Text/Encoding';
 import {StreamWriter} from '../../../Stream/StreamWriter';
 import {Utf8Encoding} from '../../../Text/Utf8Encoding';
@@ -25,7 +24,7 @@ export class TextContent extends HttpContent {
     }
 
 
-    public async copyTo(writer: StreamWriter<any, Buffer>): AsyncResult {
+    public async copyTo(writer: StreamWriter<any, Buffer>): Promise<void> {
         await writer.write(this._bytes);
     }
 }

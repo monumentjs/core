@@ -1,5 +1,4 @@
 import * as fs from 'fs';
-import {AsyncResult} from '../../Core/types';
 import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
 import {callAsyncMethod} from '../../Core/Async/Utils';
 import {IFileSystem} from './IFileSystem';
@@ -16,7 +15,7 @@ import {FileSystemEntryType} from './FileSystemEntryType';
 
 export class FileSystem implements IFileSystem {
 
-    public getEntry(fullName: string): AsyncResult<FileSystemEntry> {
+    public getEntry(fullName: string): Promise<FileSystemEntry> {
         assertArgumentNotNull('fullName', fullName);
 
         return new Promise<FileSystemEntry>((resolve, reject) => {
@@ -37,7 +36,7 @@ export class FileSystem implements IFileSystem {
         accessPermissions: AccessPermissions = AccessPermissions.Default,
         truncate: boolean = true,
         overwrite: boolean = true
-    ): AsyncResult {
+    ): Promise<void> {
         assertArgumentNotNull('fileName', fileName);
         assertArgumentNotNull('accessPermissions', accessPermissions);
         assertArgumentNotNull('truncate', truncate);
@@ -64,7 +63,7 @@ export class FileSystem implements IFileSystem {
         fileName: string,
         fileContent: Buffer,
         accessPermissions: AccessPermissions = AccessPermissions.Default
-    ): AsyncResult {
+    ): Promise<void> {
         assertArgumentNotNull('fileName', fileName);
         assertArgumentNotNull('fileContent', fileContent);
         assertArgumentNotNull('accessPermissions', accessPermissions);
@@ -75,21 +74,21 @@ export class FileSystem implements IFileSystem {
     }
 
 
-    public readFile(fileName: string): AsyncResult<Buffer> {
+    public readFile(fileName: string): Promise<Buffer> {
         assertArgumentNotNull('fileName', fileName);
 
         return callAsyncMethod<Buffer>(fs, 'readFile', fileName);
     }
 
 
-    public removeFile(fullName: string): AsyncResult {
+    public removeFile(fullName: string): Promise<void> {
         assertArgumentNotNull('fullName', fullName);
 
         return callAsyncMethod<void>(fs, 'unlink', fullName);
     }
 
 
-    public async fileExists(fileName: string): AsyncResult<boolean> {
+    public async fileExists(fileName: string): Promise<boolean> {
         assertArgumentNotNull('fileName', fileName);
 
         let entry: FileSystemEntry;
@@ -111,7 +110,7 @@ export class FileSystem implements IFileSystem {
     public createDirectory(
         directoryName: string,
         accessPermissions: AccessPermissions = AccessPermissions.All
-    ): AsyncResult {
+    ): Promise<void> {
         assertArgumentNotNull('directoryName', directoryName);
         assertArgumentNotNull('accessPermissions', accessPermissions);
 
@@ -119,11 +118,11 @@ export class FileSystem implements IFileSystem {
     }
 
 
-    public async readDirectory(directoryName: string): AsyncResult<ReadOnlyCollection<FileSystemEntry>> {
+    public async readDirectory(directoryName: string): Promise<ReadOnlyCollection<FileSystemEntry>> {
         assertArgumentNotNull('directoryName', directoryName);
 
         let names: string[] = await callAsyncMethod<string[]>(fs, 'readdir', directoryName);
-        let entries: FileSystemEntry[] = await Promise.all(names.map((name: string): AsyncResult<FileSystemEntry> => {
+        let entries: FileSystemEntry[] = await Promise.all(names.map((name: string): Promise<FileSystemEntry> => {
             let fullName: string = Path.concat([directoryName, name]);
 
             return this.getEntry(fullName);
@@ -133,14 +132,14 @@ export class FileSystem implements IFileSystem {
     }
 
 
-    public removeDirectory(directoryName: string): AsyncResult {
+    public removeDirectory(directoryName: string): Promise<void> {
         assertArgumentNotNull('directoryName', directoryName);
 
         return callAsyncMethod<void>(fs, 'rmdir', directoryName);
     }
 
 
-    public async directoryExists(directoryName: string): AsyncResult<boolean> {
+    public async directoryExists(directoryName: string): Promise<boolean> {
         assertArgumentNotNull('directoryName', directoryName);
 
         let entry: FileSystemEntry;
@@ -159,7 +158,7 @@ export class FileSystem implements IFileSystem {
     }
 
 
-    public checkAccess(fullName: string, accessMode: AccessMode = AccessMode.Availability): AsyncResult {
+    public checkAccess(fullName: string, accessMode: AccessMode = AccessMode.Availability): Promise<void> {
         assertArgumentNotNull('fullName', fullName);
         assertArgumentNotNull('accessMode', accessMode);
 
@@ -167,7 +166,7 @@ export class FileSystem implements IFileSystem {
     }
 
 
-    public async getPermissions(fullName: string): AsyncResult<AccessPermissions> {
+    public async getPermissions(fullName: string): Promise<AccessPermissions> {
         assertArgumentNotNull('fullName', fullName);
 
         let stats: FileSystemEntry = await this.getEntry(fullName);
@@ -176,7 +175,7 @@ export class FileSystem implements IFileSystem {
     }
 
 
-    public setPermissions(fullName: string, accessPermissions: AccessPermissions): AsyncResult {
+    public setPermissions(fullName: string, accessPermissions: AccessPermissions): Promise<void> {
         assertArgumentNotNull('fullName', fullName);
         assertArgumentNotNull('accessPermissions', accessPermissions);
 
@@ -184,7 +183,7 @@ export class FileSystem implements IFileSystem {
     }
 
 
-    public setOwner(fullName: string, userId: number, groupId: number): AsyncResult {
+    public setOwner(fullName: string, userId: number, groupId: number): Promise<void> {
         assertArgumentNotNull('fullName', fullName);
         assertArgumentNotNull('userId', userId);
         assertArgumentNotNull('groupId', groupId);
@@ -193,7 +192,7 @@ export class FileSystem implements IFileSystem {
     }
 
 
-    public createSymbolicLink(fullName: string, linkName: string): AsyncResult {
+    public createSymbolicLink(fullName: string, linkName: string): Promise<void> {
         assertArgumentNotNull('fullName', fullName);
         assertArgumentNotNull('linkName', linkName);
 
@@ -201,7 +200,7 @@ export class FileSystem implements IFileSystem {
     }
 
 
-    public createLink(fullName: string, linkName: string): AsyncResult {
+    public createLink(fullName: string, linkName: string): Promise<void> {
         assertArgumentNotNull('fullName', fullName);
         assertArgumentNotNull('linkName', linkName);
 
@@ -209,21 +208,21 @@ export class FileSystem implements IFileSystem {
     }
 
 
-    public readLink(linkName: string): AsyncResult<string> {
+    public readLink(linkName: string): Promise<string> {
         assertArgumentNotNull('linkName', linkName);
 
         return callAsyncMethod<string>(fs, 'readlink', linkName);
     }
 
 
-    public getAbsolutePath(path: string): AsyncResult<string> {
+    public getAbsolutePath(path: string): Promise<string> {
         assertArgumentNotNull('path', path);
 
         return callAsyncMethod<string>(fs, 'realpath', path);
     }
 
 
-    public move(sourceName: string, destinationName: string): AsyncResult {
+    public move(sourceName: string, destinationName: string): Promise<void> {
         assertArgumentNotNull('sourceName', sourceName);
         assertArgumentNotNull('destinationName', destinationName);
 
@@ -235,7 +234,7 @@ export class FileSystem implements IFileSystem {
         fullName: string,
         fileMode: FileMode = FileMode.ReadWrite | FileMode.NonBlock,
         accessPermissions: AccessPermissions = AccessPermissions.Default
-    ): AsyncResult<FileDescriptor> {
+    ): Promise<FileDescriptor> {
         assertArgumentNotNull('fullName', fullName);
         assertArgumentNotNull('fileMode', fileMode);
         assertArgumentNotNull('accessPermissions', accessPermissions);
@@ -244,7 +243,7 @@ export class FileSystem implements IFileSystem {
     }
 
 
-    public close(fileDescriptor: FileDescriptor): AsyncResult {
+    public close(fileDescriptor: FileDescriptor): Promise<void> {
         assertArgumentNotNull('fileDescriptor', fileDescriptor);
 
         return callAsyncMethod<void>(fs, 'close', fileDescriptor);
@@ -255,7 +254,7 @@ export class FileSystem implements IFileSystem {
         fileDescriptor: FileDescriptor,
         position: number,
         length: number
-    ): AsyncResult<Buffer> {
+    ): Promise<Buffer> {
         assertArgumentNotNull('fileDescriptor', fileDescriptor);
         assertArgumentNotNull('position', position);
         assertArgumentNotNull('length', length);
@@ -284,7 +283,7 @@ export class FileSystem implements IFileSystem {
         fileDescriptor: FileDescriptor,
         position: number,
         buffer: Buffer
-    ): AsyncResult<number> {
+    ): Promise<number> {
         assertArgumentNotNull('fileDescriptor', fileDescriptor);
         assertArgumentNotNull('position', position);
         assertArgumentNotNull('buffer', buffer);
@@ -301,7 +300,7 @@ export class FileSystem implements IFileSystem {
     }
 
 
-    public flush(fileDescriptor: FileDescriptor): AsyncResult {
+    public flush(fileDescriptor: FileDescriptor): Promise<void> {
         assertArgumentNotNull('fileDescriptor', fileDescriptor);
 
         return callAsyncMethod<void>(fs, 'fsync');

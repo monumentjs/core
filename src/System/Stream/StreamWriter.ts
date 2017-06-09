@@ -1,4 +1,3 @@
-import {AsyncResult} from '../../Core/types';
 import {EventEmitter} from '../../Core/Events/EventEmitter';
 import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
 
@@ -33,10 +32,10 @@ export abstract class StreamWriter<TStream, TChunk> extends EventEmitter {
     }
 
 
-    public async write(chunk: TChunk): AsyncResult {
+    public async write(chunk: TChunk): Promise<void> {
         await this.onWrite(chunk);
     }
 
 
-    protected abstract onWrite(chunk: TChunk): AsyncResult<number>;
+    protected abstract onWrite(chunk: TChunk): Promise<number>;
 }

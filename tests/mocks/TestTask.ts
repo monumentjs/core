@@ -1,5 +1,4 @@
 import {Task} from '../../src/Core/Async/Task';
-import {AsyncResult} from '../../src/Core/types';
 
 
 export class FakeTask<R> extends Task<R> {
@@ -17,7 +16,7 @@ export class FakeTask<R> extends Task<R> {
     }
 
 
-    protected async execute(): AsyncResult<void> {
+    protected async execute(): Promise<void> {
         if (this._msWait) {
             setTimeout(() => {
                 if (this._preparedResult) {
