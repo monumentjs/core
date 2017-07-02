@@ -1,6 +1,6 @@
 import {HttpRoutesCollection} from './HttpRoutesCollection';
 import {IHttpRoute} from './IHttpRoute';
-import {assertArgumentNotNull} from '../../../../Core/Assertion/Assert';
+import {Assert} from '../../../../Core/Assertion/Assert';
 
 
 export class HttpRoutesRegistry {
@@ -14,7 +14,7 @@ export class HttpRoutesRegistry {
 
 
     public static registerRoute(route: IHttpRoute): void {
-        assertArgumentNotNull('route', route);
+        Assert.argument('route', route).notNull();
 
         this.routes.add(route);
     }

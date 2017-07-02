@@ -1,44 +1,117 @@
 import {DebouncedMethod} from './helpers/DebouncedMethod';
+import {MethodReflection} from '../Reflection/Reflections/MethodReflection';
+import {Reflection} from '../Reflection/Reflection';
+import {MetadataContainer} from '../Reflection/Metadata/MetadataContainer';
 
 
-export function debounce(
-    timeout: number,
-    leading: boolean = false,
-    trailing: boolean = true,
-    maxWait: number = Infinity
-): MethodDecorator {
-    return function (
-        target: Function,
-        property: string,
-        descriptor: TypedPropertyDescriptor<Function>
-    ): TypedPropertyDescriptor<Function> {
-        let method: DebouncedMethod = new DebouncedMethod(descriptor.value, timeout, leading, trailing, maxWait);
+export class Method {
+    public static debounce(
+        timeout: number,
+        leading: boolean = false,
+        trailing: boolean = true,
+        maxWait: number = Infinity
+    ): MethodDecorator {
+        return function (
+            prototype: object,
+            methodName: string,
+            descriptor: TypedPropertyDescriptor<Function>
+        ): TypedPropertyDescriptor<Function> {
+            let method: DebouncedMethod = new DebouncedMethod(descriptor.value, timeout, leading, trailing, maxWait);
 
-        descriptor.value = function () {
-            method.call(this, arguments);
+            descriptor.value = function () {
+                method.call(this, arguments);
+            };
+
+            return descriptor;
         };
-
-        return descriptor;
-    };
-}
+    }
 
 
-export function deprecated(message?: string): MethodDecorator {
-    return function (
-        target: Function,
-        property: string,
-        descriptor: TypedPropertyDescriptor<Function>
-    ): TypedPropertyDescriptor<Function> {
-        let method: Function = descriptor.value;
-        let defaultMessage: string = `Method '${property}' is deprecated. It will be removed in future releases.`;
+    public static deprecated(message?: string): MethodDecorator {
+        return function (
+            prototype: object,
+            methodName: string,
+            descriptor: TypedPropertyDescriptor<Function>
+        ): TypedPropertyDescriptor<Function> {
+            let method: Function = descriptor.value;
+            let reflection: MethodReflection = Reflection.ofMethod(method);
+            let metadata: MetadataContainer = reflection.getMetadata();
+            let defaultMessage: string = `Method '${methodName}' is deprecated. It will be removed in future releases.`;
 
-        message = message || defaultMessage;
+            message = message || defaultMessage;
 
-        descriptor.value = function () {
-            console.warn(message);
-            method.call(this, arguments);
+            descriptor.value = function () {
+                if (!metadata.get(Method.deprecated, false)) {
+                    /* tslint:disable:no-console */
+                    console.warn(message);
+                    /* tslint:enable:no-console */
+                    metadata.set(Method.deprecated, true);
+                }
+
+                method.call(this, arguments);
+            };
+
+            return descriptor;
         };
+    }
+    
+    
+    public static attached(): MethodDecorator {
+        return function (
+            prototype: object,
+            methodName: string,
+            descriptor: TypedPropertyDescriptor<Function>
+        ): TypedPropertyDescriptor<Function> {
+            let method: Function = descriptor.value;
+            let attachedMethod: Function;
 
-        return descriptor;
-    };
+            return {
+                get: function () {
+                    if (!attachedMethod) {
+                        attachedMethod = method.bind(this);
+                    }
+
+                    return attachedMethod;
+                }
+            };
+        };
+    }
+
+
+    public static profile(): MethodDecorator {
+        return function (
+            prototype: object,
+            methodName: string,
+            descriptor: TypedPropertyDescriptor<Function>
+        ): TypedPropertyDescriptor<Function> {
+            let method: Function = descriptor.value;
+
+            descriptor.value = function () {
+                let error = new Error();
+                let startTime: number = Date.now();
+
+                /* tslint:disable:no-console */
+                console.log(`\nProfile method: ${prototype.constructor.name}.${methodName}:`);
+                console.log(`  Arguments:`, arguments);
+
+                let returnValue: any = method.apply(this, arguments);
+                let endTime: number = Date.now();
+
+                console.log(`  Returns:`, returnValue);
+                console.log(`  Elapsed time: %sms`, (endTime - startTime));
+                console.log(`  Trace:`);
+
+                error.stack.split('\n').slice(1).forEach((line) => {
+                    console.log(`    ` + line.trim());
+                });
+
+                console.log(``);
+                /* tslint:enable:no-console */
+
+                return returnValue;
+            };
+
+            return descriptor;
+        };
+    }
 }

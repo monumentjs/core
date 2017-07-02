@@ -1,5 +1,5 @@
 import {XmlNode} from './XmlNode';
-import {assertArgumentNotNull} from '../../../Core/Assertion/Assert';
+import {Assert} from '../../../Core/Assertion/Assert';
 
 
 export class XmlDocument extends XmlNode {
@@ -13,7 +13,7 @@ export class XmlDocument extends XmlNode {
     
     
     public set version(value: string) {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         this._version = value;
     }
@@ -25,7 +25,7 @@ export class XmlDocument extends XmlNode {
     
     
     public set encoding(value: string) {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         this._encoding = value;
     }

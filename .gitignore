@@ -2,3 +2,4 @@
 *.js
 *.js.map
 node_modules
+tests/samples

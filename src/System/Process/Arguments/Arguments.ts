@@ -1,5 +1,5 @@
 import {ArgumentsParser} from './ArgumentsParser';
-import {assertArgumentNotNull} from '../../../Core/Assertion/Assert';
+import {Assert} from '../../../Core/Assertion/Assert';
 import {OptionsCollection} from './OptionsCollection';
 import {ReadOnlyCollection} from '../../../Core/Collections/ReadOnlyCollection';
 
@@ -46,10 +46,10 @@ export class Arguments {
         commands: ReadOnlyCollection<string> = new ReadOnlyCollection<string>(),
         options: OptionsCollection = new OptionsCollection()
     ) {
-        assertArgumentNotNull('executablePath', executablePath);
-        assertArgumentNotNull('mainModulePath', mainModulePath);
-        assertArgumentNotNull('commands', commands);
-        assertArgumentNotNull('options', options);
+        Assert.argument('executablePath', executablePath).notNull();
+        Assert.argument('mainModulePath', mainModulePath).notNull();
+        Assert.argument('commands', commands).notNull();
+        Assert.argument('options', options).notNull();
 
         this._commands = commands;
         this._options = options;

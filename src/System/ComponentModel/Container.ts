@@ -2,7 +2,7 @@ import {IDisposable} from '../../Core/types';
 import {IContainer} from './IContainer';
 import {IComponent} from './IComponent';
 import {ComponentCollection} from './ComponentCollection';
-import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
+import {Assert} from '../../Core/Assertion/Assert';
 
 
 export class Container implements IContainer, IDisposable {
@@ -21,14 +21,14 @@ export class Container implements IContainer, IDisposable {
 
 
     public add(component: IComponent): void {
-        assertArgumentNotNull('component', component);
+        Assert.argument('component', component).notNull();
 
         Array.prototype.push.call(this._components, component);
     }
 
 
     public remove(component: IComponent): void {
-        assertArgumentNotNull('component', component);
+        Assert.argument('component', component).notNull();
 
         let indexOfComponent: number = Array.prototype.indexOf.call(this._components, component);
 

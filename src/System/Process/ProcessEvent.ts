@@ -1,6 +1,6 @@
 import {Event} from '../../Core/Events/Event';
 import {Process} from './Process';
-import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
+import {Assert} from '../../Core/Assertion/Assert';
 
 
 export type ProcessEventType = 'start' | 'exit' | 'close' | 'disconnect' | 'terminate' | 'message';
@@ -26,7 +26,7 @@ export class ProcessEvent extends Event {
     public constructor(eventType: ProcessEventType, process: Process) {
         super(eventType);
 
-        assertArgumentNotNull('process', process);
+        Assert.argument('process', process).notNull();
         
         this._process = process;
     }

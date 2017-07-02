@@ -1,7 +1,7 @@
 import {IEqualityComparator} from '../Collections/IEqualityComparator';
 import {IComparator} from '../Collections/IComparator';
 import {ComparisonResult} from '../types';
-import {assertArgumentNotNull} from '../Assertion/Assert';
+import {Assert} from '../Assertion/Assert';
 
 
 export class IgnoreCaseComparator implements IEqualityComparator<string>, IComparator<string> {
@@ -9,8 +9,8 @@ export class IgnoreCaseComparator implements IEqualityComparator<string>, ICompa
 
 
     public equals(current: string, other: string): boolean {
-        assertArgumentNotNull('current', current);
-        assertArgumentNotNull('other', other);
+        Assert.argument('current', current).notNull();
+        Assert.argument('other', other).notNull();
 
         if (current.length !== other.length) {
             return false;
@@ -24,8 +24,8 @@ export class IgnoreCaseComparator implements IEqualityComparator<string>, ICompa
 
 
     public compare(current: string, other: string): ComparisonResult {
-        assertArgumentNotNull('current', current);
-        assertArgumentNotNull('other', other);
+        Assert.argument('current', current).notNull();
+        Assert.argument('other', other).notNull();
 
         current = current.toLowerCase();
         other = other.toLowerCase();

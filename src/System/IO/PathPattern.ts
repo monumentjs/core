@@ -1,4 +1,4 @@
-import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
+import {Assert} from '../../Core/Assertion/Assert';
 
 
 export class PathPattern {
@@ -6,14 +6,14 @@ export class PathPattern {
 
 
     public constructor(pattern: RegExp) {
-        assertArgumentNotNull('pattern', pattern);
+        Assert.argument('pattern', pattern).notNull();
 
         this._pattern = pattern;
     }
 
 
     public test(path: string): boolean {
-        assertArgumentNotNull('path', path);
+        Assert.argument('path', path).notNull();
 
         path = path.replace(/\\+/g, '/');
 

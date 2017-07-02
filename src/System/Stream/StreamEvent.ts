@@ -1,24 +1,21 @@
 import {Event} from '../../Core/Events/Event';
-import {StreamEventType} from './types';
-import {Stream} from './Stream';
+
+
+export type StreamEventType = 'open'|'close'|'readable'|'data'|'end'|'finish'|'drain'|'error'|'pipe'|'unpipe';
 
 
 export class StreamEvent extends Event {
-    public static READY: StreamEventType = 'ready';
-    public static END: StreamEventType = 'end';
-    public static CLOSE: StreamEventType = 'close';
-    public static ERROR: StreamEventType = 'error';
-    public static SEEK: StreamEventType = 'seek';
+    public static readonly OPEN: StreamEventType = 'open';
+    public static readonly CLOSE: StreamEventType = 'close';
+    public static readonly READABLE: StreamEventType = 'readable';
+    public static readonly DATA: StreamEventType = 'data';
+    public static readonly END: StreamEventType = 'end';
+    public static readonly FINISH: StreamEventType = 'finish';
+    public static readonly DRAIN: StreamEventType = 'drain';
+    public static readonly ERROR: StreamEventType = 'error';
+    public static readonly PIPE: StreamEventType = 'pipe';
+    public static readonly UNPIPE: StreamEventType = 'unpipe';
 
 
-    public dataChunk: any;
-    public sourceStream: Stream<any>;
-    public destinationStream: Stream<any>;
-    public position: number;
-    public length: number;
-
-
-    public constructor(type: StreamEventType) {
-        super(type);
-    }
+    public chunk: any;
 }

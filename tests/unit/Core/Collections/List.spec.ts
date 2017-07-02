@@ -4,7 +4,6 @@ import {IndexOutOfBoundsException} from '../../../../src/Core/Exceptions/IndexOu
 import {ArgumentNullException} from '../../../../src/Core/Exceptions/ArgumentNullException';
 import {InvalidOperationException} from '../../../../src/Core/Exceptions/InvalidOperationException';
 import {IgnoreCaseComparator} from '../../../../src/Core/Text/IgnoreCaseComparator';
-import {InvalidArgumentException} from '../../../../src/Core/Exceptions/InvalidArgumentException';
 import {Grouping} from '../../../../src/Core/Collections/Grouping';
 import {SortOrder} from '../../../../src/Core/Collections/SortOrder';
 import {RangeException} from '../../../../src/Core/Exceptions/RangeException';
@@ -309,11 +308,11 @@ describe('List', () => {
 
             expect(() => {
                 list.indexOf('one', 0, -1);
-            }).toThrowError(InvalidArgumentException);
+            }).toThrowError(RangeException);
 
             expect(() => {
                 list.indexOf('one', 0, 5);
-            }).toThrowError(InvalidArgumentException);
+            }).toThrowError(RangeException);
         });
 
         it(`finds index of given item using custom equality comparator`, () => {
@@ -1124,7 +1123,7 @@ describe('List', () => {
 
             expect(() => {
                 list.skip(-10);
-            }).toThrowError(RangeException);
+            }).toThrowError(IndexOutOfBoundsException);
         });
 
         it(`returns slice of list`, () => {
@@ -1224,13 +1223,8 @@ describe('List', () => {
         });
 
         it(`throws if slice range is invalid`, () => {
-            expect(() => {
-                list.slice(0, 1);
-            }).toThrowError(RangeException);
-
-            expect(() => {
-                list.slice(-1, 0);
-            }).toThrowError(RangeException);
+            expect(() => list.slice(0, 1)).toThrowError(RangeException);
+            expect(() => list.slice(-1, 0)).toThrowError(IndexOutOfBoundsException);
         });
 
         it(`works with empty lists`, () => {

@@ -3,7 +3,7 @@ import {DateTime} from '../DateTime';
 import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
 import {TimeSpan} from '../TimeSpan';
 import {DateTimeFormatException} from '../DateTimeFormatException';
-import {assertArgumentNotNull} from '../../Assertion/Assert';
+import {Assert} from '../../Assertion/Assert';
 
 
 export class SignFormatter extends TimeComponentFormatterBase {
@@ -19,9 +19,9 @@ export class SignFormatter extends TimeComponentFormatterBase {
 
 
     public formatTimeSpan(timeSpan: TimeSpan, format: string, formatInfo: DateTimeFormatInfo): string {
-        assertArgumentNotNull('timeSpan', timeSpan);
-        assertArgumentNotNull('format', format);
-        assertArgumentNotNull('formatInfo', formatInfo);
+        Assert.argument('timeSpan', timeSpan).notNull();
+        Assert.argument('format', format).notNull();
+        Assert.argument('formatInfo', formatInfo).notNull();
 
         return this.formatSign(!timeSpan.isNegative, format, formatInfo);
     }

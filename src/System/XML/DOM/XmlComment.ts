@@ -1,5 +1,5 @@
 import {XmlNode} from './XmlNode';
-import {assertArgumentNotNull} from '../../../Core/Assertion/Assert';
+import {Assert} from '../../../Core/Assertion/Assert';
 
 
 export class XmlComment extends XmlNode {
@@ -12,7 +12,7 @@ export class XmlComment extends XmlNode {
     
     
     public set text(value: string) {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         this._text = value/*.trim().replace(/\s+/g, ' ')*/;
     }

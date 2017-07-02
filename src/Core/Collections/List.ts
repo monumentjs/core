@@ -8,20 +8,18 @@ import {SortOrder} from './SortOrder';
 import {CombineFunction, IteratorFunction} from './types';
 import {Collection} from './Collection';
 import {EqualityComparator} from './EqualityComparator';
-import {Sequence} from '../Assertion/Sequence';
 import {Grouping} from './Grouping';
-import {IndexOutOfBoundsException} from '../Exceptions/IndexOutOfBoundsException';
-import {InvalidArgumentException} from '../Exceptions/InvalidArgumentException';
 import {InvalidOperationException} from '../Exceptions/InvalidOperationException';
-import {assertArgumentNotNull, assertLength, assertRangeBounds} from '../Assertion/Assert';
+import {Assert} from '../Assertion/Assert';
+import {IndexOutOfBoundsException} from '../Exceptions/IndexOutOfBoundsException';
 
 
 export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, IEquatable<IList<T>> {
     public static range(start: number, end: number, step: number = 1): List<number> {
-        assertArgumentNotNull('start', start);
-        assertArgumentNotNull('end', end);
-        assertArgumentNotNull('step', step);
-        assertRangeBounds(start, end);
+        Assert.argument('start', start).notNull();
+        Assert.argument('end', end).notNull();
+        Assert.argument('step', step).notNull();
+        Assert.range(start, end).bounds();
 
         let numbersList: List<number> = new List<number>();
 
@@ -34,8 +32,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public static repeat<T>(value: T, times: number): List<T> {
-        assertArgumentNotNull('times', times);
-        assertLength(times);
+        Assert.argument('times', times).notNull().isLength();
 
         let list: List<T> = new List<T>();
 
@@ -48,9 +45,8 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
     
     
     public static generate<T>(generator: (index: number) => T, length: number): List<T> {
-        assertArgumentNotNull('generator', generator);
-        assertArgumentNotNull('length', length);
-        assertLength(length);
+        Assert.argument('generator', generator).notNull();
+        Assert.argument('length', length).notNull().isLength();
 
         let list: List<T> = new List<T>();
         
@@ -76,14 +72,13 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public insert(item: T, index: number): void {
-        assertArgumentNotNull('index', index);
-
-        if (index < 0) {
-            throw new IndexOutOfBoundsException(`'index' argument is less than zero.`);
-        }
+        Assert.argument('index', index).notNull().isIndex();
 
         if (index > this.length) {
-            throw new IndexOutOfBoundsException(`'index' argument is greater than list length.`);
+            throw new IndexOutOfBoundsException(
+                `Invalid argument 'index': ` +
+                `Index (${index}) is out of bounds [0, ${this.length}).`
+            );
         }
 
         Array.prototype.splice.call(this, index, 0, item);
@@ -91,15 +86,14 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public insertRange(items: IEnumerable<T>, index: number): void {
-        assertArgumentNotNull('items', items);
-        assertArgumentNotNull('index', index);
-
-        if (index < 0) {
-            throw new IndexOutOfBoundsException(`'index' argument is less than zero.`);
-        }
+        Assert.argument('items', items).notNull();
+        Assert.argument('index', index).notNull().isIndex();
 
         if (index > this.length) {
-            throw new IndexOutOfBoundsException(`'index' argument is greater than list length.`);
+            throw new IndexOutOfBoundsException(
+                `Invalid argument 'index': ` +
+                `Index (${index}) is out of bounds [0, ${this.length}).`
+            );
         }
 
         Array.prototype.splice.call(this, index, 0, ...items);
@@ -107,15 +101,14 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public removeAt(index: number): void {
-        assertArgumentNotNull('index', index);
+        Assert.argument('index', index).notNull().indexBounds(0, this.length);
 
-        Sequence.assertIndexBounds(this, index);
         Array.prototype.splice.call(this, index, 1);
     }
 
 
     public removeBy(predicate: IteratorFunction<T, boolean>): void {
-        assertArgumentNotNull('predicate', predicate);
+        Assert.argument('predicate', predicate).notNull();
 
         this.forEach((item: T, index: number, list: IEnumerable<T>): void => {
             let itemMatchesPredicate: boolean = predicate(item, index, list);
@@ -131,8 +124,8 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
         other: IEnumerable<T>,
         comparator: IEqualityComparator<T> = EqualityComparator.instance
     ): void {
-        assertArgumentNotNull('other', other);
-        assertArgumentNotNull('comparator', comparator);
+        Assert.argument('other', other).notNull();
+        Assert.argument('comparator', comparator).notNull();
 
         for (let otherItem of other) {
             this.removeBy((currentItem: T): boolean => {
@@ -148,25 +141,13 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
         count: number = this.length - startIndex,
         comparator: IEqualityComparator<T> = EqualityComparator.instance
     ): number {
-        assertArgumentNotNull('startIndex', startIndex);
-        assertArgumentNotNull('count', count);
-        assertArgumentNotNull('comparator', comparator);
-
-        if (startIndex < 0) {
-            throw new IndexOutOfBoundsException(`Start index is less than zero.`);
+        Assert.argument('startIndex', startIndex).notNull().isIndex();
+        if (startIndex !== 0) {
+            Assert.argument('startIndex', startIndex).isIndexOf(this);
         }
-
-        if (startIndex > this.length) {
-            throw new IndexOutOfBoundsException(`Start index is greater than list length.`);
-        }
-
-        if (count < 0) {
-            throw new InvalidArgumentException(`Search range is invalid.`);
-        }
-
-        if (count > this.length - startIndex) {
-            throw new InvalidArgumentException(`Search range is out of bounds.`);
-        }
+        Assert.argument('count', count).notNull().isLength();
+        Assert.argument('comparator', comparator).notNull();
+        Assert.sequence(this).containsSlice(startIndex, count);
 
         for (let index: number = startIndex; index < startIndex + count; index++) {
             let currentItem: T = this[index];
@@ -184,7 +165,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public forEach(iterator: IteratorFunction<T, boolean | void>): void {
-        assertArgumentNotNull('iterator', iterator);
+        Assert.argument('iterator', iterator).notNull();
 
         let index: number = 0;
 
@@ -204,7 +185,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
         iterator: (lastSeed: TAggregate, item: T, index: number, list: IEnumerable<T>) => TAggregate,
         initialSeed?: TAggregate
     ): TAggregate {
-        assertArgumentNotNull('iterator', iterator);
+        Assert.argument('iterator', iterator).notNull();
 
         let lastSeed: TAggregate = initialSeed;
 
@@ -217,7 +198,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public select<TResult>(selector: IteratorFunction<T, TResult>): List<TResult> {
-        assertArgumentNotNull('selector', selector);
+        Assert.argument('selector', selector).notNull();
 
         return this.aggregate<List<TResult>>((
             mappedList: List<TResult>,
@@ -236,8 +217,8 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
         collectionSelector: IteratorFunction<T, IEnumerable<TInnerItem>>,
         resultSelector: CombineFunction<T, TInnerItem, TResult>,
     ): List<TResult> {
-        assertArgumentNotNull('collectionSelector', collectionSelector);
-        assertArgumentNotNull('resultSelector', resultSelector);
+        Assert.argument('collectionSelector', collectionSelector).notNull();
+        Assert.argument('resultSelector', resultSelector).notNull();
 
         let resultList: List<TResult> = new List<TResult>();
         let collections: IEnumerable<IEnumerable<TInnerItem>> = this.select<IEnumerable<TInnerItem>>((
@@ -264,7 +245,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
     
     
     public where(predicate: IteratorFunction<T, boolean>): List<T> {
-        assertArgumentNotNull('predicate', predicate);
+        Assert.argument('predicate', predicate).notNull();
 
         return this.aggregate((
             filteredList: List<T>,
@@ -284,7 +265,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public all(predicate: IteratorFunction<T, boolean>): boolean {
-        assertArgumentNotNull('predicate', predicate);
+        Assert.argument('predicate', predicate).notNull();
 
         if (this.length === 0) {
             throw new InvalidOperationException(`Operation is not allowed for empty lists.`);
@@ -306,7 +287,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public any(predicate: IteratorFunction<T, boolean>): boolean {
-        assertArgumentNotNull('predicate', predicate);
+        Assert.argument('predicate', predicate).notNull();
 
         if (this.length === 0) {
             throw new InvalidOperationException(`Operation is not allowed for empty lists.`);
@@ -328,7 +309,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public average(selector: IteratorFunction<T, number>): number {
-        assertArgumentNotNull('selector', selector);
+        Assert.argument('selector', selector).notNull();
 
         if (this.length === 0) {
             throw new InvalidOperationException(`Operation is not allowed for empty lists.`);
@@ -348,7 +329,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public count(predicate: IteratorFunction<T, boolean>): number {
-        assertArgumentNotNull('predicate', predicate);
+        Assert.argument('predicate', predicate).notNull();
 
         let count: number = 0;
 
@@ -365,7 +346,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
     
     
     public first(predicate: IteratorFunction<T, boolean>, defaultValue: T = null): T {
-        assertArgumentNotNull('predicate', predicate);
+        Assert.argument('predicate', predicate).notNull();
 
         for (let index = 0; index < this.length; index++) {
             let actualItem: T = this[index];
@@ -390,7 +371,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public last(predicate: IteratorFunction<T, boolean>, defaultValue: T = null): T {
-        assertArgumentNotNull('predicate', predicate);
+        Assert.argument('predicate', predicate).notNull();
 
         for (let index = this.length - 1; index >= 0; index--) {
             let actualItem: T = this[index];
@@ -418,7 +399,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
      * @param comparator
      */
     public distinct(comparator: IEqualityComparator<T> = EqualityComparator.instance): List<T> {
-        assertArgumentNotNull('comparator', comparator);
+        Assert.argument('comparator', comparator).notNull();
 
         let distinctItems: List<T> = new List<T>();
 
@@ -436,8 +417,8 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
         keySelector: IteratorFunction<T, TKey>,
         keyComparator: IEqualityComparator<TKey> = EqualityComparator.instance
     ): List<Grouping<TKey, T>> {
-        assertArgumentNotNull('keySelector', keySelector);
-        assertArgumentNotNull('keyComparator', keyComparator);
+        Assert.argument('keySelector', keySelector).notNull();
+        Assert.argument('keyComparator', keyComparator).notNull();
 
         let groups: List<Grouping<TKey, T>> = new List<Grouping<TKey, T>>();
 
@@ -464,8 +445,8 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
         otherList: IEnumerable<T>,
         comparator: IEqualityComparator<T> = EqualityComparator.instance
     ): List<T> {
-        assertArgumentNotNull('otherList', otherList);
-        assertArgumentNotNull('comparator', comparator);
+        Assert.argument('otherList', otherList).notNull();
+        Assert.argument('comparator', comparator).notNull();
 
         let difference: List<T> = new List<T>();
 
@@ -489,8 +470,8 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
         otherList: IEnumerable<T>,
         comparator: IEqualityComparator<T> = EqualityComparator.instance
     ): List<T> {
-        assertArgumentNotNull('otherList', otherList);
-        assertArgumentNotNull('comparator', comparator);
+        Assert.argument('otherList', otherList).notNull();
+        Assert.argument('comparator', comparator).notNull();
 
         let intersection: List<T> = new List<T>();
 
@@ -511,11 +492,11 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
         resultSelector: CombineFunction<T, TOuter, TResult>,
         keyComparator: IEqualityComparator<TKey> = EqualityComparator.instance
     ): List<TResult> {
-        assertArgumentNotNull('outerList', outerList);
-        assertArgumentNotNull('outerKeySelector', outerKeySelector);
-        assertArgumentNotNull('innerKeySelector', innerKeySelector);
-        assertArgumentNotNull('resultSelector', resultSelector);
-        assertArgumentNotNull('keyComparator', keyComparator);
+        Assert.argument('outerList', outerList).notNull();
+        Assert.argument('outerKeySelector', outerKeySelector).notNull();
+        Assert.argument('innerKeySelector', innerKeySelector).notNull();
+        Assert.argument('resultSelector', resultSelector).notNull();
+        Assert.argument('keyComparator', keyComparator).notNull();
 
         let listOfJoinedItems: List<TResult> = new List<TResult>();
 
@@ -539,7 +520,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public min(selector: IteratorFunction<T, number>): number {
-        assertArgumentNotNull('selector', selector);
+        Assert.argument('selector', selector).notNull();
 
         if (this.length === 0) {
             throw new InvalidOperationException('Unable to perform operation on empty list.');
@@ -558,7 +539,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public max(selector: IteratorFunction<T, number>): number {
-        assertArgumentNotNull('selector', selector);
+        Assert.argument('selector', selector).notNull();
 
         if (this.length === 0) {
             throw new InvalidOperationException('Unable to perform operation on empty list.');
@@ -581,9 +562,9 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
         comparator: IComparator<TKey>,
         sortOrder: SortOrder = SortOrder.Ascending
     ): List<T> {
-        assertArgumentNotNull('keySelector', keySelector);
-        assertArgumentNotNull('comparator', comparator);
-        assertArgumentNotNull('sortOrder', sortOrder);
+        Assert.argument('keySelector', keySelector).notNull();
+        Assert.argument('comparator', comparator).notNull();
+        Assert.argument('sortOrder', sortOrder).notNull();
 
         return new List<T>(this.toArray().sort((x: T, y: T): number => {
             let xKey: TKey = keySelector(x);
@@ -603,8 +584,8 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
         otherList: IEnumerable<T>,
         comparator: IEqualityComparator<T> = EqualityComparator.instance
     ): boolean {
-        assertArgumentNotNull('otherList', otherList);
-        assertArgumentNotNull('comparator', comparator);
+        Assert.argument('otherList', otherList).notNull();
+        Assert.argument('comparator', comparator).notNull();
 
         if (this.length !== otherList.length) {
             return false;
@@ -621,16 +602,15 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
     
 
     public skip(offset: number): List<T> {
-        assertArgumentNotNull('offset', offset);
-
-        Sequence.assertSliceBounds(this, offset);
+        Assert.argument('offset', offset).notNull();
+        Assert.sequence(this).containsSlice(offset);
 
         return new List(this.toArray().slice(offset));
     }
     
     
     public skipWhile(predicate: IteratorFunction<T, boolean>): List<T> {
-        assertArgumentNotNull('predicate', predicate);
+        Assert.argument('predicate', predicate).notNull();
 
         let offset: number = 0;
 
@@ -649,16 +629,15 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public take(length: number): List<T> {
-        assertArgumentNotNull('length', length);
-
-        Sequence.assertSliceBounds(this, 0, length);
+        Assert.argument('length', length).notNull();
+        Assert.sequence(this).containsSlice(0, length);
 
         return new List(this.toArray().slice(0, length));
     }
 
 
     public takeWhile(predicate: IteratorFunction<T, boolean>): List<T> {
-        assertArgumentNotNull('predicate', predicate);
+        Assert.argument('predicate', predicate).notNull();
 
         let length: number = 0;
 
@@ -677,17 +656,16 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public slice(offset: number, length: number): List<T> {
-        assertArgumentNotNull('offset', offset);
-        assertArgumentNotNull('length', length);
-
-        Sequence.assertSliceBounds(this, offset, length);
+        Assert.argument('offset', offset).notNull();
+        Assert.argument('length', length).notNull();
+        Assert.sequence(this).containsSlice(offset, length);
 
         return new List(this.toArray().slice(offset, offset + length));
     }
 
 
     public concat(otherList: IEnumerable<T>): List<T> {
-        assertArgumentNotNull('otherList', otherList);
+        Assert.argument('otherList', otherList).notNull();
 
         let newList: List<T> = this.clone();
 
@@ -703,8 +681,8 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
         otherList: IEnumerable<T>,
         comparator: IEqualityComparator<T> = EqualityComparator.instance
     ): List<T> {
-        assertArgumentNotNull('otherList', otherList);
-        assertArgumentNotNull('comparator', comparator);
+        Assert.argument('otherList', otherList).notNull();
+        Assert.argument('comparator', comparator).notNull();
 
         return List.prototype.aggregate.call(otherList, (union: List<T>, otherItem: T): List<T> => {
             if (!union.contains(otherItem, comparator)) {
@@ -720,8 +698,8 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
         otherList: IEnumerable<TOther>,
         resultSelector: CombineFunction<T, TOther, TResult>
     ): List<TResult> {
-        assertArgumentNotNull('otherList', otherList);
-        assertArgumentNotNull('resultSelector', resultSelector);
+        Assert.argument('otherList', otherList).notNull();
+        Assert.argument('resultSelector', resultSelector).notNull();
 
         let minLength: number = Math.min(this.length, otherList.length);
         let resultsList: List<TResult> = new List<TResult>();

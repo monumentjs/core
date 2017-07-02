@@ -2,7 +2,7 @@ import {Event} from './Event';
 import {List} from '../Collections/List';
 import {EventListener} from './types';
 import {EventHandler} from './EventHandler';
-import {assertArgumentNotNull} from '../Assertion/Assert';
+import {Assert} from '../Assertion/Assert';
 import {ReadOnlyCollection} from '../Collections/ReadOnlyCollection';
 
 
@@ -26,9 +26,9 @@ export class EventEmitter {
         eventListener: EventListener,
         removeAfterExecution: boolean = false
     ): void {
-        assertArgumentNotNull('eventType', eventType);
-        assertArgumentNotNull('eventListener', eventListener);
-        assertArgumentNotNull('removeAfterExecution', removeAfterExecution);
+        Assert.argument('eventType', eventType).notNull();
+        Assert.argument('eventListener', eventListener).notNull();
+        Assert.argument('removeAfterExecution', removeAfterExecution).notNull();
 
         this._handlers.add(new EventHandler(eventType, eventListener, removeAfterExecution));
     }
@@ -38,8 +38,8 @@ export class EventEmitter {
         eventType: string,
         eventListener: EventListener
     ): void {
-        assertArgumentNotNull('eventType', eventType);
-        assertArgumentNotNull('eventListener', eventListener);
+        Assert.argument('eventType', eventType).notNull();
+        Assert.argument('eventListener', eventListener).notNull();
 
         this._handlers.removeBy((eventHandler: EventHandler): boolean => {
             return eventHandler.eventType === eventType && eventHandler.eventListener === eventListener;
@@ -48,7 +48,7 @@ export class EventEmitter {
 
 
     public dispatchEvent(event: Event): boolean {
-        assertArgumentNotNull('event', event);
+        Assert.argument('event', event).notNull();
 
         for (let index: number = 0; index < this._handlers.length; index++) {
             let eventHandler: EventHandler = this._handlers[index];
@@ -73,7 +73,7 @@ export class EventEmitter {
 
 
     public removeEventListeners(eventType: string): void {
-        assertArgumentNotNull('eventType', eventType);
+        Assert.argument('eventType', eventType).notNull();
 
         this._handlers.removeBy((eventHandler: EventHandler): boolean => {
             return eventHandler.eventType === eventType;

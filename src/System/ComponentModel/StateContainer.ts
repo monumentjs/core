@@ -1,12 +1,10 @@
-import {Dispatcher, ActionListenerCancel} from '../../Core/Events/Dispatcher';
-import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
+import {Assert} from '../../Core/Assertion/Assert';
+import {Collection} from '../../Core/Collections/Collection';
+import {IStateReceiver} from './IStateReceiver';
 
 
-export type StateWatcher<TState extends object> = (state: TState) => void;
-
-
-export abstract class StateContainer<TState extends object> {
-    private _dispatcher: Dispatcher = new Dispatcher();
+export abstract class StateContainer<TState, TAction> {
+    private _receivers: Collection<IStateReceiver<TState>> = new Collection<IStateReceiver<TState>>();
     private _state: TState;
 
 
@@ -20,35 +18,55 @@ export abstract class StateContainer<TState extends object> {
     }
 
 
-    public dispatchAction(action: object): void {
-        assertArgumentNotNull('action', action);
+    public dispatch(action: TAction): void {
+        Assert.argument('action', action).notNull();
 
-        this.mutateState(action);
-        this._dispatcher.dispatchAction(this._state);
+        this.processAction(action);
+        this.broadcastState();
     }
 
 
-    public addWatcher(watcher: StateWatcher<TState>): ActionListenerCancel {
-        assertArgumentNotNull('watcher', watcher);
+    public addReceiver(receiver: IStateReceiver<TState>): void {
+        Assert.argument('receiver', receiver).notNull();
 
-        return this._dispatcher.addListener(watcher);
+        this._receivers.add(receiver);
+
+        receiver.receiveState(this.state);
     }
 
 
-    public removeWatcher(watcher: StateWatcher<TState>): boolean {
-        assertArgumentNotNull('watcher', watcher);
+    public removeReceiver(receiver: IStateReceiver<TState>): boolean {
+        Assert.argument('receiver', receiver).notNull();
 
-        return this._dispatcher.removeListener(watcher);
+        return this._receivers.remove(receiver);
+    }
+
+
+    public removeAllReceivers(): void {
+        this._receivers.clear();
     }
 
 
     public resetState(): void {
         this._state = this.getInitialState();
 
-        this._dispatcher.dispatchAction(this._state);
+        this.broadcastState();
+    }
+
+
+    public reset(): void {
+        this.resetState();
+        this.removeAllReceivers();
     }
 
 
     protected abstract getInitialState(): TState;
-    protected abstract mutateState(action: object): void;
+    protected abstract processAction(action: TAction): void;
+
+
+    private broadcastState(): void {
+        for (let receiver of this._receivers) {
+            receiver.receiveState(this.state);
+        }
+    }
 }

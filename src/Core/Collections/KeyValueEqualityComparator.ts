@@ -1,6 +1,6 @@
 import {IEqualityComparator} from './IEqualityComparator';
 import {IKeyValuePair} from './IKeyValuePair';
-import {assertArgumentNotNull} from '../Assertion/Assert';
+import {Assert} from '../Assertion/Assert';
 
 
 export class KeyValueEqualityComparator<TKey, TValue>
@@ -10,8 +10,8 @@ export class KeyValueEqualityComparator<TKey, TValue>
 
 
     public equals(x: IKeyValuePair<TKey, TValue>, y: IKeyValuePair<TKey, TValue>): boolean {
-        assertArgumentNotNull('x', x);
-        assertArgumentNotNull('y', y);
+        Assert.argument('x', x).notNull();
+        Assert.argument('y', y).notNull();
 
         return x.key === y.key && x.value === y.value;
     }

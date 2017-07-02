@@ -1,12 +1,12 @@
 import {Version} from './Version';
 import {ReleaseStatus, VERSION_PATTERN} from './types';
-import {assertArgumentNotNull} from '../Assertion/Assert';
+import {Assert} from '../Assertion/Assert';
 import {ParsingException} from '../Text/Parsing/ParsingException';
 
 
 export class VersionParser {
     public parse(version: string): Version {
-        assertArgumentNotNull('version', version);
+        Assert.argument('version', version).notNull();
 
         let major: number;
         let minor: number;

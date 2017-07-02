@@ -1,9 +1,9 @@
-import {assertArgumentNotNull} from '../Assertion/Assert';
+import {Assert} from '../Assertion/Assert';
 
 
 export class RegExpUtils {
     public static escape(pattern: string): string {
-        assertArgumentNotNull('pattern', pattern);
+        Assert.argument('pattern', pattern).notNull();
 
         return pattern.replace(/[-\/\\^$*+?.()|\[\]{}]/g, '\\$&');
     }

@@ -1,6 +1,6 @@
 import {IHttpRequestHandler} from '../IHttpRequestHandler';
 import {IHttpRouteData} from './IHttpRouteData';
-import {assertArgumentNotNull} from '../../../../Core/Assertion/Assert';
+import {Assert} from '../../../../Core/Assertion/Assert';
 import {HttpRoutesCollection} from './HttpRoutesCollection';
 import {HttpRequest} from '../HttpRequest';
 import {HttpResponse} from '../HttpResponse';
@@ -22,8 +22,8 @@ export class HttpRoutingDispatcher implements IHttpRequestHandler {
 
 
     public constructor(routes: HttpRoutesCollection, defaultHandler: IHttpRequestHandler) {
-        assertArgumentNotNull('routes', routes);
-        assertArgumentNotNull('defaultHandler', defaultHandler);
+        Assert.argument('routes', routes).notNull();
+        Assert.argument('defaultHandler', defaultHandler).notNull();
 
         this._routes = routes;
         this._defaultHandler = defaultHandler;

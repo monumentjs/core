@@ -1,7 +1,7 @@
 import {Dictionary} from '../../../Core/Collections/Dictionary';
 import {XmlNode} from './XmlNode';
 import {StringBuilder} from '../../../Core/Text/StringBuilder';
-import {assertArgumentNotNull} from '../../../Core/Assertion/Assert';
+import {Assert} from '../../../Core/Assertion/Assert';
 
 
 export class XmlNodeAttributes extends Dictionary<string, string> {
@@ -16,7 +16,7 @@ export class XmlNodeAttributes extends Dictionary<string, string> {
     public constructor(node: XmlNode) {
         super();
 
-        assertArgumentNotNull('node', node);
+        Assert.argument('node', node).notNull();
         
         this._node = node;
     }

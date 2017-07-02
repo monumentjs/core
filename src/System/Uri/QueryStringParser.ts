@@ -1,7 +1,7 @@
 import {ICustomParser} from '../../Core/types';
 import {QueryParamsCollection} from './QueryParamsCollection';
 import {Uri} from './Uri';
-import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
+import {Assert} from '../../Core/Assertion/Assert';
 
 
 const KEY_VALUE_PAIRS_DELIMITER: string = '&';
@@ -17,7 +17,7 @@ export class QueryStringParser implements ICustomParser<QueryParamsCollection> {
 
 
     public parse(queryString: string): QueryParamsCollection {
-        assertArgumentNotNull('queryString', queryString);
+        Assert.argument('queryString', queryString).notNull();
 
         let pairs: string[] = queryString.split(KEY_VALUE_PAIRS_DELIMITER);
         let queryParams: QueryParamsCollection = new QueryParamsCollection();

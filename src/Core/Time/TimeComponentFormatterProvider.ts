@@ -12,7 +12,7 @@ import {ReadOnlyCollection} from '../Collections/ReadOnlyCollection';
 import {AMPMFormatter} from './Format/AMPMFormatter';
 import {SignFormatter} from './Format/SignFormatter';
 import {DateTimeFormatException} from './DateTimeFormatException';
-import {assertArgumentNotNull} from '../Assertion/Assert';
+import {Assert} from '../Assertion/Assert';
 
 
 export class TimeComponentFormatterProvider {
@@ -35,7 +35,7 @@ export class TimeComponentFormatterProvider {
 
 
     public getFormatter(formatEntry: string): TimeComponentFormatterBase | null {
-        assertArgumentNotNull('formatEntry', formatEntry);
+        Assert.argument('formatEntry', formatEntry).notNull();
 
         for (let formatter of this._formatters) {
             if (formatter.supportsEntry(formatEntry)) {

@@ -1,5 +1,7 @@
-import {assertArgumentNotNull} from '../../../Core/Assertion/Assert';
+import {Assert} from '../../../Core/Assertion/Assert';
 import {IHttpRequestHandler} from './IHttpRequestHandler';
+import {IHttpErrorHandler} from './IHttpErrorHandler';
+import {HttpErrorHandler} from './HttpErrorHandler';
 
 
 export class HttpServerConfiguration {
@@ -7,8 +9,10 @@ export class HttpServerConfiguration {
     private _port: number;
     private _backlogSize: number = 1000;
     private _maxHeadersCount: number = 1000;
-    private _requestTimeout: number = 60000;
+    private _requestTimeout: number = 60 * 1000;
+    private _keepAliveTimeout: number = 5 * 60 * 1000;
     private _requestHandler: IHttpRequestHandler;
+    private _errorHandler: IHttpErrorHandler;
 
 
     public get host(): string {
@@ -17,6 +21,8 @@ export class HttpServerConfiguration {
 
 
     public set host(value: string) {
+        Assert.argument('value', value).notNull();
+
         this._host = value;
     }
 
@@ -27,6 +33,8 @@ export class HttpServerConfiguration {
 
 
     public set port(value: number) {
+        Assert.argument('value', value).notNull();
+
         this._port = value;
     }
 
@@ -37,7 +45,7 @@ export class HttpServerConfiguration {
 
 
     public set backlogSize(value: number) {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull().bounds(1, Infinity);
 
         this._backlogSize = value;
     }
@@ -49,6 +57,8 @@ export class HttpServerConfiguration {
 
 
     public set maxHeadersCount(value: number) {
+        Assert.argument('value', value).notNull().bounds(1, Infinity);
+
         this._maxHeadersCount = value;
     }
 
@@ -59,7 +69,21 @@ export class HttpServerConfiguration {
 
 
     public set requestTimeout(value: number) {
+        Assert.argument('value', value).notNull();
+
         this._requestTimeout = value;
+    }
+
+
+    public get keepAliveTimeout(): number {
+        return this._keepAliveTimeout;
+    }
+
+
+    public set keepAliveTimeout(value: number) {
+        Assert.argument('value', value).notNull();
+
+        this._keepAliveTimeout = value;
     }
 
 
@@ -69,15 +93,31 @@ export class HttpServerConfiguration {
 
 
     public set requestHandler(value: IHttpRequestHandler) {
+        Assert.argument('value', value).notNull();
+
         this._requestHandler = value;
     }
 
 
+    public get errorHandler(): IHttpErrorHandler {
+        return this._errorHandler;
+    }
+
+
+    public set errorHandler(value: IHttpErrorHandler) {
+        Assert.argument('value', value).notNull();
+
+        this._errorHandler = value;
+    }
+
+
     public constructor(host: string, port: number) {
-        assertArgumentNotNull('host', host);
-        assertArgumentNotNull('port', port);
+        Assert.argument('host', host).notNull();
+        Assert.argument('port', port).notNull().bounds(0, Math.pow(2, 16) - 1);
 
         this._host = host;
         this._port = port;
+
+        this._errorHandler = new HttpErrorHandler();
     }
 }

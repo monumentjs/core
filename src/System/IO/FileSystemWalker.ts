@@ -1,14 +1,14 @@
 import {FileSystemEntry} from './FileSystemEntry';
-import {FileStorage} from './FileStorage';
 import {Path} from './Path';
 import {ReadOnlyCollection} from '../../Core/Collections/ReadOnlyCollection';
 import {List} from '../../Core/Collections/List';
 import {PathPattern} from './PathPattern';
-import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
+import {Assert} from '../../Core/Assertion/Assert';
 import {FileSystemEntryProcessor, FileSystemEntrySelector} from './types';
 import {InvalidArgumentException} from '../../Core/Exceptions/InvalidArgumentException';
 import {FileSystemWalkerContext} from './FileSystemWalkerContext';
 import {FileSystemEntryType} from './FileSystemEntryType';
+import {FileSystem} from './FileSystem';
 
 
 export class FileSystemWalker {
@@ -23,7 +23,7 @@ export class FileSystemWalker {
 
 
     public set depth(value: number) {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         if (value < 1) {
             throw new InvalidArgumentException(`Search depth cannot be less than 1.`);
@@ -44,11 +44,11 @@ export class FileSystemWalker {
 
 
     public async walk(startDirectory: string, entryProcessor: FileSystemEntryProcessor): Promise<void> {
-        assertArgumentNotNull('startDirectory', startDirectory);
-        assertArgumentNotNull('entryProcessor', entryProcessor);
+        Assert.argument('startDirectory', startDirectory).notNull();
+        Assert.argument('entryProcessor', entryProcessor).notNull();
 
         if (!Path.isAbsolute(startDirectory)) {
-            startDirectory = await FileStorage.getAbsolutePath(startDirectory);
+            startDirectory = await FileSystem.getAbsolutePath(startDirectory);
         }
 
         let context: FileSystemWalkerContext = new FileSystemWalkerContext(startDirectory, entryProcessor);
@@ -59,7 +59,7 @@ export class FileSystemWalker {
 
     private async processDirectory(context: FileSystemWalkerContext): Promise<void> {
         let currentDirectory: string = context.currentDirectory;
-        let entries: ReadOnlyCollection<FileSystemEntry> = await FileStorage.readDirectory(currentDirectory);
+        let entries: ReadOnlyCollection<FileSystemEntry> = await FileSystem.readDirectory(currentDirectory);
 
         for (let entry of entries) {
             await this.processEntry(entry, context);

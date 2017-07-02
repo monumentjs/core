@@ -1,32 +1,37 @@
-import {assertArgumentNotNull, assertArgumentType} from '../../Core/Assertion/Assert';
-import {StreamWriter} from '../Stream/StreamWriter';
-import {Stream} from '../Stream/Stream';
+import {createWriteStream, WriteStream} from 'fs';
+import {WriteStreamAdapter} from './Adapters/WriteStreamAdapter';
+import {Assert} from '../../Core/Assertion/Assert';
 import {Encoding} from '../Text/Encoding';
 import {Utf8Encoding} from '../Text/Utf8Encoding';
 
 
-export class TextWriter
-    extends StreamWriter<Stream<Buffer>, string> {
-
-    private _encoding: Encoding = Utf8Encoding.instance;
-
-
-    public get encoding(): Encoding {
-        return this._encoding;
+export class TextWriter extends WriteStreamAdapter<WriteStream, string, string> {
+    public get fileName(): string {
+        return this.baseStream.path.toString();
     }
 
 
-    public set encoding(value: Encoding) {
-        assertArgumentNotNull('value', value);
-        assertArgumentType('value', value, Encoding);
-
-        this._encoding = value;
+    public get bytesWritten(): number {
+        return this.baseStream.bytesWritten;
     }
 
 
-    protected onWrite(chunk: string): Promise<number> {
-        let bytes: Buffer = this.encoding.getBytes(chunk);
+    public constructor(fileName: string, encoding: Encoding = Utf8Encoding.instance) {
+        Assert.argument('fileName', fileName).notNull();
+        Assert.argument('encoding', encoding).notNull();
 
-        return this.targetStream.write(bytes);
+        super(createWriteStream(fileName));
+
+        this.baseStream.setDefaultEncoding(encoding.encodingName);
+    }
+
+
+    public async close(): Promise<void> {
+        this.baseStream.close();
+    }
+
+
+    protected async transform(chunk: string): Promise<string> {
+        return chunk;
     }
 }

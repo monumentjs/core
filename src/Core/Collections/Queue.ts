@@ -2,7 +2,7 @@ import {Enumerable} from './Enumerable';
 import {InvalidOperationException} from '../Exceptions/InvalidOperationException';
 import {IEqualityComparator} from './IEqualityComparator';
 import {EqualityComparator} from './EqualityComparator';
-import {assertArgumentNotNull} from '../Assertion/Assert';
+import {Assert} from '../Assertion/Assert';
 
 
 /**
@@ -41,7 +41,7 @@ export class Queue<T> extends Enumerable<T> {
         searchItem: T,
         comparator: IEqualityComparator<T> = EqualityComparator.instance
     ): boolean {
-        assertArgumentNotNull('comparator', comparator);
+        Assert.argument('comparator', comparator).notNull();
 
         for (let currentItem of this) {
             if (comparator.equals(searchItem, currentItem)) {

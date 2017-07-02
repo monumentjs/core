@@ -1,34 +1,35 @@
 import {LoggerBase} from './LoggerBase';
 import {ILogRecord} from './ILogRecord';
-import {assertArgumentNotNull, assertArgumentType} from '../../Core/Assertion/Assert';
-import {StreamWriter} from '../Stream/StreamWriter';
+import {Assert} from '../../Core/Assertion/Assert';
+import {Writable} from '../Stream/Writable';
 
 
 export class LogWriter extends LoggerBase {
-    private _targetWriter: StreamWriter<any, string>;
+    private _target: Writable<string>;
 
 
-    public get targetWriter(): StreamWriter<any, string> {
-        return this._targetWriter;
+    public get target(): Writable<string> {
+        return this._target;
     }
 
 
-    public set targetWriter(value: StreamWriter<any, string>) {
-        assertArgumentNotNull('value', value);
-        assertArgumentType('value', value, StreamWriter);
+    public set target(value: Writable<string>) {
+        Assert.argument('value', value).notNull();
 
-        this._targetWriter = value;
+        this._target = value;
     }
 
 
-    public constructor(streamWriter: StreamWriter<any, string>) {
+    public constructor(target: Writable<string>) {
+        Assert.argument('target', target).notNull();
+
         super();
 
-        this.targetWriter = streamWriter;
+        this.target = target;
     }
 
 
     protected async doWrite(record: ILogRecord): Promise<void> {
-        await this._targetWriter.write(record.toString());
+        await this._target.write(record.toString());
     }
 }

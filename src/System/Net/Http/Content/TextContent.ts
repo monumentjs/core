@@ -1,8 +1,8 @@
 import {HttpContent} from '../HttpContent';
 import {Encoding} from '../../../Text/Encoding';
-import {StreamWriter} from '../../../Stream/StreamWriter';
 import {Utf8Encoding} from '../../../Text/Utf8Encoding';
-import {assertArgumentNotNull} from '../../../../Core/Assertion/Assert';
+import {Assert} from '../../../../Core/Assertion/Assert';
+import {Writable} from '../../../Stream/Writable';
 
 
 export class TextContent extends HttpContent {
@@ -11,8 +11,8 @@ export class TextContent extends HttpContent {
 
 
     public constructor(content: string, encoding: Encoding = Utf8Encoding.instance) {
-        assertArgumentNotNull('content', content);
-        assertArgumentNotNull('encoding', encoding);
+        Assert.argument('content', content).notNull();
+        Assert.argument('encoding', encoding).notNull();
 
         super();
 
@@ -24,7 +24,7 @@ export class TextContent extends HttpContent {
     }
 
 
-    public async copyTo(writer: StreamWriter<any, Buffer>): Promise<void> {
-        await writer.write(this._bytes);
+    public copyTo(writer: Writable<Buffer, any>): Promise<void> {
+        return writer.write(this._bytes);
     }
 }

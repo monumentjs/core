@@ -8,7 +8,7 @@ export class ArgumentTypeException extends Exception {
 
 
     public constructor(argumentName: string, argumentType: Constructor<any>) {
-        super(`Argument "${argumentName}" is not instance of ${argumentType.name}.`);
+        super(`Invalid argument "${argumentName}": value is not instance of ${argumentType.name}.`);
 
         this.argumentName = argumentName;
         this.argumentType = argumentType;

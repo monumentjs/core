@@ -3,7 +3,7 @@ import {DateTime} from '../DateTime';
 import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
 import {InvalidOperationException} from '../../Exceptions/InvalidOperationException';
 import {TimeSpan} from '../TimeSpan';
-import {assertArgumentNotNull} from '../../Assertion/Assert';
+import {Assert} from '../../Assertion/Assert';
 import {EMPTY_STRING} from '../../Text/constants';
 
 
@@ -15,9 +15,9 @@ export class AMPMFormatter extends TimeComponentFormatterBase {
 
 
     public formatDateTime(dateTime: DateTime, format: string, formatInfo: DateTimeFormatInfo): string {
-        assertArgumentNotNull('dateTime', dateTime);
-        assertArgumentNotNull('format', format);
-        assertArgumentNotNull('formatInfo', formatInfo);
+        Assert.argument('dateTime', dateTime).notNull();
+        Assert.argument('format', format).notNull();
+        Assert.argument('formatInfo', formatInfo).notNull();
 
         return this.formatAMPM(dateTime.hours, format, formatInfo);
     }

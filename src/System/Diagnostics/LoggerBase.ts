@@ -1,6 +1,6 @@
 import {ILogger} from './ILogger';
 import {ILogRecord} from './ILogRecord';
-import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
+import {Assert} from '../../Core/Assertion/Assert';
 import {FormattableString} from '../../Core/Text/FormattableString';
 import {EMPTY_STRING} from '../../Core/Text/constants';
 import {InvalidArgumentException} from '../../Core/Exceptions/InvalidArgumentException';
@@ -19,7 +19,7 @@ export abstract class LoggerBase implements ILogger {
 
 
     public set lineSeparator(value: string) {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         if (value === EMPTY_STRING) {
             throw new InvalidArgumentException('Line separator cannot be an empty string.');
@@ -30,7 +30,7 @@ export abstract class LoggerBase implements ILogger {
 
 
     public async write(record: ILogRecord): Promise<void> {
-        assertArgumentNotNull('record', record);
+        Assert.argument('record', record).notNull();
 
         await this.doWrite(record);
     }
@@ -42,7 +42,7 @@ export abstract class LoggerBase implements ILogger {
 
 
     public async writeFormat(format: string, ...values: any[]): Promise<void> {
-        assertArgumentNotNull('format', format);
+        Assert.argument('format', format).notNull();
 
         let template: FormattableString = new FormattableString(format);
 

@@ -1,39 +1,28 @@
-import {ArgumentNullException} from '../Exceptions/ArgumentNullException';
-import {RangeException} from '../Exceptions/RangeException';
-import {ArgumentTypeException} from '../Exceptions/ArgumentTypeException';
+import {ArgumentAssertion} from './ArgumentAssertion';
+import {IEnumerable} from '../Collections/IEnumerable';
+import {SequenceAssertion} from './SequenceAssertion';
+import {RangeAssertion} from './RangeAssertion';
+import {NumberAssertion} from './NumberAssertion';
 
 
-export function assertArgumentNotNull(argumentName: string, argumentValue: any): void {
-    if (argumentValue == null) {
-        throw new ArgumentNullException(argumentName);
+export class Assert {
+    public static number(value: number): NumberAssertion {
+        return new NumberAssertion(value);
     }
-}
 
 
-export function assertArgumentType(argumentName: string, argumentValue: any, argumentClass: any): void {
-    if (!(argumentValue instanceof argumentClass)) {
-        throw new ArgumentTypeException(argumentName, argumentClass);
+    public static argument(argumentName: string, argumentValue: any): ArgumentAssertion {
+        return new ArgumentAssertion(argumentName, argumentValue);
     }
-}
 
 
-export function assertArgumentBounds(argumentName: string, argumentValue: number, min: number, max: number): void {
-    if (argumentValue < min || argumentValue > max) {
-        throw new RangeException(`Argument ${argumentName} is out of bounds.`);
+    public static sequence(sequence: IEnumerable<any>): SequenceAssertion {
+        return new SequenceAssertion(sequence);
     }
-}
 
 
-export function assertLength(length: number, minimalLength: number = 0): void {
-    if (length < minimalLength) {
-        throw new RangeException(`Length is not valid.`);
+    public static range(from: number, to: number): RangeAssertion {
+        return new RangeAssertion(from, to);
     }
+
 }
-
-
-export function assertRangeBounds(start: number, end: number): void {
-    if (start > end) {
-        throw new RangeException(`Invalid range bounds.`);
-    }
-}
-

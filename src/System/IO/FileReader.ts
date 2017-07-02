@@ -1,66 +1,32 @@
 import {createReadStream, ReadStream} from 'fs';
-import {IInternalStreamProvider} from '../Stream/IInternalStreamProvider';
-import {StreamReader} from '../Stream/StreamReader';
-import {FileStream} from './FileStream';
+import {Assert} from '../../Core/Assertion/Assert';
+import {ReadStreamAdapter} from './Adapters/ReadStreamAdapter';
 
 
-export class FileReader
-    extends StreamReader<FileStream, Buffer>
-    implements IInternalStreamProvider<ReadStream> {
-
-    private _internalStream: ReadStream;
-
-
-    public get isFlowing(): boolean {
-        let sourceStream = this.sourceStream;
-
-        return !this.isPaused && !sourceStream.isDisposing && !sourceStream.isDisposed && !sourceStream.isClosed;
+export class FileReader extends ReadStreamAdapter<ReadStream, Buffer, Buffer> {
+    public get fileName(): string {
+        return this.baseStream.path.toString();
     }
 
 
-    public get position(): number {
-        return this.sourceStream.position;
+    public get bytesRead(): number {
+        return this.baseStream.bytesRead;
     }
 
 
-    public get length(): number {
-        return this.sourceStream.length;
+    public constructor(fileName: string) {
+        Assert.argument('fileName', fileName).notNull();
+
+        super(createReadStream(fileName));
     }
 
 
-    public getInternalStream(): ReadStream {
-        if (this._internalStream == null) {
-            this._internalStream = createReadStream(this.sourceStream.fileName, {
-                fd: this.sourceStream.fileDescriptor
-            });
-        }
-
-        return this._internalStream;
+    public close(): void {
+        this.baseStream.close();
     }
 
 
-    protected async onRead(size: number): Promise<Buffer> {
-        if (this.sourceStream.isReady) {
-            await this.sourceStream.open();
-        }
-
-        return this.sourceStream.read(size);
-    }
-
-
-    protected async onClose(): Promise<void> {
-        if (!this.sourceStream.isClosed) {
-            await this.sourceStream.close();
-        }
-    }
-
-
-    protected async onPause(): Promise<void> {
-        // Stub
-    }
-
-
-    protected async onResume(): Promise<void> {
-        // Stub
+    protected async transform(chunk: Buffer): Promise<Buffer> {
+        return chunk;
     }
 }

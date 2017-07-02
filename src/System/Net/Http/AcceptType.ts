@@ -1,6 +1,6 @@
+import {Assert} from '../../../Core/Assertion/Assert';
 
 
-import {assertArgumentBounds, assertArgumentNotNull} from '../../../Core/Assertion/Assert';
 export class AcceptType {
     private _mimeType: string;
     private _priority: number;
@@ -17,9 +17,8 @@ export class AcceptType {
 
 
     public constructor(mimeType: string, priority: number) {
-        assertArgumentNotNull('mimeType', mimeType);
-        assertArgumentNotNull('priority', priority);
-        assertArgumentBounds('priority', priority, 0, 1);
+        Assert.argument('mimeType', mimeType).notNull();
+        Assert.argument('priority', priority).notNull().bounds(0, 1);
 
         this._mimeType = mimeType;
         this._priority = priority;

@@ -1,5 +1,5 @@
 import {Constructor} from '../types';
-import {assertArgumentNotNull} from '../Assertion/Assert';
+import {Assert} from '../Assertion/Assert';
 import {EventEmitter} from '../Events/EventEmitter';
 
 
@@ -8,10 +8,10 @@ export abstract class Application extends EventEmitter {
      * @throws {ArgumentNullException} If application constructor is not defined.
      */
     public static bootstrap(): ClassDecorator {
-        return <TApplication extends Application>(applicationConstructor: Constructor<TApplication>): void => {
-            assertArgumentNotNull('applicationConstructor', applicationConstructor);
+        return (constructor: Constructor<Application>): void => {
+            Assert.argument('constructor', constructor).notNull();
 
-            this._instance = new applicationConstructor();
+            this._instance = new constructor();
 
             this._instance.main();
         };

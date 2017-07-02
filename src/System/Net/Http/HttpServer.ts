@@ -2,19 +2,14 @@ import {createServer as createHttpServer, IncomingMessage, Server as NativeHttpS
 import {HttpServerConfiguration} from './HttpServerConfiguration';
 import {HttpRequestReader} from './HttpRequestReader';
 import {HttpResponse} from './HttpResponse';
-import {callAsyncMethod} from '../../../Core/Async/Utils';
-import {assertArgumentNotNull} from '../../../Core/Assertion/Assert';
-import {StatusCode} from './StatusCode';
-import {TextContent} from './Content/TextContent';
+import {Assert} from '../../../Core/Assertion/Assert';
 import {HttpResponseWriter} from './HttpResponseWriter';
 import {HttpRequest} from './HttpRequest';
-
-
-type RequestListener = (request: IncomingMessage, response: ServerResponse) => void;
+import {DeferredObject} from '../../../Core/Async/DeferredObject';
+import {Method} from '../../../Core/Language/Decorators/Method';
 
 
 export class HttpServer {
-    private _requestListener: RequestListener;
     private _configuration: HttpServerConfiguration;
     private _server: NativeHttpServer;
 
@@ -29,59 +24,59 @@ export class HttpServer {
     }
 
 
-    public get requestTimeout(): number {
-        return this._server.timeout;
-    }
-
-
-    public set requestTimeout(value: number) {
-        assertArgumentNotNull('value', value);
-
-        this._server.timeout = value;
-    }
-
-
     public constructor(serverConfiguration: HttpServerConfiguration) {
-        assertArgumentNotNull('serverConfiguration', serverConfiguration);
+        Assert.argument('serverConfiguration', serverConfiguration).notNull();
+
+        let {maxHeadersCount, keepAliveTimeout, requestTimeout} = serverConfiguration;
 
         this._configuration = serverConfiguration;
 
-        this.createRequestListener();
-        this.createInternalServer();
+        this._server = createHttpServer(this.onRequest);
+        this._server.maxHeadersCount = maxHeadersCount;
+        // TODO: remove type casting after NodeJS typings will be
+        (this._server as any).keepAliveTimeout = keepAliveTimeout;
+        this._server.timeout = requestTimeout;
     }
 
 
     public listen(): Promise<void> {
-        return callAsyncMethod(
-            this._server,
-            'listen',
-            this.configuration.port,
-            this.configuration.host,
-            this.configuration.backlogSize
-        );
+        let deferred: DeferredObject<void> = new DeferredObject<void>();
+        let {host, port, backlogSize} = this.configuration;
+
+        this._server.listen(port, host, backlogSize, (error: NodeJS.ErrnoException) => {
+            if (error) {
+                deferred.reject(error);
+            } else {
+                deferred.resolve();
+            }
+        });
+
+        return deferred.promise;
     }
 
 
     public stop(): Promise<void> {
-        return callAsyncMethod(this._server, 'close');
+        let deferred: DeferredObject<void> = new DeferredObject<void>();
+
+        this._server.close((error: NodeJS.ErrnoException) => {
+            if (error) {
+                deferred.reject(error);
+            } else {
+                deferred.resolve();
+            }
+        });
+
+        return deferred.promise;
     }
 
 
-    protected createRequestListener(): void {
-        this._requestListener = async (req: IncomingMessage, res: ServerResponse): Promise<void> => {
-            let requestReader: HttpRequestReader = new HttpRequestReader(req);
-            let responseWriter: HttpResponseWriter = new HttpResponseWriter(res);
-            let response: HttpResponse = await this.getResponse(requestReader.request);
+    @Method.attached()
+    protected async onRequest(req: IncomingMessage, res: ServerResponse): Promise<void> {
+        let requestReader: HttpRequestReader = new HttpRequestReader(req);
+        let responseWriter: HttpResponseWriter = new HttpResponseWriter(res);
+        let response: HttpResponse = await this.getResponse(requestReader.request);
 
-            await responseWriter.send(response);
-        };
-    }
-
-
-    protected createInternalServer(): void {
-        this._server = createHttpServer(this._requestListener);
-        this._server.maxHeadersCount = this.configuration.maxHeadersCount;
-        this._server.timeout = this.configuration.requestTimeout;
+        await responseWriter.send(response);
     }
 
 
@@ -89,18 +84,7 @@ export class HttpServer {
         try {
             return await this._configuration.requestHandler.send(request);
         } catch (ex) {
-            return this.createErrorResponse(ex);
+            return await this._configuration.errorHandler.send(request, ex);
         }
-    }
-
-
-    protected createErrorResponse(error?: Error): HttpResponse {
-        let errorResponse: HttpResponse = new HttpResponse(StatusCode.InternalServerError);
-
-        if (error) {
-            errorResponse.content = new TextContent(error.toString());
-        }
-
-        return errorResponse;
     }
 }

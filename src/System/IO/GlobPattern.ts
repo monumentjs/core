@@ -1,12 +1,12 @@
 import {PathPattern} from './PathPattern';
-import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
+import {Assert} from '../../Core/Assertion/Assert';
 import {InvalidArgumentException} from '../../Core/Exceptions/InvalidArgumentException';
 
 
 export class GlobPattern extends PathPattern {
     public static toRegularExpression(glob: string, ignoreCase: boolean = false): RegExp {
-        assertArgumentNotNull('glob', glob);
-        assertArgumentNotNull('ignoreCase', ignoreCase);
+        Assert.argument('glob', glob).notNull();
+        Assert.argument('ignoreCase', ignoreCase).notNull();
 
         if (glob.length < 1) {
             throw new InvalidArgumentException(`Glob pattern can not be an empty string.`);

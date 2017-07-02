@@ -3,7 +3,7 @@ import {DateTime} from '../DateTime';
 import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
 import {TimeSpan} from '../TimeSpan';
 import {TextTransform} from '../../Text/TextTransform';
-import {assertArgumentNotNull} from '../../Assertion/Assert';
+import {Assert} from '../../Assertion/Assert';
 
 
 export class MillisecondsFormatter extends TimeComponentFormatterBase {
@@ -14,18 +14,18 @@ export class MillisecondsFormatter extends TimeComponentFormatterBase {
 
 
     public formatDateTime(dateTime: DateTime, format: string, formatInfo: DateTimeFormatInfo): string {
-        assertArgumentNotNull('dateTime', dateTime);
-        assertArgumentNotNull('format', format);
-        assertArgumentNotNull('formatInfo', formatInfo);
+        Assert.argument('dateTime', dateTime).notNull();
+        Assert.argument('format', format).notNull();
+        Assert.argument('formatInfo', formatInfo).notNull();
 
         return this.formatMilliseconds(dateTime.milliseconds, format, formatInfo);
     }
 
 
     public formatTimeSpan(timeSpan: TimeSpan, format: string, formatInfo: DateTimeFormatInfo): string {
-        assertArgumentNotNull('timeSpan', timeSpan);
-        assertArgumentNotNull('format', format);
-        assertArgumentNotNull('formatInfo', formatInfo);
+        Assert.argument('timeSpan', timeSpan).notNull();
+        Assert.argument('format', format).notNull();
+        Assert.argument('formatInfo', formatInfo).notNull();
 
         return this.formatMilliseconds(timeSpan.milliseconds, format, formatInfo);
     }

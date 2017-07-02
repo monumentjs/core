@@ -3,8 +3,7 @@ import {Collection} from '../Collections/Collection';
 import {ReadOnlyCollection} from '../Collections/ReadOnlyCollection';
 import {ParsingException} from './Parsing/ParsingException';
 import {RegExpUtils} from './RegExpUtils';
-import {Sequence} from '../Assertion/Sequence';
-import {assertArgumentNotNull} from '../Assertion/Assert';
+import {Assert} from '../Assertion/Assert';
 import {Dictionary} from '../Collections/Dictionary';
 
 
@@ -25,7 +24,7 @@ export class FormattableString {
 
 
     public constructor(template: string) {
-        assertArgumentNotNull('template', template);
+        Assert.argument('template', template).notNull();
 
         this._template = template;
         this._allEntries = this.getAllEntries();
@@ -35,12 +34,12 @@ export class FormattableString {
 
 
     public fillByPositions(values: any[]): string {
-        assertArgumentNotNull('values', values);
+        Assert.argument('values', values).notNull();
 
         return this.fillEntries((key: string): string => {
             let index: number = parseInt(key, 10);
 
-            Sequence.assertIndexBounds(values, index);
+            Assert.sequence(values).containsIndex(index);
 
             return values[index] + '';
         });
@@ -48,7 +47,7 @@ export class FormattableString {
 
 
     public fillByKeys(values: object): string {
-        assertArgumentNotNull('values', values);
+        Assert.argument('values', values).notNull();
 
         return this.fillEntries((key: string): string => {
             if (values[key] != null) {
@@ -61,7 +60,7 @@ export class FormattableString {
 
 
     public tryFillByPositions(values: any[]): string {
-        assertArgumentNotNull('values', values);
+        Assert.argument('values', values).notNull();
 
         return this.fillEntries((key: string): string => {
             let index: number = parseInt(key, 10);
@@ -76,7 +75,7 @@ export class FormattableString {
 
 
     public tryFillByKeys(values: object): string {
-        assertArgumentNotNull('values', values);
+        Assert.argument('values', values).notNull();
 
         return this.fillEntries((key: string): string => {
             if (values[key] != null) {
@@ -89,7 +88,7 @@ export class FormattableString {
 
 
     public extractValues(source: string): Dictionary<string, string> {
-        assertArgumentNotNull('source', source);
+        Assert.argument('source', source).notNull();
 
         let values: Dictionary<string, string> = new Dictionary<string, string>();
         let match: RegExpExecArray = this._extractingPattern.exec(source);
@@ -109,7 +108,7 @@ export class FormattableString {
 
 
     public tryExtractValues(source: string): Dictionary<string, string> {
-        assertArgumentNotNull('source', source);
+        Assert.argument('source', source).notNull();
 
         try {
             return this.extractValues(source);
@@ -159,6 +158,8 @@ export class FormattableString {
 
 
     private fillEntries(selector: (key: string) => string): string {
+        Assert.argument('selector', selector).notNull();
+
         return this._template.replace(NORMAL_ENTRY_PATTERN, (substring: string, ...groups: string[]): string => {
             return selector(groups[0]);
         });

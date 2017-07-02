@@ -1,6 +1,6 @@
 
 
-import {assertArgumentNotNull} from '../Assertion/Assert';
+import {Assert} from '../Assertion/Assert';
 export class CappedString {
     private _value: string;
     private _length: number;
@@ -22,8 +22,8 @@ export class CappedString {
     
     
     public constructor(length: number, initialValue: string = '') {
-        assertArgumentNotNull('length', length);
-        assertArgumentNotNull('initialValue', initialValue);
+        Assert.argument('length', length).notNull();
+        Assert.argument('initialValue', initialValue).notNull();
 
         this._length = length;
         this._value = initialValue;
@@ -31,14 +31,14 @@ export class CappedString {
     
     
     public append(text: string): void {
-        assertArgumentNotNull('text', text);
+        Assert.argument('text', text).notNull();
 
         this._value = this.cutText(this._value + text);
     }
     
     
     public prepend(text: string): void {
-        assertArgumentNotNull('text', text);
+        Assert.argument('text', text).notNull();
 
         this._value = this.cutText(text + this._value);
     }
@@ -50,21 +50,21 @@ export class CappedString {
     
     
     public contains(substring: string): boolean {
-        assertArgumentNotNull('text', substring);
+        Assert.argument('text', substring).notNull();
 
         return this._value.indexOf(substring) >= 0;
     }
     
     
     public startsWith(substring: string): boolean {
-        assertArgumentNotNull('text', substring);
+        Assert.argument('text', substring).notNull();
 
         return this._value.startsWith(substring);
     }
     
     
     public endsWith(substring: string): boolean {
-        assertArgumentNotNull('text', substring);
+        Assert.argument('text', substring).notNull();
 
         return this._value.endsWith(substring);
     }

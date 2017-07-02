@@ -1,5 +1,5 @@
 import {FormattableString} from './FormattableString';
-import {assertArgumentNotNull} from '../Assertion/Assert';
+import {Assert} from '../Assertion/Assert';
 
 
 export class StringBuilder {
@@ -14,7 +14,7 @@ export class StringBuilder {
     
     
     public set linesSeparator(value: string) {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         this._linesSeparator = value;
     }
@@ -31,8 +31,8 @@ export class StringBuilder {
 
 
     public constructor(initialValue: string = '', capacity: number = Infinity) {
-        assertArgumentNotNull('initialValue', initialValue);
-        assertArgumentNotNull('capacity', capacity);
+        Assert.argument('initialValue', initialValue).notNull();
+        Assert.argument('capacity', capacity).notNull();
 
         this._value = initialValue;
         this._capacity = capacity;
@@ -40,7 +40,7 @@ export class StringBuilder {
 
     
     public append(text: string): void {
-        assertArgumentNotNull('text', text);
+        Assert.argument('text', text).notNull();
 
         this._value += text;
 
@@ -49,7 +49,7 @@ export class StringBuilder {
     
     
     public prepend(text: string): void {
-        assertArgumentNotNull('text', text);
+        Assert.argument('text', text).notNull();
 
         this._value += text;
 
@@ -58,8 +58,8 @@ export class StringBuilder {
     
     
     public appendTimes(text: string, times: number): void {
-        assertArgumentNotNull('text', text);
-        assertArgumentNotNull('times', times);
+        Assert.argument('text', text).notNull();
+        Assert.argument('times', times).notNull();
 
         let stringOfRepeatedChunks: string = '';
         
@@ -72,8 +72,8 @@ export class StringBuilder {
     
     
     public prependTimes(text: string, times: number): void {
-        assertArgumentNotNull('text', text);
-        assertArgumentNotNull('times', times);
+        Assert.argument('text', text).notNull();
+        Assert.argument('times', times).notNull();
 
         let stringOfRepeatedChunks: string = '';
     
@@ -86,35 +86,35 @@ export class StringBuilder {
     
     
     public appendLine(text: string): void {
-        assertArgumentNotNull('text', text);
+        Assert.argument('text', text).notNull();
 
         this.append(text + this._linesSeparator);
     }
     
     
     public prependLine(text: string): void {
-        assertArgumentNotNull('text', text);
+        Assert.argument('text', text).notNull();
 
         this.prepend(text + this._linesSeparator);
     }
     
     
     public appendObject(obj: object): void {
-        assertArgumentNotNull('obj', obj);
+        Assert.argument('obj', obj).notNull();
 
         this.append(obj.toString());
     }
     
     
     public prependObject(obj: object): void {
-        assertArgumentNotNull('obj', obj);
+        Assert.argument('obj', obj).notNull();
 
         this.prepend(obj.toString());
     }
     
     
     public transform(transformationFn: (input: string) => string): void {
-        assertArgumentNotNull('transformationFn', transformationFn);
+        Assert.argument('transformationFn', transformationFn).notNull();
 
         this._value = transformationFn(this._value);
 
@@ -123,7 +123,7 @@ export class StringBuilder {
 
 
     public appendFormat(format: string, ...values: any[]): void {
-        assertArgumentNotNull('format', format);
+        Assert.argument('format', format).notNull();
 
         let template: FormattableString = new FormattableString(format);
 
@@ -132,7 +132,7 @@ export class StringBuilder {
 
 
     public prependFormat(format: string, ...values: any[]): void {
-        assertArgumentNotNull('format', format);
+        Assert.argument('format', format).notNull();
 
         let template: FormattableString = new FormattableString(format);
 
@@ -141,8 +141,8 @@ export class StringBuilder {
 
 
     public surround(before: string = '', after: string = ''): void {
-        assertArgumentNotNull('before', before);
-        assertArgumentNotNull('after', after);
+        Assert.argument('before', before).notNull();
+        Assert.argument('after', after).notNull();
 
         this._value = before + this._value + after;
     }

@@ -1,6 +1,6 @@
 import {IDisposable} from '../../../Core/types';
 import {HeadersCollection} from './HeadersCollection';
-import {StreamWriter} from '../../Stream/StreamWriter';
+import {Writable} from '../../Stream/Writable';
 
 
 export abstract class HttpContent implements IDisposable {
@@ -23,5 +23,5 @@ export abstract class HttpContent implements IDisposable {
     }
 
 
-    public abstract copyTo(writer: StreamWriter<any, Buffer>): Promise<void>;
+    public abstract copyTo(writer: Writable<Buffer, any>): Promise<void>;
 }

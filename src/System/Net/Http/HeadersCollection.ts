@@ -1,4 +1,4 @@
-import {assertArgumentNotNull} from '../../../Core/Assertion/Assert';
+import {Assert} from '../../../Core/Assertion/Assert';
 import {InvalidArgumentException} from '../../../Core/Exceptions/InvalidArgumentException';
 import {STANDALONE_HTTP_HEADERS} from './constants';
 import {Collection} from '../../../Core/Collections/Collection';
@@ -25,7 +25,7 @@ export class HeadersCollection
     public constructor(nameComparator: IEqualityComparator<string> = IgnoreCaseComparator.instance) {
         super();
 
-        assertArgumentNotNull('nameComparator', nameComparator);
+        Assert.argument('nameComparator', nameComparator).notNull();
 
         this._nameComparator = nameComparator;
     }
@@ -33,7 +33,7 @@ export class HeadersCollection
 
     public set(headerName: string, headerValue: string): void {
         this.assertHeaderNameNotEmpty(headerName);
-        assertArgumentNotNull('headerValue', headerValue);
+        Assert.argument('headerValue', headerValue).notNull();
 
         let newHeader: Header = new Header(headerName, headerValue);
 
@@ -108,7 +108,7 @@ export class HeadersCollection
 
 
     private assertHeaderNameNotEmpty(headerName: string): void {
-        assertArgumentNotNull('headerName', headerName);
+        Assert.argument('headerName', headerName).notNull();
 
         if (headerName.length === 0) {
             throw new InvalidArgumentException(`Header name cannot be empty.`);

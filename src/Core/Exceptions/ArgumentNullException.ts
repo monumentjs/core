@@ -6,7 +6,7 @@ export class ArgumentNullException extends Exception {
 
 
     public constructor(argumentName: string) {
-        super(`Argument "${argumentName}" has undefined value.`);
+        super(`Invalid argument "${argumentName}": value is either null or undefined.`);
         
         this.argumentName = argumentName;
     }

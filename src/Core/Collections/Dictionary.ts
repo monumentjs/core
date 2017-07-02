@@ -7,7 +7,7 @@ import {Enumerable} from './Enumerable';
 import {ReadOnlyCollection} from './ReadOnlyCollection';
 import {KeyValuePair} from './KeyValuePair';
 import {EqualityComparator} from './EqualityComparator';
-import {assertArgumentNotNull} from '../Assertion/Assert';
+import {Assert} from '../Assertion/Assert';
 
 
 export class Dictionary<TKey, TValue>
@@ -45,8 +45,8 @@ export class Dictionary<TKey, TValue>
     ) {
         super();
 
-        assertArgumentNotNull('list', list);
-        assertArgumentNotNull('comparator', comparator);
+        Assert.argument('list', list).notNull();
+        Assert.argument('comparator', comparator).notNull();
 
         this._keyComparator = comparator;
 
@@ -62,7 +62,7 @@ export class Dictionary<TKey, TValue>
     
     
     public set(key: TKey, value: TValue): void {
-        assertArgumentNotNull('key', key);
+        Assert.argument('key', key).notNull();
 
         this.removeByKey(key);
 
@@ -71,7 +71,7 @@ export class Dictionary<TKey, TValue>
     
 
     public get(key: TKey, defaultValue: TValue = null): TValue {
-        assertArgumentNotNull('key', key);
+        Assert.argument('key', key).notNull();
 
         for (let pair of this) {
             if (this.keyComparator.equals(pair.key, key)) {
@@ -84,7 +84,7 @@ export class Dictionary<TKey, TValue>
     
     
     public containsKey(key: TKey): boolean {
-        assertArgumentNotNull('key', key);
+        Assert.argument('key', key).notNull();
 
         for (let pair of this) {
             if (this.keyComparator.equals(pair.key, key)) {
@@ -100,7 +100,7 @@ export class Dictionary<TKey, TValue>
         value: TValue,
         valueComparator: IEqualityComparator<TValue> = EqualityComparator.instance
     ): boolean {
-        assertArgumentNotNull('valueComparator', valueComparator);
+        Assert.argument('valueComparator', valueComparator).notNull();
 
         for (let pair of this) {
             if (valueComparator.equals(pair.value, value)) {
@@ -113,7 +113,7 @@ export class Dictionary<TKey, TValue>
     
     
     public removeByKey(key: TKey): boolean {
-        assertArgumentNotNull('key', key);
+        Assert.argument('key', key).notNull();
 
         let length: number = this.length;
         

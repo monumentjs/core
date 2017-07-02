@@ -1,7 +1,7 @@
 import {ComparisonResult, ICloneable, IComparable, IEquatable, IJSONSerializable} from '../types';
 import {ReleaseStatus, VERSION_PATTERN, VERSION_PRE_RELEASE_STAGES} from './types';
 import {StringBuilder} from '../Text/StringBuilder';
-import {assertArgumentNotNull} from '../Assertion/Assert';
+import {Assert} from '../Assertion/Assert';
 import {VersionComparator} from './VersionComparator';
 
 
@@ -9,7 +9,7 @@ export class Version
     implements IEquatable<Version>, IComparable<Version>, ICloneable<Version>, IJSONSerializable<string> {
 
     public static validate(version: string): boolean {
-        assertArgumentNotNull('version', version);
+        Assert.argument('version', version).notNull();
 
         return VERSION_PATTERN.test(version);
     }
@@ -54,11 +54,11 @@ export class Version
         status: ReleaseStatus = ReleaseStatus.Alpha,
         revision: number = 0
     ) {
-        assertArgumentNotNull('major', major);
-        assertArgumentNotNull('minor', minor);
-        assertArgumentNotNull('patch', patch);
-        assertArgumentNotNull('status', status);
-        assertArgumentNotNull('revision', revision);
+        Assert.argument('major', major).notNull();
+        Assert.argument('minor', minor).notNull();
+        Assert.argument('patch', patch).notNull();
+        Assert.argument('status', status).notNull();
+        Assert.argument('revision', revision).notNull();
 
         this._major = major;
         this._minor = minor;

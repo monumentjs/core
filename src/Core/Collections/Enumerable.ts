@@ -1,6 +1,5 @@
 import {IEnumerable} from './IEnumerable';
-import {RangeException} from '../Exceptions/RangeException';
-import {assertArgumentNotNull} from '../Assertion/Assert';
+import {Assert} from '../Assertion/Assert';
 import {ICloneable, IJSONSerializable} from '../types';
 
 
@@ -18,11 +17,7 @@ export class Enumerable<T>
 
 
     public set length(value: number) {
-        assertArgumentNotNull('value', value);
-
-        if (value < 0) {
-            throw new RangeException(`Length is not valid.`);
-        }
+        Assert.argument('value', value).notNull().isLength();
 
         if (value < this._length) {
             for (let i = value; i < this._length; i++) {
@@ -35,7 +30,7 @@ export class Enumerable<T>
     
     
     public constructor(list: Iterable<T> = []) {
-        assertArgumentNotNull('list', list);
+        Assert.argument('list', list).notNull();
 
         Array.prototype.splice.call(this, 0, 0, ...list);
     }

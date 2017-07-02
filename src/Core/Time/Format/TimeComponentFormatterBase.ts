@@ -1,7 +1,7 @@
 import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
 import {TimeSpan} from '../TimeSpan';
 import {DateTime} from '../DateTime';
-import {assertArgumentNotNull} from '../../Assertion/Assert';
+import {Assert} from '../../Assertion/Assert';
 
 
 export abstract class TimeComponentFormatterBase {
@@ -9,7 +9,7 @@ export abstract class TimeComponentFormatterBase {
 
 
     public supportsEntry(entry: string): boolean {
-        assertArgumentNotNull('entry', entry);
+        Assert.argument('entry', entry).notNull();
 
         return this._entryPattern.test(entry);
     }

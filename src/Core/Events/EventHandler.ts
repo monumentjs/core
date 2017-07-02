@@ -1,5 +1,5 @@
 import {EventListener} from './types';
-import {assertArgumentNotNull} from '../Assertion/Assert';
+import {Assert} from '../Assertion/Assert';
 
 
 export class EventHandler {
@@ -9,9 +9,9 @@ export class EventHandler {
 
 
     public constructor(eventType: string, eventListener: EventListener, removeAfterExecution: boolean) {
-        assertArgumentNotNull('eventType', eventType);
-        assertArgumentNotNull('eventListener', eventListener);
-        assertArgumentNotNull('removeAfterExecution', removeAfterExecution);
+        Assert.argument('eventType', eventType).notNull();
+        Assert.argument('eventListener', eventListener).notNull();
+        Assert.argument('removeAfterExecution', removeAfterExecution).notNull();
 
         this.eventType = eventType;
         this.eventListener = eventListener;

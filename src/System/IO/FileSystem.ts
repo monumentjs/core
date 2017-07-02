@@ -1,7 +1,5 @@
 import * as fs from 'fs';
-import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
-import {callAsyncMethod} from '../../Core/Async/Utils';
-import {IFileSystem} from './IFileSystem';
+import {Assert} from '../../Core/Assertion/Assert';
 import {FileSystemEntry} from './FileSystemEntry';
 import {AccessPermissions} from './AccessPermissions';
 import {FileMode} from './FileMode';
@@ -11,12 +9,13 @@ import {IOException} from './IOException';
 import {ReadOnlyCollection} from '../../Core/Collections/ReadOnlyCollection';
 import {Path} from './Path';
 import {FileSystemEntryType} from './FileSystemEntryType';
+import {DeferredObject} from '../../Core/Async/DeferredObject';
 
 
-export class FileSystem implements IFileSystem {
+export class FileSystem {
 
-    public getEntry(fullName: string): Promise<FileSystemEntry> {
-        assertArgumentNotNull('fullName', fullName);
+    public static getEntry(fullName: string): Promise<FileSystemEntry> {
+        Assert.argument('fullName', fullName).notNull();
 
         return new Promise<FileSystemEntry>((resolve, reject) => {
             fs.lstat(fullName, (error: Error, stats: fs.Stats): void => {
@@ -31,16 +30,16 @@ export class FileSystem implements IFileSystem {
     }
 
 
-    public async createFile(
+    public static async createFile(
         fileName: string,
         accessPermissions: AccessPermissions = AccessPermissions.Default,
         truncate: boolean = true,
         overwrite: boolean = true
     ): Promise<void> {
-        assertArgumentNotNull('fileName', fileName);
-        assertArgumentNotNull('accessPermissions', accessPermissions);
-        assertArgumentNotNull('truncate', truncate);
-        assertArgumentNotNull('overwrite', overwrite);
+        Assert.argument('fileName', fileName).notNull();
+        Assert.argument('accessPermissions', accessPermissions).notNull();
+        Assert.argument('truncate', truncate).notNull();
+        Assert.argument('overwrite', overwrite).notNull();
 
         let fd: FileDescriptor;
         let fileMode: FileMode = FileMode.Create | FileMode.NonBlock;
@@ -59,37 +58,67 @@ export class FileSystem implements IFileSystem {
     }
 
 
-    public writeFile(
+    public static writeFile(
         fileName: string,
         fileContent: Buffer,
         accessPermissions: AccessPermissions = AccessPermissions.Default
     ): Promise<void> {
-        assertArgumentNotNull('fileName', fileName);
-        assertArgumentNotNull('fileContent', fileContent);
-        assertArgumentNotNull('accessPermissions', accessPermissions);
+        Assert.argument('fileName', fileName).notNull();
+        Assert.argument('fileContent', fileContent).notNull();
+        Assert.argument('accessPermissions', accessPermissions).notNull();
 
-        return callAsyncMethod<void>(fs, 'writeFile', fileName, fileContent, {
+        let deferred: DeferredObject<void> = new DeferredObject<void>();
+
+        fs.writeFile(fileName, fileContent, {
             mode: accessPermissions
+        }, (error: NodeJS.ErrnoException): void => {
+            if (error) {
+                deferred.reject(error);
+            } else {
+                deferred.resolve();
+            }
         });
+
+        return deferred.promise;
     }
 
 
-    public readFile(fileName: string): Promise<Buffer> {
-        assertArgumentNotNull('fileName', fileName);
+    public static readFile(fileName: string): Promise<Buffer> {
+        Assert.argument('fileName', fileName).notNull();
 
-        return callAsyncMethod<Buffer>(fs, 'readFile', fileName);
+        let deferred: DeferredObject<Buffer> = new DeferredObject<Buffer>();
+
+        fs.readFile(fileName, (error: NodeJS.ErrnoException, content: Buffer): void => {
+            if (error) {
+                deferred.reject(error);
+            } else {
+                deferred.resolve(content);
+            }
+        });
+
+        return deferred.promise;
     }
 
 
-    public removeFile(fullName: string): Promise<void> {
-        assertArgumentNotNull('fullName', fullName);
+    public static removeFile(fullName: string): Promise<void> {
+        Assert.argument('fullName', fullName).notNull();
 
-        return callAsyncMethod<void>(fs, 'unlink', fullName);
+        let deferred: DeferredObject<void> = new DeferredObject<void>();
+
+        fs.unlink(fullName, (error: NodeJS.ErrnoException): void => {
+            if (error) {
+                deferred.reject(error);
+            } else {
+                deferred.resolve();
+            }
+        });
+
+        return deferred.promise;
     }
 
 
-    public async fileExists(fileName: string): Promise<boolean> {
-        assertArgumentNotNull('fileName', fileName);
+    public static async fileExists(fileName: string): Promise<boolean> {
+        Assert.argument('fileName', fileName).notNull();
 
         let entry: FileSystemEntry;
 
@@ -107,40 +136,70 @@ export class FileSystem implements IFileSystem {
     }
 
 
-    public createDirectory(
+    public static createDirectory(
         directoryName: string,
         accessPermissions: AccessPermissions = AccessPermissions.All
     ): Promise<void> {
-        assertArgumentNotNull('directoryName', directoryName);
-        assertArgumentNotNull('accessPermissions', accessPermissions);
+        Assert.argument('directoryName', directoryName).notNull();
+        Assert.argument('accessPermissions', accessPermissions).notNull();
 
-        return callAsyncMethod<void>(fs, 'mkdir', directoryName, accessPermissions);
+        let deferred: DeferredObject<void> = new DeferredObject<void>();
+
+        fs.mkdir(directoryName, accessPermissions, (error: NodeJS.ErrnoException): void => {
+            if (error) {
+                deferred.reject(error);
+            } else {
+                deferred.resolve();
+            }
+        });
+
+        return deferred.promise;
     }
 
 
-    public async readDirectory(directoryName: string): Promise<ReadOnlyCollection<FileSystemEntry>> {
-        assertArgumentNotNull('directoryName', directoryName);
+    public static readDirectory(directoryName: string): Promise<ReadOnlyCollection<FileSystemEntry>> {
+        Assert.argument('directoryName', directoryName).notNull();
 
-        let names: string[] = await callAsyncMethod<string[]>(fs, 'readdir', directoryName);
-        let entries: FileSystemEntry[] = await Promise.all(names.map((name: string): Promise<FileSystemEntry> => {
-            let fullName: string = Path.concat([directoryName, name]);
+        let deferred: DeferredObject<ReadOnlyCollection<FileSystemEntry>> =
+            new DeferredObject<ReadOnlyCollection<FileSystemEntry>>();
 
-            return this.getEntry(fullName);
-        }));
+        fs.readdir(directoryName, (error: NodeJS.ErrnoException, names: string[]): void => {
+            if (error) {
+                deferred.reject(error);
+            } else {
+                deferred.resolve(Promise.all(names.map((name: string): Promise<FileSystemEntry> => {
+                    let fullName: string = Path.concat([directoryName, name]);
 
-        return new ReadOnlyCollection<FileSystemEntry>(entries);
+                    return this.getEntry(fullName);
+                })).then((entries: FileSystemEntry[]) => {
+                    return new ReadOnlyCollection<FileSystemEntry>(entries);
+                }));
+            }
+        });
+
+        return deferred.promise;
     }
 
 
-    public removeDirectory(directoryName: string): Promise<void> {
-        assertArgumentNotNull('directoryName', directoryName);
+    public static removeDirectory(directoryName: string): Promise<void> {
+        Assert.argument('directoryName', directoryName).notNull();
 
-        return callAsyncMethod<void>(fs, 'rmdir', directoryName);
+        let deferred: DeferredObject<void> = new DeferredObject<void>();
+
+        fs.rmdir(directoryName, (error: NodeJS.ErrnoException): void => {
+            if (error) {
+                deferred.reject(error);
+            } else {
+                deferred.resolve();
+            }
+        });
+
+        return deferred.promise;
     }
 
 
-    public async directoryExists(directoryName: string): Promise<boolean> {
-        assertArgumentNotNull('directoryName', directoryName);
+    public static async directoryExists(directoryName: string): Promise<boolean> {
+        Assert.argument('directoryName', directoryName).notNull();
 
         let entry: FileSystemEntry;
 
@@ -158,16 +217,26 @@ export class FileSystem implements IFileSystem {
     }
 
 
-    public checkAccess(fullName: string, accessMode: AccessMode = AccessMode.Availability): Promise<void> {
-        assertArgumentNotNull('fullName', fullName);
-        assertArgumentNotNull('accessMode', accessMode);
+    public static checkAccess(fullName: string, accessMode: AccessMode = AccessMode.Availability): Promise<void> {
+        Assert.argument('fullName', fullName).notNull();
+        Assert.argument('accessMode', accessMode).notNull();
 
-        return callAsyncMethod<void>(fs, 'access', fullName, accessMode);
+        let deferred: DeferredObject<void> = new DeferredObject<void>();
+
+        fs.access(fullName, accessMode, (error: NodeJS.ErrnoException): void => {
+            if (error) {
+                deferred.reject(error);
+            } else {
+                deferred.resolve();
+            }
+        });
+
+        return deferred.promise;
     }
 
 
-    public async getPermissions(fullName: string): Promise<AccessPermissions> {
-        assertArgumentNotNull('fullName', fullName);
+    public static async getPermissions(fullName: string): Promise<AccessPermissions> {
+        Assert.argument('fullName', fullName).notNull();
 
         let stats: FileSystemEntry = await this.getEntry(fullName);
 
@@ -175,134 +244,250 @@ export class FileSystem implements IFileSystem {
     }
 
 
-    public setPermissions(fullName: string, accessPermissions: AccessPermissions): Promise<void> {
-        assertArgumentNotNull('fullName', fullName);
-        assertArgumentNotNull('accessPermissions', accessPermissions);
+    public static setPermissions(fullName: string, accessPermissions: AccessPermissions): Promise<void> {
+        Assert.argument('fullName', fullName).notNull();
+        Assert.argument('accessPermissions', accessPermissions).notNull();
 
-        return callAsyncMethod<void>(fs, 'chmod', fullName, accessPermissions);
+        let deferred: DeferredObject<void> = new DeferredObject<void>();
+
+        fs.chmod(fullName, accessPermissions, (error: NodeJS.ErrnoException): void => {
+            if (error) {
+                deferred.reject(error);
+            } else {
+                deferred.resolve();
+            }
+        });
+
+        return deferred.promise;
     }
 
 
-    public setOwner(fullName: string, userId: number, groupId: number): Promise<void> {
-        assertArgumentNotNull('fullName', fullName);
-        assertArgumentNotNull('userId', userId);
-        assertArgumentNotNull('groupId', groupId);
+    public static setOwner(fullName: string, userId: number, groupId: number): Promise<void> {
+        Assert.argument('fullName', fullName).notNull();
+        Assert.argument('userId', userId).notNull();
+        Assert.argument('groupId', groupId).notNull();
 
-        return callAsyncMethod<void>(fs, 'chown', fullName, userId, groupId);
+        let deferred: DeferredObject<void> = new DeferredObject<void>();
+
+        fs.chown(fullName, userId, groupId, (error: NodeJS.ErrnoException): void => {
+            if (error) {
+                deferred.reject(error);
+            } else {
+                deferred.resolve();
+            }
+        });
+
+        return deferred.promise;
     }
 
 
-    public createSymbolicLink(fullName: string, linkName: string): Promise<void> {
-        assertArgumentNotNull('fullName', fullName);
-        assertArgumentNotNull('linkName', linkName);
+    public static createSymbolicLink(fullName: string, linkName: string): Promise<void> {
+        Assert.argument('fullName', fullName).notNull();
+        Assert.argument('linkName', linkName).notNull();
 
-        return callAsyncMethod<void>(fs, 'symlink', fullName, linkName, undefined);
+        let deferred: DeferredObject<void> = new DeferredObject<void>();
+
+        fs.symlink(fullName, linkName, undefined, (error: NodeJS.ErrnoException): void => {
+            if (error) {
+                deferred.reject(error);
+            } else {
+                deferred.resolve();
+            }
+        });
+
+        return deferred.promise;
     }
 
 
-    public createLink(fullName: string, linkName: string): Promise<void> {
-        assertArgumentNotNull('fullName', fullName);
-        assertArgumentNotNull('linkName', linkName);
+    public static createLink(fullName: string, linkName: string): Promise<void> {
+        Assert.argument('fullName', fullName).notNull();
+        Assert.argument('linkName', linkName).notNull();
 
-        return callAsyncMethod<void>(fs, 'link', fullName, linkName);
+        let deferred: DeferredObject<void> = new DeferredObject<void>();
+
+        fs.link(fullName, linkName, (error: NodeJS.ErrnoException): void => {
+            if (error) {
+                deferred.reject(error);
+            } else {
+                deferred.resolve();
+            }
+        });
+
+        return deferred.promise;
     }
 
 
-    public readLink(linkName: string): Promise<string> {
-        assertArgumentNotNull('linkName', linkName);
+    public static readLink(linkName: string): Promise<string> {
+        Assert.argument('linkName', linkName).notNull();
 
-        return callAsyncMethod<string>(fs, 'readlink', linkName);
+        let deferred: DeferredObject<string> = new DeferredObject<string>();
+
+        fs.readlink(linkName, (error: NodeJS.ErrnoException, sourcePath: string): void => {
+            if (error) {
+                deferred.reject(error);
+            } else {
+                deferred.resolve(sourcePath);
+            }
+        });
+
+        return deferred.promise;
     }
 
 
-    public getAbsolutePath(path: string): Promise<string> {
-        assertArgumentNotNull('path', path);
+    public static getAbsolutePath(path: string): Promise<string> {
+        Assert.argument('path', path).notNull();
 
-        return callAsyncMethod<string>(fs, 'realpath', path);
+        let deferred: DeferredObject<string> = new DeferredObject<string>();
+
+        fs.realpath(path, (error: NodeJS.ErrnoException, absolutePath: string): void => {
+            if (error) {
+                deferred.reject(error);
+            } else {
+                deferred.resolve(absolutePath);
+            }
+        });
+
+        return deferred.promise;
     }
 
 
-    public move(sourceName: string, destinationName: string): Promise<void> {
-        assertArgumentNotNull('sourceName', sourceName);
-        assertArgumentNotNull('destinationName', destinationName);
+    public static move(sourceName: string, destinationName: string): Promise<void> {
+        Assert.argument('sourceName', sourceName).notNull();
+        Assert.argument('destinationName', destinationName).notNull();
 
-        return callAsyncMethod<void>(fs, 'rename', sourceName, destinationName);
+        let deferred: DeferredObject<void> = new DeferredObject<void>();
+
+        fs.rename(sourceName, destinationName, (error: NodeJS.ErrnoException): void => {
+            if (error) {
+                deferred.reject(error);
+            } else {
+                deferred.resolve();
+            }
+        });
+
+        return deferred.promise;
     }
 
 
-    public open(
+    public static open(
         fullName: string,
         fileMode: FileMode = FileMode.ReadWrite | FileMode.NonBlock,
         accessPermissions: AccessPermissions = AccessPermissions.Default
     ): Promise<FileDescriptor> {
-        assertArgumentNotNull('fullName', fullName);
-        assertArgumentNotNull('fileMode', fileMode);
-        assertArgumentNotNull('accessPermissions', accessPermissions);
+        Assert.argument('fullName', fullName).notNull();
+        Assert.argument('fileMode', fileMode).notNull();
+        Assert.argument('accessPermissions', accessPermissions).notNull();
 
-        return callAsyncMethod<FileDescriptor>(fs, 'open', fullName, fileMode, accessPermissions);
+        let deferred: DeferredObject<FileDescriptor> = new DeferredObject<FileDescriptor>();
+
+        fs.open(fullName, fileMode, accessPermissions, (error: NodeJS.ErrnoException, fd: FileDescriptor): void => {
+            if (error) {
+                deferred.reject(error);
+            } else {
+                deferred.resolve(fd);
+            }
+        });
+
+        return deferred.promise;
     }
 
 
-    public close(fileDescriptor: FileDescriptor): Promise<void> {
-        assertArgumentNotNull('fileDescriptor', fileDescriptor);
+    public static close(fileDescriptor: FileDescriptor): Promise<void> {
+        Assert.argument('fileDescriptor', fileDescriptor).notNull();
 
-        return callAsyncMethod<void>(fs, 'close', fileDescriptor);
+        let deferred: DeferredObject<void> = new DeferredObject<void>();
+
+        fs.close(fileDescriptor, (error: NodeJS.ErrnoException): void => {
+            if (error) {
+                deferred.reject(error);
+            } else {
+                deferred.resolve();
+            }
+        });
+
+        return deferred.promise;
     }
 
 
-    public async read(
+    public static async read(
         fileDescriptor: FileDescriptor,
         position: number,
         length: number
     ): Promise<Buffer> {
-        assertArgumentNotNull('fileDescriptor', fileDescriptor);
-        assertArgumentNotNull('position', position);
-        assertArgumentNotNull('length', length);
+        Assert.argument('fileDescriptor', fileDescriptor).notNull();
+        Assert.argument('position', position).notNull();
+        Assert.argument('length', length).notNull();
 
         let buffer: Buffer = Buffer.alloc(length);
+        let deferred: DeferredObject<Buffer> = new DeferredObject<Buffer>();
 
-        let bytesRead: number = await callAsyncMethod<number>(
-            fs,
-            'read',
-            fileDescriptor,             // File descriptor, returned by `open` method
-            buffer,                     // Buffer to write bytes in
-            0,                          // Initial position in buffer
-            length,                     // How much bytes to read
-            position                    // Initial position in file
+        fs.read(
+            fileDescriptor,     // File descriptor, returned by `open` method
+            buffer,             // Buffer to write bytes in
+            0,                  // Initial position in buffer
+            length,             // How much bytes to read
+            position,           // Initial position in file
+            (error: NodeJS.ErrnoException, bytesRead: number): void => {
+                if (error) {
+                    deferred.reject(error);
+                    return;
+                }
+
+                if (bytesRead < length) {
+                    buffer = buffer.slice(0, bytesRead);
+                }
+
+                deferred.resolve(buffer);
+            }
         );
 
-        if (bytesRead < length) {
-            buffer = buffer.slice(0, bytesRead);
-        }
-
-        return buffer;
+        return deferred.promise;
     }
 
 
-    public write(
+    public static write(
         fileDescriptor: FileDescriptor,
         position: number,
         buffer: Buffer
     ): Promise<number> {
-        assertArgumentNotNull('fileDescriptor', fileDescriptor);
-        assertArgumentNotNull('position', position);
-        assertArgumentNotNull('buffer', buffer);
+        Assert.argument('fileDescriptor', fileDescriptor).notNull();
+        Assert.argument('position', position).notNull();
+        Assert.argument('buffer', buffer).notNull();
 
-        return callAsyncMethod<number>(
-            fs,
-            'write',
+        let deferred: DeferredObject<number> = new DeferredObject<number>();
+
+        fs.write(
             fileDescriptor,             // File descriptor, returned by `open` method
             buffer,                     // Buffer with bytes to write
             0,                          // Initial position in buffer
             buffer.length,              // How much bytes to write
             position,                   // Initial position in file
+            (error: NodeJS.ErrnoException, bytesWritten: number) => {
+                if (error) {
+                    deferred.reject(error);
+                } else {
+                    deferred.resolve(bytesWritten);
+                }
+            }
         );
+
+        return deferred.promise;
     }
 
 
-    public flush(fileDescriptor: FileDescriptor): Promise<void> {
-        assertArgumentNotNull('fileDescriptor', fileDescriptor);
+    public static flush(fileDescriptor: FileDescriptor): Promise<void> {
+        Assert.argument('fileDescriptor', fileDescriptor).notNull();
 
-        return callAsyncMethod<void>(fs, 'fsync');
+        let deferred: DeferredObject<void> = new DeferredObject<void>();
+
+        fs.fsync(fileDescriptor, (error: NodeJS.ErrnoException): void => {
+            if (error) {
+                deferred.reject(error);
+            } else {
+                deferred.resolve();
+            }
+        });
+
+        return deferred.promise;
     }
 }

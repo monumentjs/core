@@ -1,5 +1,5 @@
 import {NodeCollection} from './NodeCollection';
-import {assertArgumentNotNull} from '../../../Assertion/Assert';
+import {Assert} from '../../../Assertion/Assert';
 import {InvalidArgumentException} from '../../../Exceptions/InvalidArgumentException';
 import {INode} from './INode';
 
@@ -116,7 +116,7 @@ export class Node implements INode {
 
 
     public constructor(nodeName: string) {
-        assertArgumentNotNull('nodeName', nodeName);
+        Assert.argument('nodeName', nodeName).notNull();
 
         this._nodeName = nodeName;
     }
@@ -133,8 +133,8 @@ export class Node implements INode {
 
 
     public replaceChild(newNode: Node, oldNode: Node): void {
-        assertArgumentNotNull('newNode', newNode);
-        assertArgumentNotNull('oldNode', oldNode);
+        Assert.argument('newNode', newNode).notNull();
+        Assert.argument('oldNode', oldNode).notNull();
 
         let indexOfOldNode: number = this.childNodes.indexOf(oldNode);
 
@@ -147,7 +147,7 @@ export class Node implements INode {
 
 
     public contains(node: Node): boolean {
-        assertArgumentNotNull('node', node);
+        Assert.argument('node', node).notNull();
 
         if (node === this) {
             return false;
@@ -168,8 +168,8 @@ export class Node implements INode {
 
 
     public insertBefore(newNode: Node, refNode: Node): void {
-        assertArgumentNotNull('newNode', newNode);
-        assertArgumentNotNull('refNode', refNode);
+        Assert.argument('newNode', newNode).notNull();
+        Assert.argument('refNode', refNode).notNull();
 
         let insertPosition: number = this.childNodes.indexOf(refNode);
 
@@ -182,8 +182,8 @@ export class Node implements INode {
 
 
     public insertAfter(newNode: Node, refNode: Node): void {
-        assertArgumentNotNull('newNode', newNode);
-        assertArgumentNotNull('refNode', refNode);
+        Assert.argument('newNode', newNode).notNull();
+        Assert.argument('refNode', refNode).notNull();
 
         let insertPosition: number = this.childNodes.indexOf(refNode);
 

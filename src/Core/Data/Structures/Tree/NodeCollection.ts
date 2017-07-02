@@ -1,6 +1,6 @@
 import {Collection} from '../../../Collections/Collection';
 import {Node} from './Node';
-import {assertArgumentBounds, assertArgumentNotNull} from '../../../Assertion/Assert';
+import {Assert} from '../../../Assertion/Assert';
 
 
 export class NodeCollection<TNode extends Node = Node> extends Collection<TNode> {
@@ -8,7 +8,7 @@ export class NodeCollection<TNode extends Node = Node> extends Collection<TNode>
 
 
     public constructor(parentNode: TNode) {
-        assertArgumentNotNull('parentNode', parentNode);
+        Assert.argument('parentNode', parentNode).notNull();
 
         super();
 
@@ -17,7 +17,7 @@ export class NodeCollection<TNode extends Node = Node> extends Collection<TNode>
 
 
     public add(node: TNode): void {
-        assertArgumentNotNull('node', node);
+        Assert.argument('node', node).notNull();
 
         node.parentNode = this.parentNode;
 
@@ -26,7 +26,7 @@ export class NodeCollection<TNode extends Node = Node> extends Collection<TNode>
 
 
     public remove(node: TNode): boolean {
-        assertArgumentNotNull('node', node);
+        Assert.argument('node', node).notNull();
 
         let isRemoved: boolean = super.remove(node);
 
@@ -39,7 +39,7 @@ export class NodeCollection<TNode extends Node = Node> extends Collection<TNode>
 
 
     public contains(node: TNode): boolean {
-        assertArgumentNotNull('node', node);
+        Assert.argument('node', node).notNull();
 
         return super.contains(node);
     }
@@ -55,16 +55,15 @@ export class NodeCollection<TNode extends Node = Node> extends Collection<TNode>
 
 
     public indexOf(node: TNode, fromIndex?: number): number {
-        assertArgumentNotNull('node', node);
+        Assert.argument('node', node).notNull();
 
         return Array.prototype.indexOf.call(this, node, fromIndex);
     }
 
 
     public insert(node: TNode, position: number): void {
-        assertArgumentNotNull('node', node);
-        assertArgumentNotNull('position', position);
-        assertArgumentBounds('position', position, 0, this.length);
+        Assert.argument('node', node).notNull();
+        Assert.argument('position', position).notNull().bounds(0, this.length);
 
         node.parentNode = this.parentNode;
 

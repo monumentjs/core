@@ -1,5 +1,6 @@
+import {Readable, Writable} from 'stream';
 import {ChildProcess as NodeChildProcess, spawn, SpawnOptions} from 'child_process';
-import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
+import {Assert} from '../../Core/Assertion/Assert';
 import {ErrorEvent} from '../../Core/Events/ErrorEvent';
 import {InvalidOperationException} from '../../Core/Exceptions/InvalidOperationException';
 import {IDisposable} from '../../Core/types';
@@ -8,11 +9,11 @@ import {NoAssociatedProcessException} from './NoAssociatedProcessException';
 import {ProcessEvent, ProcessEventType} from './ProcessEvent';
 import {ProcessStartInfo} from './ProcessStartInfo';
 import {ProcessMessageEvent} from './ProcessMessageEvent';
-import {IInternalStreamProvider} from '../Stream/IInternalStreamProvider';
 import {InvalidArgumentException} from '../../Core/Exceptions/InvalidArgumentException';
 import {ProcessIOMode} from './types';
 import {EventEmitter} from '../../Core/Events/EventEmitter';
 import {Arguments} from './Arguments/Arguments';
+import {IStreamAdapter} from '../Stream/IStreamAdapter';
 
 
 export class Process extends EventEmitter implements IDisposable {
@@ -37,8 +38,8 @@ export class Process extends EventEmitter implements IDisposable {
      * @throws {ArgumentNullException} If 'args' argument is not defined.
      */
     public static start(fileName: string, ...args: string[]): Process {
-        assertArgumentNotNull('fileName', fileName);
-        assertArgumentNotNull('args', args);
+        Assert.argument('fileName', fileName).notNull();
+        Assert.argument('args', args).notNull();
 
         let process: Process = new Process(new ProcessStartInfo(fileName, ...args));
 
@@ -73,7 +74,7 @@ export class Process extends EventEmitter implements IDisposable {
     
     
     public set startInfo(value: ProcessStartInfo) {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         this._startInfo = value;
     }
@@ -103,7 +104,7 @@ export class Process extends EventEmitter implements IDisposable {
     public constructor(startInfo: ProcessStartInfo) {
         super();
 
-        assertArgumentNotNull('startInfo', startInfo);
+        Assert.argument('startInfo', startInfo).notNull();
 
         this._startInfo = startInfo;
     }
@@ -119,7 +120,7 @@ export class Process extends EventEmitter implements IDisposable {
         this.notify(ProcessEvent.START);
 
         this.spawnProcess();
-        this.proxyProcessEvents();
+        this.addEventProxies();
     }
 
     /**
@@ -128,7 +129,7 @@ export class Process extends EventEmitter implements IDisposable {
      * @throws {NoAssociatedProcessException} If current instance does not have associated process descriptor.
      */
     public kill(signal: string = 'SIGTERM'): void {
-        assertArgumentNotNull('signal', signal);
+        Assert.argument('signal', signal).notNull();
         this.throwIfNoAssociatedProcess();
 
         this._nativeProcess.kill(signal);
@@ -190,11 +191,11 @@ export class Process extends EventEmitter implements IDisposable {
     }
 
 
-    private getStandardInput(): NodeJS.WritableStream | ProcessIOMode {
-        let standardInput: IInternalStreamProvider<any> | ProcessIOMode = this.startInfo.standardInput;
+    private getStandardInput(): Readable | ProcessIOMode {
+        let standardInput: IStreamAdapter<Readable> | ProcessIOMode = this.startInfo.standardInput;
 
         if (standardInput && typeof standardInput === 'object') {
-            return (standardInput as IInternalStreamProvider<any>).getInternalStream();
+            return (standardInput as IStreamAdapter<Readable>).baseStream;
         }
 
         if (typeof standardInput === 'string') {
@@ -205,11 +206,11 @@ export class Process extends EventEmitter implements IDisposable {
     }
 
 
-    private getStandardOutput(): NodeJS.ReadableStream | ProcessIOMode {
-        let standardOutput: IInternalStreamProvider<any> | ProcessIOMode = this.startInfo.standardOutput;
+    private getStandardOutput(): Writable | ProcessIOMode {
+        let standardOutput: IStreamAdapter<Writable> | ProcessIOMode = this.startInfo.standardOutput;
 
         if (standardOutput && typeof standardOutput === 'object') {
-            return (standardOutput as IInternalStreamProvider<any>).getInternalStream();
+            return (standardOutput as IStreamAdapter<Writable>).baseStream;
         }
 
         if (typeof standardOutput === 'string') {
@@ -221,11 +222,11 @@ export class Process extends EventEmitter implements IDisposable {
     }
 
 
-    private getStandardError(): NodeJS.WritableStream | ProcessIOMode {
-        let standardError: IInternalStreamProvider<any> | ProcessIOMode = this.startInfo.standardError;
+    private getStandardError(): Writable | ProcessIOMode {
+        let standardError: IStreamAdapter<Writable> | ProcessIOMode = this.startInfo.standardError;
 
         if (standardError && typeof standardError === 'object') {
-            return (standardError as IInternalStreamProvider<any>).getInternalStream();
+            return (standardError as IStreamAdapter<Writable>).baseStream;
         }
 
         if (typeof standardError === 'string') {
@@ -236,15 +237,23 @@ export class Process extends EventEmitter implements IDisposable {
     }
 
     
-    private proxyProcessEvents(): void {
-        this._nativeProcess.once('exit', (exitCode: number, terminationSignal: string): void => {
-            if (terminationSignal) {
-                this.onNativeProcessTerminate(terminationSignal);
-            } else {
-                this.onNativeProcessExit(exitCode);
-            }
-        });
+    private addEventProxies(): void {
+        this.addExitEventProxy();
+        this.addCloseEventProxy();
+        this.addDisconnectedEventProxy();
+        this.addErrorEventProxy();
+        this.addMessageEventProxy();
+    }
 
+
+    private addDisconnectedEventProxy() {
+        this._nativeProcess.once('disconnect', (): void => {
+            this.notify(ProcessEvent.DISCONNECT);
+        });
+    }
+
+
+    private addCloseEventProxy() {
         this._nativeProcess.once('close', (exitCode: number, terminationSignal: string): void => {
             if (terminationSignal) {
                 this.onNativeProcessTerminate(terminationSignal);
@@ -252,15 +261,28 @@ export class Process extends EventEmitter implements IDisposable {
                 this.onNativeProcessClose(exitCode);
             }
         });
+    }
 
-        this._nativeProcess.once('disconnect', (): void => {
-            this.notify(ProcessEvent.DISCONNECT);
+
+    private addExitEventProxy() {
+        this._nativeProcess.once('exit', (exitCode: number, terminationSignal: string): void => {
+            if (terminationSignal) {
+                this.onNativeProcessTerminate(terminationSignal);
+            } else {
+                this.onNativeProcessExit(exitCode);
+            }
         });
+    }
 
+
+    private addErrorEventProxy() {
         this._nativeProcess.on('error', (error: Error): void => {
             this.dispatchEvent(new ErrorEvent(error));
         });
+    }
 
+
+    private addMessageEventProxy() {
         this._nativeProcess.on('message', (message: object): void => {
             this.dispatchEvent(new ProcessMessageEvent(this, message));
         });

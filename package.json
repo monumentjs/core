@@ -14,15 +14,16 @@
   "scripts": {
     "lint": "tslint --format stylish --project .",
     "compile": "tsc",
-    "test": "jest -i --verbose"
+    "test": "jest -i --verbose",
+    "test:watch": "jest --watch"
   },
   "author": "Alex Chugaev <achugaev93@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@types/node": "^7.0.29"
+    "@types/node": "^8.0.7"
   },
   "devDependencies": {
-    "@types/jest": "^19.2.4",
+    "@types/jest": "^20.0.0",
     "jest": "^20.0.4",
     "ts-jest": "^20.0.6",
     "tslint": "^5.4.3",

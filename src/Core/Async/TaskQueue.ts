@@ -2,7 +2,8 @@ import {Task} from './Task';
 import {IDisposable} from '../types';
 import {Queue} from '../Collections/Queue';
 import {TaskEvent} from './TaskEvent';
-import {assertArgumentBounds, assertArgumentNotNull} from '../Assertion/Assert';
+import {Assert} from '../Assertion/Assert';
+import {Method} from '../Language/Decorators/Method';
 
 
 export class TaskQueue implements IDisposable {
@@ -43,27 +44,21 @@ export class TaskQueue implements IDisposable {
 
 
     public constructor(concurrentTasksLimit: number = 1) {
-        assertArgumentNotNull('concurrentTasksLimit', concurrentTasksLimit);
-        assertArgumentBounds('concurrentTasksLimit', concurrentTasksLimit, 1, Infinity);
+        Assert.argument('concurrentTasksLimit', concurrentTasksLimit).notNull().bounds(1, Infinity);
 
         this._concurrentTasksLimit = concurrentTasksLimit;
     }
 
 
     public addTask(task: Task<any>): void {
-        task.addEventListener(TaskEvent.COMPLETE, () => {
-            this.tryRunNextTask();
-        }, true);
+        Assert.argument('task', task).notNull();
 
-        task.addEventListener(TaskEvent.ERROR, () => {
-            this.tryRunNextTask();
-        }, true);
-
-        task.addEventListener(TaskEvent.ABORT, () => {
-            this.tryRunNextTask();
-        }, true);
+        task.addEventListener(TaskEvent.COMPLETE, this.tryRunNextTask, true);
+        task.addEventListener(TaskEvent.ERROR, this.tryRunNextTask, true);
+        task.addEventListener(TaskEvent.ABORT, this.tryRunNextTask, true);
 
         this._queue.enqueue(task);
+
         this.tryRunNextTask();
     }
 
@@ -78,7 +73,7 @@ export class TaskQueue implements IDisposable {
         this._queue.clear();
     }
 
-
+    @Method.attached()
     protected tryRunNextTask(): void {
         if (this.canRunOneMoreTask) {
             let task: Task = this._queue.dequeue();

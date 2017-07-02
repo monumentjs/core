@@ -1,53 +1,38 @@
-import {StreamReader} from '../Stream/StreamReader';
+import {createReadStream, ReadStream} from 'fs';
+import {Assert} from '../../Core/Assertion/Assert';
 import {Encoding} from '../Text/Encoding';
 import {Utf8Encoding} from '../Text/Utf8Encoding';
-import {Stream} from '../Stream/Stream';
-import {assertArgumentNotNull, assertArgumentType} from '../../Core/Assertion/Assert';
+import {ReadStreamAdapter} from './Adapters/ReadStreamAdapter';
 
 
-export class TextReader
-    extends StreamReader<Stream<Buffer>, string> {
+export class TextReader extends ReadStreamAdapter<ReadStream, string, string> {
 
-    private _encoding: Encoding = Utf8Encoding.instance;
-
-
-    public get encoding(): Encoding {
-        return this._encoding;
+    public get fileName(): string {
+        return this.baseStream.path.toString();
     }
 
 
-    public set encoding(value: Encoding) {
-        assertArgumentNotNull('value', value);
-        assertArgumentType('value', value, Encoding);
-
-        this._encoding = value;
+    public get bytesRead(): number {
+        return this.baseStream.bytesRead;
     }
 
 
-    protected async onRead(length: number): Promise<string> {
-        let currentPosition: number = this.sourceStream.position;
-        let bytesToRead: number = this.encoding.getStringSize(length);
-        let bytes: Buffer = await this.sourceStream.read(bytesToRead);
-        let chunk: string = this.encoding.getString(bytes, 0, length);
-        let chunkSize: number = this.encoding.getBytesCount(chunk);
+    public constructor(fileName: string, encoding: Encoding = Utf8Encoding.instance) {
+        Assert.argument('fileName', fileName).notNull();
+        Assert.argument('encoding', encoding).notNull();
 
-        await this.sourceStream.seek(currentPosition + chunkSize);
+        super(createReadStream(fileName));
 
-        return chunk;
+        this.baseStream.setEncoding(encoding.encodingName);
     }
 
 
-    protected async onPause(): Promise<void> {
-        // Stub
+    public close(): void {
+        this.baseStream.close();
     }
 
 
-    protected async onResume(): Promise<void> {
-        // Stub
-    }
-
-
-    protected onClose(): Promise<void> {
-        return this.sourceStream.close();
+    protected async transform(input: string): Promise<string> {
+        return input;
     }
 }

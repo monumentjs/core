@@ -3,7 +3,7 @@ import {StringBuilder} from '../../Core/Text/StringBuilder';
 import {Uri} from './Uri';
 import {IEquatable} from '../../Core/types';
 import {KeyValueEqualityComparator} from '../../Core/Collections/KeyValueEqualityComparator';
-import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
+import {Assert} from '../../Core/Assertion/Assert';
 
 
 export class QueryParamsCollection
@@ -11,7 +11,7 @@ export class QueryParamsCollection
     implements IEquatable<QueryParamsCollection> {
 
     public equals(other: QueryParamsCollection): boolean {
-        assertArgumentNotNull('other', other);
+        Assert.argument('other', other).notNull();
 
         for (let currentItem of this) {
             if (!other.contains(currentItem, KeyValueEqualityComparator.instance)) {

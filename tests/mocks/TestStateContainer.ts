@@ -3,16 +3,16 @@ import {TestState} from './TestState';
 import {StateContainer} from '../../src/System/ComponentModel/StateContainer';
 
 
-export class TestStateContainer extends StateContainer<TestState> {
+export class TestStateContainer extends StateContainer<TestState, TestAction> {
     protected getInitialState(): TestState {
         return new TestState();
     }
 
 
-    protected mutateState(action: object): void {
+    protected processAction(action: TestAction): void {
         switch (action.constructor) {
             case TestAction:
-                this.onNextReport(action as TestAction);
+                this.onNextReport(action);
         }
     }
 

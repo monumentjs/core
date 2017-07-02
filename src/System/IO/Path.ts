@@ -1,7 +1,7 @@
 import {ICloneable, IJSONSerializable} from '../../Core/types';
 import {parse, isAbsolute, relative, resolve, join, ParsedPath} from 'path';
 import {IEnumerable} from '../../Core/Collections/IEnumerable';
-import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
+import {Assert} from '../../Core/Assertion/Assert';
 
 
 const PATH_SEGMENTS_DELIMITER: RegExp = /[\\/]+/g;
@@ -73,7 +73,7 @@ export class Path implements ICloneable<Path>, IJSONSerializable<string> {
 
 
     public constructor(path: string) {
-        assertArgumentNotNull('path', path);
+        Assert.argument('path', path).notNull();
 
         this._originalPath = path;
         this._parsedPath = parse(path);

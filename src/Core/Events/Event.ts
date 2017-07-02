@@ -1,12 +1,12 @@
-import {assertArgumentNotNull} from '../Assertion/Assert';
+import {Assert} from '../Assertion/Assert';
 
 
-export class Event {
-    private _type: string;
+export class Event<TType = string> {
+    private _type: TType;
     private _isCancelled: boolean = false;
 
 
-    public get type(): string {
+    public get type(): TType {
         return this._type;
     }
 
@@ -16,8 +16,8 @@ export class Event {
     }
 
 
-    public constructor(type: string) {
-        assertArgumentNotNull('type', type);
+    public constructor(type: TType) {
+        Assert.argument('type', type).notNull();
 
         this._type = type;
     }

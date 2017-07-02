@@ -2,20 +2,20 @@ import {Enumerable} from '../../../Core/Collections/Enumerable';
 import {AcceptType} from './AcceptType';
 import {IgnoreCaseComparator} from '../../../Core/Text/IgnoreCaseComparator';
 import {InvalidOperationException} from '../../../Core/Exceptions/InvalidOperationException';
-import {assertArgumentNotNull} from '../../../Core/Assertion/Assert';
+import {Assert} from '../../../Core/Assertion/Assert';
 
 
 export class AcceptTypesCollection extends Enumerable<AcceptType> {
     public add(type: AcceptType): void {
-        assertArgumentNotNull('type', type);
+        Assert.argument('type', type).notNull();
 
         Array.prototype.push.call(this, type);
     }
 
 
     public addType(mimeType: string, priority: number): void {
-        assertArgumentNotNull('mimeType', mimeType);
-        assertArgumentNotNull('priority', priority);
+        Assert.argument('mimeType', mimeType).notNull();
+        Assert.argument('priority', priority).notNull();
 
         this.add(new AcceptType(mimeType, priority));
     }
@@ -44,7 +44,7 @@ export class AcceptTypesCollection extends Enumerable<AcceptType> {
 
 
     public getTypePriority(mimeType: string): number {
-        assertArgumentNotNull('mimeType', mimeType);
+        Assert.argument('mimeType', mimeType).notNull();
 
         for (let type of this) {
             if (IgnoreCaseComparator.instance.equals(type.mimeType, mimeType)) {

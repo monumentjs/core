@@ -3,17 +3,12 @@ import {HttpMethod} from './HttpMethod';
 import {TextTransform} from '../../../Core/Text/TextTransform';
 import {Uri} from '../../Uri/Uri';
 import {Encoding} from '../../Text/Encoding';
-import {StreamReader} from '../../Stream/StreamReader';
 import {HttpRequest} from './HttpRequest';
+import {ReadStreamAdapter} from '../../IO/Adapters/ReadStreamAdapter';
 
 
-export class HttpRequestReader extends StreamReader<IncomingMessage, Buffer> {
+export class HttpRequestReader extends ReadStreamAdapter<IncomingMessage, Buffer, Buffer> {
     private _request: HttpRequest;
-
-
-    public get isPaused(): boolean {
-        return this.sourceStream.isPaused();
-    }
 
 
     public get request(): HttpRequest {
@@ -21,8 +16,8 @@ export class HttpRequestReader extends StreamReader<IncomingMessage, Buffer> {
     }
 
 
-    public constructor(sourceStream: IncomingMessage) {
-        super(sourceStream);
+    public constructor(stream: IncomingMessage) {
+        super(stream);
 
         this._request = new HttpRequest(
             this.extractRequestUrl(),
@@ -34,32 +29,22 @@ export class HttpRequestReader extends StreamReader<IncomingMessage, Buffer> {
 
 
     public setEncoding(encoding: Encoding): void {
-        this.sourceStream.setEncoding(encoding.encodingName);
+        this.baseStream.setEncoding(encoding.encodingName);
     }
 
 
-    protected async onRead(length: number): Promise<Buffer> {
-        return this.sourceStream.read(length);
+    public close(): void {
+        this.baseStream.destroy();
     }
 
 
-    protected async onPause(): Promise<void> {
-        this.sourceStream.pause();
-    }
-
-
-    protected async onResume(): Promise<void> {
-        this.sourceStream.resume();
-    }
-
-
-    protected async onClose(): Promise<void> {
-        this.sourceStream.destroy();
+    protected async transform(input: Buffer): Promise<Buffer> {
+        return input;
     }
 
 
     private extractRequestMethod(): HttpMethod {
-        let enumKey: string = TextTransform.toCapitalCase(this.sourceStream.method);
+        let enumKey: string = TextTransform.toCapitalCase(this.baseStream.method);
         let requestMethod: HttpMethod = HttpMethod[enumKey];
 
         if (requestMethod == null) {
@@ -71,15 +56,25 @@ export class HttpRequestReader extends StreamReader<IncomingMessage, Buffer> {
 
 
     private extractRequestUrl(): Uri {
-        return new Uri(this.sourceStream.url);
+        return new Uri(this.baseStream.url);
     }
 
 
     private extractRequestHeaders(): void {
-        Object.keys(this.sourceStream.headers).forEach((headerName: string) => {
-            let headerValue: string = this.sourceStream.headers[headerName];
+        Object.keys(this.baseStream.headers).forEach((headerName: string) => {
+            let headerValues: string | string[] = this.baseStream.headers[headerName];
 
-            this._request.headers.set(headerName, headerValue);
+            if (!headerValues) {
+                return;
+            }
+
+            if (typeof headerValues === 'string') {
+                this._request.headers.set(headerName, headerValues);
+            } else {
+                headerValues.forEach((headerValue: string): void => {
+                    this._request.headers.set(headerName, headerValue);
+                });
+            }
         });
     }
 }

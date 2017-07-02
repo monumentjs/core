@@ -1,4 +1,4 @@
-import {Event} from '../../Core/Events/Event';
+import {Event} from '../Events/Event';
 import {Task} from './Task';
 import {TaskEventType} from './types';
 

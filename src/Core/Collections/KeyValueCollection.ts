@@ -3,13 +3,13 @@ import {IEqualityComparator} from './IEqualityComparator';
 import {EqualityComparator} from './EqualityComparator';
 import {KeyValuePair} from './KeyValuePair';
 import {IKeyValuePair} from './IKeyValuePair';
-import {assertArgumentNotNull} from '../Assertion/Assert';
+import {Assert} from '../Assertion/Assert';
 
 
 export class KeyValueCollection<TKey, TValue> extends Collection<IKeyValuePair<TKey, TValue>> {
 
     public put(key: TKey, value: TValue): void {
-        assertArgumentNotNull('key', key);
+        Assert.argument('key', key).notNull();
 
         this.add(new KeyValuePair(key, value));
     }
@@ -19,8 +19,8 @@ export class KeyValueCollection<TKey, TValue> extends Collection<IKeyValuePair<T
         key: TKey,
         keyComparator: IEqualityComparator<TKey> = EqualityComparator.instance
     ): void {
-        assertArgumentNotNull('key', key);
-        assertArgumentNotNull('keyComparator', keyComparator);
+        Assert.argument('key', key).notNull();
+        Assert.argument('keyComparator', keyComparator).notNull();
 
         for (let entry of this) {
             if (keyComparator.equals(entry.key, key)) {
@@ -35,8 +35,8 @@ export class KeyValueCollection<TKey, TValue> extends Collection<IKeyValuePair<T
         key: TKey,
         keyComparator: IEqualityComparator<TKey> = EqualityComparator.instance
     ): void {
-        assertArgumentNotNull('key', key);
-        assertArgumentNotNull('keyComparator', keyComparator);
+        Assert.argument('key', key).notNull();
+        Assert.argument('keyComparator', keyComparator).notNull();
 
         for (let entry of this) {
             if (keyComparator.equals(entry.key, key)) {
@@ -50,8 +50,8 @@ export class KeyValueCollection<TKey, TValue> extends Collection<IKeyValuePair<T
         key: TKey,
         keyComparator: IEqualityComparator<TKey> = EqualityComparator.instance
     ): TValue {
-        assertArgumentNotNull('key', key);
-        assertArgumentNotNull('keyComparator', keyComparator);
+        Assert.argument('key', key).notNull();
+        Assert.argument('keyComparator', keyComparator).notNull();
 
         for (let entry of this) {
             if (keyComparator.equals(entry.key, key)) {
@@ -71,8 +71,8 @@ export class KeyValueCollection<TKey, TValue> extends Collection<IKeyValuePair<T
         key: TKey,
         keyComparator: IEqualityComparator<TKey> = EqualityComparator.instance
     ): Collection<TValue> {
-        assertArgumentNotNull('key', key);
-        assertArgumentNotNull('keyComparator', keyComparator);
+        Assert.argument('key', key).notNull();
+        Assert.argument('keyComparator', keyComparator).notNull();
 
         let values: Collection<TValue> = new Collection<TValue>();
 

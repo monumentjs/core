@@ -2,7 +2,7 @@ import {TimeSpan} from './TimeSpan';
 import {ICloneable, IComparable, ComparisonResult, IEquatable, IFormattable} from '../types';
 import {DayOfWeek} from './types';
 import {DateTimeFormatInfo} from './DateTimeFormatInfo';
-import {assertArgumentNotNull} from '../Assertion/Assert';
+import {Assert} from '../Assertion/Assert';
 
 const DAYS_TO_MONTH_365: number[] = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365];
 const DAYS_TO_MONTH_366: number[] = [0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366];
@@ -21,14 +21,14 @@ export class DateTime implements
 
 
     public static fromDate(date: Date): DateTime {
-        assertArgumentNotNull('date', date);
+        Assert.argument('date', date).notNull();
 
         return this.fromTimestamp(date.getTime());
     }
 
 
     public static fromTimestamp(timestamp: number): DateTime {
-        assertArgumentNotNull('timestamp', timestamp);
+        Assert.argument('timestamp', timestamp).notNull();
 
         let dateTime: DateTime = new DateTime();
 
@@ -39,7 +39,7 @@ export class DateTime implements
 
 
     public static isLeapYear(year: number): boolean {
-        assertArgumentNotNull('year', year);
+        Assert.argument('year', year).notNull();
 
         if ((year & 3) !== 0) {
             return false;
@@ -50,8 +50,8 @@ export class DateTime implements
 
 
     public static daysInMonth(year: number, month: number): number {
-        assertArgumentNotNull('year', year);
-        assertArgumentNotNull('month', month);
+        Assert.argument('year', year).notNull();
+        Assert.argument('month', month).notNull();
 
         let daysToMonth: number[] = this.isLeapYear(year) ? DAYS_TO_MONTH_366 : DAYS_TO_MONTH_365;
 
@@ -139,13 +139,13 @@ export class DateTime implements
         seconds: number = 0,
         milliseconds: number = 0
     ) {
-        assertArgumentNotNull('year', year);
-        assertArgumentNotNull('month', month);
-        assertArgumentNotNull('day', day);
-        assertArgumentNotNull('hours', hours);
-        assertArgumentNotNull('minutes', minutes);
-        assertArgumentNotNull('seconds', seconds);
-        assertArgumentNotNull('milliseconds', milliseconds);
+        Assert.argument('year', year).notNull();
+        Assert.argument('month', month).notNull();
+        Assert.argument('day', day).notNull();
+        Assert.argument('hours', hours).notNull();
+        Assert.argument('minutes', minutes).notNull();
+        Assert.argument('seconds', seconds).notNull();
+        Assert.argument('milliseconds', milliseconds).notNull();
 
         this._date = new Date(year, month, day, hours, minutes, seconds, milliseconds);
     }
@@ -157,7 +157,7 @@ export class DateTime implements
 
 
     public compareTo(other: DateTime): ComparisonResult {
-        assertArgumentNotNull('other', other);
+        Assert.argument('other', other).notNull();
 
         let currentTimeStamp: number = this._date.getTime();
         let otherTimeStamp: number = other._date.getTime();
@@ -173,56 +173,56 @@ export class DateTime implements
 
 
     public equals(other: DateTime): boolean {
-        assertArgumentNotNull('other', other);
+        Assert.argument('other', other).notNull();
 
         return this.compareTo(other) === ComparisonResult.Equals;
     }
 
 
     public add(value: TimeSpan): DateTime {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         return DateTime.fromTimestamp(this.toTimestamp() + value.totalMilliseconds);
     }
 
 
     public addMilliseconds(value: number): DateTime {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         return this.add(new TimeSpan(0, 0, 0, 0, value));
     }
 
 
     public addSeconds(value: number): DateTime {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         return this.add(new TimeSpan(0, 0, 0, value, 0));
     }
 
 
     public addMinutes(value: number): DateTime {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         return this.add(new TimeSpan(0, 0, value, 0, 0));
     }
 
 
     public addHours(value: number): DateTime {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         return this.add(new TimeSpan(0, value, 0, 0, 0));
     }
 
 
     public addDays(value: number): DateTime {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         return this.add(new TimeSpan(value, 0, 0, 0, 0));
     }
 
 
     public addMonths(value: number): DateTime {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         let currentYear: number = this.year;
         let currentMonth: number = this.month;
@@ -252,21 +252,21 @@ export class DateTime implements
 
 
     public addYears(value: number): DateTime {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         return this.addMonths(value * 12);
     }
 
 
     public getTimeSpanTo(other: DateTime): TimeSpan {
-        assertArgumentNotNull('other', other);
+        Assert.argument('other', other).notNull();
 
         return TimeSpan.fromTimestamp(this.toTimestamp() - other.toTimestamp());
     }
 
 
     public subtract(value: TimeSpan): DateTime {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         return DateTime.fromTimestamp(this.toTimestamp() - value.totalMilliseconds);
     }
@@ -299,36 +299,36 @@ export class DateTime implements
         format: string = DateTimeFormatInfo.invariantInfo.fullDateTimePattern,
         formatInfo: DateTimeFormatInfo = DateTimeFormatInfo.invariantInfo
     ): string {
-        assertArgumentNotNull('format', format);
-        assertArgumentNotNull('formatInfo', formatInfo);
+        Assert.argument('format', format).notNull();
+        Assert.argument('formatInfo', formatInfo).notNull();
 
         return formatInfo.format(format, this, formatInfo);
     }
 
 
     public toLongDateString(formatInfo: DateTimeFormatInfo = DateTimeFormatInfo.invariantInfo): string {
-        assertArgumentNotNull('formatInfo', formatInfo);
+        Assert.argument('formatInfo', formatInfo).notNull();
 
         return formatInfo.format(formatInfo.longDatePattern, this, formatInfo);
     }
 
 
     public toShortDateString(formatInfo: DateTimeFormatInfo = DateTimeFormatInfo.invariantInfo): string {
-        assertArgumentNotNull('formatInfo', formatInfo);
+        Assert.argument('formatInfo', formatInfo).notNull();
 
         return formatInfo.format(formatInfo.shortDatePattern, this, formatInfo);
     }
 
 
     public toLongTimeString(formatInfo: DateTimeFormatInfo = DateTimeFormatInfo.invariantInfo): string {
-        assertArgumentNotNull('formatInfo', formatInfo);
+        Assert.argument('formatInfo', formatInfo).notNull();
 
         return formatInfo.format(formatInfo.longTimePattern, this, formatInfo);
     }
 
 
     public toShortTimeString(formatInfo: DateTimeFormatInfo = DateTimeFormatInfo.invariantInfo): string {
-        assertArgumentNotNull('formatInfo', formatInfo);
+        Assert.argument('formatInfo', formatInfo).notNull();
 
         return formatInfo.format(formatInfo.shortTimePattern, this, formatInfo);
     }

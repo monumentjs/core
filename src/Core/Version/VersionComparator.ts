@@ -2,7 +2,7 @@ import {IComparator} from '../Collections/IComparator';
 import {ComparisonResult} from '../types';
 import {VERSION_COMPONENTS} from './types';
 import {Version} from './Version';
-import {assertArgumentNotNull} from '../Assertion/Assert';
+import {Assert} from '../Assertion/Assert';
 import {IEqualityComparator} from '../Collections/IEqualityComparator';
 
 
@@ -11,8 +11,8 @@ export class VersionComparator implements IComparator<Version>, IEqualityCompara
 
 
     public equals(currentVersion: Version, otherVersion: Version): boolean {
-        assertArgumentNotNull('currentVersion', currentVersion);
-        assertArgumentNotNull('otherVersion', otherVersion);
+        Assert.argument('currentVersion', currentVersion).notNull();
+        Assert.argument('otherVersion', otherVersion).notNull();
 
         for (let componentName of VERSION_COMPONENTS) {
             let componentOfCurrentVersion: number = currentVersion[componentName];
@@ -28,8 +28,8 @@ export class VersionComparator implements IComparator<Version>, IEqualityCompara
 
 
     public compare(currentVersion: Version, otherVersion: Version): ComparisonResult {
-        assertArgumentNotNull('currentVersion', currentVersion);
-        assertArgumentNotNull('otherVersion', otherVersion);
+        Assert.argument('currentVersion', currentVersion).notNull();
+        Assert.argument('otherVersion', otherVersion).notNull();
 
         for (let componentName of VERSION_COMPONENTS) {
             let componentOfCurrentVersion: number = currentVersion[componentName];

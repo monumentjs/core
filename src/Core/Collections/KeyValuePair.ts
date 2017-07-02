@@ -1,4 +1,4 @@
-import {assertArgumentNotNull} from '../Assertion/Assert';
+import {Assert} from '../Assertion/Assert';
 import {IKeyValuePair} from './IKeyValuePair';
 import {IJSONSerializable} from '../types';
 
@@ -21,7 +21,7 @@ export class KeyValuePair<TKey, TValue>
     
 
     public constructor(key: TKey, value: TValue) {
-        assertArgumentNotNull('key', key);
+        Assert.argument('key', key).notNull();
 
         this._key = key;
         this._value = value;

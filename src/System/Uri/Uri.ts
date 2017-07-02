@@ -5,7 +5,7 @@ import {QueryStringParser} from './QueryStringParser';
 import {UriFormatException} from './UriFormatException';
 import {DefaultSchemePort} from './DefaultSchemePort';
 import {InvalidOperationException} from '../../Core/Exceptions/InvalidOperationException';
-import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
+import {Assert} from '../../Core/Assertion/Assert';
 
 
 export const URI_PATH_SEGMENTS_DELIMITER: string = '/';
@@ -23,42 +23,42 @@ export class Uri
     IEquatable<Uri> {
 
     public static parse(uri: string): Uri {
-        assertArgumentNotNull('uri', uri);
+        Assert.argument('uri', uri).notNull();
 
         return new Uri(uri);
     }
 
 
     public static validate(uri: string): boolean {
-        assertArgumentNotNull('uri', uri);
+        Assert.argument('uri', uri).notNull();
 
         return URI_PATTERN.test(uri);
     }
 
 
     public static encode(uri: string): string {
-        assertArgumentNotNull('uri', uri);
+        Assert.argument('uri', uri).notNull();
 
         return encodeURI(uri);
     }
 
 
     public static decode(uri: string): string {
-        assertArgumentNotNull('uri', uri);
+        Assert.argument('uri', uri).notNull();
 
         return decodeURI(uri);
     }
 
 
     public static encodeComponent(uriComponent: string): string {
-        assertArgumentNotNull('uriComponent', uriComponent);
+        Assert.argument('uriComponent', uriComponent).notNull();
 
         return encodeURIComponent(uriComponent);
     }
 
 
     public static decodeComponent(uriComponent: string): string {
-        assertArgumentNotNull('uriComponent', uriComponent);
+        Assert.argument('uriComponent', uriComponent).notNull();
 
         return decodeURIComponent(uriComponent);
     }
@@ -143,7 +143,7 @@ export class Uri
 
 
     public constructor(uri: string = '/') {
-        assertArgumentNotNull('uri', uri);
+        Assert.argument('uri', uri).notNull();
 
 
         if (uri === '') {
@@ -171,7 +171,7 @@ export class Uri
 
 
     public equals(other: Uri): boolean {
-        assertArgumentNotNull('other', other);
+        Assert.argument('other', other).notNull();
 
         return (
             this._scheme === other._scheme &&

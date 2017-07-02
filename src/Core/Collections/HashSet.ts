@@ -3,7 +3,7 @@ import {EqualityComparator} from './EqualityComparator';
 import {ISet} from './ISet';
 import {IEqualityComparator} from './IEqualityComparator';
 import {IEnumerable} from './IEnumerable';
-import {assertArgumentNotNull} from '../Assertion/Assert';
+import {Assert} from '../Assertion/Assert';
 
 
 export class HashSet<T> extends Collection<T> implements ISet<T> {
@@ -21,8 +21,8 @@ export class HashSet<T> extends Collection<T> implements ISet<T> {
     ) {
         super();
 
-        assertArgumentNotNull('items', items);
-        assertArgumentNotNull('comparator', comparator);
+        Assert.argument('items', items).notNull();
+        Assert.argument('comparator', comparator).notNull();
 
         this._comparator = comparator;
 
@@ -58,7 +58,7 @@ export class HashSet<T> extends Collection<T> implements ISet<T> {
 
 
     public exceptWith(other: IEnumerable<T>): void {
-        assertArgumentNotNull('other', other);
+        Assert.argument('other', other).notNull();
 
         for (let otherItem of other) {
             this.remove(otherItem);
@@ -67,7 +67,7 @@ export class HashSet<T> extends Collection<T> implements ISet<T> {
 
 
     public intersectWith(other: IEnumerable<T>): void {
-        assertArgumentNotNull('other', other);
+        Assert.argument('other', other).notNull();
 
         for (let currentItem of this) {
             let itemPresentInBothSets: boolean = false;
@@ -88,7 +88,7 @@ export class HashSet<T> extends Collection<T> implements ISet<T> {
 
 
     public isSubsetOf(other: IEnumerable<T>): boolean {
-        assertArgumentNotNull('other', other);
+        Assert.argument('other', other).notNull();
 
         let isValidSubset: boolean = true;
 
@@ -115,7 +115,7 @@ export class HashSet<T> extends Collection<T> implements ISet<T> {
 
 
     public isSupersetOf(other: IEnumerable<T>): boolean {
-        assertArgumentNotNull('other', other);
+        Assert.argument('other', other).notNull();
 
         let isValidSuperset: boolean = true;
 
@@ -142,7 +142,7 @@ export class HashSet<T> extends Collection<T> implements ISet<T> {
 
 
     public isProperSubsetOf(other: IEnumerable<T>): boolean {
-        assertArgumentNotNull('other', other);
+        Assert.argument('other', other).notNull();
 
         if (this.length >= other.length) {
             return false;
@@ -153,7 +153,7 @@ export class HashSet<T> extends Collection<T> implements ISet<T> {
 
 
     public isProperSupersetOf(other: IEnumerable<T>): boolean {
-        assertArgumentNotNull('other', other);
+        Assert.argument('other', other).notNull();
 
         if (this.length <= other.length) {
             return false;
@@ -164,7 +164,7 @@ export class HashSet<T> extends Collection<T> implements ISet<T> {
 
 
     public overlaps(other: IEnumerable<T>): boolean {
-        assertArgumentNotNull('other', other);
+        Assert.argument('other', other).notNull();
 
         for (let currentItem of this) {
             for (let otherItem of other) {
@@ -179,7 +179,7 @@ export class HashSet<T> extends Collection<T> implements ISet<T> {
 
 
     public setEquals(other: IEnumerable<T>): boolean {
-        assertArgumentNotNull('other', other);
+        Assert.argument('other', other).notNull();
 
         if (this.length !== other.length) {
             return false;
@@ -212,7 +212,7 @@ export class HashSet<T> extends Collection<T> implements ISet<T> {
 
 
     public symmetricExceptWith(other: IEnumerable<T>): void {
-        assertArgumentNotNull('other', other);
+        Assert.argument('other', other).notNull();
 
         for (let otherItem of other) {
             this.remove(otherItem);
@@ -229,7 +229,7 @@ export class HashSet<T> extends Collection<T> implements ISet<T> {
 
 
     public unionWith(other: IEnumerable<T>): void {
-        assertArgumentNotNull('other', other);
+        Assert.argument('other', other).notNull();
 
         for (let otherItem of other) {
             this.add(otherItem);

@@ -6,7 +6,7 @@ import {TimeComponentFormatterProvider} from './TimeComponentFormatterProvider';
 import {ReadOnlyCollection} from '../Collections/ReadOnlyCollection';
 import {TimeComponentFormatterBase} from './Format/TimeComponentFormatterBase';
 import {TimeSpan} from './TimeSpan';
-import {assertArgumentNotNull} from '../Assertion/Assert';
+import {Assert} from '../Assertion/Assert';
 
 
 export class DateTimeFormatInfo implements
@@ -68,9 +68,9 @@ export class DateTimeFormatInfo implements
         time: DateTime | TimeSpan,
         formatInfo: DateTimeFormatInfo
     ): string {
-        assertArgumentNotNull('format', format);
-        assertArgumentNotNull('time', time);
-        assertArgumentNotNull('formatInfo', formatInfo);
+        Assert.argument('format', format).notNull();
+        Assert.argument('time', time).notNull();
+        Assert.argument('formatInfo', formatInfo).notNull();
 
         let template: FormattableString = new FormattableString(format);
         let dateComponents: object = this.getTimeComponents(time, template.uniqueEntries, formatInfo);
@@ -84,9 +84,9 @@ export class DateTimeFormatInfo implements
         formatEntries: ReadOnlyCollection<string>,
         formatInfo: DateTimeFormatInfo
     ): object {
-        assertArgumentNotNull('time', time);
-        assertArgumentNotNull('formatEntries', formatEntries);
-        assertArgumentNotNull('formatInfo', formatInfo);
+        Assert.argument('time', time).notNull();
+        Assert.argument('formatEntries', formatEntries).notNull();
+        Assert.argument('formatInfo', formatInfo).notNull();
 
         let components: object = {};
 

@@ -1,36 +1,33 @@
-import {IInternalStreamProvider} from '../Stream/IInternalStreamProvider';
-import {FileStream} from './FileStream';
-import {StreamWriter} from '../Stream/StreamWriter';
-import {createReadStream, ReadStream} from 'fs';
+import {createWriteStream, WriteStream} from 'fs';
+import {Assert} from '../../Core/Assertion/Assert';
+import {WriteStreamAdapter} from './Adapters/WriteStreamAdapter';
 
 
-export class FileWriter
-    extends StreamWriter<FileStream, Buffer>
-    implements IInternalStreamProvider<ReadStream> {
+export class FileWriter extends WriteStreamAdapter<WriteStream, Buffer, Buffer> {
 
-
-    public get position(): number {
-        return this.targetStream.position;
+    public get fileName(): string {
+        return this.baseStream.path.toString();
     }
 
 
-    public get length(): number {
-        return this.targetStream.length;
+    public get bytesWritten(): number {
+        return this.baseStream.bytesWritten;
     }
 
 
-    public getInternalStream(): ReadStream {
-        return createReadStream(this.targetStream.fileName, {
-            fd: this.targetStream.fileDescriptor
-        });
+    public constructor(fileName: string) {
+        Assert.argument('fileName', fileName).notNull();
+
+        super(createWriteStream(fileName));
     }
 
 
-    protected async onWrite(chunk: Buffer): Promise<number> {
-        if (this.targetStream.isReady) {
-            await this.targetStream.open();
-        }
+    public async close(): Promise<void> {
+        this.baseStream.close();
+    }
 
-        return this.targetStream.write(chunk);
+
+    protected async transform(chunk: Buffer): Promise<Buffer> {
+        return chunk;
     }
 }

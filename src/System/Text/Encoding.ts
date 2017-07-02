@@ -1,12 +1,11 @@
-import {Sequence} from '../../Core/Assertion/Sequence';
-import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
+import {Assert} from '../../Core/Assertion/Assert';
 
 
 export abstract class Encoding {
     public static convert(originalString: string, originalEncoding: Encoding, targetEncoding: Encoding): string {
-        assertArgumentNotNull('originalString', originalString);
-        assertArgumentNotNull('originalEncoding', originalEncoding);
-        assertArgumentNotNull('targetEncoding', targetEncoding);
+        Assert.argument('originalString', originalString).notNull();
+        Assert.argument('originalEncoding', originalEncoding).notNull();
+        Assert.argument('targetEncoding', targetEncoding).notNull();
 
         let buffer: Buffer = originalEncoding.getBytes(originalString);
 
@@ -29,38 +28,38 @@ export abstract class Encoding {
         charOffset: number = 0,
         charCount?: number
     ): string {
-        assertArgumentNotNull('originalBuffer', originalBuffer);
-        assertArgumentNotNull('charOffset', charOffset);
+        Assert.argument('originalBuffer', originalBuffer).notNull();
+        Assert.argument('charOffset', charOffset).notNull();
 
-        let originalText: string = originalBuffer.toString(this.encodingName);
+        let originalString: string = originalBuffer.toString(this.encodingName);
 
         if (charCount == null) {
-            charCount = originalText.length - charOffset;
+            charCount = originalString.length - charOffset;
         }
 
-        Sequence.assertSliceBounds(originalText, charOffset, charCount);
+        Assert.sequence(originalString).containsSlice(charOffset, charCount);
 
-        return originalText.substr(charOffset, charCount);
+        return originalString.substr(charOffset, charCount);
     }
 
 
     public getBytes(
         originalString: string,
-        charsOffset: number = 0,
-        charsCount: number = originalString.length - charsOffset
+        charOffset: number = 0,
+        charCount: number = originalString.length - charOffset
     ): Buffer {
-        assertArgumentNotNull('originalString', originalString);
-        assertArgumentNotNull('charsOffset', charsOffset);
-        assertArgumentNotNull('charsCount', charsCount);
+        Assert.argument('originalString', originalString).notNull();
+        Assert.argument('charOffset', charOffset).notNull();
+        Assert.argument('charCount', charCount).notNull();
 
-        Sequence.assertSliceBounds(originalString, charsOffset, charsCount);
+        Assert.sequence(originalString).containsSlice(charOffset, charCount);
 
         return Buffer.from(originalString, this.encodingName);
     }
 
 
     public getBytesCount(originalString: string): number {
-        assertArgumentNotNull('originalString', originalString);
+        Assert.argument('originalString', originalString).notNull();
 
         return this.getBytes(originalString).length;
     }

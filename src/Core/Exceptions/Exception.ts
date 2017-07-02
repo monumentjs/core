@@ -2,6 +2,19 @@ import {IJSONSerializable} from '../types';
 
 
 export class Exception extends Error implements IJSONSerializable<string> {
+    public static fromError(error: Error): Exception {
+        if (error instanceof Exception) {
+            return error;
+        }
+
+        let exception = new Exception(error.message);
+
+        exception.stack = error.stack;
+
+        return exception;
+    }
+
+
     public readonly timestamp: number = Date.now();
     public readonly helpInfo: string = '';
     public readonly helpLink: string = '';

@@ -1,7 +1,7 @@
 import {TextParser} from '../../../Core/Text/Parsing/TextParser';
 import {ArgumentsParserState} from './ArgumentsParserState';
 import {Arguments} from './Arguments';
-import {assertArgumentNotNull} from '../../../Core/Assertion/Assert';
+import {Assert} from '../../../Core/Assertion/Assert';
 import {InvalidOperationException} from '../../../Core/Exceptions/InvalidOperationException';
 import {Collection} from '../../../Core/Collections/Collection';
 import {EMPTY_STRING} from '../../../Core/Text/constants';
@@ -31,7 +31,7 @@ export class ArgumentsParser extends TextParser<ArgumentsParserState, Arguments>
 
 
     public parse(command: string): void {
-        assertArgumentNotNull('command', command);
+        Assert.argument('command', command).notNull();
 
         this.resetState();
         this.resetSegments();

@@ -4,7 +4,7 @@ import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
 import {InvalidOperationException} from '../../Exceptions/InvalidOperationException';
 import {TimeSpan} from '../TimeSpan';
 import {TextTransform} from '../../Text/TextTransform';
-import {assertArgumentNotNull} from '../../Assertion/Assert';
+import {Assert} from '../../Assertion/Assert';
 
 
 export class YearFormatter extends TimeComponentFormatterBase {
@@ -15,9 +15,9 @@ export class YearFormatter extends TimeComponentFormatterBase {
 
 
     public formatDateTime(dateTime: DateTime, format: string, formatInfo: DateTimeFormatInfo): string {
-        assertArgumentNotNull('dateTime', dateTime);
-        assertArgumentNotNull('format', format);
-        assertArgumentNotNull('formatInfo', formatInfo);
+        Assert.argument('dateTime', dateTime).notNull();
+        Assert.argument('format', format).notNull();
+        Assert.argument('formatInfo', formatInfo).notNull();
 
         return this.formatYear(dateTime.year, format, formatInfo);
     }

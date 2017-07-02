@@ -1,6 +1,6 @@
 import {ReleaseStatus} from './types';
 import {Version} from './Version';
-import {assertArgumentNotNull} from '../Assertion/Assert';
+import {Assert} from '../Assertion/Assert';
 import {VersionException} from './VersionException';
 
 
@@ -21,7 +21,7 @@ export class VersionBuilder {
 
 
     public set forceReleaseStatus(value: boolean) {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         this._forceReleaseStatus = value;
     }
@@ -33,21 +33,21 @@ export class VersionBuilder {
 
 
     public set forcedReleaseStatus(value: ReleaseStatus) {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         this._forcedReleaseStatus = value;
     }
 
 
     public constructor(version: Version = new Version()) {
-        assertArgumentNotNull('version', version);
+        Assert.argument('version', version).notNull();
 
         this._version = version;
     }
 
 
     public setMajor(value: number): void {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         if (value <= this.version.major) {
             throw new VersionException('New major version must be greater than current.');
@@ -58,7 +58,7 @@ export class VersionBuilder {
 
 
     public setMinor(value: number): void {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         if (value <= this.version.minor) {
             throw new VersionException('New minor version must be greater than current.');
@@ -69,7 +69,7 @@ export class VersionBuilder {
 
 
     public setPatch(value: number): void {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         if (value <= this.version.patch) {
             throw new VersionException('New patch version must be greater than current.');
@@ -80,7 +80,7 @@ export class VersionBuilder {
 
 
     public setStatus(value: ReleaseStatus): void {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         if (value !== ReleaseStatus.Stable && value <= this.version.status) {
             throw new VersionException('New release stage should be greater than current.');
@@ -91,7 +91,7 @@ export class VersionBuilder {
 
 
     public setRevision(value: number): void {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         if (this.version.status === ReleaseStatus.Stable) {
             throw new VersionException('Cannot set pre-release version because release stage is final.');

@@ -1,6 +1,6 @@
 import {ICloneable, IFormattable, IComparable, ComparisonResult, IEquatable} from '../types';
 import {DateTimeFormatInfo} from './DateTimeFormatInfo';
-import {assertArgumentNotNull} from '../Assertion/Assert';
+import {Assert} from '../Assertion/Assert';
 
 
 export class TimeSpan implements
@@ -17,42 +17,42 @@ export class TimeSpan implements
 
 
     public static fromDays(days: number): TimeSpan {
-        assertArgumentNotNull('days', days);
+        Assert.argument('days', days).notNull();
 
         return new TimeSpan(days, 0, 0, 0, 0);
     }
 
 
     public static fromHours(hours: number): TimeSpan {
-        assertArgumentNotNull('hours', hours);
+        Assert.argument('hours', hours).notNull();
 
         return new TimeSpan(0, hours, 0, 0, 0);
     }
 
 
     public static fromMinutes(minutes: number): TimeSpan {
-        assertArgumentNotNull('minutes', minutes);
+        Assert.argument('minutes', minutes).notNull();
 
         return new TimeSpan(0, 0, minutes, 0, 0);
     }
 
 
     public static fromSeconds(seconds: number): TimeSpan {
-        assertArgumentNotNull('seconds', seconds);
+        Assert.argument('seconds', seconds).notNull();
 
         return new TimeSpan(0, 0, 0, seconds, 0);
     }
 
 
     public static fromMilliseconds(milliseconds: number): TimeSpan {
-        assertArgumentNotNull('milliseconds', milliseconds);
+        Assert.argument('milliseconds', milliseconds).notNull();
 
         return new TimeSpan(0, 0, 0, 0, milliseconds);
     }
 
 
     public static fromTimestamp(timestamp: number): TimeSpan {
-        assertArgumentNotNull('timestamp', timestamp);
+        Assert.argument('timestamp', timestamp).notNull();
 
         let value: TimeSpan = new TimeSpan(0, 0, 0, 0, 0);
 
@@ -132,11 +132,11 @@ export class TimeSpan implements
         seconds: number = 0,
         milliseconds: number = 0
     ) {
-        assertArgumentNotNull('days', days);
-        assertArgumentNotNull('hours', hours);
-        assertArgumentNotNull('minutes', minutes);
-        assertArgumentNotNull('seconds', seconds);
-        assertArgumentNotNull('milliseconds', milliseconds);
+        Assert.argument('days', days).notNull();
+        Assert.argument('hours', hours).notNull();
+        Assert.argument('minutes', minutes).notNull();
+        Assert.argument('seconds', seconds).notNull();
+        Assert.argument('milliseconds', milliseconds).notNull();
 
         this._timestamp += days * TimeSpan.millisecondsPerDay;
         this._timestamp += hours * TimeSpan.millisecondsPerHour;
@@ -149,14 +149,14 @@ export class TimeSpan implements
 
 
     public add(value: TimeSpan): TimeSpan {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         return TimeSpan.fromTimestamp(this._timestamp + value._timestamp);
     }
 
 
     public subtract(value: TimeSpan): TimeSpan {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         return new TimeSpan(this._timestamp - value._timestamp);
     }
@@ -173,7 +173,7 @@ export class TimeSpan implements
 
 
     public compareTo(other: TimeSpan): ComparisonResult {
-        assertArgumentNotNull('other', other);
+        Assert.argument('other', other).notNull();
 
         if (this._timestamp < other._timestamp) {
             return ComparisonResult.Less;
@@ -186,15 +186,15 @@ export class TimeSpan implements
 
 
     public equals(other: TimeSpan): boolean {
-        assertArgumentNotNull('other', other);
+        Assert.argument('other', other).notNull();
 
         return this.compareTo(other) === ComparisonResult.Equals;
     }
 
 
     public toString(format: string, formatInfo: DateTimeFormatInfo): string {
-        assertArgumentNotNull('format', format);
-        assertArgumentNotNull('formatInfo', formatInfo);
+        Assert.argument('format', format).notNull();
+        Assert.argument('formatInfo', formatInfo).notNull();
 
         return formatInfo.format(format, this, formatInfo);
     }

@@ -1,5 +1,5 @@
 import {AcceptTypesCollection} from './AcceptTypesCollection';
-import {assertArgumentNotNull} from '../../../Core/Assertion/Assert';
+import {Assert} from '../../../Core/Assertion/Assert';
 
 
 const SEGMENTS_DELIMITER: RegExp = /[;,]+/g;
@@ -12,7 +12,7 @@ export class AcceptTypesParser {
 
 
     public parse(value: string): AcceptTypesCollection {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         let acceptTypes: AcceptTypesCollection = new AcceptTypesCollection();
         let segments: string[] = this.getValueSegments(value);

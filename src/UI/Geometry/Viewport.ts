@@ -1,4 +1,4 @@
-import {assertArgumentNotNull} from '../../Core/Assertion/Assert';
+import {Assert} from '../../Core/Assertion/Assert';
 import {InvalidArgumentException} from '../../Core/Exceptions/InvalidArgumentException';
 
 
@@ -72,7 +72,7 @@ export class Viewport {
 
 
     public set horizontalScrollBarWidth(value: number) {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         if (value < 0) {
             throw new InvalidArgumentException(`Width cannot be less than zero.`);
@@ -88,7 +88,7 @@ export class Viewport {
 
 
     public set verticalScrollBarWidth(value: number) {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         if (value < 0) {
             throw new InvalidArgumentException(`Width cannot be less than zero.`);
@@ -147,8 +147,8 @@ export class Viewport {
 
 
     public moveTo(left: number, top: number): void {
-        assertArgumentNotNull('left', left);
-        assertArgumentNotNull('top', top);
+        Assert.argument('left', left).notNull();
+        Assert.argument('top', top).notNull();
 
         this._left = left;
         this._top = top;
@@ -158,8 +158,8 @@ export class Viewport {
 
 
     public moveBy(leftOffset: number, topOffset: number): void {
-        assertArgumentNotNull('leftOffset', leftOffset);
-        assertArgumentNotNull('topOffset', topOffset);
+        Assert.argument('leftOffset', leftOffset).notNull();
+        Assert.argument('topOffset', topOffset).notNull();
 
         this._left += leftOffset;
         this._top += topOffset;
@@ -169,8 +169,8 @@ export class Viewport {
 
 
     public resizeTo(width: number, height: number): void {
-        assertArgumentNotNull('width', width);
-        assertArgumentNotNull('height', height);
+        Assert.argument('width', width).notNull();
+        Assert.argument('height', height).notNull();
 
         this._width = width;
         this._height = height;
@@ -180,8 +180,8 @@ export class Viewport {
 
 
     public resizeBy(widthDelta: number, heightDelta: number): void {
-        assertArgumentNotNull('widthDelta', widthDelta);
-        assertArgumentNotNull('heightDelta', heightDelta);
+        Assert.argument('widthDelta', widthDelta).notNull();
+        Assert.argument('heightDelta', heightDelta).notNull();
 
         this._width += widthDelta;
         this._height += heightDelta;
@@ -191,8 +191,8 @@ export class Viewport {
 
 
     public scrollTo(scrollLeft: number, scrollTop: number): void {
-        assertArgumentNotNull('scrollLeft', scrollLeft);
-        assertArgumentNotNull('scrollTop', scrollTop);
+        Assert.argument('scrollLeft', scrollLeft).notNull();
+        Assert.argument('scrollTop', scrollTop).notNull();
 
         this._scrollLeft = scrollLeft;
         this._scrollTop = scrollTop;
@@ -202,8 +202,8 @@ export class Viewport {
 
 
     public scrollBy(scrollLeftDelta: number, scrollTopDelta: number): void {
-        assertArgumentNotNull('scrollLeftDelta', scrollLeftDelta);
-        assertArgumentNotNull('scrollTopDelta', scrollTopDelta);
+        Assert.argument('scrollLeftDelta', scrollLeftDelta).notNull();
+        Assert.argument('scrollTopDelta', scrollTopDelta).notNull();
 
         this._scrollLeft += scrollLeftDelta;
         this._scrollTop += scrollTopDelta;

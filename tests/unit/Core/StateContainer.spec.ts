@@ -3,11 +3,18 @@ import {TestStateContainer} from '../../mocks/TestStateContainer';
 import {TestAction} from '../../mocks/TestAction';
 import {TestState} from '../../mocks/TestState';
 import {ArgumentNullException} from '../../../src/Core/Exceptions/ArgumentNullException';
-import {ActionListenerCancel} from '../../../src/Core/Events/Dispatcher';
+import {IStateReceiver} from '../../../src/System/ComponentModel/IStateReceiver';
 
 
 describe(`StateContainer`, () => {
-    let instance: StateContainer<TestState> = null;
+    let instance: StateContainer<TestState, TestAction> = null;
+
+
+    function createStateReceiver(): IStateReceiver<TestState> {
+        return {
+            receiveState: jest.fn()
+        };
+    }
 
 
     beforeEach(() => {
@@ -31,64 +38,47 @@ describe(`StateContainer`, () => {
     });
 
 
-    describe(`#addWatcher()`, () => {
-        it(`throws if watcher is not a function`, () => {
+    describe(`#addReceiver()`, () => {
+        it(`throws if state receiver is not a function`, () => {
             expect(() => {
-                instance.addWatcher(null);
+                instance.addReceiver(null);
             }).toThrowError(ArgumentNullException);
         });
 
 
-        it(`adds watcher function to state container and returns cancellation function`, () => {
-            let watcher = jest.fn();
-            let cancelWatch: ActionListenerCancel = instance.addWatcher(watcher);
+        it(`adds state receiver to state container`, () => {
+            let watcher = createStateReceiver();
 
-            expect(watcher).toHaveBeenCalledTimes(0);
-            expect(typeof cancelWatch).toBe('function');
+            expect(watcher.receiveState).toHaveBeenCalledTimes(0);
 
-            instance.dispatchAction(new TestAction(true));
+            instance.addReceiver(watcher);
 
-            expect(watcher).toHaveBeenCalledTimes(1);
-        });
+            expect(watcher.receiveState).toHaveBeenCalledTimes(1);
 
+            instance.dispatch(new TestAction(true));
 
-        it(`removes watcher after cancellation function called`, () => {
-            let watcher = jest.fn();
-            let cancelWatch: ActionListenerCancel = instance.addWatcher(watcher);
-
-            expect(watcher).toHaveBeenCalledTimes(0);
-            expect(typeof cancelWatch).toBe('function');
-
-            instance.dispatchAction(new TestAction(true));
-
-            expect(watcher).toHaveBeenCalledTimes(1);
-
-            cancelWatch();
-
-            instance.dispatchAction(new TestAction(true));
-
-            expect(watcher).toHaveBeenCalledTimes(1);
+            expect(watcher.receiveState).toHaveBeenCalledTimes(2);
         });
     });
 
 
-    describe(`#removeWatcher()`, () => {
+    describe(`#removeReceiver()`, () => {
         it(`throws if watcher is \`null\` or \`undefined\``, () => {
             expect(() => {
-                instance.removeWatcher(null);
+                instance.removeReceiver(null);
             }).toThrowError(ArgumentNullException);
         });
 
 
         describe(`removes watcher function from state container`, () => {
             it(`returns \`true\` if such watcher was attached to state container`, () => {
-                let watcher = jest.fn();
+                let watcher = createStateReceiver();
                 let isRemoved: boolean = false;
 
-                instance.addWatcher(watcher);
+                instance.addReceiver(watcher);
 
                 expect(() => {
-                    isRemoved = instance.removeWatcher(watcher);
+                    isRemoved = instance.removeReceiver(watcher);
                 }).not.toThrow();
 
                 expect(isRemoved).toBe(true);
@@ -96,11 +86,11 @@ describe(`StateContainer`, () => {
 
 
             it(`returns \`false\` if such watcher wasn't attached to state container`, () => {
-                let watcher = jest.fn();
+                let watcher = createStateReceiver();
                 let isRemoved: boolean = false;
 
                 expect(() => {
-                    isRemoved = instance.removeWatcher(watcher);
+                    isRemoved = instance.removeReceiver(watcher);
                 }).not.toThrow();
 
                 expect(isRemoved).toBe(false);
@@ -112,24 +102,26 @@ describe(`StateContainer`, () => {
     describe(`#dispatchAction()`, () => {
         it(`throws if action is \`null\` or \`undefined\``, () => {
             expect(() => {
-                instance.dispatchAction(null);
+                instance.dispatch(null);
             }).toThrowError(ArgumentNullException);
 
             expect(() => {
-                instance.dispatchAction(undefined);
+                instance.dispatch(undefined);
             }).toThrowError(ArgumentNullException);
         });
 
 
         it('triggers state mutation and dispatches state to all watchers', () => {
-            let watcher = jest.fn();
+            let watcher = createStateReceiver();
 
-            instance.addWatcher(watcher);
+            instance.addReceiver(watcher);
 
-            instance.dispatchAction(new TestAction(true));
-            instance.dispatchAction(new TestAction(false));
+            expect(watcher.receiveState).toHaveBeenCalledTimes(1);
 
-            expect(watcher).toHaveBeenCalledTimes(2);
+            instance.dispatch(new TestAction(true));
+            instance.dispatch(new TestAction(false));
+
+            expect(watcher.receiveState).toHaveBeenCalledTimes(3);
 
             expect(instance.state.totalTestsCount).toBe(2);
             expect(instance.state.passedTestsCount).toBe(1);
@@ -140,7 +132,7 @@ describe(`StateContainer`, () => {
 
     describe(`#resetState()`, () => {
         it(`resets state to it's initial value`, () => {
-            instance.dispatchAction(new TestAction(true));
+            instance.dispatch(new TestAction(true));
 
             expect(instance.state.totalTestsCount).toBe(1);
             expect(instance.state.passedTestsCount).toBe(1);

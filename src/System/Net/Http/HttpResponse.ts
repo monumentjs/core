@@ -1,6 +1,6 @@
 import {HeadersCollection} from './HeadersCollection';
 import {HttpContent} from './HttpContent';
-import {assertArgumentNotNull} from '../../../Core/Assertion/Assert';
+import {Assert} from '../../../Core/Assertion/Assert';
 import {StatusCode} from './StatusCode';
 
 
@@ -17,7 +17,7 @@ export class HttpResponse {
 
 
     public set statusCode(value: StatusCode) {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         this._statusCode = value;
     }
@@ -29,7 +29,7 @@ export class HttpResponse {
 
 
     public set statusMessage(value: string) {
-        assertArgumentNotNull('value', value);
+        Assert.argument('value', value).notNull();
 
         this._statusMessage = value;
     }

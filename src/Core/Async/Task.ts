@@ -101,9 +101,9 @@ export abstract class Task<T = void> extends EventEmitter {
     protected ensureTaskIsNotComplete(): void {
         if (this.isComplete) {
             if (this.error) {
-                throw new InvalidOperationException('Task already complete (with error).');
+                throw new InvalidOperationException('Task already complete with error.');
             } else {
-                throw new InvalidOperationException('Task already complete (successfully).');
+                throw new InvalidOperationException('Task already complete.');
             }
         }
     }
