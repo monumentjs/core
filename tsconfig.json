@@ -4,12 +4,13 @@
     "target": "es6",
     "moduleResolution": "node",
     "sourceMap": true,
-    "declaration": false,
+    "declaration": true,
     "alwaysStrict": true,
     "removeComments": true,
     "noImplicitThis": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
+    "noStrictGenericChecks": true,
     "jsx": "react",
     "typeRoots": [
       "./node_modules/@types"

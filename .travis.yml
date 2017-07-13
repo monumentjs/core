@@ -3,15 +3,15 @@ node_js:
   - "node"
   - "6"
 before_install:
-  - "yarn global add typescript tslint jest-cli"
-  - "yarn --version"
+  - "npm -g typescript tslint jest-cli"
+  - "npm --version"
   - "tsc --version"
   - "tslint --version"
   - "jest --version"
 script:
-  - "yarn run lint"
-  - "yarn run compile"
-  - "yarn run test"
+  - "npm run lint"
+  - "npm run compile"
+  - "npm run test"
 os:
   - "linux"
   - "osx"

@@ -1,6 +1,0 @@
-
-
-export abstract class Calendar {
-
-
-}

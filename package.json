@@ -1,6 +1,6 @@
 {
   "name": "@typescript-standard-library/core",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "TypeScript standard library",
   "keywords": [
     "typescript",
@@ -15,15 +15,14 @@
     "lint": "tslint --format stylish --project .",
     "compile": "tsc",
     "test": "jest -i --verbose",
-    "test:watch": "jest --watch"
+    "test:watch": "jest -i -b --watch"
   },
   "author": "Alex Chugaev <achugaev93@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "@types/node": "^8.0.7"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/jest": "^20.0.0",
+    "@types/node": "^8.0.11",
     "jest": "^20.0.4",
     "ts-jest": "^20.0.6",
     "tslint": "^5.4.3",

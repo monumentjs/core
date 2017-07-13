@@ -1,0 +1,38 @@
+import { IEnumerable } from './IEnumerable';
+import { IEqualityComparator } from './IEqualityComparator';
+import { SortOrder } from './SortOrder';
+import { IComparator } from './IComparator';
+import { IteratorFunction, CombineFunction } from './types';
+import { IGrouping } from './IGrouping';
+export interface IQueryable<T> extends IEnumerable<T> {
+    aggregate<TAggregate>(iterator: (lastSeed: TAggregate, item: T, index: number, list: IEnumerable<T>) => TAggregate, initialSeed?: TAggregate): TAggregate;
+    all(predicate: IteratorFunction<T, boolean>): boolean;
+    any(predicate: IteratorFunction<T, boolean>): boolean;
+    average(selector: IteratorFunction<T, number>): number;
+    concat(otherList: IEnumerable<T>): IEnumerable<T>;
+    contains(otherItem: T, comparator?: IEqualityComparator<T>): boolean;
+    count(predicate: IteratorFunction<T, boolean>): number;
+    distinct(comparator?: IEqualityComparator<T>): IEnumerable<T>;
+    except(otherList: IEnumerable<T>, comparator?: IEqualityComparator<T>): IEnumerable<T>;
+    first(predicate: IteratorFunction<T, boolean>, defaultValue?: T): T;
+    firstOrDefault(defaultValue: T): T;
+    forEach(iterator: IteratorFunction<T, boolean | void>): void;
+    groupBy<TKey>(keySelector: IteratorFunction<T, TKey>, keyComparer?: IEqualityComparator<TKey>): IEnumerable<IGrouping<TKey, T>>;
+    intersect(otherList: IEnumerable<T>, comparator?: IEqualityComparator<T>): IEnumerable<T>;
+    join<TOuter, TKey, TResult>(outerList: IEnumerable<TOuter>, outerKeySelector: IteratorFunction<TOuter, TKey>, innerKeySelector: IteratorFunction<T, TKey>, resultSelector: CombineFunction<T, TOuter, TResult>, keyComparator?: IEqualityComparator<TKey>): IEnumerable<TResult>;
+    last(predicate: IteratorFunction<T, boolean>, defaultValue?: T): T;
+    lastOrDefault(defaultValue: T): T;
+    max(selector: (item: T) => number): number;
+    min(selector: (item: T) => number): number;
+    orderBy<TKey>(keySelector: (actualItem: T) => TKey, comparator: IComparator<TKey>, sortOrder: SortOrder): IEnumerable<T>;
+    reverse(): IEnumerable<T>;
+    select<TResult>(selector: IteratorFunction<T, TResult>): IEnumerable<TResult>;
+    selectMany<TInnerItem, TResult>(collectionSelector: IteratorFunction<T, IEnumerable<TInnerItem>>, resultSelector: CombineFunction<T, TInnerItem, TResult>): IEnumerable<TResult>;
+    skip(offset: number): IEnumerable<T>;
+    skipWhile(condition: IteratorFunction<T, boolean>): IEnumerable<T>;
+    take(length: number): IEnumerable<T>;
+    takeWhile(condition: IteratorFunction<T, boolean>): IEnumerable<T>;
+    union(otherList: IEnumerable<T>, comparator?: IEqualityComparator<T>): IEnumerable<T>;
+    where(predicate: IteratorFunction<T, boolean>): IEnumerable<T>;
+    zip<TOther, TResult>(otherList: IEnumerable<TOther>, resultSelector: CombineFunction<T, TOther, TResult>): IEnumerable<TResult>;
+}

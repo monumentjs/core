@@ -4,4 +4,4 @@
 *.js
 *.js.map
 node_modules
-tests
+Tests
