@@ -3,7 +3,7 @@ node_js:
   - "node"
   - "6"
 before_install:
-  - "npm -g typescript tslint jest-cli"
+  - "npm i -g typescript tslint jest-cli"
   - "npm --version"
   - "tsc --version"
   - "tslint --version"
