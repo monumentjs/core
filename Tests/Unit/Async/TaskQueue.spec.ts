@@ -2,7 +2,7 @@ import {FakeTask} from '../../Mocks/TestTask';
 import {TaskQueue} from '../../../Source/Async/TaskQueue';
 
 
-describe('TaskScheduler', () => {
+describe('TaskQueue', () => {
     let scheduler: TaskQueue;
 
 
@@ -37,7 +37,7 @@ describe('TaskScheduler', () => {
 
     describe('#addTask()', () => {
         it('adds task to the end of queue', () => {
-            let taskScheduler: TaskQueue = new TaskQueue(1);
+            let taskQueue: TaskQueue = new TaskQueue(1);
             let task: FakeTask<string> = new FakeTask<string>('OK');
             let onTaskComplete = jest.fn();
             let onTaskError = jest.fn();
@@ -52,7 +52,7 @@ describe('TaskScheduler', () => {
             expect(task.result).toBe(undefined);
             expect(task.error).toBe(undefined);
 
-            taskScheduler.addTask(task);
+            taskQueue.addTask(task);
 
             expect(task.isResolved).toBe(true);
             expect(task.isRejected).toBe(false);

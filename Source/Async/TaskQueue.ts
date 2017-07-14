@@ -39,7 +39,7 @@ export class TaskQueue implements IDisposable {
 
 
     protected get canRunOneMoreTask(): boolean {
-        return !this.isDisposed && !this.isEmpty && this._runningTasksCount < this._concurrentTasksLimit;
+        return !this.isDisposed && !this.isEmpty && this._runningTasksCount < this.concurrentTasksLimit;
     }
 
 

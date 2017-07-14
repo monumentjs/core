@@ -15,14 +15,15 @@
     "lint": "tslint --format stylish --project .",
     "compile": "tsc",
     "test": "jest -i --verbose",
-    "test:watch": "jest -i -b --watch"
+    "test:watch": "jest -i -b --watch",
+    "remove:dts": "find ./Source -type f -name '*.d.ts' -delete && find ./Tests -type f -name '*.d.ts' -delete"
   },
   "author": "Alex Chugaev <achugaev93@gmail.com>",
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
     "@types/jest": "^20.0.0",
-    "@types/node": "^8.0.11",
+    "@types/node": "^8.0.13",
     "jest": "^20.0.4",
     "ts-jest": "^20.0.6",
     "tslint": "^5.4.3",
