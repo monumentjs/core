@@ -42,18 +42,18 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
         return list;
     }
-    
-    
+
+
     public static generate<TValue>(generator: (index: number) => TValue, length: number): List<TValue> {
         Assert.argument('generator', generator).notNull();
         Assert.argument('length', length).notNull().isLength();
 
         let list: List<TValue> = new List<TValue>();
-        
+
         for (let i = 0; i < length; i++) {
             list.add(generator(i));
         }
-        
+
         return list;
     }
 
@@ -61,8 +61,8 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
     public clone(): List<T> {
         return new List<T>(this);
     }
-    
-    
+
+
     // IList<T> interface implementation
 
 
@@ -119,7 +119,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
         });
     }
 
-    
+
     public removeAll(
         other: IEnumerable<T>,
         comparator: IEqualityComparator<T> = EqualityComparator.instance
@@ -133,7 +133,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
             });
         }
     }
-    
+
 
     public indexOf(
         searchItem: T,
@@ -159,8 +159,8 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
         return -1;
     }
-    
-    
+
+
     // IQueryable<T> interface implementation
 
 
@@ -243,8 +243,8 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
         return resultList;
     }
-    
-    
+
+
     public where(predicate: IteratorFunction<T, boolean>): List<T> {
         Assert.argument('predicate', predicate).notNull();
 
@@ -279,6 +279,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
             if (!actualItemValid) {
                 allValid = false;
+
                 return false;
             }
         });
@@ -301,6 +302,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
             if (actualItemValid) {
                 atLeastOneValid = true;
+
                 return false;
             }
         });
@@ -344,24 +346,24 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
         return count;
     }
-    
-    
+
+
     public first(predicate: IteratorFunction<T, boolean>, defaultValue: T = null): T {
         Assert.argument('predicate', predicate).notNull();
 
         for (let index = 0; index < this.length; index++) {
             let actualItem: T = this[index];
             let actualItemMatchesPredicate: boolean = predicate(actualItem, index, this);
-        
+
             if (actualItemMatchesPredicate) {
                 return actualItem;
             }
         }
-    
+
         return defaultValue;
     }
-    
-    
+
+
     public firstOrDefault(defaultValue: T): T {
         if (this.length > 0) {
             return this[0];
@@ -377,16 +379,16 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
         for (let index = this.length - 1; index >= 0; index--) {
             let actualItem: T = this[index];
             let actualItemMatchesPredicate: boolean = predicate(actualItem, index, this);
-        
+
             if (actualItemMatchesPredicate) {
                 return actualItem;
             }
         }
-    
+
         return defaultValue;
     }
 
-    
+
     public lastOrDefault(defaultValue: T): T {
         if (this.length > 0) {
             return this[this.length - 1];
@@ -431,7 +433,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
             if (!correspondingGroup) {
                 correspondingGroup = new Grouping<TKey, T>(actualItemKey);
-                
+
                 groups.add(correspondingGroup);
             }
 
@@ -600,7 +602,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
             return comparator.equals(actualItem, otherList[index]);
         });
     }
-    
+
 
     public skip(offset: number): List<T> {
         Assert.argument('offset', offset).notNull();
@@ -608,8 +610,8 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
         return new List(this.toArray().slice(offset));
     }
-    
-    
+
+
     public skipWhile(predicate: IteratorFunction<T, boolean>): List<T> {
         Assert.argument('predicate', predicate).notNull();
 
@@ -617,14 +619,14 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
         this.forEach((actualItem: T, index: number): boolean|void => {
             let actualItemMatchesPredicate: boolean = predicate(actualItem, index, this);
-            
+
             if (actualItemMatchesPredicate) {
                 offset += 1;
             } else {
                 return false;
             }
         });
-    
+
         return this.skip(offset);
     }
 
@@ -709,7 +711,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
             let actualItem: T = this[index];
             let otherItem: TOther = otherList[index];
             let result: TResult = resultSelector(actualItem, otherItem);
-            
+
             resultsList.add(result);
         }
 

@@ -24,23 +24,23 @@ export class Enumerable<T>
                 delete this[i];
             }
         }
-    
+
         this._length = value;
     }
-    
-    
+
+
     public constructor(list: Iterable<T> = []) {
         Assert.argument('list', list).notNull();
 
         Array.prototype.splice.call(this, 0, 0, ...list);
     }
-    
-    
+
+
     public [Symbol.iterator](): Iterator<T> {
         return this.getIterator();
     }
-    
-    
+
+
     public getIterator(): Iterator<T> {
         let index = 0;
 
@@ -71,7 +71,7 @@ export class Enumerable<T>
         return this.toArray();
     }
 
-    
+
     public toArray(): T[] {
         return Array.prototype.slice.call(this, 0);
     }

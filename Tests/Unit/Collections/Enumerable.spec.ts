@@ -101,7 +101,7 @@ describe(`Enumerable`, () => {
             expect(iteratorCallback.mock.calls[2]).toEqual(['test-three']);
         });
     });
-    
+
 
     describe('#toEnumerable()', () => {
         it('returns copies all items into new instance of Enumerable and returns it', () => {

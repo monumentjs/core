@@ -33,6 +33,6 @@ export abstract class Application extends EventEmitter {
         return this._instance;
     }
 
-    
+
     public abstract main(): Promise<void>;
 }

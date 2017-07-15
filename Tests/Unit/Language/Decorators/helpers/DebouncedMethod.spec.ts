@@ -127,6 +127,7 @@ describe('DebouncedMethod', () => {
                             expect(fn).toHaveBeenCalledTimes(1);
                             expect(method.isPending).toEqual(true);
                             leadingCall = false;
+
                             return;
                         }
 

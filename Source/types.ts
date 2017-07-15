@@ -7,11 +7,6 @@ export type Constructor<T> = {
 };
 
 
-export type Pool<T> = {
-    [key: string]: T;
-};
-
-
 // COMMON INTERFACES
 
 
@@ -20,7 +15,6 @@ export enum ComparisonResult {
     Greater = 1,
     Less = -1
 }
-
 
 
 export interface IComparable<T> {

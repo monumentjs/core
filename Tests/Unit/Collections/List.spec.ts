@@ -245,12 +245,12 @@ describe('List', () => {
             }).toThrowError(IndexOutOfBoundsException);
 
             list.removeAt(1);
-            
+
             expect(list.length).toEqual(1);
             expect(list.toArray()).toEqual(['one']);
 
             list.removeAt(0);
-            
+
             expect(list.length).toEqual(0);
         });
     });

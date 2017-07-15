@@ -20,13 +20,13 @@ export class Version
     private _patch: number;
     private _status: ReleaseStatus;
     private _revision: number;
-    
-    
+
+
     public get major(): number {
         return this._major;
     }
-    
-    
+
+
     public get minor(): number {
         return this._minor;
     }
@@ -82,18 +82,18 @@ export class Version
         return new Version(this.major, this.minor, this.patch, this.status, this.revision);
     }
 
-    
+
     public toJSON(): string {
         return this.toString();
     }
-    
-    
+
+
     public toString(): string {
         let versionBuilder: StringBuilder = new StringBuilder();
         let preReleaseStage: string = VERSION_PRE_RELEASE_STAGES[this.status];
-        
+
         versionBuilder.append(`${this.major}.${this.minor}.${this.patch}`);
-        
+
         if (this.status !== ReleaseStatus.Stable) {
             versionBuilder.append(`-${preReleaseStage}`);
 
@@ -101,7 +101,7 @@ export class Version
                 versionBuilder.append(`.${this.revision}`);
             }
         }
-        
+
         return versionBuilder.toString();
     }
 }

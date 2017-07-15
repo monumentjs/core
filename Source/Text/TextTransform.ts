@@ -4,13 +4,13 @@ export class TextTransform {
     public static toUpperCase(input: string): string {
         return input.toUpperCase();
     }
-    
-    
+
+
     public static toLowerCase(input: string): string {
         return input.toLowerCase();
     }
-    
-    
+
+
     public static toCamelCase(input: string): string {
         let slices: string[] = this.splitStringForCaseTransformation(input);
 

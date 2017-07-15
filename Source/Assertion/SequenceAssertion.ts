@@ -34,8 +34,8 @@ export class SequenceAssertion {
             );
         }
     }
-    
-    
+
+
     public containsIndex(index: number): void {
         if (index < 0 || index >= this._sequence.length) {
             throw new IndexOutOfBoundsException(`Index out of bounds.`);

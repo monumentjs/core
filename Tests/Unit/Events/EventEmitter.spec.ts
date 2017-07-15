@@ -8,8 +8,8 @@ describe('EventEmitter', () => {
     let eventEmitter: EventEmitter = null;
     let listeners: EventListener[];
     let testEvents: Event[];
-    
-    
+
+
     beforeEach(() => {
         testEvents = [
             new Event('one'),
@@ -25,15 +25,15 @@ describe('EventEmitter', () => {
 
         eventEmitter = new EventEmitter();
     });
-    
-    
+
+
     describe('#constructor()', () => {
         it('creates new instance of EventEmitter class', () => {
             expect(eventEmitter).toBeInstanceOf(EventEmitter);
         });
     });
-    
-    
+
+
     describe('#addEventListener()', () => {
         it(`throws if 'eventType' argument is not defined`, () => {
             expect(() => {
@@ -55,7 +55,7 @@ describe('EventEmitter', () => {
 
         it('attaches event listener that runs each time', () => {
             expect(eventEmitter.eventTypes.length).toEqual(0);
-            
+
             eventEmitter.addEventListener(testEvents[0].type, listeners[0]);
 
             expect(eventEmitter.eventTypes.length).toEqual(1);
@@ -75,8 +75,8 @@ describe('EventEmitter', () => {
             ]);
         });
     });
-    
-    
+
+
     describe('#removeEventListener()', () => {
         it(`throws if 'eventType' argument is not defined`, () => {
             expect(() => {
@@ -107,8 +107,8 @@ describe('EventEmitter', () => {
             }).not.toThrow();
         });
     });
-    
-    
+
+
     describe('#dispatchEvent()', () => {
         it(`throws if 'event' argument is not defined`, () => {
             expect(() => {
@@ -122,7 +122,7 @@ describe('EventEmitter', () => {
 
         it(`dispatches specified event to all listeners`, () => {
             eventEmitter.addEventListener(testEvents[0].type, listeners[0]);
-            
+
             eventEmitter.dispatchEvent(testEvents[0]);
 
             expect(listeners[0]).toHaveBeenCalledTimes(1);

@@ -13,7 +13,7 @@ export class KeyValueCollection<TKey, TValue> extends Collection<IKeyValuePair<T
 
         this.add(new KeyValuePair(key, value));
     }
-    
+
 
     public removeByKey(
         key: TKey,
@@ -29,7 +29,7 @@ export class KeyValueCollection<TKey, TValue> extends Collection<IKeyValuePair<T
             }
         }
     }
-    
+
 
     public removeAllByKey(
         key: TKey,
@@ -44,7 +44,7 @@ export class KeyValueCollection<TKey, TValue> extends Collection<IKeyValuePair<T
             }
         }
     }
-    
+
 
     public findByKey(
         key: TKey,
@@ -61,7 +61,7 @@ export class KeyValueCollection<TKey, TValue> extends Collection<IKeyValuePair<T
 
         return null;
     }
-    
+
     /**
      *
      * @param key

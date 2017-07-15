@@ -42,14 +42,14 @@ export interface IQueryable<T> extends IEnumerable<T> {
      * @param otherList
      */
     concat(otherList: IEnumerable<T>): IEnumerable<T>;
-    
+
     /**
      * Determines whether a sequence contains a specified element by using a specified IEqualityComparator<T>.
      * @param otherItem
      * @param comparator
      */
     contains(otherItem: T, comparator?: IEqualityComparator<T>): boolean;
-    
+
     /**
      * Returns a number that represents how many elements in the specified sequence satisfy a condition.
      * @param predicate
@@ -68,14 +68,14 @@ export interface IQueryable<T> extends IEnumerable<T> {
      * @param comparator
      */
     except(otherList: IEnumerable<T>, comparator?: IEqualityComparator<T>): IEnumerable<T>;
-    
+
     /**
      * Returns first item of list. If list is empty, returns default value.
      * @param predicate
      * @param defaultValue
      */
     first(predicate: IteratorFunction<T, boolean>, defaultValue?: T): T;
-    
+
     /**
      * Returns first item of list. If list is empty, returns default value.
      * @param defaultValue
@@ -129,13 +129,13 @@ export interface IQueryable<T> extends IEnumerable<T> {
      * @param defaultValue
      */
     last(predicate: IteratorFunction<T, boolean>, defaultValue?: T): T;
-    
+
     /**
      * Returns last item of list. If list is empty, returns default value.
      * @param defaultValue
      */
     lastOrDefault(defaultValue: T): T;
-    
+
     /**
      * Invokes a transform function on each element of a sequence and returns the maximum resulting value.
      * @param selector
@@ -159,7 +159,7 @@ export interface IQueryable<T> extends IEnumerable<T> {
         comparator: IComparator<TKey>,
         sortOrder: SortOrder
     ): IEnumerable<T>;
-    
+
     /**
      * Inverts the order of the elements in a sequence.
      * @returns A sequence whose elements correspond to those of the input sequence in reverse order.
@@ -183,25 +183,25 @@ export interface IQueryable<T> extends IEnumerable<T> {
         collectionSelector: IteratorFunction<T, IEnumerable<TInnerItem>>,
         resultSelector: CombineFunction<T, TInnerItem, TResult>
     ): IEnumerable<TResult>;
-    
+
     /**
      * Bypasses a specified number of elements in a sequence and then returns the remaining elements.
      * @param offset
      */
     skip(offset: number): IEnumerable<T>;
-    
+
     /**
      * Bypasses elements in a sequence as long as a specified condition is true and then returns the remaining elements.
      * @param condition
      */
     skipWhile(condition: IteratorFunction<T, boolean>): IEnumerable<T>;
-    
+
     /**
      * Returns a specified number of contiguous elements from the start of a sequence.
      * @param length
      */
     take(length: number): IEnumerable<T>;
-    
+
     /**
      * Returns elements from a sequence as long as a specified condition is true, and then skips the remaining elements.
      * @param condition
@@ -214,21 +214,21 @@ export interface IQueryable<T> extends IEnumerable<T> {
      * @param comparator
      */
     union(otherList: IEnumerable<T>, comparator?: IEqualityComparator<T>): IEnumerable<T>;
-    
+
     /**
      * Calls predicate function on each item in sequence.
      * Returns new List<T> containing items for which predicate function returned `true`.
      * @param predicate
      */
     where(predicate: IteratorFunction<T, boolean>): IEnumerable<T>;
-    
+
     /**
      * Applies a specified function to the corresponding elements of two sequences, producing a sequence of the results.
      * @param otherList
      * @param resultSelector
      */
     zip<TOther, TResult>(
-        otherList: IEnumerable<TOther>, 
+        otherList: IEnumerable<TOther>,
         resultSelector: CombineFunction<T, TOther, TResult>
     ): IEnumerable<TResult>;
 }

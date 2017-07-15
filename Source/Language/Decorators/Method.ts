@@ -54,8 +54,8 @@ export class Method {
             return descriptor;
         };
     }
-    
-    
+
+
     public static attached(): MethodDecorator {
         return function (
             prototype: object,

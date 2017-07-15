@@ -2,6 +2,7 @@ import {List} from './List';
 import {IComparator} from './IComparator';
 import {SortOrder} from './SortOrder';
 import {IEnumerable} from './IEnumerable';
+import {Assert} from '../Assertion/Assert';
 
 
 export class SortedList<T> extends List<T> {
@@ -14,8 +15,26 @@ export class SortedList<T> extends List<T> {
     }
 
 
+    public set comparator(value: IComparator<T>) {
+        Assert.argument('value', value).notNull();
+
+        this._comparator = value;
+
+        this.sortItems();
+    }
+
+
     public get sortOrder(): SortOrder {
         return this._sortOrder;
+    }
+
+
+    public set sortOrder(value: SortOrder) {
+        Assert.argument('value', value).notNull();
+
+        this._sortOrder = value;
+
+        this.sortItems();
     }
 
 

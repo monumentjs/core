@@ -1,10 +1,9 @@
 import {ReflectionBase} from './ReflectionBase';
 
 
-const CLASS_METADATA_CONTAINER_KEY: string = '__class_metadata__';
-
-
 export class ClassReflection extends ReflectionBase<Function> {
+    public static readonly symbol: symbol = Symbol.for('__class_metadata__');
+
 
     public get name(): string {
         return this.entity.name;
@@ -17,6 +16,6 @@ export class ClassReflection extends ReflectionBase<Function> {
 
 
     public constructor(method: Function) {
-        super(method, CLASS_METADATA_CONTAINER_KEY);
+        super(method, ClassReflection.symbol);
     }
 }

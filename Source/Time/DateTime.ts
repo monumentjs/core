@@ -333,5 +333,3 @@ export class DateTime implements
         return formatInfo.format(formatInfo.shortTimePattern, this, formatInfo);
     }
 }
-
-

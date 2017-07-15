@@ -8,13 +8,13 @@ import {Assert} from '../Assertion/Assert';
  */
 export class Grouping<TKey, TItem> extends Collection<TItem> implements IGrouping<TKey, TItem> {
     protected _key: TKey;
-    
-    
+
+
     public get key(): TKey {
         return this._key;
     }
-    
-    
+
+
     public constructor(key: TKey, items?: IEnumerable<TItem>) {
         Assert.argument('key', key).notNull();
 

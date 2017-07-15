@@ -3,7 +3,6 @@ import {Task} from './Task';
 import {TaskEventType} from './types';
 
 
-
 export class TaskEvent extends Event {
     public static COMPLETE: TaskEventType = 'complete';
     public static ABORT: TaskEventType = 'abort';

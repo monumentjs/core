@@ -38,16 +38,16 @@ export class VersionComparator implements IComparator<Version>, IEqualityCompara
                 componentOfCurrentVersion,
                 componentOfOtherVersion
             );
-        
+
             if (result !== ComparisonResult.Equals) {
                 return result;
             }
         }
-    
+
         return ComparisonResult.Equals;
     }
-    
-    
+
+
     private compareVersionComponents(current: number, other: number): ComparisonResult {
         return current < other ? ComparisonResult.Less
              : current > other ? ComparisonResult.Greater
