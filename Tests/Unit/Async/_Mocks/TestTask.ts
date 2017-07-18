@@ -1,8 +1,8 @@
 
-import {Task} from '../../Source/Async/Task';
+import {Task} from '../../../../Source/Async/Task';
 
 
-export class FakeTask<R> extends Task<R> {
+export class TestTask<R> extends Task<R> {
     private _preparedResult: R;
     private _preparedError: Error;
     private _msWait: number;

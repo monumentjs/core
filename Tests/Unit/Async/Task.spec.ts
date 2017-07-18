@@ -1,14 +1,14 @@
-import {FakeTask} from '../../Mocks/TestTask';
+import {TestTask} from './_Mocks/TestTask';
 import {Task} from '../../../Source/Async/Task';
 
 
 describe.skip('class Task', () => {
     describe('#constructor', () => {
         it('create new instance of Task', () => {
-            let task: FakeTask<number> = null;
+            let task: TestTask<number> = null;
 
             expect(() => {
-                task = new FakeTask<number>(1);
+                task = new TestTask<number>(1);
             }).not.toThrow();
 
             expect(task).toBeInstanceOf(Task);
@@ -21,7 +21,7 @@ describe.skip('class Task', () => {
             it('complete task with result', () => {
                 let onComplete = jest.fn();
                 let onError = jest.fn();
-                let task: FakeTask<string> = new FakeTask<string>('OK');
+                let task: TestTask<string> = new TestTask('OK');
 
                 task.addEventListener('complete', onComplete);
                 task.addEventListener('error', onError);
@@ -41,7 +41,7 @@ describe.skip('class Task', () => {
                 let error: Error = new Error('Fake error');
                 let onComplete = jest.fn();
                 let onError = jest.fn();
-                let task: FakeTask<string> = new FakeTask<string>(undefined, error);
+                let task: TestTask<string> = new TestTask(undefined, error);
 
                 task.addEventListener('complete', onComplete);
                 task.addEventListener('error', onError);
@@ -55,8 +55,6 @@ describe.skip('class Task', () => {
                 expect(task.isResolved).toEqual(false);
                 expect(task.isRejected).toEqual(true);
             });
-
-
         });
     });
 });
