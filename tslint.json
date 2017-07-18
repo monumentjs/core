@@ -6,7 +6,7 @@
     "ordered-imports": false,
     "only-arrow-functions": false,
     "no-consecutive-blank-lines": [true, 2],
-    "no-trailing-whitespace": true,
+    "no-trailing-whitespace": false,
     "object-literal-shorthand": false,
     "object-literal-sort-keys": false,
     "trailing-comma": false,

@@ -1,9 +1,10 @@
 import {IStateReceiver} from './IStateReceiver';
 import {Collection} from '../Collections/Collection';
 import {Assert} from '../Assertion/Assert';
+import {IAction} from './IAction';
 
 
-export abstract class StateContainer<TState, TAction> {
+export abstract class StateContainer<TState> {
     private _receivers: Collection<IStateReceiver<TState>> = new Collection();
     private _state: TState;
 
@@ -18,11 +19,12 @@ export abstract class StateContainer<TState, TAction> {
     }
 
 
-    public dispatch(action: TAction): void {
-        Assert.argument('action', action).notNull();
+    public dispatch(action?: IAction<TState>): void {
+        if (action) {
+            action.apply(this.state);
+        }
 
-        this.processAction(action);
-        this.broadcastState();
+        this.commitChanges();
     }
 
 
@@ -50,7 +52,7 @@ export abstract class StateContainer<TState, TAction> {
     public resetState(): void {
         this._state = this.getInitialState();
 
-        this.broadcastState();
+        this.commitChanges();
     }
 
 
@@ -61,10 +63,9 @@ export abstract class StateContainer<TState, TAction> {
 
 
     protected abstract getInitialState(): TState;
-    protected abstract processAction(action: TAction): void;
 
 
-    private broadcastState(): void {
+    private commitChanges(): void {
         for (let receiver of this._receivers) {
             receiver.receiveState(this.state);
         }
