@@ -1,4 +1,4 @@
-import {FakeTask} from './_Mocks/TestTask';
+import {TestTask} from './_Mocks/TestTask';
 import {TaskQueue} from '../../../Source/Async/TaskQueue';
 
 
@@ -38,7 +38,7 @@ describe('TaskQueue', () => {
     describe('#addTask()', () => {
         it('adds task to the end of queue', () => {
             let taskQueue: TaskQueue = new TaskQueue(1);
-            let task: FakeTask<string> = new FakeTask<string>('OK');
+            let task: TestTask<string> = new TestTask<string>('OK');
             let onTaskComplete = jest.fn();
             let onTaskError = jest.fn();
 
