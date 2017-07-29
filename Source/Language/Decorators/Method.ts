@@ -4,6 +4,9 @@ import {Reflection} from '../Reflection/Reflection';
 import {MetadataContainer} from '../Reflection/Metadata/MetadataContainer';
 
 
+const DEPRECATED_SYMBOL: symbol = Symbol.for('deprecated');
+
+
 export class Method {
     public static debounce(
         timeout: number,
@@ -41,11 +44,11 @@ export class Method {
             message = message || defaultMessage;
 
             descriptor.value = function () {
-                if (!metadata.get(Method.deprecated, false)) {
+                if (!metadata.get(DEPRECATED_SYMBOL, false)) {
                     /* tslint:disable:no-console */
                     console.warn(message);
                     /* tslint:enable:no-console */
-                    metadata.set(Method.deprecated, true);
+                    metadata.set(DEPRECATED_SYMBOL, true);
                 }
 
                 method.call(this, arguments);

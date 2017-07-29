@@ -1,8 +1,9 @@
 import {ReflectionBase} from './ReflectionBase';
+import {Constructor} from '../../../types';
 
 
-export class ClassReflection extends ReflectionBase<Function> {
-    public static readonly symbol: symbol = Symbol.for('__class_metadata__');
+export class ClassReflection<T> extends ReflectionBase<Constructor<T>> {
+    public static readonly symbol: symbol = Symbol.for('ClassMetadata');
 
 
     public get name(): string {
@@ -10,12 +11,12 @@ export class ClassReflection extends ReflectionBase<Function> {
     }
 
 
-    public get classConstructor(): Function {
+    public get classConstructor(): Constructor<T> {
         return this.entity;
     }
 
 
-    public constructor(method: Function) {
-        super(method, ClassReflection.symbol);
+    public constructor(entity: Constructor<T>) {
+        super(entity, ClassReflection.symbol);
     }
 }

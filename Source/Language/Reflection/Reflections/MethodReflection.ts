@@ -2,7 +2,7 @@ import {ReflectionBase} from './ReflectionBase';
 
 
 export class MethodReflection extends ReflectionBase<Function> {
-    public static readonly symbol: symbol = Symbol.for('__method_metadata__');
+    public static readonly symbol: symbol = Symbol.for('MethodMetadata');
 
 
     public get name(): string {

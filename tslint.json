@@ -22,7 +22,8 @@
     "no-conditional-assignment": false,
     "no-empty": true,
     "max-line-length": [false],
-    "newline-before-return": true
+    "newline-before-return": true,
+    "prefer-conditional-expression": false
   },
   "exclude": [
     "node_modules",
