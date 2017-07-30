@@ -2,7 +2,6 @@ import {Application} from '../../../Source/Application/Application';
 import {TestApplication} from './_Mocks/TestApplication';
 import {TestApplicationConfiguration} from './_Mocks/TestApplicationConfiguration';
 import {ArgumentNullException} from '../../../Source/Exceptions/ArgumentNullException';
-import {TestApplicationContext} from './_Mocks/TestApplicationContext';
 
 
 describe(`Application`, () => {
@@ -48,16 +47,6 @@ describe(`Application`, () => {
 
 
     describe(`#bootstrap()`, () => {
-        it(`throws if 'contextType' argument is not defined`, () => {
-            expect(() => {
-                Application.bootstrap(null);
-            }).toThrow(ArgumentNullException);
-
-            expect(() => {
-                Application.bootstrap(undefined);
-            }).toThrow(ArgumentNullException);
-        });
-
         it(`launches application inside specified context`, async () => {
             let spy = jest.spyOn(TestApplicationConfiguration.prototype, 'activate');
 
@@ -65,11 +54,10 @@ describe(`Application`, () => {
 
             expect(spy).toHaveBeenCalledTimes(0);
 
-            await Application.bootstrap(TestApplicationContext)(TestApplication);
+            await Application.bootstrap()(TestApplication);
 
             expect(spy).toHaveBeenCalledTimes(1);
-            expect(Application.context).toBeInstanceOf(TestApplicationContext);
-            expect(Application.context.application).toBeInstanceOf(TestApplication);
+            expect(Application.instance).toBeInstanceOf(TestApplication);
         });
 
         it(`catches application bootstrap exception`, async () => {
@@ -79,7 +67,7 @@ describe(`Application`, () => {
 
             expect(spy).toHaveBeenCalledTimes(0);
 
-            await expect((Application.bootstrap(TestApplicationContext)(TestApplication))).rejects.toMatchObject({
+            await expect((Application.bootstrap()(TestApplication))).rejects.toMatchObject({
                 message: 'Application failed'
             });
 

@@ -2,32 +2,30 @@ import {EventEmitter} from '../Events/EventEmitter';
 import {IApplicationConfiguration} from './IApplicationConfiguration';
 import {Assert} from '../Assertion/Assert';
 import {Constructor} from '../types';
-import {ApplicationContext} from './ApplicationContext';
+import {Container} from '../DI/Container';
 
 
 export abstract class Application<TConfiguration extends IApplicationConfiguration> extends EventEmitter {
     /**
      * @throws {ArgumentNullException} If application constructor is not defined.
      */
-    public static bootstrap<TConfig extends IApplicationConfiguration, TApp extends Application<TConfig>>(contextType: Constructor<ApplicationContext<TConfig, TApp>>): ClassDecorator {
-        Assert.argument('contextType', contextType).notNull();
-
-        return async (constructor: Constructor<TApp>): Promise<void> => {
+    public static bootstrap(): ClassDecorator {
+        return async (constructor: Constructor<Application<any>>): Promise<void> => {
             Assert.argument('constructor', constructor).notNull();
 
-            this._context = new contextType(constructor);
+            this._instance = Container.instance.get(constructor);
 
-            await this._context.bootstrap();
+            await this._instance.main();
         };
     }
 
 
-    public static get context(): ApplicationContext<any, any> {
-        return this._context;
+    public static get instance(): Application<IApplicationConfiguration> {
+        return this._instance;
     }
 
 
-    private static _context: ApplicationContext<any, any>;
+    private static _instance: Application<IApplicationConfiguration>;
 
 
     private _configuration: TConfiguration;
@@ -50,5 +48,4 @@ export abstract class Application<TConfiguration extends IApplicationConfigurati
      * Application entry point. End-point application's logic starts with call to this method.
      */
     public abstract main(): Promise<void>;
-
 }
