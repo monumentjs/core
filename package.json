@@ -1,6 +1,6 @@
 {
   "name": "@typescript-standard-library/core",
-  "version": "0.0.4",
+  "version": "0.0.8",
   "description": "TypeScript standard library",
   "keywords": [
     "typescript",
@@ -34,6 +34,7 @@
   "repository": "https://github.com/typescript-standard-library/Core.git",
   "jest": {
     "automock": false,
+    "resetMocks": true,
     "moduleFileExtensions": [
       "js",
       "ts",

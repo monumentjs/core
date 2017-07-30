@@ -1,58 +1,54 @@
-import {Constructor} from '../types';
-import {Assert} from '../Assertion/Assert';
 import {EventEmitter} from '../Events/EventEmitter';
-import {ApplicationException} from './ApplicationException';
-import {IApplicationContext} from './IApplicationContext';
+import {IApplicationConfiguration} from './IApplicationConfiguration';
+import {Assert} from '../Assertion/Assert';
+import {Constructor} from '../types';
+import {ApplicationContext} from './ApplicationContext';
 
 
-export abstract class Application extends EventEmitter {
+export abstract class Application<TConfiguration extends IApplicationConfiguration> extends EventEmitter {
     /**
      * @throws {ArgumentNullException} If application constructor is not defined.
      */
-    public static bootstrap(context?: IApplicationContext): ClassDecorator {
-        return (constructor: Constructor<Application>): void => {
+    public static bootstrap<TConfig extends IApplicationConfiguration, TApp extends Application<TConfig>>(contextType: Constructor<ApplicationContext<TConfig, TApp>>): ClassDecorator {
+        Assert.argument('contextType', contextType).notNull();
+
+        return async (constructor: Constructor<TApp>): Promise<void> => {
             Assert.argument('constructor', constructor).notNull();
 
-            if (this._instance != null) {
-                throw new ApplicationException(
-                    `Unable to bootstrap one more application. ` +
-                    `Application "${this._instance.constructor.name}" already running.`
-                );
-            }
+            this._context = new contextType(constructor);
 
-            this._instance = new constructor(context);
-
-            this._instance.main();
+            await this._context.bootstrap();
         };
     }
 
 
-    private static _instance: Application;
-
-
-    public static get instance(): Application {
-        return this._instance;
-    }
-
-
-    private _context: IApplicationContext;
-
-
-    public get context(): IApplicationContext {
+    public static get context(): ApplicationContext<any, any> {
         return this._context;
     }
 
 
-    public constructor(context?: IApplicationContext) {
-        super();
+    private static _context: ApplicationContext<any, any>;
 
-        if (context.applicationConfiguration) {
-            context.applicationConfiguration.checkValidity();
-        }
 
-        this._context = context;
+    private _configuration: TConfiguration;
+
+
+    public get configuration(): TConfiguration {
+        return this._configuration;
     }
 
 
+    public constructor(configuration: TConfiguration) {
+        super();
+
+        Assert.argument('configuration', configuration).notNull();
+
+        this._configuration = configuration;
+    }
+
+    /**
+     * Application entry point. End-point application's logic starts with call to this method.
+     */
     public abstract main(): Promise<void>;
+
 }
