@@ -2,6 +2,7 @@ import {Application} from '../../../../Source/Application/Application';
 import {TestApplicationConfiguration} from './TestApplicationConfiguration';
 import {Exception} from '../../../../Source/Exceptions/Exception';
 import {Unit} from '../../../../Source/DI/Decorators/Unit';
+import {Assert} from '../../../../Source/Assertion/Assert';
 
 
 @Unit({
@@ -13,6 +14,8 @@ export class TestApplication extends Application {
         public readonly configuration: TestApplicationConfiguration
     ) {
         super();
+
+        Assert.argument('configuration', configuration).notNull();
     }
 
 
