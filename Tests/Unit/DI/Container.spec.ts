@@ -1,7 +1,7 @@
-import {Container} from '../../../Source/DI/Container';
-import {ProvidersRegistryException} from '../../../Source/DI/ProvidersRegistryException';
-import {ConstructorException} from '../../../Source/DI/ConstructorException';
+import {Container} from '../../../Source/DI/Container/Container';
+import {MissingConstructorArgumentsException} from '../../../Source/DI/Container/MissingConstructorArgumentsException';
 import {ArgumentNullException} from '../../../Source/Exceptions/ArgumentNullException';
+import {Unit} from '../../../Source/DI/Decorators/Unit';
 
 /* tslint:disable:max-classes-per-file */
 class ClassWithSimpleConstructor {
@@ -13,13 +13,13 @@ class ClassWithSimpleConstructor {
 }
 
 
-class ClassWithSimpleConstructorMock {
-    public readonly publicProperty: string;
-
-    public constructor() {
-        this.publicProperty = 'mock';
-    }
-}
+// class ClassWithSimpleConstructorMock {
+//     public readonly publicProperty: string;
+//
+//     public constructor() {
+//         this.publicProperty = 'mock';
+//     }
+// }
 
 
 class ClassWithComplexConstructor {
@@ -33,36 +33,12 @@ class ClassWithComplexConstructor {
 
 
 describe(`Container`, () => {
-    let container: Container;
-
-
-    beforeEach(() => {
-        container = new Container();
-    });
+    let container: Container = Container.instance;
 
 
     describe(`#constructor()`, () => {
         it(`creates new instance of Container`, () => {
             expect(container).toBeInstanceOf(Container);
-        });
-    });
-
-
-    describe(`#register()`, () => {
-        it(`throws if 'type' argument`, () => {
-            container.register(ClassWithSimpleConstructor, {});
-        });
-
-        it('registers new type', () => {
-            container.register(ClassWithSimpleConstructor, {});
-        });
-
-        it('throws if attempting to register same type again', () => {
-            container.register(ClassWithSimpleConstructor, {});
-
-            expect(() => {
-                container.register(ClassWithSimpleConstructor, {});
-            }).toThrow(ProvidersRegistryException);
         });
     });
 
@@ -89,18 +65,18 @@ describe(`Container`, () => {
             it(`throws if type constructor has required arguments`, () => {
                 expect(() => {
                     return container.get(ClassWithComplexConstructor);
-                }).toThrow(ConstructorException);
+                }).toThrow(MissingConstructorArgumentsException);
             });
         });
 
 
         describe(`with registration`, () => {
             it(`creates instance of type with complex constructor`, () => {
-                container.register(ClassWithComplexConstructor, {
+                Unit({
                     providers: [
                         ClassWithSimpleConstructor
                     ]
-                });
+                })(ClassWithComplexConstructor);
 
                 const instance = container.get(ClassWithComplexConstructor);
 
@@ -110,12 +86,12 @@ describe(`Container`, () => {
         });
 
         it(`returns the same instance of type if type registered as singleton`, () => {
-            container.register(ClassWithComplexConstructor, {
+            Unit({
                 isSingleton: true,
                 providers: [
                     ClassWithSimpleConstructor
                 ]
-            });
+            })(ClassWithComplexConstructor);
 
             const instance1 = container.get(ClassWithComplexConstructor);
             const instance2 = container.get(ClassWithComplexConstructor);
@@ -131,29 +107,14 @@ describe(`Container`, () => {
     });
 
 
-    describe(`#replace()`, () => {
-        it(`replaces type provider`, () => {
-            container.register(ClassWithSimpleConstructor, {});
+    describe(`#instance`, () => {
+        it(`returns reference to main instance of DI container`, () => {
+            expect(Container.instance).toBeInstanceOf(Container);
+        });
 
-            container.register(ClassWithComplexConstructor, {
-                providers: [
-                    ClassWithSimpleConstructor
-                ]
-            });
 
-            const normalInstance = container.get(ClassWithComplexConstructor);
-
-            expect(container.get(ClassWithSimpleConstructor)).toBeInstanceOf(ClassWithSimpleConstructor);
-            expect(normalInstance).toBeInstanceOf(ClassWithComplexConstructor);
-            expect(normalInstance.publicProperty).toBeInstanceOf(ClassWithSimpleConstructor);
-
-            container.replace(ClassWithSimpleConstructor, ClassWithSimpleConstructorMock, {});
-
-            const mockedInstance = container.get(ClassWithComplexConstructor);
-
-            expect(container.get(ClassWithSimpleConstructor)).toBeInstanceOf(ClassWithSimpleConstructorMock);
-            expect(mockedInstance).toBeInstanceOf(ClassWithComplexConstructor);
-            expect(mockedInstance.publicProperty).toBeInstanceOf(ClassWithSimpleConstructorMock);
+        it(`provides reference to main instance during the `, () => {
+            expect(Container.instance.get(Container)).toBe(Container.instance);
         });
     });
 });

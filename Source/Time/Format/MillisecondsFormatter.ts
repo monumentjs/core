@@ -10,7 +10,10 @@ export class MillisecondsFormatter extends TimeComponentFormatterBase {
     public static readonly instance: MillisecondsFormatter = new MillisecondsFormatter();
 
 
-    protected _entryPattern: RegExp = /^(f+)$/;
+    protected entryPattern: RegExp = /^(f+)$/;
+
+
+    private readonly textTransform: TextTransform = TextTransform.instance;
 
 
     public formatDateTime(dateTime: DateTime, format: string, formatInfo: DateTimeFormatInfo): string {
@@ -35,9 +38,11 @@ export class MillisecondsFormatter extends TimeComponentFormatterBase {
 
     protected formatMilliseconds(milliseconds: number, format: string, formatInfo: DateTimeFormatInfo): string {
         let targetLength = format.length;
-        let clippedMilliseconds: string = TextTransform.padStart(milliseconds.toString(), 3, '0');
-        clippedMilliseconds = TextTransform.padEnd(clippedMilliseconds, targetLength, '0');
+        let clippedMilliseconds: string;
 
-        return TextTransform.clipStart(clippedMilliseconds, targetLength);
+        clippedMilliseconds = this.textTransform.padStart(milliseconds.toString(), 3, '0');
+        clippedMilliseconds = this.textTransform.padEnd(clippedMilliseconds, targetLength, '0');
+
+        return this.textTransform.clipStart(clippedMilliseconds, targetLength);
     }
 }

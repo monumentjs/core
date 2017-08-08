@@ -1,19 +1,24 @@
 import {RuntimeID} from './RuntimeID';
+import {Singleton} from '../DI/Decorators/Singleton';
 
 
+@Singleton()
 export class Runtime {
-    public static get id(): RuntimeID {
+    public readonly id: RuntimeID;
+
+
+    public constructor() {
         let isBrowser: boolean = typeof window === 'object' && Object.prototype.toString.call(window) === '[object Window]';
         let isNode: boolean = typeof process === 'object' && Object.prototype.toString.call(process) === '[object process]';
 
         if (isBrowser && isNode) {
-            return RuntimeID.NodeWebkit;
+            this.id = RuntimeID.NodeWebkit;
         } else if (isBrowser) {
-            return RuntimeID.Browser;
+            this.id = RuntimeID.Browser;
         } else if (isNode) {
-            return RuntimeID.NodeJS;
+            this.id = RuntimeID.NodeJS;
         } else {
-            return RuntimeID.Unknown;
+            this.id = RuntimeID.Unknown;
         }
     }
 }

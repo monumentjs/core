@@ -13,7 +13,7 @@ export interface ISet<T> extends ICollection<T> {
     add(item: T): boolean;
 
     /**
-     * Determines whether the ISet<T> contains a specific value.
+     * Determines whether the ISet<TItem> contains a specific value.
      * @param item
      */
     contains(item: T): boolean;
@@ -63,8 +63,8 @@ export interface ISet<T> extends ICollection<T> {
     /**
      * Determines whether the current set and the specified collection contain the same elements.
      * This method ignores duplicate entries and the order of elements in the _other_ parameter.
-     * If the collection represented by *other* is a HashSet<T> collection with the same equality comparer
-     * as the current HashSet<T> object, this method is an O(n) operation.
+     * If the collection represented by *other* is a HashSet<TItem> collection with the same equality comparer
+     * as the current HashSet<TItem> object, this method is an O(n) operation.
      */
     setEquals(other: IEnumerable<T>): boolean;
 

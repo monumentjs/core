@@ -2,7 +2,7 @@ import {MissingKeyException} from '../Exceptions/MissingKeyException';
 import {Collection} from '../Collections/Collection';
 import {ReadOnlyCollection} from '../Collections/ReadOnlyCollection';
 import {ParsingException} from './Parsing/ParsingException';
-import {RegExpUtils} from './RegExpUtils';
+import {RegExpHelper} from './RegExpHelper';
 import {Assert} from '../Assertion/Assert';
 import {Dictionary} from '../Collections/Dictionary';
 
@@ -167,7 +167,7 @@ export class FormattableString {
 
 
     private createExtractingPattern(): RegExp {
-        let pattern: string = RegExpUtils.escape(this._template);
+        let pattern: string = RegExpHelper.instance.escape(this._template);
 
         pattern = pattern.replace(ESCAPED_ENTRY_PATTERN, (): string => {
             return `(.+)`;

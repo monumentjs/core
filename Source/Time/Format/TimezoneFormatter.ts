@@ -10,7 +10,7 @@ export class TimezoneFormatter extends TimeComponentFormatterBase {
     public static readonly instance: TimezoneFormatter = new TimezoneFormatter();
 
 
-    protected _entryPattern: RegExp = /^(Z)$/;
+    protected entryPattern: RegExp = /^(Z)$/;
 
 
     public formatDateTime(dateTime: DateTime, format: string, formatInfo: DateTimeFormatInfo): string {

@@ -3,7 +3,7 @@ import {IDisposable} from '../types';
 import {Queue} from '../Collections/Queue';
 import {TaskEvent} from './TaskEvent';
 import {Assert} from '../Assertion/Assert';
-import {Method} from '../Language/Decorators/Method';
+import {BindMethod} from '../Language/Decorators/BindMethod';
 
 
 export class TaskQueue implements IDisposable {
@@ -73,7 +73,8 @@ export class TaskQueue implements IDisposable {
         this._queue.clear();
     }
 
-    @Method.attached()
+    
+    @BindMethod()
     protected tryRunNextTask(): void {
         if (this.canRunOneMoreTask) {
             let task: Task = this._queue.dequeue();

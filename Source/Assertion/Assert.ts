@@ -3,11 +3,17 @@ import {IEnumerable} from '../Collections/IEnumerable';
 import {SequenceAssertion} from './SequenceAssertion';
 import {RangeAssertion} from './RangeAssertion';
 import {NumberAssertion} from './NumberAssertion';
+import {PropertyAssertion} from './PropertyAssertion';
 
 
 export class Assert {
     public static number(value: number): NumberAssertion {
         return new NumberAssertion(value);
+    }
+
+
+    public static property(propertyName: string, propertyValue: any): PropertyAssertion {
+        return new PropertyAssertion(propertyName, propertyValue);
     }
 
 

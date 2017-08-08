@@ -11,7 +11,7 @@ export class AMPMFormatter extends TimeComponentFormatterBase {
     public static readonly instance: AMPMFormatter = new AMPMFormatter();
 
 
-    protected _entryPattern: RegExp = /^(AA?|aa?)$/;
+    protected entryPattern: RegExp = /^(AA?|aa?)$/;
 
 
     public formatDateTime(dateTime: DateTime, format: string, formatInfo: DateTimeFormatInfo): string {

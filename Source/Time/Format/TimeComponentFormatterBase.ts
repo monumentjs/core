@@ -5,13 +5,13 @@ import {Assert} from '../../Assertion/Assert';
 
 
 export abstract class TimeComponentFormatterBase {
-    protected abstract _entryPattern: RegExp;
+    protected abstract entryPattern: RegExp;
 
 
     public supportsEntry(entry: string): boolean {
         Assert.argument('entry', entry).notNull();
 
-        return this._entryPattern.test(entry);
+        return this.entryPattern.test(entry);
     }
 
 

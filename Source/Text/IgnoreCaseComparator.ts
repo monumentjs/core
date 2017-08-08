@@ -2,10 +2,15 @@ import {IEqualityComparator} from '../Collections/IEqualityComparator';
 import {IComparator} from '../Collections/IComparator';
 import {ComparisonResult} from '../types';
 import {Assert} from '../Assertion/Assert';
+import {Container} from '../DI/Container/Container';
+import {Singleton} from '../DI/Decorators/Singleton';
 
 
+@Singleton()
 export class IgnoreCaseComparator implements IEqualityComparator<string>, IComparator<string> {
-    public static readonly instance: IgnoreCaseComparator = new IgnoreCaseComparator();
+    public static get instance(): IgnoreCaseComparator {
+        return Container.instance.get(this);
+    }
 
 
     public equals(current: string, other: string): boolean {

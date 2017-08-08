@@ -10,7 +10,7 @@ export class SignFormatter extends TimeComponentFormatterBase {
     public static readonly instance: SignFormatter = new SignFormatter();
 
 
-    protected _entryPattern: RegExp = /^(S)$/;
+    protected entryPattern: RegExp = /^(S)$/;
 
 
     public formatDateTime(dateTime: DateTime, format: string, formatInfo: DateTimeFormatInfo): string {

@@ -12,7 +12,10 @@ export class MonthFormatter extends TimeComponentFormatterBase {
     public static readonly instance: MonthFormatter = new MonthFormatter();
 
 
-    protected _entryPattern: RegExp = /^(M(M{0,3}|G|g))$/;
+    protected entryPattern: RegExp = /^(M(M{0,3}|G|g))$/;
+
+
+    private readonly textTransform: TextTransform = TextTransform.instance;
 
 
     public formatDateTime(dateTime: DateTime, format: string, formatInfo: DateTimeFormatInfo): string {
@@ -44,7 +47,7 @@ export class MonthFormatter extends TimeComponentFormatterBase {
             case 'M':
                 let targetLength = format.length;
 
-                return TextTransform.padStart((month + 1).toString(), targetLength, '0');
+                return this.textTransform.padStart((month + 1).toString(), targetLength, '0');
 
             // Full genitive name of month
             case 'MG':

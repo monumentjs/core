@@ -11,7 +11,10 @@ export class YearFormatter extends TimeComponentFormatterBase {
     public static readonly instance: YearFormatter = new YearFormatter();
 
 
-    protected _entryPattern: RegExp = /^(Y+)$/;
+    protected entryPattern: RegExp = /^(Y+)$/;
+
+
+    private readonly textTransform: TextTransform = TextTransform.instance;
 
 
     public formatDateTime(dateTime: DateTime, format: string, formatInfo: DateTimeFormatInfo): string {
@@ -32,8 +35,8 @@ export class YearFormatter extends TimeComponentFormatterBase {
 
     protected formatYear(year: number, format: string, formatInfo: DateTimeFormatInfo): string {
         let targetLength = format.length;
-        let formattedYear: string = TextTransform.padEnd(year.toString(), targetLength, '0');
+        let formattedYear: string = this.textTransform.padEnd(year.toString(), targetLength, '0');
 
-        return TextTransform.clipEnd(formattedYear, targetLength);
+        return this.textTransform.clipEnd(formattedYear, targetLength);
     }
 }

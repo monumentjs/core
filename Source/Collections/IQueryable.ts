@@ -44,7 +44,7 @@ export interface IQueryable<T> extends IEnumerable<T> {
     concat(otherList: IEnumerable<T>): IEnumerable<T>;
 
     /**
-     * Determines whether a sequence contains a specified element by using a specified IEqualityComparator<T>.
+     * Determines whether a sequence contains a specified element by using a specified IEqualityComparator<TItem>.
      * @param otherItem
      * @param comparator
      */
@@ -57,13 +57,13 @@ export interface IQueryable<T> extends IEnumerable<T> {
     count(predicate: IteratorFunction<T, boolean>): number;
 
     /**
-     * Returns distinct elements from a sequence by using a specified IEqualityComparator<T> to compare values.
+     * Returns distinct elements from a sequence by using a specified IEqualityComparator<TItem> to compare values.
      * @param comparator
      */
     distinct(comparator?: IEqualityComparator<T>): IEnumerable<T>;
 
     /**
-     * Produces the set difference of two sequences by using the specified IEqualityComparator<T> to compare values.
+     * Produces the set difference of two sequences by using the specified IEqualityComparator<TItem> to compare values.
      * @param otherList
      * @param comparator
      */
@@ -100,7 +100,7 @@ export interface IQueryable<T> extends IEnumerable<T> {
     ): IEnumerable<IGrouping<TKey, T>>;
 
     /**
-     * Produces the set intersection of two sequences by using the specified IEqualityComparator<T> to compare values.
+     * Produces the set intersection of two sequences by using the specified IEqualityComparator<TItem> to compare values.
      * @param otherList
      * @param comparator
      */
@@ -108,7 +108,7 @@ export interface IQueryable<T> extends IEnumerable<T> {
 
     /**
      * Correlates the elements of two sequences based on matching keys.
-     * A specified IEqualityComparator<T> is used to compare keys.
+     * A specified IEqualityComparator<TItem> is used to compare keys.
      * @param outerList
      * @param outerKeySelector
      * @param innerKeySelector
@@ -173,7 +173,7 @@ export interface IQueryable<T> extends IEnumerable<T> {
     select<TResult>(selector: IteratorFunction<T, TResult>): IEnumerable<TResult>;
 
     /**
-     * Projects each element of a sequence to an IEnumerable<T>, flattens the resulting sequences into one sequence,
+     * Projects each element of a sequence to an IEnumerable<TItem>, flattens the resulting sequences into one sequence,
      * and invokes a result selector function on each element therein.
      * The index of each source element is used in the intermediate projected form of that element.
      * @param collectionSelector
@@ -209,7 +209,7 @@ export interface IQueryable<T> extends IEnumerable<T> {
     takeWhile(condition: IteratorFunction<T, boolean>): IEnumerable<T>;
 
     /**
-     * Produces the set union of two sequences by using a specified IEqualityComparator<T>.
+     * Produces the set union of two sequences by using a specified IEqualityComparator<TItem>.
      * @param otherList
      * @param comparator
      */
@@ -217,7 +217,7 @@ export interface IQueryable<T> extends IEnumerable<T> {
 
     /**
      * Calls predicate function on each item in sequence.
-     * Returns new List<T> containing items for which predicate function returned `true`.
+     * Returns new List<TItem> containing items for which predicate function returned `true`.
      * @param predicate
      */
     where(predicate: IteratorFunction<T, boolean>): IEnumerable<T>;

@@ -3,8 +3,7 @@ import {Assert} from '../Assertion/Assert';
 import {ICloneable, IJSONSerializable} from '../types';
 
 
-export class Enumerable<T>
-    implements IEnumerable<T>, IJSONSerializable<T[]>, ICloneable<Enumerable<T>>, ArrayLike<T> {
+export class Enumerable<T> implements IEnumerable<T>, IJSONSerializable<T[]>, ICloneable<Enumerable<T>>, ArrayLike<T> {
     [index: number]: T;
 
 
@@ -26,6 +25,11 @@ export class Enumerable<T>
         }
 
         this._length = value;
+    }
+
+
+    public get isEmpty(): boolean {
+        return this.length === 0;
     }
 
 

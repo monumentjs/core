@@ -10,7 +10,10 @@ export class SecondsFormatter extends TimeComponentFormatterBase {
     public static readonly instance: SecondsFormatter = new SecondsFormatter();
 
 
-    protected _entryPattern: RegExp = /^(s+)$/;
+    protected entryPattern: RegExp = /^(s+)$/;
+
+
+    private readonly textTransform: TextTransform = TextTransform.instance;
 
 
     public formatDateTime(dateTime: DateTime, format: string, formatInfo: DateTimeFormatInfo): string {
@@ -36,6 +39,6 @@ export class SecondsFormatter extends TimeComponentFormatterBase {
     protected formatSeconds(seconds: number, format: string, formatInfo: DateTimeFormatInfo): string {
         let targetLength = format.length;
 
-        return TextTransform.padStart(seconds.toString(), targetLength, '0');
+        return this.textTransform.padStart(seconds.toString(), targetLength, '0');
     }
 }

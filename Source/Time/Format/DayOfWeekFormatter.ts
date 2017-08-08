@@ -11,7 +11,7 @@ export class DayOfWeekFormatter extends TimeComponentFormatterBase {
     public static readonly instance: DayOfWeekFormatter = new DayOfWeekFormatter();
 
 
-    protected _entryPattern: RegExp = /^(d{1,4})$/;
+    protected entryPattern: RegExp = /^(d{1,4})$/;
 
 
     public formatDateTime(dateTime: DateTime, format: string, formatInfo: DateTimeFormatInfo): string {

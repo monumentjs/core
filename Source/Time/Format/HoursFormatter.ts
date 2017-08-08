@@ -11,7 +11,10 @@ export class HoursFormatter extends TimeComponentFormatterBase {
     public static readonly instance: HoursFormatter = new HoursFormatter();
 
 
-    protected _entryPattern: RegExp = /^(H+|h+)$/;
+    protected entryPattern: RegExp = /^(H+|h+)$/;
+
+
+    private readonly textTransform: TextTransform = TextTransform.instance;
 
 
     public formatDateTime(dateTime: DateTime, format: string, formatInfo: DateTimeFormatInfo): string {
@@ -40,11 +43,11 @@ export class HoursFormatter extends TimeComponentFormatterBase {
         switch (format[0]) {
             // Hours in 24-hours format
             case 'H':
-                return TextTransform.padStart(hours.toString(), targetLength, '0');
+                return this.textTransform.padStart(hours.toString(), targetLength, '0');
 
             // Hours in 12-hours format
             case 'h':
-                return TextTransform.padStart((hours % 12).toString(), targetLength, '0');
+                return this.textTransform.padStart((hours % 12).toString(), targetLength, '0');
 
             default:
                 return EMPTY_STRING;

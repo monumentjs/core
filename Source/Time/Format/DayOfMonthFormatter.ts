@@ -10,7 +10,10 @@ export class DayOfMonthFormatter extends TimeComponentFormatterBase {
     public static readonly instance: DayOfMonthFormatter = new DayOfMonthFormatter();
 
 
-    protected _entryPattern: RegExp = /^(D+)$/;
+    protected entryPattern: RegExp = /^(D+)$/;
+
+
+    private readonly textTransform: TextTransform = TextTransform.instance;
 
 
     public formatDateTime(dateTime: DateTime, format: string, formatInfo: DateTimeFormatInfo): string {
@@ -36,7 +39,7 @@ export class DayOfMonthFormatter extends TimeComponentFormatterBase {
     protected formatDayOfMonth(dayOfMonth: number, format: string, formatInfo: DateTimeFormatInfo): string {
         let targetLength = format.length;
 
-        return TextTransform.padStart(dayOfMonth.toString(), targetLength, '0');
+        return this.textTransform.padStart(dayOfMonth.toString(), targetLength, '0');
     }
 }
 

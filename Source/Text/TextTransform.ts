@@ -1,17 +1,25 @@
+import {Container} from '../DI/Container/Container';
+import {Singleton} from '../DI/Decorators/Singleton';
 
 
+@Singleton()
 export class TextTransform {
-    public static toUpperCase(input: string): string {
+    public static get instance(): TextTransform {
+        return Container.instance.get(TextTransform);
+    }
+
+
+    public toUpperCase(input: string): string {
         return input.toUpperCase();
     }
 
 
-    public static toLowerCase(input: string): string {
+    public toLowerCase(input: string): string {
         return input.toLowerCase();
     }
 
 
-    public static toCamelCase(input: string): string {
+    public toCamelCase(input: string): string {
         let slices: string[] = this.splitStringForCaseTransformation(input);
 
         slices = slices.map((slice: string, index: number): string => {
@@ -28,27 +36,32 @@ export class TextTransform {
     }
 
 
-    public static toKebabCase(input: string): string {
+    public toKebabCase(input: string): string {
         return input.replace(/[A-Z]/g, function (substring: string): string {
             return '-' + substring;
         }).replace(/[ _-]+/g, '-').toLowerCase();
     }
 
 
-    public static toCapitalCase(input: string): string {
-        let slices: string[] = this.splitStringForCaseTransformation(input);
+    public toCapitalCase(input: string): string {
+        // TODO: test and cleanup
+        // let slices: string[] = this.splitStringForCaseTransformation(input);
+        //
+        // slices = slices.map((slice: string, index: number): string => {
+        //     let firstChar: string = slice[0];
+        //
+        //     return firstChar.toUpperCase() + slice.substring(1).toLowerCase();
+        // });
+        //
+        // return slices.join('');
 
-        slices = slices.map((slice: string, index: number): string => {
-            let firstChar: string = slice[0];
-
-            return firstChar.toUpperCase() + slice.substring(1).toLowerCase();
+        return input.replace(/(\b.)/g, (substring: string): string => {
+            return substring.toUpperCase();
         });
-
-        return slices.join('');
     }
 
 
-    public static padStart(input: string, targetLength: number, padString: string = ' '): string {
+    public padStart(input: string, targetLength: number, padString: string = ' '): string {
         if (input.length > targetLength) {
             return input;
         } else {
@@ -63,7 +76,7 @@ export class TextTransform {
     }
 
 
-    public static padEnd(input: string, targetLength: number, padString: string = ' '): string {
+    public padEnd(input: string, targetLength: number, padString: string = ' '): string {
         if (input.length > targetLength) {
             return input;
         } else {
@@ -78,7 +91,7 @@ export class TextTransform {
     }
 
 
-    public static clipStart(input: string, targetLength: number): string {
+    public clipStart(input: string, targetLength: number): string {
         if (input.length > targetLength) {
             return input.substring(0, targetLength);
         }
@@ -87,7 +100,7 @@ export class TextTransform {
     }
 
 
-    public static clipEnd(input: string, targetLength: number): string {
+    public clipEnd(input: string, targetLength: number): string {
         if (input.length > targetLength) {
             return input.substring(input.length - targetLength);
         }
@@ -96,7 +109,7 @@ export class TextTransform {
     }
 
 
-    private static splitStringForCaseTransformation(input: string): string[] {
+    private splitStringForCaseTransformation(input: string): string[] {
         let slices: string[];
 
         slices = input.split(/[ _-]+/g);

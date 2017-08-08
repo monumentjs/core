@@ -63,7 +63,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
     }
 
 
-    // IList<T> interface implementation
+    // IList<TItem> interface implementation
 
 
     public addRange(items: IEnumerable<T>): void {
@@ -161,7 +161,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
     }
 
 
-    // IQueryable<T> interface implementation
+    // IQueryable<TItem> interface implementation
 
 
     public forEach(iterator: IteratorFunction<T, boolean | void>): void {
@@ -398,7 +398,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
     }
 
     /**
-     * Returns distinct elements from a sequence by using a specified IEqualityComparator<T> to compare values.
+     * Returns distinct elements from a sequence by using a specified IEqualityComparator<TItem> to compare values.
      * @param comparator
      */
     public distinct(comparator: IEqualityComparator<T> = EqualityComparator.instance): List<T> {
