@@ -20,7 +20,7 @@ export function Bootstrap(): ClassDecorator {
             throw new BootstrapException(`Application ${constructor.name} already instantiated.`);
         }
 
-        const application = Container.instance.get(constructor);
+        const application = Container.get(constructor);
 
         await application.main();
 

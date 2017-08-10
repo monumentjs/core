@@ -5,6 +5,6 @@ import {Container} from '../DI/Container/Container';
 
 export class ComponentBase extends EventEmitter {
     protected getUnit<T>(type: Constructor<T>): T {
-        return Container.instance.get(type);
+        return Container.get(type);
     }
 }

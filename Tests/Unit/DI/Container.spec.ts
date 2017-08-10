@@ -33,30 +33,21 @@ class ClassWithComplexConstructor {
 
 
 describe(`Container`, () => {
-    let container: Container = Container.instance;
-
-
-    describe(`#constructor()`, () => {
-        it(`creates new instance of Container`, () => {
-            expect(container).toBeInstanceOf(Container);
-        });
-    });
-
 
     describe(`#get()`, () => {
         describe(`without registration`, () => {
             it(`throws if 'type' argument is not defined`, () => {
                 expect(() => {
-                    container.get(null);
+                    Container.get(null);
                 }).toThrow(ArgumentNullException);
 
                 expect(() => {
-                    container.get(undefined);
+                    Container.get(undefined);
                 }).toThrow(ArgumentNullException);
             });
 
             it(`creates an instance of type with simple constructor`, () => {
-                const instance = container.get(ClassWithSimpleConstructor);
+                const instance = Container.get(ClassWithSimpleConstructor);
 
                 expect(instance).toBeInstanceOf(ClassWithSimpleConstructor);
                 expect(instance.publicProperty).toBe('public');
@@ -64,7 +55,7 @@ describe(`Container`, () => {
 
             it(`throws if type constructor has required arguments`, () => {
                 expect(() => {
-                    return container.get(ClassWithComplexConstructor);
+                    return Container.get(ClassWithComplexConstructor);
                 }).toThrow(MissingConstructorArgumentsException);
             });
         });
@@ -78,7 +69,7 @@ describe(`Container`, () => {
                     ]
                 })(ClassWithComplexConstructor);
 
-                const instance = container.get(ClassWithComplexConstructor);
+                const instance = Container.get(ClassWithComplexConstructor);
 
                 expect(instance).toBeInstanceOf(ClassWithComplexConstructor);
                 expect(instance.publicProperty.publicProperty).toBe('public');
@@ -93,8 +84,8 @@ describe(`Container`, () => {
                 ]
             })(ClassWithComplexConstructor);
 
-            const instance1 = container.get(ClassWithComplexConstructor);
-            const instance2 = container.get(ClassWithComplexConstructor);
+            const instance1 = Container.get(ClassWithComplexConstructor);
+            const instance2 = Container.get(ClassWithComplexConstructor);
 
             expect(instance1).toBeInstanceOf(ClassWithComplexConstructor);
             expect(instance1.publicProperty.publicProperty).toBe('public');
@@ -103,18 +94,6 @@ describe(`Container`, () => {
             expect(instance2.publicProperty.publicProperty).toBe('public');
 
             expect(instance1).toBe(instance2);
-        });
-    });
-
-
-    describe(`#instance`, () => {
-        it(`returns reference to main instance of DI container`, () => {
-            expect(Container.instance).toBeInstanceOf(Container);
-        });
-
-
-        it(`provides reference to main instance during the `, () => {
-            expect(Container.instance.get(Container)).toBe(Container.instance);
         });
     });
 });

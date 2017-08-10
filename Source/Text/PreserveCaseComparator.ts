@@ -9,7 +9,7 @@ import {Singleton} from '../DI/Decorators/Singleton';
 @Singleton()
 export class PreserveCaseComparator implements IEqualityComparator<string>, IComparator<string> {
     public static get instance(): PreserveCaseComparator {
-        return Container.instance.get(this);
+        return Container.get(this);
     }
 
 

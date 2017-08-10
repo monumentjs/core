@@ -16,7 +16,7 @@ export class RuntimeRestriction {
         return (prototype: object,
                 methodName: string,
                 descriptor: TypedPropertyDescriptor<Function>): TypedPropertyDescriptor<Function> | void => {
-            const restriction: RuntimeRestriction = Container.instance.get(RuntimeRestriction);
+            const restriction: RuntimeRestriction = Container.get(RuntimeRestriction);
 
             if (restriction.match(restrictions)) {
                 return descriptor;

@@ -1,6 +1,7 @@
 import {VersionParser} from '../../../Source/Version/VersionParser';
 import {Version} from '../../../Source/Version/Version';
 import {ParsingException} from '../../../Source/Text/Parsing/ParsingException';
+import {Container} from '../../../Source/DI/Container/Container';
 
 
 describe(`VersionParser`, () => {
@@ -8,7 +9,7 @@ describe(`VersionParser`, () => {
 
 
     beforeEach(() => {
-        instance = new VersionParser();
+        instance = Container.get(VersionParser);
     });
 
 

@@ -13,7 +13,7 @@ import {UnitBuilder} from './UnitBuilder';
     }
 })
 export class Container {
-    public static get instance(): Container {
+    private static get instance(): Container {
         if (this._instance == null) {
             this._instance = new Container();
         }
@@ -22,11 +22,36 @@ export class Container {
     }
 
 
+    public static get<T>(type: Constructor<T>): T {
+        return this.instance.get(type);
+    }
+
+
+    public static addUnitProviderResolver(unitProviderResolver: IUnitProviderResolver): void {
+        return this.instance.addUnitProviderResolver(unitProviderResolver);
+    }
+
+
+    public static removeUnitProviderResolver(unitProviderResolver: IUnitProviderResolver): boolean {
+        return this.instance.removeUnitProviderResolver(unitProviderResolver);
+    }
+
+
+    public static removeAllUnitProviderResolvers(): void {
+        this.instance.removeAllUnitProviderResolvers();
+    }
+
+
     private static _instance: Container;
 
 
     private unitBuilder: UnitBuilder = new UnitBuilder(this);
     private unitProviderResolvers: List<IUnitProviderResolver> = new List();
+
+
+    protected constructor() {
+
+    }
 
 
     public addUnitProviderResolver(unitProviderResolver: IUnitProviderResolver): void {

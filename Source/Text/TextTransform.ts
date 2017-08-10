@@ -5,7 +5,7 @@ import {Singleton} from '../DI/Decorators/Singleton';
 @Singleton()
 export class TextTransform {
     public static get instance(): TextTransform {
-        return Container.instance.get(TextTransform);
+        return Container.get(this);
     }
 
 

@@ -1,12 +1,31 @@
 import {Version} from './Version';
 import {ReleaseStatus, VERSION_PATTERN} from './types';
+import {Singleton} from '../DI/Decorators/Singleton';
+import {VersionValidator} from './VersionValidator';
+import {Container} from '../DI/Container/Container';
 import {Assert} from '../Assertion/Assert';
-import {ParsingException} from '../Text/Parsing/ParsingException';
 
 
+@Singleton({
+    providers: [
+        VersionValidator
+    ]
+})
 export class VersionParser {
+    public static get instance(): VersionParser {
+        return Container.get(this);
+    }
+
+
+    public constructor(
+        private readonly validator: VersionValidator
+    ) {
+        Assert.argument('validator', validator).notNull();
+    }
+
+
     public parse(version: string): Version {
-        Assert.argument('version', version).notNull();
+        this.validator.validate(version);
 
         let major: number;
         let minor: number;
@@ -14,10 +33,6 @@ export class VersionParser {
         let releaseStatus: ReleaseStatus;
         let revision: number;
         let parts: RegExpExecArray = VERSION_PATTERN.exec(version);
-
-        if (!parts) {
-            throw new ParsingException(`Given value is not a valid version.`);
-        }
 
         major = this.getMajor(parts);
         minor = this.getMinor(parts);
@@ -29,22 +44,22 @@ export class VersionParser {
     }
 
 
-    protected getMajor(parts: RegExpExecArray): number {
+    private getMajor(parts: RegExpExecArray): number {
         return parseInt(parts[1], 10);
     }
 
 
-    protected getMinor(parts: RegExpExecArray): number {
+    private getMinor(parts: RegExpExecArray): number {
         return parseInt(parts[2], 10);
     }
 
 
-    protected getPatch(parts: RegExpExecArray): number {
+    private getPatch(parts: RegExpExecArray): number {
         return parseInt(parts[3], 10);
     }
 
 
-    protected getReleaseStatus(parts: RegExpExecArray): ReleaseStatus {
+    private getReleaseStatus(parts: RegExpExecArray): ReleaseStatus {
         switch (parts[5]) {
             case 'alpha':
                 return ReleaseStatus.Alpha;
@@ -61,7 +76,7 @@ export class VersionParser {
     }
 
 
-    protected getRevision(parts: RegExpExecArray): number {
+    private getRevision(parts: RegExpExecArray): number {
         if (parts[7]) {
             return parseInt(parts[7], 10);
         } else {

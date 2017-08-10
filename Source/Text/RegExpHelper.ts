@@ -6,7 +6,7 @@ import {Singleton} from '../DI/Decorators/Singleton';
 @Singleton()
 export class RegExpHelper {
     public static get instance(): RegExpHelper {
-        return Container.instance.get(this);
+        return Container.get(this);
     }
 
 

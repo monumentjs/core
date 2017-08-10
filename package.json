@@ -1,6 +1,6 @@
 {
   "name": "@typescript-standard-library/core",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "TypeScript standard library",
   "keywords": [
     "typescript",
@@ -23,11 +23,11 @@
   "author": "Alex Chugaev <achugaev93@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "@types/jest": "^20.0.0",
-    "@types/node": "^8.0.13",
+    "@types/jest": "^20.0.6",
+    "@types/node": "^8.0.20",
     "jest": "^20.0.4",
-    "ts-jest": "^20.0.7",
-    "tslint": "^5.4.3",
+    "ts-jest": "^20.0.10",
+    "tslint": "^5.6.0",
     "typescript": "^2.4.2"
   },
   "repository": "https://github.com/typescript-standard-library/Core.git",
