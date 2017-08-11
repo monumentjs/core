@@ -5,6 +5,8 @@ import {Singleton} from '../Decorators/Singleton';
 import {IUnitProviderResolver} from './IUnitProviderResolver';
 import {List} from '../../Collections/List';
 import {UnitBuilder} from './UnitBuilder';
+import {IEnumerable} from '../../Collections/IEnumerable';
+import {ProvidersListValidator} from '../Providers/ProvidersListValidator';
 
 
 @Singleton({
@@ -24,6 +26,11 @@ export class Container {
 
     public static get<T>(type: Constructor<T>): T {
         return this.instance.get(type);
+    }
+
+
+    public static createClosure<TFunc extends Function>(providers: IEnumerable<Constructor<any>>, func: TFunc): TFunc {
+        return this.instance.createClosure(providers, func);
     }
 
 
@@ -47,6 +54,7 @@ export class Container {
 
     private unitBuilder: UnitBuilder = new UnitBuilder(this);
     private unitProviderResolvers: List<IUnitProviderResolver> = new List();
+    private providersListValidator: ProvidersListValidator = ProvidersListValidator.instance;
 
 
     protected constructor() {
@@ -77,6 +85,23 @@ export class Container {
         Assert.argument('type', type).notNull();
 
         return this.getUnitFromExtensions(type) || this.getOriginalUnit(type);
+    }
+
+
+    public createClosure<TFunc extends Function>(providers: IEnumerable<Constructor<any>>, func: TFunc): TFunc {
+        this.providersListValidator.validate(providers);
+
+        return function () {
+            const dependencies: any[] = [];
+
+            for (let type of providers) {
+                dependencies.push(Container.get(type));
+            }
+
+            const args = [...dependencies, ...arguments];
+
+            return func.apply(null, args);
+        } as any;
     }
 
 
