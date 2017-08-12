@@ -2,9 +2,12 @@ import {Stack} from '../../../Source/Collections/Stack';
 import {InvalidOperationException} from '../../../Source/Exceptions/InvalidOperationException';
 import {ArgumentNullException} from '../../../Source/Exceptions/ArgumentNullException';
 import {IgnoreCaseComparator} from '../../../Source/Text/IgnoreCaseComparator';
+import {Container} from '../../../Source/DI/Container/Container';
 
 
 describe(`Stack`, () => {
+    const comparator = Container.get(IgnoreCaseComparator);
+
     let instance: Stack<string>;
 
 
@@ -130,8 +133,8 @@ describe(`Stack`, () => {
         it(`determines whether stack contains item using custom equality comparator`, () => {
             instance = new Stack(['a', 'b', 'c']);
 
-            expect(instance.contains('A', IgnoreCaseComparator.instance)).toBe(true);
-            expect(instance.contains('D', IgnoreCaseComparator.instance)).toBe(false);
+            expect(instance.contains('A', comparator)).toBe(true);
+            expect(instance.contains('D', comparator)).toBe(false);
         });
     });
 });

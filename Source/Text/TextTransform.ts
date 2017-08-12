@@ -1,14 +1,8 @@
-import {Container} from '../DI/Container/Container';
 import {Singleton} from '../DI/Decorators/Singleton';
 
 
 @Singleton()
 export class TextTransform {
-    public static get instance(): TextTransform {
-        return Container.get(this);
-    }
-
-
     public toUpperCase(input: string): string {
         return input.toUpperCase();
     }

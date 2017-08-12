@@ -1,9 +1,12 @@
 import {Dictionary} from '../../../Source/Collections/Dictionary';
 import {IgnoreCaseComparator} from '../../../Source/Text/IgnoreCaseComparator';
 import {ArgumentNullException} from '../../../Source/Exceptions/ArgumentNullException';
+import {Container} from '../../../Source/DI/Container/Container';
 
 
 describe(`Dictionary`, () => {
+    const comparator: IgnoreCaseComparator = Container.get(IgnoreCaseComparator);
+
     let instance: Dictionary<string, string>;
 
 
@@ -13,14 +16,14 @@ describe(`Dictionary`, () => {
             {key: 'Two', value: 'TWO'},
             {key: 'three', value: 'Three'},
             {key: 'Three', value: 'THREE'}
-        ], IgnoreCaseComparator.instance);
+        ], comparator);
     });
 
 
     describe(`#constructor()`, () => {
         it(`throws if 'list' argument is null`, () => {
             expect(() => {
-                return new Dictionary(null, IgnoreCaseComparator.instance);
+                return new Dictionary(null, comparator);
             }).toThrowError(ArgumentNullException);
         });
 
@@ -33,7 +36,7 @@ describe(`Dictionary`, () => {
         it(`creates new instance of Dictionary`, () => {
             expect(instance).toBeInstanceOf(Dictionary);
             expect(instance.length).toBe(3);
-            expect(instance.keyComparator).toBe(IgnoreCaseComparator.instance);
+            expect(instance.keyComparator).toBe(comparator);
             expect(instance.keys.toArray()).toEqual(['One', 'Two', 'Three']);
             expect(instance.values.toArray()).toEqual(['ONE', 'TWO', 'THREE']);
         });
@@ -134,7 +137,7 @@ describe(`Dictionary`, () => {
 
         it(`uses custom value comparator to determinr whether dictionary contains pair with specified value`, () => {
             expect(instance.containsValue('One')).toBe(false);
-            expect(instance.containsValue('One', IgnoreCaseComparator.instance)).toBe(true);
+            expect(instance.containsValue('One', comparator)).toBe(true);
         });
     });
 

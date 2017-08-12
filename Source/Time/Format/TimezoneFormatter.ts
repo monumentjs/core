@@ -4,12 +4,11 @@ import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
 import {InvalidOperationException} from '../../Exceptions/InvalidOperationException';
 import {TimeSpan} from '../TimeSpan';
 import {Assert} from '../../Assertion/Assert';
+import {Singleton} from '../../DI/Decorators/Singleton';
 
 
+@Singleton()
 export class TimezoneFormatter extends TimeComponentFormatterBase {
-    public static readonly instance: TimezoneFormatter = new TimezoneFormatter();
-
-
     protected entryPattern: RegExp = /^(Z)$/;
 
 

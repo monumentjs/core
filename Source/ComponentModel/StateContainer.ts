@@ -1,7 +1,7 @@
 import {IStateReceiver} from './IStateReceiver';
 import {Collection} from '../Collections/Collection';
 import {Assert} from '../Assertion/Assert';
-import {IAction} from './IAction';
+import {IStatePatch} from './IStatePatch';
 
 
 export abstract class StateContainer<TState> {
@@ -19,9 +19,9 @@ export abstract class StateContainer<TState> {
     }
 
 
-    public dispatch(action?: IAction<TState>): void {
-        if (action) {
-            action.apply(this.state);
+    public commit(patch?: IStatePatch<TState>): void {
+        if (patch) {
+            patch.apply(this.state);
         }
 
         this.commitChanges();

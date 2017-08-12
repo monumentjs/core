@@ -5,16 +5,16 @@ import {InvalidOperationException} from '../../Exceptions/InvalidOperationExcept
 import {TimeSpan} from '../TimeSpan';
 import {TextTransform} from '../../Text/TextTransform';
 import {Assert} from '../../Assertion/Assert';
+import {Singleton} from '../../DI/Decorators/Singleton';
+import {Inject} from '../../DI/Decorators/Inject';
 
 
+@Singleton()
 export class YearFormatter extends TimeComponentFormatterBase {
-    public static readonly instance: YearFormatter = new YearFormatter();
-
+    @Inject(TextTransform)
+    private readonly textTransform: TextTransform;
 
     protected entryPattern: RegExp = /^(Y+)$/;
-
-
-    private readonly textTransform: TextTransform = TextTransform.instance;
 
 
     public formatDateTime(dateTime: DateTime, format: string, formatInfo: DateTimeFormatInfo): string {

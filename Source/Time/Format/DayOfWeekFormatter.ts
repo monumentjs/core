@@ -5,12 +5,11 @@ import {InvalidOperationException} from '../../Exceptions/InvalidOperationExcept
 import {TimeSpan} from '../TimeSpan';
 import {Assert} from '../../Assertion/Assert';
 import {EMPTY_STRING} from '../../Text/constants';
+import {Singleton} from '../../DI/Decorators/Singleton';
 
 
+@Singleton()
 export class DayOfWeekFormatter extends TimeComponentFormatterBase {
-    public static readonly instance: DayOfWeekFormatter = new DayOfWeekFormatter();
-
-
     protected entryPattern: RegExp = /^(d{1,4})$/;
 
 

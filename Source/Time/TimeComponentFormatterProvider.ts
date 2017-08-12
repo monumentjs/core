@@ -13,24 +13,24 @@ import {AMPMFormatter} from './Format/AMPMFormatter';
 import {SignFormatter} from './Format/SignFormatter';
 import {DateTimeFormatException} from './DateTimeFormatException';
 import {Assert} from '../Assertion/Assert';
+import {Singleton} from '../DI/Decorators/Singleton';
+import {Container} from '../DI/Container/Container';
 
 
+@Singleton()
 export class TimeComponentFormatterProvider {
-    public static readonly instance: TimeComponentFormatterProvider = new TimeComponentFormatterProvider();
-
-
     private _formatters: ReadOnlyCollection<TimeComponentFormatterBase> = new ReadOnlyCollection([
-        YearFormatter.instance,
-        MonthFormatter.instance,
-        DayOfMonthFormatter.instance,
-        DayOfWeekFormatter.instance,
-        HoursFormatter.instance,
-        MinutesFormatter.instance,
-        SecondsFormatter.instance,
-        MillisecondsFormatter.instance,
-        AMPMFormatter.instance,
-        TimezoneFormatter.instance,
-        SignFormatter.instance
+        Container.get(YearFormatter),
+        Container.get(MonthFormatter),
+        Container.get(DayOfMonthFormatter),
+        Container.get(DayOfWeekFormatter),
+        Container.get(HoursFormatter),
+        Container.get(MinutesFormatter),
+        Container.get(SecondsFormatter),
+        Container.get(MillisecondsFormatter),
+        Container.get(AMPMFormatter),
+        Container.get(TimezoneFormatter),
+        Container.get(SignFormatter)
     ]);
 
 

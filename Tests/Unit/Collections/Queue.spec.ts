@@ -2,9 +2,12 @@ import {Queue} from '../../../Source/Collections/Queue';
 import {InvalidOperationException} from '../../../Source/Exceptions/InvalidOperationException';
 import {ArgumentNullException} from '../../../Source/Exceptions/ArgumentNullException';
 import {IgnoreCaseComparator} from '../../../Source/Text/IgnoreCaseComparator';
+import {Container} from '../../../Source/DI/Container/Container';
 
 
 describe(`Queue`, () => {
+    const comparator = Container.get(IgnoreCaseComparator);
+
     let instance: Queue<string>;
 
 
@@ -130,8 +133,8 @@ describe(`Queue`, () => {
         it(`determines whether queue contains item using custom equality comparator`, () => {
             instance = new Queue(['a', 'b', 'c']);
 
-            expect(instance.contains('A', IgnoreCaseComparator.instance)).toBe(true);
-            expect(instance.contains('D', IgnoreCaseComparator.instance)).toBe(false);
+            expect(instance.contains('A', comparator)).toBe(true);
+            expect(instance.contains('D', comparator)).toBe(false);
         });
     });
 });

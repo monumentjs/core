@@ -6,13 +6,12 @@ import {ProvidersListValidator} from './ProvidersListValidator';
 
 
 export class UnitProviderConfiguration<T> {
+    private readonly providersListValidator: ProvidersListValidator = ProvidersListValidator.instance;
+
     public readonly type: Constructor<T>;
     public readonly isSingleton: boolean;
     public readonly factory: UnitFactoryFunction<T>;
     public readonly providers: Array<Constructor<any>>;
-
-
-    private providersListValidator: ProvidersListValidator = ProvidersListValidator.instance;
 
 
     public constructor(type: Constructor<T>, configuration: IUnitConfiguration<T>) {

@@ -4,12 +4,11 @@ import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
 import {TimeSpan} from '../TimeSpan';
 import {DateTimeFormatException} from '../DateTimeFormatException';
 import {Assert} from '../../Assertion/Assert';
+import {Singleton} from '../../DI/Decorators/Singleton';
 
 
+@Singleton()
 export class SignFormatter extends TimeComponentFormatterBase {
-    public static readonly instance: SignFormatter = new SignFormatter();
-
-
     protected entryPattern: RegExp = /^(S)$/;
 
 

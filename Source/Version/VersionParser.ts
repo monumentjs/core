@@ -2,26 +2,13 @@ import {Version} from './Version';
 import {ReleaseStatus, VERSION_PATTERN} from './types';
 import {Singleton} from '../DI/Decorators/Singleton';
 import {VersionValidator} from './VersionValidator';
-import {Container} from '../DI/Container/Container';
-import {Assert} from '../Assertion/Assert';
+import {Inject} from '../DI/Decorators/Inject';
 
 
-@Singleton({
-    providers: [
-        VersionValidator
-    ]
-})
+@Singleton()
 export class VersionParser {
-    public static get instance(): VersionParser {
-        return Container.get(this);
-    }
-
-
-    public constructor(
-        private readonly validator: VersionValidator
-    ) {
-        Assert.argument('validator', validator).notNull();
-    }
+    @Inject(VersionValidator)
+    private readonly validator: VersionValidator;
 
 
     public parse(version: string): Version {

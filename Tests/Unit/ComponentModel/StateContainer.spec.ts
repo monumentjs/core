@@ -24,11 +24,11 @@ describe(`StateContainer`, () => {
     describe(`#dispatch()`, () => {
         it(`does not throw if 'action' argument is not defined`, () => {
             expect(() => {
-                container.dispatch();
+                container.commit();
             }).not.toThrow();
 
             expect(() => {
-                container.dispatch(null);
+                container.commit(null);
             }).not.toThrow();
         });
 
@@ -37,13 +37,13 @@ describe(`StateContainer`, () => {
             expect(container.state.fallenTestsCount).toBe(0);
             expect(container.state.totalTestsCount).toBe(0);
 
-            container.dispatch(new TestAction(true));
+            container.commit(new TestAction(true));
 
             expect(container.state.passedTestsCount).toBe(1);
             expect(container.state.fallenTestsCount).toBe(0);
             expect(container.state.totalTestsCount).toBe(1);
 
-            container.dispatch(new TestAction(false));
+            container.commit(new TestAction(false));
 
             expect(container.state.passedTestsCount).toBe(1);
             expect(container.state.fallenTestsCount).toBe(1);
@@ -71,12 +71,12 @@ describe(`StateContainer`, () => {
             expect(receiver.receiveState).toHaveBeenCalledTimes(0);
 
             container.addReceiver(receiver);
-            container.dispatch(new TestAction(true));
+            container.commit(new TestAction(true));
 
             expect(receiver.receiveState).toHaveBeenCalledTimes(2);
             expect(receiver.receiveState).toHaveBeenLastCalledWith(container.state);
 
-            container.dispatch(new TestAction(false));
+            container.commit(new TestAction(false));
 
             expect(receiver.receiveState).toHaveBeenCalledTimes(3);
             expect(receiver.receiveState).toHaveBeenLastCalledWith(container.state);

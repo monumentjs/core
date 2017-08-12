@@ -3,6 +3,7 @@ import {ReleaseStatus, VERSION_PRE_RELEASE_STAGES} from './types';
 import {StringBuilder} from '../Text/StringBuilder';
 import {Assert} from '../Assertion/Assert';
 import {VersionComparator} from './VersionComparator';
+import {Container} from '../DI/Container/Container';
 
 
 export class Version implements IEquatable<Version>, IComparable<Version>, ICloneable<Version>, IJSONSerializable<string> {
@@ -60,12 +61,16 @@ export class Version implements IEquatable<Version>, IComparable<Version>, IClon
 
 
     public compareTo(other: Version): ComparisonResult {
-        return VersionComparator.instance.compare(this, other);
+        const comparator: VersionComparator = Container.get(VersionComparator);
+
+        return comparator.compare(this, other);
     }
 
 
     public equals(other: Version): boolean {
-        return VersionComparator.instance.equals(this, other);
+        const comparator: VersionComparator = Container.get(VersionComparator);
+
+        return comparator.equals(this, other);
     }
 
 

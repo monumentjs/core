@@ -1,18 +1,10 @@
 import {ICloneable, IFormattable, IComparable, ComparisonResult, IEquatable} from '../types';
 import {DateTimeFormatInfo} from './DateTimeFormatInfo';
 import {Assert} from '../Assertion/Assert';
+import {MILLISECONDS_IN_DAY, MILLISECONDS_IN_HOUR, MILLISECONDS_IN_MINUTE, MILLISECONDS_IN_SECOND} from './types';
 
 
-export class TimeSpan implements
-    ICloneable<TimeSpan>,
-    IFormattable,
-    IComparable<TimeSpan>,
-    IEquatable<TimeSpan> {
-
-    public static readonly millisecondsPerSecond: number = 1000;
-    public static readonly millisecondsPerMinute: number = 60000;
-    public static readonly millisecondsPerHour: number = 3600000;
-    public static readonly millisecondsPerDay: number = 86400000;
+export class TimeSpan implements ICloneable<TimeSpan>, IFormattable, IComparable<TimeSpan>, IEquatable<TimeSpan> {
     public static readonly zero: TimeSpan = new TimeSpan();
 
 
@@ -66,22 +58,22 @@ export class TimeSpan implements
 
 
     public get days(): number {
-        return Math.floor(this._timestamp / TimeSpan.millisecondsPerDay);
+        return Math.floor(this._timestamp / MILLISECONDS_IN_DAY);
     }
 
 
     public get hours(): number {
-        return Math.floor(this._timestamp / TimeSpan.millisecondsPerHour) % 24;
+        return Math.floor(this._timestamp / MILLISECONDS_IN_HOUR) % 24;
     }
 
 
     public get minutes(): number {
-        return Math.floor(this._timestamp / TimeSpan.millisecondsPerMinute) % 60;
+        return Math.floor(this._timestamp / MILLISECONDS_IN_MINUTE) % 60;
     }
 
 
     public get seconds(): number {
-        return Math.floor(this._timestamp / TimeSpan.millisecondsPerSecond) % 60;
+        return Math.floor(this._timestamp / MILLISECONDS_IN_SECOND) % 60;
     }
 
 
@@ -91,22 +83,22 @@ export class TimeSpan implements
 
 
     public get totalDays(): number {
-        return this._timestamp / TimeSpan.millisecondsPerDay;
+        return this._timestamp / MILLISECONDS_IN_DAY;
     }
 
 
     public get totalHours(): number {
-        return this._timestamp / TimeSpan.millisecondsPerHour;
+        return this._timestamp / MILLISECONDS_IN_HOUR;
     }
 
 
     public get totalMinutes(): number {
-        return this._timestamp / TimeSpan.millisecondsPerMinute;
+        return this._timestamp / MILLISECONDS_IN_MINUTE;
     }
 
 
     public get totalSeconds(): number {
-        return this._timestamp / TimeSpan.millisecondsPerSecond;
+        return this._timestamp / MILLISECONDS_IN_SECOND;
     }
 
 
@@ -138,10 +130,10 @@ export class TimeSpan implements
         Assert.argument('seconds', seconds).notNull();
         Assert.argument('milliseconds', milliseconds).notNull();
 
-        this._timestamp += days * TimeSpan.millisecondsPerDay;
-        this._timestamp += hours * TimeSpan.millisecondsPerHour;
-        this._timestamp += minutes * TimeSpan.millisecondsPerMinute;
-        this._timestamp += seconds * TimeSpan.millisecondsPerSecond;
+        this._timestamp += days * MILLISECONDS_IN_DAY;
+        this._timestamp += hours * MILLISECONDS_IN_HOUR;
+        this._timestamp += minutes * MILLISECONDS_IN_MINUTE;
+        this._timestamp += seconds * MILLISECONDS_IN_SECOND;
         this._timestamp += milliseconds;
 
         this._timestamp = Math.floor(this._timestamp);

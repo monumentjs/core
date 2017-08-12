@@ -9,26 +9,39 @@ import {Assert} from '../../Assertion/Assert';
 
 
 export class UnitBuilder {
-    public constructor(private container: Container) {
-        Assert.argument('container', container).notNull();
+    public static get instance(): UnitBuilder {
+        if (this._instance == null) {
+            this._instance = new UnitBuilder();
+        }
+
+        return this._instance;
     }
 
 
-    public createUnit<T>(type: Constructor<T>): T {
-        const reflection: UnitReflection<T> = new UnitReflection(type);
-        let provider: UnitProvider<T> = reflection.provider;
-        let providerNotFound: boolean = provider == null;
+    private static _instance: UnitBuilder;
 
-        if (providerNotFound) {
+
+    public createUnit<T>(container: Container, type: Constructor<T>): T {
+        Assert.argument('container', container).notNull();
+        Assert.argument('type', type).notNull();
+
+        const reflection: UnitReflection<T> = new UnitReflection(type);
+
+        let provider: UnitProvider<T> = reflection.provider;
+
+        if (provider == null) {
             provider = this.getDefaultProvider(type);
         }
 
-        return this.createUnitFromProvider(provider);
+        return this.createUnitFromProvider(container, provider);
     }
 
 
-    public createUnitFromProvider<T>(provider: UnitProvider<T>): T {
-        return provider.getInstance(this.container);
+    public createUnitFromProvider<T>(container: Container, provider: UnitProvider<T>): T {
+        Assert.argument('container', container).notNull();
+        Assert.argument('provider', provider).notNull();
+
+        return provider.getInstance(container);
     }
 
 

@@ -4,16 +4,17 @@ import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
 import {TimeSpan} from '../TimeSpan';
 import {TextTransform} from '../../Text/TextTransform';
 import {Assert} from '../../Assertion/Assert';
+import {Singleton} from '../../DI/Decorators/Singleton';
+import {Inject} from '../../DI/Decorators/Inject';
 
 
+@Singleton()
 export class DayOfMonthFormatter extends TimeComponentFormatterBase {
-    public static readonly instance: DayOfMonthFormatter = new DayOfMonthFormatter();
+    @Inject(TextTransform)
+    private readonly textTransform: TextTransform;
 
 
     protected entryPattern: RegExp = /^(D+)$/;
-
-
-    private readonly textTransform: TextTransform = TextTransform.instance;
 
 
     public formatDateTime(dateTime: DateTime, format: string, formatInfo: DateTimeFormatInfo): string {

@@ -1,9 +1,12 @@
 import {ReadOnlyCollection} from '../../../Source/Collections/ReadOnlyCollection';
 import {ArgumentNullException} from '../../../Source/Exceptions/ArgumentNullException';
 import {IgnoreCaseComparator} from '../../../Source/Text/IgnoreCaseComparator';
+import {Container} from '../../../Source/DI/Container/Container';
 
 
 describe(`ReadOnlyCollection`, () => {
+    const comparator = Container.get(IgnoreCaseComparator);
+
     let instance: ReadOnlyCollection<string> = null;
 
 
@@ -49,9 +52,9 @@ describe(`ReadOnlyCollection`, () => {
         });
 
         it('determines whether collection already contains specified item using custom equality comparator', () => {
-            expect(instance.contains('One', IgnoreCaseComparator.instance)).toEqual(true);
-            expect(instance.contains('TWO', IgnoreCaseComparator.instance)).toEqual(true);
-            expect(instance.contains('three', IgnoreCaseComparator.instance)).toEqual(true);
+            expect(instance.contains('One', comparator)).toEqual(true);
+            expect(instance.contains('TWO', comparator)).toEqual(true);
+            expect(instance.contains('three', comparator)).toEqual(true);
         });
     });
 });

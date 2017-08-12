@@ -1,19 +1,12 @@
 import {TimeSpan} from './TimeSpan';
 import {ICloneable, IComparable, ComparisonResult, IEquatable, IFormattable} from '../types';
-import {DayOfWeek} from './types';
 import {DateTimeFormatInfo} from './DateTimeFormatInfo';
 import {Assert} from '../Assertion/Assert';
-
-const DAYS_TO_MONTH_365: number[] = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365];
-const DAYS_TO_MONTH_366: number[] = [0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366];
-const DAYS_OFFSET_PER_MONTH: number[] = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+import {DAYS_OFFSET_PER_MONTH, DAYS_TO_MONTH_365, DAYS_TO_MONTH_366} from './types';
+import {DayOfWeek} from './DayOfWeek';
 
 
-export class DateTime implements
-    ICloneable<DateTime>,
-    IComparable<DateTime>,
-    IEquatable<DateTime>,
-    IFormattable {
+export class DateTime implements ICloneable<DateTime>, IComparable<DateTime>, IEquatable<DateTime>, IFormattable {
 
     public static get now(): DateTime {
         return this.fromDate(new Date());

@@ -1,8 +1,9 @@
 import {MetadataContainer} from './MetadataContainer';
 import {Assert} from '../../Assertion/Assert';
+import {MetadataContainerList} from './MetadataContainerList';
 
 
-export class ReflectionBase<TEntity extends object = object> {
+export abstract class ReflectionBase<TEntity extends object = object> {
     public readonly metadata: MetadataContainer;
 
 
@@ -13,10 +14,24 @@ export class ReflectionBase<TEntity extends object = object> {
         Assert.argument('entity', entity).notNull();
         Assert.argument('metadataKey', metadataKey).notNull();
 
-        if (entity[metadataKey] == null) {
-            entity[metadataKey] = new MetadataContainer();
+        if (entity[metadataKey] == null || !entity.hasOwnProperty(metadataKey)) {
+            entity[metadataKey] = new MetadataContainer(entity[metadataKey]);
         }
 
         this.metadata = entity[metadataKey];
+    }
+
+
+    public getAllMetadataContainers(): MetadataContainerList {
+        const metadataContainers: MetadataContainerList = new MetadataContainerList();
+
+        let metadata: MetadataContainer = this.metadata;
+
+        while (metadata != null) {
+            metadataContainers.insert(metadata, 0);
+            metadata = metadata.parentMetadata;
+        }
+
+        return metadataContainers;
     }
 }

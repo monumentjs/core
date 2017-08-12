@@ -4,16 +4,16 @@ import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
 import {TimeSpan} from '../TimeSpan';
 import {TextTransform} from '../../Text/TextTransform';
 import {Assert} from '../../Assertion/Assert';
+import {Singleton} from '../../DI/Decorators/Singleton';
+import {Inject} from '../../DI/Decorators/Inject';
 
 
+@Singleton()
 export class SecondsFormatter extends TimeComponentFormatterBase {
-    public static readonly instance: SecondsFormatter = new SecondsFormatter();
-
+    @Inject(TextTransform)
+    private readonly textTransform: TextTransform;
 
     protected entryPattern: RegExp = /^(s+)$/;
-
-
-    private readonly textTransform: TextTransform = TextTransform.instance;
 
 
     public formatDateTime(dateTime: DateTime, format: string, formatInfo: DateTimeFormatInfo): string {

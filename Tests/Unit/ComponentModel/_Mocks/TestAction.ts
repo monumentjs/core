@@ -1,8 +1,8 @@
-import {IAction} from '../../../../Source/ComponentModel/IAction';
+import {IStatePatch} from '../../../../Source/ComponentModel/IStatePatch';
 import {TestState} from './TestState';
 
 
-export class TestAction implements IAction<TestState> {
+export class TestAction implements IStatePatch<TestState> {
     public readonly isPassed: boolean;
 
 

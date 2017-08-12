@@ -1,33 +1,14 @@
 
+export const SECONDS_IN_MINUTE: number = 60;
+export const MINUTES_IN_HOUR: number = 60;
+export const HOURS_IN_DAY: number = 24;
 
-export enum DayOfWeek {
-    Sunday,
-    Monday,
-    Tuesday,
-    Wednesday,
-    Thursday,
-    Friday,
-    Saturday
-}
+export const MILLISECONDS_IN_SECOND: number = 1000;
+export const MILLISECONDS_IN_MINUTE: number = SECONDS_IN_MINUTE * MILLISECONDS_IN_SECOND;
+export const MILLISECONDS_IN_HOUR: number = MINUTES_IN_HOUR * MILLISECONDS_IN_MINUTE;
+export const MILLISECONDS_IN_DAY: number = HOURS_IN_DAY * MILLISECONDS_IN_HOUR;
 
-
-export enum CalendarWeekRule {
-    /**
-     * Indicates that the first week of the year starts on the first day of the year and ends before
-     * the following designated first day of the week.
-     */
-    FirstDay,
-
-    /**
-     * Indicates that the first week of the year is the first week with four or more days before
-     * the designated first day of the week.
-     */
-    FirstFullWeek,
-
-    /**
-     * Indicates that the first week of the year begins on the first occurrence of the designated first day
-     * of the week on or after the first day of the year.
-     */
-    FirstFourDayWeek
-}
+export const DAYS_TO_MONTH_365: number[] = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365];
+export const DAYS_TO_MONTH_366: number[] = [0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366];
+export const DAYS_OFFSET_PER_MONTH: number[] = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
 

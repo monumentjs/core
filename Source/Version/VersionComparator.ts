@@ -5,16 +5,10 @@ import {Version} from './Version';
 import {Assert} from '../Assertion/Assert';
 import {IEqualityComparator} from '../Collections/IEqualityComparator';
 import {Singleton} from '../DI/Decorators/Singleton';
-import {Container} from '../DI/Container/Container';
 
 
 @Singleton()
 export class VersionComparator implements IComparator<Version>, IEqualityComparator<Version> {
-    public static get instance(): VersionComparator {
-        return Container.get(this);
-    }
-
-
     public equals(currentVersion: Version, otherVersion: Version): boolean {
         Assert.argument('currentVersion', currentVersion).notNull();
         Assert.argument('otherVersion', otherVersion).notNull();

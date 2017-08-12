@@ -5,16 +5,16 @@ import {TimeSpan} from '../TimeSpan';
 import {TextTransform} from '../../Text/TextTransform';
 import {Assert} from '../../Assertion/Assert';
 import {EMPTY_STRING} from '../../Text/constants';
+import {Singleton} from '../../DI/Decorators/Singleton';
+import {Inject} from '../../DI/Decorators/Inject';
 
 
+@Singleton()
 export class HoursFormatter extends TimeComponentFormatterBase {
-    public static readonly instance: HoursFormatter = new HoursFormatter();
-
+    @Inject(TextTransform)
+    private readonly textTransform: TextTransform;
 
     protected entryPattern: RegExp = /^(H+|h+)$/;
-
-
-    private readonly textTransform: TextTransform = TextTransform.instance;
 
 
     public formatDateTime(dateTime: DateTime, format: string, formatInfo: DateTimeFormatInfo): string {

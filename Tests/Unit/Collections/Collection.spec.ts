@@ -1,9 +1,12 @@
 import {Collection} from '../../../Source/Collections/Collection';
 import {ArgumentNullException} from '../../../Source/Exceptions/ArgumentNullException';
 import {IgnoreCaseComparator} from '../../../Source/Text/IgnoreCaseComparator';
+import {Container} from '../../../Source/DI/Container/Container';
 
 
 describe('Collection', () => {
+    const comparator: IgnoreCaseComparator = Container.get(IgnoreCaseComparator);
+
     let collection: Collection<string> = null;
 
 
@@ -91,9 +94,9 @@ describe('Collection', () => {
         it('determines whether collection already contains specified item using custom equality comparator', () => {
             collection = new Collection(['one', 'two', 'THREE']);
 
-            expect(collection.contains('One', IgnoreCaseComparator.instance)).toEqual(true);
-            expect(collection.contains('TWO', IgnoreCaseComparator.instance)).toEqual(true);
-            expect(collection.contains('three', IgnoreCaseComparator.instance)).toEqual(true);
+            expect(collection.contains('One', comparator)).toEqual(true);
+            expect(collection.contains('TWO', comparator)).toEqual(true);
+            expect(collection.contains('three', comparator)).toEqual(true);
         });
     });
 

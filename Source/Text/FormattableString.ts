@@ -5,6 +5,7 @@ import {ParsingException} from './Parsing/ParsingException';
 import {RegExpHelper} from './RegExpHelper';
 import {Assert} from '../Assertion/Assert';
 import {Dictionary} from '../Collections/Dictionary';
+import {Container} from '../DI/Container/Container';
 
 
 const NORMAL_ENTRY_PATTERN: RegExp = /{(\w+)}/g;
@@ -167,7 +168,8 @@ export class FormattableString {
 
 
     private createExtractingPattern(): RegExp {
-        let pattern: string = RegExpHelper.instance.escape(this._template);
+        const helper: RegExpHelper = Container.get(RegExpHelper);
+        let pattern: string = helper.escape(this._template);
 
         pattern = pattern.replace(ESCAPED_ENTRY_PATTERN, (): string => {
             return `(.+)`;

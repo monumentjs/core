@@ -1,5 +1,4 @@
 import {ICustomFormatter, IFormatProvider} from '../types';
-import {CalendarWeekRule, DayOfWeek} from './types';
 import {DateTime} from './DateTime';
 import {FormattableString} from '../Text/FormattableString';
 import {TimeComponentFormatterProvider} from './TimeComponentFormatterProvider';
@@ -7,39 +6,41 @@ import {ReadOnlyCollection} from '../Collections/ReadOnlyCollection';
 import {TimeComponentFormatterBase} from './Format/TimeComponentFormatterBase';
 import {TimeSpan} from './TimeSpan';
 import {Assert} from '../Assertion/Assert';
+import {Container} from '../DI/Container/Container';
+import {CalendarWeekRule} from './CalendarWeekRule';
+import {DayOfWeek} from './DayOfWeek';
 
 
-export class DateTimeFormatInfo implements
-    IFormatProvider,
-    ICustomFormatter<DateTime> {
-
+export class DateTimeFormatInfo implements IFormatProvider, ICustomFormatter<DateTime> {
     public static readonly invariantInfo: DateTimeFormatInfo = new DateTimeFormatInfo();
 
+    private readonly formattersProvider: TimeComponentFormatterProvider = Container.get(TimeComponentFormatterProvider);
+
     public readonly isReadOnly: boolean = true;
-    public readonly shortestDayNames: string[] = [
+    public readonly shortestDayNames: ReadOnlyCollection<string> = new ReadOnlyCollection([
         'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'
-    ];
-    public readonly abbreviatedDayNames: string[] = [
+    ]);
+    public readonly abbreviatedDayNames: ReadOnlyCollection<string> = new ReadOnlyCollection([
         'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'
-    ];
-    public readonly dayNames: string[] = [
+    ]);
+    public readonly dayNames: ReadOnlyCollection<string> = new ReadOnlyCollection([
         'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
-    ];
-    public readonly monthNames: string[] = [
+    ]);
+    public readonly monthNames: ReadOnlyCollection<string> = new ReadOnlyCollection([
         'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
         'October', 'November', 'December', ''
-    ];
-    public readonly abbreviatedMonthNames: string[] = [
+    ]);
+    public readonly abbreviatedMonthNames: ReadOnlyCollection<string> = new ReadOnlyCollection([
         'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', ''
-    ];
-    public readonly monthGenitiveNames: string[] = [
+    ]);
+    public readonly monthGenitiveNames: ReadOnlyCollection<string> = new ReadOnlyCollection([
         'of January', 'of February', 'of March', 'of April', 'of May', 'of June', 'of July', 'of August',
         'of September', 'of October', 'of November', 'of December', ''
-    ];
-    public readonly abbreviatedMonthGenitiveNames: string[] = [
+    ]);
+    public readonly abbreviatedMonthGenitiveNames: ReadOnlyCollection<string> = new ReadOnlyCollection([
         'of Jan', 'of Feb', 'of Mar', 'of Apr', 'of May', 'of Jun', 'of Jul', 'of Aug', 'of Sep',
         'of Oct', 'of Nov', 'of Dec', ''
-    ];
+    ]);
     public readonly amDesignator: string = 'AM';
     public readonly pmDesignator: string = 'PM';
     // TODO: public readonly calendar: Calendar;
@@ -93,7 +94,8 @@ export class DateTimeFormatInfo implements
         for (let formatEntry of formatEntries) {
             let formatter: TimeComponentFormatterBase;
 
-            formatter = TimeComponentFormatterProvider.instance.getFormatter(formatEntry);
+            formatter = this.formattersProvider.getFormatter(formatEntry);
+
 
             if (time instanceof DateTime) {
                 components[formatEntry] = formatter.formatDateTime(time, formatEntry, formatInfo);

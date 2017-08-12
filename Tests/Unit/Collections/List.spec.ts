@@ -7,9 +7,12 @@ import {IgnoreCaseComparator} from '../../../Source/Text/IgnoreCaseComparator';
 import {Grouping} from '../../../Source/Collections/Grouping';
 import {SortOrder} from '../../../Source/Collections/SortOrder';
 import {RangeException} from '../../../Source/Exceptions/RangeException';
+import {Container} from '../../../Source/DI/Container/Container';
 
 
 describe('List', () => {
+    const comparator = Container.get(IgnoreCaseComparator);
+    
     let list: List<string> = null;
 
 
@@ -319,9 +322,9 @@ describe('List', () => {
             list = new List(['one', 'two']);
 
             expect(list.indexOf('ONE')).toBe(-1);
-            expect(list.indexOf('ONE', 0, list.length, IgnoreCaseComparator.instance)).toBe(0);
-            expect(list.indexOf('ONE', 1, list.length - 1, IgnoreCaseComparator.instance)).toBe(-1);
-            expect(list.indexOf('THREE', 0, list.length, IgnoreCaseComparator.instance)).toBe(-1);
+            expect(list.indexOf('ONE', 0, list.length, comparator)).toBe(0);
+            expect(list.indexOf('ONE', 1, list.length - 1, comparator)).toBe(-1);
+            expect(list.indexOf('THREE', 0, list.length, comparator)).toBe(-1);
         });
     });
 
@@ -369,7 +372,7 @@ describe('List', () => {
 
             expect(list.length).toBe(6);
 
-            list.removeAll(['A', 'B'], IgnoreCaseComparator.instance);
+            list.removeAll(['A', 'B'], comparator);
 
             expect(list.length).toBe(2);
             expect(list.toArray()).toEqual(['c', 'd']);
@@ -776,7 +779,7 @@ describe('List', () => {
 
             let groupings: List<Grouping<string, string>> = list.groupBy((word: string): string => {
                 return word[0].toLowerCase();
-            }, IgnoreCaseComparator.instance);
+            }, comparator);
 
             expect(groupings.length).toEqual(2);
             expect(groupings[0].key).toBe('t');
@@ -821,7 +824,7 @@ describe('List', () => {
 
             list = new List(['two', 'ONE', 'one', 'Three', 'One']);
 
-            filteredList = list.except(['one', 'Five'], IgnoreCaseComparator.instance);
+            filteredList = list.except(['one', 'Five'], comparator);
 
             expect(filteredList).not.toBe(list);
             expect(filteredList.toArray()).toEqual(['two', 'Three', 'Five']);
@@ -863,7 +866,7 @@ describe('List', () => {
 
             list = new List(['two', 'ONE', 'one', 'Three', 'One']);
 
-            filteredList = list.intersect(['one', 'Five'], IgnoreCaseComparator.instance);
+            filteredList = list.intersect(['one', 'Five'], comparator);
 
             expect(filteredList).not.toBe(list);
             expect(filteredList.toArray()).toEqual(['ONE', 'one', 'One']);
@@ -937,7 +940,7 @@ describe('List', () => {
                 return word[0];
             }, function (x: string, y: string): string[] {
                 return [x, y];
-            }, IgnoreCaseComparator.instance);
+            }, comparator);
 
             expect(joinedList.toArray()).toEqual([
                 ['two', 'Ten'],
@@ -1009,7 +1012,7 @@ describe('List', () => {
     describe(`#orderBy()`, () => {
         it(`throws if 'keySelector' argument is not defined`, () => {
             expect(() => {
-                list.orderBy(null, IgnoreCaseComparator.instance);
+                list.orderBy(null, comparator);
             }).toThrowError(ArgumentNullException);
         });
 
@@ -1025,7 +1028,7 @@ describe('List', () => {
             expect(() => {
                 list.orderBy((word: string): string => {
                     return word[0];
-                }, IgnoreCaseComparator.instance, null);
+                }, comparator, null);
             }).toThrowError(ArgumentNullException);
         });
 
@@ -1034,7 +1037,7 @@ describe('List', () => {
 
             expect(list.orderBy((word: string): string => {
                 return word.slice(0, 2);
-            }, IgnoreCaseComparator.instance, SortOrder.Ascending).toArray()).toEqual([
+            }, comparator, SortOrder.Ascending).toArray()).toEqual([
                 'ONE', 'one', 'One', 'Three', 'two'
             ]);
         });
@@ -1044,7 +1047,7 @@ describe('List', () => {
 
             expect(list.orderBy((word: string): string => {
                 return word.slice(0, 2);
-            }, IgnoreCaseComparator.instance, SortOrder.Descending).toArray()).toEqual([
+            }, comparator, SortOrder.Descending).toArray()).toEqual([
                 'two', 'Three', 'ONE', 'one', 'One'
             ]);
         });
@@ -1054,7 +1057,7 @@ describe('List', () => {
 
             expect(list.orderBy((word: string): string => {
                 return word.slice(0, 2);
-            }, IgnoreCaseComparator.instance, SortOrder.None).toArray()).toEqual([
+            }, comparator, SortOrder.None).toArray()).toEqual([
                 'two', 'ONE', 'one', 'Three', 'One'
             ]);
         });
@@ -1098,9 +1101,9 @@ describe('List', () => {
         it(`compares lists using custom equality comparator`, () => {
             list = new List(['one', 'two', 'three']);
 
-            expect(list.equals(['one', 'two', 'three'], IgnoreCaseComparator.instance)).toBe(true);
-            expect(list.equals(['ONE', 'TWO'], IgnoreCaseComparator.instance)).toBe(false);
-            expect(list.equals(['ONE', 'TWO', 'THREE'], IgnoreCaseComparator.instance)).toBe(true);
+            expect(list.equals(['one', 'two', 'three'], comparator)).toBe(true);
+            expect(list.equals(['ONE', 'TWO'], comparator)).toBe(false);
+            expect(list.equals(['ONE', 'TWO', 'THREE'], comparator)).toBe(true);
         });
     });
 

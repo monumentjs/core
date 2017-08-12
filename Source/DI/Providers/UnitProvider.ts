@@ -4,6 +4,7 @@ import {UnitFactoryFunction} from '../Decorators/types';
 import {Container} from '../Container/Container';
 import {UnitReflection} from '../Reflections/UnitReflection';
 import {Constructor} from '../../types';
+import {PropertyDefinitionCollection} from '../../Language/Reflection/PropertyDefinitionCollection';
 
 
 export abstract class UnitProvider<T> {
@@ -24,6 +25,7 @@ export abstract class UnitProvider<T> {
         const args: any[] = this.getDependencies(container);
         const factory: UnitFactoryFunction<T> = this.configuration.factory;
         const reflection: UnitReflection<T> = new UnitReflection(this.configuration.type);
+        const properties: PropertyDefinitionCollection = reflection.getAllPropertyDefinitions();
 
         let instance: T;
 
@@ -33,8 +35,8 @@ export abstract class UnitProvider<T> {
             instance = new this.configuration.type(...args);
         }
 
-        for (let {key, value} of reflection.propertyInjectors) {
-            instance[key] = container.get(value);
+        for (let {name, type} of properties) {
+            instance[name] = container.get(type);
         }
 
         return instance;
