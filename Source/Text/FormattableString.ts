@@ -6,6 +6,7 @@ import {RegExpHelper} from './RegExpHelper';
 import {Assert} from '../Assertion/Assert';
 import {Dictionary} from '../Collections/Dictionary';
 import {Container} from '../DI/Container/Container';
+import {EMPTY_STRING} from './constants';
 
 
 const NORMAL_ENTRY_PATTERN: RegExp = /{(\w+)}/g;
@@ -42,7 +43,7 @@ export class FormattableString {
 
             Assert.sequence(values).containsIndex(index);
 
-            return values[index] + '';
+            return values[index] + EMPTY_STRING;
         });
     }
 
@@ -52,7 +53,7 @@ export class FormattableString {
 
         return this.fillEntries((key: string): string => {
             if (values[key] != null) {
-                return values[key] + '';
+                return values[key] + EMPTY_STRING;
             } else {
                 throw new MissingKeyException(`Entry "${key}" is not defined.`);
             }
@@ -67,9 +68,9 @@ export class FormattableString {
             let index: number = parseInt(key, 10);
 
             if (index >= 0 && index < values.length) {
-                return values[index] + '';
+                return values[index] + EMPTY_STRING;
             } else {
-                return '';
+                return EMPTY_STRING;
             }
         });
     }
@@ -80,9 +81,9 @@ export class FormattableString {
 
         return this.fillEntries((key: string): string => {
             if (values[key] != null) {
-                return values[key] + '';
+                return values[key] + EMPTY_STRING;
             } else {
-                return '';
+                return EMPTY_STRING;
             }
         });
     }

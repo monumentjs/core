@@ -6,7 +6,7 @@ import {MetadataToken} from '../Reflection/MetadataToken';
 const DEPRECATED_METHOD_TOKEN: MetadataToken = new MetadataToken('DeprecatedMethod');
 
 
-export function DeprecatedMethod(message?: string): MethodDecorator {
+export function Deprecated(message?: string): MethodDecorator {
     return function (
         prototype: object,
         methodName: string,
@@ -15,7 +15,7 @@ export function DeprecatedMethod(message?: string): MethodDecorator {
         const method: Function = descriptor.value;
         const reflection: MethodReflection = new MethodReflection(method);
         const metadata: MetadataContainer = reflection.metadata;
-        const defaultMessage: string = `Method '${methodName}' is deprecated. It will be removed in future releases.`;
+        const defaultMessage: string = `Method "${methodName}" is deprecated. It will be removed in future releases.`;
 
         message = message || defaultMessage;
 

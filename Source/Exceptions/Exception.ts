@@ -1,4 +1,5 @@
 import {IJSONSerializable} from '../types';
+import {EMPTY_STRING} from '../Text/constants';
 
 
 export class Exception extends Error implements IJSONSerializable<string> {
@@ -16,8 +17,8 @@ export class Exception extends Error implements IJSONSerializable<string> {
 
 
     public readonly timestamp: number = Date.now();
-    public readonly helpInfo: string = '';
-    public readonly helpLink: string = '';
+    public readonly helpInfo: string = EMPTY_STRING;
+    public readonly helpLink: string = EMPTY_STRING;
 
 
     public constructor(message: string) {

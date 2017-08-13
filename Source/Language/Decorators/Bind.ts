@@ -1,6 +1,6 @@
 
 
-export function BindMethod(): MethodDecorator {
+export function Bind(): MethodDecorator {
     return function (
         prototype: object,
         methodName: string,

@@ -1,6 +1,6 @@
 
 
-export function ProfileMethod(): MethodDecorator {
+export function Profile(): MethodDecorator {
     return function (
         prototype: object,
         methodName: string,

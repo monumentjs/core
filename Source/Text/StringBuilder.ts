@@ -1,5 +1,6 @@
 import {FormattableString} from './FormattableString';
 import {Assert} from '../Assertion/Assert';
+import {EMPTY_STRING} from './constants';
 
 
 export class StringBuilder {
@@ -30,7 +31,7 @@ export class StringBuilder {
     }
 
 
-    public constructor(initialValue: string = '', capacity: number = Infinity) {
+    public constructor(initialValue: string = EMPTY_STRING, capacity: number = Infinity) {
         Assert.argument('initialValue', initialValue).notNull();
         Assert.argument('capacity', capacity).notNull();
 
@@ -61,7 +62,7 @@ export class StringBuilder {
         Assert.argument('text', text).notNull();
         Assert.argument('times', times).notNull();
 
-        let stringOfRepeatedChunks: string = '';
+        let stringOfRepeatedChunks: string = EMPTY_STRING;
 
         for (let i = 0; i < times; i++) {
             stringOfRepeatedChunks += text;
@@ -75,7 +76,7 @@ export class StringBuilder {
         Assert.argument('text', text).notNull();
         Assert.argument('times', times).notNull();
 
-        let stringOfRepeatedChunks: string = '';
+        let stringOfRepeatedChunks: string = EMPTY_STRING;
 
         for (let i = 0; i < times; i++) {
             stringOfRepeatedChunks += text;
@@ -140,7 +141,7 @@ export class StringBuilder {
     }
 
 
-    public surround(before: string = '', after: string = ''): void {
+    public surround(before: string = EMPTY_STRING, after: string = EMPTY_STRING): void {
         Assert.argument('before', before).notNull();
         Assert.argument('after', after).notNull();
 
@@ -149,7 +150,7 @@ export class StringBuilder {
 
 
     public clear(): void {
-        this._value = '';
+        this._value = EMPTY_STRING;
     }
 
 

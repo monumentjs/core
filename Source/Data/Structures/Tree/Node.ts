@@ -2,13 +2,14 @@ import {NodeCollection} from './NodeCollection';
 import {Assert} from '../../../Assertion/Assert';
 import {InvalidArgumentException} from '../../../Exceptions/InvalidArgumentException';
 import {INode} from './INode';
+import {EMPTY_STRING} from '../../../Text/constants';
 
 
 export class Node implements INode {
-    protected _textContent: string = '';
+    protected _textContent: string = EMPTY_STRING;
     protected _parentNode: Node = null;
     protected _childNodes: NodeCollection = new NodeCollection(this);
-    protected _nodeName: string = '';
+    protected _nodeName: string = EMPTY_STRING;
 
 
     public get nodeName(): string {
@@ -132,14 +133,14 @@ export class Node implements INode {
     }
 
 
-    public replaceChild(newNode: Node, oldNode: Node): void {
+    public replaceChild(newNode: Node, refNode: Node): void {
         Assert.argument('newNode', newNode).notNull();
-        Assert.argument('oldNode', oldNode).notNull();
+        Assert.argument('refNode', refNode).notNull();
 
-        let indexOfOldNode: number = this.childNodes.indexOf(oldNode);
+        let indexOfOldNode: number = this.childNodes.indexOf(refNode);
 
         if (indexOfOldNode < 0) {
-            throw new InvalidArgumentException(`Old node is not a member of child nodes collection.`);
+            throw new InvalidArgumentException('refNode', 'Reference node is not a member of child nodes collection.');
         }
 
         this.childNodes[indexOfOldNode] = newNode;
@@ -174,7 +175,7 @@ export class Node implements INode {
         let insertPosition: number = this.childNodes.indexOf(refNode);
 
         if (insertPosition < 0) {
-            throw new InvalidArgumentException('Reference node is not a member of child nodes collection.');
+            throw new InvalidArgumentException('refNode', 'Reference node is not a member of child nodes collection.');
         }
 
         this.childNodes.insert(newNode, insertPosition);
@@ -188,7 +189,7 @@ export class Node implements INode {
         let insertPosition: number = this.childNodes.indexOf(refNode);
 
         if (insertPosition < 0) {
-            throw new InvalidArgumentException('Reference node is not a member of child nodes collection.');
+            throw new InvalidArgumentException('refNode', 'Reference node is not a member of child nodes collection.');
         }
 
         this.childNodes.insert(newNode, insertPosition + 1);

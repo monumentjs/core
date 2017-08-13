@@ -1,4 +1,5 @@
 import {Singleton} from '../DI/Decorators/Singleton';
+import {EMPTY_STRING} from './constants';
 
 
 @Singleton()
@@ -26,7 +27,7 @@ export class TextTransform {
             }
         });
 
-        return slices.join('');
+        return slices.join(EMPTY_STRING);
     }
 
 
@@ -38,17 +39,6 @@ export class TextTransform {
 
 
     public toCapitalCase(input: string): string {
-        // TODO: test and cleanup
-        // let slices: string[] = this.splitStringForCaseTransformation(input);
-        //
-        // slices = slices.map((slice: string, index: number): string => {
-        //     let firstChar: string = slice[0];
-        //
-        //     return firstChar.toUpperCase() + slice.substring(1).toLowerCase();
-        // });
-        //
-        // return slices.join('');
-
         return input.replace(/(\b.)/g, (substring: string): string => {
             return substring.toUpperCase();
         });

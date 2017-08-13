@@ -1,6 +1,7 @@
 
 
 import {Assert} from '../Assertion/Assert';
+import {EMPTY_STRING} from './constants';
 export class CappedString {
     private _value: string;
     private _length: number;
@@ -21,7 +22,7 @@ export class CappedString {
     }
 
 
-    public constructor(length: number, initialValue: string = '') {
+    public constructor(length: number, initialValue: string = EMPTY_STRING) {
         Assert.argument('length', length).notNull();
         Assert.argument('initialValue', initialValue).notNull();
 
@@ -45,7 +46,7 @@ export class CappedString {
 
 
     public clear(): void {
-        this._value = '';
+        this._value = EMPTY_STRING;
     }
 
 

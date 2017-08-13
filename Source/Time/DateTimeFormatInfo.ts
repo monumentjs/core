@@ -9,6 +9,7 @@ import {Assert} from '../Assertion/Assert';
 import {Container} from '../DI/Container/Container';
 import {CalendarWeekRule} from './CalendarWeekRule';
 import {DayOfWeek} from './DayOfWeek';
+import {EMPTY_STRING} from '../Text/constants';
 
 
 export class DateTimeFormatInfo implements IFormatProvider, ICustomFormatter<DateTime> {
@@ -28,18 +29,18 @@ export class DateTimeFormatInfo implements IFormatProvider, ICustomFormatter<Dat
     ]);
     public readonly monthNames: ReadOnlyCollection<string> = new ReadOnlyCollection([
         'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
-        'October', 'November', 'December', ''
+        'October', 'November', 'December', EMPTY_STRING
     ]);
     public readonly abbreviatedMonthNames: ReadOnlyCollection<string> = new ReadOnlyCollection([
-        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', ''
+        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', EMPTY_STRING
     ]);
     public readonly monthGenitiveNames: ReadOnlyCollection<string> = new ReadOnlyCollection([
         'of January', 'of February', 'of March', 'of April', 'of May', 'of June', 'of July', 'of August',
-        'of September', 'of October', 'of November', 'of December', ''
+        'of September', 'of October', 'of November', 'of December', EMPTY_STRING
     ]);
     public readonly abbreviatedMonthGenitiveNames: ReadOnlyCollection<string> = new ReadOnlyCollection([
         'of Jan', 'of Feb', 'of Mar', 'of Apr', 'of May', 'of Jun', 'of Jul', 'of Aug', 'of Sep',
-        'of Oct', 'of Nov', 'of Dec', ''
+        'of Oct', 'of Nov', 'of Dec', EMPTY_STRING
     ]);
     public readonly amDesignator: string = 'AM';
     public readonly pmDesignator: string = 'PM';
@@ -50,7 +51,7 @@ export class DateTimeFormatInfo implements IFormatProvider, ICustomFormatter<Dat
     public readonly longDatePattern: string = '{YYYY}/{MM}/{DD}';
     public readonly longTimePattern: string = '{HH}:{mm}:{ss}.{fff}';
     public readonly monthDayPattern: string = '{MMMM} {DD}';
-    public readonly nativeCalendarName: string = '';
+    public readonly nativeCalendarName: string = EMPTY_STRING;
     public readonly rfc1123Pattern: string = `{ddd}, {DD} {MMM} {YYYY} {HH}:{mm}:{ss} GMT`;
     public readonly shortDatePattern: string = '{YYYY}/{M}/{D}';
     public readonly shortTimePattern: string = '{H}:{mm} {AA}';
