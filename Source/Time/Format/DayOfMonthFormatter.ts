@@ -5,12 +5,12 @@ import {TimeSpan} from '../TimeSpan';
 import {TextTransform} from '../../Text/TextTransform';
 import {Assert} from '../../Assertion/Assert';
 import {Singleton} from '../../DI/Decorators/Singleton';
-import {Inject} from '../../DI/Decorators/Inject';
+import {Getter} from '../../DI/Decorators/Getter';
 
 
 @Singleton()
 export class DayOfMonthFormatter extends TimeComponentFormatterBase {
-    @Inject(TextTransform)
+    @Getter(TextTransform)
     private readonly textTransform: TextTransform;
 
 

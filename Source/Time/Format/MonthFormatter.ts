@@ -7,12 +7,12 @@ import {TextTransform} from '../../Text/TextTransform';
 import {Assert} from '../../Assertion/Assert';
 import {EMPTY_STRING} from '../../Text/constants';
 import {Singleton} from '../../DI/Decorators/Singleton';
-import {Inject} from '../../DI/Decorators/Inject';
+import {Getter} from '../../DI/Decorators/Getter';
 
 
 @Singleton()
 export class MonthFormatter extends TimeComponentFormatterBase {
-    @Inject(TextTransform)
+    @Getter(TextTransform)
     private readonly textTransform: TextTransform;
 
     protected entryPattern: RegExp = /^(M(M{0,3}|G|g))$/;
