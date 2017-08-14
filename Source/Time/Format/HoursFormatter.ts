@@ -6,12 +6,12 @@ import {TextTransform} from '../../Text/TextTransform';
 import {Assert} from '../../Assertion/Assert';
 import {EMPTY_STRING} from '../../Text/constants';
 import {Singleton} from '../../DI/Decorators/Singleton';
-import {Getter} from '../../DI/Decorators/Getter';
+import {UnitGetter} from '../../DI/Decorators/UnitGetter';
 
 
 @Singleton()
 export class HoursFormatter extends TimeComponentFormatterBase {
-    @Getter(TextTransform)
+    @UnitGetter(TextTransform)
     private readonly textTransform: TextTransform;
 
     protected entryPattern: RegExp = /^(H+|h+)$/;

@@ -5,8 +5,8 @@ import {ParsingException} from './Parsing/ParsingException';
 import {RegExpHelper} from './RegExpHelper';
 import {Assert} from '../Assertion/Assert';
 import {Dictionary} from '../Collections/Dictionary';
-import {Container} from '../DI/Container/Container';
 import {EMPTY_STRING} from './constants';
+import {UnitGetter} from '../DI/Decorators/UnitGetter';
 
 
 const NORMAL_ENTRY_PATTERN: RegExp = /{(\w+)}/g;
@@ -14,6 +14,9 @@ const ESCAPED_ENTRY_PATTERN: RegExp = /\\{(\w+)\\}/g;
 
 
 export class FormattableString {
+    @UnitGetter(RegExpHelper)
+    private readonly regExpHelper: RegExpHelper;
+
     private _template: string;
     private _allEntries: ReadOnlyCollection<string> = new ReadOnlyCollection<string>();
     private _uniqueEntries: ReadOnlyCollection<string>;
@@ -169,8 +172,7 @@ export class FormattableString {
 
 
     private createExtractingPattern(): RegExp {
-        const helper: RegExpHelper = Container.get(RegExpHelper);
-        let pattern: string = helper.escape(this._template);
+        let pattern: string = this.regExpHelper.escape(this._template);
 
         pattern = pattern.replace(ESCAPED_ENTRY_PATTERN, (): string => {
             return `(.+)`;

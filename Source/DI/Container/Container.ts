@@ -42,24 +42,24 @@ export class Container {
     }
 
 
-    public static addUnitProviderResolver(unitProviderResolver: IContainerProxy): void {
-        return this.instance.addUnitProviderResolver(unitProviderResolver);
+    public static addProxy(unitProviderResolver: IContainerProxy): void {
+        return this.instance.addProxy(unitProviderResolver);
     }
 
 
-    public static removeUnitProviderResolver(unitProviderResolver: IContainerProxy): boolean {
-        return this.instance.removeUnitProviderResolver(unitProviderResolver);
+    public static removeProxy(unitProviderResolver: IContainerProxy): boolean {
+        return this.instance.removeProxy(unitProviderResolver);
     }
 
 
-    public static removeAllUnitProviderResolvers(): void {
-        this.instance.removeAllUnitProviderResolvers();
+    public static removeAllProxies(): void {
+        this.instance.removeAllProxies();
     }
 
 
     private closureBuilder: ClosureBuilder = ClosureBuilder.instance;
     private unitBuilder: UnitBuilder = UnitBuilder.instance;
-    private unitProviderResolvers: List<IContainerProxy> = new List();
+    private containerProxies: List<IContainerProxy> = new List();
 
 
     protected constructor() {
@@ -67,22 +67,22 @@ export class Container {
     }
 
 
-    public addUnitProviderResolver(unitProviderResolver: IContainerProxy): void {
+    public addProxy(unitProviderResolver: IContainerProxy): void {
         Assert.argument('unitProviderResolver', unitProviderResolver).notNull();
 
-        this.unitProviderResolvers.add(unitProviderResolver);
+        this.containerProxies.add(unitProviderResolver);
     }
 
 
-    public removeUnitProviderResolver(unitProviderResolver: IContainerProxy): boolean {
+    public removeProxy(unitProviderResolver: IContainerProxy): boolean {
         Assert.argument('unitProviderResolver', unitProviderResolver).notNull();
 
-        return this.unitProviderResolvers.remove(unitProviderResolver);
+        return this.containerProxies.remove(unitProviderResolver);
     }
 
 
-    public removeAllUnitProviderResolvers(): void {
-        this.unitProviderResolvers.clear();
+    public removeAllProxies(): void {
+        this.containerProxies.clear();
     }
 
 
@@ -123,7 +123,7 @@ export class Container {
 
 
     private getExtensionByTypeProvider<T>(type: Constructor<T>): IContainerProxy {
-        return this.unitProviderResolvers.first((extension: IContainerProxy): boolean => {
+        return this.containerProxies.first((extension: IContainerProxy): boolean => {
             return extension.hasProvider(type);
         });
     }

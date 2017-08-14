@@ -3,10 +3,13 @@ import {ReleaseStatus, VERSION_PRE_RELEASE_STAGES} from './types';
 import {StringBuilder} from '../Text/StringBuilder';
 import {Assert} from '../Assertion/Assert';
 import {VersionComparator} from './VersionComparator';
-import {Container} from '../DI/Container/Container';
+import {UnitGetter} from '../DI/Decorators/UnitGetter';
 
 
 export class Version implements IEquatable<Version>, IComparable<Version>, ICloneable<Version>, IJSONSerializable<string> {
+    @UnitGetter(VersionComparator)
+    private readonly comparator: VersionComparator;
+
     private _major: number;
     private _minor: number;
     private _patch: number;
@@ -61,16 +64,12 @@ export class Version implements IEquatable<Version>, IComparable<Version>, IClon
 
 
     public compareTo(other: Version): ComparisonResult {
-        const comparator: VersionComparator = Container.get(VersionComparator);
-
-        return comparator.compare(this, other);
+        return this.comparator.compare(this, other);
     }
 
 
     public equals(other: Version): boolean {
-        const comparator: VersionComparator = Container.get(VersionComparator);
-
-        return comparator.equals(this, other);
+        return this.comparator.equals(this, other);
     }
 
 

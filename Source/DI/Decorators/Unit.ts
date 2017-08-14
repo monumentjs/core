@@ -1,9 +1,9 @@
-import {IUnitConfiguration} from './IUnitConfiguration';
-import {Constructor} from '../../types';
-import {UnitProvider} from '../Providers/UnitProvider';
-import {UnitReflection} from '../Reflections/UnitReflection';
 import {Assert} from '../../Assertion/Assert';
+import {Constructor} from '../../types';
+import {UnitReflection} from '../Reflections/UnitReflection';
+import {UnitProvider} from '../Providers/UnitProvider';
 import {UnitProviderFactory} from '../Providers/UnitProviderFactory';
+import {IUnitConfiguration} from './IUnitConfiguration';
 
 
 export function Unit<T>(unitConfiguration: IUnitConfiguration<T> = {}): ClassDecorator {

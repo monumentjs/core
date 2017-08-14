@@ -2,12 +2,12 @@ import {Version} from './Version';
 import {ReleaseStatus, VERSION_PATTERN} from './types';
 import {Singleton} from '../DI/Decorators/Singleton';
 import {VersionValidator} from './VersionValidator';
-import {Getter} from '../DI/Decorators/Getter';
+import {UnitGetter} from '../DI/Decorators/UnitGetter';
 
 
 @Singleton()
 export class VersionParser {
-    @Getter(VersionValidator)
+    @UnitGetter(VersionValidator)
     private readonly validator: VersionValidator;
 
 

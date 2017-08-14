@@ -31,5 +31,4 @@ export class UnitProviderFactory {
 
         return provider;
     }
-
 }
