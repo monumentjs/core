@@ -163,8 +163,6 @@ export class FormattableString {
 
 
     private fillEntries(selector: (key: string) => string): string {
-        Assert.argument('selector', selector).notNull();
-
         return this._template.replace(NORMAL_ENTRY_PATTERN, (substring: string, ...groups: string[]): string => {
             return selector(groups[0]);
         });

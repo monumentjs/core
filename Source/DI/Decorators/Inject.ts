@@ -8,8 +8,7 @@ import {PropertyDefinition} from '../../Language/Reflection/PropertyDefinition';
  * DI container will automatically resolve dependencies and assign values to each property marked with @Inject decorator.
  * Properties will be injected after class being instantiated.
  *
- * @param {Constructor<T>} type Type of property value.
- * @returns {PropertyDecorator}
+ * @param type Type of property value.
  */
 export function Inject<T>(type: Constructor<T>): PropertyDecorator {
     return function (target: object, property: string | symbol): void {
