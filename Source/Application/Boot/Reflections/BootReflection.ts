@@ -1,5 +1,5 @@
-import {ClassReflection} from '../../Language/Reflection/ClassReflection';
-import {MetadataToken} from '../../Language/Reflection/MetadataToken';
+import {ClassReflection} from '../../../Language/Reflection/ClassReflection';
+import {MetadataToken} from '../../../Language/Reflection/MetadataToken';
 
 
 export class BootReflection<T> extends ClassReflection<T> {

@@ -3,12 +3,17 @@ import {Singleton} from '../../DI/Decorators/Singleton';
 
 @Singleton()
 export class RandomNumberGenerator {
-    public generateInteger(from: number, to: number): number {
-        return Math.floor(this.generateFloat(from, to));
+    public getFloat(from: number, to: number): number {
+        return from + Math.random() * to;
     }
 
 
-    public generateFloat(from: number, to: number): number {
-        return from + Math.random() * to;
+    public getInteger(from: number, to: number): number {
+        return Math.floor(this.getFloat(from, to));
+    }
+
+
+    public getByte(): number {
+        return this.getInteger(0, 256);
     }
 }

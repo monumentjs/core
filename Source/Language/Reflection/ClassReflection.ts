@@ -3,7 +3,7 @@ import {Constructor} from '../../types';
 
 
 export class ClassReflection<T> extends ReflectionBase<Constructor<T>> {
-    public static readonly METADATA_KEY: symbol = Symbol.for('ClassMetadata');
+    public static readonly METADATA_KEY: symbol = Symbol('ClassMetadata');
 
 
     public readonly name: string;

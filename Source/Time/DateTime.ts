@@ -31,6 +31,20 @@ export class DateTime implements ICloneable<DateTime>, IComparable<DateTime>, IE
     }
 
 
+    public static isValidDateString(dateString: string): boolean {
+        Assert.argument('dateString', dateString);
+
+        return !isNaN(Date.parse(dateString));
+    }
+
+
+    public static isValidDate(date: Date): boolean {
+        Assert.argument('date', date);
+
+        return !isNaN(date.getTime());
+    }
+
+
     public static isLeapYear(year: number): boolean {
         Assert.argument('year', year).notNull();
 

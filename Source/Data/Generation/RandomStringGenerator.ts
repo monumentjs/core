@@ -17,14 +17,14 @@ export class RandomStringGenerator {
     private readonly numberGenerator: RandomNumberGenerator;
 
 
-    public generate(length: number, charset: string): string {
+    public getString(length: number, charset: string): string {
         Assert.argument('length', length).notNull().bounds(1, Infinity);
         Assert.argument('charset', charset).notNull().notEmptyString();
 
         let value: string = EMPTY_STRING;
 
         for (let i = 0; i < length; i++) {
-            let characterIndex: number = this.numberGenerator.generateInteger(0, charset.length);
+            let characterIndex: number = this.numberGenerator.getInteger(0, charset.length);
 
             value += charset[characterIndex];
         }
@@ -33,22 +33,22 @@ export class RandomStringGenerator {
     }
 
 
-    public generateNumericString(length: number): string {
-        return this.generate(length, RandomStringGenerator.NUMERIC_CHARSET);
+    public getNumericString(length: number): string {
+        return this.getString(length, RandomStringGenerator.NUMERIC_CHARSET);
     }
 
 
-    public generateAlphabeticString(length: number): string {
-        return this.generate(length, RandomStringGenerator.ALPHABETIC_CHARSET);
+    public getAlphabeticString(length: number): string {
+        return this.getString(length, RandomStringGenerator.ALPHABETIC_CHARSET);
     }
 
 
-    public generateAlphaNumericString(length: number): string {
-        return this.generate(length, RandomStringGenerator.ALPHA_NUMERIC_CHARSET);
+    public getAlphaNumericString(length: number): string {
+        return this.getString(length, RandomStringGenerator.ALPHA_NUMERIC_CHARSET);
     }
 
 
-    public generateHexString(length: number): string {
-        return this.generate(length, RandomStringGenerator.HEX_CHARSET);
+    public getHexString(length: number): string {
+        return this.getString(length, RandomStringGenerator.HEX_CHARSET);
     }
 }

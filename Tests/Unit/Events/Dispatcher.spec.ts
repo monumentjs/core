@@ -1,4 +1,5 @@
-import {ActionListener, ActionListenerCancel, Dispatcher} from '../../../Source/Events/Dispatcher';
+import {Dispatcher} from '../../../Source/Events/Dispatcher';
+import {ActionListener, ActionListenerCancel} from '../../../Source/Events/types';
 
 
 describe('Dispatcher', () => {

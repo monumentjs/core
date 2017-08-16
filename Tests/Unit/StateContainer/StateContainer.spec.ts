@@ -1,8 +1,8 @@
-import {StateContainer} from '../../../Source/ComponentModel/StateContainer';
+import {StateContainer} from '../../../Source/StateContainer/StateContainer';
 import {TestState} from './_Mocks/TestState';
 import {TestStateContainer} from './_Mocks/TestStateContainer';
 import {TestAction} from './_Mocks/TestAction';
-import {IStateReceiver} from '../../../Source/ComponentModel/IStateReceiver';
+import {IStateReceiver} from '../../../Source/StateContainer/IStateReceiver';
 
 
 describe(`StateContainer`, () => {

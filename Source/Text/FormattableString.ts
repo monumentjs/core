@@ -20,7 +20,7 @@ export class FormattableString {
     private _template: string;
     private _allEntries: ReadOnlyCollection<string> = new ReadOnlyCollection<string>();
     private _uniqueEntries: ReadOnlyCollection<string>;
-    private _extractingPattern: RegExp;
+    private _extractionPattern: RegExp;
 
 
     public get uniqueEntries(): ReadOnlyCollection<string> {
@@ -34,7 +34,7 @@ export class FormattableString {
         this._template = template;
         this._allEntries = this.getAllEntries();
         this._uniqueEntries = this.getUniqueEntries();
-        this._extractingPattern = this.createExtractingPattern();
+        this._extractionPattern = this.createExtractingPattern();
     }
 
 
@@ -96,7 +96,7 @@ export class FormattableString {
         Assert.argument('source', source).notNull();
 
         let values: Dictionary<string, string> = new Dictionary<string, string>();
-        let match: RegExpExecArray = this._extractingPattern.exec(source);
+        let match: RegExpExecArray = this._extractionPattern.exec(source);
 
         if (!match) {
             throw new ParsingException(`Source string does not match the pattern.`);

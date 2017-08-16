@@ -42,13 +42,13 @@ export class Container {
     }
 
 
-    public static addProxy(unitProviderResolver: IContainerProxy): void {
-        return this.instance.addProxy(unitProviderResolver);
+    public static addProxy(proxy: IContainerProxy): void {
+        return this.instance.addProxy(proxy);
     }
 
 
-    public static removeProxy(unitProviderResolver: IContainerProxy): boolean {
-        return this.instance.removeProxy(unitProviderResolver);
+    public static removeProxy(proxy: IContainerProxy): boolean {
+        return this.instance.removeProxy(proxy);
     }
 
 
@@ -67,17 +67,17 @@ export class Container {
     }
 
 
-    public addProxy(unitProviderResolver: IContainerProxy): void {
-        Assert.argument('unitProviderResolver', unitProviderResolver).notNull();
+    public addProxy(proxy: IContainerProxy): void {
+        Assert.argument('proxy', proxy).notNull();
 
-        this.containerProxies.add(unitProviderResolver);
+        this.containerProxies.add(proxy);
     }
 
 
-    public removeProxy(unitProviderResolver: IContainerProxy): boolean {
-        Assert.argument('unitProviderResolver', unitProviderResolver).notNull();
+    public removeProxy(proxy: IContainerProxy): boolean {
+        Assert.argument('proxy', proxy).notNull();
 
-        return this.containerProxies.remove(unitProviderResolver);
+        return this.containerProxies.remove(proxy);
     }
 
 
@@ -89,7 +89,7 @@ export class Container {
     public get<T>(type: Constructor<T>): T {
         Assert.argument('type', type).notNull();
 
-        return this.getUnitFromExtensions(type) || this.getOriginalUnit(type);
+        return this.getUnitFromProxies(type) || this.getOriginalUnit(type);
     }
 
 
@@ -108,9 +108,9 @@ export class Container {
     }
 
 
-    private getUnitFromExtensions<T>(type: Constructor<T>): T {
+    private getUnitFromProxies<T>(type: Constructor<T>): T {
         let provider: UnitProvider<T>;
-        let extensionWithProvider: IContainerProxy = this.getExtensionByTypeProvider(type);
+        let extensionWithProvider: IContainerProxy = this.findProxyByType(type);
 
         if (extensionWithProvider) {
             provider = extensionWithProvider.getProvider(type);
@@ -122,11 +122,9 @@ export class Container {
     }
 
 
-    private getExtensionByTypeProvider<T>(type: Constructor<T>): IContainerProxy {
+    private findProxyByType<T>(type: Constructor<T>): IContainerProxy {
         return this.containerProxies.first((extension: IContainerProxy): boolean => {
             return extension.hasProvider(type);
         });
     }
-
-
 }

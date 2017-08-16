@@ -1,20 +1,27 @@
 import {ReflectionBase} from './ReflectionBase';
+import {Assert} from '../../Assertion/Assert';
 
 
 export class MethodReflection extends ReflectionBase<Function> {
-    public static readonly METADATA_KEY: symbol = Symbol.for('MethodMetadata');
+    public static readonly METADATA_KEY: symbol = Symbol('MethodMetadata');
 
 
     public readonly name: string;
-    public readonly prototype: object;
     public readonly argumentsCount: number;
+    public readonly writable: boolean;
+    public readonly enumerable: boolean;
+    public readonly configurable: boolean;
 
 
-    public constructor(method: Function) {
-        super(method, MethodReflection.METADATA_KEY);
+    public constructor(method: TypedPropertyDescriptor<Function>) {
+        Assert.argument('method', method).notNull();
 
-        this.name = method.name;
-        this.prototype = method.prototype;
-        this.argumentsCount = method.length;
+        super(method.value, MethodReflection.METADATA_KEY);
+
+        this.name = method.value.name;
+        this.argumentsCount = method.value.length;
+        this.configurable = method.configurable;
+        this.enumerable = method.enumerable;
+        this.writable = method.writable;
     }
 }

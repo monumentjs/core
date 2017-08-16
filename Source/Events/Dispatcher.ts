@@ -1,13 +1,10 @@
 import {Collection} from '../Collections/Collection';
 import {Assert} from '../Assertion/Assert';
-
-
-export type ActionListener = (action: object) => void;
-export type ActionListenerCancel = () => boolean;
+import {ActionListener, ActionListenerCancel} from './types';
 
 
 export class Dispatcher {
-    protected _listeners: Collection<ActionListener> = new Collection<ActionListener>();
+    protected _listeners: Collection<ActionListener> = new Collection();
 
 
     public addListener(listener: ActionListener): ActionListenerCancel {

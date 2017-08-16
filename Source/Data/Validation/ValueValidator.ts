@@ -19,6 +19,11 @@ export class ValueValidator<T> implements IValidator<T> {
     }
 
 
+    public get isValid(): boolean {
+        return !this._isInvalid;
+    }
+
+
     public get isNull(): boolean {
         return this._isNull;
     }

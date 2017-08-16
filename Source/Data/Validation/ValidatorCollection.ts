@@ -18,6 +18,11 @@ export class ValidatorCollection<T> extends Collection<IValidator<T>> implements
     }
 
 
+    public get isValid(): boolean {
+        return !this._isInvalid;
+    }
+
+
     private _isInvalid: boolean = true;
     private _isPristine: boolean = true;
 

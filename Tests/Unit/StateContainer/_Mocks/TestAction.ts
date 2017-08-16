@@ -1,4 +1,4 @@
-import {IStatePatch} from '../../../../Source/ComponentModel/IStatePatch';
+import {IStatePatch} from '../../../../Source/StateContainer/IStatePatch';
 import {TestState} from './TestState';
 
 

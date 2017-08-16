@@ -14,7 +14,7 @@ describe('TaskQueue', () => {
     describe('#constructor(options)', () => {
         it(`creates new single-threaded scheduler`, () => {
             expect(scheduler).toBeInstanceOf(TaskQueue);
-            expect(scheduler.concurrentTasksLimit).toBe(1);
+            expect(scheduler.concurrency).toBe(1);
             expect(scheduler.isEmpty).toBe(true);
             expect(scheduler.isIdle).toBe(true);
             expect(scheduler.isBusy).toBe(false);
@@ -26,7 +26,7 @@ describe('TaskQueue', () => {
             scheduler = new TaskQueue(10);
 
             expect(scheduler).toBeInstanceOf(TaskQueue);
-            expect(scheduler.concurrentTasksLimit).toBe(10);
+            expect(scheduler.concurrency).toBe(10);
             expect(scheduler.isEmpty).toBe(true);
             expect(scheduler.isIdle).toBe(true);
             expect(scheduler.isBusy).toBe(false);

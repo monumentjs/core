@@ -7,11 +7,11 @@ export function Bind(): MethodDecorator {
         descriptor: TypedPropertyDescriptor<Function>
     ): TypedPropertyDescriptor<Function> {
         let method: Function = descriptor.value;
-        let attachedMethod: symbol = Symbol.for(methodName);
+        let attachedMethod: symbol = Symbol(methodName);
 
         return {
             get: function () {
-                if (!(attachedMethod in this)) {
+                if (this[attachedMethod] == null) {
                     this[attachedMethod] = method.bind(this);
                 }
 

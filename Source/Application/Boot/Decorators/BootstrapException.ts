@@ -1,4 +1,4 @@
-import {Exception} from '../../Exceptions/Exception';
+import {Exception} from '../../../Exceptions/Exception';
 
 
 export class BootstrapException extends Exception {

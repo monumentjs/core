@@ -22,7 +22,11 @@ export class StringValidator extends ValueValidator<string> {
     private _pattern: boolean = true;
 
 
-    public constructor(minLength: number, maxLength: number = Infinity, pattern?: RegExp) {
+    public constructor(
+        minLength: number,
+        maxLength: number = Infinity,
+        pattern?: RegExp
+    ) {
         super();
 
         this.addValidator((value: string): boolean => {

@@ -7,14 +7,18 @@ import {Bind} from '../Language/Decorators/Bind';
 
 
 export class TaskQueue implements IDisposable {
-    private _queue: Queue<Task<any>> = new Queue<Task<any>>();
+    public static readonly MIN_CONCURRENCY: number = 1;
+    public static readonly DEFAULT_CONCURRENCY: number = 1;
+
+
+    private _tasksQueue: Queue<Task<any>> = new Queue<Task<any>>();
     private _isDisposed: boolean = false;
-    private _concurrentTasksLimit: number;
+    private _concurrency: number;
     private _runningTasksCount: number = 0;
 
 
-    public get concurrentTasksLimit(): number {
-        return this._concurrentTasksLimit;
+    public get concurrency(): number {
+        return this._concurrency;
     }
 
 
@@ -29,7 +33,7 @@ export class TaskQueue implements IDisposable {
 
 
     public get isEmpty(): boolean {
-        return this._queue.length === 0;
+        return this._tasksQueue.length === 0;
     }
 
 
@@ -39,14 +43,14 @@ export class TaskQueue implements IDisposable {
 
 
     protected get canRunOneMoreTask(): boolean {
-        return !this.isDisposed && !this.isEmpty && this._runningTasksCount < this.concurrentTasksLimit;
+        return !this.isDisposed && !this.isEmpty && this._runningTasksCount < this.concurrency;
     }
 
 
-    public constructor(concurrentTasksLimit: number = 1) {
-        Assert.argument('concurrentTasksLimit', concurrentTasksLimit).notNull().bounds(1, Infinity);
+    public constructor(concurrency: number = TaskQueue.DEFAULT_CONCURRENCY) {
+        Assert.argument('concurrency', concurrency).notNull().bounds(TaskQueue.MIN_CONCURRENCY, Infinity);
 
-        this._concurrentTasksLimit = concurrentTasksLimit;
+        this._concurrency = concurrency;
     }
 
 
@@ -57,7 +61,7 @@ export class TaskQueue implements IDisposable {
         task.addEventListener(TaskEvent.ERROR, this.tryRunNextTask, true);
         task.addEventListener(TaskEvent.ABORT, this.tryRunNextTask, true);
 
-        this._queue.enqueue(task);
+        this._tasksQueue.enqueue(task);
 
         this.tryRunNextTask();
     }
@@ -66,18 +70,18 @@ export class TaskQueue implements IDisposable {
     public dispose(): void {
         this._isDisposed = true;
 
-        for (let task of this._queue) {
+        for (let task of this._tasksQueue) {
             task.abort();
         }
 
-        this._queue.clear();
+        this._tasksQueue.clear();
     }
 
     
     @Bind()
     protected tryRunNextTask(): void {
         if (this.canRunOneMoreTask) {
-            let task: Task = this._queue.dequeue();
+            let task: Task = this._tasksQueue.dequeue();
 
             task.start();
         }

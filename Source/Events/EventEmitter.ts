@@ -11,11 +11,11 @@ export class EventEmitter {
 
 
     public get eventTypes(): ReadOnlyCollection<string> {
-        let typesList: List<string> = this._handlers.select((eventHandler: EventHandler): string => {
+        const typesList: List<string> = this._handlers.select((eventHandler: EventHandler): string => {
             return eventHandler.eventType;
         });
 
-        let uniqueTypes: List<string> = typesList.distinct();
+        const uniqueTypes: List<string> = typesList.distinct();
 
         return new ReadOnlyCollection(uniqueTypes);
     }

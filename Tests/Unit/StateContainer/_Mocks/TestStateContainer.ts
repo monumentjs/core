@@ -1,5 +1,5 @@
 import {TestState} from './TestState';
-import {StateContainer} from '../../../../Source/ComponentModel/StateContainer';
+import {StateContainer} from '../../../../Source/StateContainer/StateContainer';
 
 
 export class TestStateContainer extends StateContainer<TestState> {

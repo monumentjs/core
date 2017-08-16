@@ -9,7 +9,7 @@ export class Node implements INode {
     protected _textContent: string = EMPTY_STRING;
     protected _parentNode: Node = null;
     protected _childNodes: NodeCollection = new NodeCollection(this);
-    protected _nodeName: string = EMPTY_STRING;
+    protected _nodeName: string;
 
 
     public get nodeName(): string {
@@ -99,6 +99,8 @@ export class Node implements INode {
 
 
     public set textContent(value: string) {
+        Assert.argument('value', value).notNull();
+
         this._textContent = value;
     }
 
@@ -107,7 +109,7 @@ export class Node implements INode {
         let depth = 0;
         let parentNode: Node = this.parentNode;
 
-        while (parentNode) {
+        while (parentNode != null) {
             depth += 1;
             parentNode = parentNode.parentNode;
         }

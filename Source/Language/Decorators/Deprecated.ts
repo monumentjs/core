@@ -13,7 +13,7 @@ export function Deprecated(message?: string): MethodDecorator {
         descriptor: TypedPropertyDescriptor<Function>
     ): TypedPropertyDescriptor<Function> {
         const method: Function = descriptor.value;
-        const reflection: MethodReflection = new MethodReflection(method);
+        const reflection: MethodReflection = new MethodReflection(descriptor);
         const metadata: MetadataContainer = reflection.metadata;
         const defaultMessage: string = `Method "${methodName}" is deprecated. It will be removed in future releases.`;
 
