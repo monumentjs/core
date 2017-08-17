@@ -3,11 +3,11 @@ import {ReleaseStatus, VERSION_PRE_RELEASE_STAGES} from './types';
 import {StringBuilder} from '../Text/StringBuilder';
 import {Assert} from '../Assertion/Assert';
 import {VersionComparator} from './VersionComparator';
-import {UnitGetter} from '../DI/Decorators/UnitGetter';
+import {Inject} from '../DI/Decorators/Inject';
 
 
 export class Version implements IEquatable<Version>, IComparable<Version>, ICloneable<Version>, IJSONSerializable<string> {
-    @UnitGetter(VersionComparator)
+    @Inject(VersionComparator)
     private readonly comparator: VersionComparator;
 
     private _major: number;

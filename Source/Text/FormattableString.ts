@@ -6,7 +6,7 @@ import {RegExpHelper} from './RegExpHelper';
 import {Assert} from '../Assertion/Assert';
 import {Dictionary} from '../Collections/Dictionary';
 import {EMPTY_STRING} from './constants';
-import {UnitGetter} from '../DI/Decorators/UnitGetter';
+import {Inject} from '../DI/Decorators/Inject';
 
 
 const NORMAL_ENTRY_PATTERN: RegExp = /{(\w+)}/g;
@@ -14,7 +14,7 @@ const ESCAPED_ENTRY_PATTERN: RegExp = /\\{(\w+)\\}/g;
 
 
 export class FormattableString {
-    @UnitGetter(RegExpHelper)
+    @Inject(RegExpHelper)
     private readonly regExpHelper: RegExpHelper;
 
     private _template: string;

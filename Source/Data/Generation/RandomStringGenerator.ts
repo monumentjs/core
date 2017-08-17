@@ -2,7 +2,7 @@ import {Singleton} from '../../DI/Decorators/Singleton';
 import {Assert} from '../../Assertion/Assert';
 import {RandomNumberGenerator} from './RandomNumberGenerator';
 import {EMPTY_STRING} from '../../Text/constants';
-import {UnitGetter} from '../../DI/Decorators/UnitGetter';
+import {Inject} from '../../DI/Decorators/Inject';
 
 
 @Singleton()
@@ -13,7 +13,7 @@ export class RandomStringGenerator {
     public static readonly HEX_CHARSET: string = '1234567890ABCDEF';
 
 
-    @UnitGetter(RandomNumberGenerator)
+    @Inject(RandomNumberGenerator)
     private readonly numberGenerator: RandomNumberGenerator;
 
 

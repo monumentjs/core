@@ -1,23 +1,26 @@
 import {Constructor} from '../../types';
-import {UnitReflection} from '../Reflections/UnitReflection';
-import {InvalidOperationException} from '../../Exceptions/InvalidOperationException';
-import {PropertyDefinition} from '../../Language/Reflection/PropertyDefinition';
+import {Container} from '../Container/Container';
+import {Assert} from '../../Assertion/Assert';
 
 /**
- * Marks class property or setter as injectable.
- * DI container will automatically resolve dependencies and assign values to each property marked with @Inject decorator.
- * Properties will be injected after class being instantiated.
+ * Creates class property with 'get' accessor that provides instance of unit of specified type.
  *
  * @param type Type of property value.
  */
 export function Inject<T>(type: Constructor<T>): PropertyDecorator {
-    return function (target: object, property: string | symbol): void {
-        if (typeof target === 'object') {
-            const reflection: UnitReflection<T> = new UnitReflection(target.constructor as Constructor<T>);
+    Assert.argument('type', type).notNull();
 
-            reflection.propertyDefinitions.add(new PropertyDefinition(property, type));
-        } else {
-            throw new InvalidOperationException('This decorator can be applied to class instance members only.');
-        }
+    return function (prototype: object, property: string | symbol): void {
+        const valueKey: symbol = Symbol();
+
+        Object.defineProperty(prototype, property, {
+            get(): T {
+                if (this[valueKey] == null) {
+                    this[valueKey] = Container.get(type);
+                }
+
+                return this[valueKey];
+            }
+        });
     };
 }
