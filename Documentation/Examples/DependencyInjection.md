@@ -1,6 +1,6 @@
 # Dependency Injection Example
 
-Core library comes with Dependency Injection container and few useful decorators like `@Unit`, `@Singleton`, `@Service`, `@UnitGetter` etc.
+Core library comes with Dependency Injection container and few useful decorators like `@Unit`, `@Singleton`, `@Service`, `@Inject` etc.
 
 
 ```ts
@@ -34,10 +34,10 @@ class PasswordValidator {
 
 @Service()
 class LoginService implements ILoginService {
-  @UnitGetter(EmailValidator)
+  @Inject(EmailValidator)
   private readonly emailValidator: EmailValidator;
 
-  @UnitGetter(PasswordValidator)
+  @Inject(PasswordValidator)
   private readonly passwordValidator: PasswordValidator;
 
   public async login(credentials: ILoginCredentials): Promise<boolean> {
