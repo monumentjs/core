@@ -1,6 +1,5 @@
 import {Queue} from '../../../Source/Collections/Queue';
 import {InvalidOperationException} from '../../../Source/Exceptions/InvalidOperationException';
-import {ArgumentNullException} from '../../../Source/Exceptions/ArgumentNullException';
 import {IgnoreCaseComparator} from '../../../Source/Text/IgnoreCaseComparator';
 import {Container} from '../../../Source/DI/Container/Container';
 
@@ -31,12 +30,6 @@ describe(`Queue`, () => {
             expect(instance[0]).toBe('a');
             expect(instance[1]).toBe('b');
             expect(instance[2]).toBe('c');
-        });
-
-        it(`throws if existing list is null`, () => {
-            expect(() => {
-                return new Queue(null);
-            }).toThrowError(ArgumentNullException);
         });
     });
 
@@ -117,12 +110,6 @@ describe(`Queue`, () => {
 
 
     describe(`#contains()`, () => {
-        it(`throws if 'comparator' argument is not defined`, () => {
-            expect(() => {
-                instance.contains('a', null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`determines whether queue contains item using default equality comparator`, () => {
             instance = new Queue(['a', 'b', 'c']);
 

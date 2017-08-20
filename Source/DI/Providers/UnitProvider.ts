@@ -23,13 +23,13 @@ export abstract class UnitProvider<T> {
 
     protected createInstance(container: Container): T {
         const args: any[] = this.getDependencies(container);
-        const factory: UnitFactoryFunction<T> = this.configuration.factory;
+        const factory: UnitFactoryFunction<T> | null = this.configuration.factory;
         const reflection: UnitReflection<T> = new UnitReflection(this.configuration.type);
         const properties: PropertyDefinitionCollection = reflection.getAllPropertyDefinitions();
 
         let instance: T;
 
-        if (factory) {
+        if (factory != null) {
             instance = factory(...args);
         } else {
             instance = new this.configuration.type(...args);

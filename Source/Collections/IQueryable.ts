@@ -14,9 +14,9 @@ export interface IQueryable<T> extends IEnumerable<T> {
      * @param initialSeed
      */
     aggregate<TAggregate>(
-        iterator: (lastSeed: TAggregate, item: T, index: number, list: IEnumerable<T>) => TAggregate,
-        initialSeed?: TAggregate
-    ): TAggregate;
+        iterator: (lastSeed: TAggregate | null, item: T, index: number, list: IEnumerable<T>) => TAggregate,
+        initialSeed?: TAggregate | null
+    ): TAggregate | null;
 
     /**
      * Determines whether all elements of a sequence satisfy a condition.
@@ -74,7 +74,7 @@ export interface IQueryable<T> extends IEnumerable<T> {
      * @param predicate
      * @param defaultValue
      */
-    first(predicate: IteratorFunction<T, boolean>, defaultValue?: T): T;
+    first(predicate: IteratorFunction<T, boolean>, defaultValue?: T | null): T | null;
 
     /**
      * Returns first item of list. If list is empty, returns default value.
@@ -87,7 +87,7 @@ export interface IQueryable<T> extends IEnumerable<T> {
      * If iterator function returns `false`, iteration will stop.
      * @param iterator
      */
-    forEach(iterator: IteratorFunction<T, boolean|void>): void;
+    forEach(iterator: IteratorFunction<T, boolean | void>): void;
 
     /**
      * Groups the elements of a sequence according to a specified key selector function.
@@ -128,7 +128,7 @@ export interface IQueryable<T> extends IEnumerable<T> {
      * @param predicate
      * @param defaultValue
      */
-    last(predicate: IteratorFunction<T, boolean>, defaultValue?: T): T;
+    last(predicate: IteratorFunction<T, boolean>, defaultValue?: T | null): T | null;
 
     /**
      * Returns last item of list. If list is empty, returns default value.

@@ -7,7 +7,7 @@ import {IEnumerable} from '../../../Source/Collections/IEnumerable';
 
 
 describe('BitSet', () => {
-    let bitSet: BitSet = null;
+    let bitSet: BitSet;
 
 
     beforeEach(() => {
@@ -45,11 +45,6 @@ describe('BitSet', () => {
 
 
     describe('#get()', () => {
-        it(`throws if 'bitIndex' argument is not defined`, () => {
-            expect(() => bitSet.get(null)).toThrow(ArgumentNullException);
-            expect(() => bitSet.get(undefined)).toThrow(ArgumentNullException);
-        });
-
         it(`throws if 'bitIndex' argument is less than zero`, () => {
             expect(() => bitSet.get(-1)).toThrow(IndexOutOfBoundsException);
         });
@@ -72,15 +67,6 @@ describe('BitSet', () => {
 
 
     describe('#getRange()', () => {
-        it(`throws if any of arguments is not defined`, () => {
-            expect(() => bitSet.getRange(null, null)).toThrow(ArgumentNullException);
-            expect(() => bitSet.getRange(0, null)).toThrow(ArgumentNullException);
-            expect(() => bitSet.getRange(null, 0)).toThrow(ArgumentNullException);
-            expect(() => bitSet.getRange(undefined, undefined)).toThrow(ArgumentNullException);
-            expect(() => bitSet.getRange(0, undefined)).toThrow(ArgumentNullException);
-            expect(() => bitSet.getRange(undefined, 0)).toThrow(ArgumentNullException);
-        });
-
         it(`throws if any of arguments is less than zero`, () => {
             expect(() => bitSet.getRange(-1, 10)).toThrow(IndexOutOfBoundsException);
             expect(() => bitSet.getRange(0, -1)).toThrow(IndexOutOfBoundsException);
@@ -104,17 +90,6 @@ describe('BitSet', () => {
 
 
     describe('#set()', () => {
-        it(`throws if 'bitIndex' argument is not defined`, () => {
-            expect(() => bitSet.set(null)).toThrow(ArgumentNullException);
-            expect(() => bitSet.set(undefined)).toThrow(ArgumentNullException);
-
-            expect(() => bitSet.set(null, true)).toThrow(ArgumentNullException);
-            expect(() => bitSet.set(undefined, true)).toThrow(ArgumentNullException);
-
-            expect(() => bitSet.set(null, false)).toThrow(ArgumentNullException);
-            expect(() => bitSet.set(undefined, false)).toThrow(ArgumentNullException);
-        });
-
         it(`throws if 'bitIndex' argument is less than zero`, () => {
             expect(() => bitSet.set(-1)).toThrow(IndexOutOfBoundsException);
             expect(() => bitSet.set(-1, true)).toThrow(IndexOutOfBoundsException);
@@ -185,14 +160,6 @@ describe('BitSet', () => {
 
     describe('#setRange()', () => {
         it(`throws if any of arguments is not defined`, () => {
-            expect(() => bitSet.setRange(null, null)).toThrow(ArgumentNullException);
-            expect(() => bitSet.setRange(0, null)).toThrow(ArgumentNullException);
-            expect(() => bitSet.setRange(null, 0)).toThrow(ArgumentNullException);
-            expect(() => bitSet.setRange(undefined, undefined)).toThrow(ArgumentNullException);
-            expect(() => bitSet.setRange(0, undefined)).toThrow(ArgumentNullException);
-            expect(() => bitSet.setRange(undefined, 0)).toThrow(ArgumentNullException);
-
-            expect(() => bitSet.setRange(0, 1, null)).toThrow(ArgumentNullException);
             expect(() => bitSet.setRange(0, 1, undefined)).not.toThrow(ArgumentNullException);
         });
 
@@ -231,11 +198,6 @@ describe('BitSet', () => {
 
 
     describe('#setByMask()', () => {
-        it(`throws if 'mask' argument is not defined`, () => {
-            expect(() => bitSet.setByMask(null)).toThrow(ArgumentNullException);
-            expect(() => bitSet.setByMask(undefined)).toThrow(ArgumentNullException);
-        });
-
         it(`sets all corresponding set bits in current bit set`, () => {
             let mask: BitSet = new BitSet(3);
 
@@ -253,11 +215,6 @@ describe('BitSet', () => {
 
 
     describe('#clear()', () => {
-        it(`throws if 'bitIndex' argument is not defined`, () => {
-            expect(() => bitSet.clear(null)).toThrow(ArgumentNullException);
-            expect(() => bitSet.clear(undefined)).toThrow(ArgumentNullException);
-        });
-
         it(`throws if 'bitIndex' argument is lower than zero`, () => {
             expect(() => bitSet.clear(-1)).toThrow(IndexOutOfBoundsException);
         });
@@ -293,15 +250,6 @@ describe('BitSet', () => {
 
 
     describe('#clearRange()', () => {
-        it(`throws if any of arguments is not defined`, () => {
-            expect(() => bitSet.clearRange(null, null)).toThrow(ArgumentNullException);
-            expect(() => bitSet.clearRange(0, null)).toThrow(ArgumentNullException);
-            expect(() => bitSet.clearRange(null, 0)).toThrow(ArgumentNullException);
-            expect(() => bitSet.clearRange(undefined, undefined)).toThrow(ArgumentNullException);
-            expect(() => bitSet.clearRange(0, undefined)).toThrow(ArgumentNullException);
-            expect(() => bitSet.clearRange(undefined, 0)).toThrow(ArgumentNullException);
-        });
-
         it(`throws if 'fromIndex' argument is lower than zero`, () => {
             expect(() => bitSet.clearRange(-1, 1)).toThrow(IndexOutOfBoundsException);
         });
@@ -366,11 +314,6 @@ describe('BitSet', () => {
 
 
     describe('#clearByMask()', () => {
-        it(`throws if 'mask' argument is not defined`, () => {
-            expect(() => bitSet.clearByMask(null)).toThrow(ArgumentNullException);
-            expect(() => bitSet.clearByMask(undefined)).toThrow(ArgumentNullException);
-        });
-
         it(`clears corresponding bits for whose value in mask is set`, () => {
             bitSet = BitSet.fromBits([false, true, true]);
 
@@ -387,11 +330,6 @@ describe('BitSet', () => {
 
 
     describe('#findBits()', () => {
-        it(`throws if 'bitValue' argument is not defined`, () => {
-            expect(() => bitSet.findBits(null)).toThrow(ArgumentNullException);
-            expect(() => bitSet.findBits(undefined)).toThrow(ArgumentNullException);
-        });
-
         it(`returns read-only collection of set bits' indexes`, () => {
             bitSet.set(0);
             bitSet.set(2);
@@ -419,11 +357,6 @@ describe('BitSet', () => {
 
 
     describe('#invert()', () => {
-        it(`throws if 'bitIndex' argument is not defined`, () => {
-            expect(() => bitSet.invert(null)).toThrow(ArgumentNullException);
-            expect(() => bitSet.invert(undefined)).toThrow(ArgumentNullException);
-        });
-
         it(`throws if 'bitIndex' argument has invalid range`, () => {
             expect(() => bitSet.invert(-1)).toThrow(IndexOutOfBoundsException);
         });
@@ -445,15 +378,6 @@ describe('BitSet', () => {
 
 
     describe('#invertRange()', () => {
-        it(`throws if any of arguments is not defined`, () => {
-            expect(() => bitSet.invertRange(null, null)).toThrow(ArgumentNullException);
-            expect(() => bitSet.invertRange(0, null)).toThrow(ArgumentNullException);
-            expect(() => bitSet.invertRange(null, 0)).toThrow(ArgumentNullException);
-            expect(() => bitSet.invertRange(undefined, undefined)).toThrow(ArgumentNullException);
-            expect(() => bitSet.invertRange(0, undefined)).toThrow(ArgumentNullException);
-            expect(() => bitSet.invertRange(undefined, 0)).toThrow(ArgumentNullException);
-        });
-
         it(`throws if arguments has invalid range`, () => {
             expect(() => bitSet.invertRange(-1, 1)).toThrow(IndexOutOfBoundsException);
             expect(() => bitSet.invertRange(1, -1)).toThrow(IndexOutOfBoundsException);
@@ -503,13 +427,7 @@ describe('BitSet', () => {
 
 
     describe(`#indexOf()`, () => {
-        it(`throws if 'bitValue' argument is not defined`, () => {
-            expect(() => bitSet.indexOf(null)).toThrow(ArgumentNullException);
-            expect(() => bitSet.indexOf(undefined)).toThrow(ArgumentNullException);
-        });
-
         it(`does not throw if 'fromIndex' argument is not defined`, () => {
-            expect(() => bitSet.indexOf(true, null)).not.toThrow(ArgumentNullException);
             expect(() => bitSet.indexOf(true, undefined)).not.toThrow(ArgumentNullException);
         });
 
@@ -537,13 +455,7 @@ describe('BitSet', () => {
 
 
     describe(`#lastIndexOf()`, () => {
-        it(`throws if 'bitValue' argument is not defined`, () => {
-            expect(() => bitSet.lastIndexOf(null)).toThrow(ArgumentNullException);
-            expect(() => bitSet.lastIndexOf(undefined)).toThrow(ArgumentNullException);
-        });
-
         it(`does not throw if 'fromIndex' argument is not defined`, () => {
-            expect(() => bitSet.lastIndexOf(true, null)).not.toThrow(ArgumentNullException);
             expect(() => bitSet.lastIndexOf(true, undefined)).not.toThrow(ArgumentNullException);
         });
 
@@ -571,15 +483,6 @@ describe('BitSet', () => {
 
 
     describe(`#and(), #or(), #xor()`, () => {
-        it(`throws if 'set' argument is not defined`, () => {
-            expect(() => bitSet.and(null)).toThrow(ArgumentNullException);
-            expect(() => bitSet.or(null)).toThrow(ArgumentNullException);
-            expect(() => bitSet.xor(null)).toThrow(ArgumentNullException);
-            expect(() => bitSet.and(undefined)).toThrow(ArgumentNullException);
-            expect(() => bitSet.or(undefined)).toThrow(ArgumentNullException);
-            expect(() => bitSet.xor(undefined)).toThrow(ArgumentNullException);
-        });
-
         it(`performs logical AND operation`, () => {
             let bits1: BitSet = new BitSet(16);
             let bits2: BitSet = new BitSet(16);
@@ -611,11 +514,6 @@ describe('BitSet', () => {
 
 
     describe(`#intersects()`, () => {
-        it(`throws if 'other' argument is not defined`, () => {
-            expect(() => bitSet.intersects(null)).toThrow(ArgumentNullException);
-            expect(() => bitSet.intersects(undefined)).toThrow(ArgumentNullException);
-        });
-
         it(`determines whether sets intersects #1`, () => {
             let one: BitSet = BitSet.fromBits([true]);
             let other: BitSet = BitSet.fromBits([true, false]);

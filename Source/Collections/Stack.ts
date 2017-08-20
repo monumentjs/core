@@ -14,11 +14,7 @@ export class Stack<T> extends Enumerable<T> {
             throw new InvalidOperationException(`Stack is empty.`);
         }
 
-        if (this.length > 0) {
-            return this[this.length - 1];
-        }
-
-        return null;
+        return this[this.length - 1];
     }
 
 

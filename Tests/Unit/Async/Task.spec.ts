@@ -5,7 +5,7 @@ import {Task} from '../../../Source/Async/Task';
 describe.skip('class Task', () => {
     describe('#constructor', () => {
         it('create new instance of Task', () => {
-            let task: TestTask<number> = null;
+            let task: TestTask<number> | null = null;
 
             expect(() => {
                 task = new TestTask<number>(1);
@@ -41,7 +41,7 @@ describe.skip('class Task', () => {
                 let error: Error = new Error('Fake error');
                 let onComplete = jest.fn();
                 let onError = jest.fn();
-                let task: TestTask<string> = new TestTask(undefined, error);
+                let task: TestTask<string> = new TestTask(undefined, error) as any;
 
                 task.addEventListener('complete', onComplete);
                 task.addEventListener('error', onError);

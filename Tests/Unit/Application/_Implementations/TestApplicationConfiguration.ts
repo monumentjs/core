@@ -2,7 +2,6 @@ import {IApplicationConfiguration} from '../../../../Source/Application/IApplica
 
 
 export class TestApplicationConfiguration implements IApplicationConfiguration {
-    public readonly applicationId: number = 0;
     public readonly applicationName: string = 'Test Application';
 
 

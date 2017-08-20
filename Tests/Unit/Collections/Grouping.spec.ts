@@ -1,29 +1,10 @@
 import {Grouping} from '../../../Source/Collections/Grouping';
-import {ArgumentNullException} from '../../../Source/Exceptions/ArgumentNullException';
 
 
 describe(`Grouping`, () => {
     let instance: Grouping<string, string>;
 
     describe(`#constructor()`, () => {
-        it(`throws if 'key' argument is not defined`, () => {
-            expect(() => {
-                instance = new Grouping<string, string>(undefined);
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'key' argument is null`, () => {
-            expect(() => {
-                instance = new Grouping<string, string>(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'items' argument is null`, () => {
-            expect(() => {
-                instance = new Grouping<string, string>('fruits', null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`creates new instance empty`, () => {
             instance = new Grouping<string, string>('fruits');
 

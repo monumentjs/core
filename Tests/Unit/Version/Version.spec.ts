@@ -3,7 +3,7 @@ import {Version} from '../../../Source/Version/Version';
 
 
 describe('Version', () => {
-    let version: Version = null;
+    let version: Version;
 
 
     beforeEach(() => {

@@ -7,7 +7,7 @@ import {Container} from '../../../Source/DI/Container/Container';
 describe('Collection', () => {
     const comparator: IgnoreCaseComparator = Container.get(IgnoreCaseComparator);
 
-    let collection: Collection<string> = null;
+    let collection: Collection<string>;
 
 
     beforeEach(() => {
@@ -31,12 +31,6 @@ describe('Collection', () => {
             expect(collection.length).toBe(2);
             expect(collection[0]).toBe('one');
             expect(collection[1]).toBe('two');
-        });
-
-        it(`throws if given list is not defined`, () => {
-            expect(() => {
-                return new Collection(null);
-            }).toThrowError(ArgumentNullException);
         });
     });
 
@@ -74,10 +68,6 @@ describe('Collection', () => {
 
     describe('#contains()', () => {
         it(`throws if 'comparator' argument is null`, () => {
-            expect(() => {
-                collection.contains('one', null);
-            }).toThrowError(ArgumentNullException);
-
             expect(() => {
                 collection.contains('one', undefined);
             }).not.toThrowError(ArgumentNullException);

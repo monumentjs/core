@@ -1,3 +1,4 @@
+import {Assert} from '../../Assertion/Assert';
 
 
 export function Bind(): MethodDecorator {
@@ -6,8 +7,11 @@ export function Bind(): MethodDecorator {
         methodName: string,
         descriptor: TypedPropertyDescriptor<Function>
     ): TypedPropertyDescriptor<Function> {
-        let method: Function = descriptor.value;
-        let attachedMethod: symbol = Symbol(methodName);
+        Assert.argument('descriptor', descriptor).notNull();
+        Assert.argument('descriptor.value', descriptor.value).notNull();
+
+        const attachedMethod: symbol = Symbol(methodName);
+        const method: Function = descriptor.value as Function;
 
         return {
             get: function () {

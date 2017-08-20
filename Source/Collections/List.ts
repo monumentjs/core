@@ -182,12 +182,12 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public aggregate<TAggregate>(
-        iterator: (lastSeed: TAggregate, item: T, index: number, list: IEnumerable<T>) => TAggregate,
-        initialSeed?: TAggregate
-    ): TAggregate {
+        iterator: (lastSeed: TAggregate | null, item: T, index: number, list: IEnumerable<T>) => TAggregate,
+        initialSeed: TAggregate | null = null
+    ): TAggregate | null {
         Assert.argument('iterator', iterator).notNull();
 
-        let lastSeed: TAggregate = initialSeed;
+        let lastSeed: TAggregate | null = initialSeed;
 
         this.forEach((actualItem: T, index: number, list: List<T>) => {
             lastSeed = iterator(lastSeed, actualItem, index, list);
@@ -209,7 +209,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
             mappedList.add(selector(actualItem, index, list));
 
             return mappedList;
-        }, new List<TResult>());
+        }, new List<TResult>()) as List<TResult>;
     }
 
 
@@ -261,7 +261,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
             }
 
             return filteredList;
-        }, new List<T>());
+        }, new List<T>()) as List<T>;
     }
 
 
@@ -325,7 +325,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
             let selectedValue: number = selector(actualItem, index, list);
 
             return total + selectedValue;
-        }, 0);
+        }, 0) as number;
 
         return sum / length;
     }
@@ -348,7 +348,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
     }
 
 
-    public first(predicate: IteratorFunction<T, boolean>, defaultValue: T = null): T {
+    public first(predicate: IteratorFunction<T, boolean>, defaultValue: T | null = null): T | null {
         Assert.argument('predicate', predicate).notNull();
 
         for (let index = 0; index < this.length; index++) {
@@ -373,7 +373,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
     }
 
 
-    public last(predicate: IteratorFunction<T, boolean>, defaultValue: T = null): T {
+    public last(predicate: IteratorFunction<T, boolean>, defaultValue: T | null = null): T | null {
         Assert.argument('predicate', predicate).notNull();
 
         for (let index = this.length - 1; index >= 0; index--) {
@@ -427,11 +427,11 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
         this.forEach((actualItem: T, index: number, list: List<T>) => {
             let actualItemKey: TKey = keySelector(actualItem, index, list);
-            let correspondingGroup: Grouping<TKey, T> = groups.first((group: Grouping<TKey, T>): boolean => {
+            let correspondingGroup: Grouping<TKey, T> | null = groups.first((group: Grouping<TKey, T>): boolean => {
                 return keyComparator.equals(actualItemKey, group.key);
             });
 
-            if (!correspondingGroup) {
+            if (correspondingGroup == null) {
                 correspondingGroup = new Grouping<TKey, T>(actualItemKey);
 
                 groups.add(correspondingGroup);
@@ -537,7 +537,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
             }
 
             return Math.min(minValue, itemValue);
-        });
+        }) as number;
     }
 
 
@@ -556,7 +556,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
             }
 
             return Math.max(maxValue, itemValue);
-        });
+        }) as number;
     }
 
 

@@ -19,7 +19,7 @@ export class VersionParser {
         let patch: number;
         let releaseStatus: ReleaseStatus;
         let revision: number;
-        let parts: RegExpExecArray = VERSION_PATTERN.exec(version);
+        let parts: RegExpExecArray = VERSION_PATTERN.exec(version) as RegExpExecArray;
 
         major = this.getMajor(parts);
         minor = this.getMinor(parts);

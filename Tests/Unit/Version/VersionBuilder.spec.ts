@@ -2,7 +2,6 @@ import {VersionBuilder} from '../../../Source/Version/VersionBuilder';
 import {Version} from '../../../Source/Version/Version';
 import {ReleaseStatus} from '../../../Source/Version/types';
 import {VersionException} from '../../../Source/Version/VersionException';
-import {ArgumentNullException} from '../../../Source/Exceptions/ArgumentNullException';
 
 
 describe(`VersionBuilder`, () => {
@@ -32,18 +31,6 @@ describe(`VersionBuilder`, () => {
             instance = new VersionBuilder(new Version(2, 2, 0, ReleaseStatus.Alpha, 3));
         });
 
-        it(`throws if 'value' argument is not defined`, () => {
-            expect(() => {
-                instance.setMajor(undefined);
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'value' argument is null`, () => {
-            expect(() => {
-                instance.setMajor(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`throws if new major component is less that current`, () => {
             expect(() => {
                 instance.setMajor(1);
@@ -63,18 +50,6 @@ describe(`VersionBuilder`, () => {
     describe('#setMinor()', () => {
         beforeEach(() => {
             instance = new VersionBuilder(new Version(2, 2, 0, ReleaseStatus.Alpha, 3));
-        });
-
-        it(`throws if 'value' argument is not defined`, () => {
-            expect(() => {
-                instance.setMinor(undefined);
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'value' argument is null`, () => {
-            expect(() => {
-                instance.setMinor(null);
-            }).toThrowError(ArgumentNullException);
         });
 
         it(`throws if new minor component is less that current`, () => {
@@ -98,18 +73,6 @@ describe(`VersionBuilder`, () => {
             instance = new VersionBuilder(new Version(2, 2, 4, ReleaseStatus.Alpha, 3));
         });
 
-        it(`throws if 'value' argument is not defined`, () => {
-            expect(() => {
-                instance.setPatch(undefined);
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'value' argument is null`, () => {
-            expect(() => {
-                instance.setPatch(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`throws if new patch component is less that current`, () => {
             expect(() => {
                 instance.setPatch(1);
@@ -131,18 +94,6 @@ describe(`VersionBuilder`, () => {
             instance = new VersionBuilder(new Version(2, 2, 4, ReleaseStatus.Beta, 3));
         });
 
-        it(`throws if 'value' argument is not defined`, () => {
-            expect(() => {
-                instance.setStatus(undefined);
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'value' argument is null`, () => {
-            expect(() => {
-                instance.setStatus(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`throws if new status component is less that current`, () => {
             expect(() => {
                 instance.setStatus(ReleaseStatus.Alpha);
@@ -162,18 +113,6 @@ describe(`VersionBuilder`, () => {
     describe('#setRevision()', () => {
         beforeEach(() => {
             instance = new VersionBuilder(new Version(2, 2, 4, ReleaseStatus.Alpha, 3));
-        });
-
-        it(`throws if 'value' argument is not defined`, () => {
-            expect(() => {
-                instance.setRevision(undefined);
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'value' argument is null`, () => {
-            expect(() => {
-                instance.setRevision(null);
-            }).toThrowError(ArgumentNullException);
         });
 
         it(`throws if new revision component is less that current`, () => {

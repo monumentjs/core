@@ -9,7 +9,7 @@ export interface IDictionary<TKey, TValue> extends IEnumerable<IKeyValuePair<TKe
     readonly keyComparator: IEqualityComparator<TKey>;
 
     set(key: TKey, value: TValue): void;
-    get(key: TKey, defaultValue?: TValue): TValue;
+    get(key: TKey, defaultValue?: TValue | null): TValue | null;
 
     containsKey(key: TKey): boolean;
     containsValue(value: TValue, valueComparator?: IEqualityComparator<TValue>): boolean;

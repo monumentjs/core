@@ -96,7 +96,7 @@ export class FormattableString {
         Assert.argument('source', source).notNull();
 
         let values: Dictionary<string, string> = new Dictionary<string, string>();
-        let match: RegExpExecArray = this._extractionPattern.exec(source);
+        let match: RegExpExecArray | null = this._extractionPattern.exec(source);
 
         if (!match) {
             throw new ParsingException(`Source string does not match the pattern.`);
@@ -112,7 +112,7 @@ export class FormattableString {
     }
 
 
-    public tryExtractValues(source: string): Dictionary<string, string> {
+    public tryExtractValues(source: string): Dictionary<string, string> | null {
         Assert.argument('source', source).notNull();
 
         try {
@@ -129,7 +129,7 @@ export class FormattableString {
 
 
     private getAllEntries(): ReadOnlyCollection<string> {
-        let match: RegExpExecArray = null;
+        let match: RegExpExecArray | null = null;
         let entries: Collection<string> = new Collection<string>();
 
         do {
@@ -145,7 +145,7 @@ export class FormattableString {
 
 
     private getUniqueEntries(): ReadOnlyCollection<string> {
-        let match: RegExpExecArray = null;
+        let match: RegExpExecArray | null = null;
         let entries: Collection<string> = new Collection<string>();
 
         do {

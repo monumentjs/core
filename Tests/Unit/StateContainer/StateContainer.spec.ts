@@ -26,10 +26,6 @@ describe(`StateContainer`, () => {
             expect(() => {
                 container.commit();
             }).not.toThrow();
-
-            expect(() => {
-                container.commit(null);
-            }).not.toThrow();
         });
 
         it('updates internal state', () => {

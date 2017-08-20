@@ -1,3 +1,4 @@
+import {Assert} from '../../Assertion/Assert';
 
 
 export function Profile(): MethodDecorator {
@@ -6,7 +7,10 @@ export function Profile(): MethodDecorator {
         methodName: string,
         descriptor: TypedPropertyDescriptor<Function>
     ): TypedPropertyDescriptor<Function> {
-        let method: Function = descriptor.value;
+        Assert.argument('descriptor', descriptor).notNull();
+        Assert.argument('descriptor.value', descriptor.value).notNull();
+
+        const method: Function = descriptor.value as Function;
 
         descriptor.value = function () {
             let error = new Error();
@@ -23,9 +27,11 @@ export function Profile(): MethodDecorator {
             console.log(`  Elapsed time: %sms`, (endTime - startTime));
             console.log(`  Trace:`);
 
-            error.stack.split('\n').slice(1).forEach((line) => {
-                console.log(`    ` + line.trim());
-            });
+            if (error.stack != null) {
+                error.stack.split('\n').slice(1).forEach((line) => {
+                    console.log(`    ` + line.trim());
+                });
+            }
 
             console.log(``);
             /* tslint:enable:no-console */

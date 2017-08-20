@@ -7,7 +7,7 @@ import {EMPTY_STRING} from '../../../Text/constants';
 
 export class Node implements INode {
     protected _textContent: string = EMPTY_STRING;
-    protected _parentNode: Node = null;
+    protected _parentNode: Node | null = null;
     protected _childNodes: NodeCollection = new NodeCollection(this);
     protected _nodeName: string;
 
@@ -17,12 +17,12 @@ export class Node implements INode {
     }
 
 
-    public get parentNode(): Node {
+    public get parentNode(): Node | null {
         return this._parentNode;
     }
 
 
-    public set parentNode(value: Node) {
+    public set parentNode(value: Node | null) {
         if (this._parentNode === value) {
             return;
         }
@@ -49,7 +49,7 @@ export class Node implements INode {
     }
 
 
-    public get nextSibling(): Node {
+    public get nextSibling(): Node | null {
         let indexOfCurrentNode: number;
 
         if (!this.parentNode) {
@@ -62,7 +62,7 @@ export class Node implements INode {
     }
 
 
-    public get previousSibling(): Node {
+    public get previousSibling(): Node | null {
         let indexOfCurrentNode: number;
 
         if (!this.parentNode) {
@@ -75,7 +75,7 @@ export class Node implements INode {
     }
 
 
-    public get firstChild(): Node {
+    public get firstChild(): Node | null {
         if (this.hasChildNodes) {
             return this.childNodes[0];
         } else {
@@ -84,7 +84,7 @@ export class Node implements INode {
     }
 
 
-    public get lastChild(): Node {
+    public get lastChild(): Node | null {
         if (this.hasChildNodes) {
             return this.childNodes[this.childNodes.length - 1];
         } else {
@@ -107,7 +107,7 @@ export class Node implements INode {
 
     public get depth(): number {
         let depth = 0;
-        let parentNode: Node = this.parentNode;
+        let parentNode: Node | null = this.parentNode;
 
         while (parentNode != null) {
             depth += 1;
@@ -156,7 +156,7 @@ export class Node implements INode {
             return false;
         }
 
-        let parentNode: Node = node.parentNode;
+        let parentNode: Node | null = node.parentNode;
 
         while (parentNode) {
             if (parentNode === this) {

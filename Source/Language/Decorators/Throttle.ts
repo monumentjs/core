@@ -1,4 +1,5 @@
 import {ThrottledMethod} from './Helpers/ThrottledMethod';
+import {Assert} from '../../Assertion/Assert';
 
 
 export function Throttle(
@@ -12,11 +13,15 @@ export function Throttle(
         methodName: string,
         descriptor: TypedPropertyDescriptor<Function>
     ): TypedPropertyDescriptor<Function> {
-        const method: ThrottledMethod = new ThrottledMethod(descriptor.value, timeout, leading, trailing, maxWait);
+        Assert.argument('descriptor', descriptor).notNull();
+        Assert.argument('descriptor.value', descriptor.value).notNull();
+
+        const method: Function = descriptor.value as Function;
+        const throttledMethod: ThrottledMethod = new ThrottledMethod(method, timeout, leading, trailing, maxWait);
 
         return {
             value: function () {
-                return method.call(this, arguments);
+                return throttledMethod.call(this, arguments);
             }
         };
     };

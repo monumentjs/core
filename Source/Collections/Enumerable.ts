@@ -53,7 +53,7 @@ export class Enumerable<T> implements IEnumerable<T>, IJSONSerializable<T[]>, IC
                 index += 1;
 
                 return {
-                    value: index <= this.length ? this[index - 1] : undefined,
+                    value: (index <= this.length ? this[index - 1] : undefined) as T,
                     done: index > this.length
                 };
             }

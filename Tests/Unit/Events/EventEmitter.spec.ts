@@ -1,11 +1,10 @@
 import {Event} from '../../../Source/Events/Event';
 import {EventEmitter} from '../../../Source/Events/EventEmitter';
 import {EventListener} from '../../../Source/Events/types';
-import {ArgumentNullException} from '../../../Source/Exceptions/ArgumentNullException';
 
 
 describe('EventEmitter', () => {
-    let eventEmitter: EventEmitter = null;
+    let eventEmitter: EventEmitter;
     let listeners: EventListener[];
     let testEvents: Event[];
 
@@ -35,24 +34,6 @@ describe('EventEmitter', () => {
 
 
     describe('#addEventListener()', () => {
-        it(`throws if 'eventType' argument is not defined`, () => {
-            expect(() => {
-                eventEmitter.addEventListener(null, listeners[0]);
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'eventListener' argument is not defined`, () => {
-            expect(() => {
-                eventEmitter.addEventListener(testEvents[0].type, null);
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'removeAfterExecution' argument is not defined`, () => {
-            expect(() => {
-                eventEmitter.addEventListener(testEvents[0].type, listeners[0], null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it('attaches event listener that runs each time', () => {
             expect(eventEmitter.eventTypes.length).toEqual(0);
 
@@ -78,18 +59,6 @@ describe('EventEmitter', () => {
 
 
     describe('#removeEventListener()', () => {
-        it(`throws if 'eventType' argument is not defined`, () => {
-            expect(() => {
-                eventEmitter.removeEventListener(null, listeners[0]);
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'eventListener' argument is not defined`, () => {
-            expect(() => {
-                eventEmitter.removeEventListener(testEvents[0].type, null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it('removes event listener', () => {
             eventEmitter.addEventListener(testEvents[0].type, listeners[0]);
 
@@ -110,16 +79,6 @@ describe('EventEmitter', () => {
 
 
     describe('#dispatchEvent()', () => {
-        it(`throws if 'event' argument is not defined`, () => {
-            expect(() => {
-                eventEmitter.dispatchEvent(undefined);
-            }).toThrowError(ArgumentNullException);
-
-            expect(() => {
-                eventEmitter.dispatchEvent(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`dispatches specified event to all listeners`, () => {
             eventEmitter.addEventListener(testEvents[0].type, listeners[0]);
 
@@ -189,16 +148,6 @@ describe('EventEmitter', () => {
 
 
     describe(`#removeEventListeners()`, () => {
-        it(`throws if 'eventType' argument is not defined`, () => {
-            expect(() => {
-                eventEmitter.removeEventListeners(null);
-            }).toThrowError(ArgumentNullException);
-
-            expect(() => {
-                eventEmitter.removeEventListeners(undefined);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`does not throw if instance haven't attached event listeners of specified type of event`, () => {
             expect(() => {
                 eventEmitter.removeEventListeners(testEvents[0].type);

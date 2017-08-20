@@ -15,13 +15,16 @@ export class MethodReflection extends ReflectionBase<Function> {
 
     public constructor(method: TypedPropertyDescriptor<Function>) {
         Assert.argument('method', method).notNull();
+        Assert.argument('method.value', method.value).notNull();
 
-        super(method.value, MethodReflection.METADATA_KEY);
+        let fn = method.value as Function;
 
-        this.name = method.value.name;
-        this.argumentsCount = method.value.length;
-        this.configurable = method.configurable;
-        this.enumerable = method.enumerable;
-        this.writable = method.writable;
+        super(fn, MethodReflection.METADATA_KEY);
+
+        this.name = fn.name;
+        this.argumentsCount = fn.length;
+        this.configurable = method.configurable || false;
+        this.enumerable = method.enumerable || false;
+        this.writable = method.writable || false;
     }
 }

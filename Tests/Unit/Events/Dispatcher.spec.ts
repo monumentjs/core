@@ -3,9 +3,9 @@ import {ActionListener, ActionListenerCancel} from '../../../Source/Events/types
 
 
 describe('Dispatcher', () => {
-    let dispatcher: Dispatcher = null;
-    let listener: ActionListener = null;
-    let cancel: ActionListenerCancel = null;
+    let dispatcher: Dispatcher;
+    let listener: ActionListener;
+    let cancel: ActionListenerCancel;
     let cancelResult: boolean;
     let testAction: object = {
         type: 'test'

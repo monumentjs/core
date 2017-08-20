@@ -10,6 +10,7 @@ import {Container} from '../DI/Container/Container';
 import {CalendarWeekRule} from './CalendarWeekRule';
 import {DayOfWeek} from './DayOfWeek';
 import {EMPTY_STRING} from '../Text/constants';
+import {Exception} from '../Exceptions/Exception';
 
 
 export class DateTimeFormatInfo implements IFormatProvider, ICustomFormatter<DateTime> {
@@ -93,10 +94,13 @@ export class DateTimeFormatInfo implements IFormatProvider, ICustomFormatter<Dat
         let components: object = {};
 
         for (let formatEntry of formatEntries) {
-            let formatter: TimeComponentFormatterBase;
+            let formatter: TimeComponentFormatterBase | null;
 
             formatter = this.formattersProvider.getFormatter(formatEntry);
 
+            if (formatter == null) {
+                throw new Exception(`Unknown format entry "${formatEntry}".`);
+            }
 
             if (time instanceof DateTime) {
                 components[formatEntry] = formatter.formatDateTime(time, formatEntry, formatInfo);

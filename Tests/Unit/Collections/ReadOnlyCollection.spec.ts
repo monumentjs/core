@@ -7,7 +7,7 @@ import {Container} from '../../../Source/DI/Container/Container';
 describe(`ReadOnlyCollection`, () => {
     const comparator = Container.get(IgnoreCaseComparator);
 
-    let instance: ReadOnlyCollection<string> = null;
+    let instance: ReadOnlyCollection<string>;
 
 
     beforeEach(() => {
@@ -24,10 +24,6 @@ describe(`ReadOnlyCollection`, () => {
 
         it(`throws if source list is not defined`, () => {
             expect(() => {
-                return new ReadOnlyCollection(null);
-            }).toThrowError(ArgumentNullException);
-
-            expect(() => {
                 return new ReadOnlyCollection(undefined);
             }).not.toThrowError(ArgumentNullException);
         });
@@ -36,10 +32,6 @@ describe(`ReadOnlyCollection`, () => {
 
     describe('#contains()', () => {
         it(`throws if 'comparator' argument is null`, () => {
-            expect(() => {
-                instance.contains('one', null);
-            }).toThrowError(ArgumentNullException);
-
             expect(() => {
                 instance.contains('one', undefined);
             }).not.toThrowError(ArgumentNullException);

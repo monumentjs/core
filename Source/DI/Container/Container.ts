@@ -108,21 +108,21 @@ export class Container {
     }
 
 
-    private getUnitFromProxies<T>(type: Constructor<T>): T {
+    private getUnitFromProxies<T>(type: Constructor<T>): T | null {
         let provider: UnitProvider<T>;
-        let extensionWithProvider: IContainerProxy = this.findProxyByType(type);
+        let extensionWithProvider: IContainerProxy | null = this.findProxyByType(type);
 
-        if (extensionWithProvider) {
-            provider = extensionWithProvider.getProvider(type);
-
-            return this.unitBuilder.createUnitFromProvider(this, provider);
+        if (extensionWithProvider == null) {
+            return null;
         }
 
-        return null;
+        provider = extensionWithProvider.getProvider(type);
+
+        return this.unitBuilder.createUnitFromProvider(this, provider);
     }
 
 
-    private findProxyByType<T>(type: Constructor<T>): IContainerProxy {
+    private findProxyByType<T>(type: Constructor<T>): IContainerProxy | null {
         return this.containerProxies.first((extension: IContainerProxy): boolean => {
             return extension.hasProvider(type);
         });

@@ -3,7 +3,7 @@ import {Dictionary} from '../../../Source/Collections/Dictionary';
 
 
 describe('FormattableString', () => {
-    let instance: FormattableString = null;
+    let instance: FormattableString;
 
     beforeEach(() => {
         instance = new FormattableString('I like {comicsVendor} comics');

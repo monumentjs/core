@@ -13,7 +13,7 @@ import {Container} from '../../../Source/DI/Container/Container';
 describe('List', () => {
     const comparator = Container.get(IgnoreCaseComparator);
     
-    let list: List<string> = null;
+    let list: List<string>;
 
 
     beforeEach(() => {
@@ -32,26 +32,6 @@ describe('List', () => {
 
 
     describe(`List.generate()`, () => {
-        it(`throws if 'generator' argument is not defined`, () => {
-            expect(() => {
-                List.generate(undefined, 1);
-            }).toThrowError(ArgumentNullException);
-
-            expect(() => {
-                List.generate(null, 1);
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'length' argument is not defined`, () => {
-            expect(() => {
-                List.generate(() => 1, undefined);
-            }).toThrowError(ArgumentNullException);
-
-            expect(() => {
-                List.generate(() => 1, null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`throws if 'length' argument is out of bounds`, () => {
             expect(() => {
                 List.generate(() => 1, -1);
@@ -70,16 +50,6 @@ describe('List', () => {
 
 
     describe(`List.repeat()`, () => {
-        it(`throws if 'times' argument is not defined`, () => {
-            expect(() => {
-                List.repeat(1, undefined);
-            }).toThrowError(ArgumentNullException);
-
-            expect(() => {
-                List.repeat(1, null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`throws if 'times' argument is out of bounds`, () => {
             expect(() => {
                 List.repeat(1, -1);
@@ -98,34 +68,10 @@ describe('List', () => {
 
 
     describe(`List.range()`, () => {
-        it(`throws if 'start' argument is not defined`, () => {
-            expect(() => {
-                List.range(undefined, 3);
-            }).toThrowError(ArgumentNullException);
-
-            expect(() => {
-                List.range(null, 3);
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'end' argument is not defined`, () => {
-            expect(() => {
-                List.range(0, undefined);
-            }).toThrowError(ArgumentNullException);
-
-            expect(() => {
-                List.range(0, null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`throws if 'step' argument is not defined`, () => {
             expect(() => {
                 List.range(0, 3, undefined);
             }).not.toThrowError(ArgumentNullException);
-
-            expect(() => {
-                List.range(0, 3, null);
-            }).toThrowError(ArgumentNullException);
         });
 
         it(`throws if range bounds are invalid`, () => {
@@ -146,16 +92,6 @@ describe('List', () => {
 
 
     describe('#insert()', () => {
-        it(`throws if index is not defined`, () => {
-            expect(() => {
-                list.insert('one', undefined);
-            }).toThrowError(ArgumentNullException);
-
-            expect(() => {
-                list.insert('one', null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`throws if index out of bounds`, () => {
             expect(() => {
                 list.insert('one', -1);
@@ -188,18 +124,6 @@ describe('List', () => {
 
 
     describe(`#insertRange()`, () => {
-        it(`throws when 'items' argument is not defined`, () => {
-            expect(() => {
-                list.insertRange(null, 0);
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws when 'index' argument is not defined`, () => {
-            expect(() => {
-                list.insertRange(['one', 'two'], null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`throws if 'index' is out of bounds`, () => {
             expect(() => {
                 list.insertRange(['one', 'two'], 1);
@@ -222,14 +146,6 @@ describe('List', () => {
 
 
     describe('#removeAt()', () => {
-        it(`throws if 'index' argument is not defined`, () => {
-            list = new List(['one', 'four']);
-
-            expect(() => {
-                list.removeAt(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`throws if 'index' argument is out of bounds`, () => {
             expect(() => {
                 list.removeAt(-1);
@@ -260,12 +176,6 @@ describe('List', () => {
 
 
     describe('#indexOf()', () => {
-        it(`throws if 'startIndex' argument is 'null'`, () => {
-            expect(() => {
-                list.indexOf('one', null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`does not throws if 'startIndex' argument is 'undefined'`, () => {
             expect(() => {
                 list.indexOf('one');
@@ -330,12 +240,6 @@ describe('List', () => {
 
 
     describe(`#removeBy()`, () => {
-        it(`throws if 'predicate' argument is not defined`, () => {
-            expect(() => {
-                list.removeBy(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`removes items for whose predicate function returns 'true'`, () => {
             list = new List(['a', 'b', 'a', 'c', 'd', 'a']);
 
@@ -350,12 +254,6 @@ describe('List', () => {
 
 
     describe(`#removeAll()`, () => {
-        it(`throws if 'other' argument is not defined`, () => {
-            expect(() => {
-                list.removeAll(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`removes items containing in both lists`, () => {
             list = new List(['a', 'b', 'a', 'c', 'd', 'a']);
 
@@ -381,12 +279,6 @@ describe('List', () => {
 
 
     describe(`#forEach()`, () => {
-        it(`throws if 'iterator' argument is not defined`, () => {
-            expect(() => {
-                list.forEach(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`iterates over list`, () => {
             let iterator = jest.fn();
 
@@ -417,12 +309,6 @@ describe('List', () => {
 
 
     describe(`#aggregate()`, () => {
-        it(`throws if 'iterator' function is not defined`, () => {
-            expect(() => {
-                list.aggregate(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`aggregates list data into new value`, () => {
             let map: object;
 
@@ -432,7 +318,7 @@ describe('List', () => {
                 obj[item] = true;
 
                 return obj;
-            }, {});
+            }, {}) as object;
 
             expect(map).toEqual({
                 one: true,
@@ -441,23 +327,17 @@ describe('List', () => {
             });
 
             expect(() => {
-                map = list.aggregate((obj: object, item: string): object => {
+                map = list.aggregate((obj: object, item: string): object | null => {
                     obj[item] = true;
 
-                    return undefined;
-                }, {});
+                    return null;
+                }, {}) as object;
             }).toThrowError(TypeError);
         });
     });
 
 
     describe(`#select()`, () => {
-        it(`throws if 'selector' argument is not defined`, () => {
-            expect(() => {
-                list.select(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`returns list of selected values`, () => {
             let firstChars: List<string>;
 
@@ -475,18 +355,6 @@ describe('List', () => {
 
 
     describe(`#selectMany()`, () => {
-        it(`throws if 'collectionSelector' argument is not defined`, () => {
-            expect(() => {
-                list.selectMany(null, () => []);
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'resultSelector' argument is not defined`, () => {
-            expect(() => {
-                list.selectMany(() => [], null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`returns list of selected values`, () => {
             let books: List<{authors: string[]}> = new List([
                 {
@@ -513,12 +381,6 @@ describe('List', () => {
 
 
     describe(`#where()`, () => {
-        it(`throws if 'predicate' function is not defined`, () => {
-            expect(() => {
-                list.where(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`returns list of items for whose predicate function returned 'true'`, () => {
             list = new List(['one', 'two', 'three']);
 
@@ -539,14 +401,6 @@ describe('List', () => {
                     return true;
                 });
             }).toThrowError(InvalidOperationException);
-        });
-
-        it(`throws if 'predicate' function is not defined`, () => {
-            list = new List(['one', 'two', 'three']);
-
-            expect(() => {
-                list.all(null);
-            }).toThrowError(ArgumentNullException);
         });
 
         it(`determines whether all elements of a sequence satisfy a condition`, () => {
@@ -572,14 +426,6 @@ describe('List', () => {
             }).toThrowError(InvalidOperationException);
         });
 
-        it(`throws if 'predicate' function is not defined`, () => {
-            list = new List(['one', 'two', 'three']);
-
-            expect(() => {
-                list.any(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`determines whether any of elements satisfy a condition`, () => {
             list = new List(['one', 'two', 'three']);
 
@@ -603,14 +449,6 @@ describe('List', () => {
             }).toThrowError(InvalidOperationException);
         });
 
-        it(`throws if 'selector' function is not defined`, () => {
-            list = new List(['one', 'two', 'three']);
-
-            expect(() => {
-                list.average(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`calculates average value`, () => {
             list = new List(['one', 'two', 'six']);
 
@@ -622,14 +460,6 @@ describe('List', () => {
 
 
     describe(`#count()`, () => {
-        it(`throws if 'predicate' function is not defined`, () => {
-            list = new List(['one', 'two', 'three']);
-
-            expect(() => {
-                list.count(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`calculates count of items matching predicate`, () => {
             list = new List(['one', 'two', 'three']);
 
@@ -641,14 +471,6 @@ describe('List', () => {
 
 
     describe(`#first()`, () => {
-        it(`throws if 'predicate' function is not defined`, () => {
-            list = new List(['one', 'two', 'three']);
-
-            expect(() => {
-                list.first(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`returns first item matching predicate`, () => {
             list = new List(['one', 'two', 'three']);
 
@@ -681,14 +503,6 @@ describe('List', () => {
 
 
     describe(`#last()`, () => {
-        it(`throws if 'predicate' function is not defined`, () => {
-            list = new List(['one', 'two', 'three']);
-
-            expect(() => {
-                list.last(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`returns last item matching predicate`, () => {
             list = new List(['one', 'two', 'three']);
 
@@ -721,12 +535,6 @@ describe('List', () => {
 
 
     describe(`#distinct()`, () => {
-        it(`throws if 'comparator' is not defined`, () => {
-            expect(() => {
-                list.distinct(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`returns list of distinct items`, () => {
             let distinctItems: List<string>;
 
@@ -746,20 +554,6 @@ describe('List', () => {
 
 
     describe(`#groupBy()`, () => {
-        it(`throws if 'keySelector' is not defined`, () => {
-            expect(() => {
-                list.groupBy(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'keyComparator' is not defined`, () => {
-            expect(() => {
-                list.groupBy((word: string): number => {
-                    return word.length;
-                }, null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`returns list of grouped items using default comparator`, () => {
             list = new List(['one', 'two', 'three']);
 
@@ -791,18 +585,6 @@ describe('List', () => {
 
 
     describe(`#except()`, () => {
-        it(`throws if 'otherList' is not defined`, () => {
-            expect(() => {
-                list.except(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'comparator' is not defined`, () => {
-            expect(() => {
-                list.except([], null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`returns list without specified items using default comparator`, () => {
             let filteredList: List<string>;
 
@@ -833,18 +615,6 @@ describe('List', () => {
 
 
     describe(`#intersect()`, () => {
-        it(`throws if 'otherList' is not defined`, () => {
-            expect(() => {
-                list.intersect(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'comparator' is not defined`, () => {
-            expect(() => {
-                list.intersect([], null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`returns list without specified items using default comparator`, () => {
             let filteredList: List<string>;
 
@@ -875,60 +645,6 @@ describe('List', () => {
 
 
     describe(`#join()`, () => {
-        it(`throws if 'outerList' argument is not defined`, () => {
-            expect(() => {
-                list.join(null, (word: string): string => {
-                    return word[0];
-                }, (word: string): string => {
-                    return word[0];
-                }, function (x: string, y: string): string[] {
-                    return [x, y];
-                });
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'outerKeySelector' argument is not defined`, () => {
-            expect(() => {
-                list.join([], null, (word: string): string => {
-                    return word[0];
-                }, function (x: string, y: string): string[] {
-                    return [x, y];
-                });
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'innerKeySelector' argument is not defined`, () => {
-            expect(() => {
-                list.join([], (word: string): string => {
-                    return word[0];
-                }, null, function (x: string, y: string): string[] {
-                    return [x, y];
-                });
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'resultSelector' argument is not defined`, () => {
-            expect(() => {
-                list.join([], (word: string): string => {
-                    return word[0];
-                }, (word: string): string => {
-                    return word[0];
-                }, null);
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'keyComparator' argument is not defined`, () => {
-            expect(() => {
-                list.join([], (word: string): string => {
-                    return word[0];
-                }, (word: string): string => {
-                    return word[0];
-                }, function (x: string, y: string): string[] {
-                    return [x, y];
-                }, null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`joins lists using custom equality comparator`, () => {
             let joinedList: List<string[]>;
 
@@ -964,14 +680,6 @@ describe('List', () => {
             }).toThrowError(InvalidOperationException);
         });
 
-        it(`throws if 'selector' argument is not defined`, () => {
-            list = new List(['two', 'ONE', 'one', 'Three', 'One']);
-
-            expect(() => {
-                list.min(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`returns minimal value`, () => {
             list = new List(['two', 'ONE', 'one', 'Three', 'One']);
 
@@ -991,14 +699,6 @@ describe('List', () => {
             }).toThrowError(InvalidOperationException);
         });
 
-        it(`throws if 'selector' argument is not defined`, () => {
-            list = new List(['two', 'ONE', 'one', 'Three', 'One']);
-
-            expect(() => {
-                list.max(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`returns maximal value`, () => {
             list = new List(['two', 'ONE', 'one', 'Three', 'One']);
 
@@ -1010,28 +710,6 @@ describe('List', () => {
 
 
     describe(`#orderBy()`, () => {
-        it(`throws if 'keySelector' argument is not defined`, () => {
-            expect(() => {
-                list.orderBy(null, comparator);
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'comparator' argument is not defined`, () => {
-            expect(() => {
-                list.orderBy((word: string): string => {
-                    return word[0];
-                }, null);
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'sortOrder' argument is not defined`, () => {
-            expect(() => {
-                list.orderBy((word: string): string => {
-                    return word[0];
-                }, comparator, null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`returns sorted list using ascending sort order`, () => {
             list = new List(['two', 'ONE', 'one', 'Three', 'One']);
 
@@ -1074,18 +752,6 @@ describe('List', () => {
 
 
     describe(`#equals()`, () => {
-        it(`throws if 'otherList' argument is not defined`, () => {
-            expect(() => {
-                list.equals(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'comparator' argument is not defined`, () => {
-            expect(() => {
-                list.equals([], null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`compares empty lists`, () => {
             expect(list.equals([])).toBe(true);
         });
@@ -1109,12 +775,6 @@ describe('List', () => {
 
 
     describe(`#skip()`, () => {
-        it(`throws if 'offset' argument is not defined`, () => {
-            expect(() => {
-                list.skip(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`throws if offset is out of bounds`, () => {
             expect(() => {
                 list.skip(0);
@@ -1138,12 +798,6 @@ describe('List', () => {
 
 
     describe(`#skipWhile()`, () => {
-        it(`throws if 'predicate' argument is not defined`, () => {
-            expect(() => {
-                list.skipWhile(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`works with empty lists`, () => {
             expect(list.skipWhile((word: string): boolean => {
                 return word[0] !== 't';
@@ -1161,12 +815,6 @@ describe('List', () => {
 
 
     describe(`#take()`, () => {
-        it(`throws if 'length' argument is not defined`, () => {
-            expect(() => {
-                list.take(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`throws if length is out of bounds`, () => {
             expect(() => {
                 list.take(0);
@@ -1190,12 +838,6 @@ describe('List', () => {
 
 
     describe(`#takeWhile()`, () => {
-        it(`throws if 'predicate' argument is not defined`, () => {
-            expect(() => {
-                list.takeWhile(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`works with empty lists`, () => {
             expect(list.takeWhile((word: string): boolean => {
                 return word[0] !== 't';
@@ -1213,18 +855,6 @@ describe('List', () => {
 
 
     describe(`#slice()`, () => {
-        it(`throws if 'offset' argument is not defined`, () => {
-            expect(() => {
-                list.slice(null, 1);
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'length' argument is not defined`, () => {
-            expect(() => {
-                list.slice(0, null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`throws if slice range is invalid`, () => {
             expect(() => list.slice(0, 1)).toThrowError(RangeException);
             expect(() => list.slice(-1, 0)).toThrowError(IndexOutOfBoundsException);
@@ -1245,12 +875,6 @@ describe('List', () => {
 
 
     describe(`#concat()`, () => {
-        it(`throws if 'otherList' argument is not defined`, () => {
-            expect(() => {
-                list.concat(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`returns concatenation of lists`, () => {
             list = new List(['one', 'two', 'three']);
 
@@ -1261,18 +885,6 @@ describe('List', () => {
 
 
     describe(`#union()`, () => {
-        it(`throws if 'otherList' argument is not defined`, () => {
-            expect(() => {
-                list.union(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'comparator' argument is not defined`, () => {
-            expect(() => {
-                list.union([], null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`returns union of lists`, () => {
             list = new List(['one', 'two', 'three']);
 
@@ -1287,20 +899,6 @@ describe('List', () => {
 
 
     describe(`#zip()`, () => {
-        it(`throws if 'otherList' argument is not defined`, () => {
-            expect(() => {
-                list.zip(null, (x: string, y: string): string => {
-                    return `${x}+${y}`;
-                });
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'resultSelector' argument is not defined`, () => {
-            expect(() => {
-                list.zip([], null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`returns list of combined items`, () => {
             list = new List(['one', 'two', 'three']);
 

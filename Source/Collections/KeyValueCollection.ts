@@ -49,7 +49,7 @@ export class KeyValueCollection<TKey, TValue> extends Collection<IKeyValuePair<T
     public findByKey(
         key: TKey,
         keyComparator: IEqualityComparator<TKey> = EqualityComparator.instance
-    ): TValue {
+    ): TValue | null {
         Assert.argument('key', key).notNull();
         Assert.argument('keyComparator', keyComparator).notNull();
 

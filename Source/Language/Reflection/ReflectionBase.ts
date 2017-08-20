@@ -25,7 +25,7 @@ export abstract class ReflectionBase<TEntity extends object = object> {
     public getAllMetadataContainers(): MetadataContainerList {
         const metadataContainers: MetadataContainerList = new MetadataContainerList();
 
-        let metadata: MetadataContainer = this.metadata;
+        let metadata: MetadataContainer | null = this.metadata;
 
         while (metadata != null) {
             metadataContainers.insert(metadata, 0);

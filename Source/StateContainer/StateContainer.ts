@@ -20,7 +20,7 @@ export abstract class StateContainer<TState> {
 
 
     public commit(patch?: IStatePatch<TState>): void {
-        if (patch) {
+        if (patch != null) {
             patch.apply(this.state);
         }
 
@@ -53,12 +53,6 @@ export abstract class StateContainer<TState> {
         this._state = this.getInitialState();
 
         this.commitChanges();
-    }
-
-
-    public reset(): void {
-        this.resetState();
-        this.removeAllReceivers();
     }
 
 

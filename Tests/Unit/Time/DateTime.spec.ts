@@ -11,7 +11,7 @@ describe('DateTime', () => {
     const CURRENT_MILLISECONDS: number = 89;
 
 
-    let instance: DateTime = null;
+    let instance: DateTime;
 
 
     function assertDateTimeComponents(dateTime: DateTime, components: Object) {

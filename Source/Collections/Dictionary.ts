@@ -70,7 +70,7 @@ export class Dictionary<TKey, TValue>
     }
 
 
-    public get(key: TKey, defaultValue: TValue = null): TValue {
+    public get(key: TKey, defaultValue: TValue | null = null): TValue | null {
         Assert.argument('key', key).notNull();
 
         for (let pair of this) {

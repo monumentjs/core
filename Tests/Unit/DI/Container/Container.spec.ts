@@ -1,6 +1,5 @@
 import {Container} from '../../../../Source/DI/Container/Container';
 import {MissingConstructorArgumentsException} from '../../../../Source/DI/Container/MissingConstructorArgumentsException';
-import {ArgumentNullException} from '../../../../Source/Exceptions/ArgumentNullException';
 import {Unit} from '../../../../Source/DI/Decorators/Unit';
 import {Inject} from '../../../../Source/DI/Decorators/Inject';
 
@@ -66,16 +65,6 @@ describe(`Container`, () => {
         });
 
         describe(`without registration`, () => {
-            it(`throws if 'type' argument is not defined`, () => {
-                expect(() => {
-                    Container.get(null);
-                }).toThrow(ArgumentNullException);
-
-                expect(() => {
-                    Container.get(undefined);
-                }).toThrow(ArgumentNullException);
-            });
-
             it(`creates an instance of type with simple constructor`, () => {
                 const instance = Container.get(ClassWithSimpleConstructor);
 

@@ -1,6 +1,5 @@
 import {Dictionary} from '../../../Source/Collections/Dictionary';
 import {IgnoreCaseComparator} from '../../../Source/Text/IgnoreCaseComparator';
-import {ArgumentNullException} from '../../../Source/Exceptions/ArgumentNullException';
 import {Container} from '../../../Source/DI/Container/Container';
 
 
@@ -21,18 +20,6 @@ describe(`Dictionary`, () => {
 
 
     describe(`#constructor()`, () => {
-        it(`throws if 'list' argument is null`, () => {
-            expect(() => {
-                return new Dictionary(null, comparator);
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'comparator' argument is null`, () => {
-            expect(() => {
-                return new Dictionary([], null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`creates new instance of Dictionary`, () => {
             expect(instance).toBeInstanceOf(Dictionary);
             expect(instance.length).toBe(3);
@@ -44,18 +31,6 @@ describe(`Dictionary`, () => {
 
 
     describe(`#set()`, () => {
-        it(`throws if 'key' argument is not defined`, () => {
-            expect(() => {
-                instance.set(undefined, 'four');
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'key' argument is null`, () => {
-            expect(() => {
-                instance.set(null, 'four');
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`creates new key-value pair`, () => {
             instance.set('four', 'FOUR');
             expect(instance.length).toBe(4);
@@ -73,18 +48,6 @@ describe(`Dictionary`, () => {
 
 
     describe(`#set()`, () => {
-        it(`throws if 'key' argument is not defined`, () => {
-            expect(() => {
-                instance.get(undefined);
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'key' argument is null`, () => {
-            expect(() => {
-                instance.get(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`returns value with key matching equality comparator`, () => {
             expect(instance.get('ONE')).toBe('ONE');
             expect(instance.get('TWO')).toBe('TWO');
@@ -98,18 +61,6 @@ describe(`Dictionary`, () => {
 
 
     describe(`#containsKey()`, () => {
-        it(`throws if 'key' argument is not defined`, () => {
-            expect(() => {
-                instance.containsKey(undefined);
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'key' argument is null`, () => {
-            expect(() => {
-                instance.containsKey(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`determines whether dictionary contains pair with specified key`, () => {
             expect(instance.containsKey('ONE')).toBe(true);
             expect(instance.containsKey('Four')).toBe(false);
@@ -118,18 +69,6 @@ describe(`Dictionary`, () => {
 
 
     describe(`#containsValue()`, () => {
-        it(`does not throws if 'value' argument is not defined`, () => {
-            expect(() => {
-                instance.containsValue(undefined);
-            }).not.toThrowError(ArgumentNullException);
-        });
-
-        it(`does not throws if 'value' argument is null`, () => {
-            expect(() => {
-                instance.containsValue(null);
-            }).not.toThrowError(ArgumentNullException);
-        });
-
         it(`determines whether dictionary contains pair with specified value`, () => {
             expect(instance.containsValue('ONE')).toBe(true);
             expect(instance.containsValue('Four')).toBe(false);
@@ -143,18 +82,6 @@ describe(`Dictionary`, () => {
 
 
     describe(`#removeByKey()`, () => {
-        it(`throws if 'key' argument is not defined`, () => {
-            expect(() => {
-                instance.removeByKey(undefined);
-            }).toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if 'key' argument is null`, () => {
-            expect(() => {
-                instance.removeByKey(null);
-            }).toThrowError(ArgumentNullException);
-        });
-
         it(`removes key-value pair by key matching equality comparator`, () => {
             expect(instance.removeByKey('one')).toBe(true);
             expect(instance.length).toBe(2);

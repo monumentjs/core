@@ -10,7 +10,7 @@ export class UnitProviderConfiguration<T> {
 
     public readonly type: Constructor<T>;
     public readonly isSingleton: boolean;
-    public readonly factory: UnitFactoryFunction<T>;
+    public readonly factory: UnitFactoryFunction<T> | null;
     public readonly providers: Array<Constructor<any>>;
 
 
