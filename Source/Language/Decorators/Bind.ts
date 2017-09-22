@@ -1,22 +1,18 @@
-import {Assert} from '../../Assertion/Assert';
+import {DecoratorTarget} from '../Support/Decorators/DecoratorTarget';
+import {Target} from './Target';
 
 
 export function Bind(): MethodDecorator {
-    return function (
-        prototype: object,
-        methodName: string,
-        descriptor: TypedPropertyDescriptor<Function>
-    ): TypedPropertyDescriptor<Function> {
-        Assert.argument('descriptor', descriptor).notNull();
-        Assert.argument('descriptor.value', descriptor.value).notNull();
+    return function (prototype: object | Function, methodName: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor {
+        Target(DecoratorTarget.Method)(...arguments);
 
-        const attachedMethod: symbol = Symbol(methodName);
-        const method: Function = descriptor.value as Function;
+        const attachedMethod: symbol = Symbol();
+        const originalFunction: Function = descriptor.value;
 
         return {
-            get: function () {
+            get: function (this: any) {
                 if (this[attachedMethod] == null) {
-                    this[attachedMethod] = method.bind(this);
+                    this[attachedMethod] = originalFunction.bind(this);
                 }
 
                 return this[attachedMethod];

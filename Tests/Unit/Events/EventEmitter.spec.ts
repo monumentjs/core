@@ -26,14 +26,14 @@ describe('EventEmitter', () => {
     });
 
 
-    describe('#constructor()', () => {
+    describe('constructor()', () => {
         it('creates new instance of EventEmitter class', () => {
             expect(eventEmitter).toBeInstanceOf(EventEmitter);
         });
     });
 
 
-    describe('#addEventListener()', () => {
+    describe('addEventListener()', () => {
         it('attaches event listener that runs each time', () => {
             expect(eventEmitter.eventTypes.length).toEqual(0);
 
@@ -58,7 +58,7 @@ describe('EventEmitter', () => {
     });
 
 
-    describe('#removeEventListener()', () => {
+    describe('removeEventListener()', () => {
         it('removes event listener', () => {
             eventEmitter.addEventListener(testEvents[0].type, listeners[0]);
 
@@ -78,7 +78,7 @@ describe('EventEmitter', () => {
     });
 
 
-    describe('#dispatchEvent()', () => {
+    describe('dispatchEvent()', () => {
         it(`dispatches specified event to all listeners`, () => {
             eventEmitter.addEventListener(testEvents[0].type, listeners[0]);
 
@@ -147,7 +147,7 @@ describe('EventEmitter', () => {
     });
 
 
-    describe(`#removeEventListeners()`, () => {
+    describe(`removeEventListeners()`, () => {
         it(`does not throw if instance haven't attached event listeners of specified type of event`, () => {
             expect(() => {
                 eventEmitter.removeEventListeners(testEvents[0].type);
@@ -172,7 +172,7 @@ describe('EventEmitter', () => {
     });
 
 
-    describe(`#removeAllEventListeners()`, () => {
+    describe(`removeAllEventListeners()`, () => {
         it(`removes all attached event listeners`, () => {
             testEvents.forEach((testEvent: Event, index: number) => {
                 eventEmitter.addEventListener(testEvent.type, listeners[index]);

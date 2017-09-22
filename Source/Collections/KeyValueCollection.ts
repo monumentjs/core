@@ -1,80 +1,130 @@
 import {Collection} from './Collection';
-import {IEqualityComparator} from './IEqualityComparator';
-import {EqualityComparator} from './EqualityComparator';
+import {EqualityComparator} from '../Core/EqualityComparator';
 import {KeyValuePair} from './KeyValuePair';
-import {IKeyValuePair} from './IKeyValuePair';
-import {Assert} from '../Assertion/Assert';
+import {IKeyValuePair} from './Abstraction/IKeyValuePair';
+import {KeyValueEqualityComparator} from './KeyValueEqualityComparator';
+import {IEnumerable} from './Abstraction/IEnumerable';
+import {IReadOnlyCollection} from './Abstraction/IReadOnlyCollection';
+import {IEqualityComparator} from '../Core/Abstraction/IEqualityComparator';
 
 
-export class KeyValueCollection<TKey, TValue> extends Collection<IKeyValuePair<TKey, TValue>> {
+export class KeyValueCollection<K, V> extends Collection<IKeyValuePair<K, V>> {
 
-    public put(key: TKey, value: TValue): void {
-        Assert.argument('key', key).notNull();
+    public clone(): KeyValueCollection<K, V> {
+        return new KeyValueCollection(this);
+    }
 
-        this.add(new KeyValuePair(key, value));
+
+    public equals(
+        other: IEnumerable<IKeyValuePair<K, V>>,
+        comparator: IEqualityComparator<IKeyValuePair<K, V>> = KeyValueEqualityComparator.instance
+    ): boolean {
+        return super.equals(other, comparator);
+    }
+
+
+    public contains(
+        pair: IKeyValuePair<K, V>,
+        comparator: IEqualityComparator<IKeyValuePair<K, V>> = KeyValueEqualityComparator.instance
+    ): boolean {
+        return super.contains(pair, comparator);
+    }
+
+
+    public containsAll(
+        pairs: IEnumerable<IKeyValuePair<K, V>>,
+        comparator: IEqualityComparator<IKeyValuePair<K, V>> = KeyValueEqualityComparator.instance
+    ): boolean {
+        return super.containsAll(pairs, comparator);
+    }
+
+
+    public containsKey(
+        key: K,
+        keyComparator: IEqualityComparator<K> = EqualityComparator.instance
+    ): boolean {
+        for (let entry of this) {
+            if (keyComparator.equals(key, entry.key)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    public put(key: K, value: V): boolean {
+        return this.add(new KeyValuePair(key, value));
+    }
+
+
+    public remove(
+        pair: IKeyValuePair<K, V>,
+        comparator: IEqualityComparator<IKeyValuePair<K, V>> = KeyValueEqualityComparator.instance
+    ): boolean {
+        return super.remove(pair, comparator);
+    }
+
+
+    public removeAll(
+        pairs: IEnumerable<IKeyValuePair<K, V>>,
+        comparator: IEqualityComparator<IKeyValuePair<K, V>> = KeyValueEqualityComparator.instance
+    ): boolean {
+        return super.removeAll(pairs, comparator);
     }
 
 
     public removeByKey(
-        key: TKey,
-        keyComparator: IEqualityComparator<TKey> = EqualityComparator.instance
-    ): void {
-        Assert.argument('key', key).notNull();
-        Assert.argument('keyComparator', keyComparator).notNull();
-
+        key: K,
+        keyComparator: IEqualityComparator<K> = EqualityComparator.instance
+    ): boolean {
         for (let entry of this) {
             if (keyComparator.equals(entry.key, key)) {
                 this.remove(entry);
-                break;
+
+                return true;
             }
         }
+
+        return false;
     }
 
 
     public removeAllByKey(
-        key: TKey,
-        keyComparator: IEqualityComparator<TKey> = EqualityComparator.instance
-    ): void {
-        Assert.argument('key', key).notNull();
-        Assert.argument('keyComparator', keyComparator).notNull();
+        key: K,
+        keyComparator: IEqualityComparator<K> = EqualityComparator.instance
+    ): boolean {
+        const oldLength: number = this.length;
 
         for (let entry of this) {
             if (keyComparator.equals(entry.key, key)) {
                 this.remove(entry);
             }
         }
+
+        return this.length !== oldLength;
     }
 
 
     public findByKey(
-        key: TKey,
-        keyComparator: IEqualityComparator<TKey> = EqualityComparator.instance
-    ): TValue | null {
-        Assert.argument('key', key).notNull();
-        Assert.argument('keyComparator', keyComparator).notNull();
-
+        key: K,
+        keyComparator: IEqualityComparator<K> = EqualityComparator.instance
+    ): V | undefined {
         for (let entry of this) {
             if (keyComparator.equals(entry.key, key)) {
                 return entry.value;
             }
         }
 
-        return null;
+        return undefined;
     }
 
-    /**
-     *
-     * @param key
-     * @param keyComparator
-     */
-    public findAllByKey(
-        key: TKey,
-        keyComparator: IEqualityComparator<TKey> = EqualityComparator.instance
-    ): Collection<TValue> {
-        Assert.argument('key', key).notNull();
-        Assert.argument('keyComparator', keyComparator).notNull();
 
-        let values: Collection<TValue> = new Collection<TValue>();
+    public findAllByKey(
+        key: K,
+        keyComparator: IEqualityComparator<K> = EqualityComparator.instance
+    ): IReadOnlyCollection<V> {
+        let values: Collection<V> = new Collection<V>();
 
         for (let entry of this) {
             if (keyComparator.equals(entry.key, key)) {

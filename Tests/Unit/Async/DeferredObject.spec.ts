@@ -10,14 +10,14 @@ describe(`DeferredObject`, () => {
     });
 
 
-    describe(`#constructor()`, () => {
+    describe(`constructor()`, () => {
         it(`creates new instance of DeferredObject`, () => {
             expect(instance).toBeInstanceOf(DeferredObject);
         });
     });
 
 
-    describe(`#resolve()`, () => {
+    describe(`resolve()`, () => {
         it(`assigns a value to deferred object`, async () => {
             let deferred = new DeferredObject<number>();
 

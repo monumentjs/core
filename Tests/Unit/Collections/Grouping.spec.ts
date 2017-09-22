@@ -4,7 +4,7 @@ import {Grouping} from '../../../Source/Collections/Grouping';
 describe(`Grouping`, () => {
     let instance: Grouping<string, string>;
 
-    describe(`#constructor()`, () => {
+    describe(`constructor()`, () => {
         it(`creates new instance empty`, () => {
             instance = new Grouping<string, string>('fruits');
 

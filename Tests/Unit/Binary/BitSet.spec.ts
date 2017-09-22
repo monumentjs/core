@@ -1,9 +1,9 @@
 import {BitSet} from '../../../Source/Binary/BitSet';
-import {ReadOnlyCollection} from '../../../Source/Collections/ReadOnlyCollection';
+import {IReadOnlyCollection} from '../../../Source/Collections/Abstraction/IReadOnlyCollection';
 import {ArgumentNullException} from '../../../Source/Exceptions/ArgumentNullException';
-import {IndexOutOfBoundsException} from '../../../Source/Exceptions/IndexOutOfBoundsException';
+import {ArgumentIndexOutOfBoundsException} from '../../../Source/Exceptions/ArgumentIndexOutOfBoundsException';
 import {RangeException} from '../../../Source/Exceptions/RangeException';
-import {IEnumerable} from '../../../Source/Collections/IEnumerable';
+import {IEnumerable} from '../../../Source/Collections/Abstraction/IEnumerable';
 
 
 describe('BitSet', () => {
@@ -17,7 +17,7 @@ describe('BitSet', () => {
     });
 
 
-    describe('#constructor()', () => {
+    describe('constructor()', () => {
         it('create new instance of BitSet class', () => {
             expect(bitSet.length).toBe(0);
             expect(bitSet.cardinality).toBe(0);
@@ -25,7 +25,7 @@ describe('BitSet', () => {
     });
 
 
-    describe('#cardinality', () => {
+    describe('cardinality', () => {
         it('returns number of set bits', () => {
             expect(bitSet.length).toBe(0);
             expect(bitSet.cardinality).toBe(0);
@@ -44,9 +44,9 @@ describe('BitSet', () => {
     });
 
 
-    describe('#get()', () => {
+    describe('get()', () => {
         it(`throws if 'bitIndex' argument is less than zero`, () => {
-            expect(() => bitSet.get(-1)).toThrow(IndexOutOfBoundsException);
+            expect(() => bitSet.get(-1)).toThrow(ArgumentIndexOutOfBoundsException);
         });
 
         it(`returns 'false' when bit's index is greater than set length`, () => {
@@ -66,10 +66,10 @@ describe('BitSet', () => {
     });
 
 
-    describe('#getRange()', () => {
+    describe('getRange()', () => {
         it(`throws if any of arguments is less than zero`, () => {
-            expect(() => bitSet.getRange(-1, 10)).toThrow(IndexOutOfBoundsException);
-            expect(() => bitSet.getRange(0, -1)).toThrow(IndexOutOfBoundsException);
+            expect(() => bitSet.getRange(-1, 10)).toThrow(ArgumentIndexOutOfBoundsException);
+            expect(() => bitSet.getRange(0, -1)).toThrow(ArgumentIndexOutOfBoundsException);
         });
 
         it(`throws if left bound is greater than right bound`, () => {
@@ -89,11 +89,11 @@ describe('BitSet', () => {
     });
 
 
-    describe('#set()', () => {
+    describe('set()', () => {
         it(`throws if 'bitIndex' argument is less than zero`, () => {
-            expect(() => bitSet.set(-1)).toThrow(IndexOutOfBoundsException);
-            expect(() => bitSet.set(-1, true)).toThrow(IndexOutOfBoundsException);
-            expect(() => bitSet.set(-1, false)).toThrow(IndexOutOfBoundsException);
+            expect(() => bitSet.set(-1)).toThrow(ArgumentIndexOutOfBoundsException);
+            expect(() => bitSet.set(-1, true)).toThrow(ArgumentIndexOutOfBoundsException);
+            expect(() => bitSet.set(-1, false)).toThrow(ArgumentIndexOutOfBoundsException);
         });
 
         it(`sets value of the bit at the given position to 'true'`, () => {
@@ -158,20 +158,20 @@ describe('BitSet', () => {
     });
 
 
-    describe('#setRange()', () => {
+    describe('setRange()', () => {
         it(`throws if any of arguments is not defined`, () => {
             expect(() => bitSet.setRange(0, 1, undefined)).not.toThrow(ArgumentNullException);
         });
 
         it(`throws if range is not valid`, () => {
-            expect(() => bitSet.setRange(-1, 1)).toThrow(IndexOutOfBoundsException);
-            expect(() => bitSet.setRange(0, -1)).toThrow(IndexOutOfBoundsException);
+            expect(() => bitSet.setRange(-1, 1)).toThrow(ArgumentIndexOutOfBoundsException);
+            expect(() => bitSet.setRange(0, -1)).toThrow(ArgumentIndexOutOfBoundsException);
             expect(() => bitSet.setRange(1, 0)).toThrow(RangeException);
         });
     });
 
 
-    describe('#setAll()', () => {
+    describe('setAll()', () => {
         it(`sets all bits to given value`, () => {
             bitSet = new BitSet(3);
 
@@ -197,7 +197,7 @@ describe('BitSet', () => {
     });
 
 
-    describe('#setByMask()', () => {
+    describe('setByMask()', () => {
         it(`sets all corresponding set bits in current bit set`, () => {
             let mask: BitSet = new BitSet(3);
 
@@ -214,9 +214,9 @@ describe('BitSet', () => {
     });
 
 
-    describe('#clear()', () => {
+    describe('clear()', () => {
         it(`throws if 'bitIndex' argument is lower than zero`, () => {
-            expect(() => bitSet.clear(-1)).toThrow(IndexOutOfBoundsException);
+            expect(() => bitSet.clear(-1)).toThrow(ArgumentIndexOutOfBoundsException);
         });
 
         it(`clears bit at given position`, () => {
@@ -249,13 +249,13 @@ describe('BitSet', () => {
     });
 
 
-    describe('#clearRange()', () => {
+    describe('clearRange()', () => {
         it(`throws if 'fromIndex' argument is lower than zero`, () => {
-            expect(() => bitSet.clearRange(-1, 1)).toThrow(IndexOutOfBoundsException);
+            expect(() => bitSet.clearRange(-1, 1)).toThrow(ArgumentIndexOutOfBoundsException);
         });
 
         it(`throws if 'toIndex' argument is lower than zero`, () => {
-            expect(() => bitSet.clearRange(0, -1)).toThrow(IndexOutOfBoundsException);
+            expect(() => bitSet.clearRange(0, -1)).toThrow(ArgumentIndexOutOfBoundsException);
         });
 
         it(`clears specified amount of bits starting from given position`, () => {
@@ -292,7 +292,7 @@ describe('BitSet', () => {
     });
 
 
-    describe('#clearAll()', () => {
+    describe('clearAll()', () => {
         it(`clears all bits in set`, () => {
             bitSet.set(2);
 
@@ -313,7 +313,7 @@ describe('BitSet', () => {
     });
 
 
-    describe('#clearByMask()', () => {
+    describe('clearByMask()', () => {
         it(`clears corresponding bits for whose value in mask is set`, () => {
             bitSet = BitSet.fromBits([false, true, true]);
 
@@ -329,13 +329,13 @@ describe('BitSet', () => {
     });
 
 
-    describe('#findBits()', () => {
+    describe('findBits()', () => {
         it(`returns read-only collection of set bits' indexes`, () => {
             bitSet.set(0);
             bitSet.set(2);
             bitSet.set(4);
 
-            let setBits: ReadOnlyCollection<number> = bitSet.findBits(true);
+            let setBits: IReadOnlyCollection<number> = bitSet.findBits(true);
 
             expect(setBits.length).toEqual(3);
             expect(setBits.contains(0)).toBe(true);
@@ -346,7 +346,7 @@ describe('BitSet', () => {
         it(`returns read-only collection of clear bits' indexes`, () => {
             bitSet = BitSet.fromBits([true, false, true, false, true, false]);
 
-            let clearBits: ReadOnlyCollection<number> = bitSet.findBits(false);
+            let clearBits: IReadOnlyCollection<number> = bitSet.findBits(false);
 
             expect(clearBits.length).toEqual(3);
             expect(clearBits.contains(1)).toBe(true);
@@ -356,9 +356,9 @@ describe('BitSet', () => {
     });
 
 
-    describe('#invert()', () => {
+    describe('invert()', () => {
         it(`throws if 'bitIndex' argument has invalid range`, () => {
-            expect(() => bitSet.invert(-1)).toThrow(IndexOutOfBoundsException);
+            expect(() => bitSet.invert(-1)).toThrow(ArgumentIndexOutOfBoundsException);
         });
 
         it(`inverts value if specified bit to the opposite`, () => {
@@ -377,10 +377,10 @@ describe('BitSet', () => {
     });
 
 
-    describe('#invertRange()', () => {
+    describe('invertRange()', () => {
         it(`throws if arguments has invalid range`, () => {
-            expect(() => bitSet.invertRange(-1, 1)).toThrow(IndexOutOfBoundsException);
-            expect(() => bitSet.invertRange(1, -1)).toThrow(IndexOutOfBoundsException);
+            expect(() => bitSet.invertRange(-1, 1)).toThrow(ArgumentIndexOutOfBoundsException);
+            expect(() => bitSet.invertRange(1, -1)).toThrow(ArgumentIndexOutOfBoundsException);
         });
 
         it(`inverts bits' values to the opposite in specified range`, () => {
@@ -399,7 +399,7 @@ describe('BitSet', () => {
     });
 
 
-    describe(`#invertAll()`, () => {
+    describe(`invertAll()`, () => {
         it(`inverts values of all bits in set`, () => {
             bitSet = BitSet.fromBits([false, true, true]);
 
@@ -426,21 +426,21 @@ describe('BitSet', () => {
     });
 
 
-    describe(`#indexOf()`, () => {
+    describe(`indexOf()`, () => {
         it(`does not throw if 'fromIndex' argument is not defined`, () => {
             expect(() => bitSet.indexOf(true, undefined)).not.toThrow(ArgumentNullException);
         });
 
         it(`throws if 'fromIndex' argument is lower than zero`, () => {
-            expect(() => bitSet.indexOf(true, -1)).toThrow(IndexOutOfBoundsException);
+            expect(() => bitSet.indexOf(true, -1)).toThrow(ArgumentIndexOutOfBoundsException);
         });
 
         it(`throws if 'fromIndex' argument is out of set range`, () => {
-            expect(() => bitSet.indexOf(true, 1)).toThrow(IndexOutOfBoundsException);
+            expect(() => bitSet.indexOf(true, 1)).toThrow(ArgumentIndexOutOfBoundsException);
         });
 
         it(`does not throws if 'fromIndex' argument equals to zero and set length is zero too`, () => {
-            expect(() => bitSet.indexOf(true, 0)).not.toThrow(IndexOutOfBoundsException);
+            expect(() => bitSet.indexOf(true, 0)).not.toThrow(ArgumentIndexOutOfBoundsException);
         });
 
         it(`returns index of first bit with specified value`, () => {
@@ -454,21 +454,21 @@ describe('BitSet', () => {
     });
 
 
-    describe(`#lastIndexOf()`, () => {
+    describe(`lastIndexOf()`, () => {
         it(`does not throw if 'fromIndex' argument is not defined`, () => {
             expect(() => bitSet.lastIndexOf(true, undefined)).not.toThrow(ArgumentNullException);
         });
 
         it(`throws if 'fromIndex' argument is lower than zero`, () => {
-            expect(() => bitSet.lastIndexOf(true, -1)).toThrow(IndexOutOfBoundsException);
+            expect(() => bitSet.lastIndexOf(true, -1)).toThrow(ArgumentIndexOutOfBoundsException);
         });
 
         it(`throws if 'fromIndex' argument is out of set range`, () => {
-            expect(() => bitSet.lastIndexOf(true, 1)).toThrow(IndexOutOfBoundsException);
+            expect(() => bitSet.lastIndexOf(true, 1)).toThrow(ArgumentIndexOutOfBoundsException);
         });
 
         it(`does not throws if 'fromIndex' argument equals to zero and set length is zero too`, () => {
-            expect(() => bitSet.lastIndexOf(true, 0)).not.toThrow(IndexOutOfBoundsException);
+            expect(() => bitSet.lastIndexOf(true, 0)).not.toThrow(ArgumentIndexOutOfBoundsException);
         });
 
         it(`returns index of last bit with specified value`, () => {
@@ -482,7 +482,7 @@ describe('BitSet', () => {
     });
 
 
-    describe(`#and(), #or(), #xor()`, () => {
+    describe(`and(), or(), xor()`, () => {
         it(`performs logical AND operation`, () => {
             let bits1: BitSet = new BitSet(16);
             let bits2: BitSet = new BitSet(16);
@@ -513,22 +513,22 @@ describe('BitSet', () => {
     });
 
 
-    describe(`#intersects()`, () => {
-        it(`determines whether sets intersects #1`, () => {
+    describe(`intersects()`, () => {
+        it(`determines whether sets intersects 1`, () => {
             let one: BitSet = BitSet.fromBits([true]);
             let other: BitSet = BitSet.fromBits([true, false]);
 
             expect(one.intersects(other)).toBe(true);
         });
 
-        it(`determines whether sets intersects #2`, () => {
+        it(`determines whether sets intersects 2`, () => {
             let one: BitSet = BitSet.fromBits([false]);
             let other: BitSet = BitSet.fromBits([true, false]);
 
             expect(one.intersects(other)).toBe(false);
         });
 
-        it(`determines whether sets intersects #3`, () => {
+        it(`determines whether sets intersects 3`, () => {
             let one: BitSet = BitSet.fromBits([]);
             let other: BitSet = BitSet.fromBits([true, false]);
 
@@ -537,7 +537,7 @@ describe('BitSet', () => {
     });
 
 
-    describe(`#toString()`, () => {
+    describe(`toString()`, () => {
         it(`returns string representation of bit set`, () => {
             expect(bitSet.toString()).toBe(`{}`);
 
@@ -556,7 +556,7 @@ describe('BitSet', () => {
     });
 
 
-    describe(`#toByteArray()`, () => {
+    describe(`toByteArray()`, () => {
         it(`creates byte array`, () => {
             expect(bitSet.toByteArray()).toEqual([]);
 
@@ -585,7 +585,7 @@ describe('BitSet', () => {
     });
 
 
-    describe(`#fromByteArray()`, () => {
+    describe(`fromByteArray()`, () => {
         it(`creates new bit set byte array`, () => {
             bitSet = BitSet.fromBits([
                 true, true, true, true, true, true, true, true,

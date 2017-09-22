@@ -1,9 +1,9 @@
 import {RangeException} from '../Exceptions/RangeException';
 import {IndexOutOfBoundsException} from '../Exceptions/IndexOutOfBoundsException';
-import {Constructor} from '../types';
-import {IEnumerable} from '../Collections/IEnumerable';
+import {IEnumerable} from '../Collections/Abstraction/IEnumerable';
 import {PropertyNullException} from '../Exceptions/PropertyNullException';
 import {PropertyTypeException} from '../Exceptions/PropertyTypeException';
+import {Type} from '../Core/Types/Type';
 
 
 export class PropertyAssertion {
@@ -26,7 +26,7 @@ export class PropertyAssertion {
     }
 
 
-    public type(type: Constructor<any>): this {
+    public type(type: Type): this {
         if (!(this._propertyValue instanceof type)) {
             throw new PropertyTypeException(this._propertyName, type);
         }

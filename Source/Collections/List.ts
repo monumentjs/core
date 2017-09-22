@@ -1,137 +1,74 @@
-import {IComparator} from './IComparator';
-import {IEquatable} from '../types';
-import {IEqualityComparator} from './IEqualityComparator';
-import {IEnumerable} from './IEnumerable';
-import {IList} from './IList';
-import {IQueryable} from './IQueryable';
+import {IEnumerable} from './Abstraction/IEnumerable';
+import {IList} from './Abstraction/IList';
+import {IQueryable} from './Abstraction/IQueryable';
 import {SortOrder} from './SortOrder';
-import {CombineFunction, IteratorFunction} from './types';
+import {IteratorFunction} from './IteratorFunction';
 import {Collection} from './Collection';
-import {EqualityComparator} from './EqualityComparator';
+import {EqualityComparator} from '../Core/EqualityComparator';
 import {Grouping} from './Grouping';
 import {InvalidOperationException} from '../Exceptions/InvalidOperationException';
 import {Assert} from '../Assertion/Assert';
-import {IndexOutOfBoundsException} from '../Exceptions/IndexOutOfBoundsException';
+import {ArgumentIndexOutOfBoundsException} from '../Exceptions/ArgumentIndexOutOfBoundsException';
+import {RangeException} from '../Exceptions/RangeException';
+import {IEquatable} from '../Core/Abstraction/IEquatable';
+import {IEqualityComparator} from '../Core/Abstraction/IEqualityComparator';
+import {IComparator} from '../Core/Abstraction/IComparator';
+import {CombineFunction} from './CombineFunction';
 
 
 export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, IEquatable<IList<T>> {
-    public static range(start: number, end: number, step: number = 1): List<number> {
-        Assert.argument('start', start).notNull();
-        Assert.argument('end', end).notNull();
-        Assert.argument('step', step).notNull();
-        Assert.range(start, end).bounds();
-
-        let numbersList: List<number> = new List<number>();
-
-        for (let num = start; num < end; num += step) {
-            numbersList.add(num);
-        }
-
-        return numbersList;
-    }
-
-
-    public static repeat<TValue>(value: TValue, times: number): List<TValue> {
-        Assert.argument('times', times).notNull().isLength();
-
-        let list: List<TValue> = new List<TValue>();
-
-        for (let index = 0; index < times; index++) {
-            list.add(value);
-        }
-
-        return list;
-    }
-
-
-    public static generate<TValue>(generator: (index: number) => TValue, length: number): List<TValue> {
-        Assert.argument('generator', generator).notNull();
-        Assert.argument('length', length).notNull().isLength();
-
-        let list: List<TValue> = new List<TValue>();
-
-        for (let i = 0; i < length; i++) {
-            list.add(generator(i));
-        }
-
-        return list;
-    }
-
-
     public clone(): List<T> {
-        return new List<T>(this);
+        return new List(this);
     }
 
 
-    // IList<TItem> interface implementation
+    // IList implementation
 
 
-    public addRange(items: IEnumerable<T>): void {
-        Array.prototype.push.call(this, ...items);
-    }
-
-
-    public insert(item: T, index: number): void {
-        Assert.argument('index', index).notNull().isIndex();
+    public insert(index: number, item: T): boolean {
+        Assert.argument('index', index).isIndex();
 
         if (index > this.length) {
-            throw new IndexOutOfBoundsException(
-                `Invalid argument 'index': ` +
-                `Index (${index}) is out of bounds [0, ${this.length}).`
-            );
+            throw new ArgumentIndexOutOfBoundsException('index', index, 0, this.length);
         }
 
         Array.prototype.splice.call(this, index, 0, item);
+
+        return true;
     }
 
 
-    public insertRange(items: IEnumerable<T>, index: number): void {
-        Assert.argument('items', items).notNull();
-        Assert.argument('index', index).notNull().isIndex();
+    public insertAll(index: number, items: IEnumerable<T>): boolean {
+        Assert.argument('index', index).isIndex();
 
         if (index > this.length) {
-            throw new IndexOutOfBoundsException(
-                `Invalid argument 'index': ` +
-                `Index (${index}) is out of bounds [0, ${this.length}).`
-            );
+            throw new ArgumentIndexOutOfBoundsException('index', index, 0, this.length);
         }
+
+        const oldLength: number = this.length;
 
         Array.prototype.splice.call(this, index, 0, ...items);
+
+        return this.length !== oldLength;
     }
 
 
-    public removeAt(index: number): void {
-        Assert.argument('index', index).notNull().indexBounds(0, this.length);
+    public slice(offset: number, length: number): List<T> {
+        Assert.argument('offset', offset).isIndex();
+        Assert.argument('length', length).isLength();
 
-        Array.prototype.splice.call(this, index, 1);
-    }
-
-
-    public removeBy(predicate: IteratorFunction<T, boolean>): void {
-        Assert.argument('predicate', predicate).notNull();
-
-        this.forEach((item: T, index: number, list: IEnumerable<T>): void => {
-            let itemMatchesPredicate: boolean = predicate(item, index, list);
-
-            if (itemMatchesPredicate) {
-                this.removeAt(index);
-            }
-        });
-    }
-
-
-    public removeAll(
-        other: IEnumerable<T>,
-        comparator: IEqualityComparator<T> = EqualityComparator.instance
-    ): void {
-        Assert.argument('other', other).notNull();
-        Assert.argument('comparator', comparator).notNull();
-
-        for (let otherItem of other) {
-            this.removeBy((currentItem: T): boolean => {
-                return comparator.equals(currentItem, otherItem);
-            });
+        if (length !== 0) {
+            Assert.sequence(this).containsSlice(offset, length);
         }
+
+        return new List(Array.prototype.slice.call(this, offset, offset + length));
+    }
+
+
+    public removeAt(index: number): T {
+        Assert.argument('index', index).isIndexOf(this);
+
+        return Array.prototype.splice.call(this, index, 1)[0];
     }
 
 
@@ -141,16 +78,15 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
         count: number = this.length - startIndex,
         comparator: IEqualityComparator<T> = EqualityComparator.instance
     ): number {
-        Assert.argument('startIndex', startIndex).notNull().isIndex();
         if (startIndex !== 0) {
             Assert.argument('startIndex', startIndex).isIndexOf(this);
         }
-        Assert.argument('count', count).notNull().isLength();
-        Assert.argument('comparator', comparator).notNull();
+
+        Assert.argument('count', count).isLength();
         Assert.sequence(this).containsSlice(startIndex, count);
 
         for (let index: number = startIndex; index < startIndex + count; index++) {
-            let currentItem: T = this[index];
+            let currentItem: T = this[index] as T;
 
             if (comparator.equals(searchItem, currentItem)) {
                 return index;
@@ -161,12 +97,51 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
     }
 
 
-    // IQueryable<TItem> interface implementation
+    public lastIndexOf(
+        searchItem: T,
+        startIndex: number = this.isEmpty ? 0 : this.length - 1,
+        count?: number,
+        comparator: IEqualityComparator<T> = EqualityComparator.instance
+    ): number {
+        if (count == null) {
+            count = startIndex + 1;
+        }
+
+        const endIndex: number = startIndex - count + 1;
+
+        if (startIndex < 0) {
+            throw new ArgumentIndexOutOfBoundsException('startIndex', startIndex, 0, this.length);
+        }
+
+        if (startIndex > this.length) {
+            throw new ArgumentIndexOutOfBoundsException('startIndex', startIndex, 0, this.length);
+        }
+
+        Assert.argument('count', count).isLength();
+
+        if (endIndex < 0) {
+            throw new RangeException(`Search range (${endIndex}...${startIndex}) is not valid.`);
+        }
+
+        while (count > 0) {
+            let currentItem: T = this[startIndex] as T;
+
+            if (comparator.equals(searchItem, currentItem)) {
+                return startIndex;
+            }
+
+            startIndex--;
+            count--;
+        }
+
+        return -1;
+    }
+
+
+    // IQueryable implementation
 
 
     public forEach(iterator: IteratorFunction<T, boolean | void>): void {
-        Assert.argument('iterator', iterator).notNull();
-
         let index: number = 0;
 
         for (let actualItem of this) {
@@ -182,12 +157,10 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public aggregate<TAggregate>(
-        iterator: (lastSeed: TAggregate | null, item: T, index: number, list: IEnumerable<T>) => TAggregate,
-        initialSeed: TAggregate | null = null
-    ): TAggregate | null {
-        Assert.argument('iterator', iterator).notNull();
-
-        let lastSeed: TAggregate | null = initialSeed;
+        iterator: (lastSeed: TAggregate | undefined, item: T, index: number, list: IEnumerable<T>) => TAggregate,
+        initialSeed?: TAggregate | undefined
+    ): TAggregate | undefined {
+        let lastSeed: TAggregate | undefined = initialSeed;
 
         this.forEach((actualItem: T, index: number, list: List<T>) => {
             lastSeed = iterator(lastSeed, actualItem, index, list);
@@ -198,8 +171,6 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public select<TResult>(selector: IteratorFunction<T, TResult>): List<TResult> {
-        Assert.argument('selector', selector).notNull();
-
         return this.aggregate<List<TResult>>((
             mappedList: List<TResult>,
             actualItem: T,
@@ -217,9 +188,6 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
         collectionSelector: IteratorFunction<T, IEnumerable<TInnerItem>>,
         resultSelector: CombineFunction<T, TInnerItem, TResult>,
     ): List<TResult> {
-        Assert.argument('collectionSelector', collectionSelector).notNull();
-        Assert.argument('resultSelector', resultSelector).notNull();
-
         let resultList: List<TResult> = new List<TResult>();
         let collections: IEnumerable<IEnumerable<TInnerItem>> = this.select<IEnumerable<TInnerItem>>((
             actualItem: T,
@@ -232,7 +200,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
         let index: number = 0;
 
         for (let collection of collections) {
-            let actualItem: T = this[index];
+            let actualItem: T = this[index] as T;
 
             for (let innerItem of collection) {
                 resultList.add(resultSelector(actualItem, innerItem));
@@ -246,8 +214,6 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public where(predicate: IteratorFunction<T, boolean>): List<T> {
-        Assert.argument('predicate', predicate).notNull();
-
         return this.aggregate((
             filteredList: List<T>,
             actualItem: T,
@@ -266,15 +232,13 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public all(predicate: IteratorFunction<T, boolean>): boolean {
-        Assert.argument('predicate', predicate).notNull();
-
-        if (this.length === 0) {
+        if (this.isEmpty) {
             throw new InvalidOperationException(`Operation is not allowed for empty lists.`);
         }
 
         let allValid = true;
 
-        this.forEach((actualItem: T, index: number, list: List<T>): void|boolean => {
+        this.forEach((actualItem: T, index: number, list: List<T>): void | boolean => {
             let actualItemValid: boolean = predicate(actualItem, index, list);
 
             if (!actualItemValid) {
@@ -289,15 +253,13 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public any(predicate: IteratorFunction<T, boolean>): boolean {
-        Assert.argument('predicate', predicate).notNull();
-
-        if (this.length === 0) {
+        if (this.isEmpty) {
             throw new InvalidOperationException(`Operation is not allowed for empty lists.`);
         }
 
         let atLeastOneValid: boolean = false;
 
-        this.forEach((actualItem: T, index: number, list: List<T>): void|boolean => {
+        this.forEach((actualItem: T, index: number, list: List<T>): void | boolean => {
             let actualItemValid: boolean = predicate(actualItem, index, list);
 
             if (actualItemValid) {
@@ -312,9 +274,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public average(selector: IteratorFunction<T, number>): number {
-        Assert.argument('selector', selector).notNull();
-
-        if (this.length === 0) {
+        if (this.isEmpty) {
             throw new InvalidOperationException(`Operation is not allowed for empty lists.`);
         }
 
@@ -332,8 +292,6 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public count(predicate: IteratorFunction<T, boolean>): number {
-        Assert.argument('predicate', predicate).notNull();
-
         let count: number = 0;
 
         this.forEach((item: T, index: number, list: List<T>): void => {
@@ -348,11 +306,9 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
     }
 
 
-    public first(predicate: IteratorFunction<T, boolean>, defaultValue: T | null = null): T | null {
-        Assert.argument('predicate', predicate).notNull();
-
+    public first(predicate: IteratorFunction<T, boolean>, defaultValue?: T): T | undefined {
         for (let index = 0; index < this.length; index++) {
-            let actualItem: T = this[index];
+            let actualItem: T = this[index] as T;
             let actualItemMatchesPredicate: boolean = predicate(actualItem, index, this);
 
             if (actualItemMatchesPredicate) {
@@ -366,18 +322,16 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
     public firstOrDefault(defaultValue: T): T {
         if (this.length > 0) {
-            return this[0];
+            return this[0] as T;
         } else {
             return defaultValue;
         }
     }
 
 
-    public last(predicate: IteratorFunction<T, boolean>, defaultValue: T | null = null): T | null {
-        Assert.argument('predicate', predicate).notNull();
-
+    public last(predicate: IteratorFunction<T, boolean>, defaultValue?: T): T | undefined {
         for (let index = this.length - 1; index >= 0; index--) {
-            let actualItem: T = this[index];
+            let actualItem: T = this[index] as T;
             let actualItemMatchesPredicate: boolean = predicate(actualItem, index, this);
 
             if (actualItemMatchesPredicate) {
@@ -391,7 +345,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
     public lastOrDefault(defaultValue: T): T {
         if (this.length > 0) {
-            return this[this.length - 1];
+            return this[this.length - 1] as T;
         } else {
             return defaultValue;
         }
@@ -402,8 +356,6 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
      * @param comparator
      */
     public distinct(comparator: IEqualityComparator<T> = EqualityComparator.instance): List<T> {
-        Assert.argument('comparator', comparator).notNull();
-
         let distinctItems: List<T> = new List<T>();
 
         this.forEach((actualItem: T): void => {
@@ -420,14 +372,11 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
         keySelector: IteratorFunction<T, TKey>,
         keyComparator: IEqualityComparator<TKey> = EqualityComparator.instance
     ): List<Grouping<TKey, T>> {
-        Assert.argument('keySelector', keySelector).notNull();
-        Assert.argument('keyComparator', keyComparator).notNull();
-
         let groups: List<Grouping<TKey, T>> = new List<Grouping<TKey, T>>();
 
         this.forEach((actualItem: T, index: number, list: List<T>) => {
             let actualItemKey: TKey = keySelector(actualItem, index, list);
-            let correspondingGroup: Grouping<TKey, T> | null = groups.first((group: Grouping<TKey, T>): boolean => {
+            let correspondingGroup: Grouping<TKey, T> | undefined = groups.first((group: Grouping<TKey, T>): boolean => {
                 return keyComparator.equals(actualItemKey, group.key);
             });
 
@@ -448,9 +397,6 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
         otherList: IEnumerable<T>,
         comparator: IEqualityComparator<T> = EqualityComparator.instance
     ): List<T> {
-        Assert.argument('otherList', otherList).notNull();
-        Assert.argument('comparator', comparator).notNull();
-
         let difference: List<T> = new List<T>();
 
         this.forEach((actualItem: T) => {
@@ -473,9 +419,6 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
         otherList: IEnumerable<T>,
         comparator: IEqualityComparator<T> = EqualityComparator.instance
     ): List<T> {
-        Assert.argument('otherList', otherList).notNull();
-        Assert.argument('comparator', comparator).notNull();
-
         let intersection: List<T> = new List<T>();
 
         this.forEach((actualItem: T) => {
@@ -495,12 +438,6 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
         resultSelector: CombineFunction<T, TOuter, TResult>,
         keyComparator: IEqualityComparator<TKey> = EqualityComparator.instance
     ): List<TResult> {
-        Assert.argument('outerList', outerList).notNull();
-        Assert.argument('outerKeySelector', outerKeySelector).notNull();
-        Assert.argument('innerKeySelector', innerKeySelector).notNull();
-        Assert.argument('resultSelector', resultSelector).notNull();
-        Assert.argument('keyComparator', keyComparator).notNull();
-
         let listOfJoinedItems: List<TResult> = new List<TResult>();
 
         this.forEach((innerItem: T, innerIndex: number, innerList: List<T>): void => {
@@ -523,9 +460,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public min(selector: IteratorFunction<T, number>): number {
-        Assert.argument('selector', selector).notNull();
-
-        if (this.length === 0) {
+        if (this.isEmpty) {
             throw new InvalidOperationException('Unable to perform operation on empty list.');
         }
 
@@ -542,9 +477,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public max(selector: IteratorFunction<T, number>): number {
-        Assert.argument('selector', selector).notNull();
-
-        if (this.length === 0) {
+        if (this.isEmpty) {
             throw new InvalidOperationException('Unable to perform operation on empty list.');
         }
 
@@ -565,10 +498,6 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
         comparator: IComparator<TKey>,
         sortOrder: SortOrder = SortOrder.Ascending
     ): List<T> {
-        Assert.argument('keySelector', keySelector).notNull();
-        Assert.argument('comparator', comparator).notNull();
-        Assert.argument('sortOrder', sortOrder).notNull();
-
         return new List<T>(this.toArray().sort((x: T, y: T): number => {
             let xKey: TKey = keySelector(x);
             let yKey: TKey = keySelector(y);
@@ -579,45 +508,23 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public reverse(): List<T> {
-        return new List<T>(this.clone().toArray().reverse());
-    }
-
-
-    public equals(
-        otherList: IEnumerable<T>,
-        comparator: IEqualityComparator<T> = EqualityComparator.instance
-    ): boolean {
-        Assert.argument('otherList', otherList).notNull();
-        Assert.argument('comparator', comparator).notNull();
-
-        if (this.length !== otherList.length) {
-            return false;
-        }
-
-        if (this.length === 0 && otherList.length === 0) {
-            return true;
-        }
-
-        return this.all((actualItem: T, index: number): boolean => {
-            return comparator.equals(actualItem, otherList[index]);
-        });
+        return new List<T>(Array.prototype.reverse.call(this));
     }
 
 
     public skip(offset: number): List<T> {
-        Assert.argument('offset', offset).notNull();
-        Assert.sequence(this).containsSlice(offset);
+        if (offset !== 0) {
+            Assert.argument('offset', offset).isIndexOf(this);
+        }
 
-        return new List(this.toArray().slice(offset));
+        return new List(Array.prototype.slice.call(this, offset));
     }
 
 
     public skipWhile(predicate: IteratorFunction<T, boolean>): List<T> {
-        Assert.argument('predicate', predicate).notNull();
-
         let offset: number = 0;
 
-        this.forEach((actualItem: T, index: number): boolean|void => {
+        this.forEach((actualItem: T, index: number): boolean | void => {
             let actualItemMatchesPredicate: boolean = predicate(actualItem, index, this);
 
             if (actualItemMatchesPredicate) {
@@ -632,7 +539,6 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public take(length: number): List<T> {
-        Assert.argument('length', length).notNull();
         Assert.sequence(this).containsSlice(0, length);
 
         return new List(this.toArray().slice(0, length));
@@ -640,11 +546,9 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
 
 
     public takeWhile(predicate: IteratorFunction<T, boolean>): List<T> {
-        Assert.argument('predicate', predicate).notNull();
-
         let length: number = 0;
 
-        this.forEach((actualItem: T, index: number): boolean|void => {
+        this.forEach((actualItem: T, index: number): boolean | void => {
             let actualItemMatchesPredicate: boolean = predicate(actualItem, index, this);
 
             if (actualItemMatchesPredicate) {
@@ -658,18 +562,7 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
     }
 
 
-    public slice(offset: number, length: number): List<T> {
-        Assert.argument('offset', offset).notNull();
-        Assert.argument('length', length).notNull();
-        Assert.sequence(this).containsSlice(offset, length);
-
-        return new List(this.toArray().slice(offset, offset + length));
-    }
-
-
     public concat(otherList: IEnumerable<T>): List<T> {
-        Assert.argument('otherList', otherList).notNull();
-
         let newList: List<T> = this.clone();
 
         for (let otherItem of otherList) {
@@ -684,9 +577,6 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
         otherList: IEnumerable<T>,
         comparator: IEqualityComparator<T> = EqualityComparator.instance
     ): List<T> {
-        Assert.argument('otherList', otherList).notNull();
-        Assert.argument('comparator', comparator).notNull();
-
         return List.prototype.aggregate.call(otherList, (union: List<T>, otherItem: T): List<T> => {
             if (!union.contains(otherItem, comparator)) {
                 union.add(otherItem);
@@ -701,25 +591,17 @@ export class List<T> extends Collection<T> implements IList<T>, IQueryable<T>, I
         otherList: IEnumerable<TOther>,
         resultSelector: CombineFunction<T, TOther, TResult>
     ): List<TResult> {
-        Assert.argument('otherList', otherList).notNull();
-        Assert.argument('resultSelector', resultSelector).notNull();
-
         let minLength: number = Math.min(this.length, otherList.length);
         let resultsList: List<TResult> = new List<TResult>();
 
         for (let index = 0; index < minLength; index++) {
-            let actualItem: T = this[index];
-            let otherItem: TOther = otherList[index];
+            let actualItem: T = this[index] as T;
+            let otherItem: TOther = otherList[index] as TOther;
             let result: TResult = resultSelector(actualItem, otherItem);
 
             resultsList.add(result);
         }
 
         return resultsList;
-    }
-
-
-    public toCollection(): Collection<T> {
-        return new Collection(this);
     }
 }

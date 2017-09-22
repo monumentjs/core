@@ -1,7 +1,6 @@
 import {EventEmitter} from '../Events/EventEmitter';
 import {ErrorEvent} from '../Events/ErrorEvent';
-import {TaskEventType} from './types';
-import {TaskEvent} from './TaskEvent';
+import {TaskEventType, TaskEvent} from './TaskEvent';
 import {InvalidOperationException} from '../Exceptions/InvalidOperationException';
 
 

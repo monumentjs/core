@@ -1,7 +1,7 @@
 import {StateContainer} from '../../../Source/StateContainer/StateContainer';
-import {TestState} from './_Mocks/TestState';
-import {TestStateContainer} from './_Mocks/TestStateContainer';
-import {TestAction} from './_Mocks/TestAction';
+import {TestState} from './Mocks/TestState';
+import {TestStateContainer} from './Mocks/TestStateContainer';
+import {TestAction} from './Mocks/TestAction';
 import {IStateReceiver} from '../../../Source/StateContainer/IStateReceiver';
 
 
@@ -14,14 +14,14 @@ describe(`StateContainer`, () => {
     });
 
 
-    describe(`#constructor()`, () => {
+    describe(`constructor()`, () => {
         it(`creates new instance of StateContainer`, () => {
             expect(container).toBeInstanceOf(StateContainer);
         });
     });
 
 
-    describe(`#dispatch()`, () => {
+    describe(`commit()`, () => {
         it(`does not throw if 'action' argument is not defined`, () => {
             expect(() => {
                 container.commit();

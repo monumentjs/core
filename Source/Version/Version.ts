@@ -1,19 +1,25 @@
-import {ComparisonResult, ICloneable, IComparable, IEquatable, IJSONSerializable} from '../types';
-import {ReleaseStatus, VERSION_PRE_RELEASE_STAGES} from './types';
+import {ReleaseStatus} from './ReleaseStatus';
 import {StringBuilder} from '../Text/StringBuilder';
-import {Assert} from '../Assertion/Assert';
-import {VersionComparator} from './VersionComparator';
-import {Inject} from '../DI/Decorators/Inject';
+import {ComparisonResult} from '../Core/Types/ComparisonResult';
+import {IEquatable} from '../Core/Abstraction/IEquatable';
+import {IComparable} from '../Core/Abstraction/IComparable';
+import {ICloneable} from '../Core/Abstraction/ICloneable';
+import {IJSONSerializable} from '../Core/Abstraction/IJSONSerializable';
+import {IPropertyAccess} from '../Core/Abstraction/IPropertyAccess';
+
+
+const VERSION_PRE_RELEASE_STAGES: string[] = ['alpha', 'beta', 'rc'];
+const VERSION_COMPONENTS: string[] = ['major', 'minor', 'patch', 'releaseStatus', 'revision'];
 
 
 export class Version implements IEquatable<Version>, IComparable<Version>, ICloneable<Version>, IJSONSerializable<string> {
-    @Inject(VersionComparator)
-    private readonly comparator: VersionComparator;
+    public static readonly PATTERN: RegExp = /^(\d+)\.(\d+)\.(\d+)(-(alpha|beta|rc)(\.(\d+))?)?$/;
+
 
     private _major: number;
     private _minor: number;
     private _patch: number;
-    private _status: ReleaseStatus;
+    private _releaseStatus: ReleaseStatus;
     private _revision: number;
 
 
@@ -32,8 +38,8 @@ export class Version implements IEquatable<Version>, IComparable<Version>, IClon
     }
 
 
-    public get status(): ReleaseStatus {
-        return this._status;
+    public get releaseStatus(): ReleaseStatus {
+        return this._releaseStatus;
     }
 
 
@@ -46,35 +52,80 @@ export class Version implements IEquatable<Version>, IComparable<Version>, IClon
         major: number = 0,
         minor: number = 0,
         patch: number = 0,
-        status: ReleaseStatus = ReleaseStatus.Alpha,
+        releaseStatus: ReleaseStatus = ReleaseStatus.Alpha,
         revision: number = 0
     ) {
-        Assert.argument('major', major).notNull();
-        Assert.argument('minor', minor).notNull();
-        Assert.argument('patch', patch).notNull();
-        Assert.argument('status', status).notNull();
-        Assert.argument('revision', revision).notNull();
-
         this._major = major;
         this._minor = minor;
         this._patch = patch;
-        this._status = status;
+        this._releaseStatus = releaseStatus;
         this._revision = revision;
     }
 
 
+    public getNextMajorVersion(): Version {
+        return new Version(this.major + 1);
+    }
+
+
+    public getNextMinorVersion(): Version {
+        return new Version(this.major, this.minor + 1);
+    }
+
+
+    public getNextPatchVersion(): Version {
+        return new Version(this.major, this.minor, this.patch + 1);
+    }
+
+
+    public getNextReleaseStatusVersion(): Version {
+        if (this.releaseStatus < ReleaseStatus.Stable) {
+            return new Version(this.major, this.minor, this.patch, this.releaseStatus + 1);
+        }
+
+        return this;
+    }
+
+
+    public getNextRevision(): Version {
+        return new Version(this.major, this.minor, this.patch, this.releaseStatus, this.revision + 1);
+    }
+
+
     public compareTo(other: Version): ComparisonResult {
-        return this.comparator.compare(this, other);
+        for (let componentName of VERSION_COMPONENTS) {
+            let componentOfCurrentVersion: number = (this as IPropertyAccess<any>)[componentName];
+            let componentOfOtherVersion: number = (other as IPropertyAccess<any>)[componentName];
+            let result: ComparisonResult = this.compareVersionComponents(
+                componentOfCurrentVersion,
+                componentOfOtherVersion
+            );
+
+            if (result !== ComparisonResult.Equals) {
+                return result;
+            }
+        }
+
+        return ComparisonResult.Equals;
     }
 
 
     public equals(other: Version): boolean {
-        return this.comparator.equals(this, other);
+        for (let componentName of VERSION_COMPONENTS) {
+            let componentOfCurrentVersion: number = (this as IPropertyAccess<any>)[componentName] as number;
+            let componentOfOtherVersion: number = (other as IPropertyAccess<any>)[componentName] as number;
+
+            if (componentOfCurrentVersion !== componentOfOtherVersion) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 
     public clone(): Version {
-        return new Version(this.major, this.minor, this.patch, this.status, this.revision);
+        return new Version(this.major, this.minor, this.patch, this.releaseStatus, this.revision);
     }
 
 
@@ -85,11 +136,11 @@ export class Version implements IEquatable<Version>, IComparable<Version>, IClon
 
     public toString(): string {
         let versionBuilder: StringBuilder = new StringBuilder();
-        let preReleaseStage: string = VERSION_PRE_RELEASE_STAGES[this.status];
+        let preReleaseStage: string = VERSION_PRE_RELEASE_STAGES[this.releaseStatus];
 
         versionBuilder.append(`${this.major}.${this.minor}.${this.patch}`);
 
-        if (this.status !== ReleaseStatus.Stable) {
+        if (this.releaseStatus !== ReleaseStatus.Stable) {
             versionBuilder.append(`-${preReleaseStage}`);
 
             if (this.revision > 0) {
@@ -98,5 +149,12 @@ export class Version implements IEquatable<Version>, IComparable<Version>, IClon
         }
 
         return versionBuilder.toString();
+    }
+
+
+    private compareVersionComponents(current: number, other: number): ComparisonResult {
+        return current < other ? ComparisonResult.Less
+            : current > other ? ComparisonResult.Greater
+                : ComparisonResult.Equals;
     }
 }

@@ -1,5 +1,5 @@
-import {IJSONSerializable} from '../types';
 import {EMPTY_STRING} from '../Text/constants';
+import {IJSONSerializable} from '../Core/Abstraction/IJSONSerializable';
 
 
 export class Exception extends Error implements IJSONSerializable<string> {
