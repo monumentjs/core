@@ -1,12 +1,10 @@
-import {ArgumentNullException} from '../Exceptions/ArgumentNullException';
-import {RangeException} from '../Exceptions/RangeException';
-import {IndexOutOfBoundsException} from '../Exceptions/IndexOutOfBoundsException';
-import {Constructor} from '../types';
-import {ArgumentTypeException} from '../Exceptions/ArgumentTypeException';
-import {IEnumerable} from '../Collections/IEnumerable';
 import {InvalidArgumentException} from '../Exceptions/InvalidArgumentException';
+import {ArgumentNullException} from '../Exceptions/ArgumentNullException';
+import {ArgumentTypeException} from '../Exceptions/ArgumentTypeException';
 import {ArgumentRangeException} from '../Exceptions/ArgumentRangeException';
+import {ArgumentIndexOutOfBoundsException} from '../Exceptions/ArgumentIndexOutOfBoundsException';
 import {EMPTY_STRING} from '../Text/constants';
+import {Constructor} from '../Core/Types/Constructor';
 
 
 export class ArgumentAssertion {
@@ -15,7 +13,7 @@ export class ArgumentAssertion {
 
 
     public constructor(argumentName: string, argumentValue: any) {
-        if (!argumentName) {
+        if (argumentName.length === 0) {
             throw new InvalidArgumentException('argumentName', 'Cannot be empty.');
         }
 
@@ -62,9 +60,11 @@ export class ArgumentAssertion {
 
     public indexBounds(min: number, max: number): this {
         if (this._argumentValue < min || this._argumentValue >= max) {
-            throw new IndexOutOfBoundsException(
-                `Invalid argument "${this._argumentName}": ` +
-                `Value is out of bounds: min=${min}, max=${max}.`
+            throw new ArgumentIndexOutOfBoundsException(
+                this._argumentName,
+                this._argumentValue,
+                min,
+                max
             );
         }
 
@@ -74,21 +74,24 @@ export class ArgumentAssertion {
 
     public isLength(): this {
         if (!isFinite(this._argumentValue) || isNaN(this._argumentValue) || this._argumentValue < 0) {
-            throw new RangeException(
-                `Invalid argument "${this._argumentName}": ` +
-                `Value is not a valid length.`
-            );
+            const ex = new ArgumentRangeException(this._argumentName, 0, Infinity);
+
+            ex.message = `Value is not a valid length.`;
+
+            throw ex;
         }
 
         return this;
     }
 
 
-    public isIndexOf(sequence: IEnumerable<any>): this {
+    public isIndexOf(sequence: ArrayLike<any>): this {
         if (this._argumentValue < 0 || this._argumentValue >= sequence.length) {
-            throw new IndexOutOfBoundsException(
-                `Invalid argument "${this._argumentName}": ` +
-                `Index (${this._argumentValue}) is out of bounds [0, ${sequence.length}).`
+            throw new ArgumentIndexOutOfBoundsException(
+                this._argumentName,
+                this._argumentValue,
+                0,
+                sequence.length
             );
         }
 
@@ -98,9 +101,11 @@ export class ArgumentAssertion {
 
     public isIndex(): this {
         if (this._argumentValue < 0) {
-            throw new IndexOutOfBoundsException(
-                `Invalid argument "${this._argumentName}": ` +
-                `Index is out of bounds [0, +Infinity).`
+            throw new ArgumentIndexOutOfBoundsException(
+                this._argumentName,
+                this._argumentValue,
+                0,
+                Infinity
             );
         }
 

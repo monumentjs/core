@@ -1,15 +1,15 @@
 import {NodeCollection} from './NodeCollection';
 import {Assert} from '../../../Assertion/Assert';
 import {InvalidArgumentException} from '../../../Exceptions/InvalidArgumentException';
-import {INode} from './INode';
+import {INode} from './Abstraction/INode';
 import {EMPTY_STRING} from '../../../Text/constants';
 
 
 export class Node implements INode {
-    protected _textContent: string = EMPTY_STRING;
-    protected _parentNode: Node | null = null;
-    protected _childNodes: NodeCollection = new NodeCollection(this);
-    protected _nodeName: string;
+    private _textContent: string = EMPTY_STRING;
+    private _parentNode: Node | undefined;
+    private _childNodes: NodeCollection = new NodeCollection(this);
+    private _nodeName: string;
 
 
     public get nodeName(): string {
@@ -17,12 +17,12 @@ export class Node implements INode {
     }
 
 
-    public get parentNode(): Node | null {
+    public get parentNode(): Node | undefined {
         return this._parentNode;
     }
 
 
-    public set parentNode(value: Node | null) {
+    public set parentNode(value: Node | undefined) {
         if (this._parentNode === value) {
             return;
         }
@@ -77,7 +77,7 @@ export class Node implements INode {
 
     public get firstChild(): Node | null {
         if (this.hasChildNodes) {
-            return this.childNodes[0];
+            return this.childNodes[0] as Node;
         } else {
             return null;
         }
@@ -86,7 +86,7 @@ export class Node implements INode {
 
     public get lastChild(): Node | null {
         if (this.hasChildNodes) {
-            return this.childNodes[this.childNodes.length - 1];
+            return this.childNodes[this.childNodes.length - 1] as Node;
         } else {
             return null;
         }
@@ -107,7 +107,7 @@ export class Node implements INode {
 
     public get depth(): number {
         let depth = 0;
-        let parentNode: Node | null = this.parentNode;
+        let parentNode: Node | undefined = this.parentNode;
 
         while (parentNode != null) {
             depth += 1;
@@ -156,7 +156,7 @@ export class Node implements INode {
             return false;
         }
 
-        let parentNode: Node | null = node.parentNode;
+        let parentNode: Node | undefined = node.parentNode;
 
         while (parentNode) {
             if (parentNode === this) {

@@ -5,13 +5,15 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "declaration": true,
+    "strict": true,
     "alwaysStrict": true,
     "removeComments": true,
     "noImplicitThis": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
-    "noStrictGenericChecks": true,
+    "noStrictGenericChecks": false,
     "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
     "jsx": "react",
     "typeRoots": [
       "./node_modules/@types"

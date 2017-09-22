@@ -1,5 +1,4 @@
 import {Event} from './Event';
-import {Assert} from '../Assertion/Assert';
 
 
 export class ErrorEvent extends Event {
@@ -15,8 +14,6 @@ export class ErrorEvent extends Event {
 
 
     public constructor(error: Error) {
-        Assert.argument('error', error).notNull();
-
         super(ErrorEvent.ERROR);
 
         this._error = error;

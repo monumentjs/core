@@ -1,7 +1,5 @@
-
-
-import {Assert} from '../Assertion/Assert';
 import {EMPTY_STRING} from './constants';
+
 export class CappedString {
     private _value: string;
     private _length: number;
@@ -23,24 +21,17 @@ export class CappedString {
 
 
     public constructor(length: number, initialValue: string = EMPTY_STRING) {
-        Assert.argument('length', length).notNull();
-        Assert.argument('initialValue', initialValue).notNull();
-
         this._length = length;
         this._value = initialValue;
     }
 
 
     public append(text: string): void {
-        Assert.argument('text', text).notNull();
-
         this._value = this.cutText(this._value + text);
     }
 
 
     public prepend(text: string): void {
-        Assert.argument('text', text).notNull();
-
         this._value = this.cutText(text + this._value);
     }
 
@@ -51,22 +42,16 @@ export class CappedString {
 
 
     public contains(substring: string): boolean {
-        Assert.argument('text', substring).notNull();
-
         return this._value.indexOf(substring) >= 0;
     }
 
 
     public startsWith(substring: string): boolean {
-        Assert.argument('text', substring).notNull();
-
         return this._value.startsWith(substring);
     }
 
 
     public endsWith(substring: string): boolean {
-        Assert.argument('text', substring).notNull();
-
         return this._value.endsWith(substring);
     }
 

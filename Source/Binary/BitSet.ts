@@ -1,17 +1,18 @@
 import {Assert} from '../Assertion/Assert';
-import {ICloneable, IEquatable, IJSONSerializable} from '../types';
-import {ReadOnlyCollection} from '../Collections/ReadOnlyCollection';
-import {IEnumerable} from '../Collections/IEnumerable';
+import {IReadOnlyCollection} from '../Collections/Abstraction/IReadOnlyCollection';
+import {IEnumerable} from '../Collections/Abstraction/IEnumerable';
+import {Collection} from '../Collections/Collection';
+import {ICloneable} from '../Core/Abstraction/ICloneable';
+import {IEquatable} from '../Core/Abstraction/IEquatable';
+import {IJSONSerializable} from '../Core/Abstraction/IJSONSerializable';
 
 
 export class BitSet implements ICloneable<BitSet>, IEquatable<BitSet>, IJSONSerializable<boolean[]> {
     public static fromBits(bits: IEnumerable<boolean>): BitSet {
-        Assert.argument('bits', bits).notNull();
-
         let bitSet: BitSet = new BitSet(bits.length);
 
         for (let i = 0; i < bits.length; i++) {
-            bitSet._bits[i] = bits[i];
+            bitSet._bits[i] = bits[i] as boolean;
         }
 
         return bitSet;
@@ -19,8 +20,6 @@ export class BitSet implements ICloneable<BitSet>, IEquatable<BitSet>, IJSONSeri
 
 
     public static fromByteArray(bytes: IEnumerable<number>): BitSet {
-        Assert.argument('bytes', bytes).notNull();
-
         let bitSetSize: number = bytes.length * 8;
         let bitSet: BitSet = new BitSet(bitSetSize);
         let bitIndex: number = 0;
@@ -68,12 +67,9 @@ export class BitSet implements ICloneable<BitSet>, IEquatable<BitSet>, IJSONSeri
         return cardinality;
     }
 
-    /**
-     * Creates new instance of BitMask.
-     */
+
     public constructor(bitsCount: number = 0) {
-        Assert.argument('bitsCount', bitsCount).notNull();
-        Assert.argument('bitsCount', bitsCount).bounds(0, Infinity);
+        Assert.argument('bitsCount', bitsCount).isLength();
 
         this._bits = new Array(bitsCount);
     }
@@ -91,8 +87,6 @@ export class BitSet implements ICloneable<BitSet>, IEquatable<BitSet>, IJSONSeri
 
 
     public equals(other: BitSet): boolean {
-        Assert.argument('other', other).notNull();
-
         if (this._bits.length !== other._bits.length) {
             return false;
         }
@@ -108,8 +102,6 @@ export class BitSet implements ICloneable<BitSet>, IEquatable<BitSet>, IJSONSeri
 
 
     public set(bitIndex: number, value: boolean = true): void {
-        Assert.argument('bitIndex', bitIndex).notNull();
-        Assert.argument('value', value).notNull();
         Assert.argument('bitIndex', bitIndex).isIndex();
 
         this._bits[bitIndex] = value;
@@ -117,9 +109,8 @@ export class BitSet implements ICloneable<BitSet>, IEquatable<BitSet>, IJSONSeri
 
 
     public setRange(fromIndex: number, toIndex: number, value: boolean = true): void {
-        Assert.argument('fromIndex', fromIndex).notNull().isIndex();
-        Assert.argument('toIndex', toIndex).notNull().isIndex();
-        Assert.argument('value', value).notNull();
+        Assert.argument('fromIndex', fromIndex).isIndex();
+        Assert.argument('toIndex', toIndex).isIndex();
         Assert.range(fromIndex, toIndex).ofArguments('fromIndex', 'toIndex');
 
         for (let i = fromIndex; i < toIndex; i++) {
@@ -129,8 +120,6 @@ export class BitSet implements ICloneable<BitSet>, IEquatable<BitSet>, IJSONSeri
 
 
     public setAll(value: boolean = true): void {
-        Assert.argument('value', value).notNull();
-
         for (let i = 0; i < this._bits.length; i++) {
             this._bits[i] = value;
         }
@@ -138,8 +127,6 @@ export class BitSet implements ICloneable<BitSet>, IEquatable<BitSet>, IJSONSeri
 
 
     public setByMask(mask: BitSet): void {
-        Assert.argument('mask', mask).notNull();
-
         for (let i = 0; i < mask._bits.length; i++) {
             if (mask._bits[i]) {
                 this._bits[i] = true;
@@ -149,15 +136,15 @@ export class BitSet implements ICloneable<BitSet>, IEquatable<BitSet>, IJSONSeri
 
 
     public clear(bitIndex: number): void {
-        Assert.argument('bitIndex', bitIndex).notNull().isIndex();
+        Assert.argument('bitIndex', bitIndex).isIndex();
 
         this._bits[bitIndex] = false;
     }
 
 
     public clearRange(fromIndex: number, toIndex: number): void {
-        Assert.argument('fromIndex', fromIndex).notNull().isIndex();
-        Assert.argument('toIndex', toIndex).notNull().isIndex();
+        Assert.argument('fromIndex', fromIndex).isIndex();
+        Assert.argument('toIndex', toIndex).isIndex();
         Assert.range(fromIndex, toIndex).ofArguments('fromIndex', 'toIndex');
 
         for (let i = fromIndex; i < toIndex; i++) {
@@ -172,8 +159,6 @@ export class BitSet implements ICloneable<BitSet>, IEquatable<BitSet>, IJSONSeri
 
 
     public clearByMask(mask: BitSet): void {
-        Assert.argument('mask', mask).notNull();
-
         for (let i = 0; i < mask._bits.length; i++) {
             if (mask._bits[i]) {
                 this._bits[i] = false;
@@ -183,15 +168,15 @@ export class BitSet implements ICloneable<BitSet>, IEquatable<BitSet>, IJSONSeri
 
 
     public invert(bitIndex: number): void {
-        Assert.argument('bitIndex', bitIndex).notNull().isIndex();
+        Assert.argument('bitIndex', bitIndex).isIndex();
 
         this._bits[bitIndex] = !this._bits[bitIndex];
     }
 
 
     public invertRange(fromIndex: number, toIndex: number): void {
-        Assert.argument('fromIndex', fromIndex).notNull().isIndex();
-        Assert.argument('toIndex', toIndex).notNull().isIndex();
+        Assert.argument('fromIndex', fromIndex).isIndex();
+        Assert.argument('toIndex', toIndex).isIndex();
         Assert.range(fromIndex, toIndex).ofArguments('fromIndex', 'toIndex');
 
         for (let i = fromIndex; i < toIndex; i++) {
@@ -208,15 +193,15 @@ export class BitSet implements ICloneable<BitSet>, IEquatable<BitSet>, IJSONSeri
 
 
     public get(bitIndex: number): boolean {
-        Assert.argument('bitIndex', bitIndex).notNull().isIndex();
+        Assert.argument('bitIndex', bitIndex).isIndex();
 
         return this._bits[bitIndex] || false;
     }
 
 
     public getRange(fromIndex: number, toIndex: number): BitSet {
-        Assert.argument('fromIndex', fromIndex).notNull().isIndex();
-        Assert.argument('toIndex', toIndex).notNull().isIndex();
+        Assert.argument('fromIndex', fromIndex).isIndex();
+        Assert.argument('toIndex', toIndex).isIndex();
         Assert.range(fromIndex, toIndex).ofArguments('fromIndex', 'toIndex');
 
         let slice: BitSet = new BitSet(toIndex - fromIndex);
@@ -230,8 +215,6 @@ export class BitSet implements ICloneable<BitSet>, IEquatable<BitSet>, IJSONSeri
 
 
     public indexOf(bitValue: boolean, fromIndex?: number): number {
-        Assert.argument('bitValue', bitValue).notNull();
-
         if (fromIndex) {
             Assert.argument('fromIndex', fromIndex).indexBounds(0, this._bits.length);
         }
@@ -245,8 +228,6 @@ export class BitSet implements ICloneable<BitSet>, IEquatable<BitSet>, IJSONSeri
 
 
     public lastIndexOf(bitValue: boolean, fromIndex?: number): number {
-        Assert.argument('bitValue', bitValue).notNull();
-
         if (fromIndex) {
             Assert.argument('fromIndex', fromIndex).indexBounds(0, this._bits.length);
         }
@@ -259,24 +240,20 @@ export class BitSet implements ICloneable<BitSet>, IEquatable<BitSet>, IJSONSeri
     }
 
 
-    public findBits(bitValue: boolean): ReadOnlyCollection<number> {
-        Assert.argument('bitValue', bitValue).notNull();
+    public findBits(bitValue: boolean): IReadOnlyCollection<number> {
+        let indexes: Collection<number> = new Collection();
 
-        let indexes: number[] = [];
-
-        for (let i = 0; i < this._bits.length; i++) {
-            if (this._bits[i] === bitValue) {
-                indexes.push(i);
+        for (let index = 0; index < this._bits.length; index++) {
+            if (this._bits[index] === bitValue) {
+                indexes.add(index);
             }
         }
 
-        return new ReadOnlyCollection(indexes);
+        return indexes;
     }
 
 
     public and(set: BitSet): void {
-        Assert.argument('set', set).notNull();
-
         for (let i = 0; i < set._bits.length; i++) {
             this._bits[i] = this.get(i) && set.get(i);
         }
@@ -284,8 +261,6 @@ export class BitSet implements ICloneable<BitSet>, IEquatable<BitSet>, IJSONSeri
 
 
     public or(set: BitSet): void {
-        Assert.argument('set', set).notNull();
-
         for (let i = 0; i < set._bits.length; i++) {
             this._bits[i] = this.get(i) || set.get(i);
         }
@@ -293,8 +268,6 @@ export class BitSet implements ICloneable<BitSet>, IEquatable<BitSet>, IJSONSeri
 
 
     public xor(set: BitSet): void {
-        Assert.argument('set', set).notNull();
-
         for (let i = 0; i < set._bits.length; i++) {
             this._bits[i] = this.get(i) !== set.get(i);
         }
@@ -302,8 +275,6 @@ export class BitSet implements ICloneable<BitSet>, IEquatable<BitSet>, IJSONSeri
 
 
     public intersects(other: BitSet): boolean {
-        Assert.argument('other', other).notNull();
-
         let minLength: number = Math.min(this.length, other.length);
 
         for (let i = 0; i < minLength; i++) {
@@ -317,7 +288,7 @@ export class BitSet implements ICloneable<BitSet>, IEquatable<BitSet>, IJSONSeri
 
 
     public toString(): string {
-        let setIndexes: ReadOnlyCollection<number> = this.findBits(true);
+        let setIndexes: IReadOnlyCollection<number> = this.findBits(true);
 
         return `{${setIndexes.toArray().join(', ')}}`;
     }

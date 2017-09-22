@@ -1,12 +1,12 @@
-import {Constructor} from '../types';
 import {InvalidArgumentException} from './InvalidArgumentException';
+import {Type} from '../Core/Types/Type';
 
 
 export class ArgumentTypeException extends InvalidArgumentException {
-    public readonly argumentType: Constructor<any>;
+    public readonly argumentType: Type;
 
 
-    public constructor(argumentName: string, argumentType: Constructor<any>) {
+    public constructor(argumentName: string, argumentType: Type) {
         super(argumentName, `Value is not instance of ${argumentType.name}.`);
 
         this.argumentType = argumentType;

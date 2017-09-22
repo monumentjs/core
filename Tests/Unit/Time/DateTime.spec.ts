@@ -1,4 +1,5 @@
 import {DateTime} from '../../../Source/Time/DateTime';
+import {IPropertyAccess} from '../../../Source/Core/Abstraction/IPropertyAccess';
 
 
 describe('DateTime', () => {
@@ -14,9 +15,9 @@ describe('DateTime', () => {
     let instance: DateTime;
 
 
-    function assertDateTimeComponents(dateTime: DateTime, components: Object) {
+    function assertDateTimeComponents(dateTime: DateTime, components: IPropertyAccess<any>) {
         Object.keys(components).forEach((key: string) => {
-            expect(dateTime[key]).toEqual(components[key]);
+            expect((dateTime as IPropertyAccess<any>)[key]).toEqual(components[key]);
         });
     }
 
@@ -31,14 +32,14 @@ describe('DateTime', () => {
     });
 
 
-    describe('#constructor()', () => {
+    describe('constructor()', () => {
         it('creates new instance of class', () => {
             expect(instance).toBeInstanceOf(DateTime);
         });
     });
 
 
-    describe(`#year`, () => {
+    describe(`year`, () => {
         it(`gets year component of instance`, () => {
             assertDateTimeComponents(instance, {
                 year: CURRENT_YEAR,
@@ -85,7 +86,7 @@ describe('DateTime', () => {
     });
 
 
-    describe('#addMonths(months)', () => {
+    describe('addMonths(months)', () => {
         it(`adds specified number of months`, () => {
             instance = new DateTime(2017, 0, 31).addMonths(1);
 
@@ -99,7 +100,7 @@ describe('DateTime', () => {
     });
 
 
-    describe('#toString()', () => {
+    describe('toString()', () => {
         it(`returns formatted representation of DateTime instance`, () => {
             expect(instance.toString('Year: {YYYY}')).toBe(`Year: ${CURRENT_YEAR.toString()}`);
             expect(instance.toString('Year: {YY}')).toBe(`Year: ${(CURRENT_YEAR % 100).toString()}`);

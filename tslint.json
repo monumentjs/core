@@ -19,6 +19,7 @@
     "no-bitwise": false,
     "ban-types": true,
     "interface-over-type-literal": false,
+    "interface-name": false,
     "no-conditional-assignment": false,
     "no-empty": true,
     "max-line-length": [false],
@@ -52,6 +53,8 @@
   },
   "exclude": [
     "node_modules",
-    "**/*.d.ts"
+    "**/*.d.ts",
+    "./Documentation/**/*.ts",
+    "Tests/**/*.ts"
   ]
 }

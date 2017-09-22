@@ -1,5 +1,5 @@
 import {Enumerable} from '../../../Source/Collections/Enumerable';
-import {TestEnumerable} from './mocks/TestEnumerable';
+import {TestEnumerable} from './Mocks/TestEnumerable';
 
 
 describe(`Enumerable`, () => {
@@ -11,7 +11,7 @@ describe(`Enumerable`, () => {
     });
 
 
-    describe(`#constructor()`, () => {
+    describe(`constructor()`, () => {
         it(`creates new instance of Enumerable`, () => {
             expect(instance).toBeInstanceOf(Enumerable);
         });
@@ -82,7 +82,7 @@ describe(`Enumerable`, () => {
     });
 
 
-    describe(`#getIterator()`, () => {
+    describe(`getIterator()`, () => {
         it(`overwrites default behavior of iteration`, () => {
             let items: TestEnumerable = new TestEnumerable(['one', 'two', 'three']);
             let iteratorCallback = jest.fn();
@@ -103,17 +103,7 @@ describe(`Enumerable`, () => {
     });
 
 
-    describe('#toEnumerable()', () => {
-        it('returns copies all items into new instance of Enumerable and returns it', () => {
-            let items: Enumerable<string> = instance.toEnumerable();
-
-            expect(items).toBeInstanceOf(Enumerable);
-            expect(items.length).toBe(3);
-        });
-    });
-
-
-    describe('#toJSON()', () => {
+    describe('toJSON()', () => {
         it('returns pure JS array for JSON serialization', () => {
             expect(instance.toJSON()).toBeInstanceOf(Array);
             expect(instance.toJSON()).toEqual(['one', 'two', 'three']);
@@ -121,7 +111,7 @@ describe(`Enumerable`, () => {
     });
 
 
-    describe('#toArray()', () => {
+    describe('toArray()', () => {
         it('returns pure JS array', () => {
             expect(instance.toJSON()).toBeInstanceOf(Array);
             expect(instance.toJSON()).toEqual(['one', 'two', 'three']);

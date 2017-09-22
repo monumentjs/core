@@ -19,14 +19,14 @@ describe('Dispatcher', () => {
     });
 
 
-    describe('#constructor()', () => {
+    describe('constructor()', () => {
         it('create new instance of Dispatcher class', () => {
             expect(dispatcher).toBeInstanceOf(Dispatcher);
         });
     });
 
 
-    describe('#addListener()', () => {
+    describe('addListener()', () => {
         it('attaches listener', () => {
             listener = jest.fn();
 
@@ -64,7 +64,7 @@ describe('Dispatcher', () => {
     });
 
 
-    describe('#removeListener()', () => {
+    describe('removeListener()', () => {
         it('returns `true` when listener was un-subscribed', () => {
             listener = jest.fn();
 
@@ -104,7 +104,7 @@ describe('Dispatcher', () => {
     });
 
 
-    describe('#dispatchAction()', () => {
+    describe('dispatchAction()', () => {
         it('trigger all listeners with specified action', () => {
             listener = jest.fn();
 

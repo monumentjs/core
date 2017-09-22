@@ -1,127 +1,122 @@
 import {Stack} from '../../../Source/Collections/Stack';
-import {InvalidOperationException} from '../../../Source/Exceptions/InvalidOperationException';
 import {IgnoreCaseComparator} from '../../../Source/Text/IgnoreCaseComparator';
-import {Container} from '../../../Source/DI/Container/Container';
+import {EmptyStackException} from '../../../Source/Collections/EmptyStackException';
 
 
 describe(`Stack`, () => {
-    const comparator = Container.get(IgnoreCaseComparator);
-
-    let instance: Stack<string>;
+    let stack: Stack<string>;
 
 
     beforeEach(() => {
         expect(() => {
-            instance = new Stack<string>();
+            stack = new Stack<string>();
         }).not.toThrow();
     });
 
 
-    describe('#constructor()', () => {
+    describe('constructor()', () => {
         it(`creates new empty instance of Stack class`, () => {
-            expect(instance).toBeInstanceOf(Stack);
-            expect(instance.length).toBe(0);
+            expect(stack).toBeInstanceOf(Stack);
+            expect(stack.length).toBe(0);
         });
 
         it(`creates new instance of Stack class from existing list`, () => {
-            instance = new Stack(['a', 'b', 'c']);
+            stack = new Stack(['a', 'b', 'c']);
 
-            expect(instance.length).toBe(3);
-            expect(instance[0]).toBe('a');
-            expect(instance[1]).toBe('b');
-            expect(instance[2]).toBe('c');
+            expect(stack.length).toBe(3);
+            expect(stack[0]).toBe('a');
+            expect(stack[1]).toBe('b');
+            expect(stack[2]).toBe('c');
         });
     });
 
 
-    describe(`#push()`, () => {
+    describe(`add()`, () => {
         it(`adds item to the end of stack`, () => {
-            instance.push('a');
+            stack.add('a');
 
-            expect(instance.length).toBe(1);
+            expect(stack.length).toBe(1);
 
-            instance.push('b');
+            stack.add('b');
 
-            expect(instance.length).toBe(2);
+            expect(stack.length).toBe(2);
 
-            instance.push('c');
+            stack.add('c');
 
-            expect(instance.length).toBe(3);
+            expect(stack.length).toBe(3);
 
-            expect(instance[0]).toBe('a');
-            expect(instance[1]).toBe('b');
-            expect(instance[2]).toBe('c');
+            expect(stack[0]).toBe('a');
+            expect(stack[1]).toBe('b');
+            expect(stack[2]).toBe('c');
         });
     });
 
 
-    describe(`#pop()`, () => {
+    describe(`pop()`, () => {
         it(`throws if stack is empty`, () => {
             expect(() => {
-                instance.pop();
-            }).toThrowError(InvalidOperationException);
+                stack.pop();
+            }).toThrowError(EmptyStackException);
         });
 
         it(`returns next element and removes it from stack`, () => {
-            instance.push('a');
-            instance.push('b');
-            instance.push('c');
+            stack.addAll(['a', 'b', 'c']);
 
-            expect(instance.pop()).toBe('c');
-            expect(instance.length).toBe(2);
-            expect(instance.pop()).toBe('b');
-            expect(instance.length).toBe(1);
-            expect(instance.pop()).toBe('a');
-            expect(instance.length).toBe(0);
+            expect(stack.pop()).toBe('c');
+            expect(stack.length).toBe(2);
+            expect(stack.pop()).toBe('b');
+            expect(stack.length).toBe(1);
+            expect(stack.pop()).toBe('a');
+            expect(stack.length).toBe(0);
         });
     });
 
 
-    describe(`#pick()`, () => {
+    describe(`pick()`, () => {
         it(`throws if stack is empty`, () => {
             expect(() => {
-                instance.peek();
-            }).toThrowError(InvalidOperationException);
+                stack.peek();
+            }).toThrowError(EmptyStackException);
         });
 
         it(`returns next element of stack`, () => {
-            instance = new Stack(['a', 'b', 'c']);
+            stack = new Stack(['a', 'b', 'c']);
 
-            expect(instance.peek()).toBe('c');
-            expect(instance.length).toBe(3);
+            expect(stack.peek()).toBe('c');
+            expect(stack.length).toBe(3);
 
-            expect(instance.peek()).toBe('c');
-            expect(instance.length).toBe(3);
+            expect(stack.peek()).toBe('c');
+            expect(stack.length).toBe(3);
         });
     });
 
 
-    describe(`#clear()`, () => {
+    describe(`clear()`, () => {
         it(`clears stack`, () => {
-            instance = new Stack(['a', 'b', 'c']);
+            stack = new Stack(['a', 'b', 'c']);
 
-            expect(instance.length).toBe(3);
+            expect(stack.length).toBe(3);
 
-            instance.clear();
+            stack.clear();
 
-            expect(instance.length).toBe(0);
+            expect(stack.length).toBe(0);
         });
     });
 
 
-    describe(`#contains()`, () => {
+    describe(`contains()`, () => {
         it(`determines whether stack contains item using default equality comparator`, () => {
-            instance = new Stack(['a', 'b', 'c']);
+            stack = new Stack(['a', 'b', 'c']);
 
-            expect(instance.contains('a')).toBe(true);
-            expect(instance.contains('d')).toBe(false);
+            expect(stack.contains('a')).toBe(true);
+            expect(stack.contains('d')).toBe(false);
         });
 
         it(`determines whether stack contains item using custom equality comparator`, () => {
-            instance = new Stack(['a', 'b', 'c']);
+            stack = new Stack(['a', 'b', 'c']);
 
-            expect(instance.contains('A', comparator)).toBe(true);
-            expect(instance.contains('D', comparator)).toBe(false);
+            expect(stack.contains('A', IgnoreCaseComparator.instance)).toBe(true);
+            expect(stack.contains('D', IgnoreCaseComparator.instance)).toBe(false);
         });
     });
 });

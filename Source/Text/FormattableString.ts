@@ -1,12 +1,13 @@
 import {MissingKeyException} from '../Exceptions/MissingKeyException';
 import {Collection} from '../Collections/Collection';
-import {ReadOnlyCollection} from '../Collections/ReadOnlyCollection';
+import {IReadOnlyCollection} from '../Collections/Abstraction/IReadOnlyCollection';
 import {ParsingException} from './Parsing/ParsingException';
 import {RegExpHelper} from './RegExpHelper';
 import {Assert} from '../Assertion/Assert';
-import {Dictionary} from '../Collections/Dictionary';
+import {Map} from '../Collections/Map';
 import {EMPTY_STRING} from './constants';
-import {Inject} from '../DI/Decorators/Inject';
+import {IPropertyAccess} from '../Core/Abstraction/IPropertyAccess';
+import {IIndexAccess} from '../Collections/Abstraction/IIndexAccess';
 
 
 const NORMAL_ENTRY_PATTERN: RegExp = /{(\w+)}/g;
@@ -14,23 +15,18 @@ const ESCAPED_ENTRY_PATTERN: RegExp = /\\{(\w+)\\}/g;
 
 
 export class FormattableString {
-    @Inject(RegExpHelper)
-    private readonly regExpHelper: RegExpHelper;
-
     private _template: string;
-    private _allEntries: ReadOnlyCollection<string> = new ReadOnlyCollection<string>();
-    private _uniqueEntries: ReadOnlyCollection<string>;
+    private _allEntries: IIndexAccess<string>;
+    private _uniqueEntries: IReadOnlyCollection<string>;
     private _extractionPattern: RegExp;
 
 
-    public get uniqueEntries(): ReadOnlyCollection<string> {
+    public get uniqueEntries(): IReadOnlyCollection<string> {
         return this._uniqueEntries;
     }
 
 
     public constructor(template: string) {
-        Assert.argument('template', template).notNull();
-
         this._template = template;
         this._allEntries = this.getAllEntries();
         this._uniqueEntries = this.getUniqueEntries();
@@ -39,8 +35,6 @@ export class FormattableString {
 
 
     public fillByPositions(values: any[]): string {
-        Assert.argument('values', values).notNull();
-
         return this.fillEntries((key: string): string => {
             let index: number = parseInt(key, 10);
 
@@ -51,9 +45,7 @@ export class FormattableString {
     }
 
 
-    public fillByKeys(values: object): string {
-        Assert.argument('values', values).notNull();
-
+    public fillByKeys(values: IPropertyAccess<string>): string {
         return this.fillEntries((key: string): string => {
             if (values[key] != null) {
                 return values[key] + EMPTY_STRING;
@@ -65,8 +57,6 @@ export class FormattableString {
 
 
     public tryFillByPositions(values: any[]): string {
-        Assert.argument('values', values).notNull();
-
         return this.fillEntries((key: string): string => {
             let index: number = parseInt(key, 10);
 
@@ -79,9 +69,7 @@ export class FormattableString {
     }
 
 
-    public tryFillByKeys(values: object): string {
-        Assert.argument('values', values).notNull();
-
+    public tryFillByKeys(values: IPropertyAccess<string>): string {
         return this.fillEntries((key: string): string => {
             if (values[key] != null) {
                 return values[key] + EMPTY_STRING;
@@ -92,10 +80,8 @@ export class FormattableString {
     }
 
 
-    public extractValues(source: string): Dictionary<string, string> {
-        Assert.argument('source', source).notNull();
-
-        let values: Dictionary<string, string> = new Dictionary<string, string>();
+    public extractValues(source: string): Map<string, string> {
+        let values: Map<string, string> = new Map<string, string>();
         let match: RegExpExecArray | null = this._extractionPattern.exec(source);
 
         if (!match) {
@@ -103,22 +89,22 @@ export class FormattableString {
         }
 
         match.slice(1).forEach((entryValue: string, index: number) => {
-            let entryKey: string = this._allEntries[index];
+            let entryKey: string | undefined = this._allEntries[index];
 
-            values.set(entryKey, entryValue);
+            if (entryKey != null) {
+                values.put(entryKey, entryValue);
+            }
         });
 
         return values;
     }
 
 
-    public tryExtractValues(source: string): Dictionary<string, string> | null {
-        Assert.argument('source', source).notNull();
-
+    public tryExtractValues(source: string): Map<string, string> | undefined {
         try {
             return this.extractValues(source);
         } catch (ex) {
-            return null;
+            return;
         }
     }
 
@@ -128,8 +114,8 @@ export class FormattableString {
     }
 
 
-    private getAllEntries(): ReadOnlyCollection<string> {
-        let match: RegExpExecArray | null = null;
+    private getAllEntries(): IIndexAccess<string> {
+        let match: RegExpExecArray | null;
         let entries: Collection<string> = new Collection<string>();
 
         do {
@@ -140,12 +126,12 @@ export class FormattableString {
             }
         } while (match != null);
 
-        return new ReadOnlyCollection<string>(entries);
+        return entries;
     }
 
 
-    private getUniqueEntries(): ReadOnlyCollection<string> {
-        let match: RegExpExecArray | null = null;
+    private getUniqueEntries(): IReadOnlyCollection<string> {
+        let match: RegExpExecArray | null;
         let entries: Collection<string> = new Collection<string>();
 
         do {
@@ -158,7 +144,7 @@ export class FormattableString {
             }
         } while (match != null);
 
-        return new ReadOnlyCollection<string>(entries);
+        return entries;
     }
 
 
@@ -170,7 +156,7 @@ export class FormattableString {
 
 
     private createExtractingPattern(): RegExp {
-        let pattern: string = this.regExpHelper.escape(this._template);
+        let pattern: string = RegExpHelper.escape(this._template);
 
         pattern = pattern.replace(ESCAPED_ENTRY_PATTERN, (): string => {
             return `(.+)`;

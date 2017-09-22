@@ -1,16 +1,16 @@
 import {Exception} from './Exception';
-import {Constructor} from '../types';
+import {Type} from '../Core/Types/Type';
 
 
 export class PropertyTypeException extends Exception {
-    public readonly propertyName: string;
-    public readonly propertyValue: Constructor<any>;
+    public readonly propertyKey: PropertyKey;
+    public readonly propertyType: Type;
 
 
-    public constructor(propertyName: string, propertyValue: Constructor<any>) {
-        super(`Invalid property "${propertyName}": value is not instance of ${propertyValue.name}.`);
+    public constructor(key: PropertyKey, type: Type) {
+        super(`Invalid property "${key}": value is not instance of ${type.name}.`);
 
-        this.propertyName = propertyName;
-        this.propertyValue = propertyValue;
+        this.propertyKey = key;
+        this.propertyType = type;
     }
 }

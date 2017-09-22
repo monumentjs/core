@@ -1,5 +1,5 @@
 import {ArgumentAssertion} from './ArgumentAssertion';
-import {IEnumerable} from '../Collections/IEnumerable';
+import {IEnumerable} from '../Collections/Abstraction/IEnumerable';
 import {SequenceAssertion} from './SequenceAssertion';
 import {RangeAssertion} from './RangeAssertion';
 import {NumberAssertion} from './NumberAssertion';

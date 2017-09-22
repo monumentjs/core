@@ -1,12 +1,12 @@
-import {ISingletonConfiguration} from './ISingletonConfiguration';
-import {Singleton} from './Singleton';
+import {UnitScope} from '../Unit/UnitScope';
+import {DecoratorTarget} from '../../Language/Support/Decorators/DecoratorTarget';
+import {Scope} from './Scope';
+import {Target} from '../../Language/Decorators/Target';
 
-/**
- * Alias for @Singleton decorator but with more high-level meaning.
- *
- * @see {Singleton}
- * @param {ISingletonConfiguration<T>} unitConfiguration
- */
-export function Service<T>(unitConfiguration: ISingletonConfiguration<T> = {}): ClassDecorator {
-    return Singleton(unitConfiguration);
+
+export function Service(): ClassDecorator {
+    return function (target: Function) {
+        Target(DecoratorTarget.Class)(...arguments);
+        Scope(UnitScope.Singleton)(target);
+    };
 }

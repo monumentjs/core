@@ -1,5 +1,6 @@
-import {ThrottledMethod} from './Helpers/ThrottledMethod';
-import {Assert} from '../../Assertion/Assert';
+import {ThrottledMethod} from '../../Async/ThrottledMethod';
+import {Target} from './Target';
+import {DecoratorTarget} from '../Support/Decorators/DecoratorTarget';
 
 
 export function Throttle(
@@ -8,13 +9,12 @@ export function Throttle(
     trailing: boolean = true,
     maxWait: number = Infinity
 ): MethodDecorator {
-    return function (
+    return (function (
         prototype: object,
         methodName: string,
         descriptor: TypedPropertyDescriptor<Function>
     ): TypedPropertyDescriptor<Function> {
-        Assert.argument('descriptor', descriptor).notNull();
-        Assert.argument('descriptor.value', descriptor.value).notNull();
+        Target(DecoratorTarget.Method)(...arguments);
 
         const method: Function = descriptor.value as Function;
         const throttledMethod: ThrottledMethod = new ThrottledMethod(method, timeout, leading, trailing, maxWait);
@@ -24,6 +24,6 @@ export function Throttle(
                 return throttledMethod.call(this, arguments);
             }
         };
-    };
+    }) as MethodDecorator;
 }
 

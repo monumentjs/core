@@ -1,6 +1,8 @@
 import {Event} from '../Events/Event';
 import {Task} from './Task';
-import {TaskEventType} from './types';
+
+
+export type TaskEventType = 'complete' | 'error' | 'abort';
 
 
 export class TaskEvent extends Event {
@@ -9,7 +11,7 @@ export class TaskEvent extends Event {
     public static readonly ERROR: TaskEventType = 'error';
 
 
-    constructor(eventType: string, public readonly task: Task<any>) {
+    constructor(eventType: TaskEventType, public readonly task: Task<any>) {
         super(eventType);
     }
 }

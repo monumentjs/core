@@ -1,11 +1,10 @@
 import {IStateReceiver} from './IStateReceiver';
-import {Collection} from '../Collections/Collection';
-import {Assert} from '../Assertion/Assert';
 import {IStatePatch} from './IStatePatch';
+import {ReceiverSupport} from '../Support/DataFlow/ReceiverSupport';
+import {IEnumerable} from '../Collections/Abstraction/IEnumerable';
 
 
-export abstract class StateContainer<TState> {
-    private _receivers: Collection<IStateReceiver<TState>> = new Collection();
+export abstract class StateContainer<TState> extends ReceiverSupport<IStateReceiver<TState>> {
     private _state: TState;
 
 
@@ -15,6 +14,8 @@ export abstract class StateContainer<TState> {
 
 
     public constructor() {
+        super();
+
         this._state = this.getInitialState();
     }
 
@@ -24,43 +25,40 @@ export abstract class StateContainer<TState> {
             patch.apply(this.state);
         }
 
-        this.commitChanges();
+        this.pushState();
+    }
+
+
+    public commitAll(patches: IEnumerable<IStatePatch<TState>>): void {
+        for (let patch of patches) {
+            patch.apply(this.state);
+        }
+
+        this.pushState();
     }
 
 
     public addReceiver(receiver: IStateReceiver<TState>): void {
-        Assert.argument('receiver', receiver).notNull();
-
-        this._receivers.add(receiver);
+        super.addReceiver(receiver);
 
         receiver.receiveState(this.state);
-    }
-
-
-    public removeReceiver(receiver: IStateReceiver<TState>): boolean {
-        Assert.argument('receiver', receiver).notNull();
-
-        return this._receivers.remove(receiver);
-    }
-
-
-    public removeAllReceivers(): void {
-        this._receivers.clear();
     }
 
 
     public resetState(): void {
         this._state = this.getInitialState();
 
-        this.commitChanges();
+        this.pushState();
     }
 
 
     protected abstract getInitialState(): TState;
 
 
-    private commitChanges(): void {
-        for (let receiver of this._receivers) {
+    private pushState(): void {
+        const receivers = this.getAllReceivers();
+
+        for (let receiver of receivers) {
             receiver.receiveState(this.state);
         }
     }

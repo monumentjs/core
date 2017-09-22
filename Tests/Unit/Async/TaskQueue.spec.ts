@@ -1,4 +1,4 @@
-import {TestTask} from './_Mocks/TestTask';
+import {TestTask} from './Mocks/TestTask';
 import {TaskQueue} from '../../../Source/Async/TaskQueue';
 
 
@@ -11,7 +11,7 @@ describe('TaskQueue', () => {
     });
 
 
-    describe('#constructor(options)', () => {
+    describe('constructor(options)', () => {
         it(`creates new single-threaded scheduler`, () => {
             expect(scheduler).toBeInstanceOf(TaskQueue);
             expect(scheduler.concurrency).toBe(1);
@@ -35,7 +35,7 @@ describe('TaskQueue', () => {
     });
 
 
-    describe('#addTask()', () => {
+    describe('addTask()', () => {
         it('adds task to the end of queue', () => {
             let taskQueue: TaskQueue = new TaskQueue(1);
             let task: TestTask<string> = new TestTask<string>('OK');

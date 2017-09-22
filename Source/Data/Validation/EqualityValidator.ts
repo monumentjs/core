@@ -1,6 +1,6 @@
 import {ValueValidator} from './ValueValidator';
-import {IEqualityComparator} from '../../Collections/IEqualityComparator';
-import {EqualityComparator} from '../../Collections/EqualityComparator';
+import {EqualityComparator} from '../../Core/EqualityComparator';
+import {IEqualityComparator} from '../../Core/Abstraction/IEqualityComparator';
 
 
 export class EqualityValidator<T> extends ValueValidator<T> {

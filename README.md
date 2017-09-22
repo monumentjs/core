@@ -53,7 +53,7 @@ Now it's pretty simple to write asynchronous code using `async/await`.
 So, forget about callback hell and long promises chains!
 In standard library functions that performs async work are always `async`.
 
-Also thanks to TypeScript **we can use the latest EcmaScript features today**.
+Also thanks to TypeScript **we can use the latest ECMAScript features today**.
 
 
 ## Test coverage
@@ -71,7 +71,9 @@ and fix problems caused by changes from release to release.
 
 ## Contribution
 
-Feel free to make pull-requests. Your help is always welcome.
+Feel free to make pull-requests.
+Your help is always welcome.
+For more information see [this document](CONTRIBUTING.md).
 
 
 ## License

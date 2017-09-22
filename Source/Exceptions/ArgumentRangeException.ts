@@ -6,6 +6,7 @@ export class ArgumentRangeException extends InvalidArgumentException {
     public readonly max: number;
 
 
+    // TODO: add argument value
     public constructor(argumentName: string, min: number, max: number) {
         super(argumentName, `Value is out of bounds: min=${min}, max=${max}.`);
 

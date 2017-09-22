@@ -1,121 +1,48 @@
 import {List} from '../../../Source/Collections/List';
-import {Collection} from '../../../Source/Collections/Collection';
-import {IndexOutOfBoundsException} from '../../../Source/Exceptions/IndexOutOfBoundsException';
-import {ArgumentNullException} from '../../../Source/Exceptions/ArgumentNullException';
 import {InvalidOperationException} from '../../../Source/Exceptions/InvalidOperationException';
 import {IgnoreCaseComparator} from '../../../Source/Text/IgnoreCaseComparator';
 import {Grouping} from '../../../Source/Collections/Grouping';
 import {SortOrder} from '../../../Source/Collections/SortOrder';
 import {RangeException} from '../../../Source/Exceptions/RangeException';
-import {Container} from '../../../Source/DI/Container/Container';
+import {ArgumentIndexOutOfBoundsException} from '../../../Source/Exceptions/ArgumentIndexOutOfBoundsException';
+import {ArgumentRangeException} from '../../../Source/Exceptions/ArgumentRangeException';
+import {IPropertyAccess} from '../../../Source/Core/Abstraction/IPropertyAccess';
 
 
 describe('List', () => {
-    const comparator = Container.get(IgnoreCaseComparator);
-    
     let list: List<string>;
 
 
     beforeEach(() => {
-        expect(function () {
-            list = new List<string>();
-        }).not.toThrow();
+        list = new List<string>();
     });
 
 
-    describe('#constructor()', () => {
-        it('creates new instance of List class', () => {
-            expect(list).toBeInstanceOf(List);
-            expect(list).toBeInstanceOf(Collection);
-        });
-    });
-
-
-    describe(`List.generate()`, () => {
-        it(`throws if 'length' argument is out of bounds`, () => {
-            expect(() => {
-                List.generate(() => 1, -1);
-            }).toThrowError(RangeException);
-        });
-
-        it(`returns new list containing specified amount of generated items`, () => {
-            let numbers: List<number> = List.generate((index) => index, 3);
-
-            expect(numbers.length).toBe(3);
-            expect(numbers[0]).toBe(0);
-            expect(numbers[1]).toBe(1);
-            expect(numbers[2]).toBe(2);
-        });
-    });
-
-
-    describe(`List.repeat()`, () => {
-        it(`throws if 'times' argument is out of bounds`, () => {
-            expect(() => {
-                List.repeat(1, -1);
-            }).toThrowError(RangeException);
-        });
-
-        it(`returns new list containing specified amount of generated items`, () => {
-            let numbers: List<number> = List.repeat(1, 3);
-
-            expect(numbers.length).toBe(3);
-            expect(numbers[0]).toBe(1);
-            expect(numbers[1]).toBe(1);
-            expect(numbers[2]).toBe(1);
-        });
-    });
-
-
-    describe(`List.range()`, () => {
-        it(`throws if 'step' argument is not defined`, () => {
-            expect(() => {
-                List.range(0, 3, undefined);
-            }).not.toThrowError(ArgumentNullException);
-        });
-
-        it(`throws if range bounds are invalid`, () => {
-            expect(() => {
-                List.range(0, -1);
-            }).toThrowError(RangeException);
-        });
-
-        it(`returns new list containing specified amount of generated items`, () => {
-            let numbers: List<number> = List.range(0, 3);
-
-            expect(numbers.length).toBe(3);
-            expect(numbers[0]).toBe(0);
-            expect(numbers[1]).toBe(1);
-            expect(numbers[2]).toBe(2);
-        });
-    });
-
-
-    describe('#insert()', () => {
+    describe('insert()', () => {
         it(`throws if index out of bounds`, () => {
             expect(() => {
-                list.insert('one', -1);
-            }).toThrowError(IndexOutOfBoundsException);
+                list.insert(-1, 'one');
+            }).toThrowError(ArgumentIndexOutOfBoundsException);
 
             expect(() => {
-                list.insert('one', 1);
-            }).toThrowError(IndexOutOfBoundsException);
+                list.insert(1, 'one');
+            }).toThrowError(ArgumentIndexOutOfBoundsException);
         });
 
         it('insert item into list', () => {
             expect(list.length).toEqual(0);
 
-            list.insert('one', 0);
+            list.insert(0, 'one');
 
             expect(list.length).toEqual(1);
             expect(list.toArray()).toEqual(['one']);
 
-            list.insert('two', 1);
+            list.insert(1, 'two');
 
             expect(list.length).toEqual(2);
             expect(list.toArray()).toEqual(['one', 'two']);
 
-            list.insert('three', 0);
+            list.insert(0, 'three');
 
             expect(list.length).toEqual(3);
             expect(list.toArray()).toEqual(['three', 'one', 'two']);
@@ -123,21 +50,21 @@ describe('List', () => {
     });
 
 
-    describe(`#insertRange()`, () => {
+    describe(`insertAll()`, () => {
         it(`throws if 'index' is out of bounds`, () => {
             expect(() => {
-                list.insertRange(['one', 'two'], 1);
-            }).toThrowError(IndexOutOfBoundsException);
+                list.insertAll(1, ['one', 'two']);
+            }).toThrowError(ArgumentIndexOutOfBoundsException);
 
             expect(() => {
-                list.insertRange(['one', 'two'], -1);
-            }).toThrowError(IndexOutOfBoundsException);
+                list.insertAll(-1, ['one', 'two']);
+            }).toThrowError(ArgumentIndexOutOfBoundsException);
         });
 
         it(`inserts items at specified position`, () => {
             list = new List(['one', 'four']);
 
-            list.insertRange(['two', 'three'], 1);
+            list.insertAll(1, ['two', 'three']);
 
             expect(list.length).toBe(4);
             expect(list.toArray()).toEqual(['one', 'two', 'three', 'four']);
@@ -145,37 +72,33 @@ describe('List', () => {
     });
 
 
-    describe('#removeAt()', () => {
+    describe('removeAt()', () => {
         it(`throws if 'index' argument is out of bounds`, () => {
             expect(() => {
                 list.removeAt(-1);
-            }).toThrowError(IndexOutOfBoundsException);
+            }).toThrowError(ArgumentIndexOutOfBoundsException);
 
             expect(() => {
                 list.removeAt(4);
-            }).toThrowError(IndexOutOfBoundsException);
+            }).toThrowError(ArgumentIndexOutOfBoundsException);
         });
 
         it('removes item with specified index from list', () => {
             list = new List(['one', 'two']);
 
-            expect(() => {
-                list.removeAt(2);
-            }).toThrowError(IndexOutOfBoundsException);
-
-            list.removeAt(1);
+            expect(list.removeAt(1)).toBe('two');
 
             expect(list.length).toEqual(1);
             expect(list.toArray()).toEqual(['one']);
 
-            list.removeAt(0);
+            expect(list.removeAt(0)).toBe('one');
 
             expect(list.length).toEqual(0);
         });
     });
 
 
-    describe('#indexOf()', () => {
+    describe('indexOf()', () => {
         it(`does not throws if 'startIndex' argument is 'undefined'`, () => {
             expect(() => {
                 list.indexOf('one');
@@ -199,7 +122,7 @@ describe('List', () => {
         it(`throws if 'startIndex' is out of bounds`, () => {
             expect(() => {
                 list.indexOf('one', 1);
-            }).toThrowError(IndexOutOfBoundsException);
+            }).toThrowError(ArgumentIndexOutOfBoundsException);
         });
 
         it(`finds index of given item starting from specified index`, () => {
@@ -221,7 +144,7 @@ describe('List', () => {
 
             expect(() => {
                 list.indexOf('one', 0, -1);
-            }).toThrowError(RangeException);
+            }).toThrowError(ArgumentRangeException);
 
             expect(() => {
                 list.indexOf('one', 0, 5);
@@ -232,53 +155,93 @@ describe('List', () => {
             list = new List(['one', 'two']);
 
             expect(list.indexOf('ONE')).toBe(-1);
-            expect(list.indexOf('ONE', 0, list.length, comparator)).toBe(0);
-            expect(list.indexOf('ONE', 1, list.length - 1, comparator)).toBe(-1);
-            expect(list.indexOf('THREE', 0, list.length, comparator)).toBe(-1);
+            expect(list.indexOf('ONE', 0, list.length, IgnoreCaseComparator.instance)).toBe(0);
+            expect(list.indexOf('ONE', 1, list.length - 1, IgnoreCaseComparator.instance)).toBe(-1);
+            expect(list.indexOf('THREE', 0, list.length, IgnoreCaseComparator.instance)).toBe(-1);
         });
     });
 
 
-    describe(`#removeBy()`, () => {
-        it(`removes items for whose predicate function returns 'true'`, () => {
-            list = new List(['a', 'b', 'a', 'c', 'd', 'a']);
+    describe('lastIndexOf()', () => {
+        it(`does not throws if 'startIndex' argument is not defined`, () => {
+            expect(() => {
+                list.lastIndexOf('one');
+            }).not.toThrow();
+        });
 
-            list.removeBy((character: string): boolean => {
-                return character === 'a';
-            });
+        it(`does not throws if 'startIndex' argument is 0 and list length is 0'`, () => {
+            expect(() => {
+                list.lastIndexOf('one', 0);
+            }).not.toThrow();
+        });
 
-            expect(list.length).toBe(3);
-            expect(list.toArray()).toEqual(['b', 'c', 'd']);
+        it(`throws if 'startIndex' is out of bounds`, () => {
+            expect(() => {
+                list.lastIndexOf('one', 1);
+            }).toThrowError(ArgumentIndexOutOfBoundsException);
+        });
+
+        it(`throws if search range is out of bounds`, () => {
+            list = new List(['one', 'two', 'three', 'four']);
+
+            expect(() => {
+                list.lastIndexOf('one', 0, -1);
+            }).toThrowError(ArgumentRangeException);
+
+            expect(() => {
+                list.lastIndexOf('one', 0, 1);
+            }).not.toThrowError(RangeException);
+
+            expect(() => {
+                list.lastIndexOf('one', 0, 5);
+            }).toThrowError(RangeException);
+        });
+
+        it('finds index of given item', () => {
+            list = new List(['one', 'two', 'one', 'two', 'three', 'four']);
+
+            expect(list.lastIndexOf('four')).toEqual(5);
+            expect(list.lastIndexOf('three')).toEqual(4);
+            expect(list.lastIndexOf('two')).toEqual(3);
+            expect(list.lastIndexOf('one')).toEqual(2);
+            expect(list.lastIndexOf('five')).toEqual(-1);
+        });
+
+        it(`finds index of given item starting with specified index`, () => {
+            list = new List(['one', 'two', 'one', 'two', 'three', 'four']);
+
+            expect(list.lastIndexOf('one', 0)).toEqual(0);
+            expect(list.lastIndexOf('one', 1)).toEqual(0);
+            expect(list.lastIndexOf('one', 2)).toEqual(2);
+            expect(list.lastIndexOf('two', 2)).toEqual(1);
+            expect(list.lastIndexOf('two', 3)).toEqual(3);
+            expect(list.lastIndexOf('two', 4)).toEqual(3);
+            expect(list.lastIndexOf('three', 1)).toEqual(-1);
+            expect(list.lastIndexOf('three', 4)).toEqual(4);
+            expect(list.lastIndexOf('three', 5)).toEqual(4);
+            expect(list.lastIndexOf('four', 4)).toEqual(-1);
+            expect(list.lastIndexOf('four', 5)).toEqual(5);
+        });
+
+        it(`finds index of given item in specified range`, () => {
+            list = new List(['one', 'two', 'three', 'four']);
+
+            expect(list.lastIndexOf('one', 3, 2)).toBe(-1);
+            expect(list.lastIndexOf('one', 3, 4)).toBe(0);
+        });
+
+        it(`finds index of given item using custom equality comparator`, () => {
+            list = new List(['one', 'two']);
+
+            expect(list.lastIndexOf('ONE')).toBe(-1);
+            expect(list.lastIndexOf('ONE', 0, 1, IgnoreCaseComparator.instance)).toBe(0);
+            expect(list.lastIndexOf('ONE', 1, 1, IgnoreCaseComparator.instance)).toBe(-1);
+            expect(list.lastIndexOf('THREE', 0, 1, IgnoreCaseComparator.instance)).toBe(-1);
         });
     });
 
 
-    describe(`#removeAll()`, () => {
-        it(`removes items containing in both lists`, () => {
-            list = new List(['a', 'b', 'a', 'c', 'd', 'a']);
-
-            list.removeAll(['a', 'b']);
-
-            expect(list.length).toBe(2);
-            expect(list.toArray()).toEqual(['c', 'd']);
-        });
-
-        it(`removes items containing in both lists using custom equality comparator`, () => {
-            list = new List(['a', 'b', 'a', 'c', 'd', 'a']);
-
-            list.removeAll(['A', 'B']);
-
-            expect(list.length).toBe(6);
-
-            list.removeAll(['A', 'B'], comparator);
-
-            expect(list.length).toBe(2);
-            expect(list.toArray()).toEqual(['c', 'd']);
-        });
-    });
-
-
-    describe(`#forEach()`, () => {
+    describe(`forEach()`, () => {
         it(`iterates over list`, () => {
             let iterator = jest.fn();
 
@@ -308,13 +271,13 @@ describe('List', () => {
     });
 
 
-    describe(`#aggregate()`, () => {
+    describe(`aggregate()`, () => {
         it(`aggregates list data into new value`, () => {
             let map: object;
 
             list = new List(['one', 'two', 'three']);
 
-            map = list.aggregate((obj: object, item: string): object => {
+            map = list.aggregate((obj: IPropertyAccess<boolean>, item: string): object => {
                 obj[item] = true;
 
                 return obj;
@@ -327,17 +290,17 @@ describe('List', () => {
             });
 
             expect(() => {
-                map = list.aggregate((obj: object, item: string): object | null => {
+                map = list.aggregate((obj: IPropertyAccess<boolean>, item: string): object | undefined => {
                     obj[item] = true;
 
-                    return null;
+                    return undefined;
                 }, {}) as object;
             }).toThrowError(TypeError);
         });
     });
 
 
-    describe(`#select()`, () => {
+    describe(`select()`, () => {
         it(`returns list of selected values`, () => {
             let firstChars: List<string>;
 
@@ -354,7 +317,7 @@ describe('List', () => {
     });
 
 
-    describe(`#selectMany()`, () => {
+    describe(`selectMany()`, () => {
         it(`returns list of selected values`, () => {
             let books: List<{authors: string[]}> = new List([
                 {
@@ -380,7 +343,7 @@ describe('List', () => {
     });
 
 
-    describe(`#where()`, () => {
+    describe(`where()`, () => {
         it(`returns list of items for whose predicate function returned 'true'`, () => {
             list = new List(['one', 'two', 'three']);
 
@@ -394,7 +357,7 @@ describe('List', () => {
     });
 
 
-    describe(`#all()`, () => {
+    describe(`all()`, () => {
         it(`throws if list is empty`, () => {
             expect(() => {
                 list.all((): boolean => {
@@ -417,7 +380,7 @@ describe('List', () => {
     });
 
 
-    describe(`#any()`, () => {
+    describe(`any()`, () => {
         it(`throws if list is empty`, () => {
             expect(() => {
                 list.any((): boolean => {
@@ -440,7 +403,7 @@ describe('List', () => {
     });
 
 
-    describe(`#average()`, () => {
+    describe(`average()`, () => {
         it(`throws if list is empty`, () => {
             expect(() => {
                 list.average((): number => {
@@ -459,7 +422,7 @@ describe('List', () => {
     });
 
 
-    describe(`#count()`, () => {
+    describe(`count()`, () => {
         it(`calculates count of items matching predicate`, () => {
             list = new List(['one', 'two', 'three']);
 
@@ -470,7 +433,7 @@ describe('List', () => {
     });
 
 
-    describe(`#first()`, () => {
+    describe(`first()`, () => {
         it(`returns first item matching predicate`, () => {
             list = new List(['one', 'two', 'three']);
 
@@ -480,7 +443,7 @@ describe('List', () => {
 
             expect(list.first((word: string): boolean => {
                 return word.length === 4;
-            })).toEqual(null);
+            })).toEqual(undefined);
 
             expect(list.first((word: string): boolean => {
                 return word.length === 4;
@@ -489,7 +452,7 @@ describe('List', () => {
     });
 
 
-    describe(`#firstOrDefault()`, () => {
+    describe(`firstOrDefault()`, () => {
         it(`returns first item of list`, () => {
             list = new List(['one', 'two', 'three']);
 
@@ -502,7 +465,7 @@ describe('List', () => {
     });
 
 
-    describe(`#last()`, () => {
+    describe(`last()`, () => {
         it(`returns last item matching predicate`, () => {
             list = new List(['one', 'two', 'three']);
 
@@ -512,7 +475,7 @@ describe('List', () => {
 
             expect(list.last((word: string): boolean => {
                 return word.length === 4;
-            })).toEqual(null);
+            })).toBeUndefined();
 
             expect(list.last((word: string): boolean => {
                 return word.length === 4;
@@ -521,7 +484,7 @@ describe('List', () => {
     });
 
 
-    describe(`#lastOrDefault()`, () => {
+    describe(`lastOrDefault()`, () => {
         it(`returns last item of list`, () => {
             list = new List(['one', 'two', 'three']);
 
@@ -534,7 +497,7 @@ describe('List', () => {
     });
 
 
-    describe(`#distinct()`, () => {
+    describe(`distinct()`, () => {
         it(`returns list of distinct items`, () => {
             let distinctItems: List<string>;
 
@@ -553,7 +516,7 @@ describe('List', () => {
     });
 
 
-    describe(`#groupBy()`, () => {
+    describe(`groupBy()`, () => {
         it(`returns list of grouped items using default comparator`, () => {
             list = new List(['one', 'two', 'three']);
 
@@ -562,10 +525,10 @@ describe('List', () => {
             });
 
             expect(groupings.length).toEqual(2);
-            expect(groupings[0].key).toBe(3);
-            expect(groupings[0].toArray()).toEqual(['one', 'two']);
-            expect(groupings[1].key).toBe(5);
-            expect(groupings[1].toArray()).toEqual(['three']);
+            expect((groupings[0] as Grouping<number, string>).key).toBe(3);
+            expect((groupings[0] as Grouping<number, string>).toArray()).toEqual(['one', 'two']);
+            expect((groupings[1] as Grouping<number, string>).key).toBe(5);
+            expect((groupings[1] as Grouping<number, string>).toArray()).toEqual(['three']);
         });
 
         it(`returns list of grouped items using custom comparator`, () => {
@@ -573,18 +536,18 @@ describe('List', () => {
 
             let groupings: List<Grouping<string, string>> = list.groupBy((word: string): string => {
                 return word[0].toLowerCase();
-            }, comparator);
+            }, IgnoreCaseComparator.instance);
 
             expect(groupings.length).toEqual(2);
-            expect(groupings[0].key).toBe('t');
-            expect(groupings[0].toArray()).toEqual(['two', 'Three']);
-            expect(groupings[1].key).toBe('o');
-            expect(groupings[1].toArray()).toEqual(['ONE', 'one', 'One']);
+            expect((groupings[0] as Grouping<string, string>).key).toBe('t');
+            expect((groupings[0] as Grouping<string, string>).toArray()).toEqual(['two', 'Three']);
+            expect((groupings[1] as Grouping<string, string>).key).toBe('o');
+            expect((groupings[1] as Grouping<string, string>).toArray()).toEqual(['ONE', 'one', 'One']);
         });
     });
 
 
-    describe(`#except()`, () => {
+    describe(`except()`, () => {
         it(`returns list without specified items using default comparator`, () => {
             let filteredList: List<string>;
 
@@ -606,7 +569,7 @@ describe('List', () => {
 
             list = new List(['two', 'ONE', 'one', 'Three', 'One']);
 
-            filteredList = list.except(['one', 'Five'], comparator);
+            filteredList = list.except(['one', 'Five'], IgnoreCaseComparator.instance);
 
             expect(filteredList).not.toBe(list);
             expect(filteredList.toArray()).toEqual(['two', 'Three', 'Five']);
@@ -614,7 +577,7 @@ describe('List', () => {
     });
 
 
-    describe(`#intersect()`, () => {
+    describe(`intersect()`, () => {
         it(`returns list without specified items using default comparator`, () => {
             let filteredList: List<string>;
 
@@ -636,7 +599,7 @@ describe('List', () => {
 
             list = new List(['two', 'ONE', 'one', 'Three', 'One']);
 
-            filteredList = list.intersect(['one', 'Five'], comparator);
+            filteredList = list.intersect(['one', 'Five'], IgnoreCaseComparator.instance);
 
             expect(filteredList).not.toBe(list);
             expect(filteredList.toArray()).toEqual(['ONE', 'one', 'One']);
@@ -644,7 +607,7 @@ describe('List', () => {
     });
 
 
-    describe(`#join()`, () => {
+    describe(`join()`, () => {
         it(`joins lists using custom equality comparator`, () => {
             let joinedList: List<string[]>;
 
@@ -656,7 +619,7 @@ describe('List', () => {
                 return word[0];
             }, function (x: string, y: string): string[] {
                 return [x, y];
-            }, comparator);
+            }, IgnoreCaseComparator.instance);
 
             expect(joinedList.toArray()).toEqual([
                 ['two', 'Ten'],
@@ -671,7 +634,7 @@ describe('List', () => {
     });
 
 
-    describe(`#min()`, () => {
+    describe(`min()`, () => {
         it(`throws if list is empty`, () => {
             expect(() => {
                 list.min((word: string): number => {
@@ -690,7 +653,7 @@ describe('List', () => {
     });
 
 
-    describe(`#max()`, () => {
+    describe(`max()`, () => {
         it(`throws if list is empty`, () => {
             expect(() => {
                 list.max((word: string): number => {
@@ -709,13 +672,13 @@ describe('List', () => {
     });
 
 
-    describe(`#orderBy()`, () => {
+    describe(`orderBy()`, () => {
         it(`returns sorted list using ascending sort order`, () => {
             list = new List(['two', 'ONE', 'one', 'Three', 'One']);
 
             expect(list.orderBy((word: string): string => {
                 return word.slice(0, 2);
-            }, comparator, SortOrder.Ascending).toArray()).toEqual([
+            }, IgnoreCaseComparator.instance, SortOrder.Ascending).toArray()).toEqual([
                 'ONE', 'one', 'One', 'Three', 'two'
             ]);
         });
@@ -725,7 +688,7 @@ describe('List', () => {
 
             expect(list.orderBy((word: string): string => {
                 return word.slice(0, 2);
-            }, comparator, SortOrder.Descending).toArray()).toEqual([
+            }, IgnoreCaseComparator.instance, SortOrder.Descending).toArray()).toEqual([
                 'two', 'Three', 'ONE', 'one', 'One'
             ]);
         });
@@ -735,14 +698,14 @@ describe('List', () => {
 
             expect(list.orderBy((word: string): string => {
                 return word.slice(0, 2);
-            }, comparator, SortOrder.None).toArray()).toEqual([
+            }, IgnoreCaseComparator.instance, SortOrder.None).toArray()).toEqual([
                 'two', 'ONE', 'one', 'Three', 'One'
             ]);
         });
     });
 
 
-    describe(`#reverse()`, () => {
+    describe(`reverse()`, () => {
         it(`returns reversed list`, () => {
             list = new List(['one', 'two', 'three']);
 
@@ -751,7 +714,7 @@ describe('List', () => {
     });
 
 
-    describe(`#equals()`, () => {
+    describe(`equals()`, () => {
         it(`compares empty lists`, () => {
             expect(list.equals([])).toBe(true);
         });
@@ -767,26 +730,26 @@ describe('List', () => {
         it(`compares lists using custom equality comparator`, () => {
             list = new List(['one', 'two', 'three']);
 
-            expect(list.equals(['one', 'two', 'three'], comparator)).toBe(true);
-            expect(list.equals(['ONE', 'TWO'], comparator)).toBe(false);
-            expect(list.equals(['ONE', 'TWO', 'THREE'], comparator)).toBe(true);
+            expect(list.equals(['one', 'two', 'three'], IgnoreCaseComparator.instance)).toBe(true);
+            expect(list.equals(['ONE', 'TWO'], IgnoreCaseComparator.instance)).toBe(false);
+            expect(list.equals(['ONE', 'TWO', 'THREE'], IgnoreCaseComparator.instance)).toBe(true);
         });
     });
 
 
-    describe(`#skip()`, () => {
+    describe(`skip()`, () => {
         it(`throws if offset is out of bounds`, () => {
             expect(() => {
                 list.skip(0);
-            }).not.toThrowError(RangeException);
+            }).not.toThrowError(ArgumentIndexOutOfBoundsException);
 
             expect(() => {
                 list.skip(1);
-            }).toThrowError(RangeException);
+            }).toThrowError(ArgumentIndexOutOfBoundsException);
 
             expect(() => {
                 list.skip(-10);
-            }).toThrowError(IndexOutOfBoundsException);
+            }).toThrowError(ArgumentIndexOutOfBoundsException);
         });
 
         it(`returns slice of list`, () => {
@@ -797,7 +760,7 @@ describe('List', () => {
     });
 
 
-    describe(`#skipWhile()`, () => {
+    describe(`skipWhile()`, () => {
         it(`works with empty lists`, () => {
             expect(list.skipWhile((word: string): boolean => {
                 return word[0] !== 't';
@@ -814,7 +777,7 @@ describe('List', () => {
     });
 
 
-    describe(`#take()`, () => {
+    describe(`take()`, () => {
         it(`throws if length is out of bounds`, () => {
             expect(() => {
                 list.take(0);
@@ -837,7 +800,7 @@ describe('List', () => {
     });
 
 
-    describe(`#takeWhile()`, () => {
+    describe(`takeWhile()`, () => {
         it(`works with empty lists`, () => {
             expect(list.takeWhile((word: string): boolean => {
                 return word[0] !== 't';
@@ -854,10 +817,10 @@ describe('List', () => {
     });
 
 
-    describe(`#slice()`, () => {
+    describe(`slice()`, () => {
         it(`throws if slice range is invalid`, () => {
             expect(() => list.slice(0, 1)).toThrowError(RangeException);
-            expect(() => list.slice(-1, 0)).toThrowError(IndexOutOfBoundsException);
+            expect(() => list.slice(-1, 0)).toThrowError(ArgumentIndexOutOfBoundsException);
         });
 
         it(`works with empty lists`, () => {
@@ -874,7 +837,7 @@ describe('List', () => {
     });
 
 
-    describe(`#concat()`, () => {
+    describe(`concat()`, () => {
         it(`returns concatenation of lists`, () => {
             list = new List(['one', 'two', 'three']);
 
@@ -884,7 +847,7 @@ describe('List', () => {
     });
 
 
-    describe(`#union()`, () => {
+    describe(`union()`, () => {
         it(`returns union of lists`, () => {
             list = new List(['one', 'two', 'three']);
 
@@ -898,7 +861,7 @@ describe('List', () => {
     });
 
 
-    describe(`#zip()`, () => {
+    describe(`zip()`, () => {
         it(`returns list of combined items`, () => {
             list = new List(['one', 'two', 'three']);
 

@@ -1,31 +1,30 @@
 import {Version} from './Version';
-import {ReleaseStatus, VERSION_PATTERN} from './types';
-import {Singleton} from '../DI/Decorators/Singleton';
-import {VersionValidator} from './VersionValidator';
-import {Inject} from '../DI/Decorators/Inject';
+import {ReleaseStatus} from './ReleaseStatus';
+import {ParsingException} from '../Text/Parsing/ParsingException';
+import {Singleton} from '../Language/Decorators/Singleton';
+import {Service} from '../DI/Decorators/Service';
 
 
+@Service()
 @Singleton()
 export class VersionParser {
-    @Inject(VersionValidator)
-    private readonly validator: VersionValidator;
+    public static readonly instance: VersionParser;
+
+
+    private constructor() {}
 
 
     public parse(version: string): Version {
-        this.validator.validate(version);
+        if (Version.PATTERN.test(version) === false) {
+            throw new ParsingException(`Invalid version format.`);
+        }
 
-        let major: number;
-        let minor: number;
-        let patch: number;
-        let releaseStatus: ReleaseStatus;
-        let revision: number;
-        let parts: RegExpExecArray = VERSION_PATTERN.exec(version) as RegExpExecArray;
-
-        major = this.getMajor(parts);
-        minor = this.getMinor(parts);
-        patch = this.getPatch(parts);
-        releaseStatus = this.getReleaseStatus(parts);
-        revision = this.getRevision(parts);
+        const parts: RegExpExecArray = Version.PATTERN.exec(version) as RegExpExecArray;
+        const major: number = this.getMajor(parts);
+        const minor: number = this.getMinor(parts);
+        const patch: number = this.getPatch(parts);
+        const releaseStatus: ReleaseStatus = this.getReleaseStatus(parts);
+        const revision: number = this.getRevision(parts);
 
         return new Version(major, minor, patch, releaseStatus, revision);
     }

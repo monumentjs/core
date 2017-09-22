@@ -1,65 +1,83 @@
 import {Event} from './Event';
-import {List} from '../Collections/List';
 import {EventListener} from './types';
 import {EventHandler} from './EventHandler';
-import {Assert} from '../Assertion/Assert';
-import {ReadOnlyCollection} from '../Collections/ReadOnlyCollection';
+import {Map} from '../Collections/Map';
+import {List} from '../Collections/List';
+import {IEventSource} from './Abstraction/IEventSource';
+import {IEventDispatcher} from './Abstraction/IEventDispatcher';
+import {ISet} from '../Collections/Abstraction/ISet';
 
 
-export class EventEmitter {
-    private _handlers: List<EventHandler> = new List<EventHandler>();
+export class EventEmitter implements IEventSource, IEventDispatcher {
+    private _handlers: Map<string, List<EventHandler>> = new Map();
 
 
-    public get eventTypes(): ReadOnlyCollection<string> {
-        const typesList: List<string> = this._handlers.select((eventHandler: EventHandler): string => {
-            return eventHandler.eventType;
-        });
-
-        const uniqueTypes: List<string> = typesList.distinct();
-
-        return new ReadOnlyCollection(uniqueTypes);
+    public get eventTypes(): ISet<string> {
+        return this._handlers.keys;
     }
 
 
-    public addEventListener(
-        eventType: string,
-        eventListener: EventListener,
-        removeAfterExecution: boolean = false
-    ): void {
-        Assert.argument('eventType', eventType).notNull();
-        Assert.argument('eventListener', eventListener).notNull();
-        Assert.argument('removeAfterExecution', removeAfterExecution).notNull();
+    public addEventListener(eventType: string, eventListener: EventListener, removeAfterExecution: boolean = false): void {
+        const handler: EventHandler = new EventHandler(eventType, eventListener, removeAfterExecution);
 
-        this._handlers.add(new EventHandler(eventType, eventListener, removeAfterExecution));
+        let handlers: List<EventHandler> | undefined = this._handlers.get(eventType);
+
+        if (handlers == null) {
+            handlers = new List();
+
+            this._handlers.put(eventType, handlers);
+        }
+
+        handlers.add(handler);
     }
 
 
-    public removeEventListener(
-        eventType: string,
-        eventListener: EventListener
-    ): void {
-        Assert.argument('eventType', eventType).notNull();
-        Assert.argument('eventListener', eventListener).notNull();
+    public removeEventListener(eventType: string, eventListener: EventListener): boolean {
+        const handlers: List<EventHandler> | undefined = this._handlers.get(eventType);
 
-        this._handlers.removeBy((eventHandler: EventHandler): boolean => {
-            return eventHandler.eventType === eventType && eventHandler.eventListener === eventListener;
-        });
+        if (handlers != null) {
+            const hasRemoved: boolean = handlers.removeBy((eventHandler: EventHandler): boolean => {
+                return eventHandler.eventType === eventType && eventHandler.eventListener === eventListener;
+            });
+
+            if (handlers.length === 0) {
+                this._handlers.remove(eventType);
+            }
+
+            return hasRemoved;
+        }
+
+        return false;
+    }
+
+
+    public removeEventListeners(eventType: string): boolean {
+        return this._handlers.remove(eventType) != null;
+    }
+
+
+    public removeAllEventListeners(): boolean {
+        return this._handlers.clear();
     }
 
 
     public dispatchEvent(event: Event): boolean {
-        Assert.argument('event', event).notNull();
+        const handlers: List<EventHandler> | undefined = this._handlers.get(event.type);
 
-        for (let index: number = 0; index < this._handlers.length; index++) {
-            let eventHandler: EventHandler = this._handlers[index];
+        if (handlers != null) {
+            for (let index: number = 0; index < handlers.length; index++) {
+                const handler: EventHandler = handlers[index] as EventHandler;
 
-            if (eventHandler.eventType === event.type) {
-                eventHandler.eventListener(event);
+                handler.eventListener(event);
 
-                if (eventHandler.removeAfterExecution) {
-                    this._handlers.removeAt(index);
+                if (handler.removeAfterExecution) {
+                    handlers.removeAt(index);
 
                     index--;
+
+                    if (handlers.length === 0) {
+                        this._handlers.remove(event.type);
+                    }
                 }
 
                 if (event.isCancelled) {
@@ -69,19 +87,5 @@ export class EventEmitter {
         }
 
         return true;
-    }
-
-
-    public removeEventListeners(eventType: string): void {
-        Assert.argument('eventType', eventType).notNull();
-
-        this._handlers.removeBy((eventHandler: EventHandler): boolean => {
-            return eventHandler.eventType === eventType;
-        });
-    }
-
-
-    public removeAllEventListeners(): void {
-        this._handlers.clear();
     }
 }

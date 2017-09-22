@@ -1,54 +1,38 @@
-import {Enumerable} from './Enumerable';
-import {InvalidOperationException} from '../Exceptions/InvalidOperationException';
-import {IEqualityComparator} from './IEqualityComparator';
-import {EqualityComparator} from './EqualityComparator';
-import {Assert} from '../Assertion/Assert';
+import {EmptyQueueException} from './EmptyQueueException';
+import {IQueue} from './Abstraction/IQueue';
+import {Collection} from './Collection';
 
 
 /**
  * Represents a first-in, first-out collection of objects.
  */
-export class Queue<T> extends Enumerable<T> {
+export class Queue<T> extends Collection<T> implements IQueue<T> {
+    public clone(): Queue<T> {
+        return new Queue(this);
+    }
+
+
+    public add(item: T): boolean {
+        Array.prototype.unshift.call(this, item);
+
+        return true;
+    }
+
+
     public peek(): T {
-        if (this.length === 0) {
-            throw new InvalidOperationException(`Queue is empty.`);
+        if (this.isEmpty) {
+            throw new EmptyQueueException();
         }
 
-        return this[0];
+        return this[0] as T;
     }
 
 
-    public enqueue(item: T): void {
-        return Array.prototype.unshift.call(this, item);
-    }
-
-
-    public dequeue(): T {
-        if (this.length === 0) {
-            throw new InvalidOperationException(`Queue is empty.`);
+    public pop(): T {
+        if (this.isEmpty) {
+            throw new EmptyQueueException();
         }
 
         return Array.prototype.pop.call(this);
-    }
-
-
-    public clear(): void {
-        this.length = 0;
-    }
-
-
-    public contains(
-        searchItem: T,
-        comparator: IEqualityComparator<T> = EqualityComparator.instance
-    ): boolean {
-        Assert.argument('comparator', comparator).notNull();
-
-        for (let currentItem of this) {
-            if (comparator.equals(searchItem, currentItem)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

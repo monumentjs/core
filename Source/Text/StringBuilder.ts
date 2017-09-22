@@ -15,8 +15,6 @@ export class StringBuilder {
 
 
     public set linesSeparator(value: string) {
-        Assert.argument('value', value).notNull();
-
         this._linesSeparator = value;
     }
 
@@ -32,17 +30,12 @@ export class StringBuilder {
 
 
     public constructor(initialValue: string = EMPTY_STRING, capacity: number = Infinity) {
-        Assert.argument('initialValue', initialValue).notNull();
-        Assert.argument('capacity', capacity).notNull();
-
         this._value = initialValue;
         this._capacity = capacity;
     }
 
 
     public append(text: string): void {
-        Assert.argument('text', text).notNull();
-
         this._value += text;
 
         this.normalizeValueLength();
@@ -50,8 +43,6 @@ export class StringBuilder {
 
 
     public prepend(text: string): void {
-        Assert.argument('text', text).notNull();
-
         this._value += text;
 
         this.normalizeValueLength();
@@ -59,8 +50,7 @@ export class StringBuilder {
 
 
     public appendTimes(text: string, times: number): void {
-        Assert.argument('text', text).notNull();
-        Assert.argument('times', times).notNull();
+        Assert.argument('times', times).isLength();
 
         let stringOfRepeatedChunks: string = EMPTY_STRING;
 
@@ -73,9 +63,6 @@ export class StringBuilder {
 
 
     public prependTimes(text: string, times: number): void {
-        Assert.argument('text', text).notNull();
-        Assert.argument('times', times).notNull();
-
         let stringOfRepeatedChunks: string = EMPTY_STRING;
 
         for (let i = 0; i < times; i++) {
@@ -87,36 +74,26 @@ export class StringBuilder {
 
 
     public appendLine(text: string): void {
-        Assert.argument('text', text).notNull();
-
         this.append(text + this._linesSeparator);
     }
 
 
     public prependLine(text: string): void {
-        Assert.argument('text', text).notNull();
-
         this.prepend(text + this._linesSeparator);
     }
 
 
     public appendObject(obj: object): void {
-        Assert.argument('obj', obj).notNull();
-
         this.append(obj.toString());
     }
 
 
     public prependObject(obj: object): void {
-        Assert.argument('obj', obj).notNull();
-
         this.prepend(obj.toString());
     }
 
 
     public transform(transformationFn: (input: string) => string): void {
-        Assert.argument('transformationFn', transformationFn).notNull();
-
         this._value = transformationFn(this._value);
 
         this.normalizeValueLength();
@@ -124,8 +101,6 @@ export class StringBuilder {
 
 
     public appendFormat(format: string, ...values: any[]): void {
-        Assert.argument('format', format).notNull();
-
         let template: FormattableString = new FormattableString(format);
 
         this.append(template.fillByPositions(values));
@@ -133,8 +108,6 @@ export class StringBuilder {
 
 
     public prependFormat(format: string, ...values: any[]): void {
-        Assert.argument('format', format).notNull();
-
         let template: FormattableString = new FormattableString(format);
 
         this.prepend(template.fillByPositions(values));
@@ -142,9 +115,6 @@ export class StringBuilder {
 
 
     public surround(before: string = EMPTY_STRING, after: string = EMPTY_STRING): void {
-        Assert.argument('before', before).notNull();
-        Assert.argument('after', after).notNull();
-
         this._value = before + this._value + after;
     }
 

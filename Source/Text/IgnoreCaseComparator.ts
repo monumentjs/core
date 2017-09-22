@@ -1,16 +1,20 @@
-import {IEqualityComparator} from '../Collections/IEqualityComparator';
-import {IComparator} from '../Collections/IComparator';
-import {ComparisonResult} from '../types';
-import {Assert} from '../Assertion/Assert';
-import {Singleton} from '../DI/Decorators/Singleton';
+import {ComparisonResult} from '../Core/Types/ComparisonResult';
+import {Singleton} from '../Language/Decorators/Singleton';
+import {IEqualityComparator} from '../Core/Abstraction/IEqualityComparator';
+import {IComparator} from '../Core/Abstraction/IComparator';
+import {Service} from '../DI/Decorators/Service';
 
 
+@Service()
 @Singleton()
 export class IgnoreCaseComparator implements IEqualityComparator<string>, IComparator<string> {
-    public equals(current: string, other: string): boolean {
-        Assert.argument('current', current).notNull();
-        Assert.argument('other', other).notNull();
+    public static readonly instance: IgnoreCaseComparator;
 
+
+    private constructor() {}
+
+
+    public equals(current: string, other: string): boolean {
         if (current.length !== other.length) {
             return false;
         }
@@ -23,9 +27,6 @@ export class IgnoreCaseComparator implements IEqualityComparator<string>, ICompa
 
 
     public compare(current: string, other: string): ComparisonResult {
-        Assert.argument('current', current).notNull();
-        Assert.argument('other', other).notNull();
-
         current = current.toLowerCase();
         other = other.toLowerCase();
 

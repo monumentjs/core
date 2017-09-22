@@ -1,26 +1,35 @@
-import {Constructor} from '../../types';
-import {Container} from '../Container/Container';
-import {Assert} from '../../Assertion/Assert';
+import {Decorator} from '../../Language/Support/Decorators/Decorator';
+import {DecoratorTarget} from '../../Language/Support/Decorators/DecoratorTarget';
+import {CoreType} from '../../Core/Types/CoreType';
+import {UnitDefinition} from '../Unit/UnitDefinition';
+import {Target} from '../../Language/Decorators/Target';
+import {Type} from '../../Core/Types/Type';
+import {Constructor} from '../../Core/Types/Constructor';
 
-/**
- * Creates class property with 'get' accessor that provides instance of unit of specified type.
- *
- * @param type Type of property value.
- */
-export function Inject<T>(type: Constructor<T>): PropertyDecorator {
-    Assert.argument('type', type).notNull();
 
-    return function (prototype: object, property: string | symbol): void {
-        const valueKey: symbol = Symbol();
+export function Inject(unitType: Type) {
+    return function (target: object | Function, key: string | symbol, descriptorOrIndex?: number | PropertyDescriptor) {
+        Target(DecoratorTarget.Property, DecoratorTarget.Accessor, DecoratorTarget.Parameter)(...arguments);
 
-        Object.defineProperty(prototype, property, {
-            get(): T {
-                if (this[valueKey] == null) {
-                    this[valueKey] = Container.get(type);
+        const decoratorType: DecoratorTarget = Decorator.findTarget(arguments);
+        const constructor: Constructor = (typeof target === CoreType.Class ? target : target.constructor) as Constructor;
+        const unitDefinition: UnitDefinition = UnitDefinition.of(constructor);
+
+        switch (decoratorType) {
+            case DecoratorTarget.Property:
+            case DecoratorTarget.Accessor:
+                unitDefinition.setPropertyValue(key, unitType);
+
+                break;
+
+            case DecoratorTarget.Parameter:
+                if (key == null) {
+                    unitDefinition.setConstructorArgumentType(descriptorOrIndex as number, unitType);
                 }
 
-                return this[valueKey];
-            }
-        });
+                break;
+
+            default:
+        }
     };
 }

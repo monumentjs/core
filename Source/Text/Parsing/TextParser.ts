@@ -1,6 +1,5 @@
 
 
-import {Assert} from '../../Assertion/Assert';
 export abstract class TextParser<TState, TValue> {
     protected _state: TState;
 
@@ -19,8 +18,6 @@ export abstract class TextParser<TState, TValue> {
 
 
     public parse(sourceString: string): void {
-        Assert.argument('sourceString', sourceString).notNull();
-
         for (let index = 0; index < sourceString.length; index++) {
             let currentChar: string = sourceString[index];
 

@@ -1,10 +1,14 @@
-import {IEnumerable} from './IEnumerable';
+import {IEnumerable} from './Abstraction/IEnumerable';
 import {Assert} from '../Assertion/Assert';
-import {ICloneable, IJSONSerializable} from '../types';
+import {EqualityComparator} from '../Core/EqualityComparator';
+import {IJSONSerializable} from '../Core/Abstraction/IJSONSerializable';
+import {ICloneable} from '../Core/Abstraction/ICloneable';
+import {IEquatable} from '../Core/Abstraction/IEquatable';
+import {IEqualityComparator} from '../Core/Abstraction/IEqualityComparator';
 
 
-export class Enumerable<T> implements IEnumerable<T>, IJSONSerializable<T[]>, ICloneable<Enumerable<T>>, ArrayLike<T> {
-    [index: number]: T;
+export class Enumerable<T> implements IEnumerable<T>, IJSONSerializable<T[]>, ICloneable<Enumerable<T>>, IEquatable<IEnumerable<T>> {
+    [index: number]: T | undefined;
 
 
     private _length: number = 0;
@@ -16,15 +20,7 @@ export class Enumerable<T> implements IEnumerable<T>, IJSONSerializable<T[]>, IC
 
 
     public set length(value: number) {
-        Assert.argument('value', value).notNull().isLength();
-
-        if (value < this._length) {
-            for (let i = value; i < this._length; i++) {
-                delete this[i];
-            }
-        }
-
-        this._length = value;
+        this.resize(value);
     }
 
 
@@ -34,8 +30,6 @@ export class Enumerable<T> implements IEnumerable<T>, IJSONSerializable<T[]>, IC
 
 
     public constructor(list: Iterable<T> = []) {
-        Assert.argument('list', list).notNull();
-
         Array.prototype.splice.call(this, 0, 0, ...list);
     }
 
@@ -46,7 +40,7 @@ export class Enumerable<T> implements IEnumerable<T>, IJSONSerializable<T[]>, IC
 
 
     public getIterator(): Iterator<T> {
-        let index = 0;
+        let index: number = 0;
 
         return {
             next: (): IteratorResult<T> => {
@@ -66,11 +60,6 @@ export class Enumerable<T> implements IEnumerable<T>, IJSONSerializable<T[]>, IC
     }
 
 
-    public toEnumerable(): Enumerable<T> {
-        return new Enumerable(this);
-    }
-
-
     public toJSON(): T[] {
         return this.toArray();
     }
@@ -78,5 +67,46 @@ export class Enumerable<T> implements IEnumerable<T>, IJSONSerializable<T[]>, IC
 
     public toArray(): T[] {
         return Array.prototype.slice.call(this, 0);
+    }
+
+
+    public equals(
+        otherList: IEnumerable<T>,
+        comparator: IEqualityComparator<T> = EqualityComparator.instance
+    ): boolean {
+        if (this.length !== otherList.length) {
+            return false;
+        }
+
+        if (this.isEmpty && otherList.length === 0) {
+            return true;
+        }
+
+        let index: number = 0;
+
+        for (let otherItem of otherList) {
+            if (!comparator.equals(otherItem, this[index] as T)) {
+                return false;
+            }
+
+            index++;
+        }
+
+        return true;
+    }
+
+
+    protected resize(value: number): void {
+        Assert.argument('value', value).isLength();
+
+        if (this._length !== value) {
+            if (value < this._length) {
+                for (let i = value; i < this._length; i++) {
+                    delete this[i];
+                }
+            }
+
+            this._length = value;
+        }
     }
 }

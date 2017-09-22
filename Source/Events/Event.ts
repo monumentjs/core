@@ -1,13 +1,18 @@
-import {Assert} from '../Assertion/Assert';
 
 
-export class Event<TType = string> {
-    private _type: TType;
+export class Event {
+    private _type: string;
     private _isCancelled: boolean = false;
+    private _isCancellable: boolean;
 
 
-    public get type(): TType {
+    public get type(): string {
         return this._type;
+    }
+
+
+    public get isCancellable(): boolean {
+        return this._isCancellable;
     }
 
 
@@ -16,14 +21,19 @@ export class Event<TType = string> {
     }
 
 
-    public constructor(type: TType) {
-        Assert.argument('type', type).notNull();
-
+    public constructor(type: string, cancellable: boolean = true) {
         this._type = type;
+        this._isCancellable = cancellable;
     }
 
 
-    public cancel(): void {
-        this._isCancelled = true;
+    public cancel(): boolean {
+        if (this.isCancellable && !this.isCancelled) {
+            this._isCancelled = true;
+
+            return true;
+        }
+
+        return false;
     }
 }

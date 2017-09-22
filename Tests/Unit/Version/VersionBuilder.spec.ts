@@ -1,185 +1,67 @@
 import {VersionBuilder} from '../../../Source/Version/VersionBuilder';
-import {Version} from '../../../Source/Version/Version';
-import {ReleaseStatus} from '../../../Source/Version/types';
-import {VersionException} from '../../../Source/Version/VersionException';
+import {ReleaseStatus} from '../../../Source/Version/ReleaseStatus';
 
 
 describe(`VersionBuilder`, () => {
-    let instance: VersionBuilder;
+    let builder: VersionBuilder;
 
 
-    beforeEach(() => {
-        instance = new VersionBuilder();
+    it(`creates new instance of VersionBuilder initialized by default version`, () => {
+        builder = new VersionBuilder();
+        expect(builder.getValue().toString()).toBe('0.0.0-alpha');
     });
 
 
-    describe(`#constructor()`, () => {
-        it(`creates new instance of VersionBuilder initialized by default version`, () => {
-            expect(instance).toBeInstanceOf(VersionBuilder);
-            expect(instance.version.toString()).toBe('0.0.0-alpha');
-        });
+    it(`creates new instance of VersionBuilder initialized by custom version`, () => {
+        builder = new VersionBuilder(2, 2, 4, ReleaseStatus.ReleaseCandidate, 3);
+        expect(builder.getValue().toString()).toBe('2.2.4-rc.3');
 
-        it(`creates new instance of VersionBuilder initialized by custom version`, () => {
-            instance = new VersionBuilder(new Version(2, 2, 4, ReleaseStatus.ReleaseCandidate, 3));
-            expect(instance.version.toString()).toBe('2.2.4-rc.3');
-        });
+        builder = new VersionBuilder(2, 2, 4, ReleaseStatus.Stable, 3);
+        expect(builder.getValue().toString()).toBe('2.2.4');
     });
 
 
-    describe('#setMajor()', () => {
-        beforeEach(() => {
-            instance = new VersionBuilder(new Version(2, 2, 0, ReleaseStatus.Alpha, 3));
-        });
+    it('creates new version with given major component', () => {
+        builder = new VersionBuilder(3, 4, 5, ReleaseStatus.Stable);
 
-        it(`throws if new major component is less that current`, () => {
-            expect(() => {
-                instance.setMajor(1);
-            }).toThrowError(VersionException);
-        });
+        builder.major = 5;
 
-        it('creates new version with given major component', () => {
-            instance = new VersionBuilder(new Version(3, 4, 5, ReleaseStatus.Stable));
-
-            instance.setMajor(5);
-
-            expect(instance.version.toString()).toBe('5.0.0-alpha');
-        });
+        expect(builder.getValue().toString()).toBe('5.4.5');
     });
 
 
-    describe('#setMinor()', () => {
-        beforeEach(() => {
-            instance = new VersionBuilder(new Version(2, 2, 0, ReleaseStatus.Alpha, 3));
-        });
+    it('creates new version with given minor component', () => {
+        builder = new VersionBuilder(3, 4, 5, ReleaseStatus.Stable);
 
-        it(`throws if new minor component is less that current`, () => {
-            expect(() => {
-                instance.setMinor(1);
-            }).toThrowError(VersionException);
-        });
+        builder.minor = 5;
 
-        it('creates new version with given minor component', () => {
-            instance = new VersionBuilder(new Version(3, 4, 5, ReleaseStatus.Stable));
-
-            instance.setMinor(5);
-
-            expect(instance.version.toString()).toBe('3.5.0-alpha');
-        });
+        expect(builder.getValue().toString()).toBe('3.5.5');
     });
 
 
-    describe('#setPatch()', () => {
-        beforeEach(() => {
-            instance = new VersionBuilder(new Version(2, 2, 4, ReleaseStatus.Alpha, 3));
-        });
+    it('creates new version with given patch component', () => {
+        builder = new VersionBuilder(3, 4, 1, ReleaseStatus.Stable);
 
-        it(`throws if new patch component is less that current`, () => {
-            expect(() => {
-                instance.setPatch(1);
-            }).toThrowError(VersionException);
-        });
+        builder.patch = 5;
 
-        it('creates new version with given patch component', () => {
-            instance = new VersionBuilder(new Version(3, 4, 1, ReleaseStatus.Stable));
-
-            instance.setPatch(5);
-
-            expect(instance.version.toString()).toBe('3.4.5-alpha');
-        });
+        expect(builder.getValue().toString()).toBe('3.4.5');
     });
 
 
-    describe('#setStatus()', () => {
-        beforeEach(() => {
-            instance = new VersionBuilder(new Version(2, 2, 4, ReleaseStatus.Beta, 3));
-        });
+    it('creates new version with given status component', () => {
+        builder = new VersionBuilder(3, 4, 1, ReleaseStatus.Beta, 3);
 
-        it(`throws if new status component is less that current`, () => {
-            expect(() => {
-                instance.setStatus(ReleaseStatus.Alpha);
-            }).toThrowError(VersionException);
-        });
+        builder.releaseStatus = ReleaseStatus.ReleaseCandidate;
 
-        it('creates new version with given status component', () => {
-            instance = new VersionBuilder(new Version(3, 4, 1, ReleaseStatus.Beta, 3));
-
-            instance.setStatus(ReleaseStatus.ReleaseCandidate);
-
-            expect(instance.version.toString()).toBe('3.4.1-rc');
-        });
+        expect(builder.getValue().toString()).toBe('3.4.1-rc.3');
     });
 
 
-    describe('#setRevision()', () => {
-        beforeEach(() => {
-            instance = new VersionBuilder(new Version(2, 2, 4, ReleaseStatus.Alpha, 3));
-        });
+    it('creates new version with given revision component', () => {
+        builder = new VersionBuilder(3, 4, 1, ReleaseStatus.ReleaseCandidate, 1);
 
-        it(`throws if new revision component is less that current`, () => {
-            expect(() => {
-                instance.setRevision(1);
-            }).toThrowError(VersionException);
-        });
+        builder.revision = 5;
 
-        it('creates new version with given revision component', () => {
-            instance = new VersionBuilder(new Version(3, 4, 1, ReleaseStatus.ReleaseCandidate, 1));
-
-            instance.setRevision(5);
-
-            expect(instance.version.toString()).toBe('3.4.1-rc.5');
-        });
-    });
-
-
-    describe('#getNextMajorVersion()', () => {
-        it('creates next major version', () => {
-            instance.nextMajorVersion();
-
-            expect(instance.version.toString()).toBe('1.0.0-alpha');
-        });
-    });
-
-
-    describe('#nextMinorVersion()', () => {
-        it('creates next minor version', () => {
-            instance.nextMinorVersion();
-
-            expect(instance.version.toString()).toBe('0.1.0-alpha');
-        });
-    });
-
-
-    describe('#nextPatchVersion()', () => {
-        it('creates next patch version', () => {
-            instance.nextPatchVersion();
-
-            expect(instance.version.toString()).toBe('0.0.1-alpha');
-        });
-    });
-
-
-    describe('#nextStatusVersion()', () => {
-        it('creates next status version', () => {
-            instance.nextStatusVersion();
-            expect(instance.version.toString()).toBe('0.0.0-beta');
-
-            instance.nextStatusVersion();
-            expect(instance.version.toString()).toBe('0.0.0-rc');
-
-            instance.nextStatusVersion();
-            expect(instance.version.toString()).toBe('0.0.0');
-
-            instance.nextStatusVersion();
-            expect(instance.version.toString()).toBe('0.0.1-alpha');
-        });
-    });
-
-
-    describe('#nextRevisionVersion()', () => {
-        it('creates next revision version', () => {
-            instance.nextRevisionVersion();
-
-            expect(instance.version.toString()).toBe('0.0.0-alpha.1');
-        });
+        expect(builder.getValue().toString()).toBe('3.4.1-rc.5');
     });
 });

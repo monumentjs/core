@@ -1,9 +1,9 @@
-import {TestTask} from './_Mocks/TestTask';
+import {TestTask} from './Mocks/TestTask';
 import {Task} from '../../../Source/Async/Task';
 
 
 describe.skip('class Task', () => {
-    describe('#constructor', () => {
+    describe('constructor', () => {
         it('create new instance of Task', () => {
             let task: TestTask<number> | null = null;
 
@@ -16,7 +16,7 @@ describe.skip('class Task', () => {
     });
 
 
-    describe('#run', () => {
+    describe('start', () => {
         describe('synchronous task', () => {
             it('complete task with result', () => {
                 let onComplete = jest.fn();

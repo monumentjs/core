@@ -1,24 +1,15 @@
-import {ICustomFormatter, IFormatProvider} from '../types';
-import {DateTime} from './DateTime';
-import {FormattableString} from '../Text/FormattableString';
-import {TimeComponentFormatterProvider} from './TimeComponentFormatterProvider';
-import {ReadOnlyCollection} from '../Collections/ReadOnlyCollection';
-import {TimeComponentFormatterBase} from './Format/TimeComponentFormatterBase';
-import {TimeSpan} from './TimeSpan';
-import {Assert} from '../Assertion/Assert';
-import {Container} from '../DI/Container/Container';
 import {CalendarWeekRule} from './CalendarWeekRule';
 import {DayOfWeek} from './DayOfWeek';
 import {EMPTY_STRING} from '../Text/constants';
-import {Exception} from '../Exceptions/Exception';
+import {ReadOnlyCollection} from '../Collections/ReadOnlyCollection';
+import {IDateTimeFormatInfo} from './IDateTimeFormatInfo';
+import {Singleton} from '../Language/Decorators/Singleton';
 
 
-export class DateTimeFormatInfo implements IFormatProvider, ICustomFormatter<DateTime> {
-    public static readonly invariantInfo: DateTimeFormatInfo = new DateTimeFormatInfo();
+@Singleton('invariant')
+export class DateTimeFormatInfo implements IDateTimeFormatInfo {
+    public static readonly invariant: DateTimeFormatInfo;
 
-    private readonly formattersProvider: TimeComponentFormatterProvider = Container.get(TimeComponentFormatterProvider);
-
-    public readonly isReadOnly: boolean = true;
     public readonly shortestDayNames: ReadOnlyCollection<string> = new ReadOnlyCollection([
         'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'
     ]);
@@ -59,58 +50,4 @@ export class DateTimeFormatInfo implements IFormatProvider, ICustomFormatter<Dat
     public readonly sortableDateTimePattern: string = `{YYYY}-{MM}-{DD}T{HH}:{mm}:{ss}`;
     public readonly universalSortableDateTimePattern: string = `{YYYY}-{MM}-{DD} {HH}:{mm}:{ss}Z`;
     public readonly yearMonthPattern: string = `{MMMM}, {YYYY}`;
-
-
-    public getFormat(): object {
-        return this;
-    }
-
-
-    public format(
-        format: string,
-        time: DateTime | TimeSpan,
-        formatInfo: DateTimeFormatInfo
-    ): string {
-        Assert.argument('format', format).notNull();
-        Assert.argument('time', time).notNull();
-        Assert.argument('formatInfo', formatInfo).notNull();
-
-        let template: FormattableString = new FormattableString(format);
-        let dateComponents: object = this.getTimeComponents(time, template.uniqueEntries, formatInfo);
-
-        return template.fillByKeys(dateComponents);
-    }
-
-
-    protected getTimeComponents(
-        time: DateTime | TimeSpan,
-        formatEntries: ReadOnlyCollection<string>,
-        formatInfo: DateTimeFormatInfo
-    ): object {
-        Assert.argument('time', time).notNull();
-        Assert.argument('formatEntries', formatEntries).notNull();
-        Assert.argument('formatInfo', formatInfo).notNull();
-
-        let components: object = {};
-
-        for (let formatEntry of formatEntries) {
-            let formatter: TimeComponentFormatterBase | null;
-
-            formatter = this.formattersProvider.getFormatter(formatEntry);
-
-            if (formatter == null) {
-                throw new Exception(`Unknown format entry "${formatEntry}".`);
-            }
-
-            if (time instanceof DateTime) {
-                components[formatEntry] = formatter.formatDateTime(time, formatEntry, formatInfo);
-            }
-
-            if (time instanceof TimeSpan) {
-                components[formatEntry] = formatter.formatTimeSpan(time, formatEntry, formatInfo);
-            }
-        }
-
-        return components;
-    }
 }

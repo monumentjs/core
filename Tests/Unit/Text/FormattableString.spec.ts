@@ -1,5 +1,5 @@
 import {FormattableString} from '../../../Source/Text/FormattableString';
-import {Dictionary} from '../../../Source/Collections/Dictionary';
+import {Map} from '../../../Source/Collections/Map';
 
 
 describe('FormattableString', () => {
@@ -10,17 +10,17 @@ describe('FormattableString', () => {
     });
 
 
-    describe('#constructor()', () => {
+    describe('constructor()', () => {
         it('creates new instance of class', () => {
             expect(instance).toBeInstanceOf(FormattableString);
         });
     });
 
 
-    describe('#extractValues()', () => {
+    describe('extractValues()', () => {
         describe('extracts values from source string', () => {
             it('source string does not contains RegExp symbols', () => {
-                let values: Dictionary<string, string> = instance.extractValues(`I like Marvel comics`);
+                let values: Map<string, string> = instance.extractValues(`I like Marvel comics`);
 
                 expect(values.length).toBe(1);
                 expect(values.keys.toArray()).toEqual(['comicsVendor']);
@@ -29,7 +29,7 @@ describe('FormattableString', () => {
 
 
             it(`source string contains RegExp symbols`, () => {
-                let values: Dictionary<string, string>;
+                let values: Map<string, string>;
 
                 instance = new FormattableString(`1 + (2 * [3 + 4]) = {result}`);
 

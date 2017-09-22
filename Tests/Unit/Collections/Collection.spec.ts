@@ -1,12 +1,9 @@
 import {Collection} from '../../../Source/Collections/Collection';
 import {ArgumentNullException} from '../../../Source/Exceptions/ArgumentNullException';
 import {IgnoreCaseComparator} from '../../../Source/Text/IgnoreCaseComparator';
-import {Container} from '../../../Source/DI/Container/Container';
 
 
 describe('Collection', () => {
-    const comparator: IgnoreCaseComparator = Container.get(IgnoreCaseComparator);
-
     let collection: Collection<string>;
 
 
@@ -17,7 +14,7 @@ describe('Collection', () => {
     });
 
 
-    describe('#constructor()', () => {
+    describe('constructor()', () => {
         it('creates new empty collection', () => {
             expect(collection).toBeInstanceOf(Collection);
             expect(collection.length).toBe(0);
@@ -35,7 +32,7 @@ describe('Collection', () => {
     });
 
 
-    describe('#clone()', () => {
+    describe('clone()', () => {
         it('creates a copy of collection', () => {
             let clone: Collection<string>;
 
@@ -51,7 +48,7 @@ describe('Collection', () => {
     });
 
 
-    describe('#add()', () => {
+    describe('add()', () => {
         it('adds item into collection', () => {
             expect(collection.length).toEqual(0);
 
@@ -66,7 +63,7 @@ describe('Collection', () => {
     });
 
 
-    describe('#contains()', () => {
+    describe('contains()', () => {
         it(`throws if 'comparator' argument is null`, () => {
             expect(() => {
                 collection.contains('one', undefined);
@@ -84,14 +81,14 @@ describe('Collection', () => {
         it('determines whether collection already contains specified item using custom equality comparator', () => {
             collection = new Collection(['one', 'two', 'THREE']);
 
-            expect(collection.contains('One', comparator)).toEqual(true);
-            expect(collection.contains('TWO', comparator)).toEqual(true);
-            expect(collection.contains('three', comparator)).toEqual(true);
+            expect(collection.contains('One', IgnoreCaseComparator.instance)).toEqual(true);
+            expect(collection.contains('TWO', IgnoreCaseComparator.instance)).toEqual(true);
+            expect(collection.contains('three', IgnoreCaseComparator.instance)).toEqual(true);
         });
     });
 
 
-    describe('#remove()', () => {
+    describe('remove()', () => {
         it(`returns 'false' if collection does not contains the item`, () => {
             expect(collection.remove('itemThatNotInCollection')).toEqual(false);
         });
@@ -112,7 +109,76 @@ describe('Collection', () => {
     });
 
 
-    describe('#clear()', () => {
+    describe(`removeAll()`, () => {
+        it(`removes items containing in both lists`, () => {
+            collection = new Collection(['a', 'b', 'a', 'c', 'd', 'a']);
+
+            collection.removeAll(['a', 'b']);
+
+            expect(collection.length).toBe(2);
+            expect(collection.toArray()).toEqual(['c', 'd']);
+        });
+
+        it(`removes items containing in both lists using custom equality comparator`, () => {
+            collection = new Collection(['a', 'b', 'a', 'c', 'd', 'a']);
+
+            collection.removeAll(['A', 'B']);
+
+            expect(collection.length).toBe(6);
+
+            collection.removeAll(['A', 'B'], IgnoreCaseComparator.instance);
+
+            expect(collection.length).toBe(2);
+            expect(collection.toArray()).toEqual(['c', 'd']);
+        });
+    });
+
+
+    describe(`removeBy()`, () => {
+        it(`removes items for whose predicate function returns 'true'`, () => {
+            collection = new Collection(['a', 'b', 'a', 'c', 'd', 'a']);
+
+            collection.removeBy((character: string): boolean => {
+                return character === 'a';
+            });
+
+            expect(collection.length).toBe(3);
+            expect(collection.toArray()).toEqual(['b', 'c', 'd']);
+        });
+    });
+
+
+    describe(`retainAll()`, () => {
+        it(`accepts empty lists`, () => {
+            collection.addAll(['one', 'two', 'three', 'four', 'five']);
+
+            expect(collection.retainAll([])).toBe(true);
+
+            expect(collection.length).toBe(0);
+            expect(collection.toArray()).toEqual([]);
+        });
+
+        it(`removes all items except those in specified list`, () => {
+            collection.addAll(['one', 'two', 'three', 'One', 'Two', 'Three']);
+
+            expect(collection.retainAll(['one', 'Three'])).toBe(true);
+
+            expect(collection.length).toBe(2);
+            expect(collection.toArray()).toEqual(['one', 'Three']);
+        });
+
+        it(`uses custom equality comparator`, () => {
+            collection.addAll(['one', 'two', 'three', 'One', 'Two', 'Three']);
+
+            expect(collection.retainAll(['one', 'Three'], IgnoreCaseComparator.instance)).toBe(true);
+
+            expect(collection.length).toBe(4);
+            expect(collection.toArray()).toEqual(['one', 'three', 'One', 'Three']);
+        });
+    });
+
+
+    describe('clear()', () => {
         it('clears collection', () => {
             collection = new Collection(['one', 'two']);
 
