@@ -6,6 +6,11 @@ export abstract class ReceiverSupport<TReceiver> {
     private _receivers: Set<TReceiver> = new Set<TReceiver>();
 
 
+    protected get receivers(): IEnumerable<TReceiver> {
+        return this._receivers;
+    }
+
+
     public addReceiver(receiver: TReceiver): void {
         this._receivers.add(receiver);
     }
@@ -23,10 +28,5 @@ export abstract class ReceiverSupport<TReceiver> {
 
     public removeAllReceivers(): void {
         this._receivers.clear();
-    }
-
-
-    public getAllReceivers(): IEnumerable<TReceiver> {
-        return this._receivers;
     }
 }

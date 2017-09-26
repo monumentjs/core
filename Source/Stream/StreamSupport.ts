@@ -14,9 +14,7 @@ export abstract class StreamSupport<TIn, TOut> extends ReceiverSupport<StreamSup
 
 
     protected async publish(output: TOut): Promise<void> {
-        const receivers = this.getAllReceivers();
-
-        for (let target of receivers) {
+        for (let target of this.receivers) {
             await target.accept(output);
         }
     }

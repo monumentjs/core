@@ -47,8 +47,6 @@ export abstract class StateContainer<TState> extends ReceiverSupport<IStateRecei
 
     public resetState(): void {
         this._state = this.getInitialState();
-
-        this.pushState();
     }
 
 
@@ -56,9 +54,7 @@ export abstract class StateContainer<TState> extends ReceiverSupport<IStateRecei
 
 
     private pushState(): void {
-        const receivers = this.getAllReceivers();
-
-        for (let receiver of receivers) {
+        for (let receiver of this.receivers) {
             receiver.receiveState(this.state);
         }
     }
