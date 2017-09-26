@@ -1,5 +1,5 @@
 
 
 export interface IStateReceiver<TState> {
-    receiveState(state: TState): void;
+    setState(state: TState): void;
 }

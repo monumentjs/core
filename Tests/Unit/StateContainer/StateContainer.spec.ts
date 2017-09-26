@@ -48,34 +48,34 @@ describe(`StateContainer`, () => {
 
         it(`immediately pushes actual state to added receiver`, () => {
             let receiver: IStateReceiver<TestState> = {
-                receiveState: jest.fn()
+                setState: jest.fn()
             };
 
-            expect(receiver.receiveState).toHaveBeenCalledTimes(0);
+            expect(receiver.setState).toHaveBeenCalledTimes(0);
 
             container.addReceiver(receiver);
 
-            expect(receiver.receiveState).toHaveBeenCalledTimes(1);
-            expect(receiver.receiveState).toHaveBeenLastCalledWith(container.state);
+            expect(receiver.setState).toHaveBeenCalledTimes(1);
+            expect(receiver.setState).toHaveBeenLastCalledWith(container.state);
         });
 
         it(`pushes actual state to all receivers after each 'dispatch'`, () => {
             let receiver: IStateReceiver<TestState> = {
-                receiveState: jest.fn()
+                setState: jest.fn()
             };
 
-            expect(receiver.receiveState).toHaveBeenCalledTimes(0);
+            expect(receiver.setState).toHaveBeenCalledTimes(0);
 
             container.addReceiver(receiver);
             container.commit(new TestAction(true));
 
-            expect(receiver.receiveState).toHaveBeenCalledTimes(2);
-            expect(receiver.receiveState).toHaveBeenLastCalledWith(container.state);
+            expect(receiver.setState).toHaveBeenCalledTimes(2);
+            expect(receiver.setState).toHaveBeenLastCalledWith(container.state);
 
             container.commit(new TestAction(false));
 
-            expect(receiver.receiveState).toHaveBeenCalledTimes(3);
-            expect(receiver.receiveState).toHaveBeenLastCalledWith(container.state);
+            expect(receiver.setState).toHaveBeenCalledTimes(3);
+            expect(receiver.setState).toHaveBeenLastCalledWith(container.state);
         });
     });
 });

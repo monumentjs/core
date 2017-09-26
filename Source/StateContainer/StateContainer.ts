@@ -41,7 +41,7 @@ export abstract class StateContainer<TState> extends ReceiverSupport<IStateRecei
     public addReceiver(receiver: IStateReceiver<TState>): void {
         super.addReceiver(receiver);
 
-        receiver.receiveState(this.state);
+        receiver.setState(this.state);
     }
 
 
@@ -55,7 +55,7 @@ export abstract class StateContainer<TState> extends ReceiverSupport<IStateRecei
 
     private pushState(): void {
         for (let receiver of this.receivers) {
-            receiver.receiveState(this.state);
+            receiver.setState(this.state);
         }
     }
 }

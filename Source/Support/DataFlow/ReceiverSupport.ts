@@ -16,13 +16,13 @@ export abstract class ReceiverSupport<TReceiver> {
     }
 
 
-    public removeReceiver(receiver: TReceiver): void {
-        this._receivers.remove(receiver);
+    public hasReceiver(receiver: TReceiver): boolean {
+        return this._receivers.contains(receiver);
     }
 
 
-    public hasReceiver(receiver: TReceiver): boolean {
-        return this._receivers.contains(receiver);
+    public removeReceiver(receiver: TReceiver): void {
+        this._receivers.remove(receiver);
     }
 
 
