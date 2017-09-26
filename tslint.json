@@ -22,6 +22,7 @@
     "interface-name": false,
     "no-conditional-assignment": false,
     "no-empty": true,
+    "no-submodule-imports": false,
     "max-line-length": [false],
     "newline-before-return": true,
     "prefer-conditional-expression": false,

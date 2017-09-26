@@ -2,9 +2,9 @@ import {Task} from './Task';
 import {Queue} from '../Collections/Queue';
 import {TaskEvent} from './TaskEvent';
 import {Assert} from '../Assertion/Assert';
-import {Bind} from '../Language/Decorators/Bind';
 import {Collection} from '../Collections/Collection';
 import {IDisposable} from '../Core/Abstraction/IDisposable';
+import {EventHandler} from '../Events/Decorators/EventHandler';
 
 
 export class TaskQueue implements IDisposable {
@@ -55,9 +55,9 @@ export class TaskQueue implements IDisposable {
 
 
     public addTask(task: Task<any>): void {
-        task.addEventListener(TaskEvent.COMPLETE, this.onTaskFinish, true);
-        task.addEventListener(TaskEvent.ERROR, this.onTaskFinish, true);
-        task.addEventListener(TaskEvent.ABORT, this.onTaskFinish, true);
+        task.addEventListener(TaskEvent.COMPLETE, this.handleTaskFinish, true);
+        task.addEventListener(TaskEvent.ERROR, this.handleTaskFinish, true);
+        task.addEventListener(TaskEvent.ABORT, this.handleTaskFinish, true);
 
         this._tasksQueue.add(task);
 
@@ -81,8 +81,8 @@ export class TaskQueue implements IDisposable {
     }
 
     
-    @Bind()
-    private onTaskFinish(event: TaskEvent): void {
+    @EventHandler()
+    private handleTaskFinish(event: TaskEvent): void {
         if (event != null) {
             this._runningTasks.remove(event.task);
         }
