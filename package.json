@@ -1,6 +1,6 @@
 {
   "name": "@typescript-standard-library/core",
-  "version": "0.0.28",
+  "version": "0.0.29",
   "description": "Core module of TypeScript standard library",
   "keywords": [
     "typescript",
@@ -28,12 +28,12 @@
   "author": "Alex Chugaev <achugaev93@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "@types/jest": "^20.0.8",
-    "@types/node": "^8.0.29",
-    "jest": "^21.1.0",
+    "@types/jest": "^21.1.1",
+    "@types/node": "^8.0.31",
+    "jest": "^21.2.0",
     "ts-jest": "^21.0.1",
     "tslint": "^5.7.0",
-    "typescript": "^2.5.2"
+    "typescript": "^2.5.3"
   },
   "repository": "https://github.com/typescript-standard-library/Core.git",
   "jest": {

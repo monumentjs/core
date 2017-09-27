@@ -1,4 +1,4 @@
-import {ReceiverSupport} from '../Support/DataFlow/ReceiverSupport';
+import {ReceiverSupport} from '../Data/Flow/ReceiverSupport';
 
 
 export abstract class StreamSupport<TIn, TOut> extends ReceiverSupport<StreamSupport<TOut, any>> {
