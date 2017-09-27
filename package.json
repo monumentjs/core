@@ -1,6 +1,6 @@
 {
   "name": "@typescript-standard-library/core",
-  "version": "0.0.29",
+  "version": "0.0.30",
   "description": "Core module of TypeScript standard library",
   "keywords": [
     "typescript",
@@ -17,7 +17,7 @@
     "node": ">=6"
   },
   "scripts": {
-    "prepublishOnly": "npm run lint && npm run compile && npm test && npm publish",
+    "prepublishOnly": "npm run lint && npm run compile && npm test",
     "lint": "tslint --fix --format stylish --project .",
     "compile": "tsc",
     "test": "jest -i --verbose",
