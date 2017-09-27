@@ -17,13 +17,12 @@
     "node": ">=6"
   },
   "scripts": {
-    "submit:npm": "npm run compile && npm run lint:fix && npm t && npm publish",
-    "lint": "tslint --format stylish --project .",
-    "lint:fix": "tslint --fix --format stylish --project .",
+    "prepublishOnly": "npm run lint && npm run compile && npm test && npm publish",
+    "lint": "tslint --fix --format stylish --project .",
     "compile": "tsc",
     "test": "jest -i --verbose",
-    "jest": "jest -i -b --watch",
-    "remove:dts": "find ./Source -type f -name '*.d.ts' -delete && find ./Tests -type f -name '*.d.ts' -delete"
+    "test:watch": "jest -i -b --watch",
+    "types:clear": "find ./Source -type f -name '*.d.ts' -delete && find ./Tests -type f -name '*.d.ts' -delete"
   },
   "author": "Alex Chugaev <achugaev93@gmail.com>",
   "license": "MIT",
