@@ -11,12 +11,12 @@ import {TimeZoneProcessor} from './TimeZoneProcessor';
 import {AMPMProcessor} from './AMPMProcessor';
 import {SignProcessor} from './SignProcessor';
 import {DateTimeFormatException} from '../DateTimeFormatException';
-import {Singleton} from '../../Language/Decorators/Singleton';
+import {GetInstance} from '../../Language/Decorators/GetInstance';
 import {IEnumerable} from '../../Collections/Abstraction/IEnumerable';
 
 
-@Singleton()
 export class TimeEntryProcessorProvider {
+    @GetInstance()
     public static readonly instance: TimeEntryProcessorProvider;
 
 

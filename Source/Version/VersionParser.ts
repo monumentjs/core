@@ -1,13 +1,13 @@
 import {Version} from './Version';
 import {ReleaseStatus} from './ReleaseStatus';
 import {ParsingException} from '../Text/Parsing/ParsingException';
-import {Singleton} from '../Language/Decorators/Singleton';
+import {GetInstance} from '../Language/Decorators/GetInstance';
 import {Service} from '../DI/Decorators/Service';
 
 
 @Service()
-@Singleton()
 export class VersionParser {
+    @GetInstance()
     public static readonly instance: VersionParser;
 
 

@@ -1,121 +1,65 @@
-import {Dispatcher} from '../../../Source/Events/Dispatcher';
-import {ActionListener, ActionListenerCancel} from '../../../Source/Events/types';
+import {Dispatcher} from '../../../Source/Events/Dispatcher/Dispatcher';
+import {IDisposable} from '../../../Source/Core/Abstraction/IDisposable';
+import {Subscriber} from '../../../Source/Events/Dispatcher/Subscriber';
 
 
 describe('Dispatcher', () => {
-    let dispatcher: Dispatcher;
-    let listener: ActionListener;
-    let cancel: ActionListenerCancel;
-    let cancelResult: boolean;
+    let dispatcher: Dispatcher<object>;
     let testAction: object = {
         type: 'test'
     };
 
 
     beforeEach(() => {
-        expect(function () {
-            dispatcher = new Dispatcher();
-        }).not.toThrow();
+        dispatcher = new Dispatcher();
     });
 
 
-    describe('constructor()', () => {
-        it('create new instance of Dispatcher class', () => {
-            expect(dispatcher).toBeInstanceOf(Dispatcher);
-        });
-    });
+    describe('subscribe()', () => {
+        it('returns subscription token', () => {
+            let subscriber: Subscriber<object> = jest.fn();
+            let subscription: IDisposable = dispatcher.subscribe(subscriber);
 
-
-    describe('addListener()', () => {
-        it('attaches listener', () => {
-            listener = jest.fn();
-
-            expect(function () {
-                dispatcher.addListener(listener);
-            }).not.toThrow();
-        });
-
-
-        it('returns cancellation function', () => {
-            listener = jest.fn();
-
-            expect(function () {
-                cancel = dispatcher.addListener(listener);
-            }).not.toThrow();
-
-            expect(typeof cancel).toBe('function');
-
-            // Cancellation function returns `true` when listener was un-subscribed.
-
-            expect(function () {
-                cancelResult = cancel();
-            }).not.toThrow();
-
-            expect(cancelResult).toEqual(true);
-
-            // Cancellation function returns `false` if listener was already un-subscribed.
-
-            expect(function () {
-                cancelResult = cancel();
-            }).not.toThrow();
-
-            expect(cancelResult).toEqual(false);
+            expect(subscription).not.toEqual(null);
         });
     });
 
 
-    describe('removeListener()', () => {
-        it('returns `true` when listener was un-subscribed', () => {
-            listener = jest.fn();
+    describe('dispatch()', () => {
+        it('publishes value to all subscribers', () => {
+            let subscriber1: Subscriber<object> = jest.fn();
+            let subscriber2: Subscriber<object> = jest.fn();
 
-            dispatcher.addListener(listener);
+            let subscription1 = dispatcher.subscribe(subscriber1);
+            let subscription2 = dispatcher.subscribe(subscriber2);
 
-            expect(function () {
-                cancelResult = dispatcher.removeListener(listener);
-            }).not.toThrow();
+            dispatcher.dispatch(testAction);
 
-            expect(cancelResult).toEqual(true);
-        });
+            expect(subscriber1).toHaveBeenCalledTimes(1);
+            expect(subscriber1).toHaveBeenCalledWith(testAction);
 
+            expect(subscriber2).toHaveBeenCalledTimes(1);
+            expect(subscriber2).toHaveBeenCalledWith(testAction);
 
-        it('return `false` if listener was already un-subscribed', () => {
-            listener = jest.fn();
+            subscription1.dispose();
 
-            dispatcher.addListener(listener);
-            dispatcher.removeListener(listener);
+            dispatcher.dispatch(testAction);
 
-            expect(function () {
-                cancelResult = dispatcher.removeListener(listener);
-            }).not.toThrow();
+            expect(subscriber1).toHaveBeenCalledTimes(1);
+            expect(subscriber1).toHaveBeenCalledWith(testAction);
 
-            expect(cancelResult).toEqual(false);
-        });
+            expect(subscriber2).toHaveBeenCalledTimes(2);
+            expect(subscriber2).toHaveBeenCalledWith(testAction);
 
+            subscription2.dispose();
 
-        it('return `false` if listener was not subscribed', () => {
-            listener = jest.fn();
+            dispatcher.dispatch(testAction);
 
-            expect(function () {
-                cancelResult = dispatcher.removeListener(listener);
-            }).not.toThrow();
+            expect(subscriber1).toHaveBeenCalledTimes(1);
+            expect(subscriber1).toHaveBeenCalledWith(testAction);
 
-            expect(cancelResult).toEqual(false);
-        });
-    });
-
-
-    describe('dispatchAction()', () => {
-        it('trigger all listeners with specified action', () => {
-            listener = jest.fn();
-
-            dispatcher.addListener(listener);
-
-            expect(function () {
-                dispatcher.dispatchAction(testAction);
-            }).not.toThrow();
-
-            expect(listener).toHaveBeenCalledTimes(1);
-            expect(listener).toHaveBeenCalledWith(testAction);
+            expect(subscriber2).toHaveBeenCalledTimes(2);
+            expect(subscriber2).toHaveBeenCalledWith(testAction);
         });
     });
 });

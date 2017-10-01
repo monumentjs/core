@@ -1,7 +1,7 @@
 import {Property} from '../../../../Source/Language/Reflection/Property';
 import {Class} from '../../../../Source/Language/Reflection/Class';
 import {Key} from '../../../../Source/Language/Reflection/Key';
-import {Singleton} from '../../../../Source/Language/Decorators/Singleton';
+import {GetInstance} from '../../../../Source/Language/Decorators/GetInstance';
 
 
 /* tslint:disable:max-classes-per-file */
@@ -21,8 +21,8 @@ class Parent {
     }
 }
 
-@Singleton()
 class Child extends Parent {
+    @GetInstance()
     public static readonly instance: Child;
 
     private _child: string = 'child';

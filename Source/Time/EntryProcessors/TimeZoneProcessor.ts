@@ -2,13 +2,13 @@ import {TimeEntryProcessor} from './TimeEntryProcessor';
 import {DateTime} from '../DateTime';
 import {InvalidOperationException} from '../../Exceptions/InvalidOperationException';
 import {TimeSpan} from '../TimeSpan';
-import {Singleton} from '../../Language/Decorators/Singleton';
+import {GetInstance} from '../../Language/Decorators/GetInstance';
 import {IDateTimeFormatInfo} from '../IDateTimeFormatInfo';
 import {DateTimeBuilder} from '../DateTimeBuilder';
 
 
-@Singleton()
 export class TimeZoneProcessor extends TimeEntryProcessor {
+    @GetInstance()
     public static readonly instance: TimeZoneProcessor;
 
 

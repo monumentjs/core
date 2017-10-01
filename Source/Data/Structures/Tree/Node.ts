@@ -145,7 +145,7 @@ export class Node implements INode {
             throw new InvalidArgumentException('refNode', 'Reference node is not a member of child nodes collection.');
         }
 
-        this.childNodes[indexOfOldNode] = newNode;
+        this.childNodes.insert(newNode, indexOfOldNode);
     }
 
 

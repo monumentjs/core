@@ -195,7 +195,7 @@ export class Map<K, V> extends Enumerable<IKeyValuePair<K, V>> implements IMap<K
 
     public clear(): boolean {
         if (this.length > 0) {
-            this.length = 0;
+            this.resize(0);
 
             return true;
         }

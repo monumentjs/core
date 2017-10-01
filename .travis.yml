@@ -4,9 +4,6 @@ node_js:
   - "6"
 before_install:
   - "npm --version"
-  - "tsc --version"
-  - "tslint --version"
-  - "jest --version"
 script:
   - "npm run lint"
   - "npm run compile"

@@ -32,26 +32,6 @@ describe(`Enumerable`, () => {
             expect(instance[3]).toEqual(undefined);
             expect(instance.length).toBe(3);
         });
-
-        it(`sets item by index`, () => {
-            instance[0] = 'three';
-
-            expect(instance[0]).toEqual('three');
-            expect(instance[1]).toEqual('two');
-            expect(instance[2]).toEqual('three');
-            expect(instance.length).toBe(3);
-        });
-
-        it(`does not update 'length' property because is's impossible to track that operation`, () => {
-            // At the moment it's expected behavior.
-            // You should avoid using custom collections this way.
-            // Instead, please use such methods like 'add', 'insert' etc.
-
-            instance[3] = 'four';
-
-            expect(instance.length).toBe(3);
-            expect(instance[3]).toBe('four');
-        });
     });
 
 

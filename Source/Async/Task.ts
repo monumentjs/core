@@ -1,25 +1,49 @@
-import {EventEmitter} from '../Events/EventEmitter';
-import {ErrorEvent} from '../Events/ErrorEvent';
-import {TaskEventType, TaskEvent} from './TaskEvent';
+import {ErrorEventArgs} from '../Events/ErrorEventArgs';
+import {TaskEventArgs} from './TaskEventArgs';
 import {InvalidOperationException} from '../Exceptions/InvalidOperationException';
+import {EventBinding} from '../Events/EventBinding';
+import {EventBindings} from '../Events/EventBindings';
+import {Exception} from '../Exceptions/Exception';
+import {IDisposable} from '../Core/Abstraction/IDisposable';
+import {EventSource} from '../Events/EventSource';
 
 
-export abstract class Task<T = void> extends EventEmitter {
+export abstract class Task<TResult = void> implements IDisposable {
+    private _eventBindings: EventBindings<this> = new EventBindings(this);
     private _isComplete: boolean = false;
     private _isPending: boolean = false;
     private _isResolved: boolean = false;
     private _isRejected: boolean = false;
     private _isAborted: boolean = false;
-    private _result: T;
-    private _error: Error;
+    private _result: TResult;
+    private _error: Exception;
+
+    private _onError: EventBinding<this, ErrorEventArgs> = this._eventBindings.create();
+    private _onComplete: EventBinding<this, TaskEventArgs> = this._eventBindings.create();
+    private _onAbort: EventBinding<this, TaskEventArgs> = this._eventBindings.create();
 
 
-    public get result(): T {
+    public get onAbort(): EventSource<this, TaskEventArgs> {
+        return this._onAbort;
+    }
+
+
+    public get onComplete(): EventSource<this, TaskEventArgs> {
+        return this._onComplete;
+    }
+
+
+    public get onError(): EventSource<this, ErrorEventArgs> {
+        return this._onError;
+    }
+
+
+    public get result(): TResult | undefined {
         return this._result;
     }
 
 
-    public get error(): Error {
+    public get error(): Exception | undefined {
         return this._error;
     }
 
@@ -70,30 +94,39 @@ export abstract class Task<T = void> extends EventEmitter {
         this._isComplete = true;
         this._isAborted = true;
 
-        this.notify(TaskEvent.ABORT);
+        this._onAbort.dispatch(new TaskEventArgs());
+    }
+
+
+    public dispose(): void {
+        this._eventBindings.dispose();
     }
 
 
     protected abstract execute(): Promise<void>;
 
 
-    protected resolve(result: T): void {
-        this._isPending = false;
-        this._isComplete = true;
-        this._isResolved = true;
-        this._result = result;
+    protected resolve(result: TResult): void {
+        if (this._isComplete === false) {
+            this._isComplete = true;
+            this._isPending = false;
+            this._isResolved = true;
+            this._result = result;
 
-        this.notify(TaskEvent.COMPLETE);
+            this._onComplete.dispatch(new TaskEventArgs());
+        }
     }
 
 
-    protected reject(error: Error): void {
-        this._isPending = false;
-        this._isComplete = true;
-        this._isRejected = true;
-        this._error = error;
+    protected reject(error: Exception): void {
+        if (this._isComplete === false) {
+            this._isComplete = true;
+            this._isPending = false;
+            this._isRejected = true;
+            this._error = error;
 
-        this.dispatchEvent(new ErrorEvent(error));
+            this._onError.dispatch(new ErrorEventArgs(error));
+        }
     }
 
 
@@ -105,10 +138,5 @@ export abstract class Task<T = void> extends EventEmitter {
                 throw new InvalidOperationException('Task already complete.');
             }
         }
-    }
-
-
-    protected notify(eventType: TaskEventType): void {
-        this.dispatchEvent(new TaskEvent(eventType, this));
     }
 }

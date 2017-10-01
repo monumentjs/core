@@ -1,6 +1,6 @@
-import {IIndexAccess} from './IIndexAccess';
+import {IReadOnlyIndexAccess} from './IReadOnlyIndexAccess';
 
 
-export interface IEnumerable<T> extends IIndexAccess<T>, Iterable<T> {
+export interface IEnumerable<T> extends IReadOnlyIndexAccess<T>, Iterable<T> {
     readonly length: number;
 }

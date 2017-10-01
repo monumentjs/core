@@ -18,7 +18,6 @@ describe('TaskQueue', () => {
             expect(scheduler.isEmpty).toBe(true);
             expect(scheduler.isIdle).toBe(true);
             expect(scheduler.isBusy).toBe(false);
-            expect(scheduler.isDisposed).toBe(false);
         });
 
 
@@ -30,7 +29,6 @@ describe('TaskQueue', () => {
             expect(scheduler.isEmpty).toBe(true);
             expect(scheduler.isIdle).toBe(true);
             expect(scheduler.isBusy).toBe(false);
-            expect(scheduler.isDisposed).toBe(false);
         });
     });
 
@@ -42,8 +40,8 @@ describe('TaskQueue', () => {
             let onTaskComplete = jest.fn();
             let onTaskError = jest.fn();
 
-            task.addEventListener('complete', onTaskComplete, true);
-            task.addEventListener('error', onTaskError, true);
+            task.onComplete.subscribe(onTaskComplete);
+            task.onError.subscribe(onTaskError);
 
             expect(task.isResolved).toBe(false);
             expect(task.isRejected).toBe(false);

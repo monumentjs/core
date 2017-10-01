@@ -5,11 +5,11 @@ import {Exception} from '../../../../Source/Exceptions/Exception';
 
 export class TestTask<R> extends Task<R> {
     private _preparedResult: R | undefined;
-    private _preparedError: Error | undefined;
+    private _preparedError: Exception | undefined;
     private _msWait: number | undefined;
 
 
-    public constructor(result?: R | undefined, error?: Error | undefined, msWait?: number | undefined) {
+    public constructor(result?: R | undefined, error?: Exception | undefined, msWait?: number | undefined) {
         super();
 
         this._preparedResult = result;

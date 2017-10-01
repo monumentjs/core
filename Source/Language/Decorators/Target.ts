@@ -8,7 +8,7 @@ export function Target(...allowedTargets: DecoratorTarget[]) {
         const decoratorType = Decorator.findTarget(arguments);
 
         if (allowedTargets.includes(decoratorType) === false) {
-            throw new DecoratorTargetException(`Decorator target (${DecoratorTarget[decoratorType]}) is not supported.`);
+            throw new DecoratorTargetException(Target.name, `Decorator target (${DecoratorTarget[decoratorType]}) is not supported.`);
         }
     };
 }

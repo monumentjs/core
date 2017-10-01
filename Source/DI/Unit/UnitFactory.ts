@@ -6,7 +6,6 @@ import {CoreType} from '../../Core/Types/CoreType';
 import {RuntimeException} from '../../Exceptions/RuntimeException';
 import {MissingConstructorArgumentsException} from './MissingConstructorArgumentsException';
 import {Class} from '../../Language/Reflection/Class';
-import {Parameter} from '../../Language/Reflection/Parameter';
 import {Type} from '../../Core/Types/Type';
 import {Constructor} from '../../Core/Types/Constructor';
 import {IUnitPostProcessorRegistry} from './Abstraction/IUnitPostProcessorRegistry';
@@ -154,7 +153,7 @@ export class UnitFactory implements IUnitFactory, IUnitPostProcessorRegistry {
 
 
     private createConstructorArguments(unitDefinition: UnitDefinition): any[] {
-        let argumentsDefinitions = unitDefinition.constructorArguments;
+        let ownArgumentTypes = unitDefinition.constructorArguments;
 
         if (unitDefinition.inheritConstructorArguments) {
             let superClass = Class.of(unitDefinition.type).superClass;
@@ -162,15 +161,15 @@ export class UnitFactory implements IUnitFactory, IUnitPostProcessorRegistry {
             if (superClass != null) {
                 let parentDefinition = UnitDefinition.of(superClass.type);
 
-                for (let i = 0; i < parentDefinition.constructorArguments.length; i++) {
-                    if (argumentsDefinitions[i] == null) {
-                        argumentsDefinitions[i] = parentDefinition.constructorArguments[i];
+                for (let {key, value} of parentDefinition.constructorArguments) {
+                    if (!ownArgumentTypes.containsKey(key) && value.type) {
+                        unitDefinition.setConstructorArgumentType(key, value.type);
                     }
                 }
             }
         }
 
-        if (argumentsDefinitions.length < unitDefinition.type.length) {
+        if (ownArgumentTypes.length < unitDefinition.type.length) {
             throw new MissingConstructorArgumentsException(
                 unitDefinition.type,
                 unitDefinition.constructorArguments.length
@@ -179,15 +178,11 @@ export class UnitFactory implements IUnitFactory, IUnitPostProcessorRegistry {
 
         const args: any[] = [];
 
-        for (let index = 0; index < argumentsDefinitions.length; index++) {
-            const arg: Parameter<any> | undefined = argumentsDefinitions[index];
-
-            if (arg != null) {
-                if (arg.value !== undefined) {
-                    args[index] = arg.value;
-                } else if (arg.type != null) {
-                    args[index] = this.getUnit(arg.type);
-                }
+        for (let {key, value} of ownArgumentTypes) {
+            if (value.value !== undefined) {
+                args[key] = value.value;
+            } else if (value.type != null) {
+                args[key] = this.getUnit(value.type);
             }
         }
 

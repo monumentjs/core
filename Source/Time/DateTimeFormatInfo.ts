@@ -3,11 +3,11 @@ import {DayOfWeek} from './DayOfWeek';
 import {EMPTY_STRING} from '../Text/constants';
 import {ReadOnlyCollection} from '../Collections/ReadOnlyCollection';
 import {IDateTimeFormatInfo} from './IDateTimeFormatInfo';
-import {Singleton} from '../Language/Decorators/Singleton';
+import {GetInstance} from '../Language/Decorators/GetInstance';
 
 
-@Singleton('invariant')
 export class DateTimeFormatInfo implements IDateTimeFormatInfo {
+    @GetInstance()
     public static readonly invariant: DateTimeFormatInfo;
 
     public readonly shortestDayNames: ReadOnlyCollection<string> = new ReadOnlyCollection([

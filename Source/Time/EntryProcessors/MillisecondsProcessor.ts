@@ -2,13 +2,13 @@ import {TimeEntryProcessor} from './TimeEntryProcessor';
 import {DateTime} from '../DateTime';
 import {TimeSpan} from '../TimeSpan';
 import {TextTransform} from '../../Text/TextTransform';
-import {Singleton} from '../../Language/Decorators/Singleton';
+import {GetInstance} from '../../Language/Decorators/GetInstance';
 import {IDateTimeFormatInfo} from '../IDateTimeFormatInfo';
 import {DateTimeBuilder} from '../DateTimeBuilder';
 
 
-@Singleton()
 export class MillisecondsProcessor extends TimeEntryProcessor {
+    @GetInstance()
     public static readonly instance: MillisecondsProcessor;
 
 

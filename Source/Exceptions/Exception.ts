@@ -21,10 +21,12 @@ export class Exception extends Error implements IJSONSerializable<string> {
     public readonly helpLink: string = EMPTY_STRING;
 
 
-    public constructor(message: string) {
-        super(message);
+    public constructor(errorMessage: string) {
+        super(errorMessage);
 
         this.name = this.constructor.name;
+
+        this.normalizeErrorMessage();
     }
 
 
@@ -47,5 +49,16 @@ export class Exception extends Error implements IJSONSerializable<string> {
 
     public toJSON(): string {
         return this.toString();
+    }
+
+
+    private normalizeErrorMessage(): void {
+        let message = this.message.trim();
+
+        if (message.endsWith('.')) {
+            message = message + '.';
+        }
+
+        this.message = message;
     }
 }

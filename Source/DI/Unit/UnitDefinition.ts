@@ -1,7 +1,6 @@
 import {AttributeAccessorSupport} from '../../Language/Reflection/AttributeAccessorSupport';
 import {UnitScope} from './UnitScope';
 import {Map} from '../../Collections/Map';
-import {IEnumerable} from '../../Collections/Abstraction/IEnumerable';
 import {Type} from '../../Core/Types/Type';
 import {Key} from '../../Language/Reflection/Key';
 import {Class} from '../../Language/Reflection/Class';
@@ -40,7 +39,7 @@ export class UnitDefinition<T = any> extends AttributeAccessorSupport {
     private _isUnitFactoryAware: boolean = false;
     private _isApplicationContextAware: boolean = false;
     private _isUnitNameAware: boolean = false;
-    private _constructorArguments: Array<Parameter<any> | undefined> = [];
+    private _constructorArguments: Map<number, Parameter<any>> = new Map();
     private _inheritConstructorArguments: boolean = false;
     private _ownPropertyValues: Map<PropertyKey, Type> = new Map();
     private _singletonInstance: T | undefined;
@@ -74,7 +73,7 @@ export class UnitDefinition<T = any> extends AttributeAccessorSupport {
     }
 
 
-    public get constructorArguments(): IEnumerable<Parameter<any> | undefined> {
+    public get constructorArguments(): IReadOnlyMap<number, Parameter<any>> {
         return this._constructorArguments;
     }
 
@@ -182,28 +181,28 @@ export class UnitDefinition<T = any> extends AttributeAccessorSupport {
 
 
     public setConstructorArgumentType(argumentIndex: number, type: Type): void {
-        let param: Parameter<any> | undefined = this._constructorArguments[argumentIndex];
+        let parameter: Parameter<any> | undefined = this._constructorArguments.get(argumentIndex);
 
-        if (param == null) {
-            param = new Parameter();
+        if (parameter == null) {
+            parameter = new Parameter();
 
-            this._constructorArguments[argumentIndex] = param;
+            this._constructorArguments.put(argumentIndex, parameter);
         }
 
-        param.type = type;
+        parameter.type = type;
     }
 
 
     public setConstructorArgumentValue(argumentIndex: number, value: any): void {
-        let param: Parameter<any> | undefined = this._constructorArguments[argumentIndex];
+        let parameter: Parameter<any> | undefined = this._constructorArguments.get(argumentIndex);
 
-        if (param == null) {
-            param = new Parameter();
+        if (parameter == null) {
+            parameter = new Parameter();
 
-            this._constructorArguments[argumentIndex] = param;
+            this._constructorArguments.put(argumentIndex, parameter);
         }
 
-        param.value = value;
+        parameter.value = value;
     }
 
 

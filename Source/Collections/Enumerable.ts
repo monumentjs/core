@@ -8,7 +8,7 @@ import {IEqualityComparator} from '../Core/Abstraction/IEqualityComparator';
 
 
 export class Enumerable<T> implements IEnumerable<T>, IJSONSerializable<T[]>, ICloneable<Enumerable<T>>, IEquatable<IEnumerable<T>> {
-    [index: number]: T | undefined;
+    readonly [index: number]: T | undefined;
 
 
     private _length: number = 0;
@@ -102,7 +102,7 @@ export class Enumerable<T> implements IEnumerable<T>, IJSONSerializable<T[]>, IC
         if (this._length !== value) {
             if (value < this._length) {
                 for (let i = value; i < this._length; i++) {
-                    delete this[i];
+                    delete (this as {[index: number]: T | undefined})[i];
                 }
             }
 

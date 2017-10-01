@@ -1,9 +1,11 @@
-import {SubscriptionSupport} from './SubscriptionSupport';
 import {IObserver} from '../../Core/Abstraction/IObserver';
 import {IDisposable} from '../../Core/Abstraction/IDisposable';
+import {Map} from '../../Collections/Map';
+import {ObserverSubscription} from './ObserverSubscription';
 
 
-export class ObservableValue<T> extends SubscriptionSupport<T> {
+export class ObservableValue<T> implements IDisposable {
+    private _observers: Map<IObserver<T>, ObserverSubscription<T>> = new Map();
     private _value: T;
 
 
@@ -26,20 +28,30 @@ export class ObservableValue<T> extends SubscriptionSupport<T> {
 
 
     public constructor(value: T) {
-        super();
-
         this._value = value;
     }
 
 
     public subscribe(observer: IObserver<T>): IDisposable {
-        const isNewObserver: boolean = !this._observers.containsKey(observer);
-        const cancellationToken: IDisposable = super.subscribe(observer);
+        const oldSubscription = this._observers.get(observer);
 
-        if (isNewObserver) {
-            observer.onNext(this.value);
+        if (oldSubscription != null) {
+            return oldSubscription;
         }
 
-        return cancellationToken;
+        const newSubscription = new ObserverSubscription(this._observers, observer);
+
+        this._observers.put(observer, newSubscription);
+
+        observer.onNext(this.value);
+
+        return newSubscription;
+    }
+
+
+    public dispose(): void {
+        for (let {value} of this._observers) {
+            value.dispose();
+        }
     }
 }

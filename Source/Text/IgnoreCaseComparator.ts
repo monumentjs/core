@@ -1,13 +1,13 @@
 import {ComparisonResult} from '../Core/Types/ComparisonResult';
-import {Singleton} from '../Language/Decorators/Singleton';
+import {GetInstance} from '../Language/Decorators/GetInstance';
 import {IEqualityComparator} from '../Core/Abstraction/IEqualityComparator';
 import {IComparator} from '../Core/Abstraction/IComparator';
 import {Service} from '../DI/Decorators/Service';
 
 
 @Service()
-@Singleton()
 export class IgnoreCaseComparator implements IEqualityComparator<string>, IComparator<string> {
+    @GetInstance()
     public static readonly instance: IgnoreCaseComparator;
 
 

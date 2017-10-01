@@ -1,6 +1,5 @@
 import {Task} from './Task';
 import {Queue} from '../Collections/Queue';
-import {TaskEvent} from './TaskEvent';
 import {Assert} from '../Assertion/Assert';
 import {Collection} from '../Collections/Collection';
 import {IDisposable} from '../Core/Abstraction/IDisposable';
@@ -13,7 +12,6 @@ export class TaskQueue implements IDisposable {
 
     private _tasksQueue: Queue<Task<any>> = new Queue<Task<any>>();
     private _runningTasks: Collection<Task<any>> = new Collection();
-    private _isDisposed: boolean = false;
     private _concurrency: number;
 
 
@@ -37,13 +35,8 @@ export class TaskQueue implements IDisposable {
     }
 
 
-    public get isDisposed(): boolean {
-        return this._isDisposed;
-    }
-
-
-    protected get canRunOneMoreTask(): boolean {
-        return !this.isDisposed && !this.isEmpty && this._runningTasks.length < this.concurrency;
+    private get canRunOneMoreTask(): boolean {
+        return !this.isEmpty && this._runningTasks.length < this.concurrency;
     }
 
 
@@ -55,9 +48,9 @@ export class TaskQueue implements IDisposable {
 
 
     public addTask(task: Task<any>): void {
-        task.addEventListener(TaskEvent.COMPLETE, this.handleTaskFinish, true);
-        task.addEventListener(TaskEvent.ERROR, this.handleTaskFinish, true);
-        task.addEventListener(TaskEvent.ABORT, this.handleTaskFinish, true);
+        task.onComplete.subscribe(this.handleTaskFinish);
+        task.onError.subscribe(this.handleTaskFinish);
+        task.onAbort.subscribe(this.handleTaskFinish);
 
         this._tasksQueue.add(task);
 
@@ -66,8 +59,6 @@ export class TaskQueue implements IDisposable {
 
 
     public dispose(): void {
-        this._isDisposed = true;
-
         for (let task of this._tasksQueue) {
             task.abort();
         }
@@ -82,10 +73,10 @@ export class TaskQueue implements IDisposable {
 
     
     @EventHandler()
-    private handleTaskFinish(event: TaskEvent): void {
-        if (event != null) {
-            this._runningTasks.remove(event.task);
-        }
+    private handleTaskFinish(target: Task<any>): void {
+        this._runningTasks.remove(target);
+
+        target.dispose();
     }
 
 

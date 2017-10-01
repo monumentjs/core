@@ -4,13 +4,13 @@ import {TimeSpan} from '../TimeSpan';
 import {InvalidOperationException} from '../../Exceptions/InvalidOperationException';
 import {TextTransform} from '../../Text/TextTransform';
 import {EMPTY_STRING} from '../../Text/constants';
-import {Singleton} from '../../Language/Decorators/Singleton';
+import {GetInstance} from '../../Language/Decorators/GetInstance';
 import {IDateTimeFormatInfo} from '../IDateTimeFormatInfo';
 import {DateTimeBuilder} from '../DateTimeBuilder';
 
 
-@Singleton()
 export class MonthProcessor extends TimeEntryProcessor {
+    @GetInstance()
     public static readonly instance: MonthProcessor;
 
 

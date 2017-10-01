@@ -1,9 +1,5 @@
-import {Event} from './Event';
+import {EventArgs} from './EventArgs';
 
 
-export type EventListener = (event: Event) => void;
-
-
-export type ActionListener = (action: object) => void;
-export type ActionListenerCancel = () => boolean;
+export type EventHandlerFunction<TTarget extends object, TArgs extends EventArgs> = (target: TTarget, args: TArgs) => void;
 

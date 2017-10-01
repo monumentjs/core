@@ -1,4 +1,4 @@
-import {Singleton} from '../Language/Decorators/Singleton';
+import {GetInstance} from '../Language/Decorators/GetInstance';
 import {Service} from '../DI/Decorators/Service';
 import {IDateTimeFormatInfo} from './IDateTimeFormatInfo';
 import {DateTimeFormatInfo} from './DateTimeFormatInfo';
@@ -12,8 +12,8 @@ import {Map} from '../Collections/Map';
 
 
 @Service()
-@Singleton()
 export class DateTimeParser {
+    @GetInstance()
     public static readonly instance: DateTimeParser;
 
 
