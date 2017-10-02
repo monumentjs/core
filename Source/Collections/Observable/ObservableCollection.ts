@@ -11,7 +11,7 @@ import {EqualityComparator} from '../../Core/EqualityComparator';
 import {INotifyCollectionChanged} from './INotifyCollectionChanged';
 
 
-export class ObservableCollection<T> extends Collection<T> implements IDisposable, INotifyCollectionChanged<T> {
+export class ObservableCollection<T> extends Collection<T> implements IDisposable, INotifyCollectionChanged<T, ObservableCollection<T>> {
     private readonly _eventBindings: EventBindings<this> = new EventBindings(this);
 
     private readonly _onCollectionChanged: EventBinding<this, CollectionChangedEventArgs> = this._eventBindings.create();

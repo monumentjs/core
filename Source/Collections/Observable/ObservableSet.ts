@@ -9,7 +9,7 @@ import {INotifyCollectionChanged} from './INotifyCollectionChanged';
 import {Set} from '../Set';
 
 
-export class ObservableSet<T> extends Set<T> implements IDisposable, INotifyCollectionChanged<T> {
+export class ObservableSet<T> extends Set<T> implements IDisposable, INotifyCollectionChanged<T, ObservableSet<T>> {
     private readonly _eventBindings: EventBindings<this> = new EventBindings(this);
 
     private readonly _onCollectionChanged: EventBinding<this, CollectionChangedEventArgs> = this._eventBindings.create();

@@ -3,6 +3,6 @@ import {CollectionChangedEventArgs} from './CollectionChangedEventArgs';
 import {ICollection} from '../Abstraction/ICollection';
 
 
-export interface INotifyCollectionChanged<T> {
-    readonly onCollectionChanged: EventSource<ICollection<T>, CollectionChangedEventArgs>;
+export interface INotifyCollectionChanged<T, TCollection extends ICollection<T>> {
+    readonly onCollectionChanged: EventSource<TCollection, CollectionChangedEventArgs>;
 }

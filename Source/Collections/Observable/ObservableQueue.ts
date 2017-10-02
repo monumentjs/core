@@ -11,7 +11,7 @@ import {INotifyCollectionChanged} from './INotifyCollectionChanged';
 import {Queue} from '../Queue';
 
 
-export class ObservableQueue<T> extends Queue<T> implements IDisposable, INotifyCollectionChanged<T> {
+export class ObservableQueue<T> extends Queue<T> implements IDisposable, INotifyCollectionChanged<T, ObservableQueue<T>> {
     private readonly _eventBindings: EventBindings<this> = new EventBindings(this);
 
     private readonly _onCollectionChanged: EventBinding<this, CollectionChangedEventArgs> = this._eventBindings.create();

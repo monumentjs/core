@@ -11,7 +11,7 @@ import {INotifyCollectionChanged} from './INotifyCollectionChanged';
 import {Stack} from '../Stack';
 
 
-export class ObservableStack<T> extends Stack<T> implements IDisposable, INotifyCollectionChanged<T> {
+export class ObservableStack<T> extends Stack<T> implements IDisposable, INotifyCollectionChanged<T, ObservableStack<T>> {
     private readonly _eventBindings: EventBindings<this> = new EventBindings(this);
 
     private readonly _onCollectionChanged: EventBinding<this, CollectionChangedEventArgs> = this._eventBindings.create();

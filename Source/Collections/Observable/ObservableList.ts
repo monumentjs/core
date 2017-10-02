@@ -11,7 +11,7 @@ import {List} from '../List';
 import {INotifyCollectionChanged} from './INotifyCollectionChanged';
 
 
-export class ObservableList<T> extends List<T> implements IDisposable, INotifyCollectionChanged<T> {
+export class ObservableList<T> extends List<T> implements IDisposable, INotifyCollectionChanged<T, ObservableList<T>> {
     private readonly _eventBindings: EventBindings<this> = new EventBindings(this);
 
     protected readonly _onCollectionChanged: EventBinding<this, CollectionChangedEventArgs> = this._eventBindings.create();

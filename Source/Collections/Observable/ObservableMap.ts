@@ -9,7 +9,7 @@ import {IEnumerable} from '../Abstraction/IEnumerable';
 import {INotifyMapChanged} from './INotifyMapChanged';
 
 
-export class ObservableMap<K, V> extends Map<K, V> implements IDisposable, INotifyMapChanged<K, V> {
+export class ObservableMap<K, V> extends Map<K, V> implements IDisposable, INotifyMapChanged<K, V, ObservableMap<K, V>> {
     private readonly _eventBindings: EventBindings<this> = new EventBindings(this);
 
     protected readonly _onMapChanged: EventBinding<this, MapChangedEventArgs> = this._eventBindings.create();
