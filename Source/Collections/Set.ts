@@ -6,7 +6,7 @@ import {IEqualityComparator} from '../Core/Abstraction/IEqualityComparator';
 
 
 export class Set<T> extends Collection<T> implements ISet<T> {
-    private _comparator: IEqualityComparator<T>;
+    private readonly _comparator: IEqualityComparator<T>;
 
 
     public get comparator(): IEqualityComparator<T> {
@@ -22,7 +22,7 @@ export class Set<T> extends Collection<T> implements ISet<T> {
 
         this._comparator = comparator;
 
-        this.unionWith(items);
+        this.addAll(items);
     }
 
 
@@ -53,19 +53,19 @@ export class Set<T> extends Collection<T> implements ISet<T> {
     }
 
 
-    public contains(item: T): boolean {
-        return super.contains(item, this.comparator);
+    public removeAll(items: IEnumerable<T>): boolean {
+        return super.removeAll(items, this.comparator);
     }
 
 
-    public exceptWith(other: IEnumerable<T>): void {
-        for (let otherItem of other) {
-            this.remove(otherItem);
-        }
+    public retainAll(items: IEnumerable<T>): boolean {
+        return super.retainAll(items, this.comparator);
     }
 
 
-    public intersectWith(other: IEnumerable<T>): void {
+    public intersectWith(other: IEnumerable<T>): boolean {
+        let hasChanged: boolean = false;
+
         for (let currentItem of this) {
             let itemPresentInBothSets: boolean = false;
 
@@ -78,9 +78,41 @@ export class Set<T> extends Collection<T> implements ISet<T> {
             }
 
             if (!itemPresentInBothSets) {
-                this.remove(currentItem);
+                if (this.remove(currentItem)) {
+                    hasChanged = true;
+                }
             }
         }
+
+        return hasChanged;
+    }
+
+
+    public symmetricExceptWith(other: IEnumerable<T>): boolean {
+        let hasChanged: boolean = false;
+
+        for (let otherItem of other) {
+            if (this.remove(otherItem)) {
+                hasChanged = true;
+            }
+        }
+
+        for (let currentItem of this) {
+            for (let otherItem of other) {
+                if (this.comparator.equals(currentItem, otherItem)) {
+                    if (this.remove(currentItem)) {
+                        hasChanged = true;
+                    }
+                }
+            }
+        }
+
+        return hasChanged;
+    }
+
+
+    public contains(item: T): boolean {
+        return super.contains(item, this.comparator);
     }
 
 
@@ -193,27 +225,5 @@ export class Set<T> extends Collection<T> implements ISet<T> {
         }
 
         return true;
-    }
-
-
-    public symmetricExceptWith(other: IEnumerable<T>): void {
-        for (let otherItem of other) {
-            this.remove(otherItem);
-        }
-
-        for (let currentItem of this) {
-            for (let otherItem of other) {
-                if (this.comparator.equals(currentItem, otherItem)) {
-                    this.remove(currentItem);
-                }
-            }
-        }
-    }
-
-
-    public unionWith(other: IEnumerable<T>): void {
-        for (let otherItem of other) {
-            this.add(otherItem);
-        }
     }
 }

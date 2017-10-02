@@ -132,6 +132,23 @@ export class Map<K, V> extends Enumerable<IKeyValuePair<K, V>> implements IMap<K
     }
 
 
+    public remove(key: K): V | undefined {
+        let length: number = this.length;
+
+        for (let index = 0; index < length; index++) {
+            let pair: IKeyValuePair<K, V> | undefined = this[index];
+
+            if (pair != null && this.keyComparator.equals(pair.key, key)) {
+                Array.prototype.splice.call(this, index, 1);
+
+                return pair.value;
+            }
+        }
+
+        return undefined;
+    }
+
+
     public get(key: K, defaultValue?: V): V | undefined {
         for (let pair of this) {
             if (this.keyComparator.equals(pair.key, key)) {
@@ -173,23 +190,6 @@ export class Map<K, V> extends Enumerable<IKeyValuePair<K, V>> implements IMap<K
         }
 
         return false;
-    }
-
-
-    public remove(key: K): V | undefined {
-        let length: number = this.length;
-
-        for (let index = 0; index < length; index++) {
-            let pair: IKeyValuePair<K, V> | undefined = this[index];
-
-            if (pair != null && this.keyComparator.equals(pair.key, key)) {
-                Array.prototype.splice.call(this, index, 1);
-
-                return pair.value;
-            }
-        }
-
-        return undefined;
     }
 
 

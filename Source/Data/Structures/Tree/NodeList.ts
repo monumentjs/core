@@ -1,21 +1,26 @@
-import {Collection} from '../../../Collections/Collection';
 import {Node} from './Node';
 import {Assert} from '../../../Assertion/Assert';
+import {ObservableList} from '../../../Collections/Observable/ObservableList';
 
 
-export class NodeCollection<TNode extends Node = Node> extends Collection<TNode> {
-    public readonly parentNode: TNode;
+export class NodeList<TNode extends Node = Node> extends ObservableList<TNode> {
+    private _parentNode: TNode;
+
+
+    public get parentNode(): TNode {
+        return this._parentNode;
+    }
 
 
     public constructor(parentNode: TNode) {
         super();
 
-        this.parentNode = parentNode;
+        this._parentNode = parentNode;
     }
 
 
     public add(node: TNode): boolean {
-        node.parentNode = this.parentNode;
+        node.parentNode = this._parentNode;
 
         return super.add(node);
     }
@@ -41,20 +46,10 @@ export class NodeCollection<TNode extends Node = Node> extends Collection<TNode>
     }
 
 
-    public indexOf(node: TNode, fromIndex?: number | undefined): number {
-        return Array.prototype.indexOf.call(this, node, fromIndex);
-    }
-
-
-    public lastIndexOf(node: TNode, fromIndex?: number): number {
-        return Array.prototype.lastIndexOf.call(this, node, fromIndex);
-    }
-
-
-    public insert(node: TNode, position: number): boolean {
+    public insert(position: number, node: TNode): boolean {
         Assert.argument('position', position).bounds(0, this.length);
 
-        node.parentNode = this.parentNode;
+        node.parentNode = this._parentNode;
 
         Array.prototype.splice.call(this, position, 0, node);
 

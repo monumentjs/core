@@ -1,6 +1,6 @@
 {
   "name": "@typescript-standard-library/core",
-  "version": "0.0.31",
+  "version": "0.0.32",
   "description": "Core module of TypeScript standard library",
   "keywords": [
     "typescript",

@@ -1,5 +1,4 @@
-import {NodeCollection} from './NodeCollection';
-import {Assert} from '../../../Assertion/Assert';
+import {NodeList} from './NodeList';
 import {InvalidArgumentException} from '../../../Exceptions/InvalidArgumentException';
 import {INode} from './Abstraction/INode';
 import {EMPTY_STRING} from '../../../Text/constants';
@@ -8,7 +7,7 @@ import {EMPTY_STRING} from '../../../Text/constants';
 export class Node implements INode {
     private _textContent: string = EMPTY_STRING;
     private _parentNode: Node | undefined;
-    private _childNodes: NodeCollection = new NodeCollection(this);
+    private _childNodes: NodeList = new NodeList(this);
     private _nodeName: string;
 
 
@@ -39,7 +38,7 @@ export class Node implements INode {
     }
 
 
-    public get childNodes(): NodeCollection {
+    public get childNodes(): NodeList {
         return this._childNodes;
     }
 
@@ -49,46 +48,46 @@ export class Node implements INode {
     }
 
 
-    public get nextSibling(): Node | null {
+    public get nextSibling(): Node | undefined {
         let indexOfCurrentNode: number;
 
         if (!this.parentNode) {
-            return null;
+            return undefined;
         }
 
         indexOfCurrentNode = this.parentNode.childNodes.indexOf(this);
 
-        return this.parentNode.childNodes[indexOfCurrentNode + 1] || null;
+        return this.parentNode.childNodes[indexOfCurrentNode + 1];
     }
 
 
-    public get previousSibling(): Node | null {
+    public get previousSibling(): Node | undefined {
         let indexOfCurrentNode: number;
 
         if (!this.parentNode) {
-            return null;
+            return undefined;
         }
 
         indexOfCurrentNode = this.parentNode.childNodes.indexOf(this);
 
-        return this.parentNode.childNodes[indexOfCurrentNode - 1] || null;
+        return this.parentNode.childNodes[indexOfCurrentNode - 1];
     }
 
 
-    public get firstChild(): Node | null {
+    public get firstChild(): Node | undefined {
         if (this.hasChildNodes) {
             return this.childNodes[0] as Node;
         } else {
-            return null;
+            return undefined;
         }
     }
 
 
-    public get lastChild(): Node | null {
+    public get lastChild(): Node | undefined {
         if (this.hasChildNodes) {
             return this.childNodes[this.childNodes.length - 1] as Node;
         } else {
-            return null;
+            return undefined;
         }
     }
 
@@ -99,8 +98,6 @@ export class Node implements INode {
 
 
     public set textContent(value: string) {
-        Assert.argument('value', value).notNull();
-
         this._textContent = value;
     }
 
@@ -119,8 +116,6 @@ export class Node implements INode {
 
 
     public constructor(nodeName: string) {
-        Assert.argument('nodeName', nodeName).notNull();
-
         this._nodeName = nodeName;
     }
 
@@ -136,22 +131,17 @@ export class Node implements INode {
 
 
     public replaceChild(newNode: Node, refNode: Node): void {
-        Assert.argument('newNode', newNode).notNull();
-        Assert.argument('refNode', refNode).notNull();
-
         let indexOfOldNode: number = this.childNodes.indexOf(refNode);
 
         if (indexOfOldNode < 0) {
             throw new InvalidArgumentException('refNode', 'Reference node is not a member of child nodes collection.');
         }
 
-        this.childNodes.insert(newNode, indexOfOldNode);
+        this.childNodes.insert(indexOfOldNode, newNode);
     }
 
 
     public contains(node: Node): boolean {
-        Assert.argument('node', node).notNull();
-
         if (node === this) {
             return false;
         }
@@ -171,29 +161,23 @@ export class Node implements INode {
 
 
     public insertBefore(newNode: Node, refNode: Node): void {
-        Assert.argument('newNode', newNode).notNull();
-        Assert.argument('refNode', refNode).notNull();
-
         let insertPosition: number = this.childNodes.indexOf(refNode);
 
         if (insertPosition < 0) {
             throw new InvalidArgumentException('refNode', 'Reference node is not a member of child nodes collection.');
         }
 
-        this.childNodes.insert(newNode, insertPosition);
+        this.childNodes.insert(insertPosition, newNode);
     }
 
 
     public insertAfter(newNode: Node, refNode: Node): void {
-        Assert.argument('newNode', newNode).notNull();
-        Assert.argument('refNode', refNode).notNull();
-
         let insertPosition: number = this.childNodes.indexOf(refNode);
 
         if (insertPosition < 0) {
             throw new InvalidArgumentException('refNode', 'Reference node is not a member of child nodes collection.');
         }
 
-        this.childNodes.insert(newNode, insertPosition + 1);
+        this.childNodes.insert(insertPosition + 1, newNode);
     }
 }

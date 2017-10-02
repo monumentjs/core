@@ -1,4 +1,4 @@
-import {EventSource} from '../../Events/EventSource';
+import {EventSource} from '../Events/EventSource';
 import {PropertyChangedEventArgs} from './PropertyChangedEventArgs';
 
 

@@ -1,4 +1,4 @@
-import {EventArgs} from '../../Events/EventArgs';
+import {EventArgs} from '../Events/EventArgs';
 
 
 export class PropertyChangedEventArgs extends EventArgs {

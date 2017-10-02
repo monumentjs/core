@@ -1,4 +1,3 @@
-import {Collection} from '../Collection';
 import {EventBindings} from '../../Events/EventBindings';
 import {EventBinding} from '../../Events/EventBinding';
 import {CollectionChangedEventArgs} from './CollectionChangedEventArgs';
@@ -9,16 +8,22 @@ import {IteratorFunction} from '../IteratorFunction';
 import {IEqualityComparator} from '../../Core/Abstraction/IEqualityComparator';
 import {EqualityComparator} from '../../Core/EqualityComparator';
 import {INotifyCollectionChanged} from './INotifyCollectionChanged';
+import {Stack} from '../Stack';
 
 
-export class ObservableCollection<T> extends Collection<T> implements IDisposable, INotifyCollectionChanged<T> {
+export class ObservableStack<T> extends Stack<T> implements IDisposable, INotifyCollectionChanged<T> {
     private readonly _eventBindings: EventBindings<this> = new EventBindings(this);
 
-    protected readonly _onCollectionChanged: EventBinding<this, CollectionChangedEventArgs> = this._eventBindings.create();
+    private readonly _onCollectionChanged: EventBinding<this, CollectionChangedEventArgs> = this._eventBindings.create();
 
 
     public get onCollectionChanged(): EventSource<this, CollectionChangedEventArgs> {
         return this._onCollectionChanged;
+    }
+
+
+    public clone(): ObservableStack<T> {
+        return new ObservableStack(this);
     }
 
 
@@ -99,6 +104,15 @@ export class ObservableCollection<T> extends Collection<T> implements IDisposabl
         }
 
         return false;
+    }
+
+
+    public pop(): T {
+        const poppedItem: T = super.pop();
+
+        this._onCollectionChanged.dispatch(new CollectionChangedEventArgs());
+
+        return poppedItem;
     }
 
 
