@@ -1,6 +1,6 @@
 {
   "name": "@typescript-standard-library/core",
-  "version": "0.0.32",
+  "version": "0.0.33",
   "description": "Core module of TypeScript standard library",
   "keywords": [
     "typescript",
@@ -21,16 +21,15 @@
     "lint": "tslint --fix --format stylish --project .",
     "compile": "tsc",
     "test": "jest -i --verbose",
-    "test:watch": "jest -i -b --watch",
     "types:clear": "find ./Source -type f -name '*.d.ts' -delete && find ./Tests -type f -name '*.d.ts' -delete"
   },
   "author": "Alex Chugaev <achugaev93@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "@types/jest": "^21.1.1",
-    "@types/node": "^8.0.31",
+    "@types/jest": "^21.1.2",
+    "@types/node": "^8.0.32",
     "jest": "^21.2.1",
-    "ts-jest": "^21.0.1",
+    "ts-jest": "^21.1.0",
     "tslint": "^5.7.0",
     "typescript": "^2.5.3"
   },

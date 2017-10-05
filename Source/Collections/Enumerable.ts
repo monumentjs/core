@@ -5,9 +5,10 @@ import {IJSONSerializable} from '../Core/Abstraction/IJSONSerializable';
 import {ICloneable} from '../Core/Abstraction/ICloneable';
 import {IEquatable} from '../Core/Abstraction/IEquatable';
 import {IEqualityComparator} from '../Core/Abstraction/IEqualityComparator';
+import {Object} from '../Core/Object';
 
 
-export class Enumerable<T> implements IEnumerable<T>, IJSONSerializable<T[]>, ICloneable<Enumerable<T>>, IEquatable<IEnumerable<T>> {
+export class Enumerable<T> extends Object implements IEnumerable<T>, IJSONSerializable<T[]>, ICloneable<Enumerable<T>>, IEquatable<IEnumerable<T>> {
     readonly [index: number]: T | undefined;
 
 
@@ -30,6 +31,8 @@ export class Enumerable<T> implements IEnumerable<T>, IJSONSerializable<T[]>, IC
 
 
     public constructor(list: Iterable<T> = []) {
+        super();
+
         Array.prototype.splice.call(this, 0, 0, ...list);
     }
 

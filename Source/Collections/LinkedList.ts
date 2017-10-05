@@ -10,12 +10,13 @@ import {ICloneable} from '../Core/Abstraction/ICloneable';
 import {IEquatable} from '../Core/Abstraction/IEquatable';
 import {IJSONSerializable} from '../Core/Abstraction/IJSONSerializable';
 import {IEqualityComparator} from '../Core/Abstraction/IEqualityComparator';
+import {Object} from '../Core/Object';
 
 
 type LinkedListIteratorFunction<TItem, TResult> = (node: LinkedListNode<TItem>, index: number) => TResult;
 
 
-export class LinkedList<T> implements IList<T>, ICloneable<LinkedList<T>>, IEquatable<LinkedList<T>>, IJSONSerializable<T[]> {
+export class LinkedList<T> extends Object implements IList<T>, ICloneable<LinkedList<T>>, IEquatable<LinkedList<T>>, IJSONSerializable<T[]> {
     [key: number]: T;
 
     private _length: number = 0;
@@ -34,6 +35,8 @@ export class LinkedList<T> implements IList<T>, ICloneable<LinkedList<T>>, IEqua
 
 
     public constructor(list?: IEnumerable<T>) {
+        super();
+
         if (list) {
             this.addAll(list);
         }

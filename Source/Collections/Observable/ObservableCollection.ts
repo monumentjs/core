@@ -1,8 +1,6 @@
 import {Collection} from '../Collection';
-import {EventBindings} from '../../Events/EventBindings';
 import {EventBinding} from '../../Events/EventBinding';
 import {CollectionChangedEventArgs} from './CollectionChangedEventArgs';
-import {IDisposable} from '../../Core/Abstraction/IDisposable';
 import {EventSource} from '../../Events/EventSource';
 import {IEnumerable} from '../Abstraction/IEnumerable';
 import {IteratorFunction} from '../IteratorFunction';
@@ -11,14 +9,12 @@ import {EqualityComparator} from '../../Core/EqualityComparator';
 import {INotifyCollectionChanged} from './INotifyCollectionChanged';
 
 
-export class ObservableCollection<T> extends Collection<T> implements IDisposable, INotifyCollectionChanged<T, ObservableCollection<T>> {
-    private readonly _eventBindings: EventBindings<this> = new EventBindings(this);
-
-    private readonly _onCollectionChanged: EventBinding<this, CollectionChangedEventArgs> = this._eventBindings.create();
+export class ObservableCollection<T> extends Collection<T> implements INotifyCollectionChanged<T, ObservableCollection<T>> {
+    private readonly _collectionChanged: EventBinding<this, CollectionChangedEventArgs> = this._eventBindings.create();
 
 
-    public get onCollectionChanged(): EventSource<this, CollectionChangedEventArgs> {
-        return this._onCollectionChanged;
+    public get collectionChanged(): EventSource<this, CollectionChangedEventArgs> {
+        return this._collectionChanged;
     }
 
 
@@ -29,7 +25,7 @@ export class ObservableCollection<T> extends Collection<T> implements IDisposabl
 
     public add(item: T): boolean {
         if (super.add(item)) {
-            this._onCollectionChanged.dispatch(new CollectionChangedEventArgs());
+            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
 
             return true;
         }
@@ -40,7 +36,7 @@ export class ObservableCollection<T> extends Collection<T> implements IDisposabl
 
     public addAll(items: IEnumerable<T>): boolean {
         if (super.addAll(items)) {
-            this._onCollectionChanged.dispatch(new CollectionChangedEventArgs());
+            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
 
             return true;
         }
@@ -51,7 +47,7 @@ export class ObservableCollection<T> extends Collection<T> implements IDisposabl
 
     public remove(item: T): boolean {
         if (super.remove(item)) {
-            this._onCollectionChanged.dispatch(new CollectionChangedEventArgs());
+            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
 
             return true;
         }
@@ -62,7 +58,7 @@ export class ObservableCollection<T> extends Collection<T> implements IDisposabl
 
     public removeAll(items: IEnumerable<T>): boolean {
         if (super.removeAll(items)) {
-            this._onCollectionChanged.dispatch(new CollectionChangedEventArgs());
+            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
 
             return true;
         }
@@ -73,7 +69,7 @@ export class ObservableCollection<T> extends Collection<T> implements IDisposabl
 
     public removeBy(predicate: IteratorFunction<T, boolean>): boolean {
         if (super.removeBy(predicate)) {
-            this._onCollectionChanged.dispatch(new CollectionChangedEventArgs());
+            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
 
             return true;
         }
@@ -87,7 +83,7 @@ export class ObservableCollection<T> extends Collection<T> implements IDisposabl
         comparator: IEqualityComparator<T> = EqualityComparator.instance
     ): boolean {
         if (super.retainAll(otherItems, comparator)) {
-            this._onCollectionChanged.dispatch(new CollectionChangedEventArgs());
+            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
 
             return true;
         }
@@ -98,16 +94,11 @@ export class ObservableCollection<T> extends Collection<T> implements IDisposabl
 
     public clear(): boolean {
         if (super.clear()) {
-            this._onCollectionChanged.dispatch(new CollectionChangedEventArgs());
+            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
 
             return true;
         }
 
         return false;
-    }
-
-
-    public dispose(): void {
-        this._eventBindings.dispose();
     }
 }
