@@ -1,7 +1,7 @@
-import {EventSource} from '../Events/EventSource';
+import {EventHandler} from '../Events/EventHandler';
 import {PropertyChangedEventArgs} from './PropertyChangedEventArgs';
 
 
-export interface INotifyPropertyChanged {
-    readonly collectionChanged: EventSource<object, PropertyChangedEventArgs>;
+export interface INotifyPropertyChanged<TTarget extends object = object> {
+    readonly propertyChanged: EventHandler<TTarget, PropertyChangedEventArgs>;
 }

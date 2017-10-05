@@ -1,8 +1,8 @@
-import {EventBindings} from '../../Events/EventBindings';
-import {EventBinding} from '../../Events/EventBinding';
+import {EventFactory} from '../../Events/EventFactory';
+import {Event} from '../../Events/Event';
 import {CollectionChangedEventArgs} from './CollectionChangedEventArgs';
 import {IDisposable} from '../../Core/Abstraction/IDisposable';
-import {EventSource} from '../../Events/EventSource';
+import {EventHandler} from '../../Events/EventHandler';
 import {IEnumerable} from '../Abstraction/IEnumerable';
 import {IteratorFunction} from '../IteratorFunction';
 import {IEqualityComparator} from '../../Core/Abstraction/IEqualityComparator';
@@ -12,14 +12,12 @@ import {Stack} from '../Stack';
 
 
 export class ObservableStack<T> extends Stack<T> implements IDisposable, INotifyCollectionChanged<T, ObservableStack<T>> {
-    private readonly _eventBindings: EventBindings<this> = new EventBindings(this);
+    private readonly _eventFactory: EventFactory<this> = new EventFactory(this);
 
-    private readonly _collectionChanged: EventBinding<this, CollectionChangedEventArgs> = this._eventBindings.create();
+    private readonly _collectionChanged: Event<this, CollectionChangedEventArgs> = this._eventFactory.create();
 
 
-    public get collectionChanged(): EventSource<this, CollectionChangedEventArgs> {
-        return this._collectionChanged;
-    }
+    public readonly collectionChanged: EventHandler<this, CollectionChangedEventArgs> = this._collectionChanged;
 
 
     public clone(): ObservableStack<T> {
@@ -29,7 +27,7 @@ export class ObservableStack<T> extends Stack<T> implements IDisposable, INotify
 
     public add(item: T): boolean {
         if (super.add(item)) {
-            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
+            this.onCollectionChanged();
 
             return true;
         }
@@ -40,7 +38,7 @@ export class ObservableStack<T> extends Stack<T> implements IDisposable, INotify
 
     public addAll(items: IEnumerable<T>): boolean {
         if (super.addAll(items)) {
-            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
+            this.onCollectionChanged();
 
             return true;
         }
@@ -51,7 +49,7 @@ export class ObservableStack<T> extends Stack<T> implements IDisposable, INotify
 
     public remove(item: T): boolean {
         if (super.remove(item)) {
-            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
+            this.onCollectionChanged();
 
             return true;
         }
@@ -62,7 +60,7 @@ export class ObservableStack<T> extends Stack<T> implements IDisposable, INotify
 
     public removeAll(items: IEnumerable<T>): boolean {
         if (super.removeAll(items)) {
-            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
+            this.onCollectionChanged();
 
             return true;
         }
@@ -73,7 +71,7 @@ export class ObservableStack<T> extends Stack<T> implements IDisposable, INotify
 
     public removeBy(predicate: IteratorFunction<T, boolean>): boolean {
         if (super.removeBy(predicate)) {
-            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
+            this.onCollectionChanged();
 
             return true;
         }
@@ -87,7 +85,7 @@ export class ObservableStack<T> extends Stack<T> implements IDisposable, INotify
         comparator: IEqualityComparator<T> = EqualityComparator.instance
     ): boolean {
         if (super.retainAll(otherItems, comparator)) {
-            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
+            this.onCollectionChanged();
 
             return true;
         }
@@ -98,7 +96,7 @@ export class ObservableStack<T> extends Stack<T> implements IDisposable, INotify
 
     public clear(): boolean {
         if (super.clear()) {
-            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
+            this.onCollectionChanged();
 
             return true;
         }
@@ -110,13 +108,18 @@ export class ObservableStack<T> extends Stack<T> implements IDisposable, INotify
     public pop(): T {
         const poppedItem: T = super.pop();
 
-        this._collectionChanged.dispatch(new CollectionChangedEventArgs());
+        this.onCollectionChanged();
 
         return poppedItem;
     }
 
 
     public dispose(): void {
-        this._eventBindings.dispose();
+        this._eventFactory.dispose();
+    }
+
+
+    protected onCollectionChanged() {
+        this._collectionChanged.dispatch(new CollectionChangedEventArgs());
     }
 }

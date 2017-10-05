@@ -1,8 +1,8 @@
-import {EventBindings} from '../../Events/EventBindings';
-import {EventBinding} from '../../Events/EventBinding';
+import {EventFactory} from '../../Events/EventFactory';
+import {Event} from '../../Events/Event';
 import {CollectionChangedEventArgs} from './CollectionChangedEventArgs';
 import {IDisposable} from '../../Core/Abstraction/IDisposable';
-import {EventSource} from '../../Events/EventSource';
+import {EventHandler} from '../../Events/EventHandler';
 import {IEnumerable} from '../Abstraction/IEnumerable';
 import {IteratorFunction} from '../IteratorFunction';
 import {INotifyCollectionChanged} from './INotifyCollectionChanged';
@@ -10,14 +10,12 @@ import {Set} from '../Set';
 
 
 export class ObservableSet<T> extends Set<T> implements IDisposable, INotifyCollectionChanged<T, ObservableSet<T>> {
-    private readonly _eventBindings: EventBindings<this> = new EventBindings(this);
+    private readonly _eventFactory: EventFactory<this> = new EventFactory(this);
 
-    private readonly _collectionChanged: EventBinding<this, CollectionChangedEventArgs> = this._eventBindings.create();
+    private readonly _collectionChanged: Event<this, CollectionChangedEventArgs> = this._eventFactory.create();
 
 
-    public get collectionChanged(): EventSource<this, CollectionChangedEventArgs> {
-        return this._collectionChanged;
-    }
+    public readonly collectionChanged: EventHandler<this, CollectionChangedEventArgs> = this._collectionChanged;
 
 
     public clone(): ObservableSet<T> {
@@ -27,7 +25,7 @@ export class ObservableSet<T> extends Set<T> implements IDisposable, INotifyColl
 
     public add(item: T): boolean {
         if (super.add(item)) {
-            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
+            this.onCollectionChanged();
 
             return true;
         }
@@ -38,7 +36,7 @@ export class ObservableSet<T> extends Set<T> implements IDisposable, INotifyColl
 
     public addAll(items: IEnumerable<T>): boolean {
         if (super.addAll(items)) {
-            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
+            this.onCollectionChanged();
 
             return true;
         }
@@ -49,7 +47,7 @@ export class ObservableSet<T> extends Set<T> implements IDisposable, INotifyColl
 
     public intersectWith(items: IEnumerable<T>): boolean {
         if (super.intersectWith(items)) {
-            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
+            this.onCollectionChanged();
 
             return true;
         }
@@ -60,7 +58,7 @@ export class ObservableSet<T> extends Set<T> implements IDisposable, INotifyColl
 
     public symmetricExceptWith(items: IEnumerable<T>): boolean {
         if (super.symmetricExceptWith(items)) {
-            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
+            this.onCollectionChanged();
 
             return true;
         }
@@ -71,7 +69,7 @@ export class ObservableSet<T> extends Set<T> implements IDisposable, INotifyColl
 
     public remove(item: T): boolean {
         if (super.remove(item)) {
-            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
+            this.onCollectionChanged();
 
             return true;
         }
@@ -82,7 +80,7 @@ export class ObservableSet<T> extends Set<T> implements IDisposable, INotifyColl
 
     public removeAll(items: IEnumerable<T>): boolean {
         if (super.removeAll(items)) {
-            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
+            this.onCollectionChanged();
 
             return true;
         }
@@ -93,7 +91,7 @@ export class ObservableSet<T> extends Set<T> implements IDisposable, INotifyColl
 
     public removeBy(predicate: IteratorFunction<T, boolean>): boolean {
         if (super.removeBy(predicate)) {
-            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
+            this.onCollectionChanged();
 
             return true;
         }
@@ -104,7 +102,7 @@ export class ObservableSet<T> extends Set<T> implements IDisposable, INotifyColl
 
     public retainAll(otherItems: IEnumerable<T>): boolean {
         if (super.retainAll(otherItems)) {
-            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
+            this.onCollectionChanged();
 
             return true;
         }
@@ -115,7 +113,7 @@ export class ObservableSet<T> extends Set<T> implements IDisposable, INotifyColl
 
     public clear(): boolean {
         if (super.clear()) {
-            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
+            this.onCollectionChanged();
 
             return true;
         }
@@ -125,6 +123,11 @@ export class ObservableSet<T> extends Set<T> implements IDisposable, INotifyColl
 
 
     public dispose(): void {
-        this._eventBindings.dispose();
+        this._eventFactory.dispose();
+    }
+
+
+    protected onCollectionChanged() {
+        this._collectionChanged.dispatch(new CollectionChangedEventArgs());
     }
 }

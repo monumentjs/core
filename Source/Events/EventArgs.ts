@@ -1,6 +1,6 @@
 
 
-export abstract class EventArgs {
+export class EventArgs {
     private _isCancelled: boolean = false;
 
     protected _isCancellable: boolean = true;

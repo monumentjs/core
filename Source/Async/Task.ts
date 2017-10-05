@@ -1,15 +1,15 @@
 import {ErrorEventArgs} from '../Events/ErrorEventArgs';
 import {TaskEventArgs} from './TaskEventArgs';
 import {InvalidOperationException} from '../Exceptions/InvalidOperationException';
-import {EventBinding} from '../Events/EventBinding';
-import {EventBindings} from '../Events/EventBindings';
+import {Event} from '../Events/Event';
+import {EventFactory} from '../Events/EventFactory';
 import {Exception} from '../Exceptions/Exception';
 import {IDisposable} from '../Core/Abstraction/IDisposable';
-import {EventSource} from '../Events/EventSource';
+import {EventHandler} from '../Events/EventHandler';
 
 
 export abstract class Task<TResult = void> implements IDisposable {
-    private _eventBindings: EventBindings<this> = new EventBindings(this);
+    private _eventBindings: EventFactory<this> = new EventFactory(this);
     private _isComplete: boolean = false;
     private _isPending: boolean = false;
     private _isResolved: boolean = false;
@@ -18,22 +18,22 @@ export abstract class Task<TResult = void> implements IDisposable {
     private _result: TResult;
     private _error: Exception;
 
-    private _onError: EventBinding<this, ErrorEventArgs> = this._eventBindings.create();
-    private _onComplete: EventBinding<this, TaskEventArgs> = this._eventBindings.create();
-    private _onAbort: EventBinding<this, TaskEventArgs> = this._eventBindings.create();
+    private _onError: Event<this, ErrorEventArgs> = this._eventBindings.create();
+    private _onComplete: Event<this, TaskEventArgs> = this._eventBindings.create();
+    private _onAbort: Event<this, TaskEventArgs> = this._eventBindings.create();
 
 
-    public get onAbort(): EventSource<this, TaskEventArgs> {
+    public get onAbort(): EventHandler<this, TaskEventArgs> {
         return this._onAbort;
     }
 
 
-    public get onComplete(): EventSource<this, TaskEventArgs> {
+    public get onComplete(): EventHandler<this, TaskEventArgs> {
         return this._onComplete;
     }
 
 
-    public get onError(): EventSource<this, ErrorEventArgs> {
+    public get onError(): EventHandler<this, ErrorEventArgs> {
         return this._onError;
     }
 

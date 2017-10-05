@@ -1,29 +1,19 @@
-import {IDisposable} from '../Core/Abstraction/IDisposable';
 import {EventArgs} from './EventArgs';
+import {IDisposable} from '../Core/Abstraction/IDisposable';
 import {Map} from '../Collections/Map';
+import {EventSubscription} from './EventSubscription';
 import {EventHandlerFunction} from './types';
 
 
-export class EventHandler<TTarget extends object, TArgs extends EventArgs> implements IDisposable {
-    private readonly _handlers: Map<EventHandlerFunction<TTarget, TArgs>, EventHandler<TTarget, TArgs>>;
-    private readonly _handler: EventHandlerFunction<TTarget, TArgs>;
+export class EventHandler<TTarget extends object = object, TArgs extends EventArgs = EventArgs> {
+    protected _subscriptions: Map<EventHandlerFunction<TTarget, TArgs>, EventSubscription<TTarget, TArgs>> = new Map();
 
 
-    public get handler(): EventHandlerFunction<TTarget, TArgs> {
-        return this._handler;
-    }
+    public subscribe(callback: EventHandlerFunction<TTarget, TArgs>): IDisposable {
+        const subscription = new EventSubscription(this._subscriptions, callback);
 
+        this._subscriptions.put(callback, subscription);
 
-    public constructor(
-        handlers: Map<EventHandlerFunction<TTarget, TArgs>, EventHandler<TTarget, TArgs>>,
-        handler: EventHandlerFunction<TTarget, TArgs>
-    ) {
-        this._handlers = handlers;
-        this._handler = handler;
-    }
-
-
-    public dispose(): void {
-        this._handlers.remove(this._handler);
+        return subscription;
     }
 }
