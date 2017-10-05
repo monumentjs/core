@@ -2,15 +2,15 @@ import {EventArgs} from '../Events/EventArgs';
 
 
 export class PropertyChangedEventArgs extends EventArgs {
-    private readonly _propertyName: string;
+    private readonly _propertyName: PropertyKey;
 
 
-    public get propertyName(): string {
+    public get propertyName(): PropertyKey {
         return this._propertyName;
     }
 
 
-    public constructor(propertyName: string) {
+    public constructor(propertyName: PropertyKey) {
         super();
 
         this._propertyName = propertyName;

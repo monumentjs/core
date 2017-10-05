@@ -1,5 +1,7 @@
+import {EventBindings} from '../../Events/EventBindings';
 import {EventBinding} from '../../Events/EventBinding';
 import {CollectionChangedEventArgs} from './CollectionChangedEventArgs';
+import {IDisposable} from '../../Core/Abstraction/IDisposable';
 import {EventSource} from '../../Events/EventSource';
 import {IEnumerable} from '../Abstraction/IEnumerable';
 import {IteratorFunction} from '../IteratorFunction';
@@ -9,12 +11,14 @@ import {List} from '../List';
 import {INotifyCollectionChanged} from './INotifyCollectionChanged';
 
 
-export class ObservableList<T> extends List<T> implements INotifyCollectionChanged<T, ObservableList<T>> {
-    protected readonly _collectionChanged: EventBinding<this, CollectionChangedEventArgs> = this._eventBindings.create();
+export class ObservableList<T> extends List<T> implements IDisposable, INotifyCollectionChanged<T, ObservableList<T>> {
+    private readonly _eventBindings: EventBindings<this> = new EventBindings(this);
+
+    protected readonly _onCollectionChanged: EventBinding<this, CollectionChangedEventArgs> = this._eventBindings.create();
 
 
-    public get collectionChanged(): EventSource<this, CollectionChangedEventArgs> {
-        return this._collectionChanged;
+    public get onCollectionChanged(): EventSource<this, CollectionChangedEventArgs> {
+        return this._onCollectionChanged;
     }
 
 
@@ -25,7 +29,7 @@ export class ObservableList<T> extends List<T> implements INotifyCollectionChang
 
     public add(item: T): boolean {
         if (super.add(item)) {
-            this.onCollectionChanged();
+            this._onCollectionChanged.dispatch(new CollectionChangedEventArgs());
 
             return true;
         }
@@ -36,7 +40,7 @@ export class ObservableList<T> extends List<T> implements INotifyCollectionChang
 
     public addAll(items: IEnumerable<T>): boolean {
         if (super.addAll(items)) {
-            this.onCollectionChanged();
+            this._onCollectionChanged.dispatch(new CollectionChangedEventArgs());
 
             return true;
         }
@@ -47,7 +51,7 @@ export class ObservableList<T> extends List<T> implements INotifyCollectionChang
 
     public insert(index: number, item: T): boolean {
         if (super.insert(index, item)) {
-            this.onCollectionChanged();
+            this._onCollectionChanged.dispatch(new CollectionChangedEventArgs());
 
             return true;
         }
@@ -58,7 +62,7 @@ export class ObservableList<T> extends List<T> implements INotifyCollectionChang
 
     public insertAll(index: number, items: IEnumerable<T>): boolean {
         if (super.insertAll(index, items)) {
-            this.onCollectionChanged();
+            this._onCollectionChanged.dispatch(new CollectionChangedEventArgs());
 
             return true;
         }
@@ -69,7 +73,7 @@ export class ObservableList<T> extends List<T> implements INotifyCollectionChang
 
     public remove(item: T): boolean {
         if (super.remove(item)) {
-            this.onCollectionChanged();
+            this._onCollectionChanged.dispatch(new CollectionChangedEventArgs());
 
             return true;
         }
@@ -80,7 +84,7 @@ export class ObservableList<T> extends List<T> implements INotifyCollectionChang
 
     public removeAll(items: IEnumerable<T>): boolean {
         if (super.removeAll(items)) {
-            this.onCollectionChanged();
+            this._onCollectionChanged.dispatch(new CollectionChangedEventArgs());
 
             return true;
         }
@@ -94,7 +98,7 @@ export class ObservableList<T> extends List<T> implements INotifyCollectionChang
         const removedItem = super.removeAt(index);
 
         if (this.length !== oldLength) {
-            this.onCollectionChanged();
+            this._onCollectionChanged.dispatch(new CollectionChangedEventArgs());
         }
 
         return removedItem;
@@ -103,7 +107,7 @@ export class ObservableList<T> extends List<T> implements INotifyCollectionChang
 
     public removeBy(predicate: IteratorFunction<T, boolean>): boolean {
         if (super.removeBy(predicate)) {
-            this.onCollectionChanged();
+            this._onCollectionChanged.dispatch(new CollectionChangedEventArgs());
 
             return true;
         }
@@ -117,7 +121,7 @@ export class ObservableList<T> extends List<T> implements INotifyCollectionChang
         comparator: IEqualityComparator<T> = EqualityComparator.instance
     ): boolean {
         if (super.retainAll(otherItems, comparator)) {
-            this.onCollectionChanged();
+            this._onCollectionChanged.dispatch(new CollectionChangedEventArgs());
 
             return true;
         }
@@ -128,7 +132,7 @@ export class ObservableList<T> extends List<T> implements INotifyCollectionChang
 
     public clear(): boolean {
         if (super.clear()) {
-            this.onCollectionChanged();
+            this._onCollectionChanged.dispatch(new CollectionChangedEventArgs());
 
             return true;
         }
@@ -137,7 +141,7 @@ export class ObservableList<T> extends List<T> implements INotifyCollectionChang
     }
 
 
-    private onCollectionChanged() {
-        this._collectionChanged.dispatch(new CollectionChangedEventArgs());
+    public dispose(): void {
+        this._eventBindings.dispose();
     }
 }
