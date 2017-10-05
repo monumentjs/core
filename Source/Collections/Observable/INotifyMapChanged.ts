@@ -4,5 +4,5 @@ import {IMap} from '../Abstraction/IMap';
 
 
 export interface INotifyMapChanged<K, V, TMap extends IMap<K, V>> {
-    readonly onMapChanged: EventSource<TMap, MapChangedEventArgs>;
+    readonly mapChanged: EventSource<TMap, MapChangedEventArgs>;
 }

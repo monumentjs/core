@@ -4,5 +4,5 @@ import {ICollection} from '../Abstraction/ICollection';
 
 
 export interface INotifyCollectionChanged<T, TCollection extends ICollection<T>> {
-    readonly onCollectionChanged: EventSource<TCollection, CollectionChangedEventArgs>;
+    readonly collectionChanged: EventSource<TCollection, CollectionChangedEventArgs>;
 }

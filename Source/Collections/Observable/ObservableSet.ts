@@ -12,11 +12,11 @@ import {Set} from '../Set';
 export class ObservableSet<T> extends Set<T> implements IDisposable, INotifyCollectionChanged<T, ObservableSet<T>> {
     private readonly _eventBindings: EventBindings<this> = new EventBindings(this);
 
-    private readonly _onCollectionChanged: EventBinding<this, CollectionChangedEventArgs> = this._eventBindings.create();
+    private readonly _collectionChanged: EventBinding<this, CollectionChangedEventArgs> = this._eventBindings.create();
 
 
-    public get onCollectionChanged(): EventSource<this, CollectionChangedEventArgs> {
-        return this._onCollectionChanged;
+    public get collectionChanged(): EventSource<this, CollectionChangedEventArgs> {
+        return this._collectionChanged;
     }
 
 
@@ -27,7 +27,7 @@ export class ObservableSet<T> extends Set<T> implements IDisposable, INotifyColl
 
     public add(item: T): boolean {
         if (super.add(item)) {
-            this._onCollectionChanged.dispatch(new CollectionChangedEventArgs());
+            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
 
             return true;
         }
@@ -38,7 +38,7 @@ export class ObservableSet<T> extends Set<T> implements IDisposable, INotifyColl
 
     public addAll(items: IEnumerable<T>): boolean {
         if (super.addAll(items)) {
-            this._onCollectionChanged.dispatch(new CollectionChangedEventArgs());
+            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
 
             return true;
         }
@@ -49,7 +49,7 @@ export class ObservableSet<T> extends Set<T> implements IDisposable, INotifyColl
 
     public intersectWith(items: IEnumerable<T>): boolean {
         if (super.intersectWith(items)) {
-            this._onCollectionChanged.dispatch(new CollectionChangedEventArgs());
+            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
 
             return true;
         }
@@ -60,7 +60,7 @@ export class ObservableSet<T> extends Set<T> implements IDisposable, INotifyColl
 
     public symmetricExceptWith(items: IEnumerable<T>): boolean {
         if (super.symmetricExceptWith(items)) {
-            this._onCollectionChanged.dispatch(new CollectionChangedEventArgs());
+            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
 
             return true;
         }
@@ -71,7 +71,7 @@ export class ObservableSet<T> extends Set<T> implements IDisposable, INotifyColl
 
     public remove(item: T): boolean {
         if (super.remove(item)) {
-            this._onCollectionChanged.dispatch(new CollectionChangedEventArgs());
+            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
 
             return true;
         }
@@ -82,7 +82,7 @@ export class ObservableSet<T> extends Set<T> implements IDisposable, INotifyColl
 
     public removeAll(items: IEnumerable<T>): boolean {
         if (super.removeAll(items)) {
-            this._onCollectionChanged.dispatch(new CollectionChangedEventArgs());
+            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
 
             return true;
         }
@@ -93,7 +93,7 @@ export class ObservableSet<T> extends Set<T> implements IDisposable, INotifyColl
 
     public removeBy(predicate: IteratorFunction<T, boolean>): boolean {
         if (super.removeBy(predicate)) {
-            this._onCollectionChanged.dispatch(new CollectionChangedEventArgs());
+            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
 
             return true;
         }
@@ -104,7 +104,7 @@ export class ObservableSet<T> extends Set<T> implements IDisposable, INotifyColl
 
     public retainAll(otherItems: IEnumerable<T>): boolean {
         if (super.retainAll(otherItems)) {
-            this._onCollectionChanged.dispatch(new CollectionChangedEventArgs());
+            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
 
             return true;
         }
@@ -115,7 +115,7 @@ export class ObservableSet<T> extends Set<T> implements IDisposable, INotifyColl
 
     public clear(): boolean {
         if (super.clear()) {
-            this._onCollectionChanged.dispatch(new CollectionChangedEventArgs());
+            this._collectionChanged.dispatch(new CollectionChangedEventArgs());
 
             return true;
         }

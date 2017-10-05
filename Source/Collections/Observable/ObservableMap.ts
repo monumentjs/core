@@ -15,7 +15,7 @@ export class ObservableMap<K, V> extends Map<K, V> implements IDisposable, INoti
     protected readonly _onMapChanged: EventBinding<this, MapChangedEventArgs> = this._eventBindings.create();
 
 
-    public get onMapChanged(): EventSource<this, MapChangedEventArgs> {
+    public get mapChanged(): EventSource<this, MapChangedEventArgs> {
         return this._onMapChanged;
     }
 
