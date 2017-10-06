@@ -49,8 +49,6 @@ export function Profile(configuration: IProfilingConfiguration = {}): MethodDeco
                     });
                 }
             }
-
-            console.log(``);
             /* tslint:enable:no-console */
 
             return returnValue;
