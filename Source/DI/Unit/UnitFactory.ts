@@ -8,8 +8,10 @@ import {MissingConstructorArgumentsException} from './MissingConstructorArgument
 import {Class} from '../../Language/Reflection/Class';
 import {Type} from '../../Core/Types/Type';
 import {Constructor} from '../../Core/Types/Constructor';
-import {IUnitPostProcessorRegistry} from './Abstraction/IUnitPostProcessorRegistry';
 import {IPropertyAccess} from '../../Core/Abstraction/IPropertyAccess';
+import {IUnitPostProcessorRegistry} from './Abstraction/IUnitPostProcessorRegistry';
+import {UnitNameAwareUnitPostProcessor} from './PostProcessor/UnitNameAwareUnitPostProcessor';
+import {UnitFactoryAwareUnitPostProcessor} from './PostProcessor/UnitFactoryAwareUnitPostProcessor';
 
 
 export class UnitFactory implements IUnitFactory, IUnitPostProcessorRegistry {
@@ -21,8 +23,14 @@ export class UnitFactory implements IUnitFactory, IUnitPostProcessorRegistry {
     }
 
 
-    public registerUnitPostProcessor(postProcessor: Type<IUnitPostProcessor>): void {
-        this._unitPostProcessors.add(this.getUnit(postProcessor));
+    public constructor() {
+        this.addUnitPostProcessor(new UnitNameAwareUnitPostProcessor());
+        this.addUnitPostProcessor(new UnitFactoryAwareUnitPostProcessor(this));
+    }
+
+
+    public addUnitPostProcessor(postProcessor: IUnitPostProcessor): void {
+        this._unitPostProcessors.add(postProcessor);
     }
 
 
@@ -51,10 +59,6 @@ export class UnitFactory implements IUnitFactory, IUnitPostProcessorRegistry {
         let unit: T = new constructor(...constructorArguments);
 
         this.populateProperties(unit, unitDefinition);
-
-        this.notifyUnitNameAware(unit, unitDefinition);
-        this.notifyUnitFactoryAware(unit, unitDefinition);
-        this.notifyApplicationContextAware(unit, unitDefinition);
 
         unit = this.postProcessBeforeInitialization(unit, unitDefinition);
 
@@ -89,39 +93,6 @@ export class UnitFactory implements IUnitFactory, IUnitPostProcessorRegistry {
         }
 
         return unit;
-    }
-
-
-    private notifyUnitNameAware<T>(unit: any, unitDefinition: UnitDefinition<T>): void {
-        if (unitDefinition.isUnitNameAware) {
-            if (typeof unit.setUnitName !== CoreType.Function) {
-                throw new RuntimeException(`Unit marked as unit name aware but does not implement IUnitNameAware interface.`);
-            }
-
-            unit.setUnitName(unitDefinition.name);
-        }
-    }
-
-
-    private notifyUnitFactoryAware<T>(unit: any, unitDefinition: UnitDefinition<T>): void {
-        if (unitDefinition.isUnitFactoryAware) {
-            if (typeof unit.setUnitFactory !== CoreType.Function) {
-                throw new RuntimeException(`Unit marked as unit factory aware but does not implement IUnitFactoryAware interface.`);
-            }
-
-            unit.setUnitFactory(this);
-        }
-    }
-
-
-    private notifyApplicationContextAware<T>(unit: any, unitDefinition: UnitDefinition<T>): void {
-        if (unitDefinition.isApplicationContextAware) {
-            if (typeof unit.setApplicationContext !== CoreType.Function) {
-                throw new RuntimeException(`Unit marked as application context aware but does not implement IApplicationContextAware interface.`);
-            }
-
-            unit.setUnitFactory(this);
-        }
     }
 
 

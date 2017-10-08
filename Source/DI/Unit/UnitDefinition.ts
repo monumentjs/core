@@ -30,20 +30,23 @@ export class UnitDefinition<T = any> extends AttributeAccessorSupport {
         return klass.getAttribute(UnitDefinition.UNIT_DEFINITION) as UnitDefinition<T>;
     }
 
+
     private _parentDefinition: UnitDefinition | undefined;
     private _name: string = RandomStringGenerator.getAlphabeticString(64);
     private _type: Type<T>;
     private _scope: UnitScope = UnitScope.Prototype;
     private _isPrimary: boolean = false;
-    private _isInitializing: boolean = false;
-    private _isUnitFactoryAware: boolean = false;
-    private _isApplicationContextAware: boolean = false;
-    private _isUnitNameAware: boolean = false;
+
+    private _isInitializing: boolean | undefined;
+    private _initMethodName: PropertyKey | undefined;
+    private _isUnitFactoryAware: boolean | undefined;
+    private _isApplicationContextAware: boolean | undefined;
+    private _isUnitNameAware: boolean | undefined;
+
     private _constructorArguments: Map<number, Parameter<any>> = new Map();
     private _inheritConstructorArguments: boolean = false;
     private _ownPropertyValues: Map<PropertyKey, Type> = new Map();
     private _singletonInstance: T | undefined;
-    private _initMethodName: PropertyKey | undefined;
 
 
     public get name(): string {
@@ -104,7 +107,15 @@ export class UnitDefinition<T = any> extends AttributeAccessorSupport {
 
 
     public get isInitializing(): boolean {
-        return this._isInitializing;
+        if (this._isInitializing != null) {
+            return this._isInitializing;
+        }
+
+        if (this._parentDefinition) {
+            return this._parentDefinition.isInitializing;
+        }
+
+        return false;
     }
 
 
@@ -114,7 +125,15 @@ export class UnitDefinition<T = any> extends AttributeAccessorSupport {
 
 
     public get isUnitNameAware(): boolean {
-        return this._isUnitNameAware;
+        if (this._isUnitNameAware != null) {
+            return this._isUnitNameAware;
+        }
+
+        if (this._parentDefinition) {
+            return this._parentDefinition.isUnitNameAware;
+        }
+
+        return false;
     }
 
 
@@ -124,7 +143,15 @@ export class UnitDefinition<T = any> extends AttributeAccessorSupport {
 
 
     public get isUnitFactoryAware(): boolean {
-        return this._isUnitFactoryAware;
+        if (this._isUnitFactoryAware != null) {
+            return this._isUnitFactoryAware;
+        }
+
+        if (this._parentDefinition) {
+            return this._parentDefinition.isUnitFactoryAware;
+        }
+
+        return false;
     }
 
 
@@ -134,7 +161,15 @@ export class UnitDefinition<T = any> extends AttributeAccessorSupport {
 
 
     public get isApplicationContextAware(): boolean {
-        return this._isApplicationContextAware;
+        if (this._isApplicationContextAware != null) {
+            return this._isApplicationContextAware;
+        }
+
+        if (this._parentDefinition) {
+            return this._parentDefinition.isApplicationContextAware;
+        }
+
+        return false;
     }
 
 

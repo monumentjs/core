@@ -14,6 +14,7 @@ const VERSION_COMPONENTS: string[] = ['major', 'minor', 'patch', 'releaseStatus'
 
 export class Version implements IEquatable<Version>, IComparable<Version>, ICloneable<Version>, IJSONSerializable<string> {
     public static readonly PATTERN: RegExp = /^(\d+)\.(\d+)\.(\d+)(-(alpha|beta|rc)(\.(\d+))?)?$/;
+    public static readonly zero: Version = new Version();
 
 
     private _major: number;

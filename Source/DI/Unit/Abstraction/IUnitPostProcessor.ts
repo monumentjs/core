@@ -8,7 +8,7 @@ export interface IUnitPostProcessor {
      * The unit will already be populated with property values.
      * The returned unit instance may be a wrapper around the original.
      */
-    postProcessBeforeInitialization<T>(instance: T, unitDefinition: UnitDefinition<T>): T;
+    postProcessBeforeInitialization<T>(unit: T, unitDefinition: UnitDefinition<T>): T;
 
     /**
      * Apply this IUnitPostProcessor to the given new unit instance after any unit initialization callbacks
@@ -19,5 +19,5 @@ export interface IUnitPostProcessor {
      * IInstantiationAwareUnitPostProcessor.postProcessBeforeInstantiation(Type, string) method,
      * in contrast to all other IUnitPostProcessor callbacks.
      */
-    postProcessAfterInitialization<T>(instance: T, unitDefinition: UnitDefinition<T>): T;
+    postProcessAfterInitialization<T>(unit: T, unitDefinition: UnitDefinition<T>): T;
 }
