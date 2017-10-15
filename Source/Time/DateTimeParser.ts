@@ -1,5 +1,4 @@
 import {GetInstance} from '../Language/Decorators/GetInstance';
-import {Service} from '../DI/Decorators/Service';
 import {IDateTimeFormatInfo} from './IDateTimeFormatInfo';
 import {DateTimeFormatInfo} from './DateTimeFormatInfo';
 import {DateTime} from './DateTime';
@@ -11,7 +10,6 @@ import {TimeEntryProcessor} from './EntryProcessors/TimeEntryProcessor';
 import {Map} from '../Collections/Map';
 
 
-@Service()
 export class DateTimeParser {
     @GetInstance()
     public static readonly instance: DateTimeParser;

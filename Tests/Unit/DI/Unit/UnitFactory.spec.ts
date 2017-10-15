@@ -1,6 +1,5 @@
 import {Inject} from '../../../../Source/DI/Decorators/Inject';
 import {UnitFactory} from '../../../../Source/DI/Unit/UnitFactory';
-import {Service} from '../../../../Source/DI/Decorators/Service';
 import {InheritConstructorArguments} from '../../../../Source/DI/Decorators/InheritConstructorArguments';
 
 
@@ -54,7 +53,6 @@ class ComplexClass extends ClassD {
 
 // Injection via parent's constructor
 
-@Service()
 @InheritConstructorArguments()
 class ComplexService extends ComplexClass {
     public getComplexity(): number {

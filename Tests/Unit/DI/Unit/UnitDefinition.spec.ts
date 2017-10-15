@@ -44,8 +44,8 @@ describe(`UnitDefinition`, () => {
         expect(typeof base.name).toBe('string');
         expect(base.name.length).toBeGreaterThan(0);
         expect(base.isInitializing).toBe(false);
-        expect(base.isSingleton).toBe(false);
-        expect(base.isPrototype).toBe(true);
+        expect(base.isSingleton).toBe(true);
+        expect(base.isPrototype).toBe(false);
         expect(base.isPrimary).toBe(false);
         expect(base.isUnitNameAware).toBe(false);
         expect(base.isUnitFactoryAware).toBe(false);
@@ -56,8 +56,8 @@ describe(`UnitDefinition`, () => {
         expect(typeof sub.name).toBe('string');
         expect(sub.name.length).toBeGreaterThan(0);
         expect(sub.isInitializing).toBe(false);
-        expect(sub.isSingleton).toBe(false);
-        expect(sub.isPrototype).toBe(true);
+        expect(sub.isSingleton).toBe(true);
+        expect(sub.isPrototype).toBe(false);
         expect(sub.isPrimary).toBe(false);
         expect(sub.isUnitNameAware).toBe(false);
         expect(sub.isUnitFactoryAware).toBe(false);
@@ -83,6 +83,5 @@ describe(`UnitDefinition`, () => {
 
         expect(base.isUnitNameAware).toBe(true);
         expect(sub.isUnitNameAware).toBe(true);
-
     });
 });

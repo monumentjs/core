@@ -1,6 +1,6 @@
 {
   "name": "@typescript-standard-library/core",
-  "version": "0.0.37",
+  "version": "0.0.38",
   "description": "Core module of TypeScript standard library",
   "keywords": [
     "typescript",
@@ -27,9 +27,9 @@
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^21.1.2",
-    "@types/node": "^8.0.33",
+    "@types/node": "^8.0.34",
     "jest": "^21.2.1",
-    "ts-jest": "^21.1.0",
+    "ts-jest": "^21.1.2",
     "tslint": "^5.7.0",
     "typescript": "^2.5.3"
   },

@@ -34,7 +34,7 @@ export class UnitDefinition<T = any> extends AttributeAccessorSupport {
     private _parentDefinition: UnitDefinition | undefined;
     private _name: string = RandomStringGenerator.getAlphabeticString(64);
     private _type: Type<T>;
-    private _scope: UnitScope = UnitScope.Prototype;
+    private _scope: UnitScope = UnitScope.Singleton;
     private _isPrimary: boolean = false;
 
     private _isInitializing: boolean | undefined;
