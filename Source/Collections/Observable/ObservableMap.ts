@@ -1,8 +1,8 @@
 import {Map} from '../Map';
 import {EventFactory} from '../../Events/EventFactory';
-import {EventHandler} from '../../Events/EventHandler';
+import {EventSource} from '../../Events/EventSource';
 import {MapChangedEventArgs} from './MapChangedEventArgs';
-import {Event} from '../../Events/Event';
+import {EventDispatcher} from '../../Events/EventDispatcher';
 import {IDisposable} from '../../Core/Abstraction/IDisposable';
 import {IKeyValuePair} from '../Abstraction/IKeyValuePair';
 import {IEnumerable} from '../Abstraction/IEnumerable';
@@ -12,10 +12,10 @@ import {INotifyMapChanged} from './INotifyMapChanged';
 export class ObservableMap<K, V> extends Map<K, V> implements IDisposable, INotifyMapChanged<K, V, ObservableMap<K, V>> {
     private readonly _eventFactory: EventFactory<this> = new EventFactory(this);
 
-    private readonly _mapChanged: Event<this, MapChangedEventArgs> = this._eventFactory.create();
+    private readonly _mapChanged: EventDispatcher<this, MapChangedEventArgs> = this._eventFactory.create();
 
 
-    public readonly mapChanged: EventHandler<this, MapChangedEventArgs> = this._mapChanged;
+    public readonly mapChanged: EventSource<this, MapChangedEventArgs> = this._mapChanged;
 
 
     public clone(): ObservableMap<K, V> {

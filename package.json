@@ -1,6 +1,6 @@
 {
   "name": "@typescript-standard-library/core",
-  "version": "0.0.38",
+  "version": "0.0.39",
   "description": "Core module of TypeScript standard library",
   "keywords": [
     "typescript",
@@ -17,7 +17,8 @@
     "node": ">=6"
   },
   "scripts": {
-    "prepublishOnly": "npm run lint && npm run compile && npm test",
+    "prepublishOnly": "npm run build",
+    "build": "npm run lint && npm run compile && npm test",
     "lint": "tslint --fix --format stylish --project .",
     "compile": "tsc",
     "test": "jest -i --verbose",
@@ -27,7 +28,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^21.1.2",
-    "@types/node": "^8.0.34",
+    "@types/node": "^8.0.40",
     "jest": "^21.2.1",
     "ts-jest": "^21.1.2",
     "tslint": "^5.7.0",

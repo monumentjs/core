@@ -1,9 +1,9 @@
 import {EventArgs} from './EventArgs';
-import {EventHandler} from './EventHandler';
+import {EventSource} from './EventSource';
 import {IDisposable} from '../Core/Abstraction/IDisposable';
 
 
-export class Event<TTarget extends object = object, TArgs extends EventArgs = EventArgs> extends EventHandler<TTarget, TArgs> implements IDisposable {
+export class EventDispatcher<TTarget extends object = object, TArgs extends EventArgs = EventArgs> extends EventSource<TTarget, TArgs> implements IDisposable {
     protected _target: TTarget;
 
 

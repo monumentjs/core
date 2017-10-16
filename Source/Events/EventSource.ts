@@ -5,7 +5,7 @@ import {EventSubscription} from './EventSubscription';
 import {EventHandlerFunction} from './types';
 
 
-export class EventHandler<TTarget extends object = object, TArgs extends EventArgs = EventArgs> {
+export class EventSource<TTarget extends object = object, TArgs extends EventArgs = EventArgs> {
     protected _subscriptions: Map<EventHandlerFunction<TTarget, TArgs>, EventSubscription<TTarget, TArgs>> = new Map();
 
 

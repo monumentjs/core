@@ -1,11 +1,11 @@
 import {ErrorEventArgs} from '../Events/ErrorEventArgs';
 import {TaskEventArgs} from './TaskEventArgs';
 import {InvalidOperationException} from '../Exceptions/InvalidOperationException';
-import {Event} from '../Events/Event';
+import {EventDispatcher} from '../Events/EventDispatcher';
 import {EventFactory} from '../Events/EventFactory';
 import {Exception} from '../Exceptions/Exception';
 import {IDisposable} from '../Core/Abstraction/IDisposable';
-import {EventHandler} from '../Events/EventHandler';
+import {EventSource} from '../Events/EventSource';
 
 
 export abstract class Task<TResult = void> implements IDisposable {
@@ -18,22 +18,22 @@ export abstract class Task<TResult = void> implements IDisposable {
     private _result: TResult;
     private _error: Exception;
 
-    private _onError: Event<this, ErrorEventArgs> = this._eventBindings.create();
-    private _onComplete: Event<this, TaskEventArgs> = this._eventBindings.create();
-    private _onAbort: Event<this, TaskEventArgs> = this._eventBindings.create();
+    private _onError: EventDispatcher<this, ErrorEventArgs> = this._eventBindings.create();
+    private _onComplete: EventDispatcher<this, TaskEventArgs> = this._eventBindings.create();
+    private _onAbort: EventDispatcher<this, TaskEventArgs> = this._eventBindings.create();
 
 
-    public get onAbort(): EventHandler<this, TaskEventArgs> {
+    public get onAbort(): EventSource<this, TaskEventArgs> {
         return this._onAbort;
     }
 
 
-    public get onComplete(): EventHandler<this, TaskEventArgs> {
+    public get onComplete(): EventSource<this, TaskEventArgs> {
         return this._onComplete;
     }
 
 
-    public get onError(): EventHandler<this, ErrorEventArgs> {
+    public get onError(): EventSource<this, ErrorEventArgs> {
         return this._onError;
     }
 

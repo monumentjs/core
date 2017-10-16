@@ -1,8 +1,8 @@
 import {EventFactory} from '../../Events/EventFactory';
-import {Event} from '../../Events/Event';
+import {EventDispatcher} from '../../Events/EventDispatcher';
 import {CollectionChangedEventArgs} from './CollectionChangedEventArgs';
 import {IDisposable} from '../../Core/Abstraction/IDisposable';
-import {EventHandler} from '../../Events/EventHandler';
+import {EventSource} from '../../Events/EventSource';
 import {IEnumerable} from '../Abstraction/IEnumerable';
 import {IteratorFunction} from '../IteratorFunction';
 import {IEqualityComparator} from '../../Core/Abstraction/IEqualityComparator';
@@ -14,10 +14,10 @@ import {INotifyCollectionChanged} from './INotifyCollectionChanged';
 export class ObservableList<T> extends List<T> implements IDisposable, INotifyCollectionChanged<T, ObservableList<T>> {
     private readonly _eventFactory: EventFactory<this> = new EventFactory(this);
 
-    private readonly _collectionChanged: Event<this, CollectionChangedEventArgs> = this._eventFactory.create();
+    private readonly _collectionChanged: EventDispatcher<this, CollectionChangedEventArgs> = this._eventFactory.create();
 
 
-    public readonly collectionChanged: EventHandler<this, CollectionChangedEventArgs> = this._collectionChanged;
+    public readonly collectionChanged: EventSource<this, CollectionChangedEventArgs> = this._collectionChanged;
 
 
     public clone(): ObservableList<T> {

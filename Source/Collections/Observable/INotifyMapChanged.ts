@@ -1,8 +1,8 @@
-import {EventHandler} from '../../Events/EventHandler';
+import {EventSource} from '../../Events/EventSource';
 import {MapChangedEventArgs} from './MapChangedEventArgs';
 import {IMap} from '../Abstraction/IMap';
 
 
 export interface INotifyMapChanged<K, V, TMap extends IMap<K, V>> {
-    readonly mapChanged: EventHandler<TMap, MapChangedEventArgs>;
+    readonly mapChanged: EventSource<TMap, MapChangedEventArgs>;
 }

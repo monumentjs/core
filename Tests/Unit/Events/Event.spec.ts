@@ -1,4 +1,4 @@
-import {Event} from '../../../Source/Events/Event';
+import {EventDispatcher} from '../../../Source/Events/EventDispatcher';
 import {IDisposable} from '../../../Source/Core/Abstraction/IDisposable';
 import {EventHandlerFunction} from '../../../Source/Events/types';
 import {EventArgs} from '../../../Source/Events/EventArgs';
@@ -6,12 +6,12 @@ import {EventArgs} from '../../../Source/Events/EventArgs';
 
 describe(`Event`, () => {
     let target: object;
-    let event: Event;
+    let event: EventDispatcher;
 
 
     beforeEach(() => {
         target = {};
-        event = new Event(target);
+        event = new EventDispatcher(target);
     });
     
 

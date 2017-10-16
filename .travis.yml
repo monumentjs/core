@@ -5,9 +5,7 @@ node_js:
 before_install:
   - "npm --version"
 script:
-  - "npm run lint"
-  - "npm run compile"
-  - "npm run test"
+  - "npm run build"
 os:
   - "linux"
   - "osx"
