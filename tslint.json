@@ -18,6 +18,7 @@
     "no-empty-interface": true,
     "no-bitwise": false,
     "ban-types": true,
+    "ban-comma-operator": false,
     "interface-over-type-literal": false,
     "interface-name": false,
     "no-conditional-assignment": false,
