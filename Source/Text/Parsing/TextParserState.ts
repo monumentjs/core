@@ -1,14 +1,8 @@
 
 
 export class TextParserState {
-    private _sourceString: string;
     private _currentChar: string = '';
     private _previousChar: string = '';
-
-
-    public get sourceString(): string {
-        return this._sourceString;
-    }
 
 
     public get currentChar(): string {
@@ -28,9 +22,4 @@ export class TextParserState {
 
 
     public index: number = 0;
-
-
-    public constructor(sourceString: string) {
-        this._sourceString = sourceString;
-    }
 }
