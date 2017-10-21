@@ -2,10 +2,10 @@ import {TextParserState} from './TextParserState';
 
 
 export abstract class TextParserBase<TState extends TextParserState, TResult> {
-    private _state: TextParserState;
+    private _state: TState;
 
 
-    public get state(): TextParserState {
+    public get state(): TState {
         return this._state;
     }
 
