@@ -1,36 +1,23 @@
+import {TextParserState} from './TextParserState';
 
 
-export abstract class TextParser<TState, TValue> {
-    protected _state: TState;
+export abstract class TextParser<TState extends TextParserState, TResult> {
 
+    public parse(sourceString: string): TResult {
+        const state: TState = this.getInitialState();
 
-    public get state(): TState {
-        return this._state;
-    }
-
-
-    public abstract get value(): TValue;
-
-
-    public constructor() {
-        this.resetState();
-    }
-
-
-    public parse(sourceString: string): void {
         for (let index = 0; index < sourceString.length; index++) {
-            let currentChar: string = sourceString[index];
+            state.index = index;
+            state.currentChar = sourceString[index];
 
-            this.reduce(currentChar, index);
+            this.reduce(state);
         }
-    }
 
-
-    public resetState(): void {
-        this._state = this.getInitialState();
+        return this.getResult(state);
     }
 
 
     protected abstract getInitialState(): TState;
-    protected abstract reduce(currentChar: string, index: number): void;
+    protected abstract reduce(state: TState): void;
+    protected abstract getResult(state: TState): TResult;
 }
