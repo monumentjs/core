@@ -1,8 +1,8 @@
-import {IMultiValueMap} from './Abstraction/IMultiValueMap';
-import {List} from './List';
-import {Map} from './Map';
-import {IEnumerable} from './Abstraction/IEnumerable';
-import {IMap} from './Abstraction/IMap';
+import {IMultiValueMap} from '../Abstraction/IMultiValueMap';
+import {List} from '../List';
+import {Map} from '../Map';
+import {IEnumerable} from '../Abstraction/IEnumerable';
+import {IMap} from '../Abstraction/IMap';
 
 
 export class MultiValueMap<K, V> extends Map<K, List<V>> implements IMultiValueMap<K, V> {
