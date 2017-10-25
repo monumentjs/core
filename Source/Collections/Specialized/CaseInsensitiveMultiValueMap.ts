@@ -9,7 +9,7 @@ import {List} from '../List';
 
 export class CaseInsensitiveMultiValueMap<V> extends MultiValueMap<string, V> {
     public constructor(
-        values: IEnumerable<IKeyValuePair<string, List<V>>>,
+        values: IEnumerable<IKeyValuePair<string, List<V>>> = [],
         valueComparator: IEqualityComparator<List<V>> = EqualityComparator.instance
     ) {
         super(values, IgnoreCaseComparator.instance, valueComparator);

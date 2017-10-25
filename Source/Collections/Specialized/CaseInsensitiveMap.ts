@@ -8,7 +8,7 @@ import {IgnoreCaseComparator} from '../../Text/IgnoreCaseComparator';
 
 export class CaseInsensitiveMap<V> extends Map<string, V> {
     public constructor(
-        values: IEnumerable<IKeyValuePair<string, V>>,
+        values: IEnumerable<IKeyValuePair<string, V>> = [],
         valueComparator: IEqualityComparator<V> = EqualityComparator.instance
     ) {
         super(values, IgnoreCaseComparator.instance, valueComparator);
