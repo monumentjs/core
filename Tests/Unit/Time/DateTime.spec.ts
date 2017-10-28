@@ -12,7 +12,7 @@ describe('DateTime', () => {
     const CURRENT_MILLISECONDS: number = 89;
 
 
-    let instance: DateTime;
+    let time: DateTime;
 
 
     function assertDateTimeComponents(dateTime: DateTime, components: IPropertyAccess<any>) {
@@ -24,7 +24,7 @@ describe('DateTime', () => {
 
     beforeEach(() => {
         expect(function () {
-            instance = new DateTime(
+            time = new DateTime(
                 CURRENT_YEAR, CURRENT_MONTH, CURRENT_DAY_OF_MONTH,
                 CURRENT_HOURS, CURRENT_MINUTES, CURRENT_SECONDS, CURRENT_MILLISECONDS
             );
@@ -34,14 +34,14 @@ describe('DateTime', () => {
 
     describe('constructor()', () => {
         it('creates new instance of class', () => {
-            expect(instance).toBeInstanceOf(DateTime);
+            expect(time).toBeInstanceOf(DateTime);
         });
     });
 
 
     describe(`year`, () => {
         it(`gets year component of instance`, () => {
-            assertDateTimeComponents(instance, {
+            assertDateTimeComponents(time, {
                 year: CURRENT_YEAR,
                 month: CURRENT_MONTH,
                 dayOfMonth: CURRENT_DAY_OF_MONTH,
@@ -53,9 +53,9 @@ describe('DateTime', () => {
         });
 
         it(`sets year component of instance`, () => {
-            instance = instance.addYears(1);
+            time = time.addYears(1);
 
-            assertDateTimeComponents(instance, {
+            assertDateTimeComponents(time, {
                 year: CURRENT_YEAR + 1,
                 month: CURRENT_MONTH,
                 dayOfMonth: CURRENT_DAY_OF_MONTH,
@@ -67,13 +67,13 @@ describe('DateTime', () => {
         });
 
         it(`updates dayOfMonth component when switching to leap year`, () => {
-            instance = new DateTime(
+            time = new DateTime(
                 CURRENT_YEAR, CURRENT_MONTH, 29,
                 CURRENT_HOURS, CURRENT_MINUTES, CURRENT_SECONDS, CURRENT_MILLISECONDS
             );
-            instance = instance.addYears(1);
+            time = time.addYears(1);
 
-            assertDateTimeComponents(instance, {
+            assertDateTimeComponents(time, {
                 year: CURRENT_YEAR + 1,
                 month: CURRENT_MONTH,
                 dayOfMonth: 28,
@@ -88,9 +88,9 @@ describe('DateTime', () => {
 
     describe('addMonths(months)', () => {
         it(`adds specified number of months`, () => {
-            instance = new DateTime(2017, 0, 31).addMonths(1);
+            time = new DateTime(2017, 0, 31).addMonths(1);
 
-            assertDateTimeComponents(instance, {
+            assertDateTimeComponents(time, {
                 year: 2017,
                 month: 1,
                 dayOfMonth: 28,
@@ -102,33 +102,33 @@ describe('DateTime', () => {
 
     describe('toString()', () => {
         it(`returns formatted representation of DateTime instance`, () => {
-            expect(instance.toString('Year: {YYYY}')).toBe(`Year: ${CURRENT_YEAR.toString()}`);
-            expect(instance.toString('Year: {YY}')).toBe(`Year: ${(CURRENT_YEAR % 100).toString()}`);
-            expect(instance.toString('Month: {MMMM}')).toBe(`Month: February`);
-            expect(instance.toString('Month: {MMM}')).toBe(`Month: Feb`);
-            expect(instance.toString('Month: {MM}')).toBe(`Month: 02`);
-            expect(instance.toString('Month: {M}')).toBe(`Month: 2`);
-            expect(instance.toString('Day Of Month: {DD}')).toBe(`Day Of Month: 05`);
-            expect(instance.toString('Day Of Month: {D}')).toBe(`Day Of Month: 5`);
-            expect(instance.toString('Day Of Week: {dddd}')).toBe(`Day Of Week: Friday`);
-            expect(instance.toString('Day Of Week: {ddd}')).toBe(`Day Of Week: Fri`);
-            expect(instance.toString('Day Of Week: {dd}')).toBe(`Day Of Week: Fr`);
-            expect(instance.toString('Day Of Week: {d}')).toBe(`Day Of Week: 6`);
-            expect(instance.toString('24-Hours: {HH}')).toBe(`24-Hours: 15`);
-            expect(instance.toString('24-Hours: {H}')).toBe(`24-Hours: 15`);
-            expect(instance.toString('12-Hours: {hh}')).toBe(`12-Hours: 03`);
-            expect(instance.toString('12-Hours: {h}')).toBe(`12-Hours: 3`);
-            expect(instance.toString('AM/PM (Full): {AA}')).toBe(`AM/PM (Full): PM`);
-            expect(instance.toString('AM/PM (Short): {A}')).toBe(`AM/PM (Short): P`);
-            expect(instance.toString('am/pm (Full): {aa}')).toBe(`am/pm (Full): pm`);
-            expect(instance.toString('am/pm (Short): {a}')).toBe(`am/pm (Short): p`);
-            expect(instance.toString('Minutes: {mm}')).toBe(`Minutes: 04`);
-            expect(instance.toString('Minutes: {m}')).toBe(`Minutes: 4`);
-            expect(instance.toString('Seconds: {ss}')).toBe(`Seconds: 06`);
-            expect(instance.toString('Seconds: {s}')).toBe(`Seconds: 6`);
-            expect(instance.toString('Milliseconds: {fff}')).toBe(`Milliseconds: 089`);
-            expect(instance.toString('Milliseconds: {ff}')).toBe(`Milliseconds: 08`);
-            expect(instance.toString('Milliseconds: {f}')).toBe(`Milliseconds: 0`);
+            expect(time.toString('Year: {YYYY}')).toBe(`Year: ${CURRENT_YEAR.toString()}`);
+            expect(time.toString('Year: {YY}')).toBe(`Year: ${(CURRENT_YEAR % 100).toString()}`);
+            expect(time.toString('Month: {MMMM}')).toBe(`Month: February`);
+            expect(time.toString('Month: {MMM}')).toBe(`Month: Feb`);
+            expect(time.toString('Month: {MM}')).toBe(`Month: 02`);
+            expect(time.toString('Month: {M}')).toBe(`Month: 2`);
+            expect(time.toString('Day Of Month: {DD}')).toBe(`Day Of Month: 05`);
+            expect(time.toString('Day Of Month: {D}')).toBe(`Day Of Month: 5`);
+            expect(time.toString('Day Of Week: {dddd}')).toBe(`Day Of Week: Friday`);
+            expect(time.toString('Day Of Week: {ddd}')).toBe(`Day Of Week: Fri`);
+            expect(time.toString('Day Of Week: {dd}')).toBe(`Day Of Week: Fr`);
+            expect(time.toString('Day Of Week: {d}')).toBe(`Day Of Week: 6`);
+            expect(time.toString('24-Hours: {HH}')).toBe(`24-Hours: 15`);
+            expect(time.toString('24-Hours: {H}')).toBe(`24-Hours: 15`);
+            expect(time.toString('12-Hours: {hh}')).toBe(`12-Hours: 03`);
+            expect(time.toString('12-Hours: {h}')).toBe(`12-Hours: 3`);
+            expect(time.toString('AM/PM (Full): {AA}')).toBe(`AM/PM (Full): PM`);
+            expect(time.toString('AM/PM (Short): {A}')).toBe(`AM/PM (Short): P`);
+            expect(time.toString('am/pm (Full): {aa}')).toBe(`am/pm (Full): pm`);
+            expect(time.toString('am/pm (Short): {a}')).toBe(`am/pm (Short): p`);
+            expect(time.toString('Minutes: {mm}')).toBe(`Minutes: 04`);
+            expect(time.toString('Minutes: {m}')).toBe(`Minutes: 4`);
+            expect(time.toString('Seconds: {ss}')).toBe(`Seconds: 06`);
+            expect(time.toString('Seconds: {s}')).toBe(`Seconds: 6`);
+            expect(time.toString('Milliseconds: {fff}')).toBe(`Milliseconds: 089`);
+            expect(time.toString('Milliseconds: {ff}')).toBe(`Milliseconds: 08`);
+            expect(time.toString('Milliseconds: {f}')).toBe(`Milliseconds: 0`);
         });
     });
 });
