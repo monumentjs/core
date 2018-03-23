@@ -1,0 +1,25 @@
+{
+  "name": "@monument/ioc",
+  "version": "0.0.52",
+  "description": "Inversion of control",
+  "keywords": [
+    "ioc",
+    "inversion",
+    "of",
+    "control",
+    "container",
+    "factory",
+    "di",
+    "dependency",
+    "injection"
+  ],
+  "dependencies": {
+    "@monument/assert": "^0.0.52",
+    "@monument/core": "^0.0.52",
+    "@monument/collections": "^0.0.52",
+    "@monument/collections-core": "^0.0.52",
+    "@monument/object-model": "^0.0.52",
+    "@monument/reflection": "^0.0.52",
+    "@monument/text": "^0.0.52"
+  }
+}

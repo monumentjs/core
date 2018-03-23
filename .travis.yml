@@ -5,7 +5,11 @@ node_js:
 before_install:
   - "npm --version"
 script:
-  - "npm run build"
+  - "npm run lint"
+  - "npm run compile"
+  - "npm run test:coverage"
+after_script:
+  - "npm run coveralls"
 os:
   - "linux"
   - "osx"

@@ -1,0 +1,14 @@
+{
+  "name": "@monument/core",
+  "version": "0.0.52",
+  "description": "Core module of TypeScript standard library",
+  "keywords": [
+    "typescript",
+    "standard",
+    "library",
+    "core"
+  ],
+  "devDependencies": {
+    "@monument/test-drive": "^0.0.52"
+  }
+}

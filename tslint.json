@@ -1,6 +1,7 @@
 {
   "extends": "tslint:latest",
   "rules": {
+    "ban-comma-operator": false,
     "quotemark": [true, "single", "jsx-double"],
     "eofline": true,
     "ordered-imports": false,
@@ -14,19 +15,23 @@
     "no-string-literal": true,
     "prefer-const": false,
     "space-before-function-paren": [true, {"anonymous": "always", "named": "never", "asyncArrow": "always"}],
-    "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"],
+    "variable-name": ["ban-keywords", "check-format", "allow-leading-underscore"],
     "no-empty-interface": true,
     "no-bitwise": false,
     "ban-types": true,
-    "ban-comma-operator": false,
+    "no-parameter-properties": true,
+    "no-namespace": false,
+    "no-implicit-dependencies": [true, "dev"],
+    "max-classes-per-file": [false],
+    "interface-name": [true, "never-prefix"],
     "interface-over-type-literal": false,
-    "interface-name": false,
     "no-conditional-assignment": false,
     "no-empty": true,
     "no-submodule-imports": false,
     "max-line-length": [false],
     "newline-before-return": true,
     "prefer-conditional-expression": false,
+    "no-this-assignment": false,
     "member-ordering": [
       true,
       {
@@ -34,6 +39,7 @@
           "private-static-field",
           "protected-static-field",
           "public-static-field",
+
           "public-static-method",
           "protected-static-method",
           "private-static-method",
@@ -56,7 +62,6 @@
   "exclude": [
     "node_modules",
     "**/*.d.ts",
-    "./Documentation/**/*.ts",
     "Tests/**/*.ts"
   ]
 }

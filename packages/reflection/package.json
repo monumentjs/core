@@ -1,0 +1,15 @@
+{
+  "name": "@monument/reflection",
+  "version": "0.0.52",
+  "description": "Reflection utils",
+  "keywords": [
+  ],
+  "dependencies": {
+    "reflect-metadata": "^0.1.12",
+    "@monument/core": "^0.0.52",
+    "@monument/collections-core": "^0.0.52",
+    "@monument/collections-specialized": "^0.0.52",
+    "@monument/collections": "^0.0.52",
+    "@monument/object-model": "^0.0.52"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "@monument/version",
+  "version": "0.0.52",
+  "description": "Version",
+  "keywords": [
+
+  ],
+  "dependencies": {
+    "@monument/core": "^0.0.52",
+    "@monument/text": "^0.0.52",
+    "@monument/text-parser-core": "^0.0.52"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@monument/observable",
+  "version": "0.0.52",
+  "description": "Observable implementations of base objects",
+  "keywords": [
+
+  ],
+  "dependencies": {
+    "@monument/core": "^0.0.52",
+    "@monument/collections-core": "^0.0.52",
+    "@monument/collections": "^0.0.52",
+    "@monument/events-core": "^0.0.52",
+    "@monument/observer-core": "^0.0.52"
+  }
+}

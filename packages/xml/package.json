@@ -1,0 +1,21 @@
+{
+  "name": "@monument/xml",
+  "version": "0.0.52",
+  "description": "XML library",
+  "keywords": [
+    "typescript",
+    "xml",
+    "parse",
+    "parser",
+    "renderer"
+  ],
+  "dependencies": {
+    "@monument/core": "^0.0.52",
+    "@monument/text": "^0.0.52",
+    "@monument/text-parser-core": "^0.0.52",
+    "@monument/tree-core": "^0.0.52"
+  },
+  "devDependencies": {
+    "@monument/test-drive": "^0.0.52"
+  }
+}

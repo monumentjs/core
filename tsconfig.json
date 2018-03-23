@@ -8,17 +8,14 @@
     "strict": true,
     "alwaysStrict": true,
     "removeComments": true,
-    "noImplicitThis": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noStrictGenericChecks": false,
-    "strictNullChecks": true,
+    "strictFunctionTypes": false,
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
-    "typeRoots": [
-      "./node_modules/@types"
-    ],
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "lib": [
       "dom",
       "es5",
@@ -38,8 +35,19 @@
       "es2016.array.include",
       "es2017",
       "es2017.object",
-      "es2017.sharedmemory"
-    ]
+      "es2017.sharedmemory",
+      "esnext",
+      "esnext.asynciterable"
+    ],
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@monument/*": [
+        "packages/*"
+      ]
+    }
   },
   "exclude": [
     "node_modules"

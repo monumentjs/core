@@ -1,0 +1,13 @@
+{
+  "name": "@monument/time",
+  "version": "0.0.52",
+  "description": "Time module",
+  "keywords": [
+  ],
+  "dependencies": {
+    "@monument/core": "^0.0.52",
+    "@monument/collections-core": "^0.0.52",
+    "@monument/collections": "^0.0.52",
+    "@monument/text": "^0.0.52"
+  }
+}

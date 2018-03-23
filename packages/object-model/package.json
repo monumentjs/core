@@ -1,0 +1,13 @@
+{
+  "name": "@monument/object-model",
+  "version": "0.0.52",
+  "description": "Object model",
+  "keywords": [
+
+  ],
+  "dependencies": {
+    "@monument/core": "^0.0.52",
+    "@monument/collections": "^0.0.52",
+    "@monument/collections-core": "^0.0.52"
+  }
+}
