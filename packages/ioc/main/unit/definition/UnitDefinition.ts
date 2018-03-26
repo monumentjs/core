@@ -5,6 +5,7 @@ import {Set} from '@monument/collections-core/main/Set';
 
 export class UnitDefinition {
     private _postConstructMethodNames: Set<string | symbol> = new ListSet();
+    private _preDestroyMethodNames: Set<string | symbol> = new ListSet();
     private _initMethodName: string | symbol | undefined;
     private _destroyMethodName: string | symbol | undefined;
     private _isSingleton: boolean = false;
@@ -12,10 +13,16 @@ export class UnitDefinition {
     private _isPrimary: boolean = false;
     private _factoryUnitType: Type<object> | undefined;
     private _factoryMethodName: string | symbol | undefined;
+    private _qualifier: string | undefined;
 
 
     public get postConstructMethodNames(): Set<string | symbol> {
         return this._postConstructMethodNames;
+    }
+
+
+    public get preDestroyMethodNames(): Set<string | symbol> {
+        return this._preDestroyMethodNames;
     }
 
 
@@ -66,6 +73,16 @@ export class UnitDefinition {
 
     public set isPrimary(value: boolean) {
         this._isPrimary = value;
+    }
+
+
+    public get qualifier(): string | undefined {
+        return this._qualifier;
+    }
+
+
+    public set qualifier(value: string | undefined) {
+        this._qualifier = value;
     }
 
 

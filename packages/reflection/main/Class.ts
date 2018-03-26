@@ -30,7 +30,7 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
     private readonly _type: Type<T>;
     private readonly _declaredFields: ReadOnlyMap<string | symbol, Field>;
     private readonly _declaredMethods: ReadOnlyMap<string | symbol, Method>;
-    private readonly _constructorParameters: ListMap<number, Parameter>;
+    private _constructorParameters: ListMap<number, Parameter> | undefined;
 
 
     public get parent(): Class<any> | undefined {
@@ -58,6 +58,10 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
 
 
     public get constructorParameters(): ReadOnlyMap<number, Parameter> {
+        if (this._constructorParameters == null) {
+            this._constructorParameters = this.getConstructorParameters();
+        }
+
         return this._constructorParameters;
     }
 
@@ -116,7 +120,6 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
         this._type = type as Type<T>;
         this._declaredFields = this.getDeclaredFields();
         this._declaredMethods = this.getDeclaredMethods();
-        this._constructorParameters = this.getConstructorParameters();
     }
 
 
@@ -370,10 +373,10 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
 
     private getConstructorParameters(): ListMap<number, Parameter> {
         let parameters: ListMap<number, Parameter> = new ListMap();
-        let parameterTypes: Array<Type<any>> | undefined = ReflectionUtils.getConstructorParameterTypes(this.type);
+        let parameterTypes: Array<Type<any>> = ReflectionUtils.getConstructorParameterTypes(this.type);
         let parametersCount = this.type.length;
 
-        if (parameterTypes != null && parameterTypes.length > parametersCount) {
+        if (parametersCount < parameterTypes.length) {
             parametersCount = parameterTypes.length;
         }
 

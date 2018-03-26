@@ -1,4 +1,4 @@
-import {ReadOnlyMap} from '@monument/collections-core/main/ReadOnlyMap';
+import {ReadOnlySet} from '@monument/collections-core/main/ReadOnlySet';
 
 
 export interface SingletonUnitRegistry {
@@ -8,11 +8,11 @@ export interface SingletonUnitRegistry {
      * Only checks already instantiated singletons; does not return names for singleton unit definitions
      * which have not been instantiated yet.
      *
-     * The main purpose of this method is to check manually registered singletons.
+     * The main purpose of this property is to check manually registered singletons.
      *
      * Can also be used to check which singletons defined by a unit definition have already been created.
      */
-    readonly registeredSingletons: ReadOnlyMap<string, object>;
+    readonly singletonNames: ReadOnlySet<string>;
     readonly singletonCount: number;
 
     containsSingleton(unitName: string): boolean;

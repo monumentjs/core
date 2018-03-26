@@ -7,14 +7,14 @@ import {DecoratorAccessor} from '../DecoratorAccessor';
 export function WithDecorator(decorator: Function) {
     return function (...args: any[]) {
         let element: DecoratorAccessor;
-        let target: object | Function = args[0];
-        let name: string | symbol = args[1];
+        let target = args[0];
+        let name = args[1];
         let index = args[2];
         let decoratorTarget: DecoratorTarget = DecoratorTarget.fromDecoratorArguments(arguments);
 
         switch (decoratorTarget) {
             case DecoratorTarget.CLASS:
-                element = Class.of(target as Function);
+                element = Class.of(target);
                 break;
 
             case DecoratorTarget.ACCESSOR:
@@ -30,7 +30,7 @@ export function WithDecorator(decorator: Function) {
                 break;
 
             case DecoratorTarget.CONSTRUCTOR_PARAMETER:
-                element = Class.of(target.constructor).constructorParameters.get(index) as DecoratorAccessor;
+                element = Class.of(target).constructorParameters.get(index) as DecoratorAccessor;
                 break;
 
             default:

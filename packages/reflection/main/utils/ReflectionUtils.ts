@@ -8,8 +8,8 @@ export class ReflectionUtils {
     public static readonly DESIGN_ARGUMENT_TYPES: string = 'design:paramtypes';
 
 
-    public static getConstructorParameterTypes(target: Function): Array<Type<any>> | undefined {
-        return Reflect.getMetadata(this.DESIGN_ARGUMENT_TYPES, target);
+    public static getConstructorParameterTypes(target: Function): Array<Type<any>> {
+        return Reflect.getMetadata(this.DESIGN_ARGUMENT_TYPES, target) || [];
     }
 
 

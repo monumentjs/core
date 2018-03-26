@@ -44,6 +44,7 @@ export class DefaultContext implements ConfigurableContext {
         return this._unitFactory;
     }
 
+
     public get parent(): Context | undefined {
         return this._parent;
     }
@@ -98,6 +99,7 @@ export class DefaultContext implements ConfigurableContext {
             await this.instantiatePostProcessors();
             await this.postProcessUnitDefinitionRegistry();
             await this.postProcessUnitFactory();
+            await this.instantiateSingletons();
 
             this._isRunning = true;
         }
@@ -144,6 +146,7 @@ export class DefaultContext implements ConfigurableContext {
                 })
             )
         );
+
         this._unitFactoryPostProcessors.addAll(
             await Promise.all(
                 this._unitFactoryPostProcessorTypes.select((type) => {
@@ -165,6 +168,7 @@ export class DefaultContext implements ConfigurableContext {
         }
     }
 
+
     private async postProcessUnitDefinitionRegistry(): Promise<void> {
         for (let processor of this._unitDefinitionRegistryPostProcessors) {
             await processor.postProcessUnitDefinitionRegistry(this._unitDefinitionRegistry);
@@ -175,6 +179,17 @@ export class DefaultContext implements ConfigurableContext {
     private async postProcessUnitFactory(): Promise<void> {
         for (let processor of this._unitFactoryPostProcessors) {
             await processor.postProcessUnitFactory(this._unitFactory);
+        }
+    }
+
+
+    private async instantiateSingletons(): Promise<void> {
+        for (let type of this._unitDefinitionRegistry.unitTypes) {
+            let definition = this._unitDefinitionRegistry.getUnitDefinition(type);
+
+            if (definition.isSingleton && !definition.isLazyInit) {
+                await this.getUnit(type);
+            }
         }
     }
 }

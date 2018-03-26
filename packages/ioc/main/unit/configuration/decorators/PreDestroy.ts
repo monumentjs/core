@@ -3,9 +3,9 @@ import {DecoratorTarget} from '@monument/core/main/decorators/support/DecoratorT
 import {WithDecorator} from '@monument/reflection/main/decorators/WithDecorator';
 
 
-export function Primary(): ClassDecorator {
+export function PreDestroy(): MethodDecorator {
     return function () {
-        Target([DecoratorTarget.CLASS, DecoratorTarget.METHOD])(...arguments);
-        WithDecorator(Primary)(...arguments);
+        Target([DecoratorTarget.METHOD])(...arguments);
+        WithDecorator(PreDestroy)(...arguments);
     };
 }

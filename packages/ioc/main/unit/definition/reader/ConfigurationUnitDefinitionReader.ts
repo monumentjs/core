@@ -3,7 +3,7 @@ import {ReadOnlyCollection} from '@monument/collections-core/main/ReadOnlyCollec
 import {Class} from '@monument/reflection/main/Class';
 import {Method} from '@monument/reflection/main/Method';
 import {Configuration} from '../../../stereotype/Configuration';
-import {UnitConfiguration} from '../../../stereotype/configuration/UnitConfiguration';
+import {UnitConfiguration} from '../../../stereotype/UnitConfiguration';
 import {Unit} from '../../../stereotype/Unit';
 import {UnitDefinition} from '../UnitDefinition';
 import {AbstractUnitDefinitionReader} from './AbstractUnitDefinitionReader';

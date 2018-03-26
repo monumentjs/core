@@ -25,7 +25,7 @@ export function WithAttribute<T>(key: Key<T>, value: T) {
                 break;
 
             case DecoratorTarget.CONSTRUCTOR_PARAMETER:
-                element = Class.of(target.constructor).constructorParameters.get(index) as AttributeAccessor;
+                element = Class.of(target).constructorParameters.get(index) as AttributeAccessor;
                 break;
 
             default:
