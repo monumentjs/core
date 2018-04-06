@@ -1,5 +1,5 @@
-import {Collection} from '@monument/collections-core/main/Collection';
-import {ReadOnlyCollection} from '@monument/collections-core/main/ReadOnlyCollection';
+import {Collection} from '../../../collections/main/Collection';
+import {ReadOnlyCollection} from '../../../collections/main/ReadOnlyCollection';
 import {ArrayList} from '@monument/collections/main/ArrayList';
 import {DefaultAttributeAccessor} from '@monument/object-model/main/attributes/support/DefaultAttributeAccessor';
 import {Class} from '@monument/reflection/main/Class';

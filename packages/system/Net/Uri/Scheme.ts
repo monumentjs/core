@@ -1,6 +1,6 @@
-import {CaseInsensitiveMap} from '@monument/collections-specialized/main/CaseInsensitiveMap';
-import {Map} from '../../../collections-core/main/Map';
-import {KeyValuePair} from '../../../collections-core/main/KeyValuePair';
+import {CaseInsensitiveMap} from '@monument/collections/main/CaseInsensitiveMap';
+import {Map} from '../../../collections/main/Map';
+import {KeyValuePair} from '../../../collections/main/KeyValuePair';
 import {InvalidOperationException} from '../../../core/main/exceptions/InvalidOperationException';
 
 

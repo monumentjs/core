@@ -1,6 +1,6 @@
 import { Case } from '../../../../test-drive/decorator/Case';
 import { ListGenerator } from './../../../Data/Generation/ListGenerator';
-import { List } from '../../../../collections-core/main/List';
+import { List } from '../../../../collections/main/List';
 import { RangeException } from '../../../main/RangeException';
 import { ArgumentRangeException } from '../../../main/exceptions/ArgumentRangeException';
 import { Test } from '../../../../test-drive/Decorators/TestConfiguration';

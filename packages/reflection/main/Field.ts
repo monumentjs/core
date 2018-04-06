@@ -6,9 +6,9 @@ import {GetterFunction, SetterFunction} from './types';
 
 
 export class Field extends DefaultHierarchicalAccessibleObject {
-    private readonly _declaringClass: Class;
+    private readonly _declaringClass: Class<any>;
     private readonly _name: string | symbol;
-    private readonly _type: Type | undefined;
+    private readonly _type: Type<any> | undefined;
     private readonly _getter: GetterFunction | undefined;
     private readonly _setter: SetterFunction | undefined;
     private readonly _isConfigurable: boolean;
@@ -25,7 +25,7 @@ export class Field extends DefaultHierarchicalAccessibleObject {
     }
 
 
-    public get declaringClass(): Class {
+    public get declaringClass(): Class<any> {
         return this._declaringClass;
     }
 
@@ -35,7 +35,7 @@ export class Field extends DefaultHierarchicalAccessibleObject {
     }
 
 
-    public get type(): Type | undefined {
+    public get type(): Type<any> | undefined {
         return this._type;
     }
 
@@ -75,9 +75,9 @@ export class Field extends DefaultHierarchicalAccessibleObject {
 
 
     public constructor(
-        declaringClass: Class,
+        declaringClass: Class<any>,
         name: string | symbol,
-        type?: Type,
+        type?: Type<any>,
         getter?: GetterFunction,
         setter?: SetterFunction,
         isConfigurable: boolean = false,
@@ -102,7 +102,7 @@ export class Field extends DefaultHierarchicalAccessibleObject {
 
 
     private getParentField(): Field | undefined {
-        let klass: Class | undefined = this.declaringClass.parent;
+        let klass: Class<any> | undefined = this.declaringClass.parent;
 
         while (klass != null) {
             if (klass.hasDeclaredField(this.name)) {

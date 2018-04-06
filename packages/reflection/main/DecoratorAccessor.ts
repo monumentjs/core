@@ -1,9 +1,9 @@
-import {ReadOnlySet} from '../../collections-core/main/ReadOnlySet';
+import {ReadOnlySet} from '../../collections/main/ReadOnlySet';
 
 
 export interface DecoratorAccessor {
     /**
-     * Returns read-only mapping of associated decorator.
+     * Returns read-only set of associated decorators.
      */
     readonly decorators: ReadOnlySet<Function>;
 

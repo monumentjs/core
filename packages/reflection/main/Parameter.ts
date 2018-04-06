@@ -4,6 +4,11 @@ import {DefaultAccessibleObject} from './DefaultAccessibleObject';
 
 export class Parameter extends DefaultAccessibleObject {
     private readonly _type: Type<any> | undefined;
+    private readonly _index: number;
+
+    public get index(): number {
+        return this._index;
+    }
 
 
     public get type(): Type<any> | undefined {
@@ -11,9 +16,10 @@ export class Parameter extends DefaultAccessibleObject {
     }
 
 
-    public constructor(value: Type<any> | undefined) {
+    public constructor(index: number, value: Type<any> | undefined) {
         super();
 
+        this._index = index;
         this._type = value;
     }
 }

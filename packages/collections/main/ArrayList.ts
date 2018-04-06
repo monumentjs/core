@@ -4,9 +4,9 @@ import {EqualityComparator} from '@monument/core/main/EqualityComparator';
 import {Cloneable} from '@monument/core/main/Cloneable';
 import {StrictEqualityComparator} from '@monument/core/main/StrictEqualityComparator';
 import {ArgumentRangeException} from '@monument/core/main/exceptions/ArgumentRangeException';
-import {List} from '@monument/collections-core/main/List';
-import {IteratorFunction} from '@monument/collections-core/main/IteratorFunction';
-import {Collection} from '@monument/collections-core/main/Collection';
+import {List} from 'List';
+import {IteratorFunction} from 'IteratorFunction';
+import {Collection} from 'Collection';
 import {Assert} from '@monument/assert/main/Assert';
 import {AbstractList} from './AbstractList';
 

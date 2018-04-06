@@ -1,6 +1,6 @@
-import {MapIteratorFunction} from '@monument/collections-core/main/MapIteratorFunction';
-import {ReadOnlyCollection} from '@monument/collections-core/main/ReadOnlyCollection';
-import {ReadOnlyMap} from '@monument/collections-core/main/ReadOnlyMap';
+import {MapIteratorFunction} from '../../../collections/main/MapIteratorFunction';
+import {ReadOnlyCollection} from '../../../collections/main/ReadOnlyCollection';
+import {ReadOnlyMap} from '../../../collections/main/ReadOnlyMap';
 import {UnitDefinition} from './UnitDefinition';
 
 

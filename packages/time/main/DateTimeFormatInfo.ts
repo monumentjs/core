@@ -1,4 +1,4 @@
-import {ReadOnlyList} from '@monument/collections-core/main/ReadOnlyList';
+import {ReadOnlyList} from '../../collections/main/ReadOnlyList';
 import {DayOfWeek} from './DayOfWeek';
 import {CalendarWeekRule} from './CalendarWeekRule';
 

@@ -1,20 +1,20 @@
-import {ReadOnlyMap} from '@monument/collections-core/main/ReadOnlyMap';
+import {Disposable} from '@monument/core/main/Disposable';
+import {Exception} from '@monument/core/main/exceptions/Exception';
+import {ReadOnlyMap} from '@monument/collections/main/ReadOnlyMap';
 import {ListMap} from '@monument/collections/main/ListMap';
+import {ArrayList} from '@monument/collections/main/ArrayList';
 import {Service} from '@monument/ioc/main/stereotype/Service';
 import {Unit} from '@monument/ioc/main/stereotype/Unit';
 import {DefaultType} from '@monument/ioc/main/unit/configuration/decorators/DefaultType';
 import {ConfigurableContext} from '@monument/ioc/main/context/ConfigurableContext';
-import {Application} from '../../../main/decorators/Application';
-import {Module} from '../../../main/decorators/Module';
-import {ApplicationContext} from '../../../main/context/ApplicationContext';
-import {Disposable} from '@monument/core/main/Disposable';
 import {Init} from '@monument/ioc/main/unit/configuration/decorators/Init';
-import {Exception} from '@monument/core/main/exceptions/Exception';
 import {PostConstruct} from '@monument/ioc/main/unit/configuration/decorators/PostConstruct';
-import {ArrayList} from '@monument/collections/main/ArrayList';
 import {Lifecycle} from '@monument/ioc/main/context/Lifecycle';
 import {PreDestroy} from '@monument/ioc/main/unit/configuration/decorators/PreDestroy';
 import {Lazy} from '@monument/ioc/main/unit/configuration/decorators/Lazy';
+import {Application} from '../../../main/decorators/Application';
+import {Module} from '../../../main/decorators/Module';
+import {ApplicationContext} from '../../../main/context/ApplicationContext';
 
 
 interface PhoneCodeProvider {
@@ -82,8 +82,7 @@ class PhoneCodeModule {
 
 
     public constructor(
-        @DefaultType(PhoneCodeProviderImpl)
-            phoneCodeProvider: PhoneCodeProvider
+        @DefaultType(PhoneCodeProviderImpl) phoneCodeProvider: PhoneCodeProvider
     ) {
         this._phoneCodeProvider = phoneCodeProvider;
     }
@@ -99,7 +98,7 @@ class PhoneCodeModule {
 
 
 @Application({
-    imports: [
+    modules: [
         PhoneCodeModule
     ]
 })

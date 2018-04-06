@@ -1,5 +1,5 @@
 import {Disposable} from '../../core/main/Disposable';
-import {Collection} from '@monument/collections-core/main/Collection';
+import {Collection} from '../../collections/main/Collection';
 import {ListQueue} from '@monument/collections/main/ListQueue';
 import {ArrayList} from '@monument/collections/main/ArrayList';
 import {Assert} from '@monument/assert/main/Assert';

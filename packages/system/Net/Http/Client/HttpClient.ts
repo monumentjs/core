@@ -1,5 +1,5 @@
 import {IncomingMessage} from 'http';
-import {Collection} from '../../../../collections-core/main/Collection';
+import {Collection} from '../../../../collections/main/Collection';
 import {ListSet} from '../../../../collections/main/ListSet';
 import {HttpRequest} from '../Base/HttpRequest';
 import {HttpResponse} from '../Base/HttpResponse';

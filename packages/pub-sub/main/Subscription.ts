@@ -1,4 +1,4 @@
-import {Collection} from '@monument/collections-core/main/Collection';
+import {Collection} from '../../collections/main/Collection';
 import {Disposable} from '@monument/core/main/Disposable';
 import {Subscriber} from './Subscriber';
 

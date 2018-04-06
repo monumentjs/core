@@ -1,5 +1,3 @@
-import {Class} from '@monument/core/Language/Reflection/Class';
-import {Property} from '@monument/core/Language/Reflection/Property';
 import {TestDriver} from './TestDriver';
 import {TestConfiguration} from './main/base/TestConfiguration';
 

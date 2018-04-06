@@ -1,17 +1,17 @@
 import {Encoding} from '../../../Text/Encoding';
-import {Map} from '../../../../collections-core/main/Map';
+import {Map} from '../../../../collections/main/Map';
 import {Comparable} from '../../../../core/main/Comparable';
 import {Equatable} from '../../../../core/main/Equatable';
 import {ComparisonResult} from '../../../../core/main/ComparisonResult';
 import {IgnoreCaseComparator} from '../../../../text/main/IgnoreCaseComparator';
 import {StringBuilder} from '../../../../text/main/StringBuilder';
 import {Assert} from '@monument/core/Assertion/Assert';
-import {ReadOnlyMap} from '../../../../collections-core/main/ReadOnlyMap';
+import {ReadOnlyMap} from '../../../../collections/main/ReadOnlyMap';
 import {InvalidArgumentException} from '../../../../core/main/exceptions/InvalidArgumentException';
 import {PreserveCaseComparator} from '../../../../text/main/PreserveCaseComparator';
 import {ListMap} from '../../../../collections/main/ListMap';
 import {ArrayList} from '../../../../collections/main/ArrayList';
-import {List} from '../../../../collections-core/main/List';
+import {List} from '../../../../collections/main/List';
 
 
 export class MimeType implements Comparable<MimeType>, Equatable<MimeType> {

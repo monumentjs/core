@@ -3,14 +3,8 @@ import {Exception} from '@monument/core/main/exceptions/Exception';
 
 
 export class CancellationToken implements Cancellable {
-    private _isCancellable: boolean;
-    private _isCancelled: boolean;
+    private _isCancelled: boolean = false;
     private _exceptionToThrow: Exception | undefined;
-
-
-    public get isCancellable(): boolean {
-        return this._isCancellable;
-    }
 
 
     public get isCancelled(): boolean {
@@ -24,10 +18,6 @@ export class CancellationToken implements Cancellable {
 
 
     public cancel(exceptionToThrow?: Exception): boolean {
-        if (!this.isCancellable) {
-            return false;
-        }
-
         if (this.isCancelled) {
             return false;
         }

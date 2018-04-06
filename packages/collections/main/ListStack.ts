@@ -1,8 +1,8 @@
 import {EqualityComparator} from '@monument/core/main/EqualityComparator';
 import {StrictEqualityComparator} from '@monument/core/main/StrictEqualityComparator';
-import {Stack} from '@monument/collections-core/main/Stack';
-import {IteratorFunction} from '@monument/collections-core/main/IteratorFunction';
-import {EmptyStackException} from '@monument/collections-core/main/EmptyStackException';
+import {Stack} from 'Stack';
+import {IteratorFunction} from 'IteratorFunction';
+import {EmptyStackException} from 'EmptyStackException';
 import {LinkedList} from './LinkedList';
 import {AbstractCollection} from './AbstractCollection';
 

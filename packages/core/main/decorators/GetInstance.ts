@@ -1,20 +1,16 @@
 import {Type} from '../Type';
-import {DecoratorTarget} from './support/DecoratorTarget';
-import {Target} from './Target';
 
 
-export function GetInstance(): PropertyDecorator {
-    return function (...args: any[]) {
-        Target([DecoratorTarget.PROPERTY])(...args);
-
-        const target: object = args[0];
-        const key: PropertyKey = args[1];
+export function GetInstance(...args: any[]): PropertyDecorator {
+    return function () {
+        const type: Function = arguments[0];
+        const key: PropertyKey = arguments[1];
         const valueKey: symbol = Symbol();
 
-        Object.defineProperty(target, key, {
+        Object.defineProperty(type, key, {
             get: function (this: any) {
                 if (!this.hasOwnProperty(valueKey)) {
-                    this[valueKey] = new (target as Type)(...args);
+                    this[valueKey] = new (type as Type<any>)(...args);
                 }
 
                 return this[valueKey];

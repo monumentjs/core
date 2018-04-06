@@ -1,4 +1,4 @@
-import {ReadOnlySet} from '@monument/collections-core/main/ReadOnlySet';
+import {ReadOnlySet} from '../../collections/main/ReadOnlySet';
 import {DefaultAttributeAccessor} from '@monument/object-model/main/attributes/support/DefaultAttributeAccessor';
 import {AttributeAccessor} from '@monument/object-model/main/attributes/AttributeAccessor';
 import {Key} from '@monument/object-model/main/Key';

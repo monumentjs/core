@@ -1,6 +1,6 @@
 import {UriAttributes} from '../../../..//Net/Uri/UriAttributes';
 import {DefaultSchemePort} from '../../../..//Net/Uri/DefaultSchemePort';
-import {Map} from '../../../../../collections-core/main/Map';
+import {Map} from '../../../../../collections/main/Map';
 import {ListMap} from '../../../../../collections/main/ListMap';
 
 const parsedUriList: Map<string, UriAttributes> = new ListMap();

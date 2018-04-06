@@ -1,5 +1,5 @@
-import {IteratorFunction} from '@monument/collections-core/main/IteratorFunction';
-import {Collection} from '@monument/collections-core/main/Collection';
+import {IteratorFunction} from '../../collections/main/IteratorFunction';
+import {Collection} from '../../collections/main/Collection';
 import {ListSet} from '@monument/collections/main/ListSet';
 import {EventDispatcherFactory} from '@monument/events-core/main/EventDispatcherFactory';
 import {EventDispatcher} from '@monument/events-core/main/EventDispatcher';

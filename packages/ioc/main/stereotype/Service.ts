@@ -1,5 +1,5 @@
-import {DecoratorTarget} from '../../../core/main/decorators/support/DecoratorTarget';
-import {Target} from '../../../core/main/decorators/Target';
+import {DecoratorTarget} from '../../../reflection/main/decorators/DecoratorTarget';
+import {Target} from '../../../reflection/main/decorators/Target';
 import {WithDecorator} from '../../../reflection/main/decorators/WithDecorator';
 import {Component} from './Component';
 

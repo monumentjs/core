@@ -1,4 +1,4 @@
-import {Map} from '@monument/collections-core/main/Map';
+import {Map} from '../../collections/main/Map';
 import {ListMap} from '@monument/collections/main/ListMap';
 import {Key} from './Key';
 

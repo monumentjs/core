@@ -4,9 +4,9 @@ export class DeferredObject<T = void> {
     private _isPending: boolean = true;
     private _isResolved: boolean = false;
     private _isRejected: boolean = false;
-    private _promise: Promise<T>;
-    private _resolve: (value?: (PromiseLike<T> | T)) => void;
-    private _reject: (reason?: any) => void;
+    private readonly _promise: Promise<T>;
+    private _resolve?: (value?: (PromiseLike<T> | T)) => void;
+    private _reject?: (reason?: any) => void;
     private _result: PromiseLike<T> | T | undefined;
     private _error: any;
 

@@ -1,6 +1,6 @@
-import {Set} from '../../collections-core/main/Set';
-import {ReadOnlySet} from '../../collections-core/main/ReadOnlySet';
-import {ListSet} from '../../collections/main/ListSet';
+import {Set} from '../../collections/main/Set';
+import {ReadOnlySet} from '../../collections/main/ReadOnlySet';
+import {ListSet} from '@monument/collections/main/ListSet';
 import {HierarchicalDecoratorAccessor} from './HierarchicalDecoratorAccessor';
 
 
@@ -30,7 +30,6 @@ export class DefaultHierarchicalDecoratorAccessor implements HierarchicalDecorat
         }
 
         return allDecorators;
-
     }
 
 

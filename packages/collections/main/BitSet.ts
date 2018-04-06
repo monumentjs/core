@@ -1,7 +1,7 @@
 import {Cloneable} from '@monument/core/main/Cloneable';
 import {Equatable} from '@monument/core/main/Equatable';
 import {JSONSerializable} from '@monument/core/main/JSONSerializable';
-import {Collection} from '@monument/collections-core/main/Collection';
+import {Collection} from 'Collection';
 import {Assert} from '@monument/assert/main/Assert';
 import {ArrayList} from './ArrayList';
 

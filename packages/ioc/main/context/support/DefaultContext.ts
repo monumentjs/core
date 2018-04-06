@@ -1,11 +1,10 @@
 import {Type} from '@monument/core/main/Type';
-import {Collection} from '@monument/collections-core/main/Collection';
-import {List} from '@monument/collections-core/main/List';
+import {Collection} from '../../../../collections/main/Collection';
+import {List} from '../../../../collections/main/List';
 import {ArrayList} from '@monument/collections/main/ArrayList';
 import {DefaultUnitFactory} from '../../unit/factory/support/DefaultUnitFactory';
 import {UnitPostProcessor} from '../../unit/factory/configuration/UnitPostProcessor';
 import {UnitFactoryPostProcessor} from '../../unit/factory/configuration/UnitFactoryPostProcessor';
-import {ConfigurableUnitFactory} from '../../unit/factory/ConfigurableUnitFactory';
 import {UnitDefinitionRegistry} from '../../unit/definition/registry/UnitDefinitionRegistry';
 import {UnitDefinitionRegistryPostProcessor} from '../../unit/definition/registry/configuration/UnitDefinitionRegistryPostProcessor';
 import {DefaultUnitDefinitionRegistry} from '../../unit/definition/registry/DefaultUnitDefinitionRegistry';
@@ -35,16 +34,6 @@ export class DefaultContext implements ConfigurableContext {
     private readonly _unitPostProcessors: List<UnitPostProcessor> = new ArrayList();
 
 
-    protected get unitDefinitionRegistry(): UnitDefinitionRegistry {
-        return this._unitDefinitionRegistry;
-    }
-
-
-    protected get unitFactory(): ConfigurableUnitFactory {
-        return this._unitFactory;
-    }
-
-
     public get parent(): Context | undefined {
         return this._parent;
     }
@@ -63,6 +52,11 @@ export class DefaultContext implements ConfigurableContext {
 
     public get isRunning(): boolean {
         return this._isRunning;
+    }
+
+
+    protected get unitDefinitionRegistry(): UnitDefinitionRegistry {
+        return this._unitDefinitionRegistry;
     }
 
 
@@ -135,6 +129,11 @@ export class DefaultContext implements ConfigurableContext {
 
     protected addUnitDefinitionReader(reader: UnitDefinitionReader): void {
         this._unitDefinitionReaders.add(reader);
+    }
+
+
+    protected addUnitPostProcessor(postProcessor: UnitPostProcessor): void {
+        this._unitFactory.addUnitPostProcessor(postProcessor);
     }
 
 

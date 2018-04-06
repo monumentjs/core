@@ -1,5 +1,5 @@
 import {Disposable} from '@monument/core/main/Disposable';
-import {Map} from '@monument/collections-core/main/Map';
+import {Map} from '@monument/collections/main/Map';
 import {ListMap} from '@monument/collections/main/ListMap';
 import {EventArgs} from './EventArgs';
 import {EventSource} from './EventSource';
@@ -7,18 +7,18 @@ import {EventSubscription} from './EventSubscription';
 import {EventHandlerFunction} from './types';
 
 
-export class EventDispatcher<TTarget extends object, TArgs extends EventArgs> implements EventSource<TTarget, TArgs>, Disposable {
-    protected readonly _subscriptions: Map<EventHandlerFunction<TTarget, TArgs>, EventSubscription<TTarget, TArgs>> = new ListMap();
-    protected _target: TTarget;
+export class EventDispatcher<TArgs extends EventArgs> implements EventSource<TArgs>, Disposable {
+    private readonly _subscriptions: Map<EventHandlerFunction<TArgs>, EventSubscription<TArgs>> = new ListMap();
+    private readonly _target: object;
 
 
-    public constructor(target: TTarget) {
+    public constructor(target: object) {
         this._target = target;
     }
 
 
-    public subscribe(callback: EventHandlerFunction<TTarget, TArgs>): Disposable {
-        const subscription: EventSubscription<object, EventArgs> = new EventSubscription(this._subscriptions, callback);
+    public subscribe(callback: EventHandlerFunction<TArgs>): Disposable {
+        const subscription: EventSubscription<EventArgs> = new EventSubscription(this._subscriptions, callback);
 
         this._subscriptions.put(callback, subscription);
 

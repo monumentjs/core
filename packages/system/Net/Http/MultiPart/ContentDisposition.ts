@@ -2,7 +2,7 @@ import {DateTime} from '../../../../time/main/DateTime';
 import {NullSafeEqualityComparator} from '../../../../core/main/NullSafeEqualityComparator';
 import {StringBuilder} from '../../../../text/main/StringBuilder';
 import {InvariantDateTimeFormatInfo} from '../../../../time/main/InvariantDateTimeFormatInfo';
-import {List} from '../../../../collections-core/main/List';
+import {List} from '../../../../collections/main/List';
 import {Assert} from '@monument/core/Assertion/Assert';
 import {DateTimeParser} from '../../../../time/main/DateTimeParser';
 import {InvalidArgumentException} from '../../../../core/main/exceptions/InvalidArgumentException';

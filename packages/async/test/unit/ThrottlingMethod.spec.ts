@@ -1,8 +1,8 @@
-import { Case } from '../../../../test-drive/Decorators/Case';
-import { Test } from '../../../../test-drive/Decorators/TestConfiguration';
 import { ThrottlingMethod } from '../../main/decorators/support/ThrottlingMethod';
 import { MethodCallEdge } from '../../main/decorators/support/MethodCallEdge';
 import { AsyncUtils } from '../../main/AsyncUtils';
+import {Test} from '@monument/test-drive/main/decorators/Test';
+import {Case} from '@monument/test-drive/main/decorators/Case';
 
 
 const TEST_ARGUMENTS = [1, 2, 3];
@@ -11,7 +11,7 @@ const TEST_ARGUMENTS = [1, 2, 3];
 @Test()
 export class ThrottlingMethodSpec {
 
-    @Case()
+    @Case
     public 'constructor() creates new instance'() {
         let fn = jest.fn();
         let method: ThrottlingMethod = new ThrottlingMethod(fn, 100);
@@ -24,7 +24,7 @@ export class ThrottlingMethodSpec {
     }
 
 
-    @Case()
+    @Case
     public 'constructor() create new instance'() {
         let fn = jest.fn();
         let method: ThrottlingMethod = new ThrottlingMethod(fn, 100);

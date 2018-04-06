@@ -1,5 +1,5 @@
-import { Stack } from '../../../../../collections-core/main/Stack';
-import { EmptyStackException } from '../../../../../collections-core/main/EmptyStackException';
+import { Stack } from '../../../../../collections/main/Stack';
+import { EmptyStackException } from '../../../../../collections/main/EmptyStackException';
 import { BeforeEach } from '@monument/test-drive/Decorators/BeforeEach';
 import { Case } from '../../../../../test-drive/Decorators/Case';
 import { CollectionSpec } from './CollectionSpec';

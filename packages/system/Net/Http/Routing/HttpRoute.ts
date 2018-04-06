@@ -6,7 +6,7 @@ import {IHttpRouteConstraint} from './IHttpRouteConstraint';
 import {HttpRequest} from '../Base/HttpRequest';
 import {FormattableString} from '../../../../text/main/FormattableString';
 import {Enumerable} from '@monument/core/Collections/Abstraction/Enumerable';
-import {Map} from '../../../../collections-core/main/Map';
+import {Map} from '../../../../collections/main/Map';
 
 
 export class HttpRoute implements IHttpRoute {

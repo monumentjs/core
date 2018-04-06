@@ -1,9 +1,9 @@
 import {EqualityComparator} from '@monument/core/main/EqualityComparator';
 import {StrictEqualityComparator} from '@monument/core/main/StrictEqualityComparator';
-import {EmptyQueueException} from '@monument/collections-core/main/EmptyQueueException';
-import {Queue} from '@monument/collections-core/main/Queue';
-import {List} from '@monument/collections-core/main/List';
-import {IteratorFunction} from '@monument/collections-core/main/IteratorFunction';
+import {EmptyQueueException} from 'EmptyQueueException';
+import {Queue} from 'Queue';
+import {List} from 'List';
+import {IteratorFunction} from 'IteratorFunction';
 import {LinkedList} from './LinkedList';
 import {AbstractCollection} from './AbstractCollection';
 

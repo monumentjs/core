@@ -1,5 +1,5 @@
-import {ReadOnlySet} from '@monument/collections-core/main/ReadOnlySet';
-import {Map} from '@monument/collections-core/main/Map';
+import {ReadOnlySet} from '../../../../collections/main/ReadOnlySet';
+import {Map} from '../../../../collections/main/Map';
 import {ListMap} from '@monument/collections/main/ListMap';
 import {AttributeAccessor} from '../AttributeAccessor';
 import {Key} from '../../Key';

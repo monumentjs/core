@@ -1,6 +1,6 @@
 import {Cloneable} from '@monument/core/main/Cloneable';
 import {ListSet} from '@monument/collections/main/ListSet';
-import {Enumerable} from '@monument/collections-core/main/Enumerable';
+import {Enumerable} from '../../../collections/main/Enumerable';
 import {TestCase} from '@monument/test-drive/main/base/TestCase';
 
 

@@ -1,6 +1,6 @@
 import {IgnoreCaseComparator} from '../../text/main/IgnoreCaseComparator';
 import {ArrayList} from '../../collections/main/ArrayList';
-import {List} from '../../collections-core/main/List';
+import {List} from '../../collections/main/List';
 import {UnknownEncodingException} from './UnknownEncodingException';
 
 

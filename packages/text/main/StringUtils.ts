@@ -1,5 +1,5 @@
 import {Assert} from '@monument/assert/main/Assert';
-import {Collection} from '@monument/collections-core/main/Collection';
+import {Collection} from '../../collections/main/Collection';
 import {RegExpUtils} from './RegExpUtils';
 import {EMPTY_STRING} from './constants';
 

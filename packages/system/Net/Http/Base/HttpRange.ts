@@ -1,5 +1,5 @@
-import {Collection} from '../../../../collections-core/main/Collection';
-import {List} from '../../../../collections-core/main/List';
+import {Collection} from '../../../../collections/main/Collection';
+import {List} from '../../../../collections/main/List';
 import {ArrayList} from '../../../../collections/main/ArrayList';
 import {Assert} from '../../../../core/Assertion/Assert';
 import {StringBuilder} from '../../../../text/main/StringBuilder';

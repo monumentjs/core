@@ -4,11 +4,9 @@ import {Property} from '@monument/reflection/main/Property';
 import {TEST_CASE_ATTRIBUTE} from '../Constants';
 
 
-export function Case(): MethodDecorator {
-    return function (target: object, key: PropertyKey) {
-        let klass: Class = Class.of(target.constructor as Type);
-        let property: Property = klass.getOwnInstanceProperty(key);
+export function Case(target: object, key: PropertyKey) {
+    let klass: Class = Class.of(target.constructor as Type);
+    let property: Property = klass.getOwnInstanceProperty(key);
 
-        property.setOwnAttribute(TEST_CASE_ATTRIBUTE, true);
-    };
+    property.setOwnAttribute(TEST_CASE_ATTRIBUTE, true);
 }

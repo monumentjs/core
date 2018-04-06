@@ -1,13 +1,13 @@
 import {InvalidMimeTypeException} from './InvalidMimeTypeException';
 import {MimeType} from './MimeType';
-import {Map} from '../../../../collections-core/main/Map';
+import {Map} from '../../../../collections/main/Map';
 import {UnknownEncodingException} from '../../../Text/UnknownEncodingException';
 import {InvalidArgumentException} from '../../../../core/main/exceptions/InvalidArgumentException';
 import {EMPTY_STRING} from '../../../../text/main/constants';
-import {List} from '../../../../collections-core/main/List';
+import {List} from '../../../../collections/main/List';
 import {StringUtils} from '../../../../text/main/StringUtils';
 import {StringBuilder} from '../../../../text/main/StringBuilder';
-import {Collection} from '../../../../collections-core/main/Collection';
+import {Collection} from '../../../../collections/main/Collection';
 import {ListMap} from '../../../../collections/main/ListMap';
 import {ArrayList} from '../../../../collections/main/ArrayList';
 

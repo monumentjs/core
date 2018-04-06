@@ -1,4 +1,4 @@
-import {Collection} from '../../../collections-core/main/Collection';
+import {Collection} from '../../../collections/main/Collection';
 import {TextParserContext} from '../../../text-parser-core/main/TextParserContext';
 import {ArrayList} from '../../../collections/main/ArrayList';
 

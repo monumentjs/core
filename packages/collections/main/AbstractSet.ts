@@ -1,7 +1,7 @@
 import {EqualityComparator} from '@monument/core/main/EqualityComparator';
 import {StrictEqualityComparator} from '@monument/core/main/StrictEqualityComparator';
-import {Set} from '@monument/collections-core/main/Set';
-import {Collection} from '@monument/collections-core/main/Collection';
+import {Set} from 'Set';
+import {Collection} from 'Collection';
 import {AbstractCollection} from './AbstractCollection';
 
 

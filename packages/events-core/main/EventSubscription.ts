@@ -1,22 +1,22 @@
-import {Map} from '../../collections-core/main/Map';
-import {Disposable} from '../Core/Disposable';
+import {Disposable} from '@monument/core/main/Disposable';
+import {Map} from '../../collections/main/Map';
 import {EventArgs} from './EventArgs';
 import {EventHandlerFunction} from './types';
 
 
-export class EventSubscription<TTarget extends object, TArgs extends EventArgs> implements Disposable {
-    private readonly _handlers: Map<EventHandlerFunction<TTarget, TArgs>, EventSubscription<TTarget, TArgs>>;
-    private readonly _handler: EventHandlerFunction<TTarget, TArgs>;
+export class EventSubscription<TArgs extends EventArgs> implements Disposable {
+    private readonly _handlers: Map<EventHandlerFunction<TArgs>, EventSubscription<TArgs>>;
+    private readonly _handler: EventHandlerFunction<TArgs>;
 
 
-    public get handler(): EventHandlerFunction<TTarget, TArgs> {
+    public get handler(): EventHandlerFunction<TArgs> {
         return this._handler;
     }
 
 
     public constructor(
-        handlers: Map<EventHandlerFunction<TTarget, TArgs>, EventSubscription<TTarget, TArgs>>,
-        handler: EventHandlerFunction<TTarget, TArgs>
+        handlers: Map<EventHandlerFunction<TArgs>, EventSubscription<TArgs>>,
+        handler: EventHandlerFunction<TArgs>
     ) {
         this._handlers = handlers;
         this._handler = handler;

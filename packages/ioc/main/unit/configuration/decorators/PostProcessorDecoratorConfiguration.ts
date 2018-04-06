@@ -1,4 +1,4 @@
-import {ReadOnlyCollection} from '@monument/collections-core/main/ReadOnlyCollection';
+import {ReadOnlyCollection} from '../../../../../collections/main/ReadOnlyCollection';
 import {ListSet} from '@monument/collections/main/ListSet';
 import {Key} from '@monument/object-model/main/Key';
 import {PostProcessorTarget} from './PostProcessorTarget';

@@ -1,4 +1,4 @@
-import {ReadOnlySet} from '@monument/collections-core/main/ReadOnlySet';
+import {ReadOnlySet} from '../../../collections/main/ReadOnlySet';
 import {Key} from '../Key';
 
 

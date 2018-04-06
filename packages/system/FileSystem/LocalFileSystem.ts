@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import {GetInstance} from '@monument/core/Language/Decorators/GetInstance';
 import {DeferredObject} from '../../async/main/DeferredObject';
-import {ReadOnlyCollection} from '../../collections-core/main/ReadOnlyCollection';
+import {ReadOnlyCollection} from '../../collections/main/ReadOnlyCollection';
 import {ArrayList} from '../../collections/main/ArrayList';
 import {FileSystemEntry} from './FileSystemEntry';
 import {AccessPermissions} from './AccessPermissions';

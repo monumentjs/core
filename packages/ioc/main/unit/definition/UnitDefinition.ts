@@ -1,6 +1,6 @@
 import {Type} from '@monument/core/main/Type';
 import {ListSet} from '@monument/collections/main/ListSet';
-import {Set} from '@monument/collections-core/main/Set';
+import {Set} from '../../../../collections/main/Set';
 
 
 export class UnitDefinition {

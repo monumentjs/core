@@ -1,4 +1,4 @@
-import {Map} from '../../../collections-core/main/Map';
+import {Map} from '../../../collections/main/Map';
 import {ListMap} from '../../../collections/main/ListMap';
 
 

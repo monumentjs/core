@@ -1,4 +1,4 @@
-import {KeyValuePair} from '@monument/collections-core/main/KeyValuePair';
+import {KeyValuePair} from '../../../collections/main/KeyValuePair';
 
 
 export class Option extends KeyValuePair<string, string | boolean> {

@@ -1,8 +1,8 @@
 import {EqualityComparator} from '@monument/core/main/EqualityComparator';
 import {StrictEqualityComparator} from '@monument/core/main/StrictEqualityComparator';
 import {Cloneable} from '@monument/core/main/Cloneable';
-import {Collection} from '@monument/collections-core/main/Collection';
-import {IteratorFunction} from '@monument/collections-core/main/IteratorFunction';
+import {Collection} from 'Collection';
+import {IteratorFunction} from 'IteratorFunction';
 import {AbstractReadOnlyCollection} from './AbstractReadOnlyCollection';
 
 

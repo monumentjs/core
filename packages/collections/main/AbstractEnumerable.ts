@@ -1,6 +1,6 @@
-import {Enumerable} from '@monument/collections-core/main/Enumerable';
-import {IteratorFunction} from '@monument/collections-core/main/IteratorFunction';
-import {Countable} from '@monument/collections-core/main/Countable';
+import {Enumerable} from 'Enumerable';
+import {IteratorFunction} from 'IteratorFunction';
+import {Countable} from 'Countable';
 import {Assert} from '@monument/assert/main/Assert';
 
 

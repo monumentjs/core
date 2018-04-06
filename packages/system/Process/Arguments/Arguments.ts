@@ -1,7 +1,7 @@
 import {ArgumentsParser} from './ArgumentsParser';
-import {ReadOnlyCollection} from '../../../collections-core/main/ReadOnlyCollection';
-import {Enumerable} from '../../../collections-core/main/Enumerable';
-import {Map} from '../../../collections-core/main/Map';
+import {ReadOnlyCollection} from '../../../collections/main/ReadOnlyCollection';
+import {Enumerable} from '../../../collections/main/Enumerable';
+import {Map} from '../../../collections/main/Map';
 import {Option} from './Option';
 
 

@@ -1,8 +1,9 @@
 import {Type} from '@monument/core/main/Type';
-import {Map} from '@monument/collections-core/main/Map';
-import {ReadOnlyCollection} from '@monument/collections-core/main/ReadOnlyCollection';
-import {Set} from '@monument/collections-core/main/Set';
-import {ReadOnlyMap} from '@monument/collections-core/main/ReadOnlyMap';
+import {ArgumentIndexOutOfBoundsException} from '@monument/core/main/exceptions/ArgumentIndexOutOfBoundsException';
+import {Map} from '../../collections/main/Map';
+import {ReadOnlyCollection} from '../../collections/main/ReadOnlyCollection';
+import {Set} from '../../collections/main/Set';
+import {ReadOnlyMap} from '../../collections/main/ReadOnlyMap';
 import {ListMap} from '@monument/collections/main/ListMap';
 import {ListSet} from '@monument/collections/main/ListSet';
 import {DefaultHierarchicalAccessibleObject} from './DefaultHierarchicalAccessibleObject';
@@ -243,6 +244,17 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
     }
 
 
+    public getParameterAt(index: number): Parameter {
+        let parameter = this.constructorParameters.get(index);
+
+        if (parameter == null) {
+            throw new ArgumentIndexOutOfBoundsException('index', index, 0, this.constructorParameters.length);
+        }
+
+        return parameter;
+    }
+
+
     public instantiate(...args: any[]): T {
         return new this._type(...args);
     }
@@ -382,7 +394,7 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
 
         for (let i = 0; i < parametersCount; i++) {
             let type: Type<any> | undefined = parameterTypes != null ? parameterTypes[i] : undefined;
-            let parameter = new Parameter(type);
+            let parameter = new Parameter(i, type);
 
             parameters.put(i, parameter);
         }

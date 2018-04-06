@@ -1,18 +1,15 @@
 import {Writable} from 'stream';
-import {Delegate} from '@monument/core/Events/Decorators/Delegate';
-import {DeferredObject} from '../../async/main/DeferredObject';
-import {OutputStream} from '../../stream-core/main/OutputStream';
-import {ClosedStreamException} from '../../stream-core/main/ClosedStreamException';
-import {EndOfStreamException} from '../../stream-core/main/EndOfStreamException';
-import {AbstractComponent} from '../../component-model/main/component/AbstractComponent';
-import {EventDispatcher} from '@monument/core/Events/EventDispatcher';
-import {ErrorEventArgs} from '@monument/core/Events/ErrorEventArgs';
-import {EventSource} from '@monument/core/Events/EventSource';
-import {Exception} from '../../core/main/exceptions/Exception';
+import {Exception} from '@monument/core/main/exceptions/Exception';
+import {DeferredObject} from '@monument/async/main/DeferredObject';
+import {EventDispatcher} from '@monument/events-core/main/EventDispatcher';
+import {ErrorEventArgs} from '@monument/events-core/main/ErrorEventArgs';
+import {OutputStream} from '@monument/stream-core/main/OutputStream';
+import {ClosedStreamException} from '@monument/stream-core/main/ClosedStreamException';
+import {EndOfStreamException} from '@monument/stream-core/main/EndOfStreamException';
 import {CloseableStream} from './CloseableStream';
 
 
-export abstract class AbstractOutputStream<T, TBase extends Writable & CloseableStream> extends AbstractComponent implements OutputStream<T> {
+export abstract class AbstractOutputStream<T, TBase extends Writable & CloseableStream> extends EventDispatcher implements OutputStream<T> {
     private _isClosed: boolean = false;
     private _isFinished: boolean = false;
     private _failed: EventDispatcher<this, ErrorEventArgs> = this.createEventDispatcher();

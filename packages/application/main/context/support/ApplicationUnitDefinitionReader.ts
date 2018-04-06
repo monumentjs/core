@@ -14,7 +14,7 @@ export class ApplicationUnitDefinitionReader extends AbstractUnitDefinitionReade
             let configuration = klass.getDeclaredAttribute(ApplicationConfiguration.ATTRIBUTE_KEY);
 
             if (configuration != null) {
-                for (let importedType of configuration.imports) {
+                for (let importedType of configuration.modules) {
                     this.rootReader.scan(importedType);
                 }
             }

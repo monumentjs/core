@@ -2,7 +2,7 @@ import { BitSet } from '../../../../collections/main/BitSet';
 import { ArgumentNullException } from '../../../main/exceptions/ArgumentNullException';
 import { ArgumentIndexOutOfBoundsException } from '../../../main/exceptions/ArgumentIndexOutOfBoundsException';
 import { RangeException } from '../../../main/RangeException';
-import { Collection } from '../../../../collections-core/main/Collection';
+import { Collection } from '../../../../collections/main/Collection';
 import { Test } from '../../../../test-drive/Decorators/TestConfiguration';
 import { Case } from '../../../../test-drive/Decorators/Case';
 

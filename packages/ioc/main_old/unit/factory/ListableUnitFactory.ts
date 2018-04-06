@@ -1,5 +1,5 @@
 import {UnitFactory} from './UnitFactory';
-import {ReadOnlySet} from '@monument/collections-core/main/ReadOnlySet';
+import {ReadOnlySet} from '../../../../collections/main/ReadOnlySet';
 import {Class} from '@monument/reflection/main/Class';
 
 

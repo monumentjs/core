@@ -1,6 +1,6 @@
-import {Assert} from '../../Assertion/Assert';
-import {ArrayList} from '../../../collections/main/ArrayList';
-import {List} from '../../../collections-core/main/List';
+import {Assert} from '@monument/assert/main/Assert';
+import {ArrayList} from '@monument/collections/main/ArrayList';
+import {List} from '@monument/collections/main/List';
 import {InvalidArgumentException} from '../../main/exceptions/InvalidArgumentException';
 
 

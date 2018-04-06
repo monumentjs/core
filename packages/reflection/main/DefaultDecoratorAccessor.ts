@@ -1,6 +1,6 @@
-import {ReadOnlySet} from '../../collections-core/main/ReadOnlySet';
-import {Set} from '../../collections-core/main/Set';
-import {ListSet} from '../../collections/main/ListSet';
+import {ReadOnlySet} from '../../collections/main/ReadOnlySet';
+import {Set} from '../../collections/main/Set';
+import {ListSet} from '@monument/collections/main/ListSet';
 import {DecoratorAccessor} from './DecoratorAccessor';
 
 
@@ -13,12 +13,12 @@ export class DefaultDecoratorAccessor implements DecoratorAccessor {
     }
 
 
-    public isDecoratedWith(decorator: Function): boolean {
-        return this._decorators.contains(decorator);
+    public isDecoratedWith(annotation: Function): boolean {
+        return this._decorators.contains(annotation);
     }
 
 
-    public decorate(decorator: Function): boolean {
-        return this._decorators.add(decorator);
+    public decorate(annotation: Function): boolean {
+        return this._decorators.add(annotation);
     }
 }

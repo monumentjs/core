@@ -1,5 +1,5 @@
-import {EmptyQueueException} from '../../../../../collections-core/main/EmptyQueueException';
-import {Queue} from '../../../../../collections-core/main/Queue';
+import {EmptyQueueException} from '../../../../../collections/main/EmptyQueueException';
+import {Queue} from '../../../../../collections/main/Queue';
 import {CollectionSpec} from './CollectionSpec';
 import {BeforeEach} from '@monument/test-drive/Decorators/BeforeEach';
 import {Case} from '../../../../../test-drive/Decorators/Case';

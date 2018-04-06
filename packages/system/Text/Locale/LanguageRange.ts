@@ -1,5 +1,5 @@
 import {Assert} from '@monument/core/Assertion/Assert';
-import {List} from '../../../collections-core/main/List';
+import {List} from '../../../collections/main/List';
 import {ArrayList} from '../../../collections/main/ArrayList';
 import {InvalidArgumentException} from '../../../core/main/exceptions/InvalidArgumentException';
 import {EMPTY_STRING} from '../../../text/main/constants';

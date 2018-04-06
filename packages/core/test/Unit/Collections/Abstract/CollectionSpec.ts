@@ -1,5 +1,5 @@
 import {Case} from '../../../../../test-drive/Decorators/Case';
-import {Collection} from '../../../../../collections-core/main/Collection';
+import {Collection} from '../../../../../collections/main/Collection';
 import {IgnoreCaseComparator} from '../../../../../text/main/IgnoreCaseComparator';
 import {EnumerableSpec} from './EnumerableSpec';
 

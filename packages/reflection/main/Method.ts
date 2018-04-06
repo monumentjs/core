@@ -1,6 +1,6 @@
 import {Type} from '@monument/core/main/Type';
 import {ListMap} from '@monument/collections/main/ListMap';
-import {ReadOnlyMap} from '@monument/collections-core/main/ReadOnlyMap';
+import {ReadOnlyMap} from '../../collections/main/ReadOnlyMap';
 import {DefaultHierarchicalAccessibleObject} from './DefaultHierarchicalAccessibleObject';
 import {Class} from './Class';
 import {Parameter} from './Parameter';
@@ -104,7 +104,7 @@ export class Method extends DefaultHierarchicalAccessibleObject {
 
         for (let i = 0; i < parametersCount; i++) {
             let parameterType = parameterTypes != null ? parameterTypes[i] : undefined;
-            let parameter = new Parameter(parameterType);
+            let parameter = new Parameter(i, parameterType);
 
             this._parameters.put(i, parameter);
         }

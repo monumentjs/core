@@ -3,7 +3,7 @@ import {StringBuilder} from '../../../text/main/StringBuilder';
 import {Cloneable} from '../../../core/main/Cloneable';
 import {JSONSerializable} from '../../../core/main/JSONSerializable';
 import {Equatable} from '../../../core/main/Equatable';
-import {List} from '../../../collections-core/main/List';
+import {List} from '../../../collections/main/List';
 import {ArrayList} from '../../../collections/main/ArrayList';
 import {EMPTY_STRING} from '../../../text/main/constants';
 import {QueryParameters} from './QueryParameters';

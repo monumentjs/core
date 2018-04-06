@@ -3,7 +3,7 @@ import {Type} from '@monument/core/main/Type';
 import {PropertyTypeException} from '@monument/core/main/exceptions/PropertyTypeException';
 import {RangeException} from '@monument/core/main/RangeException';
 import {IndexOutOfBoundsException} from '@monument/core/main/exceptions/IndexOutOfBoundsException';
-import {Countable} from '@monument/collections-core/main/Countable';
+import {Countable} from '../../collections/main/Countable';
 
 
 export class PropertyAssertion {
@@ -26,7 +26,7 @@ export class PropertyAssertion {
     }
 
 
-    public type(type: Type): this {
+    public type(type: Type<any>): this {
         if (!(this._propertyValue instanceof type)) {
             throw new PropertyTypeException(this._propertyName, type);
         }

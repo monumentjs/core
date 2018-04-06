@@ -1,7 +1,7 @@
 import {StrictEqualityComparator} from '@monument/core/main/StrictEqualityComparator';
 import {EqualityComparator} from '@monument/core/main/EqualityComparator';
-import {IteratorFunction} from '@monument/collections-core/main/IteratorFunction';
-import {List} from '@monument/collections-core/main/List';
+import {IteratorFunction} from 'IteratorFunction';
+import {List} from 'List';
 import {ArrayList} from './ArrayList';
 import {AbstractSet} from './AbstractSet';
 

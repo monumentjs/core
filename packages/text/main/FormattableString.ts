@@ -2,9 +2,9 @@
 import {MissingKeyException} from '@monument/core/main/exceptions/MissingKeyException';
 
 /* Collections Core */
-import {Map} from '@monument/collections-core/main/Map';
-import {List} from '@monument/collections-core/main/List';
-import {ReadOnlyCollection} from '@monument/collections-core/main/ReadOnlyCollection';
+import {Map} from '../../collections/main/Map';
+import {List} from '../../collections/main/List';
+import {ReadOnlyCollection} from '../../collections/main/ReadOnlyCollection';
 
 /* Collections */
 import {ListMap} from '@monument/collections/main/ListMap';

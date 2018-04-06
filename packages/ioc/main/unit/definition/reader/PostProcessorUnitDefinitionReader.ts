@@ -1,6 +1,6 @@
 import {Type} from '@monument/core/main/Type';
 import {Class} from '@monument/reflection/main/Class';
-import {Collection} from '@monument/collections-core/main/Collection';
+import {Collection} from '../../../../../collections/main/Collection';
 import {PostProcessor} from '../../configuration/decorators/PostProcessor';
 import {PostProcessorDecoratorConfiguration} from '../../configuration/decorators/PostProcessorDecoratorConfiguration';
 import {PostProcessorTarget} from '../../configuration/decorators/PostProcessorTarget';

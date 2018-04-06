@@ -36,8 +36,11 @@
       "es2017",
       "es2017.object",
       "es2017.sharedmemory",
+      "es2018",
       "esnext",
-      "esnext.asynciterable"
+      "esnext.array",
+      "esnext.asynciterable",
+      "esnext.promise"
     ],
     "typeRoots": [
       "./node_modules/@types"

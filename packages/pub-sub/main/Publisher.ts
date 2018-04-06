@@ -1,5 +1,5 @@
 import {Disposable} from '@monument/core/main/Disposable';
-import {Collection} from '@monument/collections-core/main/Collection';
+import {Collection} from '../../collections/main/Collection';
 import {ArrayList} from '@monument/collections/main/ArrayList';
 import {Subscription} from './Subscription';
 import {Subscriber} from './Subscriber';

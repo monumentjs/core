@@ -1,66 +1,40 @@
-import {ReadOnlyCollection} from '@monument/collections-core/main/ReadOnlyCollection';
-import {List} from '@monument/collections-core/main/List';
-import {ArrayList} from '@monument/collections/main/ArrayList';
+import {ReadOnlyCollection} from '../../../collections/main/ReadOnlyCollection';
 import {Key} from '@monument/object-model/main/Key';
+import {WithDecorator} from '../../main/decorators/WithDecorator';
+import {WithAttribute} from '../../main/decorators/WithAttribute';
 import {Class} from '../../main/Class';
 import {Field} from '../../main/Field';
 
 
-type ColumnMetadata = {
-    name: string;
-};
-//
-// function Component(): ClassDecorator {
-//     return (target: Function) => {
-//         let klass: Class = Class.of(target);
-//
-//         klass.setDecoratorMetadata(Component, {});
-//     };
-// }
+const ATTRIBUTE_KEY: Key<string> = new Key();
 
-function Entity(): ClassDecorator {
-    return (target: Function) => {
-        let klass: Class = Class.of(target);
-
-        klass.decorate(Entity);
-    };
-}
-
-const COLUMNS_LIST_ATTRIBUTE_KEY: Key<List<ColumnMetadata>> = new Key();
-
-function Column(): PropertyDecorator {
-    return (target: object, name: string) => {
-        let klass: Class = Class.of(target.constructor);
-        let columns: List<ColumnMetadata> | undefined = klass.getAttribute(COLUMNS_LIST_ATTRIBUTE_KEY);
-
-        if (columns == null) {
-            columns = new ArrayList();
-
-            klass.setAttribute(COLUMNS_LIST_ATTRIBUTE_KEY, columns);
-        }
-
-        columns.add({
-            name: name
-        });
-    };
+function TestDecorator() {
+    // Stub
 }
 
 
-@Entity()
+@WithDecorator(TestDecorator)
+@WithAttribute(ATTRIBUTE_KEY, 'Contact')
 class Contact {
-    @Column()
+    @WithDecorator(TestDecorator)
+    @WithAttribute(ATTRIBUTE_KEY, '_id')
     private _id: number | undefined;
 
-    @Column()
+    @WithDecorator(TestDecorator)
+    @WithAttribute(ATTRIBUTE_KEY, '_name')
     private _name: string;
 
-    @Column()
+    @WithDecorator(TestDecorator)
+    @WithAttribute(ATTRIBUTE_KEY, '_email')
     private _email: string = '';
 
-    @Column()
+    @WithDecorator(TestDecorator)
+    @WithAttribute(ATTRIBUTE_KEY, '_phone')
     private _phone: string = '';
 
 
+    @WithDecorator(TestDecorator)
+    @WithAttribute(ATTRIBUTE_KEY, 'id')
     public get id(): number | undefined {
         return this._id;
     }
@@ -71,6 +45,8 @@ class Contact {
     }
 
 
+    @WithDecorator(TestDecorator)
+    @WithAttribute(ATTRIBUTE_KEY, 'name')
     public get name(): string {
         return this._name;
     }
@@ -81,6 +57,8 @@ class Contact {
     }
 
 
+    @WithDecorator(TestDecorator)
+    @WithAttribute(ATTRIBUTE_KEY, 'email')
     public get email(): string {
         return this._email;
     }
@@ -91,6 +69,8 @@ class Contact {
     }
 
 
+    @WithDecorator(TestDecorator)
+    @WithAttribute(ATTRIBUTE_KEY, 'phone')
     public get phone(): string {
         return this._phone;
     }
@@ -101,16 +81,23 @@ class Contact {
     }
 
 
-    public constructor(name: string) {
+    public constructor(
+        @WithAttribute(ATTRIBUTE_KEY, 'name')
+        @WithDecorator(TestDecorator)
+            name: string,
+    ) {
         this._name = name;
     }
 }
 
 
 class Client extends Contact {
-    @Column()
+    @WithDecorator(TestDecorator)
+    @WithAttribute(ATTRIBUTE_KEY, '_companyName')
     private _companyName: string = '';
 
+    @WithDecorator(TestDecorator)
+    @WithAttribute(ATTRIBUTE_KEY, 'companyName')
     public set companyName(value: string) {
         this._companyName = value;
     }
@@ -123,7 +110,7 @@ class Client extends Contact {
 
 
 describe('Class', () => {
-    let klass: Class;
+    let klass: Class<Client>;
 
     beforeAll(() => {
         klass = Class.of(Client);
@@ -134,45 +121,16 @@ describe('Class', () => {
         expect(klass.name).toBe(Client.name);
         expect(klass.prototype).toBe(Client.prototype);
         expect(klass.parent).not.toBeUndefined();
-        expect((klass.parent as Class).type).toBe(Contact);
+        expect((klass.parent as Class<any>).type).toBe(Contact);
         expect(klass.constructorParameters).toEqual([String]);
     });
 
     it(`providers information about decorators`, () => {
-        expect(klass.isDecoratedWith(Entity)).toBe(true);
+        expect(klass.isDecoratedWith(TestDecorator)).toBe(true);
         expect(klass.declaredDecorators.length).toBe(0);
-        expect(klass.declaredDecorators.contains(Entity)).toBe(false);
+        expect(klass.declaredDecorators.contains(TestDecorator)).toBe(false);
         expect(klass.decorators.length).toBe(1);
-        expect(klass.decorators.contains(Entity)).toBe(true);
-    });
-
-    it(`provides information about attributes`, () => {
-        let allColumns: ReadOnlyCollection<List<ColumnMetadata>> = klass.getAttributeValues(COLUMNS_LIST_ATTRIBUTE_KEY);
-
-        expect(allColumns.length).toBe(2);
-
-        let ownColumns = allColumns.toArray()[0];
-
-        expect(ownColumns.length).toBe(1);
-        expect(ownColumns).toContainEqual({
-            name: '_companyName'
-        });
-
-        let parentColumns = allColumns.toArray()[1];
-
-        expect(parentColumns.length).toBe(4);
-        expect(parentColumns).toContainEqual({
-            name: '_id'
-        });
-        expect(parentColumns).toContainEqual({
-            name: '_name'
-        });
-        expect(parentColumns).toContainEqual({
-            name: '_email'
-        });
-        expect(parentColumns).toContainEqual({
-            name: '_phone'
-        });
+        expect(klass.decorators.contains(TestDecorator)).toBe(true);
     });
 
     it(`providers list of declared fields`, () => {
@@ -183,8 +141,8 @@ describe('Class', () => {
         expect(declaredFieldKeys.length).toBe(1);
         expect(declaredFieldKeys.contains('companyName')).toBe(true);
 
-        let parentFields: ReadOnlyCollection<Field> = (klass.parent as Class).declaredFields;
-        let parentFieldKeys: ReadOnlyCollection<string | symbol> = (klass.parent as Class).declaredFieldKeys;
+        let parentFields: ReadOnlyCollection<Field> = (klass.parent as Class<any>).declaredFields;
+        let parentFieldKeys: ReadOnlyCollection<string | symbol> = (klass.parent as Class<any>).declaredFieldKeys;
 
         expect(parentFields.length).toBe(4);
         expect(parentFieldKeys.length).toBe(4);
@@ -198,9 +156,9 @@ describe('Class', () => {
         let clientClass = Class.of(Client);
 
         expect(clientClass.attributeKeys.length).toBe(1);
-        expect(clientClass.attributeKeys).toContain(COLUMNS_LIST_ATTRIBUTE_KEY);
+        expect(clientClass.attributeKeys).toContain(ATTRIBUTE_KEY);
         expect(clientClass.declaredAttributeKeys.length).toBe(1);
-        expect(clientClass.declaredAttributeKeys).toContain(COLUMNS_LIST_ATTRIBUTE_KEY);
+        expect(clientClass.declaredAttributeKeys).toContain(ATTRIBUTE_KEY);
     });
 
     it(`determines inheritance hierarchy`, () => {

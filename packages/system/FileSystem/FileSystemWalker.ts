@@ -1,5 +1,5 @@
-import {ReadOnlyCollection} from '../../collections-core/main/ReadOnlyCollection';
-import {List} from '../../collections-core/main/List';
+import {ReadOnlyCollection} from '../../collections/main/ReadOnlyCollection';
+import {List} from '../../collections/main/List';
 import {ArrayList} from '../../collections/main/ArrayList';
 import {Path} from './Path';
 import {PathPattern} from './PathPattern';

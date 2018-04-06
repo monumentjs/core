@@ -1,4 +1,4 @@
-import {AttributeAccessor} from '../../object-model/main/attributes/AttributeAccessor';
+import {AttributeAccessor} from '@monument/object-model/main/attributes/AttributeAccessor';
 import {DecoratorAccessor} from './DecoratorAccessor';
 
 

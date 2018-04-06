@@ -2,8 +2,8 @@ import { Case } from '../../../../../test-drive/decorator/Case';
 import { BeforeEach } from '@monument/test-drive/Decorators/BeforeEach';
 import { EqualityComparator } from '../../../../main/EqualityComparator';
 import { IgnoreCaseComparator } from '../../../../../text/main/IgnoreCaseComparator';
-import { Map } from '../../../../../collections-core/main/Map';
-import { KeyValuePair } from '../../../../../collections-core/main/KeyValuePair';
+import { Map } from '../../../../../collections/main/Map';
+import { KeyValuePair } from '../../../../../collections/main/KeyValuePair';
 
 
 export abstract class MapSpec {

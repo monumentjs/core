@@ -1,6 +1,6 @@
-import {LinkedMultiValueMap} from '@monument/collections-specialized/main/LinkedMultiValueMap';
-import {KeyValuePair} from '../../../../collections-core/main/KeyValuePair';
-import {List} from '../../../../collections-core/main/List';
+import {LinkedMultiValueMap} from '@monument/collections/main/LinkedMultiValueMap';
+import {KeyValuePair} from '../../../../collections/main/KeyValuePair';
+import {List} from '../../../../collections/main/List';
 import {FileInputStream} from '../../../FileSystem/FileInputStream';
 
 

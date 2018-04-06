@@ -3,12 +3,12 @@ import {StrictEqualityComparator} from '@monument/core/main/StrictEqualityCompar
 import {InvalidOperationException} from '@monument/core/main/exceptions/InvalidOperationException';
 import {Comparator} from '@monument/core/main/Comparator';
 
-import {SortOrder} from '@monument/collections-core/main/SortOrder';
-import {Grouping} from '@monument/collections-core/main/Grouping';
-import {Collection} from '@monument/collections-core/main/Collection';
-import {List} from '@monument/collections-core/main/List';
-import {IteratorFunction} from '@monument/collections-core/main/IteratorFunction';
-import {CombineFunction} from '@monument/collections-core/main/CombineFunction';
+import {SortOrder} from 'SortOrder';
+import {Grouping} from 'Grouping';
+import {Collection} from 'Collection';
+import {List} from 'List';
+import {IteratorFunction} from 'IteratorFunction';
+import {CombineFunction} from 'CombineFunction';
 
 import {Assert} from '@monument/assert/main/Assert';
 

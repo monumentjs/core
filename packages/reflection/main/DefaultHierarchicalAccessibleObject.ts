@@ -1,5 +1,5 @@
-import {ReadOnlyCollection} from '../../collections-core/main/ReadOnlyCollection';
-import {ReadOnlySet} from '../../collections-core/main/ReadOnlySet';
+import {ReadOnlyCollection} from '../../collections/main/ReadOnlyCollection';
+import {ReadOnlySet} from '../../collections/main/ReadOnlySet';
 import {Key} from '../../object-model/main/Key';
 import {DefaultHierarchicalAttributeAccessor} from '../../object-model/main/attributes/support/DefaultHierarchicalAttributeAccessor';
 import {HierarchicalAttributeAccessor} from '../../object-model/main/attributes/HierarchicalAttributeAccessor';
@@ -69,13 +69,13 @@ export class DefaultHierarchicalAccessibleObject implements HierarchicalAccessib
     }
 
 
-    public isDecoratedWith(decorator: Function): boolean {
-        return this._decorators.isDecoratedWith(decorator);
+    public isDecoratedWith(annotation: Function): boolean {
+        return this._decorators.isDecoratedWith(annotation);
     }
 
 
-    public decorate(decorator: Function): boolean {
-        return this._decorators.decorate(decorator);
+    public decorate(annotation: Function): boolean {
+        return this._decorators.decorate(annotation);
     }
 
 

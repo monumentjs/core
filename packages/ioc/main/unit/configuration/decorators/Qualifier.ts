@@ -1,5 +1,5 @@
-import {DecoratorTarget} from '@monument/core/main/decorators/support/DecoratorTarget';
-import {Target} from '@monument/core/main/decorators/Target';
+import {DecoratorTarget} from '../../../../../reflection/main/decorators/DecoratorTarget';
+import {Target} from '../../../../../reflection/main/decorators/Target';
 import {WithDecorator} from '@monument/reflection/main/decorators/WithDecorator';
 import {WithAttribute} from '@monument/reflection/main/decorators/WithAttribute';
 import {QualifierConfiguration} from './QualifierConfiguration';

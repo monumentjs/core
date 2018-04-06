@@ -1,4 +1,4 @@
-import {Collection} from '@monument/collections-core/main/Collection';
+import {Collection} from '@monument/collections/main/Collection';
 import {EventSource} from '@monument/events-core/main/EventSource';
 import {CollectionChangedEventArgs} from './CollectionChangedEventArgs';
 

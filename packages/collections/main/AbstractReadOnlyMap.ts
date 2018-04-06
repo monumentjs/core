@@ -1,9 +1,9 @@
-import {ReadOnlyMap} from '@monument/collections-core/main/ReadOnlyMap';
-import {KeyValuePair} from '@monument/collections-core/main/KeyValuePair';
-import {ReadOnlySet} from '@monument/collections-core/main/ReadOnlySet';
-import {ReadOnlyCollection} from '@monument/collections-core/main/ReadOnlyCollection';
+import {ReadOnlyMap} from 'ReadOnlyMap';
+import {KeyValuePair} from 'KeyValuePair';
+import {ReadOnlySet} from 'ReadOnlySet';
+import {ReadOnlyCollection} from 'ReadOnlyCollection';
 import {Equatable} from '@monument/core/main/Equatable';
-import {MapIteratorFunction} from '@monument/collections-core/main/MapIteratorFunction';
+import {MapIteratorFunction} from 'MapIteratorFunction';
 
 
 export abstract class AbstractReadOnlyMap<K, V> implements ReadOnlyMap<K, V>, Equatable<ReadOnlyMap<K, V>> {

@@ -1,5 +1,5 @@
 import {Case} from '../../../../../test-drive/Decorators/Case';
-import {Enumerable} from '../../../../../collections-core/main/Enumerable';
+import {Enumerable} from '../../../../../collections/main/Enumerable';
 import {CancellationToken} from '../../../../../async/main/CancellationToken';
 import {ArgumentIndexOutOfBoundsException} from '../../../../main/exceptions/ArgumentIndexOutOfBoundsException';
 import {InvalidArgumentException} from '../../../../main/exceptions/InvalidArgumentException';

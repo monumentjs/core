@@ -1,6 +1,6 @@
 import {WithDecorator} from '@monument/reflection/main/decorators/WithDecorator';
-import {Target} from '@monument/core/main/decorators/Target';
-import {DecoratorTarget} from '@monument/core/main/decorators/support/DecoratorTarget';
+import {Target} from '../../../../../reflection/main/decorators/Target';
+import {DecoratorTarget} from '../../../../../reflection/main/decorators/DecoratorTarget';
 
 
 export function Destroy(): MethodDecorator {

@@ -1,5 +1,5 @@
 import {EventSource} from '@monument/events-core/main/EventSource';
-import {Map} from '@monument/collections-core/main/Map';
+import {Map} from '../../collections/main/Map';
 import {MapChangedEventArgs} from './MapChangedEventArgs';
 
 

@@ -1,5 +1,5 @@
-import {NoSuchItemException} from '@monument/collections-core/main/NoSuchItemException';
-import {Deque} from '@monument/collections-core/main/Deque';
+import {NoSuchItemException} from 'NoSuchItemException';
+import {Deque} from 'Deque';
 import {ListQueue} from './ListQueue';
 
 

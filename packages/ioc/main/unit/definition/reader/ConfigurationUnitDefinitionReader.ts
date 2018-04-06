@@ -1,5 +1,5 @@
 import {Type} from '@monument/core/main/Type';
-import {ReadOnlyCollection} from '@monument/collections-core/main/ReadOnlyCollection';
+import {ReadOnlyCollection} from '../../../../../collections/main/ReadOnlyCollection';
 import {Class} from '@monument/reflection/main/Class';
 import {Method} from '@monument/reflection/main/Method';
 import {Configuration} from '../../../stereotype/Configuration';

@@ -6,7 +6,7 @@ import {XmlDocumentRenderer} from './Renderer/XmlDocumentRenderer';
 import {XmlCharacterDataRenderer} from './Renderer/XmlCharacterDataRenderer';
 import {XmlCommentRenderer} from './Renderer/XmlCommentRenderer';
 import {XmlTextNodeRenderer} from './Renderer/XmlTextNodeRenderer';
-import {List} from '../collections-core/main/List';
+import {List} from '../collections/main/List';
 
 
 export class XmlRenderer {

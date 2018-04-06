@@ -1,4 +1,4 @@
-import {ReadOnlyCollection} from '../../collections-core/main/ReadOnlyCollection';
+import {ReadOnlyCollection} from '../../collections/main/ReadOnlyCollection';
 import {AccessPermissions} from './AccessPermissions';
 import {FileSystemEntry} from './FileSystemEntry';
 import {AccessMode} from './AccessMode';

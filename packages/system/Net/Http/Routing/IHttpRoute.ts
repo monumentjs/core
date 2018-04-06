@@ -2,8 +2,8 @@ import {HttpRequestHandler} from '../Server/HttpRequestHandler';
 import {HttpRequest} from '../Base/HttpRequest';
 import {IHttpRouteData} from './IHttpRouteData';
 import {IHttpRouteConstraint} from './IHttpRouteConstraint';
-import {Enumerable} from '../../../../collections-core/main/Enumerable';
-import {Map} from '../../../../collections-core/main/Map';
+import {Enumerable} from '../../../../collections/main/Enumerable';
+import {Map} from '../../../../collections/main/Map';
 
 /**
  * IHttpRoute defines the interface for a route expressing how to map

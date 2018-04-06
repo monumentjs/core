@@ -1,7 +1,7 @@
 import {EqualityComparator} from '@monument/core/main/EqualityComparator';
 import {StrictEqualityComparator} from '@monument/core/main/StrictEqualityComparator';
-import {Map} from '@monument/collections-core/main/Map';
-import {KeyValuePair} from '@monument/collections-core/main/KeyValuePair';
+import {Map} from 'Map';
+import {KeyValuePair} from 'KeyValuePair';
 import {AbstractReadOnlyMap} from './AbstractReadOnlyMap';
 
 

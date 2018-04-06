@@ -6,7 +6,6 @@
   ],
   "dependencies": {
     "@monument/core": "^0.0.52",
-    "@monument/collections-core": "^0.0.52",
     "@monument/collections": "^0.0.52"
   }
 }

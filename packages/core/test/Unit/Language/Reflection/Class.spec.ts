@@ -1,4 +1,4 @@
-import {ReadOnlyMap} from '@monument/collections-core/main/ReadOnlyMap';
+import {ReadOnlyMap} from '@monument/collections/main/ReadOnlyMap';
 import {Test} from '../../../../../test-drive/Decorators/TestConfiguration';
 import {Case} from '../../../../../test-drive/Decorators/Case';
 

@@ -1,6 +1,6 @@
 import {GetInstance} from '@monument/core/Language/Decorators/GetInstance';
 import {EMPTY_STRING} from '@monument/text/main/constants';
-import {ReadOnlyList} from '@monument/collections-core/main/ReadOnlyList';
+import {ReadOnlyList} from '../../collections/main/ReadOnlyList';
 import {ArrayList} from '@monument/collections/main/ArrayList';
 import {CalendarWeekRule} from './CalendarWeekRule';
 import {DayOfWeek} from './DayOfWeek';

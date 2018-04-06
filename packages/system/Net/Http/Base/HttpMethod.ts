@@ -1,9 +1,9 @@
 import {InvalidArgumentException} from '../../../../core/main/exceptions/InvalidArgumentException';
-import {ReadOnlyCollection} from '../../../../collections-core/main/ReadOnlyCollection';
+import {ReadOnlyCollection} from '../../../../collections/main/ReadOnlyCollection';
 import {ArrayList} from '../../../../collections/main/ArrayList';
-import {Map} from '../../../../collections-core/main/Map';
-import {CaseInsensitiveMap} from '@monument/collections-specialized/main/CaseInsensitiveMap';
-import {KeyValuePair} from '../../../../collections-core/main/KeyValuePair';
+import {Map} from '../../../../collections/main/Map';
+import {CaseInsensitiveMap} from '@monument/collections/main/CaseInsensitiveMap';
+import {KeyValuePair} from '../../../../collections/main/KeyValuePair';
 
 
 export enum HttpMethod {

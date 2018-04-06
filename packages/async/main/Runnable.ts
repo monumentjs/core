@@ -1,5 +1,5 @@
+import {CancellationToken} from './CancellationToken';
 
 
-export interface Runnable<TResult = void> {
-    run(): Promise<TResult>;
-}
+export type Runnable<TResult = void> = (cancellationToken: CancellationToken) => Promise<TResult>;
+

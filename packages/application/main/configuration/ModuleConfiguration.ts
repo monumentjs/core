@@ -1,6 +1,6 @@
 import {Type} from '@monument/core/main/Type';
 import {ListSet} from '@monument/collections/main/ListSet';
-import {ReadOnlySet} from '@monument/collections-core/main/ReadOnlySet';
+import {ReadOnlySet} from '../../../collections/main/ReadOnlySet';
 import {Key} from '@monument/object-model/main/Key';
 
 

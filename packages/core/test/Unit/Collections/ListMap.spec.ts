@@ -1,7 +1,7 @@
 import {Test} from '../../../../test-drive/Decorators/TestConfiguration';
-import {Map} from '../../../../collections-core/main/Map';
+import {Map} from '../../../../collections/main/Map';
 import {ListMap} from '../../../../collections/main/ListMap';
-import {KeyValuePair} from '../../../../collections-core/main/KeyValuePair';
+import {KeyValuePair} from '../../../../collections/main/KeyValuePair';
 import {EqualityComparator} from '../../../main/EqualityComparator';
 import {MapSpec} from './Abstract/MapSpec';
 

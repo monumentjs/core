@@ -1,5 +1,5 @@
 import {Disposable} from '@monument/core/main/Disposable';
-import {Map} from '@monument/collections-core/main/Map';
+import {Map} from '../../collections/main/Map';
 import {Observer} from './Observer';
 
 

@@ -1,7 +1,7 @@
 import { Case } from '../../../../test-drive/Decorators/Case';
 import { Test } from '../../../../test-drive/Decorators/TestConfiguration';
 import { FormattableString } from '../../../../text/main/FormattableString';
-import { Map } from '../../../../collections-core/main/Map';
+import { Map } from '../../../../collections/main/Map';
 import { BeforeEach } from '@monument/test-drive/Decorators/BeforeEach';
 
 

@@ -1,6 +1,6 @@
 import {MimeTypeDefinition} from './MimeTypeDefinition';
 import {UnknownMimeTypeException} from './UnknownMimeTypeException';
-import {ReadOnlyCollection} from '../../../../collections-core/main/ReadOnlyCollection';
+import {ReadOnlyCollection} from '../../../../collections/main/ReadOnlyCollection';
 import {GetInstance} from '@monument/core/Language/decorator/GetInstance';
 import {ArrayList} from '../../../../collections/main/ArrayList';
 

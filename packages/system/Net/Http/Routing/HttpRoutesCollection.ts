@@ -1,7 +1,7 @@
 import {IHttpRoute} from './IHttpRoute';
 import {IHttpRouteData} from './IHttpRouteData';
 import {HttpRequest} from '../Base/HttpRequest';
-import {Collection} from '../../../../collections-core/main/Collection';
+import {Collection} from '../../../../collections/main/Collection';
 
 
 export class HttpRoutesCollection extends Collection<IHttpRoute> {

@@ -1,5 +1,5 @@
-import {ReadOnlyMap} from '@monument/collections-core/main/ReadOnlyMap';
-import {Map} from '@monument/collections-core/main/Map';
+import {ReadOnlyMap} from '../../../../../collections/main/ReadOnlyMap';
+import {Map} from '../../../../../collections/main/Map';
 import {SingletonUnitRegistry} from '../configuration/SingletonUnitRegistry';
 import {ListMap} from '@monument/collections/main/ListMap';
 
