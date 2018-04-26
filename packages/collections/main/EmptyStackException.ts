@@ -1,4 +1,4 @@
-import {InvalidOperationException} from '../../core/main/exceptions/InvalidOperationException';
+import {InvalidOperationException} from '@monument/core/main/exceptions/InvalidOperationException';
 
 
 export class EmptyStackException extends InvalidOperationException {

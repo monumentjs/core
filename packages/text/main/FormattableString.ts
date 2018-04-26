@@ -1,21 +1,13 @@
-/* Core */
+import {EMPTY_STRING} from '@monument/core/main/constants';
 import {MissingKeyException} from '@monument/core/main/exceptions/MissingKeyException';
-
-/* Collections Core */
-import {Map} from '../../collections/main/Map';
-import {List} from '../../collections/main/List';
-import {ReadOnlyCollection} from '../../collections/main/ReadOnlyCollection';
-
-/* Collections */
+import {Map} from '@monument/collections/main/Map';
+import {List} from '@monument/collections/main/List';
+import {ReadOnlyCollection} from '@monument/collections/main/ReadOnlyCollection';
 import {ListMap} from '@monument/collections/main/ListMap';
 import {ArrayList} from '@monument/collections/main/ArrayList';
-
-/* Assert */
 import {Assert} from '@monument/assert/main/Assert';
-
-import {EMPTY_STRING} from './constants';
 import {RegExpUtils} from './RegExpUtils';
-import {ParsingException} from '../../text-parser-core/main/ParsingException';
+import {ParsingException} from './parser/ParsingException';
 
 
 const NORMAL_ENTRY_PATTERN: RegExp = /{(\w+)}/g;

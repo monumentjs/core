@@ -48,13 +48,13 @@ export class MimeTypeSpecificityComparator<T extends MimeType> implements Compar
         // audio/basic;level=1 < audio/basic
 
         if (xParametersCount > yParametersCount) {
-            return ComparisonResult.Less;
+            return ComparisonResult.LESS;
         }
 
         if (xParametersCount < yParametersCount) {
-            return ComparisonResult.Greater;
+            return ComparisonResult.GREATER;
         }
 
-        return ComparisonResult.Equals;
+        return ComparisonResult.EQUALS;
     }
 }

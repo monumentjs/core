@@ -1,6 +1,7 @@
-import {KeyValuePair} from 'KeyValuePair';
-import {ReadOnlySet} from 'ReadOnlySet';
-import {ReadOnlyCollection} from 'ReadOnlyCollection';
+import {EqualityComparator} from '@monument/core/main/EqualityComparator';
+import {KeyValuePair} from './KeyValuePair';
+import {ReadOnlySet} from './ReadOnlySet';
+import {ReadOnlyCollection} from './ReadOnlyCollection';
 import {ArrayList} from './ArrayList';
 import {ListSet} from './ListSet';
 import {AbstractMap} from './AbstractMap';
@@ -43,7 +44,20 @@ export class ListMap<K, V> extends AbstractMap<K, V> {
 
 
     public get iterator(): Iterator<KeyValuePair<K, V>> {
-        return this._mapping.getIterator();
+        return this._mapping.iterator;
+    }
+
+
+    public constructor(
+        items?: Iterable<KeyValuePair<K, V>>,
+        keyComparator?: EqualityComparator<K>,
+        valueComparator?: EqualityComparator<V>
+    ) {
+        super(keyComparator, valueComparator);
+
+        if (items) {
+            this.putAll(items);
+        }
     }
 
 

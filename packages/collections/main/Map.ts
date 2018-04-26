@@ -1,5 +1,5 @@
-import {EqualityComparator} from '../../core/main/EqualityComparator';
-import {Cloneable} from '../../core/main/Cloneable';
+import {EqualityComparator} from '@monument/core/main/EqualityComparator';
+import {Cloneable} from '@monument/core/main/Cloneable';
 import {KeyValuePair} from './KeyValuePair';
 import {ReadOnlyMap} from './ReadOnlyMap';
 

@@ -43,17 +43,17 @@ describe(`HttpApplication`, () => {
 
         await application.main();
 
-        expect(application.isRunning).toBe(true);
+        assert.true(application.isRunning);
 
         const response: HttpResponse = await client.send(new HttpRequest(requestUrl));
         const content: JsonContent = response.content as JsonContent;
 
         await application.stop();
 
-        expect(application.isRunning).toBe(false);
+        assert.false(application.isRunning);
 
-        expect(response.hasContent).toBe(true);
+        assert.true(response.hasContent);
         expect(content).toBeInstanceOf(JsonContent);
-        expect(content.value).toEqual(jsonValue);
+        assert.equals(content.value, jsonValue);
     });
 });

@@ -1,5 +1,5 @@
 import {Collection} from '../../../collections/main/Collection';
-import {TextParserContext} from '../../../text-parser-core/main/TextParserContext';
+import {TextParserContext} from '../../../text/main/parser/TextParserContext';
 import {ArrayList} from '../../../collections/main/ArrayList';
 
 

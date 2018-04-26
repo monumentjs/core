@@ -2,17 +2,14 @@ import {EqualityComparator} from '@monument/core/main/EqualityComparator';
 import {StrictEqualityComparator} from '@monument/core/main/StrictEqualityComparator';
 import {InvalidOperationException} from '@monument/core/main/exceptions/InvalidOperationException';
 import {Comparator} from '@monument/core/main/Comparator';
-
-import {SortOrder} from 'SortOrder';
-import {Grouping} from 'Grouping';
-import {Collection} from 'Collection';
-import {List} from 'List';
-import {IteratorFunction} from 'IteratorFunction';
-import {CombineFunction} from 'CombineFunction';
-
 import {Assert} from '@monument/assert/main/Assert';
-
 import {AbstractCollection} from './AbstractCollection';
+import {List} from './List';
+import {IteratorFunction} from './IteratorFunction';
+import {CombineFunction} from './CombineFunction';
+import {Grouping} from './Grouping';
+import {Collection} from './Collection';
+import {SortOrder} from './SortOrder';
 
 
 export abstract class AbstractList<T> extends AbstractCollection<T> implements List<T> {
@@ -376,7 +373,7 @@ export abstract class AbstractList<T> extends AbstractCollection<T> implements L
     public orderBy<TKey>(
         keySelector: (item: T) => TKey,
         comparator: Comparator<TKey>,
-        sortOrder: SortOrder = SortOrder.Ascending
+        sortOrder: SortOrder = SortOrder.ASCENDING
     ): List<T> {
         return this.createList(this.toArray().sort((x: T, y: T): number => {
             let xKey: TKey = keySelector(x);

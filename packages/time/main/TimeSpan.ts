@@ -3,8 +3,8 @@ import {Comparable} from '@monument/core/main/Comparable';
 import {Equatable} from '@monument/core/main/Equatable';
 import {Formattable} from '@monument/core/main/Formattable';
 import {ComparisonResult} from '@monument/core/main/ComparisonResult';
-import {Map} from '../../collections/main/Map';
-import {ReadOnlyCollection} from '../../collections/main/ReadOnlyCollection';
+import {Map} from '@monument/collections/main/Map';
+import {ReadOnlyCollection} from '@monument/collections/main/ReadOnlyCollection';
 import {ListMap} from '@monument/collections/main/ListMap';
 import {FormattableString} from '@monument/text/main/FormattableString';
 import {MILLISECONDS_IN_DAY, MILLISECONDS_IN_HOUR, MILLISECONDS_IN_MINUTE, MILLISECONDS_IN_SECOND} from './Constants';
@@ -138,17 +138,17 @@ export class TimeSpan implements Cloneable<TimeSpan>, Comparable<TimeSpan>, Equa
 
     public compareTo(other: TimeSpan): ComparisonResult {
         if (this._length < other._length) {
-            return ComparisonResult.Less;
+            return ComparisonResult.LESS;
         } else if (this._length > other._length) {
-            return ComparisonResult.Greater;
+            return ComparisonResult.GREATER;
         } else {
-            return ComparisonResult.Equals;
+            return ComparisonResult.EQUALS;
         }
     }
 
 
     public equals(other: TimeSpan): boolean {
-        return this.compareTo(other) === ComparisonResult.Equals;
+        return this.compareTo(other) === ComparisonResult.EQUALS;
     }
 
 

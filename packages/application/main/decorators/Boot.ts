@@ -1,18 +1,6 @@
-import {Decorator} from '@monument/reflection/main/Decorator';
-import {Class} from '@monument/reflection/main/Class';
-import {ApplicationContext} from '../context/ApplicationContext';
+import {BootDecorator} from './BootDecorator';
 
 
-class BootDecorator extends Decorator {
-    protected onClass(klass: Class<any>): void {
-        const context: ApplicationContext = new ApplicationContext();
-
-        context.scan(klass.type);
-        context.start();
-    }
-}
-
-
-export function Boot() {
-    new BootDecorator(Boot).apply([...arguments]);
+export function Boot(...args: any[]) {
+    new BootDecorator().apply(args);
 }

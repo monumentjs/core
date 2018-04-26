@@ -14,7 +14,6 @@ import {HttpMethod} from '../../../../../Net/Http/Base/HttpMethod';
 import {StatusCode} from '../../../../../Net/Http/Base/StatusCode';
 
 
-@Test()
 export class HttpServerSpec {
     public static HOST: string = 'localhost';
     public static PORT: number = 8090;
@@ -55,19 +54,19 @@ export class HttpServerSpec {
     }
 
 
-    @Case()
-    public 'server has running state'() {
-        expect(this.server.isRunning).toBe(true);
+    @Test
+    public 'server has running state'(assert: Assert) {
+        assert.true(this.server.isRunning);
     }
 
 
-    @Case()
-    public async 'server responds to client with text'() {
+    @Test
+    public async 'server responds to client with text'(assert: Assert) {
         let response: HttpResponse = await this.client.send(new HttpRequest(HttpMethod.GET, HttpServerSpec.BASE_URL));
 
-        expect(response.statusCode).toBe(StatusCode.Ok);
-        expect(response.statusMessage).toBe('');
-        expect(response.method).toBe(HttpMethod.GET);
-        expect(response.url.toString()).toBe(HttpServerSpec.BASE_URL);
+        assert.equals(response.statusCode, StatusCode.Ok);
+        assert.equals(response.statusMessage, '');
+        assert.equals(response.method, HttpMethod.GET);
+        assert.equals(response.url.toString(), HttpServerSpec.BASE_URL);
     }
 }

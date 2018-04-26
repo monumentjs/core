@@ -1,9 +1,9 @@
+import {GetInstance} from '@monument/core/main/decorators/GetInstance';
+import {StringUtils} from '@monument/text/main/StringUtils';
 import {TimeEntryProcessor} from './TimeEntryProcessor';
 import {DateTime} from '../DateTime';
 import {TimeSpan} from '../TimeSpan';
-import {GetInstance} from '../../Language/Decorators/GetInstance';
 import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
-import {StringUtils} from '../../../text/main/StringUtils';
 
 
 export class DayOfMonthProcessor extends TimeEntryProcessor {

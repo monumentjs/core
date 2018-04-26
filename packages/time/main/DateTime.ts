@@ -167,17 +167,17 @@ export class DateTime implements Cloneable<DateTime>, Comparable<DateTime>, Equa
         let otherTimeStamp: number = other._date.getTime();
 
         if (currentTimeStamp > otherTimeStamp) {
-            return ComparisonResult.Greater;
+            return ComparisonResult.GREATER;
         } else if (currentTimeStamp < otherTimeStamp) {
-            return ComparisonResult.Less;
+            return ComparisonResult.LESS;
         } else {
-            return ComparisonResult.Equals;
+            return ComparisonResult.EQUALS;
         }
     }
 
 
     public equals(other: DateTime): boolean {
-        return this.compareTo(other) === ComparisonResult.Equals;
+        return this.compareTo(other) === ComparisonResult.EQUALS;
     }
 
 

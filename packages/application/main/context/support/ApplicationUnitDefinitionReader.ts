@@ -1,8 +1,8 @@
 import {Type} from '@monument/core/main/Type';
 import {Class} from '@monument/reflection/main/Class';
 import {AbstractUnitDefinitionReader} from '@monument/ioc/main/unit/definition/reader/AbstractUnitDefinitionReader';
-import {Application} from '../../decorators/Application';
-import {ApplicationConfiguration} from '../../configuration/ApplicationConfiguration';
+import {Application} from '@monument/stereotype/main/Application';
+import {ApplicationConfiguration} from '@monument/stereotype/main/ApplicationConfiguration';
 
 
 export class ApplicationUnitDefinitionReader extends AbstractUnitDefinitionReader {

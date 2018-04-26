@@ -1,5 +1,6 @@
 import {Type} from '@monument/core/main/Type';
 import {InvalidArgumentException} from '@monument/core/main/exceptions/InvalidArgumentException';
+import {ReflectionUtils} from './utils/ReflectionUtils';
 import {DefaultHierarchicalAccessibleObject} from './DefaultHierarchicalAccessibleObject';
 import {Class} from './Class';
 import {GetterFunction, SetterFunction} from './types';
@@ -8,7 +9,6 @@ import {GetterFunction, SetterFunction} from './types';
 export class Field extends DefaultHierarchicalAccessibleObject {
     private readonly _declaringClass: Class<any>;
     private readonly _name: string | symbol;
-    private readonly _type: Type<any> | undefined;
     private readonly _getter: GetterFunction | undefined;
     private readonly _setter: SetterFunction | undefined;
     private readonly _isConfigurable: boolean;
@@ -36,7 +36,7 @@ export class Field extends DefaultHierarchicalAccessibleObject {
 
 
     public get type(): Type<any> | undefined {
-        return this._type;
+        return ReflectionUtils.getPropertyType(this.declaringClass.type.prototype, this._name);
     }
 
 
@@ -77,7 +77,6 @@ export class Field extends DefaultHierarchicalAccessibleObject {
     public constructor(
         declaringClass: Class<any>,
         name: string | symbol,
-        type?: Type<any>,
         getter?: GetterFunction,
         setter?: SetterFunction,
         isConfigurable: boolean = false,
@@ -92,7 +91,6 @@ export class Field extends DefaultHierarchicalAccessibleObject {
 
         this._declaringClass = declaringClass;
         this._name = name;
-        this._type = type;
         this._getter = getter;
         this._setter = setter;
         this._isConfigurable = isConfigurable;

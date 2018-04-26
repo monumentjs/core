@@ -1,4 +1,5 @@
 import {GetInstance} from '@monument/core/main/decorators/GetInstance';
+import {DateTimeFormatException} from '../DateTimeFormatException';
 import {TimeEntryProcessor} from './TimeEntryProcessor';
 import {YearProcessor} from './YearProcessor';
 import {MonthProcessor} from './MonthProcessor';
@@ -11,7 +12,6 @@ import {MillisecondsProcessor} from './MillisecondsProcessor';
 import {TimeZoneProcessor} from './TimeZoneProcessor';
 import {AMPMProcessor} from './AMPMProcessor';
 import {SignProcessor} from './SignProcessor';
-import {DateTimeFormatException} from '../DateTimeFormatException';
 
 
 export class TimeEntryProcessorProvider {

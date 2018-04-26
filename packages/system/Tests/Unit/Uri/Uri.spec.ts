@@ -22,7 +22,7 @@ describe('Uri', () => {
         it(`does not throw if 'uri' argument is undefined`, () => {
             let uri: Uri = new Uri(undefined);
 
-            expect(uri.path).toBe('/');
+            assert.equals(uri.path, '/');
         });
 
         it(`throws if 'uri' argument is empty string`, () => {
@@ -41,14 +41,14 @@ describe('Uri', () => {
 
     describe('Uri.encode()', () => {
         it(`returns percent-encoded URI`, () => {
-            expect(Uri.encode(DECODED_URI)).toBe(ENCODED_URI);
+            assert.equals(Uri.encode(DECODED_URI), ENCODED_URI);
         });
     });
 
 
     describe('Uri.decode()', () => {
         it('returns decoded URI', () => {
-            expect(Uri.decode(ENCODED_URI)).toBe(DECODED_URI);
+            assert.equals(Uri.decode(ENCODED_URI), DECODED_URI);
         });
     });
 
@@ -62,7 +62,7 @@ describe('Uri', () => {
                 expect(uri).toBeInstanceOf(Uri);
 
                 Object.keys(attributes).forEach((attributeName: string): void => {
-                    expect((uri as any)[attributeName] + '').toEqual((attributes as any)[attributeName] + '');
+                    assert.equals((uri as any)[attributeName] + '', (attributes as any)[attributeName] + '');
                 });
             }
         });
@@ -70,9 +70,9 @@ describe('Uri', () => {
         it(`parses URI-encoded data`, () => {
             let uri: Uri = Uri.parse('/getCities?country=%D0%A3%D0%BA%D1%80%D0%B0%D0%B8%D0%BD%D0%B0&region=1056');
 
-            expect(uri.query.length).toBe(2);
-            expect(uri.query.get('country')).toBe('Украина');
-            expect(uri.query.get('region')).toBe('1056');
+            assert.equals(uri.query.length, 2);
+            assert.equals(uri.query.get('country'), 'Украина');
+            assert.equals(uri.query.get('region'), '1056');
         });
     });
 
@@ -83,7 +83,7 @@ describe('Uri', () => {
                 let uri1: Uri = Uri.parse(variants[0]);
                 let uri2: Uri = Uri.parse(variants[1]);
 
-                expect(uri1.equals(uri2)).toEqual(true);
+                assert.true(uri1.equals(uri2));
             });
         });
     });
@@ -94,7 +94,7 @@ describe('Uri', () => {
             for (let {key} of uriAttributesFixtures) {
                 let uri: Uri = Uri.parse(key);
 
-                expect(uri.toString()).toEqual(key);
+                assert.equals(uri.toString(), key);
             }
         });
     });
@@ -105,7 +105,7 @@ describe('Uri', () => {
             for (let {key} of uriAttributesFixtures) {
                 let uri: Uri = Uri.parse(key);
 
-                expect(uri.toJSON()).toEqual(key);
+                assert.equals(uri.toJSON(), key);
             }
         });
     });
@@ -120,10 +120,10 @@ describe('Uri', () => {
                 expect(clone).toBeInstanceOf(Uri);
 
                 Object.keys(value).forEach((attributeName: string) => {
-                    expect((clone as any)[attributeName] + '').toEqual(value[attributeName] + '');
+                    assert.equals((clone as any)[attributeName] + '', value[attributeName] + '');
                 });
 
-                expect(clone.toString()).toEqual(key);
+                assert.equals(clone.toString(), key);
             }
         });
     });

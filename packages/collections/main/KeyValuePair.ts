@@ -1,6 +1,6 @@
-import {Equatable} from '../../core/main/Equatable';
-import {EqualityComparator} from '../../core/main/EqualityComparator';
-import {StrictEqualityComparator} from '../../core/main/StrictEqualityComparator';
+import {Equatable} from '@monument/core/main/Equatable';
+import {EqualityComparator} from '@monument/core/main/EqualityComparator';
+import {StrictEqualityComparator} from '@monument/core/main/StrictEqualityComparator';
 
 
 export class KeyValuePair<K, V> implements Equatable<KeyValuePair<K, V>> {

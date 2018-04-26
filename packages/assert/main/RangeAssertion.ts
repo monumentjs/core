@@ -1,9 +1,9 @@
-import {RangeException} from '@monument/core/main/RangeException';
+import {RangeException} from '@monument/core/main/exceptions/RangeException';
 
 
 export class RangeAssertion {
-    private _from: number;
-    private _to: number;
+    private readonly _from: number;
+    private readonly _to: number;
 
 
     public constructor(from: number, to: number) {

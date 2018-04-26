@@ -1,25 +1,29 @@
-import {ReleaseStatus} from './ReleaseStatus';
 import {Cloneable} from '@monument/core/main/Cloneable';
 import {JSONSerializable} from '@monument/core/main/JSONSerializable';
+import {Comparable} from '@monument/core/main/Comparable';
+import {Equatable} from '@monument/core/main/Equatable';
+import {ComparisonResult} from '@monument/core/main/ComparisonResult';
+import {NumberComparator} from '@monument/core/main/NumberComparator';
 import {StringBuilder} from '@monument/text/main/StringBuilder';
+import {ReleaseStatus} from './ReleaseStatus';
 
 
 const VERSION_PRE_RELEASE_STAGES = {
-    [ReleaseStatus.Alpha]: 'alpha',
-    [ReleaseStatus.Beta]: 'beta',
-    [ReleaseStatus.ReleaseCandidate]: 'rc'
+    [ReleaseStatus.ALPHA]: 'alpha',
+    [ReleaseStatus.BETA]: 'beta',
+    [ReleaseStatus.RELEASE_CANDIDATE]: 'rc'
 };
 
 
-export class Version implements Cloneable<Version>, JSONSerializable<string> {
+export class Version implements Comparable<Version>, Equatable<Version>, Cloneable<Version>, JSONSerializable<string> {
     public static readonly PATTERN: RegExp = /^(\d+)\.(\d+)\.(\d+)(-(alpha|beta|rc)(\.(\d+))?)?$/;
     public static readonly ZERO: Version = new Version();
 
-    private _major: number;
-    private _minor: number;
-    private _patch: number;
-    private _releaseStatus: ReleaseStatus;
-    private _revision: number;
+    private readonly _major: number;
+    private readonly _minor: number;
+    private readonly _patch: number;
+    private readonly _releaseStatus: ReleaseStatus;
+    private readonly _revision: number;
 
 
     public get major(): number {
@@ -51,7 +55,7 @@ export class Version implements Cloneable<Version>, JSONSerializable<string> {
         major: number = 0,
         minor: number = 0,
         patch: number = 0,
-        releaseStatus: ReleaseStatus = ReleaseStatus.Alpha,
+        releaseStatus: ReleaseStatus = ReleaseStatus.ALPHA,
         revision: number = 0
     ) {
         this._major = major;
@@ -78,7 +82,7 @@ export class Version implements Cloneable<Version>, JSONSerializable<string> {
 
 
     public getNextReleaseStatusVersion(): Version {
-        if (this.releaseStatus < ReleaseStatus.Stable) {
+        if (this.releaseStatus < ReleaseStatus.STABLE) {
             return new Version(
                 this.major,
                 this.minor,
@@ -118,12 +122,102 @@ export class Version implements Cloneable<Version>, JSONSerializable<string> {
     }
 
 
+    public equals(other: Version): boolean {
+        {
+            let result = NumberComparator.instance.compare(this.major, other.major);
+
+            if (result !== ComparisonResult.EQUALS) {
+                return false;
+            }
+        }
+
+        {
+            let result = NumberComparator.instance.compare(this.minor, other.minor);
+
+            if (result !== ComparisonResult.EQUALS) {
+                return false;
+            }
+        }
+
+        {
+            let result = NumberComparator.instance.compare(this.patch, other.patch);
+
+            if (result !== ComparisonResult.EQUALS) {
+                return false;
+            }
+        }
+
+        {
+            let result = NumberComparator.instance.compare(this.releaseStatus, other.releaseStatus);
+
+            if (result !== ComparisonResult.EQUALS) {
+                return false;
+            }
+        }
+
+        {
+            let result = NumberComparator.instance.compare(this.revision, other.revision);
+
+            if (result !== ComparisonResult.EQUALS) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+    public compareTo(other: Version): ComparisonResult {
+        {
+            let result = NumberComparator.instance.compare(this.major, other.major);
+
+            if (result !== ComparisonResult.EQUALS) {
+                return result;
+            }
+        }
+
+        {
+            let result = NumberComparator.instance.compare(this.minor, other.minor);
+
+            if (result !== ComparisonResult.EQUALS) {
+                return result;
+            }
+        }
+
+        {
+            let result = NumberComparator.instance.compare(this.patch, other.patch);
+
+            if (result !== ComparisonResult.EQUALS) {
+                return result;
+            }
+        }
+
+        {
+            let result = NumberComparator.instance.compare(this.releaseStatus, other.releaseStatus);
+
+            if (result !== ComparisonResult.EQUALS) {
+                return result;
+            }
+        }
+
+        {
+            let result = NumberComparator.instance.compare(this.revision, other.revision);
+
+            if (result !== ComparisonResult.EQUALS) {
+                return result;
+            }
+        }
+
+        return ComparisonResult.EQUALS;
+    }
+
+
     public toString(): string {
         let versionBuilder: StringBuilder = new StringBuilder();
 
         versionBuilder.append(`${this.major}.${this.minor}.${this.patch}`);
 
-        if (this.releaseStatus !== ReleaseStatus.Stable) {
+        if (this.releaseStatus !== ReleaseStatus.STABLE) {
             let preReleaseStage: string =
                 VERSION_PRE_RELEASE_STAGES[this.releaseStatus];
 

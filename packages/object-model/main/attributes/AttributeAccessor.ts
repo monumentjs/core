@@ -1,5 +1,5 @@
-import {ReadOnlySet} from '../../../collections/main/ReadOnlySet';
-import {Key} from '../Key';
+import {ReadOnlySet} from '@monument/collections/main/ReadOnlySet';
+import {Key} from './Key';
 
 
 /**

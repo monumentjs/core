@@ -1,8 +1,5 @@
 .git
 .idea
 .gitignore
-*.js
-*.js.map
 node_modules
-Documentation
-Tests
+test

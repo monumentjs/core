@@ -10,13 +10,13 @@ export class NumberComparator implements Comparator<number> {
 
     public compare(x: number, y: number): ComparisonResult {
         if (x > y) {
-            return ComparisonResult.Greater;
+            return ComparisonResult.GREATER;
         }
 
         if (x < y) {
-            return ComparisonResult.Less;
+            return ComparisonResult.LESS;
         }
 
-        return ComparisonResult.Equals;
+        return ComparisonResult.EQUALS;
     }
 }

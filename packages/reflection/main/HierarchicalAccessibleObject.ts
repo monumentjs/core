@@ -1,4 +1,4 @@
-import {HierarchicalAttributeAccessor} from '../../object-model/main/attributes/HierarchicalAttributeAccessor';
+import {HierarchicalAttributeAccessor} from '@monument/object-model/main/attributes/HierarchicalAttributeAccessor';
 import {HierarchicalDecoratorAccessor} from './HierarchicalDecoratorAccessor';
 
 

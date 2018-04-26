@@ -1,8 +1,9 @@
-import {EMPTY_STRING} from './constants';
+import {EMPTY_STRING} from '@monument/core/main/constants';
+
 
 export class CappedString {
+    private readonly _maxLength: number;
     private _value: string;
-    private _length: number;
 
 
     public get value(): string {
@@ -20,8 +21,8 @@ export class CappedString {
     }
 
 
-    public constructor(length: number, initialValue: string = EMPTY_STRING) {
-        this._length = length;
+    public constructor(maxLength: number, initialValue: string = EMPTY_STRING) {
+        this._maxLength = maxLength;
         this._value = initialValue;
     }
 
@@ -62,7 +63,7 @@ export class CappedString {
 
 
     private cutText(newValue: string): string {
-        let startPosition: number = newValue.length - this._length;
+        let startPosition: number = newValue.length - this._maxLength;
         let endPosition: number = newValue.length;
 
         if (startPosition < 0) {

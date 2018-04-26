@@ -2,7 +2,7 @@ import {JSONSerializable} from '@monument/core/main/JSONSerializable';
 import {Cloneable} from '@monument/core/main/Cloneable';
 import {EqualityComparator} from '@monument/core/main/EqualityComparator';
 import {StrictEqualityComparator} from '@monument/core/main/StrictEqualityComparator';
-import {ReadOnlyCollection} from 'ReadOnlyCollection';
+import {ReadOnlyCollection} from './ReadOnlyCollection';
 import {AbstractEnumerable} from './AbstractEnumerable';
 
 

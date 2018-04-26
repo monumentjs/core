@@ -5,17 +5,15 @@ import {List} from '../../collections/main/List';
 import {CombineFunction} from '../../collections/main/CombineFunction';
 import {SortOrder} from '../../collections/main/SortOrder';
 import {Grouping} from '../../collections/main/Grouping';
-import {EventDispatcher} from '@monument/events-core/main/EventDispatcher';
-import {EventSource} from '@monument/events-core/main/EventSource';
+import {ConfigurableEvent} from '../../events/main/ConfigurableEvent';
 import {CollectionChangedEventArgs} from './CollectionChangedEventArgs';
 import {ObservableCollection} from './ObservableCollection';
-import {AbstractComponent} from '../ComponentModel/AbstractComponent';
 
 
-export abstract class AbstractObservableList<T> extends AbstractComponent implements List<T>, ObservableCollection<T> {
+export abstract class AbstractObservableList<T> implements List<T>, ObservableCollection<T> {
     private readonly _items: List<T>;
 
-    private readonly _collectionChanged: EventDispatcher<this, CollectionChangedEventArgs> = this.createEventDispatcher();
+    public readonly collectionChanged: ConfigurableEvent<this, CollectionChangedEventArgs> = new ConfigurableEvent(this);
 
 
     public get isEmpty(): boolean {
@@ -28,14 +26,7 @@ export abstract class AbstractObservableList<T> extends AbstractComponent implem
     }
 
 
-    public get collectionChanged(): EventSource<this, CollectionChangedEventArgs> {
-        return this._collectionChanged;
-    }
-
-
     public constructor(items: List<T>) {
-        super();
-
         this._items = items;
     }
 
@@ -130,8 +121,8 @@ export abstract class AbstractObservableList<T> extends AbstractComponent implem
     }
 
 
-    public getIterator(): Iterator<T> {
-        return this._items.getIterator();
+    public get iterator(): Iterator<T> {
+        return this._items.iterator;
     }
 
 
@@ -312,7 +303,15 @@ export abstract class AbstractObservableList<T> extends AbstractComponent implem
     }
 
 
+    // Disposable
+
+
+    public dispose(): void {
+        this.collectionChanged.dispose();
+    }
+
+
     protected onCollectionChanged(): void {
-        this._collectionChanged.dispatch(new CollectionChangedEventArgs());
+        this.collectionChanged.dispatch(new CollectionChangedEventArgs());
     }
 }

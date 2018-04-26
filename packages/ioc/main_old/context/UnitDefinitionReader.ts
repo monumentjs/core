@@ -1,9 +1,9 @@
 import {UnitDefinitionRegistry} from '@monument/ioc/main/unit/UnitDefinitionRegistry';
 import {Class} from '@monument/reflection/main/Class';
-import {Component} from '@monument/ioc/main/stereotype/Component';
+import {Component} from '@monument/stereotype/main/Component';
 import {UnitDefinition} from '@monument/ioc/main/unit/UnitDefinition';
 import {UnitNameGenerator} from '@monument/ioc/main/unit/factory/support/UnitNameGenerator';
-import {Configuration} from '@monument/ioc/main/stereotype/Configuration';
+import {Configuration} from '@monument/stereotype/main/Configuration';
 
 
 export class UnitDefinitionReader {

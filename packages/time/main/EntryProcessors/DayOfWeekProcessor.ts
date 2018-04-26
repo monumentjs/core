@@ -1,10 +1,10 @@
 import {GetInstance} from '@monument/core/main/decorators/GetInstance';
 import {InvalidOperationException} from '@monument/core/main/exceptions/InvalidOperationException';
-import {EMPTY_STRING} from '@monument/text/main/constants';
-import {TimeEntryProcessor} from './TimeEntryProcessor';
 import {DateTime} from '../DateTime';
 import {TimeSpan} from '../TimeSpan';
 import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
+import {TimeEntryProcessor} from './TimeEntryProcessor';
+import {EMPTY_STRING} from '@monument/core/main/constants';
 
 
 export class DayOfWeekProcessor extends TimeEntryProcessor {

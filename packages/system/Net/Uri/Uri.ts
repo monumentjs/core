@@ -5,7 +5,7 @@ import {JSONSerializable} from '../../../core/main/JSONSerializable';
 import {Equatable} from '../../../core/main/Equatable';
 import {List} from '../../../collections/main/List';
 import {ArrayList} from '../../../collections/main/ArrayList';
-import {EMPTY_STRING} from '../../../text/main/constants';
+import {EMPTY_STRING} from '../../../core/main/constants';
 import {QueryParameters} from './QueryParameters';
 import {UriFormatException} from './UriFormatException';
 import {QueryStringParser} from './QueryStringParser';

@@ -1,9 +1,9 @@
+import {GetInstance} from '@monument/core/main/decorators/GetInstance';
 import {StringUtils} from '@monument/text/main/StringUtils';
-import {GetInstance} from '@monument/language/main/decorator/GetInstance';
-import {TimeEntryProcessor} from './TimeEntryProcessor';
 import {DateTime} from '../DateTime';
 import {TimeSpan} from '../TimeSpan';
 import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
+import {TimeEntryProcessor} from './TimeEntryProcessor';
 
 
 export class SecondsProcessor extends TimeEntryProcessor {

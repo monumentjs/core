@@ -281,13 +281,13 @@ export class Process extends AbstractComponent {
     }
 
 
-    @Delegate()
+    @Delegate
     private onDisconnect(): void {
         this._disconnected.dispatch(new ProcessEventArgs());
     }
 
 
-    @Delegate()
+    @Delegate
     private onClose(exitCode: number, terminationSignal: string): void {
         if (terminationSignal) {
             this.onNativeProcessTerminate(terminationSignal);
@@ -297,7 +297,7 @@ export class Process extends AbstractComponent {
     }
 
 
-    @Delegate()
+    @Delegate
     private onExit(exitCode: number, terminationSignal: string): void {
         if (terminationSignal) {
             this.onNativeProcessTerminate(terminationSignal);
@@ -309,13 +309,13 @@ export class Process extends AbstractComponent {
     }
 
 
-    @Delegate()
+    @Delegate
     private onError(error: Error): void {
         this._error.dispatch(new ErrorEventArgs(error));
     }
 
 
-    @Delegate()
+    @Delegate
     private onMessage(payload: object | number | string, handle: net.Socket | net.Server | undefined): void {
         let message: ProcessMessage = new ProcessMessage(payload);
 

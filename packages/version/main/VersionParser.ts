@@ -1,5 +1,5 @@
-import {GetInstance} from '@monument/core/Language/Decorators/GetInstance';
-import {ParsingException} from '@monument/text-parser-core/main/ParsingException';
+import {GetInstance} from '@monument/core/main/decorators/GetInstance';
+import {ParsingException} from 'text/main/parser/ParsingException';
 import {Version} from './Version';
 import {ReleaseStatus} from './ReleaseStatus';
 
@@ -46,16 +46,16 @@ export class VersionParser {
     private getReleaseStatus(parts: RegExpExecArray): ReleaseStatus {
         switch (parts[5]) {
             case 'alpha':
-                return ReleaseStatus.Alpha;
+                return ReleaseStatus.ALPHA;
 
             case 'beta':
-                return ReleaseStatus.Beta;
+                return ReleaseStatus.BETA;
 
             case 'rc':
-                return ReleaseStatus.ReleaseCandidate;
+                return ReleaseStatus.RELEASE_CANDIDATE;
 
             default:
-                return ReleaseStatus.Stable;
+                return ReleaseStatus.STABLE;
         }
     }
 

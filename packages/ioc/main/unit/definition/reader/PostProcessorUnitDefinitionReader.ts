@@ -1,15 +1,26 @@
 import {Type} from '@monument/core/main/Type';
 import {Class} from '@monument/reflection/main/Class';
-import {Collection} from '../../../../../collections/main/Collection';
-import {PostProcessor} from '../../configuration/decorators/PostProcessor';
-import {PostProcessorDecoratorConfiguration} from '../../configuration/decorators/PostProcessorDecoratorConfiguration';
-import {PostProcessorTarget} from '../../configuration/decorators/PostProcessorTarget';
+import {Collection} from '@monument/collections/main/Collection';
 import {UnitDefinitionRegistry} from '../registry/UnitDefinitionRegistry';
 import {AbstractUnitDefinitionReader} from './AbstractUnitDefinitionReader';
 import {UnitDefinitionReader} from './UnitDefinitionReader';
 
 
 export class PostProcessorUnitDefinitionReader extends AbstractUnitDefinitionReader {
+    private static readonly UNIT_POST_PROCESSOR_METHODS: string[] = [
+        'postProcessBeforeInitialization',
+        'postProcessAfterInitialization'
+    ];
+
+    private static readonly UNIT_FACTORY_POST_PROCESSOR_METHODS: string[] = [
+        'postProcessUnitFactory'
+    ];
+
+    private static readonly UNIT_DEFINITION_REGISTRY_POST_PROCESSOR_METHODS: string[] = [
+        'postProcessUnitDefinitionRegistry'
+    ];
+
+
     private readonly _unitPostProcessors: Collection<Type<object>>;
     private readonly _unitFactoryPostProcessors: Collection<Type<object>>;
     private readonly _unitDefinitionRegistryPostProcessors: Collection<Type<object>>;
@@ -33,22 +44,23 @@ export class PostProcessorUnitDefinitionReader extends AbstractUnitDefinitionRea
     public scan<T extends object>(type: Type<T>): void {
         let klass: Class<T> = Class.of(type);
 
-        if (klass.isDecoratedWith(PostProcessor)) {
-            let configuration = klass.getAttribute(PostProcessorDecoratorConfiguration.ATTRIBUTE_KEY);
-
-            if (configuration != null) {
-                if (configuration.targets.contains(PostProcessorTarget.UNIT)) {
-                    this._unitPostProcessors.add(type);
-                }
-
-                if (configuration.targets.contains(PostProcessorTarget.UNIT_FACTORY)) {
-                    this._unitFactoryPostProcessors.add(type);
-                }
-
-                if (configuration.targets.contains(PostProcessorTarget.UNIT_DEFINITION_REGISTRY)) {
-                    this._unitDefinitionRegistryPostProcessors.add(type);
-                }
-            }
+        if (this.hasMethods(klass, PostProcessorUnitDefinitionReader.UNIT_POST_PROCESSOR_METHODS)) {
+            this._unitPostProcessors.add(type);
         }
+
+        if (this.hasMethods(klass, PostProcessorUnitDefinitionReader.UNIT_FACTORY_POST_PROCESSOR_METHODS)) {
+            this._unitFactoryPostProcessors.add(type);
+        }
+
+        if (this.hasMethods(klass, PostProcessorUnitDefinitionReader.UNIT_DEFINITION_REGISTRY_POST_PROCESSOR_METHODS)) {
+            this._unitDefinitionRegistryPostProcessors.add(type);
+        }
+    }
+
+    // TODO: use InterfaceBuilder and specific Interface implementations to test post processors
+    private hasMethods(klass: Class<any>, methods: string[]): boolean {
+        return methods.every((method: string): boolean => {
+            return klass.hasMethod(method);
+        });
     }
 }

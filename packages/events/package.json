@@ -1,0 +1,11 @@
+{
+  "name": "@monument/events",
+  "version": "0.0.52",
+  "description": "Events module",
+  "keywords": [
+  ],
+  "dependencies": {
+    "@monument/core": "^0.0.52",
+    "@monument/collections": "^0.0.52"
+  }
+}

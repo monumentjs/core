@@ -11,7 +11,7 @@ describe('QueryStringParser', () => {
                 let query: KeyValueCollection<string, string> = QueryStringParser.instance.parse(queryString);
 
                 Object.keys(obj).forEach((key: string): void => {
-                    expect(query.findByKey(key)).toBe((obj as any)[key]);
+                    assert.equals(query.findByKey(key), (obj as any)[key]);
                 });
             });
         });

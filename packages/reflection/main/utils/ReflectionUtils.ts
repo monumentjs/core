@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import {Type} from '../../../core/main/Type';
+import {Type} from '@monument/core/main/Type';
 
 
 export class ReflectionUtils {

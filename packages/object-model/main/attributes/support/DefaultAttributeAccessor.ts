@@ -1,8 +1,8 @@
-import {ReadOnlySet} from '../../../../collections/main/ReadOnlySet';
-import {Map} from '../../../../collections/main/Map';
+import {ReadOnlySet} from '@monument/collections/main/ReadOnlySet';
+import {Map} from '@monument/collections/main/Map';
 import {ListMap} from '@monument/collections/main/ListMap';
+import {Key} from '../Key';
 import {AttributeAccessor} from '../AttributeAccessor';
-import {Key} from '../../Key';
 
 
 export class DefaultAttributeAccessor implements AttributeAccessor {

@@ -1,5 +1,5 @@
-import {ReadOnlySet} from '../../collections/main/ReadOnlySet';
-import {Set} from '../../collections/main/Set';
+import {ReadOnlySet} from '@monument/collections/main/ReadOnlySet';
+import {Set} from '@monument/collections/main/Set';
 import {ListSet} from '@monument/collections/main/ListSet';
 import {DecoratorAccessor} from './DecoratorAccessor';
 

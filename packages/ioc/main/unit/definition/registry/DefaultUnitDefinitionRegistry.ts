@@ -1,10 +1,10 @@
 import {Type} from '@monument/core/main/Type';
-import {Map} from '../../../../../collections/main/Map';
-import {ReadOnlySet} from '../../../../../collections/main/ReadOnlySet';
+import {Map} from '@monument/collections/main/Map';
+import {ReadOnlySet} from '@monument/collections/main/ReadOnlySet';
 import {ListMap} from '@monument/collections/main/ListMap';
+import {NoSuchUnitDefinitionException} from '../../NoSuchUnitDefinitionException';
 import {UnitDefinition} from '../UnitDefinition';
 import {UnitDefinitionRegistry} from './UnitDefinitionRegistry';
-import {NoSuchUnitDefinitionException} from '../../NoSuchUnitDefinitionException';
 
 
 export class DefaultUnitDefinitionRegistry implements UnitDefinitionRegistry {

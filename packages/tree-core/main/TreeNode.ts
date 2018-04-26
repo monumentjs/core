@@ -1,10 +1,22 @@
+import {EMPTY_STRING} from '@monument/core/main/constants';
 import {InvalidArgumentException} from '@monument/core/main/exceptions/InvalidArgumentException';
 import {NodeList} from './NodeList';
 
 
 export class TreeNode {
+    private readonly _childNodes: NodeList = new NodeList(this);
     private _parentNode: TreeNode | undefined;
-    private _childNodes: NodeList = new NodeList(this);
+    private _name: string = EMPTY_STRING;
+
+
+    public get name(): string {
+        return this._name;
+    }
+
+
+    public set name(value: string) {
+        this._name = value;
+    }
 
 
     public set parentNode(value: TreeNode | undefined) {

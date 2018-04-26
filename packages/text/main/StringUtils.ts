@@ -1,26 +1,17 @@
 import {Assert} from '@monument/assert/main/Assert';
-import {Collection} from '../../collections/main/Collection';
+import {EMPTY_STRING} from '@monument/core/main/constants';
+import {Collection} from '@monument/collections/main/Collection';
 import {RegExpUtils} from './RegExpUtils';
-import {EMPTY_STRING} from './constants';
 
 
 export class StringUtils {
-    // private static readonly WHITESPACE_PATTERN: RegExp = /\s+/g;
     private static readonly LEADING_WHITESPACE_PATTERN: RegExp = /^\s+/g;
     private static readonly TRAILING_WHITESPACE_PATTERN: RegExp = /\s+$/g;
     private static readonly PUNCTUATION_CHARACTERS: string = `\r\n\t\v .,\//|@#!?$%^&*;:=-_+\`'"~{}[]()`;
     private static readonly KEBAB_CASE_DELIMITER: string = '-';
     private static readonly SNAKE_CASE_DELIMITER: string = '_';
 
-    /**
-     * Check whether the given {@code String} is empty.
-     * <p>This method accepts any Object as an argument, comparing it to
-     * {@code null} and the empty String. As a consequence, this method
-     * will never return {@code true} for a non-null non-String reflection.
-     * <p>The Object signature is useful for general attribute handling code
-     * that commonly deals with Strings but generally has to iterate over
-     * Objects since attributes may e.g. be reflection value objects as well.
-     */
+
     public static isEmpty(value: string): boolean {
         return value === EMPTY_STRING;
     }
@@ -242,7 +233,7 @@ export class StringUtils {
 
 
     private static getDelimitersPatternEntries(delimiters: string): string[] {
-        return delimiters.split('').map((ch) => RegExpUtils.escape(ch));
+        return delimiters.split(EMPTY_STRING).map((ch) => RegExpUtils.escape(ch));
     }
 
 

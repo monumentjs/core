@@ -1,4 +1,4 @@
-import {PathPattern} from '../../../FileSystem/PathPattern';
+import {PathPattern} from '../../../file-system/PathPattern';
 
 
 describe(`PathPattern`, () => {
@@ -15,13 +15,13 @@ describe(`PathPattern`, () => {
         it(`checks path matches pattern`, () => {
             let pattern: PathPattern = new PathPattern(/\.mp3$/);
 
-            expect(pattern.test('d:\\music\\y5h48h.mp3')).toBe(true);
-            expect(pattern.test('/home/alex/music/y5h48h.mp3')).toBe(true);
-            expect(pattern.test('/home/alex/music/1. y5h48h.mp3')).toBe(true);
-            expect(pattern.test('y5h48h.mp3')).toBe(true);
-            expect(pattern.test('movie.mp4')).toBe(false);
-            expect(pattern.test('/bin')).toBe(false);
-            expect(pattern.test('')).toBe(false);
+            assert.true(pattern.test('d:\\music\\y5h48h.mp3'));
+            assert.true(pattern.test('/home/alex/music/y5h48h.mp3'));
+            assert.true(pattern.test('/home/alex/music/1. y5h48h.mp3'));
+            assert.true(pattern.test('y5h48h.mp3'));
+            assert.false(pattern.test('movie.mp4'));
+            assert.false(pattern.test('/bin'));
+            assert.false(pattern.test(''));
         });
     });
 });

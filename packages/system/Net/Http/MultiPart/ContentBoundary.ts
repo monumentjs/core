@@ -1,5 +1,5 @@
-import {CharSequenceGenerator} from '../../../../text/main/CharSequenceGenerator';
-import {RandomCharSequenceGenerator} from '../../../../text/main/RandomCharSequenceGenerator';
+import {CharSequenceGenerator} from '../../../../text/main/generator/CharSequenceGenerator';
+import {RandomCharSequenceGenerator} from '../../../../text/main/generator/RandomCharSequenceGenerator';
 import {MediaType} from '../Mime/MediaType';
 
 

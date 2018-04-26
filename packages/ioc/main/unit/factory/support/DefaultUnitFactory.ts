@@ -1,17 +1,15 @@
 import {Type} from '@monument/core/main/Type';
-import {ReadOnlyMap} from '../../../../../collections/main/ReadOnlyMap';
-import {ReadOnlySet} from '../../../../../collections/main/ReadOnlySet';
-import {Collection} from '../../../../../collections/main/Collection';
-import {Map} from '../../../../../collections/main/Map';
+import {ReadOnlyMap} from '@monument/collections/main/ReadOnlyMap';
+import {ReadOnlySet} from '@monument/collections/main/ReadOnlySet';
 import {ArrayList} from '@monument/collections/main/ArrayList';
 import {ListMap} from '@monument/collections/main/ListMap';
 import {Parameter} from '@monument/reflection/main/Parameter';
 import {Class} from '@monument/reflection/main/Class';
 import {Method} from '@monument/reflection/main/Method';
+import {DefaultType} from '@monument/stereotype/main/DefaultType';
+import {DefaultTypeConfiguration} from '@monument/stereotype/main/DefaultTypeConfiguration';
 import {UnitDefinition} from '../../definition/UnitDefinition';
 import {UnitDefinitionRegistry} from '../../definition/registry/UnitDefinitionRegistry';
-import {DefaultType} from '../../configuration/decorators/DefaultType';
-import {DefaultTypeConfiguration} from '../../configuration/decorators/DefaultTypeConfiguration';
 import {NoSuchUnitDefinitionException} from '../../NoSuchUnitDefinitionException';
 import {UnitPostProcessor} from '../configuration/UnitPostProcessor';
 import {UnitFactory} from '../UnitFactory';
@@ -21,8 +19,8 @@ import {ConfigurableUnitFactory} from '../ConfigurableUnitFactory';
 export class DefaultUnitFactory implements ConfigurableUnitFactory {
     private _parent: UnitFactory | undefined;
     private readonly _registry: UnitDefinitionRegistry;
-    private readonly _unitPostProcessors: Collection<UnitPostProcessor> = new ArrayList();
-    private readonly _singletons: Map<Type<object>, Promise<object>> = new ListMap();
+    private readonly _unitPostProcessors: ArrayList<UnitPostProcessor> = new ArrayList();
+    private readonly _singletons: ListMap<Type<object>, Promise<object>> = new ListMap();
 
 
     public get unitTypes(): ReadOnlySet<Type<object>> {
@@ -108,12 +106,15 @@ export class DefaultUnitFactory implements ConfigurableUnitFactory {
 
 
     protected async createUnit<T extends object>(type: Type<T>): Promise<T> {
+        const klass: Class<T> = Class.of(type);
+        const definition: UnitDefinition = this.getUnitDefinition(type);
         let instance: T;
-        let klass: Class<T> = Class.of(type);
-        let definition: UnitDefinition = this.getUnitDefinition(type);
 
         if (definition.factoryMethodName != null && definition.factoryUnitType != null) {
-            instance = await this.createUnitWithFactory(definition.factoryUnitType, definition.factoryMethodName) as T;
+            instance = await this.createUnitWithFactory(
+                definition.factoryUnitType,
+                definition.factoryMethodName
+            ) as T;
         } else {
             let args: any[] = await this.getParameterValues(klass.constructorParameters);
 
@@ -147,17 +148,18 @@ export class DefaultUnitFactory implements ConfigurableUnitFactory {
         factoryUnitType: Type<object>,
         factoryMethodName: string | symbol
     ): Promise<object> {
-        let factoryClass: Class<object> = Class.of(factoryUnitType);
-        let factoryMethod: Method = factoryClass.getMethod(factoryMethodName);
-        let factoryInstance: object = await this.getUnit(factoryUnitType);
-        let args = await this.getParameterValues(factoryMethod.parameters);
+        const factoryClass: Class<object> = Class.of(factoryUnitType);
+        const factoryMethod: Method = factoryClass.getMethod(factoryMethodName);
+        const factoryInstance: object = await this.getUnit(factoryUnitType);
+
+        const args: any[] = await this.getParameterValues(factoryMethod.parameters);
 
         return (factoryInstance as any)[factoryMethodName](...args);
     }
 
 
     private async getParameterValues(parameters: ReadOnlyMap<number, Parameter>): Promise<any[]> {
-        let args: any[] = [];
+        const args: any[] = [];
 
         for (let {key, value: parameter} of parameters) {
             let parameterType: Type<any> | undefined = parameter.type;

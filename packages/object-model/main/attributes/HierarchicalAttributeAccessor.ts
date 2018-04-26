@@ -1,7 +1,7 @@
-import {ReadOnlySet} from '../../../collections/main/ReadOnlySet';
+import {ReadOnlyCollection} from '@monument/collections/main/ReadOnlyCollection';
+import {ReadOnlySet} from '@monument/collections/main/ReadOnlySet';
+import {Key} from './Key';
 import {AttributeAccessor} from './AttributeAccessor';
-import {Key} from '../Key';
-import {ReadOnlyCollection} from '../../../collections/main/ReadOnlyCollection';
 
 
 export interface HierarchicalAttributeAccessor extends AttributeAccessor {

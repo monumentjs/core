@@ -1,8 +1,8 @@
 import {EqualityComparator} from '@monument/core/main/EqualityComparator';
 import {StrictEqualityComparator} from '@monument/core/main/StrictEqualityComparator';
 import {Cloneable} from '@monument/core/main/Cloneable';
-import {Collection} from 'Collection';
-import {IteratorFunction} from 'IteratorFunction';
+import {Collection} from './Collection';
+import {IteratorFunction} from './IteratorFunction';
 import {AbstractReadOnlyCollection} from './AbstractReadOnlyCollection';
 
 
@@ -67,5 +67,4 @@ export abstract class AbstractCollection<T> extends AbstractReadOnlyCollection<T
 
 
     public abstract clear(): boolean;
-
 }

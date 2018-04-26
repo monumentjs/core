@@ -1,4 +1,4 @@
-import {RangeException} from '@monument/core/main/RangeException';
+import {RangeException} from '../../core/main/exceptions/RangeException';
 
 
 export class NumberAssertion {

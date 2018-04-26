@@ -4,20 +4,17 @@ import {NullSafeEqualityComparator} from '@monument/core/main/NullSafeEqualityCo
 import {IteratorFunction} from '@monument/collections/main/IteratorFunction';
 import {Enumerable} from '@monument/collections/main/Enumerable';
 import {ListQueue} from '@monument/collections/main/ListQueue';
-import {EventDispatcher} from '@monument/events-core/main/EventDispatcher';
-import {EventDispatcherFactory} from '@monument/events-core/main/EventDispatcherFactory';
-import {EventSource} from '@monument/events-core/main/EventSource';
+import {ConfigurableEvent} from '@monument/events/main/ConfigurableEvent';
+import {Event} from '@monument/events/main/Event';
 import {CollectionChangedEventArgs} from './CollectionChangedEventArgs';
 import {NotifyCollectionChanged} from './NotifyCollectionChanged';
 
 
-export class ObservableQueue<T> extends ListQueue<T> implements Disposable, NotifyCollectionChanged<T, ObservableQueue<T>> {
-    private readonly _eventBuilder: EventDispatcherFactory<this> = new EventDispatcherFactory(this);
-
-    private readonly _collectionChanged: EventDispatcher<this, CollectionChangedEventArgs> = this._eventBuilder.create();
+export class ObservableQueue<T> extends ListQueue<T> implements Disposable, NotifyCollectionChanged<T> {
+    private readonly _collectionChanged: ConfigurableEvent<this, CollectionChangedEventArgs> = new ConfigurableEvent(this);
 
 
-    public get collectionChanged(): EventSource<this, CollectionChangedEventArgs> {
+    public get collectionChanged(): Event<this, CollectionChangedEventArgs> {
         return this._collectionChanged;
     }
 
@@ -117,7 +114,7 @@ export class ObservableQueue<T> extends ListQueue<T> implements Disposable, Noti
 
 
     public dispose(): void {
-        this._eventBuilder.dispose();
+        this._collectionChanged.dispose();
     }
 
 

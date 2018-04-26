@@ -4,10 +4,16 @@
   "description": "Reflection utils",
   "keywords": [
   ],
+  "scripts": {
+    "test": "td"
+  },
   "dependencies": {
     "reflect-metadata": "^0.1.12",
     "@monument/core": "^0.0.52",
     "@monument/collections": "^0.0.52",
     "@monument/object-model": "^0.0.52"
+  },
+  "devDependencies": {
+    "@monument/test-drive": "^0.0.52"
   }
 }

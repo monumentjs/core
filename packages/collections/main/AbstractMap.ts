@@ -1,7 +1,7 @@
 import {EqualityComparator} from '@monument/core/main/EqualityComparator';
 import {StrictEqualityComparator} from '@monument/core/main/StrictEqualityComparator';
-import {Map} from 'Map';
-import {KeyValuePair} from 'KeyValuePair';
+import {Map} from './Map';
+import {KeyValuePair} from './KeyValuePair';
 import {AbstractReadOnlyMap} from './AbstractReadOnlyMap';
 
 
@@ -21,7 +21,6 @@ export abstract class AbstractMap<K, V> extends AbstractReadOnlyMap<K, V> implem
 
 
     public constructor(
-        items?: Iterable<KeyValuePair<K, V>>,
         keyComparator: EqualityComparator<K> = StrictEqualityComparator.instance,
         valueComparator: EqualityComparator<V> = StrictEqualityComparator.instance
     ) {
@@ -29,10 +28,6 @@ export abstract class AbstractMap<K, V> extends AbstractReadOnlyMap<K, V> implem
 
         this._keyComparator = keyComparator;
         this._valueComparator = valueComparator;
-
-        if (items != null) {
-            this.putAll(items);
-        }
     }
 
 

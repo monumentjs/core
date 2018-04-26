@@ -1,7 +1,7 @@
 import {PropertyNullException} from '@monument/core/main/exceptions/PropertyNullException';
 import {Type} from '@monument/core/main/Type';
 import {PropertyTypeException} from '@monument/core/main/exceptions/PropertyTypeException';
-import {RangeException} from '@monument/core/main/RangeException';
+import {RangeException} from '../../core/main/exceptions/RangeException';
 import {IndexOutOfBoundsException} from '@monument/core/main/exceptions/IndexOutOfBoundsException';
 import {Countable} from '../../collections/main/Countable';
 

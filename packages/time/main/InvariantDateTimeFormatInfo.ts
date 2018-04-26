@@ -1,10 +1,10 @@
-import {GetInstance} from '@monument/core/Language/Decorators/GetInstance';
-import {EMPTY_STRING} from '@monument/text/main/constants';
-import {ReadOnlyList} from '../../collections/main/ReadOnlyList';
+import {GetInstance} from '@monument/core/main/decorators/GetInstance';
+import {ReadOnlyList} from '@monument/collections/main/ReadOnlyList';
 import {ArrayList} from '@monument/collections/main/ArrayList';
 import {CalendarWeekRule} from './CalendarWeekRule';
 import {DayOfWeek} from './DayOfWeek';
 import {DateTimeFormatInfo} from './DateTimeFormatInfo';
+import {EMPTY_STRING} from '@monument/core/main/constants';
 
 
 export class InvariantDateTimeFormatInfo implements DateTimeFormatInfo {
@@ -39,7 +39,7 @@ export class InvariantDateTimeFormatInfo implements DateTimeFormatInfo {
     public readonly pmDesignator: string = 'PM';
     // TODO: public readonly calendar: Calendar;
     public readonly calendarWeekRule: CalendarWeekRule = CalendarWeekRule.FirstDay;
-    public readonly firstDayOfWeek: DayOfWeek = DayOfWeek.Sunday;
+    public readonly firstDayOfWeek: DayOfWeek = DayOfWeek.SUNDAY;
     public readonly fullDateTimePattern: string = '{YYYY}/{MM}/{DD} {HH}:{mm}:{ss}.{fff}';
     public readonly longDatePattern: string = '{YYYY}/{MM}/{DD}';
     public readonly longTimePattern: string = '{HH}:{mm}:{ss}.{fff}';

@@ -1,9 +1,9 @@
 
 
 export enum ReleaseStatus {
-    Alpha,
-    Beta,
-    ReleaseCandidate,
-    Stable
+    ALPHA,
+    BETA,
+    RELEASE_CANDIDATE,
+    STABLE
 }
 

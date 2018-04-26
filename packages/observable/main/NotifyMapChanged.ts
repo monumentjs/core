@@ -1,8 +1,8 @@
-import {EventSource} from '@monument/events-core/main/EventSource';
-import {Map} from '../../collections/main/Map';
+import {ReadOnlyMap} from '@monument/collections/main/ReadOnlyMap';
+import {Event} from '@monument/events/main/Event';
 import {MapChangedEventArgs} from './MapChangedEventArgs';
 
 
-export interface NotifyMapChanged<K, V, TMap extends Map<K, V>> {
-    readonly mapChanged: EventSource<TMap, MapChangedEventArgs>;
+export interface NotifyMapChanged<K, V> {
+    readonly mapChanged: Event<ReadOnlyMap<K, V>, MapChangedEventArgs>;
 }

@@ -1,4 +1,4 @@
-import {Equatable} from '../../core/main/Equatable';
+import {Equatable} from '@monument/core/main/Equatable';
 import {Sequence} from './Sequence';
 import {ReadOnlySet} from './ReadOnlySet';
 import {ReadOnlyCollection} from './ReadOnlyCollection';

@@ -1,4 +1,4 @@
-import {EqualityComparator} from '../../core/main/EqualityComparator';
+import {EqualityComparator} from '@monument/core/main/EqualityComparator';
 import {ReadOnlyCollection} from './ReadOnlyCollection';
 import {Queryable} from './Queryable';
 import {List} from './List';

@@ -1,5 +1,5 @@
 import {Type} from '@monument/core/main/Type';
-import {ReadOnlySet} from '../../../../../collections/main/ReadOnlySet';
+import {ReadOnlySet} from '@monument/collections/main/ReadOnlySet';
 import {UnitDefinition} from '../UnitDefinition';
 
 

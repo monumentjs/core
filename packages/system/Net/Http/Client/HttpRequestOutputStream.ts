@@ -7,6 +7,7 @@ import {HttpMethod} from '../Base/HttpMethod';
 import {HttpCookies} from '../Base/HttpCookies';
 import {HeaderName} from '../Headers/HeaderName';
 import {HttpHeaders} from '../Headers/HttpHeaders';
+import {EMPTY_STRING} from '@monument/core/main/constants';
 
 
 export class HttpRequestOutputStream extends AbstractOutputStream<Buffer, http.ClientRequest> {
@@ -37,7 +38,7 @@ export class HttpRequestOutputStream extends AbstractOutputStream<Buffer, http.C
             method: method,
             host: url.host,
             port: url.port,
-            path: url.path + (url.query.isEmpty ? '' : '?' + url.query),
+            path: url.path + (url.query.isEmpty ? EMPTY_STRING : '?' + url.query),
             auth: url.auth,
             protocol: url.scheme
         }));

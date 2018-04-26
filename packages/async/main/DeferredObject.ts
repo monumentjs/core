@@ -47,14 +47,14 @@ export class DeferredObject<T = void> {
     }
 
 
-    public resolve(value?: PromiseLike<T> | T): void {
+    public resolve(result?: PromiseLike<T> | T): void {
         if (this._isPending) {
-            this._result = value;
+            this._result = result;
             this._isPending = false;
             this._isResolved = true;
 
             if (this._resolve != null) {
-                this._resolve(value);
+                this._resolve(result);
             }
         }
     }

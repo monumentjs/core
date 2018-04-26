@@ -1,4 +1,4 @@
-import {EMPTY_STRING} from '../../../../text/main/constants';
+import {EMPTY_STRING} from '../../../../core/main/constants';
 
 
 export class HttpRequestAuthCredentials {

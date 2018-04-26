@@ -27,27 +27,27 @@ describe('Arguments', () => {
         it('creates new instance', () => {
             expect(instance).toBeInstanceOf(Arguments);
 
-            expect(instance.executablePath).toBe('node');
-            expect(instance.mainModulePath).toBe('npm');
+            assert.equals(instance.executablePath, 'node');
+            assert.equals(instance.mainModulePath, 'npm');
 
-            expect(instance.commands.length).toBe(2);
-            expect(instance.commands[0]).toBe('install');
-            expect(instance.commands[1]).toBe('ts-kit');
+            assert.equals(instance.commands.length, 2);
+            assert.equals(instance.commands[0], 'install');
+            assert.equals(instance.commands[1], 'ts-kit');
 
-            expect(instance.options.length).toBe(2);
-            expect((instance.options[0] as Option).key).toBe('--save');
-            expect((instance.options[0] as Option).isLogical).toBe(true);
-            expect((instance.options[0] as Option).value).toBe(true);
-            expect((instance.options[1] as Option).key).toBe('--source');
-            expect((instance.options[1] as Option).isLogical).toBe(false);
-            expect((instance.options[1] as Option).value).toBe('npm');
+            assert.equals(instance.options.length, 2);
+            assert.equals((instance.options[0] as Option).key, '--save');
+            assert.true((instance.options[0] as Option).isLogical);
+            assert.true((instance.options[0] as Option).value);
+            assert.equals((instance.options[1] as Option).key, '--source');
+            assert.false((instance.options[1] as Option).isLogical);
+            assert.equals((instance.options[1] as Option).value, 'npm');
         });
     });
 
 
     describe(`#toString()`, () => {
         it(`serializes arguments to string`, () => {
-            expect(instance.toString()).toBe('node npm install ts-kit --save --source npm');
+            assert.equals(instance.toString(), 'node npm install ts-kit --save --source npm');
         });
     });
 });

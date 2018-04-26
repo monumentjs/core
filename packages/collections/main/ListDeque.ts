@@ -1,5 +1,5 @@
-import {NoSuchItemException} from 'NoSuchItemException';
-import {Deque} from 'Deque';
+import {NoSuchItemException} from './NoSuchItemException';
+import {Deque} from './Deque';
 import {ListQueue} from './ListQueue';
 
 

@@ -23,7 +23,7 @@ import {DefaultUnitNameGenerator} from './DefaultUnitNameGenerator';
  * a full-fledged unit factory based on unit definition objects.
  * Typical usage is registering all unit definitions first (possibly read from a unit definition file),
  * before accessing beans.
- * Unit definition lookup is therefore an inexpensive operation in a local unit definition table,
+ * unit definition lookup is therefore an inexpensive operation in a local unit definition table,
  * operating on pre-built unit definition metadata objects.
  *
  * Can be used as a standalone unit factory, or as a superclass for custom unit factories.

@@ -8,7 +8,11 @@
     "library",
     "core"
   ],
+  "dependencies": {
+    "deep-equal": "^1.0.1"
+  },
   "devDependencies": {
+    "@types/deep-equal": "^1.0.1",
     "@monument/test-drive": "^0.0.52"
   }
 }

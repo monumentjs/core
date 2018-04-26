@@ -1,0 +1,14 @@
+{
+  "name": "@monument/stereotype",
+  "version": "0.0.52",
+  "description": "Template",
+  "keywords": [
+
+  ],
+  "dependencies": {
+    "@monument/core": "^0.0.52",
+    "@monument/collections": "^0.0.52",
+    "@monument/reflection": "^0.0.52",
+    "@monument/object-model": "^0.0.52"
+  }
+}

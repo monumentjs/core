@@ -1,14 +1,15 @@
 import {Type} from '@monument/core/main/Type';
 import {ArgumentIndexOutOfBoundsException} from '@monument/core/main/exceptions/ArgumentIndexOutOfBoundsException';
-import {Map} from '../../collections/main/Map';
-import {ReadOnlyCollection} from '../../collections/main/ReadOnlyCollection';
-import {Set} from '../../collections/main/Set';
-import {ReadOnlyMap} from '../../collections/main/ReadOnlyMap';
+import {Map} from '@monument/collections/main/Map';
+import {ReadOnlyCollection} from '@monument/collections/main/ReadOnlyCollection';
+import {Set} from '@monument/collections/main/Set';
+import {ReadOnlyMap} from '@monument/collections/main/ReadOnlyMap';
 import {ListMap} from '@monument/collections/main/ListMap';
 import {ListSet} from '@monument/collections/main/ListSet';
 import {DefaultHierarchicalAccessibleObject} from './DefaultHierarchicalAccessibleObject';
 import {ReflectionUtils} from './utils/ReflectionUtils';
-import {NoSuchPropertyException} from './NoSuchPropertyException';
+import {NoSuchFieldException} from './NoSuchFieldException';
+import {NoSuchMethodException} from './NoSuchMethodException';
 import {Field} from './Field';
 import {Method} from './Method';
 import {Parameter} from './Parameter';
@@ -31,7 +32,6 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
     private readonly _type: Type<T>;
     private readonly _declaredFields: ReadOnlyMap<string | symbol, Field>;
     private readonly _declaredMethods: ReadOnlyMap<string | symbol, Method>;
-    private _constructorParameters: ListMap<number, Parameter> | undefined;
 
 
     public get parent(): Class<any> | undefined {
@@ -59,11 +59,22 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
 
 
     public get constructorParameters(): ReadOnlyMap<number, Parameter> {
-        if (this._constructorParameters == null) {
-            this._constructorParameters = this.getConstructorParameters();
+        let parameters: ListMap<number, Parameter> = new ListMap();
+        let parameterTypes: Array<Type<any>> = ReflectionUtils.getConstructorParameterTypes(this.type);
+        let parametersCount = this.type.length;
+
+        if (parametersCount < parameterTypes.length) {
+            parametersCount = parameterTypes.length;
         }
 
-        return this._constructorParameters;
+        for (let i = 0; i < parametersCount; i++) {
+            let type: Type<any> | undefined = parameterTypes != null ? parameterTypes[i] : undefined;
+            let parameter = new Parameter(i, type);
+
+            parameters.put(i, parameter);
+        }
+
+        return parameters;
     }
 
 
@@ -126,7 +137,7 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
 
     /**
      * Returns own or inherited field.
-     * @throws {NoSuchPropertyException} If property not found.
+     * @throws {NoSuchFieldException} If property not found.
      */
     public getField(key: string | symbol): Field {
         let klass: Class<any> | undefined = this;
@@ -143,7 +154,7 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
         }
 
         if (field == null) {
-            throw new NoSuchPropertyException(key);
+            throw new NoSuchFieldException(key);
         }
 
         return field;
@@ -166,13 +177,13 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
 
 
     /**
-     * @throws {NoSuchPropertyException} If property not found.
+     * @throws {NoSuchFieldException} If property not found.
      */
     public getDeclaredField(key: string | symbol): Field {
         let value: Field | undefined = this._declaredFields.get(key);
 
         if (value == null) {
-            throw new NoSuchPropertyException(key);
+            throw new NoSuchFieldException(key);
         }
 
         return value;
@@ -186,7 +197,7 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
 
     /**
      * Returns own or inherited method.
-     * @throws {NoSuchPropertyException} If property not found.
+     * @throws {NoSuchMethodException} If method not found.
      */
     public getMethod(key: string | symbol): Method {
         let klass: Class<any> | undefined = this;
@@ -203,7 +214,7 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
         }
 
         if (method == null) {
-            throw new NoSuchPropertyException(key);
+            throw new NoSuchMethodException(key);
         }
 
         return method;
@@ -226,13 +237,13 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
 
 
     /**
-     * @throws {NoSuchPropertyException} If method not found.
+     * @throws {NoSuchMethodException} If method not found.
      */
     public getDeclaredMethod(key: string | symbol): Method {
         let value: Method | undefined = this._declaredMethods.get(key);
 
         if (value == null) {
-            throw new NoSuchPropertyException(key);
+            throw new NoSuchMethodException(key);
         }
 
         return value;
@@ -308,7 +319,6 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
                     fields.put(propertyName, new Field(
                         this,
                         propertyName,
-                        ReflectionUtils.getPropertyType(this.prototype, propertyName),
                         descriptor.get,
                         descriptor.set,
                         descriptor.configurable,
@@ -342,8 +352,6 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
                         this,
                         propertyName,
                         descriptor.value as Function,
-                        ReflectionUtils.getMethodArgumentTypes(this.prototype, propertyName),
-                        ReflectionUtils.getMethodReturnType(this.prototype, propertyName),
                         descriptor.configurable,
                         descriptor.writable,
                         descriptor.enumerable
@@ -380,25 +388,5 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
 
     private isMethodDescriptor(descriptor: TypedPropertyDescriptor<any>): boolean {
         return typeof descriptor.value === 'function';
-    }
-
-
-    private getConstructorParameters(): ListMap<number, Parameter> {
-        let parameters: ListMap<number, Parameter> = new ListMap();
-        let parameterTypes: Array<Type<any>> = ReflectionUtils.getConstructorParameterTypes(this.type);
-        let parametersCount = this.type.length;
-
-        if (parametersCount < parameterTypes.length) {
-            parametersCount = parameterTypes.length;
-        }
-
-        for (let i = 0; i < parametersCount; i++) {
-            let type: Type<any> | undefined = parameterTypes != null ? parameterTypes[i] : undefined;
-            let parameter = new Parameter(i, type);
-
-            parameters.put(i, parameter);
-        }
-
-        return parameters;
     }
 }

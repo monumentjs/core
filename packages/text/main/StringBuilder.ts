@@ -1,6 +1,6 @@
 import {Assert} from '@monument/assert/main/Assert';
 import {FormattableString} from './FormattableString';
-import {EMPTY_STRING} from './constants';
+import {EMPTY_STRING} from '../../core/main/constants';
 
 
 export class StringBuilder {

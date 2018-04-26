@@ -1,9 +1,9 @@
 import {EqualityComparator} from '@monument/core/main/EqualityComparator';
 import {StrictEqualityComparator} from '@monument/core/main/StrictEqualityComparator';
-import {EmptyQueueException} from 'EmptyQueueException';
-import {Queue} from 'Queue';
-import {List} from 'List';
-import {IteratorFunction} from 'IteratorFunction';
+import {EmptyQueueException} from './EmptyQueueException';
+import {Queue} from './Queue';
+import {List} from './List';
+import {IteratorFunction} from './IteratorFunction';
 import {LinkedList} from './LinkedList';
 import {AbstractCollection} from './AbstractCollection';
 
@@ -32,8 +32,8 @@ export class ListQueue<T> extends AbstractCollection<T> implements Queue<T> {
     }
 
 
-    public getIterator(): Iterator<T> {
-        return this._items.getIterator();
+    public get iterator(): Iterator<T> {
+        return this._items.iterator;
     }
 
 

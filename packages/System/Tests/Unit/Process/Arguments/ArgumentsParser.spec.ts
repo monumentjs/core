@@ -23,14 +23,14 @@ describe(`ArgumentsParser`, () => {
         it(`parses arguments string`, () => {
             let args: Arguments = parser.push('node ./ConsoleApplication compile --src . --watch-all');
 
-            expect(args.commands.length).toBe(1);
-            expect(args.commands[0]).toBe('compile');
+            assert.equals(args.commands.length, 1);
+            assert.equals(args.commands[0], 'compile');
 
-            expect(args.options.length).toBe(2);
-            expect(args.options[0].key).toBe('--src');
-            expect(args.options[0].value).toBe('.');
-            expect(args.options[1].key).toBe('--watch-all');
-            expect(args.options[1].value).toBe(true);
+            assert.equals(args.options.length, 2);
+            assert.equals(args.options[0].key, '--src');
+            assert.equals(args.options[0].value, '.');
+            assert.equals(args.options[1].key, '--watch-all');
+            assert.true(args.options[1].value);
         });
 
         it(`has static method that simplifies parsing`, () => {
@@ -38,21 +38,21 @@ describe(`ArgumentsParser`, () => {
 
             expect(args).toBeInstanceOf(Arguments);
 
-            expect(args.executablePath).toBe('node');
-            expect(args.mainModulePath).toBe('npm');
+            assert.equals(args.executablePath, 'node');
+            assert.equals(args.mainModulePath, 'npm');
 
             expect(args.commands).toBeInstanceOf(ReadOnlyCollection);
-            expect(args.commands.length).toBe(2);
-            expect(args.commands[0]).toBe('install');
-            expect(args.commands[1]).toBe('ts-kit');
+            assert.equals(args.commands.length, 2);
+            assert.equals(args.commands[0], 'install');
+            assert.equals(args.commands[1], 'ts-kit');
 
-            expect(args.options.length).toBe(2);
-            expect(args.options[0].key).toBe('--save');
-            expect(args.options[0].isLogical).toBe(true);
-            expect(args.options[0].value).toBe(true);
-            expect(args.options[1].key).toBe('--source');
-            expect(args.options[1].isLogical).toBe(false);
-            expect(args.options[1].value).toBe('npm');
+            assert.equals(args.options.length, 2);
+            assert.equals(args.options[0].key, '--save');
+            assert.true(args.options[0].isLogical);
+            assert.true(args.options[0].value);
+            assert.equals(args.options[1].key, '--source');
+            assert.false(args.options[1].isLogical);
+            assert.equals(args.options[1].value, 'npm');
         });
     });
 });

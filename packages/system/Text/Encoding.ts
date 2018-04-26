@@ -1,6 +1,6 @@
-import {IgnoreCaseComparator} from '../../text/main/IgnoreCaseComparator';
-import {ArrayList} from '../../collections/main/ArrayList';
-import {List} from '../../collections/main/List';
+import {IgnoreCaseComparator} from '@monument/core/main/IgnoreCaseComparator';
+import {ArrayList} from '@monument/collections/main/ArrayList';
+import {List} from '@monument/collections/main/List';
 import {UnknownEncodingException} from './UnknownEncodingException';
 
 
@@ -74,9 +74,9 @@ export class Encoding {
     }
 
 
-    private _encodingName: string;
-    private _webName: string;
-    private _maxCharacterSize: number;
+    private readonly _encodingName: string;
+    private readonly _webName: string;
+    private readonly _maxCharacterSize: number;
 
 
     public get encodingName(): string {

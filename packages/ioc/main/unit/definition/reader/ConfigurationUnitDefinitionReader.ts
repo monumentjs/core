@@ -1,10 +1,10 @@
 import {Type} from '@monument/core/main/Type';
-import {ReadOnlyCollection} from '../../../../../collections/main/ReadOnlyCollection';
+import {ReadOnlyCollection} from '@monument/collections/main/ReadOnlyCollection';
 import {Class} from '@monument/reflection/main/Class';
 import {Method} from '@monument/reflection/main/Method';
-import {Configuration} from '../../../stereotype/Configuration';
-import {UnitConfiguration} from '../../../stereotype/UnitConfiguration';
-import {Unit} from '../../../stereotype/Unit';
+import {Configuration} from '@monument/stereotype/main/Configuration';
+import {UnitConfiguration} from '@monument/stereotype/main/UnitConfiguration';
+import {Unit} from '@monument/stereotype/main/Unit';
 import {UnitDefinition} from '../UnitDefinition';
 import {AbstractUnitDefinitionReader} from './AbstractUnitDefinitionReader';
 

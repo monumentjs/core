@@ -1,18 +1,18 @@
 import {Writable} from 'stream';
 import {Exception} from '@monument/core/main/exceptions/Exception';
 import {DeferredObject} from '@monument/async/main/DeferredObject';
-import {EventDispatcher} from '@monument/events-core/main/EventDispatcher';
-import {ErrorEventArgs} from '@monument/events-core/main/ErrorEventArgs';
+import {ConfigurableEvent} from '../../events/main/ConfigurableEvent';
+import {ErrorEventArgs} from '@monument/events/main/ErrorEventArgs';
 import {OutputStream} from '@monument/stream-core/main/OutputStream';
 import {ClosedStreamException} from '@monument/stream-core/main/ClosedStreamException';
 import {EndOfStreamException} from '@monument/stream-core/main/EndOfStreamException';
 import {CloseableStream} from './CloseableStream';
 
 
-export abstract class AbstractOutputStream<T, TBase extends Writable & CloseableStream> extends EventDispatcher implements OutputStream<T> {
+export abstract class AbstractOutputStream<T, TBase extends Writable & CloseableStream> extends ConfigurableEvent implements OutputStream<T> {
     private _isClosed: boolean = false;
     private _isFinished: boolean = false;
-    private _failed: EventDispatcher<this, ErrorEventArgs> = this.createEventDispatcher();
+    private _failed: ConfigurableEvent<this, ErrorEventArgs> = this.createEventDispatcher();
 
     protected baseStream: TBase;
 
@@ -89,19 +89,19 @@ export abstract class AbstractOutputStream<T, TBase extends Writable & Closeable
     }
 
 
-    @Delegate()
+    @Delegate
     protected onBaseStreamClosed(): void {
         this._isClosed = true;
     }
 
 
-    @Delegate()
+    @Delegate
     protected onBaseStreamFinished(): void {
         this._isFinished = true;
     }
 
 
-    @Delegate()
+    @Delegate
     protected onBaseStreamFailed(error: Error): void {
         this._failed.dispatch(new ErrorEventArgs(Exception.cast(error)));
     }

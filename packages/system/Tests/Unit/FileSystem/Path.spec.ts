@@ -1,59 +1,58 @@
 import * as os from 'os';
 import {Test} from '../../../../test-drive/Decorators/TestConfiguration';
 import {Case} from '../../../../test-drive/Decorators/Case';
-import {Path} from '../../../FileSystem/Path';
-import {PathFormat} from '../../../FileSystem/PathFormat';
+import {Path} from '../../../file-system/Path';
+import {PathFormat} from '../../../file-system/PathFormat';
 
 
-@Test()
 export class PathSpec {
 
-    @Case()
-    public 'constructor() parses unix path'() {
+    @Test
+    public 'constructor() parses unix path'(assert: Assert) {
         let path: Path = new Path('/home/user/documents/reports/2017FR.xlsx');
 
-        expect(path.isAbsolute).toBe(true);
-        expect(path.originalPath).toBe('/home/user/documents/reports/2017FR.xlsx');
-        expect(path.directoryName).toBe('/home/user/documents/reports');
-        expect(path.baseName).toBe('2017FR.xlsx');
-        expect(path.baseNameWithoutExtension).toBe('2017FR');
-        expect(path.extension).toBe('.xlsx');
-        expect(path.root).toBe('/');
+        assert.true(path.isAbsolute);
+        assert.equals(path.originalPath, '/home/user/documents/reports/2017FR.xlsx');
+        assert.equals(path.directoryName, '/home/user/documents/reports');
+        assert.equals(path.baseName, '2017FR.xlsx');
+        assert.equals(path.baseNameWithoutExtension, '2017FR');
+        assert.equals(path.extension, '.xlsx');
+        assert.equals(path.root, '/');
     }
 
 
-    @Case()
-    public 'constructor() parses windows path'() {
+    @Test
+    public 'constructor() parses windows path'(assert: Assert) {
         let path: Path = new Path('c:\\users\\documents\\reports\\2017FR.xlsx');
 
-        expect(path.isAbsolute).toBe(true);
-        expect(path.originalPath).toBe('c:\\users\\documents\\reports\\2017FR.xlsx');
-        expect(path.directoryName).toBe('c:\\users\\documents\\reports');
-        expect(path.baseName).toBe('2017FR.xlsx');
-        expect(path.baseNameWithoutExtension).toBe('2017FR');
-        expect(path.extension).toBe('.xlsx');
-        expect(path.root).toBe('c:\\');
+        assert.true(path.isAbsolute);
+        assert.equals(path.originalPath, 'c:\\users\\documents\\reports\\2017FR.xlsx');
+        assert.equals(path.directoryName, 'c:\\users\\documents\\reports');
+        assert.equals(path.baseName, '2017FR.xlsx');
+        assert.equals(path.baseNameWithoutExtension, '2017FR');
+        assert.equals(path.extension, '.xlsx');
+        assert.equals(path.root, 'c:\\');
     }
 
 
-    @Case()
-    public 'split() splits unix path'() {
-        expect(Path.split('/home/user/documents/reports/2017FR.xlsx')).toEqual([
+    @Test
+    public 'split() splits unix path'(assert: Assert) {
+        assert.equals(Path.split('/home/user/documents/reports/2017FR.xlsx'), [
             '/', 'home', 'user', 'documents', 'reports', '2017FR.xlsx'
         ]);
     }
 
 
-    @Case()
-    public 'split() splits windows path'() {
-        expect(Path.split('D:\\home\\user\\documents\\reports\\2017FR.xlsx')).toEqual([
+    @Test
+    public 'split() splits windows path'(assert: Assert) {
+        assert.equals(Path.split('D:\\home\\user\\documents\\reports\\2017FR.xlsx'), [
             'D:', 'home', 'user', 'documents', 'reports', '2017FR.xlsx'
         ]);
     }
 
 
-    @Case()
-    public 'concat() joins windows path segments'() {
+    @Test
+    public 'concat() joins windows path segments'(assert: Assert) {
         expect(
             Path.concat(
                 Path.split('D:\\home\\user\\documents\\reports\\2017FR.xlsx')
@@ -62,8 +61,8 @@ export class PathSpec {
     }
 
 
-    @Case()
-    public 'concat() joins unix path segments'() {
+    @Test
+    public 'concat() joins unix path segments'(assert: Assert) {
         if (os.platform() === 'win32') {
             expect(
                 Path.concat(
@@ -80,34 +79,34 @@ export class PathSpec {
     }
 
 
-    @Case()
-    public 'toString() returns original path'() {
+    @Test
+    public 'toString() returns original path'(assert: Assert) {
         let posixPath: Path = new Path('/home/user/documents/reports/2017FR.xlsx');
 
-        expect(posixPath.toString()).toBe('/home/user/documents/reports/2017FR.xlsx');
+        assert.equals(posixPath.toString(), '/home/user/documents/reports/2017FR.xlsx');
 
         let win32Path: Path = new Path('c:\\home\\user\\documents\\reports\\2017FR.xlsx');
 
-        expect(win32Path.toString()).toBe('c:\\home\\user\\documents\\reports\\2017FR.xlsx');
+        assert.equals(win32Path.toString(), 'c:\\home\\user\\documents\\reports\\2017FR.xlsx');
     }
 
 
-    @Case()
-    public 'relative() calculates relative path'() {
+    @Test
+    public 'relative() calculates relative path'(assert: Assert) {
         if (os.platform() === 'win32') {
             let path: string = Path.relative('c:\\home\\user', 'c:\\documents\\reports\\2017FR.xlsx');
 
-            expect(path).toBe('..\\..\\documents\\reports\\2017FR.xlsx');
+            assert.equals(path, '..\\..\\documents\\reports\\2017FR.xlsx');
         } else {
             let path: string = Path.relative('/home/user', '/documents/reports/2017FR.xlsx');
 
-            expect(path).toBe('../../documents/reports/2017FR.xlsx');
+            assert.equals(path, '../../documents/reports/2017FR.xlsx');
         }
     }
 
 
-    @Case()
-    public 'resolve() builds path from segments'() {
+    @Test
+    public 'resolve() builds path from segments'(assert: Assert) {
         expect(Path.resolve([
             'c:\\home\\user', '.\\reports\\2017FR.xlsx'
         ])).toBe('c:\\home\\user\\reports\\2017FR.xlsx');
@@ -118,70 +117,70 @@ export class PathSpec {
     }
 
 
-    @Case()
-    public 'isAbsolute() checks path is absolute'() {
-        expect(Path.isAbsolute('c:\\documents\\reports\\2017FR.xlsx')).toBe(true);
-        expect(Path.isAbsolute('c:\\documents\\reports')).toBe(true);
-        expect(Path.isAbsolute('\\documents\\reports\\2017FR.xlsx')).toBe(true);
-        expect(Path.isAbsolute('/documents/reports/2017FR.xlsx')).toBe(true);
-        expect(Path.isAbsolute('/documents/reports')).toBe(true);
+    @Test
+    public 'isAbsolute() checks path is absolute'(assert: Assert) {
+        assert.true(Path.isAbsolute('c:\\documents\\reports\\2017FR.xlsx'));
+        assert.true(Path.isAbsolute('c:\\documents\\reports'));
+        assert.true(Path.isAbsolute('\\documents\\reports\\2017FR.xlsx'));
+        assert.true(Path.isAbsolute('/documents/reports/2017FR.xlsx'));
+        assert.true(Path.isAbsolute('/documents/reports'));
 
-        expect(Path.isAbsolute('documents\\reports\\2017FR.xlsx')).toBe(false);
-        expect(Path.isAbsolute('documents\\reports')).toBe(false);
-        expect(Path.isAbsolute('documents/reports/2017FR.xlsx')).toBe(false);
-        expect(Path.isAbsolute('documents/reports')).toBe(false);
+        assert.false(Path.isAbsolute('documents\\reports\\2017FR.xlsx'));
+        assert.false(Path.isAbsolute('documents\\reports'));
+        assert.false(Path.isAbsolute('documents/reports/2017FR.xlsx'));
+        assert.false(Path.isAbsolute('documents/reports'));
     }
 
 
-    @Case()
-    public 'cast() casts path to Path class instance'() {
+    @Test
+    public 'cast() casts path to Path class instance'(assert: Assert) {
         expect(Path.cast('/documents/reports')).toBeInstanceOf(Path);
         expect(Path.cast(new Path('/documents/reports'))).toBeInstanceOf(Path);
     }
 
 
-    @Case()
-    public 'getFormat() detects path format'() {
-        expect(Path.getFormat('/documents/reports')).toBe(PathFormat.Posix);
-        expect(Path.getFormat('\\documents\\reports')).toBe(PathFormat.Win32);
-        expect(Path.getFormat('reports')).toBe(PathFormat.Unknown);
+    @Test
+    public 'getFormat() detects path format'(assert: Assert) {
+        assert.equals(Path.getFormat('/documents/reports'), PathFormat.POSIX);
+        assert.equals(Path.getFormat('\\documents\\reports'), PathFormat.WIN32);
+        assert.equals(Path.getFormat('reports'), PathFormat.UNKNOWN);
     }
 
 
-    @Case()
-    public 'clone() clones path'() {
+    @Test
+    public 'clone() clones path'(assert: Assert) {
         let path = new Path('/home/user/report.txt');
         let clone = path.clone();
 
-        expect(path.directoryName).toBe(clone.directoryName);
-        expect(path.baseName).toBe(clone.baseName);
-        expect(path.baseNameWithoutExtension).toBe(clone.baseNameWithoutExtension);
-        expect(path.isAbsolute).toBe(clone.isAbsolute);
-        expect(path.extension).toBe(clone.extension);
-        expect(path.originalPath).toBe(clone.originalPath);
-        expect(path.root).toBe(clone.root);
+        assert.equals(path.directoryName, clone.directoryName);
+        assert.equals(path.baseName, clone.baseName);
+        assert.equals(path.baseNameWithoutExtension, clone.baseNameWithoutExtension);
+        assert.equals(path.isAbsolute, clone.isAbsolute);
+        assert.equals(path.extension, clone.extension);
+        assert.equals(path.originalPath, clone.originalPath);
+        assert.equals(path.root, clone.root);
     }
 
 
-    @Case()
-    public 'equals() checks equality of paths'() {
+    @Test
+    public 'equals() checks equality of paths'(assert: Assert) {
         let path: Path;
 
         path = new Path('/home/user/report.txt');
 
-        expect(path.equals('/home/user/report.txt')).toBe(true);
-        expect(path.equals(new Path('/home/user/report.txt'))).toBe(true);
+        assert.true(path.equals('/home/user/report.txt'));
+        assert.true(path.equals(new Path('/home/user/report.txt')));
 
         path = new Path('D:\\home\\user\\report.txt');
 
-        expect(path.equals('D:\\home\\user\\report.txt')).toBe(true);
-        expect(path.equals(new Path('D:\\home\\user\\report.txt'))).toBe(true);
+        assert.true(path.equals('D:\\home\\user\\report.txt'));
+        assert.true(path.equals(new Path('D:\\home\\user\\report.txt')));
     }
 
 
-    @Case()
-    public 'toJSON() returns original path'() {
-        expect(new Path('/home/user/report.txt').toJSON()).toBe('/home/user/report.txt');
-        expect(new Path('c:\\home\\user\\report.txt').toJSON()).toBe('c:\\home\\user\\report.txt');
+    @Test
+    public 'toJSON() returns original path'(assert: Assert) {
+        assert.equals(new Path('/home/user/report.txt').toJSON(), '/home/user/report.txt');
+        assert.equals(new Path('c:\\home\\user\\report.txt').toJSON(), 'c:\\home\\user\\report.txt');
     }
 }

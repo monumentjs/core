@@ -1,4 +1,4 @@
-import {EqualityComparator} from '../../core/main/EqualityComparator';
+import {EqualityComparator} from '@monument/core/main/EqualityComparator';
 import {ReadOnlyCollection} from './ReadOnlyCollection';
 import {IteratorFunction} from './IteratorFunction';
 
@@ -34,8 +34,8 @@ export class Grouping<K, V> implements ReadOnlyCollection<V> {
     }
 
 
-    public getIterator(): Iterator<V> {
-        return this._items.getIterator();
+    public get iterator(): Iterator<V> {
+        return this._items.iterator;
     }
 
 

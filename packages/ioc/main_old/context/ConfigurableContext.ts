@@ -1,8 +1,8 @@
+import {Type} from '@monument/core/main/Type';
+import {Lifecycle} from '@monument/core/main/Lifecycle';
 import {Context} from './Context';
-import {Lifecycle} from '../../main/context/Lifecycle';
 import {UnitFactoryPostProcessor} from '../../unit/factory/configuration/UnitFactoryPostProcessor';
 import {ConfigurableListableUnitFactory} from '../unit/factory/configuration/ConfigurableListableUnitFactory';
-import {Type} from '@monument/core/main/Type';
 
 
 export interface ConfigurableContext extends Context, Lifecycle {

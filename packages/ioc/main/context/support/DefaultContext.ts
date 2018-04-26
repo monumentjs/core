@@ -1,7 +1,10 @@
 import {Type} from '@monument/core/main/Type';
-import {Collection} from '../../../../collections/main/Collection';
-import {List} from '../../../../collections/main/List';
+import {Collection} from '@monument/collections/main/Collection';
+import {List} from '@monument/collections/main/List';
 import {ArrayList} from '@monument/collections/main/ArrayList';
+import {ReadOnlyMap} from '@monument/collections/main/ReadOnlyMap';
+import {Method} from '@monument/reflection/main/Method';
+import {Parameter} from '@monument/reflection/main/Parameter';
 import {DefaultUnitFactory} from '../../unit/factory/support/DefaultUnitFactory';
 import {UnitPostProcessor} from '../../unit/factory/configuration/UnitPostProcessor';
 import {UnitFactoryPostProcessor} from '../../unit/factory/configuration/UnitFactoryPostProcessor';
@@ -12,6 +15,7 @@ import {UnitDefinitionReader} from '../../unit/definition/reader/UnitDefinitionR
 import {ComponentUnitDefinitionReader} from '../../unit/definition/reader/ComponentUnitDefinitionReader';
 import {ConfigurationUnitDefinitionReader} from '../../unit/definition/reader/ConfigurationUnitDefinitionReader';
 import {PostProcessorUnitDefinitionReader} from '../../unit/definition/reader/PostProcessorUnitDefinitionReader';
+import {ContextAwareUnitPostProcessor} from '../configuration/support/ContextAwareUnitPostProcessor';
 import {Context} from '../Context';
 import {ConfigurableContext} from '../ConfigurableContext';
 
@@ -85,6 +89,12 @@ export class DefaultContext implements ConfigurableContext {
                 this
             )
         );
+
+        this.addUnitPostProcessor(
+            new ContextAwareUnitPostProcessor(
+                this
+            )
+        );
     }
 
 
@@ -124,6 +134,20 @@ export class DefaultContext implements ConfigurableContext {
         for (let reader of this._unitDefinitionReaders) {
             reader.scan(type);
         }
+    }
+
+
+    public async invoke(method: Method, self: object): Promise<any> {
+        const args: any[] = [];
+        const parameters: ReadOnlyMap<number, Parameter> = method.parameters;
+
+        for (const {key: index, value: parameter} of parameters) {
+            if (parameter.type != null) {
+                args[index] = await this.getUnit(parameter.type);
+            }
+        }
+
+        return method.invoke(self, args);
     }
 
 

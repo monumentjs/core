@@ -1,4 +1,4 @@
-import {ProcessException} from './ProcessException';
+import {ProcessException} from '../main/process/ProcessException';
 import {Process} from './Process';
 
 

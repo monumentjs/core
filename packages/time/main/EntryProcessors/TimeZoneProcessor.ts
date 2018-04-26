@@ -1,9 +1,9 @@
-import {TimeEntryProcessor} from './TimeEntryProcessor';
+import {GetInstance} from '@monument/core/main/decorators/GetInstance';
+import {InvalidOperationException} from '@monument/core/main/exceptions/InvalidOperationException';
 import {DateTime} from '../DateTime';
-import {InvalidOperationException} from '../../main/exceptions/InvalidOperationException';
 import {TimeSpan} from '../TimeSpan';
-import {GetInstance} from '../../Language/decorator/GetInstance';
 import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
+import {TimeEntryProcessor} from './TimeEntryProcessor';
 
 
 export class TimeZoneProcessor extends TimeEntryProcessor {

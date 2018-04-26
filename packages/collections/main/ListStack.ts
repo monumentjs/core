@@ -1,18 +1,18 @@
+import {Equatable} from '@monument/core/main/Equatable';
 import {EqualityComparator} from '@monument/core/main/EqualityComparator';
 import {StrictEqualityComparator} from '@monument/core/main/StrictEqualityComparator';
-import {Stack} from 'Stack';
-import {IteratorFunction} from 'IteratorFunction';
-import {EmptyStackException} from 'EmptyStackException';
+import {Stack} from './Stack';
+import {IteratorFunction} from './IteratorFunction';
+import {EmptyStackException} from './EmptyStackException';
 import {LinkedList} from './LinkedList';
 import {AbstractCollection} from './AbstractCollection';
 
 
-export class ListStack<T> extends AbstractCollection<T> implements Stack<T> {
+export class ListStack<T> extends AbstractCollection<T> implements Stack<T>, Equatable<Stack<T>> {
     private _items: LinkedList<T>;
 
 
     // Countable interface implementation
-
 
     public get length(): number {
         return this._items.length;
@@ -32,7 +32,6 @@ export class ListStack<T> extends AbstractCollection<T> implements Stack<T> {
 
     // Cloneable interface implementation
 
-
     public clone(): ListStack<T> {
         return new ListStack(this);
     }
@@ -40,9 +39,8 @@ export class ListStack<T> extends AbstractCollection<T> implements Stack<T> {
 
     // Enumerable interface implementation
 
-
-    public getIterator(): Iterator<T> {
-        return this._items.getIterator();
+    public get iterator(): Iterator<T> {
+        return this._items.iterator;
     }
 
 
@@ -58,7 +56,6 @@ export class ListStack<T> extends AbstractCollection<T> implements Stack<T> {
 
     // Collection interface implementation
 
-
     public add(item: T): boolean {
         return this._items.add(item);
     }
@@ -69,7 +66,10 @@ export class ListStack<T> extends AbstractCollection<T> implements Stack<T> {
     }
 
 
-    public removeAll(items: Iterable<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.instance): boolean {
+    public removeAll(
+        items: Iterable<T>,
+        comparator: EqualityComparator<T> = StrictEqualityComparator.instance
+    ): boolean {
         return this._items.removeAll(items, comparator);
     }
 
@@ -85,7 +85,6 @@ export class ListStack<T> extends AbstractCollection<T> implements Stack<T> {
 
 
     // Stack interface implementation
-
 
     public push(item: T): boolean {
         return this._items.add(item);
@@ -107,5 +106,36 @@ export class ListStack<T> extends AbstractCollection<T> implements Stack<T> {
         }
 
         return this._items.removeAt(this.length - 1);
+    }
+
+
+    public equals(
+        other: Stack<T>,
+        comparator: EqualityComparator<T> = StrictEqualityComparator.instance
+    ): boolean {
+        if (this === other) {
+            return true;
+        }
+
+        if (this.length !== other.length) {
+            return false;
+        }
+
+        let currentIterator = this.iterator;
+        let otherIterator = other.iterator;
+
+        let a: IteratorResult<T> = currentIterator.next();
+        let b: IteratorResult<T> = otherIterator.next();
+
+        while (!a.done && !b.done) {
+            if (!comparator.equals(a.value, b.value)) {
+                return false;
+            }
+
+            a = currentIterator.next();
+            b = otherIterator.next();
+        }
+
+        return true;
     }
 }

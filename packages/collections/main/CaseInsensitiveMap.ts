@@ -1,8 +1,8 @@
 import {EqualityComparator} from '../../core/main/EqualityComparator';
 import {StrictEqualityComparator} from '../../core/main/StrictEqualityComparator';
-import {IgnoreCaseComparator} from '../../text/main/IgnoreCaseComparator';
+import {IgnoreCaseComparator} from '../../core/main/IgnoreCaseComparator';
 import {KeyValuePair} from './KeyValuePair';
-import {ListMap} from 'ListMap';
+import {ListMap} from './ListMap';
 
 
 export class CaseInsensitiveMap<V> extends ListMap<string, V> {

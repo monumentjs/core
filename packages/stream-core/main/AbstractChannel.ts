@@ -1,5 +1,5 @@
 import {Disposable} from '@monument/core/main/Disposable';
-import {Collection} from '../../collections/main/Collection';
+import {Collection} from '@monument/collections/main/Collection';
 import {ListSet} from '@monument/collections/main/ListSet';
 import {InputStream} from './InputStream';
 import {OutputStream} from './OutputStream';

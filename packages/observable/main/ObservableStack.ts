@@ -2,23 +2,20 @@ import {Disposable} from '@monument/core/main/Disposable';
 import {Cloneable} from '@monument/core/main/Cloneable';
 import {EqualityComparator} from '@monument/core/main/EqualityComparator';
 import {NullSafeEqualityComparator} from '@monument/core/main/NullSafeEqualityComparator';
-import {Enumerable} from '../../collections/main/Enumerable';
-import {IteratorFunction} from '../../collections/main/IteratorFunction';
+import {Enumerable} from '@monument/collections/main/Enumerable';
+import {IteratorFunction} from '@monument/collections/main/IteratorFunction';
 import {ListStack} from '@monument/collections/main/ListStack';
-import {EventDispatcherFactory} from '@monument/events-core/main/EventDispatcherFactory';
-import {EventDispatcher} from '@monument/events-core/main/EventDispatcher';
-import {EventSource} from '@monument/events-core/main/EventSource';
+import {ConfigurableEvent} from '@monument/events/main/ConfigurableEvent';
+import {Event} from '@monument/events/main/Event';
 import {CollectionChangedEventArgs} from './CollectionChangedEventArgs';
 import {NotifyCollectionChanged} from './NotifyCollectionChanged';
 
 
-export class ObservableStack<T> extends ListStack<T> implements Cloneable<ObservableStack<T>>, Disposable, NotifyCollectionChanged<T, ObservableStack<T>> {
-    private readonly _eventFactory: EventDispatcherFactory<this> = new EventDispatcherFactory(this);
-
-    private readonly _collectionChanged: EventDispatcher<this, CollectionChangedEventArgs> = this._eventFactory.create();
+export class ObservableStack<T> extends ListStack<T> implements Cloneable<ObservableStack<T>>, Disposable, NotifyCollectionChanged<T> {
+    private readonly _collectionChanged: ConfigurableEvent<this, CollectionChangedEventArgs> = new ConfigurableEvent(this);
 
 
-    public get collectionChanged(): EventSource<this, CollectionChangedEventArgs> {
+    public get collectionChanged(): Event<this, CollectionChangedEventArgs> {
         return this._collectionChanged;
     }
 
@@ -118,7 +115,7 @@ export class ObservableStack<T> extends ListStack<T> implements Cloneable<Observ
 
 
     public dispose(): void {
-        this._eventFactory.dispose();
+        this._collectionChanged.dispose();
     }
 
 

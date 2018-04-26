@@ -1,4 +1,4 @@
-import {ReadOnlySet} from '../../collections/main/ReadOnlySet';
+import {ReadOnlySet} from '@monument/collections/main/ReadOnlySet';
 import {DecoratorAccessor} from './DecoratorAccessor';
 
 

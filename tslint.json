@@ -32,6 +32,8 @@
     "newline-before-return": true,
     "prefer-conditional-expression": false,
     "no-this-assignment": false,
+    "no-return-await": true,
+    "member-access": [true, "check-accessor", "check-constructor"],
     "member-ordering": [
       true,
       {

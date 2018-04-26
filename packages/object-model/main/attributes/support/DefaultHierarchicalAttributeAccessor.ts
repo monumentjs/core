@@ -1,12 +1,12 @@
-import {ReadOnlyCollection} from '../../../../collections/main/ReadOnlyCollection';
-import {ReadOnlySet} from '../../../../collections/main/ReadOnlySet';
-import {List} from '../../../../collections/main/List';
-import {Set} from '../../../../collections/main/Set';
-import {Map} from '../../../../collections/main/Map';
+import {ReadOnlyCollection} from '@monument/collections/main/ReadOnlyCollection';
+import {ReadOnlySet} from '@monument/collections/main/ReadOnlySet';
+import {List} from '@monument/collections/main/List';
+import {Set} from '@monument/collections/main/Set';
+import {Map} from '@monument/collections/main/Map';
 import {ArrayList} from '@monument/collections/main/ArrayList';
 import {ListSet} from '@monument/collections/main/ListSet';
 import {ListMap} from '@monument/collections/main/ListMap';
-import {Key} from '../../Key';
+import {Key} from '../Key';
 import {HierarchicalAttributeAccessor} from '../HierarchicalAttributeAccessor';
 
 

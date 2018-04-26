@@ -3,15 +3,16 @@ import {Map} from '../../../../collections/main/Map';
 import {Comparable} from '../../../../core/main/Comparable';
 import {Equatable} from '../../../../core/main/Equatable';
 import {ComparisonResult} from '../../../../core/main/ComparisonResult';
-import {IgnoreCaseComparator} from '../../../../text/main/IgnoreCaseComparator';
+import {IgnoreCaseComparator} from '../../../../core/main/IgnoreCaseComparator';
 import {StringBuilder} from '../../../../text/main/StringBuilder';
 import {Assert} from '@monument/core/Assertion/Assert';
 import {ReadOnlyMap} from '../../../../collections/main/ReadOnlyMap';
 import {InvalidArgumentException} from '../../../../core/main/exceptions/InvalidArgumentException';
-import {PreserveCaseComparator} from '../../../../text/main/PreserveCaseComparator';
+import {PreserveCaseComparator} from '../../../../core/main/PreserveCaseComparator';
 import {ListMap} from '../../../../collections/main/ListMap';
 import {ArrayList} from '../../../../collections/main/ArrayList';
 import {List} from '../../../../collections/main/List';
+import {EMPTY_STRING} from '@monument/core/main/constants';
 
 
 export class MimeType implements Comparable<MimeType>, Equatable<MimeType> {
@@ -183,19 +184,19 @@ export class MimeType implements Comparable<MimeType>, Equatable<MimeType> {
     public compareTo(other: MimeType): ComparisonResult {
         let comp: ComparisonResult = IgnoreCaseComparator.instance.compare(this.type, other.type);
 
-        if (comp !== ComparisonResult.Equals) {
+        if (comp !== ComparisonResult.EQUALS) {
             return comp;
         }
 
         comp = IgnoreCaseComparator.instance.compare(this.subType, other.subType);
 
-        if (comp !== ComparisonResult.Equals) {
+        if (comp !== ComparisonResult.EQUALS) {
             return comp;
         }
 
         comp = this.parameters.length - other.parameters.length;
 
-        if (comp !== ComparisonResult.Equals) {
+        if (comp !== ComparisonResult.EQUALS) {
             return comp;
         }
 
@@ -208,7 +209,7 @@ export class MimeType implements Comparable<MimeType>, Equatable<MimeType> {
 
             comp = IgnoreCaseComparator.instance.compare(thisAttribute, otherAttribute);
 
-            if (comp !== ComparisonResult.Equals) {
+            if (comp !== ComparisonResult.EQUALS) {
                 return comp;
             }
 
@@ -216,17 +217,17 @@ export class MimeType implements Comparable<MimeType>, Equatable<MimeType> {
             let otherValue: string | undefined = other.parameters.get(otherAttribute);
 
             if (otherValue == null) {
-                otherValue = '';
+                otherValue = EMPTY_STRING;
             }
 
             comp = PreserveCaseComparator.instance.compare(thisValue, otherValue);
 
-            if (comp !== ComparisonResult.Equals) {
+            if (comp !== ComparisonResult.EQUALS) {
                 return comp;
             }
         }
 
-        return ComparisonResult.Equals;
+        return ComparisonResult.EQUALS;
     }
 
 

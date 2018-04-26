@@ -1,21 +1,18 @@
 import {ListMap} from '@monument/collections/main/ListMap';
-import {KeyValuePair} from '../../collections/main/KeyValuePair';
-import {Enumerable} from '../../collections/main/Enumerable';
+import {KeyValuePair} from '@monument/collections/main/KeyValuePair';
+import {Enumerable} from '@monument/collections/main/Enumerable';
 import {Disposable} from '@monument/core/main/Disposable';
-import {EventSource} from '@monument/events-core/main/EventSource';
-import {EventDispatcher} from '@monument/events-core/main/EventDispatcher';
-import {EventDispatcherFactory} from '@monument/events-core/main/EventDispatcherFactory';
+import {Event} from '@monument/events/main/Event';
+import {ConfigurableEvent} from '@monument/events/main/ConfigurableEvent';
 import {MapChangedEventArgs} from './MapChangedEventArgs';
 import {NotifyMapChanged} from './NotifyMapChanged';
 
 
-export class ObservableMap<K, V> extends ListMap<K, V> implements Disposable, NotifyMapChanged<K, V, ObservableMap<K, V>> {
-    private readonly _eventFactory: EventDispatcherFactory<this> = new EventDispatcherFactory(this);
-
-    private readonly _mapChanged: EventDispatcher<this, MapChangedEventArgs> = this._eventFactory.create();
+export class ObservableMap<K, V> extends ListMap<K, V> implements Disposable, NotifyMapChanged<K, V> {
+    private readonly _mapChanged: ConfigurableEvent<this, MapChangedEventArgs> = new ConfigurableEvent(this);
 
 
-    public get mapChanged(): EventSource<this, MapChangedEventArgs> {
+    public get mapChanged(): Event<this, MapChangedEventArgs> {
         return this._mapChanged;
     }
 
@@ -115,7 +112,7 @@ export class ObservableMap<K, V> extends ListMap<K, V> implements Disposable, No
 
 
     public dispose(): void {
-        this._eventFactory.dispose();
+        this._mapChanged.dispose();
     }
 
 

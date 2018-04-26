@@ -1,9 +1,8 @@
-import {Runnable} from './Runnable';
+import {CancellationToken} from './CancellationToken';
 
 
-export interface Task<TResult = void> {
+export interface Task {
     readonly isRunning: boolean;
 
-    start()
-    stop(): Promise<void>;
+    run(cancellationToken?: CancellationToken): Promise<void>;
 }

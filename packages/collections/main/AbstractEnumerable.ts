@@ -1,7 +1,7 @@
-import {Enumerable} from 'Enumerable';
-import {IteratorFunction} from 'IteratorFunction';
-import {Countable} from 'Countable';
 import {Assert} from '@monument/assert/main/Assert';
+import {Enumerable} from './Enumerable';
+import {IteratorFunction} from './IteratorFunction';
+import {Countable} from './Countable';
 
 
 export abstract class AbstractEnumerable<T> implements Enumerable<T>, Countable {
@@ -9,7 +9,7 @@ export abstract class AbstractEnumerable<T> implements Enumerable<T>, Countable 
 
 
     public [Symbol.iterator](): Iterator<T> {
-        return this.getIterator();
+        return this.iterator;
     }
 
 
@@ -19,7 +19,7 @@ export abstract class AbstractEnumerable<T> implements Enumerable<T>, Countable 
     public abstract forEachReversed(iterator: IteratorFunction<T, boolean | void>, startIndex?: number, count?: number): void;
 
 
-    public abstract getIterator(): Iterator<T>;
+    public abstract get iterator(): Iterator<T>;
 
 
     protected validateSliceBounds(startIndex: number, count: number): void {

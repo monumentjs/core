@@ -3,7 +3,7 @@ import {MimeType} from './MimeType';
 import {Map} from '../../../../collections/main/Map';
 import {UnknownEncodingException} from '../../../Text/UnknownEncodingException';
 import {InvalidArgumentException} from '../../../../core/main/exceptions/InvalidArgumentException';
-import {EMPTY_STRING} from '../../../../text/main/constants';
+import {EMPTY_STRING} from '../../../../core/main/constants';
 import {List} from '../../../../collections/main/List';
 import {StringUtils} from '../../../../text/main/StringUtils';
 import {StringBuilder} from '../../../../text/main/StringBuilder';

@@ -1,11 +1,11 @@
 import {Readable} from 'stream';
-import {Delegate} from '../../core/Events/Decorators/Delegate';
 import {DeferredObject} from '../../async/main/DeferredObject';
 import {InputStream} from '../../stream-core/main/InputStream';
 import {ClosedStreamException} from '../../stream-core/main/ClosedStreamException';
 import {EndOfStreamException} from '../../stream-core/main/EndOfStreamException';
 import {CloseableStream} from './CloseableStream';
 import {OutputStream} from '../../stream-core/main/OutputStream';
+import {Delegate} from '@monument/events/main/decorators/Delegate';
 
 
 export abstract class AbstractInputStream<T, TBase extends Readable & CloseableStream> implements InputStream<T> {
@@ -100,13 +100,13 @@ export abstract class AbstractInputStream<T, TBase extends Readable & CloseableS
     }
 
 
-    @Delegate()
+    @Delegate
     protected onBaseStreamClosed(): void {
         this._isClosed = true;
     }
 
 
-    @Delegate()
+    @Delegate
     protected onBaseStreamEnded(): void {
         this._isEnded = true;
     }

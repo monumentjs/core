@@ -14,7 +14,7 @@ export class VersionBuilder {
         major: number = 0,
         minor: number = 0,
         patch: number = 0,
-        releaseStatus: ReleaseStatus = ReleaseStatus.Alpha,
+        releaseStatus: ReleaseStatus = ReleaseStatus.ALPHA,
         revision: number = 0
     ) {
         this.major = major;

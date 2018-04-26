@@ -1,8 +1,8 @@
-import {Collection} from '@monument/collections/main/Collection';
-import {EventSource} from '@monument/events-core/main/EventSource';
+import {ReadOnlyCollection} from '@monument/collections/main/ReadOnlyCollection';
+import {Event} from '@monument/events/main/Event';
 import {CollectionChangedEventArgs} from './CollectionChangedEventArgs';
 
 
-export interface NotifyCollectionChanged<T, TCollection extends Collection<T>> {
-    readonly collectionChanged: EventSource<TCollection, CollectionChangedEventArgs>;
+export interface NotifyCollectionChanged<TItem> {
+    readonly collectionChanged: Event<ReadOnlyCollection<TItem>, CollectionChangedEventArgs>;
 }

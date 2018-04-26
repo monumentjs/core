@@ -2,8 +2,8 @@ import {Enumerable} from './Enumerable';
 import {Map} from './Map';
 import {List} from './List';
 import {MultiValueMap} from './MultiValueMap';
-import {ListMap} from 'ListMap';
-import {ArrayList} from 'ArrayList';
+import {ListMap} from './ListMap';
+import {ArrayList} from './ArrayList';
 
 
 export class LinkedMultiValueMap<K, V> extends ListMap<K, List<V>> implements MultiValueMap<K, V> {

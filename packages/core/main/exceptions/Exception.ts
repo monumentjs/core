@@ -28,7 +28,7 @@ export class Exception extends Error {
 
 
     public toString(): string {
-        let error: string = `${this.constructor.name}: ${this.message}\n`;
+        let error: string = `${this.name}: ${this.message}\n`;
 
         if (this.helpLink) {
             error += `See: ${this.helpLink}\n`;

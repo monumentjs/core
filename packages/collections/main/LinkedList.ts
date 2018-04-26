@@ -1,12 +1,12 @@
+import {Assert} from '@monument/assert/main/Assert';
 import {ArgumentIndexOutOfBoundsException} from '@monument/core/main/exceptions/ArgumentIndexOutOfBoundsException';
 import {Cloneable} from '@monument/core/main/Cloneable';
 import {Equatable} from '@monument/core/main/Equatable';
 import {EqualityComparator} from '@monument/core/main/EqualityComparator';
 import {StrictEqualityComparator} from '@monument/core/main/StrictEqualityComparator';
 import {ArgumentRangeException} from '@monument/core/main/exceptions/ArgumentRangeException';
-import {List} from 'List';
-import {IteratorFunction} from 'IteratorFunction';
-import {Assert} from '@monument/assert/main/Assert';
+import {List} from './List';
+import {IteratorFunction} from './IteratorFunction';
 import {AbstractList} from './AbstractList';
 import {LinkedListNode} from './LinkedListNode';
 
@@ -37,7 +37,7 @@ export class LinkedList<T> extends AbstractList<T> implements Cloneable<LinkedLi
     // Enumerable interface implementation
 
 
-    public getIterator(): Iterator<T> {
+    public get iterator(): Iterator<T> {
         let node: LinkedListNode<T> | undefined = this._firstNode;
 
         return {

@@ -4,7 +4,7 @@ import {TreeNode} from './TreeNode';
 
 
 export class NodeList extends ObservableArrayList<TreeNode> {
-    private _parentNode: TreeNode;
+    private readonly _parentNode: TreeNode;
 
 
     public get parentNode(): TreeNode {

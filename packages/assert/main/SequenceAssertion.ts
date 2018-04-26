@@ -1,9 +1,9 @@
-import {RangeException} from '@monument/core/main/RangeException';
+import {RangeException} from '@monument/core/main/exceptions/RangeException';
 import {IndexOutOfBoundsException} from '@monument/core/main/exceptions/IndexOutOfBoundsException';
 
 
 export class SequenceAssertion {
-    private _sequence: ArrayLike<any>;
+    private readonly _sequence: ArrayLike<any>;
 
 
     public constructor(sequence: ArrayLike<any>) {

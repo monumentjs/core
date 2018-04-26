@@ -1,22 +1,14 @@
 import {Type} from '@monument/core/main/Type';
-import {DecoratorTarget} from 'decorators/DecoratorTarget';
-import {DecoratorTargetException} from 'decorators/DecoratorTargetException';
+import {DecoratorTarget} from './DecoratorTarget';
+import {DecoratorTargetException} from './DecoratorTargetException';
 import {ReflectionUtils} from './utils/ReflectionUtils';
 import {Class} from './Class';
 import {Method} from './Method';
 import {Field} from './Field';
 import {Parameter} from './Parameter';
-import {DecoratorAccessor} from './DecoratorAccessor';
 
 
 export class Decorator {
-    private readonly _annotation: Function;
-
-
-    public constructor(annotation: Function) {
-        this._annotation = annotation;
-    }
-
 
     public apply(args: any[]): void {
         let targetType: DecoratorTarget = this.getDecoratorTarget(args);
@@ -27,26 +19,22 @@ export class Decorator {
         let method: Method;
         let field: Field;
         let parameter: Parameter;
-        let receiver: DecoratorAccessor | undefined;
 
         switch (targetType) {
             case DecoratorTarget.CLASS:
                 klass = Class.of(target);
-                receiver = klass;
                 this.onClass(klass);
                 break;
 
             case DecoratorTarget.METHOD:
                 klass = Class.of(target.constructor);
                 method = klass.getMethod(key);
-                receiver = method;
                 this.onMethod(klass, method);
                 break;
 
             case DecoratorTarget.FIELD:
                 klass = Class.of(target.constructor);
                 field = klass.getField(key);
-                receiver = field;
                 this.onField(klass, field);
                 break;
 
@@ -59,23 +47,17 @@ export class Decorator {
                 klass = Class.of(target.constructor);
                 method = klass.getMethod(key);
                 parameter = method.getParameterAt(descriptor);
-                receiver = parameter;
                 this.onMethodParameter(klass, method, parameter);
                 break;
 
             case DecoratorTarget.CONSTRUCTOR_PARAMETER:
                 klass = Class.of(target);
                 parameter = klass.getParameterAt(descriptor);
-                receiver = parameter;
                 this.onConstructorParameter(klass, parameter);
                 break;
 
             default:
                 throw new DecoratorTargetException(`Decorator target is unknown.`);
-        }
-
-        if (receiver != null) {
-            receiver.decorate(this._annotation);
         }
     }
 

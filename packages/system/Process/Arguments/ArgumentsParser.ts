@@ -1,12 +1,10 @@
+import {EMPTY_STRING} from '@monument/core/main/constants';
+import {Collection} from '@monument/collections/main/Collection';
+import {ArrayList} from '@monument/collections/main/ArrayList';
+import {AbstractStatefulParser} from '@monument/text/main/parser/AbstractStatefulParser';
 import {ArgumentsParserState} from './ArgumentsParserState';
 import {Arguments} from './Arguments';
 import {Option} from './Option';
-import {EMPTY_STRING} from '../../../text/main/constants';
-import {ReadOnlyCollection} from '../../../collections/main/ReadOnlyCollection';
-import {Map} from '../../../collections/main/Map';
-import {AbstractStatefulParser} from '../../../text-parser-core/main/AbstractStatefulParser';
-import {ArrayList} from '@monument/collections/main/ArrayList';
-import {Collection} from '../../../collections/main/Collection';
 
 
 const SEGMENTS_DELIMITER_SIGN: string = ' ';

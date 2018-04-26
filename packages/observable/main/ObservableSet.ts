@@ -1,20 +1,17 @@
-import {IteratorFunction} from '../../collections/main/IteratorFunction';
-import {Collection} from '../../collections/main/Collection';
+import {IteratorFunction} from '@monument/collections/main/IteratorFunction';
+import {Collection} from '@monument/collections/main/Collection';
 import {ListSet} from '@monument/collections/main/ListSet';
-import {EventDispatcherFactory} from '@monument/events-core/main/EventDispatcherFactory';
-import {EventDispatcher} from '@monument/events-core/main/EventDispatcher';
-import {EventSource} from '@monument/events-core/main/EventSource';
+import {ConfigurableEvent} from '@monument/events/main/ConfigurableEvent';
+import {Event} from '@monument/events/main/Event';
 import {CollectionChangedEventArgs} from './CollectionChangedEventArgs';
 import {ObservableCollection} from './ObservableCollection';
 
 
 export class ObservableSet<T> extends ListSet<T> implements ObservableCollection<T> {
-    private readonly _eventFactory: EventDispatcherFactory<this> = new EventDispatcherFactory(this);
-
-    private readonly _collectionChanged: EventDispatcher<this, CollectionChangedEventArgs> = this._eventFactory.create();
+    private readonly _collectionChanged: ConfigurableEvent<this, CollectionChangedEventArgs> = new ConfigurableEvent(this);
 
 
-    public get collectionChanged(): EventSource<this, CollectionChangedEventArgs> {
+    public get collectionChanged(): Event<this, CollectionChangedEventArgs> {
         return this._collectionChanged;
     }
 
@@ -124,7 +121,7 @@ export class ObservableSet<T> extends ListSet<T> implements ObservableCollection
 
 
     public dispose(): void {
-        this._eventFactory.dispose();
+        this._collectionChanged.dispose();
     }
 
 

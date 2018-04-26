@@ -13,7 +13,7 @@ export class MediaTypeSpecificityComparator extends MimeTypeSpecificityComparato
     protected compareParameters(x: MediaType, y: MediaType): ComparisonResult {
         let qualityComparison: ComparisonResult = NumberComparator.instance.compare(y.quality, x.quality);
 
-        if (qualityComparison !== ComparisonResult.Equals) {
+        if (qualityComparison !== ComparisonResult.EQUALS) {
             // audio/*;q=0.7 < audio/*;q=0.3
             return qualityComparison;
         }

@@ -7,8 +7,8 @@ import {InvalidArgumentException} from '@monument/core/main/exceptions/InvalidAr
 
 
 export class ArgumentAssertion {
-    private _argumentName: string;
-    private _argumentValue: any;
+    private readonly _argumentName: string;
+    private readonly _argumentValue: any;
 
 
     public constructor(argumentName: string, argumentValue: any) {

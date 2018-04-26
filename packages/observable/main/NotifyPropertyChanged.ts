@@ -1,7 +1,7 @@
-import {EventSource} from '@monument/events-core/main/EventSource';
+import {Event} from '@monument/events/main/Event';
 import {PropertyChangedEventArgs} from './PropertyChangedEventArgs';
 
 
-export interface NotifyPropertyChanged<TTarget extends object = object> {
-    readonly propertyChanged: EventSource<TTarget, PropertyChangedEventArgs>;
+export interface NotifyPropertyChanged<TTarget extends object> {
+    readonly propertyChanged: Event<TTarget, PropertyChangedEventArgs>;
 }

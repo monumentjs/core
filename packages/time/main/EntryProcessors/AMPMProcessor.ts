@@ -1,10 +1,11 @@
-import {EMPTY_STRING} from '@monument/text/main/constants';
-import {IgnoreCaseComparator} from '@monument/text/main/IgnoreCaseComparator';
-import {GetInstance} from '@monument/language/main/decorator/GetInstance';
-import {TimeEntryProcessor} from './TimeEntryProcessor';
+import {InvalidOperationException} from '@monument/core/main/exceptions/InvalidOperationException';
+import {GetInstance} from '@monument/core/main/decorators/GetInstance';
+import {IgnoreCaseComparator} from '@monument/core/main/IgnoreCaseComparator';
 import {DateTime} from '../DateTime';
 import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
 import {TimeSpan} from '../TimeSpan';
+import {TimeEntryProcessor} from './TimeEntryProcessor';
+import {EMPTY_STRING} from '@monument/core/main/constants';
 
 
 export class AMPMProcessor extends TimeEntryProcessor {

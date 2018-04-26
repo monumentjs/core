@@ -1,8 +1,8 @@
-import {FileWriter} from '../../..//FileSystem/FileWriter';
-import {FileSystem} from '../../..//FileSystem/LocalFileSystem';
-import {UnitFactory} from '@monument/core/Source/DI/Unit/UnitFactory';
-import {IUnitFactory} from '@monument/core/Source/DI/Unit/Abstraction/IUnitFactory';
-import {FileStorage} from '../../..//FileSystem/IFileStorage';
+import {FileWriter} from '../../..//file-system/FileWriter';
+import {FileSystem} from '../../..//file-system/LocalFileSystem';
+import {UnitFactory} from '@monument/core/Source/DI/unit/UnitFactory';
+import {IUnitFactory} from '@monument/core/Source/DI/unit/Abstraction/IUnitFactory';
+import {FileStorage} from '../../..//file-system/IFileStorage';
 
 
 describe(`FileWriter`, () => {
@@ -21,12 +21,12 @@ describe(`FileWriter`, () => {
 
         const reader: FileWriter = new FileWriter(textFileName);
 
-        expect(reader.bytesWritten).toBe(0);
-        expect(reader.path.toString()).toEqual(textFileName);
-        expect(reader.isWritable).toBe(true);
-        expect(reader.isFinished).toBe(false);
-        expect(reader.isClosed).toBe(false);
-        expect(reader.isDisposed).toBe(false);
+        assert.equals(reader.bytesWritten, 0);
+        assert.equals(reader.path.toString(), textFileName);
+        assert.true(reader.isWritable);
+        assert.false(reader.isFinished);
+        assert.false(reader.isClosed);
+        assert.false(reader.isDisposed);
 
         await reader.close();
 

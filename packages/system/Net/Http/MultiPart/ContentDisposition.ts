@@ -1,14 +1,14 @@
-import {DateTime} from '../../../../time/main/DateTime';
-import {NullSafeEqualityComparator} from '../../../../core/main/NullSafeEqualityComparator';
-import {StringBuilder} from '../../../../text/main/StringBuilder';
-import {InvariantDateTimeFormatInfo} from '../../../../time/main/InvariantDateTimeFormatInfo';
-import {List} from '../../../../collections/main/List';
-import {Assert} from '@monument/core/Assertion/Assert';
-import {DateTimeParser} from '../../../../time/main/DateTimeParser';
-import {InvalidArgumentException} from '../../../../core/main/exceptions/InvalidArgumentException';
-import {ArrayList} from '../../../../collections/main/ArrayList';
-import {EMPTY_STRING} from '../../../../text/main/constants';
-import {Encoding} from '../../../Text/Encoding';
+import {DateTime} from '@monument/time/main/DateTime';
+import {NullSafeEqualityComparator} from '@monument/core/main/NullSafeEqualityComparator';
+import {StringBuilder} from '@monument/text/main/StringBuilder';
+import {InvariantDateTimeFormatInfo} from '@monument/time/main/InvariantDateTimeFormatInfo';
+import {List} from '@monument/collections/main/List';
+import {DateTimeParser} from '@monument/time/main/DateTimeParser';
+import {InvalidArgumentException} from '@monument/core/main/exceptions/InvalidArgumentException';
+import {ArrayList} from '@monument/collections/main/ArrayList';
+import {EMPTY_STRING} from '@monument/core/main/constants';
+import {Assert} from '@monument/assert/main/Assert';
+import {Encoding} from '@monument/system/main/encoding/Encoding';
 
 
 /**
@@ -226,9 +226,6 @@ export class ContentDisposition {
      * @see <a href="https://tools.ietf.org/html/rfc5987">RFC 5987</a>
      */
     private static encodeHeaderFieldParam(input: string, charset: Encoding): string {
-        Assert.notNull(input, 'Input String should not be null');
-        Assert.notNull(charset, 'Charset should not be null');
-
         if (Encoding.US_ASCII === charset) {
             return input;
         }

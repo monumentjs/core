@@ -1,9 +1,8 @@
-import {Assert} from '@monument/core/Assertion/Assert';
-import {List} from '../../../collections/main/List';
-import {ArrayList} from '../../../collections/main/ArrayList';
-import {InvalidArgumentException} from '../../../core/main/exceptions/InvalidArgumentException';
-import {EMPTY_STRING} from '../../../text/main/constants';
-import {NullPointerException} from '../../../core/main/exceptions/NullPointerException';
+import {InvalidArgumentException} from '@monument/core/main/exceptions/InvalidArgumentException';
+import {NullPointerException} from '@monument/core/main/exceptions/NullPointerException';
+import {Assert} from '@monument/assert/main/Assert';
+import {List} from '@monument/collections/main/List';
+import {ArrayList} from '@monument/collections/main/ArrayList';
 import {HeaderName} from '../../Net/Http/Headers/HeaderName';
 import {LocaleEquivalentMaps} from './LocaleEquivalentMaps';
 
@@ -204,7 +203,7 @@ export class LanguageRange {
 
 
     private static isSubtagIllFormed(subtag: string, isFirstSubtag: boolean): boolean {
-        if (subtag === EMPTY_STRING || subtag.length > 8) {
+        if (subtag === '' || subtag.length > 8) {
             return true;
         } else if (subtag === '*') {
             return false;

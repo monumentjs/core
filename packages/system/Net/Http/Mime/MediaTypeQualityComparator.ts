@@ -14,28 +14,28 @@ export class MediaTypeQualityComparator implements Comparator<MediaType> {
     public compare(x: MediaType, y: MediaType): ComparisonResult {
         let qualityComparison: ComparisonResult = NumberComparator.instance.compare(y.quality, x.quality);
 
-        if (qualityComparison !== ComparisonResult.Equals) {
+        if (qualityComparison !== ComparisonResult.EQUALS) {
             // audio/*;q=0.7 < audio/*;q=0.3
             return qualityComparison;
         } else if (x.isWildcardType && !y.isWildcardType) {
             // */* < audio/*
-            return ComparisonResult.Greater;
+            return ComparisonResult.GREATER;
         } else if (!x.isWildcardType && y.isWildcardType) {
             // audio/* > */*
-            return ComparisonResult.Less;
+            return ComparisonResult.LESS;
         } else if (x.type !== y.type) {
             // audio/basic == text/html
-            return ComparisonResult.Equals;
+            return ComparisonResult.EQUALS;
         } else {
             if (x.isWildcardSubType && !y.isWildcardSubType) {
                 // audio/* < audio/basic
-                return ComparisonResult.Greater;
+                return ComparisonResult.GREATER;
             } else if (!x.isWildcardSubType && y.isWildcardSubType) {
                 // audio/basic > audio/*
-                return ComparisonResult.Less;
+                return ComparisonResult.LESS;
             } else if (x.subType !== y.subType) {
                 // audio/basic == audio/wave
-                return ComparisonResult.Equals;
+                return ComparisonResult.EQUALS;
             } else {
                 // audio/basic;level=1 < audio/basic
                 return NumberComparator.instance.compare(y.parameters.length, x.parameters.length);

@@ -1,6 +1,6 @@
 import * as http from 'http';
 import * as https from 'https';
-import {Delegate} from '@monument/events-core/main/decorators/Delegate';
+import {Delegate} from '@monument/events/main/decorators/Delegate';
 import {Task} from '@monument/async/main/Task';
 import {DeferredObject} from '@monument/async/main/DeferredObject';
 import {HttpServerConfiguration} from './HttpServerConfiguration';
@@ -106,7 +106,7 @@ export class HttpServer implements Task {
     }
 
 
-    @Delegate()
+    @Delegate
     private onRequest(req: http.IncomingMessage, res: http.ServerResponse): Promise<void> {
         return this._requestProcessor.process(req, res);
     }

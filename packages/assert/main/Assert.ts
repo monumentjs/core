@@ -1,4 +1,4 @@
-import {Countable} from '../../collections/main/Countable';
+import {Countable} from '@monument/collections/main/Countable';
 import {ArgumentAssertion} from './ArgumentAssertion';
 import {SequenceAssertion} from './SequenceAssertion';
 import {RangeAssertion} from './RangeAssertion';

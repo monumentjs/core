@@ -1,18 +1,17 @@
 import {Type} from '@monument/core/main/Type';
+import {ArgumentIndexOutOfBoundsException} from '@monument/core/main/exceptions/ArgumentIndexOutOfBoundsException';
 import {ListMap} from '@monument/collections/main/ListMap';
-import {ReadOnlyMap} from '../../collections/main/ReadOnlyMap';
+import {ReadOnlyMap} from '@monument/collections/main/ReadOnlyMap';
+import {ReflectionUtils} from './utils/ReflectionUtils';
 import {DefaultHierarchicalAccessibleObject} from './DefaultHierarchicalAccessibleObject';
 import {Class} from './Class';
 import {Parameter} from './Parameter';
-import {ArgumentIndexOutOfBoundsException} from '@monument/core/main/exceptions/ArgumentIndexOutOfBoundsException';
 
 
 export class Method extends DefaultHierarchicalAccessibleObject {
     private readonly _declaringClass: Class<object>;
     private readonly _name: string | symbol;
     private readonly _callable: Function;
-    private readonly _parameters: ListMap<number, Parameter> = new ListMap();
-    private readonly _returnType: Type<any> | undefined;
     private readonly _isConfigurable: boolean;
     private readonly _isWritable: boolean;
     private readonly _isEnumerable: boolean;
@@ -43,12 +42,27 @@ export class Method extends DefaultHierarchicalAccessibleObject {
 
 
     public get parameters(): ReadOnlyMap<number, Parameter> {
-        return this._parameters;
+        const parameters: ListMap<number, Parameter> = new ListMap();
+        const parameterTypes: Array<Type<any>> = ReflectionUtils.getMethodArgumentTypes(this._declaringClass.type.prototype, this._name);
+        let parametersCount: number = this.callable.length;
+
+        if (parameterTypes != null && parameterTypes.length > parametersCount) {
+            parametersCount = parameterTypes.length;
+        }
+
+        for (let i = 0; i < parametersCount; i++) {
+            let parameterType = parameterTypes != null ? parameterTypes[i] : undefined;
+            let parameter = new Parameter(i, parameterType);
+
+            parameters.put(i, parameter);
+        }
+
+        return parameters;
     }
 
 
     public get returnType(): Type<any> | undefined {
-        return this._returnType;
+        return ReflectionUtils.getMethodReturnType(this.declaringClass.type.prototype, this._name);
     }
 
 
@@ -80,8 +94,6 @@ export class Method extends DefaultHierarchicalAccessibleObject {
         declaringClass: Class<object>,
         name: string | symbol,
         callable: Function,
-        parameterTypes?: Array<Type<any>>,
-        returnType?: Type<any>,
         isConfigurable: boolean = false,
         isWritable: boolean = false,
         isEnumerable: boolean = false
@@ -91,23 +103,14 @@ export class Method extends DefaultHierarchicalAccessibleObject {
         this._declaringClass = declaringClass;
         this._name = name;
         this._callable = callable;
-        this._returnType = returnType;
         this._isConfigurable = isConfigurable;
         this._isWritable = isWritable;
         this._isEnumerable = isEnumerable;
+    }
 
-        let parametersCount = callable.length;
 
-        if (parameterTypes != null && parameterTypes.length > parametersCount) {
-            parametersCount = parameterTypes.length;
-        }
-
-        for (let i = 0; i < parametersCount; i++) {
-            let parameterType = parameterTypes != null ? parameterTypes[i] : undefined;
-            let parameter = new Parameter(i, parameterType);
-
-            this._parameters.put(i, parameter);
-        }
+    public invoke(self: object, args: any[]): any {
+        return this._callable.apply(self, args);
     }
 
 

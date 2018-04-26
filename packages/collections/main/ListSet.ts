@@ -1,7 +1,7 @@
 import {StrictEqualityComparator} from '@monument/core/main/StrictEqualityComparator';
 import {EqualityComparator} from '@monument/core/main/EqualityComparator';
-import {IteratorFunction} from 'IteratorFunction';
-import {List} from 'List';
+import {IteratorFunction} from './IteratorFunction';
+import {List} from './List';
 import {ArrayList} from './ArrayList';
 import {AbstractSet} from './AbstractSet';
 
@@ -40,8 +40,8 @@ export class ListSet<T> extends AbstractSet<T> {
     // Enumerable interface implementation
 
 
-    public getIterator(): Iterator<T> {
-        return this._items.getIterator();
+    public get iterator(): Iterator<T> {
+        return this._items.iterator;
     }
 
 

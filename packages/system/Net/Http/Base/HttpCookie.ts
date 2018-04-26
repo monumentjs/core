@@ -1,5 +1,5 @@
 import {Assert} from '@monument/core/Assertion/Assert';
-import {Equatable} from '../../../../core/main/Equatable';
+import {Equatable} from '@monument/core/main/Equatable';
 import {NullSafeEqualityComparator} from '../../../../core/main/NullSafeEqualityComparator';
 
 

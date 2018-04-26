@@ -4,9 +4,9 @@ import {EqualityComparator} from '@monument/core/main/EqualityComparator';
 import {Cloneable} from '@monument/core/main/Cloneable';
 import {StrictEqualityComparator} from '@monument/core/main/StrictEqualityComparator';
 import {ArgumentRangeException} from '@monument/core/main/exceptions/ArgumentRangeException';
-import {List} from 'List';
-import {IteratorFunction} from 'IteratorFunction';
-import {Collection} from 'Collection';
+import {List} from './List';
+import {IteratorFunction} from './IteratorFunction';
+import {Collection} from './Collection';
 import {Assert} from '@monument/assert/main/Assert';
 import {AbstractList} from './AbstractList';
 
@@ -29,7 +29,7 @@ export class ArrayList<T> extends AbstractList<T> implements Cloneable<ArrayList
     }
 
 
-    public getIterator(): Iterator<T> {
+    public get iterator(): Iterator<T> {
         return this._items[Symbol.iterator]();
     }
 

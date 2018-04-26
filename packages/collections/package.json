@@ -5,9 +5,14 @@
   "keywords": [
 
   ],
+  "scripts": {
+    "test": "td"
+  },
   "dependencies": {
     "@monument/core": "^0.0.52",
-    "@monument/assert": "^0.0.52",
-    "@monument/collections": "^0.0.52"
+    "@monument/assert": "^0.0.52"
+  },
+  "devDependencies": {
+    "@monument/test-drive": "^0.0.52"
   }
 }

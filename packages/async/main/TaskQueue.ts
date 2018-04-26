@@ -1,19 +1,17 @@
-import {Disposable} from '../../core/main/Disposable';
-import {Collection} from '../../collections/main/Collection';
+import {Assert} from '@monument/assert/main/Assert';
 import {ListQueue} from '@monument/collections/main/ListQueue';
 import {ArrayList} from '@monument/collections/main/ArrayList';
-import {Assert} from '@monument/assert/main/Assert';
-import {Delegate} from '@monument/events-core/main/decorators/Delegate';
+import {KeyValuePair} from '@monument/collections/main/KeyValuePair';
+import {DeferredObject} from './DeferredObject';
 import {Task} from './Task';
 
 
-export class TaskQueue<TResult> extends ListQueue<Task<TResult>> implements Disposable {
+export class TaskQueue<TResult> {
     public static readonly MIN_CONCURRENCY: number = 1;
-    public static readonly DEFAULT_CONCURRENCY: number = 1;
 
-    private _runningTasks: Collection<Task<TResult>> = new ArrayList();
-    private _concurrency: number;
-
+    private readonly _allTasks: ListQueue<KeyValuePair<DeferredObject, Task>> = new ListQueue();
+    private readonly _runningTasks: ArrayList<Task> = new ArrayList();
+    private readonly _concurrency: number;
 
     public get concurrency(): number {
         return this._concurrency;
@@ -21,71 +19,42 @@ export class TaskQueue<TResult> extends ListQueue<Task<TResult>> implements Disp
 
 
     public get isBusy(): boolean {
-        return this._runningTasks.length > 0;
+        return this._runningTasks.length === this._concurrency;
     }
 
 
     public get isIdle(): boolean {
-        return this._runningTasks.length === 0;
+        return this._allTasks.length === 0;
     }
 
 
-    private get canRunOneMoreTask(): boolean {
-        return !this.isEmpty && this._runningTasks.length < this.concurrency;
-    }
-
-
-    public constructor(concurrency: number = TaskQueue.DEFAULT_CONCURRENCY) {
-        super();
-
+    public constructor(concurrency: number = TaskQueue.MIN_CONCURRENCY) {
         Assert.argument('concurrency', concurrency).bounds(TaskQueue.MIN_CONCURRENCY, Infinity);
 
         this._concurrency = concurrency;
     }
 
 
-    public enqueue(task: Task<TResult>): boolean {
-        task.completed.subscribe(this.handleTaskFinish);
-        task.failed.subscribe(this.handleTaskFinish);
-        task.aborted.subscribe(this.handleTaskFinish);
+    public enqueue(task: Task): Promise<void> {
+        const deferred: DeferredObject<void> = new DeferredObject();
 
-        super.enqueue(task);
+        this._allTasks.enqueue(new KeyValuePair(deferred, task));
 
         this.tryRunNextTask();
 
-        return true;
+        return deferred.promise;
     }
 
 
-    public dispose(): void {
-        for (let task of this._runningTasks) {
-            task.dispose();
-        }
-
-        for (let task of this) {
-            task.dispose();
-        }
-
-        this.clear();
-        this._runningTasks.clear();
-    }
-
-
-    @Delegate()
-    private handleTaskFinish(target: Operation<any>): void {
-        this._runningTasks.remove(target);
-
-        target.dispose();
-    }
-
-
-    private tryRunNextTask(): void {
-        if (this.canRunOneMoreTask) {
-            let task: Task<TResult> = this.pop();
+    private async tryRunNextTask(): Promise<void> {
+        if (!this.isBusy) {
+            const {key: deferred, value: task} = this._allTasks.pop();
 
             this._runningTasks.add(task);
 
-            task.start();
+            await task.run();
+
+            deferred.resolve();
         }
     }
 }

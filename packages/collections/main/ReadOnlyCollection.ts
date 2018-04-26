@@ -1,4 +1,4 @@
-import {EqualityComparator} from '../../core/main/EqualityComparator';
+import {EqualityComparator} from '@monument/core/main/EqualityComparator';
 import {Enumerable} from './Enumerable';
 import {Countable} from './Countable';
 

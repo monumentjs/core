@@ -1,5 +1,5 @@
-import {EqualityComparator} from '../../core/main/EqualityComparator';
-import {Comparator} from '../../core/main/Comparator';
+import {EqualityComparator} from '@monument/core/main/EqualityComparator';
+import {Comparator} from '@monument/core/main/Comparator';
 import {SortOrder} from './SortOrder';
 import {IteratorFunction} from './IteratorFunction';
 import {CombineFunction} from './CombineFunction';

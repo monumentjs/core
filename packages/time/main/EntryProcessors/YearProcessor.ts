@@ -1,10 +1,10 @@
-import {TimeEntryProcessor} from './TimeEntryProcessor';
+import {GetInstance} from '@monument/core/main/decorators/GetInstance';
+import {InvalidOperationException} from '@monument/core/main/exceptions/InvalidOperationException';
+import {StringUtils} from '@monument/text/main/StringUtils';
 import {DateTime} from '../DateTime';
-import {InvalidOperationException} from '../../main/exceptions/InvalidOperationException';
 import {TimeSpan} from '../TimeSpan';
-import {GetInstance} from '../../Language/Decorators/GetInstance';
 import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
-import {StringUtils} from '../../../text/main/StringUtils';
+import {TimeEntryProcessor} from './TimeEntryProcessor';
 
 
 export class YearProcessor extends TimeEntryProcessor {

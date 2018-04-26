@@ -1,10 +1,10 @@
 import {GetInstance} from '@monument/core/main/decorators/GetInstance';
 import {StringUtils} from '@monument/text/main/StringUtils';
-import {EMPTY_STRING} from '@monument/text/main/constants';
-import {TimeEntryProcessor} from './TimeEntryProcessor';
 import {DateTime} from '../DateTime';
 import {TimeSpan} from '../TimeSpan';
 import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
+import {TimeEntryProcessor} from './TimeEntryProcessor';
+import {EMPTY_STRING} from '@monument/core/main/constants';
 
 
 export class HoursProcessor extends TimeEntryProcessor {

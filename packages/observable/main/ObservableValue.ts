@@ -1,19 +1,22 @@
-import {Map} from '../../collections/main/Map';
-import {ListMap} from '@monument/collections/main/ListMap';
-import {Value} from '@monument/observer-core/main/Value';
-import {Observable} from '@monument/observer-core/main/Observable';
-import {ObserverSubscription} from '@monument/observer-core/main/ObserverSubscription';
-import {Observer} from '@monument/observer-core/main/Observer';
 import {Disposable} from '@monument/core/main/Disposable';
+import {EqualityComparator} from '@monument/core/main/EqualityComparator';
+import {StrictEqualityComparator} from '@monument/core/main/StrictEqualityComparator';
+import {Map} from '@monument/collections/main/Map';
+import {ListMap} from '@monument/collections/main/ListMap';
+import {Value} from './Value';
+import {Observer} from './Observer';
+import {ObserverSubscription} from './ObserverSubscription';
 
 
-export class ObservableValue<T> implements Value<T>, Observable<T>, Disposable {
-    private _observers: Map<Observer<T>, ObserverSubscription<T>> = new ListMap();
+export class ObservableValue<T> implements Value<T>, Disposable {
+    private readonly _equalityComparator: EqualityComparator<T>;
+    private readonly _observers: Map<Observer<T>, ObserverSubscription<T>> = new ListMap();
     private _value: T;
 
 
-    public constructor(value: T) {
-        this._value = value;
+    public constructor(initialValue: T, equalityComparator: EqualityComparator<T> = StrictEqualityComparator.instance) {
+        this._value = initialValue;
+        this._equalityComparator = equalityComparator;
     }
 
 
@@ -23,14 +26,10 @@ export class ObservableValue<T> implements Value<T>, Observable<T>, Disposable {
 
 
     public set(value: T): void {
-        if (this._value !== value) {
+        if (!this._equalityComparator.equals(this._value, value)) {
             this._value = value;
 
-            for (let entry of this._observers) {
-                const observer: Observer<T> = entry.key;
-
-                observer.onNext(value);
-            }
+            this.onChange(value);
         }
     }
 
@@ -53,9 +52,16 @@ export class ObservableValue<T> implements Value<T>, Observable<T>, Disposable {
 
 
     public dispose(): void {
-        for (let {key, value} of this._observers) {
-            key.onCompleted();
-            value.dispose();
+        for (let {key: observer, value: subscription} of this._observers) {
+            observer.onCompleted();
+            subscription.dispose();
+        }
+    }
+
+
+    private onChange(value: T): void {
+        for (let {key: observer} of this._observers) {
+            observer.onNext(value);
         }
     }
 }
