@@ -299,7 +299,7 @@ export abstract class ListSpec extends CollectionSpec {
 
         list.forEach(mock.value);
 
-        assert.equals(mock.callsCount, 2);
+        assert.equals(mock.calls.length, 2);
     }
 
 

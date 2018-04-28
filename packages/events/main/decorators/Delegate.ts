@@ -4,7 +4,7 @@ export function Delegate(
     prototype: object | Function,
     methodName: PropertyKey,
     descriptor: PropertyDescriptor
-): PropertyDescriptor {
+) {
     const key: symbol = Symbol();
     const originalFunction: Function = descriptor.value;
 

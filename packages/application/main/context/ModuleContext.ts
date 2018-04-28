@@ -1,4 +1,4 @@
-import {DefaultContext} from '@monument/ioc/main/context/support/DefaultContext';
+import {DefaultContext} from '@monument/context/main/context/support/DefaultContext';
 import {ModuleUnitDefinitionReader} from './support/ModuleUnitDefinitionReader';
 
 

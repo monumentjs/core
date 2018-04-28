@@ -2,9 +2,9 @@ import {Type} from '@monument/core/main/Type';
 import {Collection} from '@monument/collections/main/Collection';
 import {ArrayList} from '@monument/collections/main/ArrayList';
 import {Service} from '@monument/stereotype/main/Service';
-import {DefaultContext} from '@monument/ioc/main/context/support/DefaultContext';
-import {ContextAware} from '@monument/ioc/main/context/configuration/ContextAware';
-import {Context} from '@monument/ioc/main/context/Context';
+import {DefaultContext} from '@monument/context/main/context/support/DefaultContext';
+import {ContextAware} from '@monument/context/main/context/configuration/ContextAware';
+import {Context} from '@monument/context/main/context/Context';
 import {TestScenario} from '../scenario/TestScenario';
 import {Reporter} from '../reporter/Reporter';
 

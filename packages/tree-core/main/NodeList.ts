@@ -3,30 +3,30 @@ import {ObservableArrayList} from '@monument/observable/main/ObservableArrayList
 import {TreeNode} from './TreeNode';
 
 
-export class NodeList extends ObservableArrayList<TreeNode> {
-    private readonly _parentNode: TreeNode;
+export class NodeList<TNodeValue> extends ObservableArrayList<TreeNode<TNodeValue>> {
+    private readonly _parentNode: TreeNode<TNodeValue>;
 
 
-    public get parentNode(): TreeNode {
+    public get parentNode(): TreeNode<TNodeValue> {
         return this._parentNode;
     }
 
 
-    public constructor(parentNode: TreeNode) {
+    public constructor(parentNode: TreeNode<TNodeValue>) {
         super();
 
         this._parentNode = parentNode;
     }
 
 
-    public add(node: TreeNode): boolean {
+    public add(node: TreeNode<TNodeValue>): boolean {
         node.parentNode = this.parentNode;
 
         return super.add(node);
     }
 
 
-    public insert(position: number, node: TreeNode): boolean {
+    public insert(position: number, node: TreeNode<TNodeValue>): boolean {
         Assert.argument('position', position).bounds(0, this.length);
 
         node.parentNode = this.parentNode;
@@ -37,7 +37,7 @@ export class NodeList extends ObservableArrayList<TreeNode> {
     }
 
 
-    public remove(node: TreeNode): boolean {
+    public remove(node: TreeNode<TNodeValue>): boolean {
         if (super.remove(node)) {
             node.parentNode = undefined;
 

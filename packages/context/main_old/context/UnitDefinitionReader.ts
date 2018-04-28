@@ -1,8 +1,8 @@
-import {UnitDefinitionRegistry} from '@monument/ioc/main/unit/UnitDefinitionRegistry';
+import {UnitDefinitionRegistry} from '@monument/context/main/unit/UnitDefinitionRegistry';
 import {Class} from '@monument/reflection/main/Class';
 import {Component} from '@monument/stereotype/main/Component';
-import {UnitDefinition} from '@monument/ioc/main/unit/UnitDefinition';
-import {UnitNameGenerator} from '@monument/ioc/main/unit/factory/support/UnitNameGenerator';
+import {UnitDefinition} from '@monument/context/main/unit/UnitDefinition';
+import {UnitNameGenerator} from '@monument/context/main/unit/factory/support/UnitNameGenerator';
 import {Configuration} from '@monument/stereotype/main/Configuration';
 
 

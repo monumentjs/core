@@ -1,12 +1,12 @@
-import {EMPTY_STRING} from '@monument/core/main/constants';
 import {InvalidArgumentException} from '@monument/core/main/exceptions/InvalidArgumentException';
 import {NodeList} from './NodeList';
 
 
-export class TreeNode {
-    private readonly _childNodes: NodeList = new NodeList(this);
-    private _parentNode: TreeNode | undefined;
-    private _name: string = EMPTY_STRING;
+export class TreeNode<TValue> implements Iterable<TValue> {
+    private readonly _childNodes: NodeList<TValue> = new NodeList(this);
+    private _parentNode: TreeNode<TValue> | undefined;
+    private _name: string;
+    private _value: TValue;
 
 
     public get name(): string {
@@ -19,7 +19,17 @@ export class TreeNode {
     }
 
 
-    public set parentNode(value: TreeNode | undefined) {
+    public get value(): TValue {
+        return this._value;
+    }
+
+
+    public set value(value: TValue) {
+        this._value = value;
+    }
+
+
+    public set parentNode(value: TreeNode<TValue> | undefined) {
         if (this._parentNode === value) {
             return;
         }
@@ -36,7 +46,7 @@ export class TreeNode {
     }
 
 
-    public get childNodes(): NodeList {
+    public get childNodes(): NodeList<TValue> {
         return this._childNodes;
     }
 
@@ -46,7 +56,7 @@ export class TreeNode {
     }
 
 
-    public get nextSibling(): TreeNode | undefined {
+    public get nextSibling(): TreeNode<TValue> | undefined {
         let indexOfCurrentNode: number;
 
         if (!this.parentNode) {
@@ -59,7 +69,7 @@ export class TreeNode {
     }
 
 
-    public get previousSibling(): TreeNode | undefined {
+    public get previousSibling(): TreeNode<TValue> | undefined {
         let indexOfCurrentNode: number;
 
         if (!this.parentNode) {
@@ -72,7 +82,7 @@ export class TreeNode {
     }
 
 
-    public get firstChild(): TreeNode | undefined {
+    public get firstChild(): TreeNode<TValue> | undefined {
         if (this.hasChildNodes) {
             return this.childNodes.getAt(0);
         } else {
@@ -81,7 +91,7 @@ export class TreeNode {
     }
 
 
-    public get lastChild(): TreeNode | undefined {
+    public get lastChild(): TreeNode<TValue> | undefined {
         if (this.hasChildNodes) {
             return this.childNodes.getAt(this.childNodes.length - 1);
         } else {
@@ -92,7 +102,7 @@ export class TreeNode {
 
     public get depth(): number {
         let depth = 0;
-        let parentNode: TreeNode | undefined = this.parentNode;
+        let parentNode: TreeNode<TValue> | undefined = this.parentNode;
 
         while (parentNode != null) {
             depth += 1;
@@ -103,17 +113,23 @@ export class TreeNode {
     }
 
 
-    public addChild(node: TreeNode): void {
+    public constructor(name: string, value: TValue) {
+        this._name = name;
+        this._value = value;
+    }
+
+
+    public addChild(node: TreeNode<TValue>): void {
         this.childNodes.add(node);
     }
 
 
-    public removeChild(node: TreeNode): boolean {
+    public removeChild(node: TreeNode<TValue>): boolean {
         return this.childNodes.remove(node);
     }
 
 
-    public replaceChild(newNode: TreeNode, refNode: TreeNode): void {
+    public replaceChild(newNode: TreeNode<TValue>, refNode: TreeNode<TValue>): void {
         let indexOfOldNode: number = this.childNodes.indexOf(refNode);
 
         if (indexOfOldNode < 0) {
@@ -124,12 +140,12 @@ export class TreeNode {
     }
 
 
-    public contains(node: TreeNode): boolean {
+    public contains(node: TreeNode<TValue>): boolean {
         if (node === this) {
             return false;
         }
 
-        let parentNode: TreeNode | undefined = node.parentNode;
+        let parentNode: TreeNode<TValue> | undefined = node.parentNode;
 
         while (parentNode) {
             if (parentNode === this) {
@@ -143,7 +159,7 @@ export class TreeNode {
     }
 
 
-    public insertBefore(newNode: TreeNode, refNode: TreeNode): void {
+    public insertBefore(newNode: TreeNode<TValue>, refNode: TreeNode<TValue>): void {
         let insertPosition: number = this.childNodes.indexOf(refNode);
 
         if (insertPosition < 0) {
@@ -154,7 +170,7 @@ export class TreeNode {
     }
 
 
-    public insertAfter(newNode: TreeNode, refNode: TreeNode): void {
+    public insertAfter(newNode: TreeNode<TValue>, refNode: TreeNode<TValue>): void {
         let insertPosition: number = this.childNodes.indexOf(refNode);
 
         if (insertPosition < 0) {
@@ -163,4 +179,29 @@ export class TreeNode {
 
         this.childNodes.insert(insertPosition + 1, newNode);
     }
+
+
+    public [Symbol.iterator](): Iterator<TValue> {
+        let node = this.getNextNode();
+
+        return {
+            next: () => {
+                let {done, value} = node.next();
+
+                return {
+                    done: done,
+                    value: value ? value.value : undefined as any
+                };
+            }
+        };
+    }
+
+
+    private *getNextNode(): IterableIterator<TreeNode<TValue>> {
+        for (const node of this.childNodes) {
+            yield node;
+            yield *node.childNodes;
+        }
+    }
+
 }

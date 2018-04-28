@@ -1,6 +1,6 @@
 import {Type} from '@monument/core/main/Type';
 import {Class} from '@monument/reflection/main/Class';
-import {AbstractUnitDefinitionReader} from '@monument/ioc/main/unit/definition/reader/AbstractUnitDefinitionReader';
+import {AbstractUnitDefinitionReader} from '@monument/context/main/unit/definition/reader/AbstractUnitDefinitionReader';
 import {Module} from '@monument/stereotype/main/Module';
 import {ModuleConfiguration} from '@monument/stereotype/main/ModuleConfiguration';
 

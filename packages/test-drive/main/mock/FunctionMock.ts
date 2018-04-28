@@ -23,11 +23,6 @@ export class FunctionMock<T extends Function = Function> {
     }
 
 
-    public get callsCount(): number {
-        return this._calls.length;
-    }
-
-
     public get value(): T {
         return this._mock as T;
     }

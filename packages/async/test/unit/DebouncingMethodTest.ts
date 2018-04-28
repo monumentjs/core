@@ -22,7 +22,7 @@ export class DebouncingMethodTest {
         assert.true(method.canCallOnLeadingEdge);
         assert.false(method.canCallOnTrailingEdge);
         assert.false(method.isThrottling);
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
     }
 
 
@@ -36,7 +36,7 @@ export class DebouncingMethodTest {
         assert.true(method.canCallOnLeadingEdge);
         assert.false(method.canCallOnTrailingEdge);
         assert.false(method.isThrottling);
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
     }
 
 
@@ -50,7 +50,7 @@ export class DebouncingMethodTest {
         assert.false(method.canCallOnLeadingEdge);
         assert.true(method.canCallOnTrailingEdge);
         assert.false(method.isThrottling);
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
     }
 
 
@@ -67,7 +67,7 @@ export class DebouncingMethodTest {
         assert.true(method.canCallOnLeadingEdge);
         assert.true(method.canCallOnTrailingEdge);
         assert.false(method.isThrottling);
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
     }
 
 
@@ -80,12 +80,12 @@ export class DebouncingMethodTest {
         method.call({}, TEST_ARGUMENTS);
         method.call([], TEST_ARGUMENTS);
 
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
         assert.true(method.isThrottling);
 
         await AsyncUtils.wait(20);
 
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
         assert.false(method.isThrottling);
     }
 
@@ -99,12 +99,12 @@ export class DebouncingMethodTest {
         method.call({}, TEST_ARGUMENTS);
         method.call([], TEST_ARGUMENTS);
 
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
         assert.true(method.isThrottling);
 
         await AsyncUtils.wait(20);
 
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
         assert.true(mock.haveBeenCalledWith(TEST_ARGUMENTS));
         assert.false(method.isThrottling);
     }
@@ -119,12 +119,12 @@ export class DebouncingMethodTest {
         method.call({}, TEST_ARGUMENTS);
         method.call([], TEST_ARGUMENTS);
 
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
         assert.true(method.isThrottling);
 
         await AsyncUtils.wait(20);
 
-        assert.equals(mock.callsCount, 2);
+        assert.equals(mock.calls.length, 2);
         assert.false(method.isThrottling);
     }
 
@@ -143,27 +143,27 @@ export class DebouncingMethodTest {
         assert.equals(method.call(null, [1, 2]), 3);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         assert.equals(method.call(null, [3, 4]), 3);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         assert.equals(method.call(null, [5, 6]), 3);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         await AsyncUtils.wait(20);
 
         assert.false(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         assert.equals(method.call(null, [7, 8]), 15);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 2);
+        assert.equals(mock.calls.length, 2);
     }
 
 
@@ -181,17 +181,17 @@ export class DebouncingMethodTest {
         assert.equals(method.call(null, [1, 2]), undefined);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
 
         assert.equals(method.call(null, [3, 4]), undefined);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
 
         assert.equals(method.call(null, [5, 6]), undefined);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
 
         await AsyncUtils.wait(20);
 
@@ -200,7 +200,7 @@ export class DebouncingMethodTest {
         assert.equals(method.call(null, [7, 8]), 11);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
     }
 
 
@@ -218,22 +218,22 @@ export class DebouncingMethodTest {
         assert.equals(method.call(null, [1, 2]), 3);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         assert.equals(method.call(null, [3, 4]), 3);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         assert.equals(method.call(null, [5, 6]), 3);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         await AsyncUtils.wait(20);
 
         assert.false(method.isThrottling);
-        assert.equals(mock.callsCount, 2);
+        assert.equals(mock.calls.length, 2);
 
         assert.equals(method.call(null, [7, 8]), 15);
 
@@ -250,42 +250,42 @@ export class DebouncingMethodTest {
         let method: DebouncingMethod = new DebouncingMethod(mock.value, 20, MethodCallEdge.Leading);
 
         assert.false(method.isThrottling);
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
 
         method.call(null, TEST_ARGUMENTS);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         await AsyncUtils.wait(10);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         method.call(null, TEST_ARGUMENTS);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         await AsyncUtils.wait(10);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         method.call(null, TEST_ARGUMENTS);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         await AsyncUtils.wait(10);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         await AsyncUtils.wait(25);
 
         assert.false(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
     }
 
 
@@ -298,37 +298,37 @@ export class DebouncingMethodTest {
         let method: DebouncingMethod = new DebouncingMethod(mock.value, 20, MethodCallEdge.Leading, 40);
 
         assert.false(method.isThrottling);
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
 
         method.call(null, TEST_ARGUMENTS);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         await AsyncUtils.wait(15);                  // 15 ms elapsed
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         method.call(null, TEST_ARGUMENTS);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         await AsyncUtils.wait(15);                  // 30 ms elapsed
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         method.call(null, TEST_ARGUMENTS);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         await AsyncUtils.wait(15);                  // 45 ms elapsed
 
         assert.false(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
     }
 
 
@@ -341,27 +341,27 @@ export class DebouncingMethodTest {
         let method: DebouncingMethod = new DebouncingMethod(mock.value, 20, MethodCallEdge.Trailing);
 
         assert.false(method.isThrottling);
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
 
         method.call(null, TEST_ARGUMENTS);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
 
         await AsyncUtils.wait(15);                  // 15 ms elapsed
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
 
         method.call(null, TEST_ARGUMENTS);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
 
         await AsyncUtils.wait(25);                  // 40 ms elapsed
 
         assert.false(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
     }
 
 
@@ -374,37 +374,37 @@ export class DebouncingMethodTest {
         let method: DebouncingMethod = new DebouncingMethod(mock.value, 20, MethodCallEdge.Trailing, 40);
 
         assert.false(method.isThrottling);
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
 
         method.call(null, TEST_ARGUMENTS);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
 
         await AsyncUtils.wait(15);                  // 15 ms elapsed
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
 
         method.call(null, TEST_ARGUMENTS);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
 
         await AsyncUtils.wait(15);                  // 30 ms elapsed
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
 
         method.call(null, TEST_ARGUMENTS);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
 
         await AsyncUtils.wait(15);                  // 45 ms elapsed
 
         assert.false(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
     }
 
 
@@ -417,42 +417,42 @@ export class DebouncingMethodTest {
         let method: DebouncingMethod = new DebouncingMethod(mock.value, 20, MethodCallEdge.Both);
 
         assert.false(method.isThrottling);
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
 
         method.call(null, TEST_ARGUMENTS);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         await AsyncUtils.wait(10);                  // 10 ms elapsed
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         method.call(null, TEST_ARGUMENTS);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         await AsyncUtils.wait(10);                  // 20 ms elapsed
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         method.call(null, TEST_ARGUMENTS);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         await AsyncUtils.wait(10);                  // 30 ms elapsed
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         await AsyncUtils.wait(25);                  // 55 ms elapsed
 
         assert.false(method.isThrottling);
-        assert.equals(mock.callsCount, 2);
+        assert.equals(mock.calls.length, 2);
     }
 
 
@@ -465,36 +465,36 @@ export class DebouncingMethodTest {
         let method = new DebouncingMethod(mock.value, 20, MethodCallEdge.Both, 40);
 
         assert.false(method.isThrottling);
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
 
         method.call(null, TEST_ARGUMENTS);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         await AsyncUtils.wait(15);                  // 15 ms elapsed
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         method.call(null, TEST_ARGUMENTS);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         await AsyncUtils.wait(15);                  // 30 ms elapsed
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         method.call(null, TEST_ARGUMENTS);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         await AsyncUtils.wait(15);                  // 45 ms elapsed
 
         assert.false(method.isThrottling);
-        assert.equals(mock.callsCount, 2);
+        assert.equals(mock.calls.length, 2);
     }
 }

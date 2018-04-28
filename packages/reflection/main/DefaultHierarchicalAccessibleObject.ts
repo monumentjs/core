@@ -106,7 +106,7 @@ export class DefaultHierarchicalAccessibleObject implements HierarchicalAccessib
 
     protected setParent(parent: HierarchicalAccessibleObject | undefined): void {
         this._parent = parent;
-        this._attributes.parent = parent;
-        this._decorators.parent = parent;
+        this._attributes.parentContext = parent;
+        this._decorators.parentContext = parent;
     }
 }

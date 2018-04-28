@@ -1,5 +1,5 @@
 {
-  "name": "@monument/ioc",
+  "name": "@monument/context",
   "version": "0.0.52",
   "description": "Inversion of control",
   "keywords": [
@@ -13,6 +13,9 @@
     "dependency",
     "injection"
   ],
+  "scripts": {
+    "test": "td"
+  },
   "dependencies": {
     "@monument/assert": "^0.0.52",
     "@monument/core": "^0.0.52",
@@ -21,5 +24,8 @@
     "@monument/reflection": "^0.0.52",
     "@monument/stereotype": "^0.0.52",
     "@monument/text": "^0.0.52"
+  },
+  "devDependencies": {
+    "@monument/test-drive": "^0.0.52"
   }
 }

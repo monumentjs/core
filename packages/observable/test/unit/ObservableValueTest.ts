@@ -33,10 +33,10 @@ export class ObservableValueTest {
             onError: onErrorMock.value
         });
 
-        assert.equals(onNextMock.callsCount, 1);
+        assert.equals(onNextMock.calls.length, 1);
         assert.true(onNextMock.lastCall.testArguments([0]));
-        assert.equals(onCompletedMock.callsCount, 0);
-        assert.equals(onErrorMock.callsCount, 0);
+        assert.equals(onCompletedMock.calls.length, 0);
+        assert.equals(onErrorMock.calls.length, 0);
     }
 
 
@@ -56,10 +56,10 @@ export class ObservableValueTest {
 
         value.dispose();
 
-        assert.equals(onNextMock.callsCount, 1);
+        assert.equals(onNextMock.calls.length, 1);
         assert.true(onNextMock.lastCall.testArguments([0]));
-        assert.equals(onCompletedMock.callsCount, 1);
-        assert.equals(onErrorMock.callsCount, 0);
+        assert.equals(onCompletedMock.calls.length, 1);
+        assert.equals(onErrorMock.calls.length, 0);
     }
 
 
@@ -79,14 +79,14 @@ export class ObservableValueTest {
 
         value.set(0);
 
-        assert.equals(onNextMock.callsCount, 1);
-        assert.equals(onCompletedMock.callsCount, 0);
-        assert.equals(onErrorMock.callsCount, 0);
+        assert.equals(onNextMock.calls.length, 1);
+        assert.equals(onCompletedMock.calls.length, 0);
+        assert.equals(onErrorMock.calls.length, 0);
 
         value.set(1);
 
-        assert.equals(onNextMock.callsCount, 2);
-        assert.equals(onCompletedMock.callsCount, 0);
-        assert.equals(onErrorMock.callsCount, 0);
+        assert.equals(onNextMock.calls.length, 2);
+        assert.equals(onCompletedMock.calls.length, 0);
+        assert.equals(onErrorMock.calls.length, 0);
     }
 }

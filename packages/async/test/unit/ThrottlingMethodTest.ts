@@ -21,7 +21,7 @@ export class ThrottlingMethodTest {
         assert.true(method.canCallOnLeadingEdge);
         assert.false(method.canCallOnTrailingEdge);
         assert.false(method.isThrottling);
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
     }
 
 
@@ -35,13 +35,13 @@ export class ThrottlingMethodTest {
         method.call([], TEST_ARGUMENTS);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
         assert.true(mock.lastCall.testArguments(TEST_ARGUMENTS));
 
         await AsyncUtils.wait(20);
 
         assert.false(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
         assert.true(mock.lastCall.testArguments(TEST_ARGUMENTS));
     }
 
@@ -56,12 +56,12 @@ export class ThrottlingMethodTest {
         method.call([], TEST_ARGUMENTS);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
 
         await AsyncUtils.wait(20);
 
         assert.false(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
         assert.true(mock.lastCall.testArguments(TEST_ARGUMENTS));
     }
 
@@ -76,13 +76,13 @@ export class ThrottlingMethodTest {
         method.call([], TEST_ARGUMENTS);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
         assert.true(mock.lastCall.testArguments(TEST_ARGUMENTS));
 
         await AsyncUtils.wait(20);
 
         assert.false(method.isThrottling);
-        assert.equals(mock.callsCount, 2);
+        assert.equals(mock.calls.length, 2);
         assert.true(mock.lastCall.testArguments(TEST_ARGUMENTS));
     }
 
@@ -101,22 +101,22 @@ export class ThrottlingMethodTest {
         assert.equals(method.call(null, [1, 2]), 3);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         assert.equals(method.call(null, [3, 4]), 3);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         assert.equals(method.call(null, [5, 6]), 3);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         await AsyncUtils.wait(20);
 
         assert.false(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
         assert.true(mock.lastCall.testArguments([1, 2]));
     }
 
@@ -135,17 +135,17 @@ export class ThrottlingMethodTest {
         assert.equals(method.call(null, [1, 2]), undefined);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
 
         assert.equals(method.call(null, [3, 4]), undefined);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
 
         assert.equals(method.call(null, [5, 6]), undefined);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
 
         await AsyncUtils.wait(20);
 
@@ -154,7 +154,7 @@ export class ThrottlingMethodTest {
         assert.equals(method.call(null, [7, 8]), 11);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
         assert.true(mock.lastCall.testArguments([5, 6]));
     }
 
@@ -173,22 +173,22 @@ export class ThrottlingMethodTest {
         assert.equals(method.call(null, [1, 2]), 3);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         assert.equals(method.call(null, [3, 4]), 3);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         assert.equals(method.call(null, [5, 6]), 3);
 
         assert.true(method.isThrottling);
-        assert.equals(mock.callsCount, 1);
+        assert.equals(mock.calls.length, 1);
 
         await AsyncUtils.wait(20);
 
         assert.false(method.isThrottling);
-        assert.equals(mock.callsCount, 2);
+        assert.equals(mock.calls.length, 2);
 
         assert.equals(method.call(null, [7, 8]), 15);
 

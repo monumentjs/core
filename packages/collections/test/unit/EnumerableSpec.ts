@@ -71,7 +71,7 @@ export abstract class EnumerableSpec {
             mock.value(word);
         }
 
-        assert.equals(mock.callsCount, TEST_ITEMS.length);
+        assert.equals(mock.calls.length, TEST_ITEMS.length);
         assert.true(mock.testCallArguments(0, ['one']));
         assert.true(mock.testCallArguments(1, ['two']));
         assert.true(mock.testCallArguments(2, ['three']));
@@ -85,7 +85,7 @@ export abstract class EnumerableSpec {
 
         instance.forEach(mock.value);
 
-        assert.equals(mock.callsCount, 3);
+        assert.equals(mock.calls.length, 3);
 
         assert.true(mock.testCallArguments(0, ['one', 0]));
         assert.true(mock.testCallArguments(1, ['two', 1]));
@@ -103,7 +103,7 @@ export abstract class EnumerableSpec {
 
         instance.forEach(mock.value, 0, 2);
 
-        assert.equals(mock.callsCount, 2);
+        assert.equals(mock.calls.length, 2);
 
         assert.true(mock.testCallArguments(0, ['one', 0]));
         assert.true(mock.testCallArguments(1, ['two', 1]));
@@ -120,7 +120,7 @@ export abstract class EnumerableSpec {
 
         instance.forEach(mock.value, 1, 2);
 
-        assert.equals(mock.callsCount, 2);
+        assert.equals(mock.calls.length, 2);
 
         assert.true(mock.testCallArguments(0, ['two', 1]));
         assert.true(mock.testCallArguments(1, ['three', 2]));
@@ -136,7 +136,7 @@ export abstract class EnumerableSpec {
 
         instance.forEach(mock.value, 1);
 
-        assert.equals(mock.callsCount, 2);
+        assert.equals(mock.calls.length, 2);
 
         assert.true(mock.testCallArguments(0, ['two', 1]));
         assert.true(mock.testCallArguments(1, ['three', 2]));
@@ -187,6 +187,6 @@ export abstract class EnumerableSpec {
             instance.forEach(mock.value, 0, 4);
         }, RangeException);
 
-        assert.equals(mock.callsCount, 0);
+        assert.equals(mock.calls.length, 0);
     }
 }
