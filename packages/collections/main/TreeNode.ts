@@ -1,21 +1,17 @@
 import {InvalidArgumentException} from '@monument/core/main/exceptions/InvalidArgumentException';
-import {NodeList} from './NodeList';
+import {ReadOnlyList} from './ReadOnlyList';
+import {TreeNodeList} from './TreeNodeList';
 
 
 export class TreeNode<TValue> implements Iterable<TValue> {
-    private readonly _childNodes: NodeList<TValue> = new NodeList(this);
+    private readonly _childNodes: TreeNodeList<TValue> = new TreeNodeList(this);
+    private readonly _name: string;
     private _parentNode: TreeNode<TValue> | undefined;
-    private _name: string;
     private _value: TValue;
 
 
     public get name(): string {
         return this._name;
-    }
-
-
-    public set name(value: string) {
-        this._name = value;
     }
 
 
@@ -29,24 +25,29 @@ export class TreeNode<TValue> implements Iterable<TValue> {
     }
 
 
-    public set parentNode(value: TreeNode<TValue> | undefined) {
-        if (this._parentNode === value) {
-            return;
-        }
+    public get parentNode(): TreeNode<TValue> | undefined {
+        return this._parentNode;
+    }
 
-        if (this._parentNode) {
-            this._parentNode.removeChild(this);
-        }
 
-        this._parentNode = value;
+    public set parentNode(nextParent: TreeNode<TValue> | undefined) {
+        const previousParent: TreeNode<TValue> | undefined = this._parentNode;
 
-        if (this._parentNode && !this._parentNode.contains(this)) {
-            this._parentNode.addChild(this);
+        if (this._parentNode !== nextParent) {
+            this._parentNode = nextParent;
+
+            if (nextParent && !nextParent._childNodes.contains(this)) {
+                nextParent._childNodes.add(this);
+            }
+
+            if (!nextParent && previousParent && previousParent._childNodes.contains(this)) {
+                previousParent._childNodes.remove(this);
+            }
         }
     }
 
 
-    public get childNodes(): NodeList<TValue> {
+    public get childNodes(): ReadOnlyList<TreeNode<TValue>> {
         return this._childNodes;
     }
 
@@ -120,12 +121,12 @@ export class TreeNode<TValue> implements Iterable<TValue> {
 
 
     public addChild(node: TreeNode<TValue>): void {
-        this.childNodes.add(node);
+        this._childNodes.add(node);
     }
 
 
     public removeChild(node: TreeNode<TValue>): boolean {
-        return this.childNodes.remove(node);
+        return this._childNodes.remove(node);
     }
 
 
@@ -136,7 +137,7 @@ export class TreeNode<TValue> implements Iterable<TValue> {
             throw new InvalidArgumentException('refNode', 'Reference node is not a member of child nodes collection.');
         }
 
-        this.childNodes.insert(indexOfOldNode, newNode);
+        this._childNodes.insert(indexOfOldNode, newNode);
     }
 
 
@@ -166,7 +167,7 @@ export class TreeNode<TValue> implements Iterable<TValue> {
             throw new InvalidArgumentException('refNode', 'Reference node is not a member of child nodes collection.');
         }
 
-        this.childNodes.insert(insertPosition, newNode);
+        this._childNodes.insert(insertPosition, newNode);
     }
 
 
@@ -177,7 +178,7 @@ export class TreeNode<TValue> implements Iterable<TValue> {
             throw new InvalidArgumentException('refNode', 'Reference node is not a member of child nodes collection.');
         }
 
-        this.childNodes.insert(insertPosition + 1, newNode);
+        this._childNodes.insert(insertPosition + 1, newNode);
     }
 
 
@@ -189,7 +190,7 @@ export class TreeNode<TValue> implements Iterable<TValue> {
                 let {done, value} = node.next();
 
                 return {
-                    done: done,
+                    done: done || value == null,
                     value: value ? value.value : undefined as any
                 };
             }
@@ -197,7 +198,7 @@ export class TreeNode<TValue> implements Iterable<TValue> {
     }
 
 
-    private *getNextNode(): IterableIterator<TreeNode<TValue>> {
+    public *getNextNode(): IterableIterator<TreeNode<TValue>> {
         for (const node of this.childNodes) {
             yield node;
             yield *node.childNodes;

@@ -23,7 +23,7 @@ export interface UnitFactory {
     /**
      * @throws {NoSuchUnitDefinitionException} if there is no unit definition with the specified name
      */
-    getType(unitName: string): Type;
+    getType(unitName: string): Type<object>;
 
     /**
      * @throws {NoSuchUnitDefinitionException} if there is no unit definition with the specified name
@@ -38,5 +38,5 @@ export interface UnitFactory {
     /**
      * @throws {NoSuchUnitDefinitionException} if there is no unit definition with the specified name
      */
-    isTypeMatch(unitName: string, unitType: Type): boolean;
+    isTypeMatch(unitName: string, unitType: Type<object>): boolean;
 }

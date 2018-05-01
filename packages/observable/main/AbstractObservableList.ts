@@ -1,11 +1,11 @@
 import {Comparator} from '@monument/core/main/Comparator';
 import {EqualityComparator} from '@monument/core/main/EqualityComparator';
-import {IteratorFunction} from '../../collections/main/IteratorFunction';
-import {List} from '../../collections/main/List';
-import {CombineFunction} from '../../collections/main/CombineFunction';
-import {SortOrder} from '../../collections/main/SortOrder';
-import {Grouping} from '../../collections/main/Grouping';
-import {ConfigurableEvent} from '../../events/main/ConfigurableEvent';
+import {IteratorFunction} from '@monument/collections/main/IteratorFunction';
+import {List} from '@monument/collections/main/List';
+import {CombineFunction} from '@monument/collections/main/CombineFunction';
+import {SortOrder} from '@monument/collections/main/SortOrder';
+import {Grouping} from '@monument/collections/main/Grouping';
+import {ConfigurableEvent} from '@monument/events/main/ConfigurableEvent';
 import {CollectionChangedEventArgs} from './CollectionChangedEventArgs';
 import {ObservableCollection} from './ObservableCollection';
 

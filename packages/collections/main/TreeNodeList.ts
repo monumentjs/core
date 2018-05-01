@@ -1,11 +1,10 @@
 import {Assert} from '@monument/assert/main/Assert';
-import {ObservableArrayList} from '@monument/observable/main/ObservableArrayList';
+import {ArrayList} from './ArrayList';
 import {TreeNode} from './TreeNode';
 
 
-export class NodeList<TNodeValue> extends ObservableArrayList<TreeNode<TNodeValue>> {
+export class TreeNodeList<TNodeValue> extends ArrayList<TreeNode<TNodeValue>> {
     private readonly _parentNode: TreeNode<TNodeValue>;
-
 
     public get parentNode(): TreeNode<TNodeValue> {
         return this._parentNode;
@@ -22,7 +21,11 @@ export class NodeList<TNodeValue> extends ObservableArrayList<TreeNode<TNodeValu
     public add(node: TreeNode<TNodeValue>): boolean {
         node.parentNode = this.parentNode;
 
-        return super.add(node);
+        if (!this.contains(node)) {
+            return super.add(node);
+        }
+
+        return false;
     }
 
 
@@ -31,20 +34,22 @@ export class NodeList<TNodeValue> extends ObservableArrayList<TreeNode<TNodeValu
 
         node.parentNode = this.parentNode;
 
-        super.insert(position, node);
+        if (!this.contains(node)) {
+            super.insert(position, node);
+        }
 
         return true;
     }
 
 
     public remove(node: TreeNode<TNodeValue>): boolean {
-        if (super.remove(node)) {
-            node.parentNode = undefined;
+        const isRemoved: boolean = super.remove(node);
 
-            return true;
+        if (isRemoved) {
+            node.parentNode = undefined;
         }
 
-        return false;
+        return isRemoved;
     }
 
 

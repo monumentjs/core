@@ -1,6 +1,6 @@
 import {Class} from '@monument/reflection/main/Class';
-import {Decorator} from '@monument/reflection/main/Decorator';
 import {Method} from '@monument/reflection/main/Method';
+import {Decorator} from '@monument/reflection/main/Decorator';
 
 
 class AfterAllDecorator extends Decorator {

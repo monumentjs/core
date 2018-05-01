@@ -19,9 +19,8 @@
     "deep-equal": "^1.0.1"
   },
   "devDependencies": {
-    "@types/node": "^10.0.0",
+    "@types/node": "^10.0.1",
     "@types/deep-equal": "^1.0.1",
-    "coveralls": "^3.0.0",
     "lerna": "^2.11.0",
     "tslint": "^5.9.1",
     "typescript": "^2.8.3"

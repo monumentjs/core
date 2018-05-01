@@ -1,7 +1,7 @@
 import {BeforeEach} from '@monument/test-drive/main/configuration/decorators/BeforeEach';
 import {Test} from '@monument/test-drive/main/configuration/decorators/Test';
 import {Assert} from '@monument/test-drive/main/assert/Assert';
-import { LinkedListNode } from '../../main/LinkedListNode';
+import {LinkedListNode} from '../../main/LinkedListNode';
 
 
 export class LinkedListNodeTest {

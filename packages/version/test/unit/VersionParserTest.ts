@@ -1,11 +1,11 @@
 import {Test} from '@monument/test-drive/main/configuration/decorators/Test';
 import {Assert} from '@monument/test-drive/main/assert/Assert';
-import {ParsingException} from 'text/main/parser/ParsingException';
+import {ParsingException} from '@monument/text/main/parser/ParsingException';
 import {VersionParser} from '../../main/VersionParser';
 
 
 export class VersionParserTest {
-    protected readonly parser: VersionParser = VersionParser.instance;
+    private readonly parser: VersionParser = VersionParser.instance;
 
 
     @Test

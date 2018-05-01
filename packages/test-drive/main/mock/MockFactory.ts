@@ -5,7 +5,7 @@ import {FunctionMock} from './FunctionMock';
 @Service
 export class MockFactory {
 
-    public function<T extends Function = Function>(implementation?: Function): FunctionMock<T> {
+    public function<TFunc extends Function = Function>(implementation?: TFunc): FunctionMock<TFunc> {
         return new FunctionMock(implementation);
     }
 }

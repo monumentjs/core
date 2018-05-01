@@ -4,7 +4,7 @@ import {ArrayList} from '@monument/collections/main/ArrayList';
 import {FunctionCall} from './FunctionCall';
 
 
-export class FunctionMock<T extends Function = Function> {
+export class FunctionMock<TFunc extends Function = Function> {
     private readonly _mock: Function;
     private readonly _calls: ArrayList<FunctionCall> = new ArrayList();
 
@@ -23,12 +23,12 @@ export class FunctionMock<T extends Function = Function> {
     }
 
 
-    public get value(): T {
-        return this._mock as T;
+    public get value(): TFunc {
+        return this._mock as TFunc;
     }
 
 
-    public constructor(impl?: Function) {
+    public constructor(impl?: TFunc) {
         const self = this;
 
         this._mock = function (...args: any[]) {

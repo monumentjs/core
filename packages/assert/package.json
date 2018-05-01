@@ -1,7 +1,7 @@
 {
   "name": "@monument/assert",
   "version": "0.0.52",
-  "description": "Core module of TypeScript standard library",
+  "description": "Common assertions",
   "keywords": [
     "typescript",
     "standard",

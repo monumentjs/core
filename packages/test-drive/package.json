@@ -9,6 +9,7 @@
     "nodejs",
     "node"
   ],
+  "preferGlobal": true,
   "bin": {
     "td": "./bin/td.js"
   },

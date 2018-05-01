@@ -1,5 +1,5 @@
 import {GetInstance} from '@monument/core/main/decorators/GetInstance';
-import {ParsingException} from 'text/main/parser/ParsingException';
+import {ParsingException} from '@monument/text/main/parser/ParsingException';
 import {Version} from './Version';
 import {ReleaseStatus} from './ReleaseStatus';
 

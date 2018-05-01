@@ -1,11 +1,17 @@
 {
   "name": "@monument/events",
   "version": "0.0.52",
-  "description": "Events module",
+  "description": "Events support",
   "keywords": [
   ],
+  "scripts": {
+    "test": "td"
+  },
   "dependencies": {
     "@monument/core": "^0.0.52",
     "@monument/collections": "^0.0.52"
+  },
+  "devDependencies": {
+    "@monument/test-drive": "^0.0.52"
   }
 }

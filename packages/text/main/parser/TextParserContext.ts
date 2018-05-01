@@ -2,18 +2,18 @@ import {EMPTY_STRING} from '@monument/core/main/constants';
 
 
 export class TextParserContext<TResult> {
-    private _result: TResult;
+    private _result: TResult | undefined;
     private _input: string = EMPTY_STRING;
     private _index: number = 0;
     private _inputPosition: number = 0;
 
 
-    public get result(): TResult {
+    public get result(): TResult | undefined {
         return this._result;
     }
 
 
-    public set result(value: TResult) {
+    public set result(value: TResult | undefined) {
         this._result = value;
     }
 
