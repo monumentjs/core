@@ -2,7 +2,7 @@ import {StringPool} from '../../../../core/main/StringPool';
 
 
 export class HttpRequestAuthCredentials {
-    public static readonly StringPool.BLANK: HttpRequestAuthCredentials = new HttpRequestAuthCredentials(StringPool.BLANK, StringPool.BLANK);
+    public static readonly StringPool; .public BLANK: HttpRequestAuthCredentials = new HttpRequestAuthCredentials(StringPool.BLANK, StringPool.BLANK);
 
 
     private _name: string;

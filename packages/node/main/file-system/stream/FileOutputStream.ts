@@ -7,5 +7,4 @@ import {FileSize} from '../FileSize';
 export interface FileOutputStream extends OutputStream<Buffer>, Closeable {
     readonly path: Path;
     readonly bytesWritten: FileSize;
-    readonly length: Promise<FileSize>;
 }
