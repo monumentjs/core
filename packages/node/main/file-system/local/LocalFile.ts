@@ -1,7 +1,7 @@
 import {Stats} from 'fs';
+import {MemorySize} from '@monument/core/main/MemorySize';
 import {DateTime} from '@monument/time/main/DateTime';
 import {Path} from '../../path/Path';
-import {FileSize} from '../FileSize';
 import {File} from '../File';
 
 
@@ -18,7 +18,7 @@ export class LocalFile extends File {
             stats.rdev,
             stats.uid,
             stats.gid,
-            new FileSize(stats.size)
+            new MemorySize(stats.size)
         );
     }
 }

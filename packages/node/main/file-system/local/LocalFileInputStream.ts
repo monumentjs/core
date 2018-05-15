@@ -1,14 +1,14 @@
 import {ReadStream} from 'fs';
 import {DeferredObject} from '@monument/async/main/DeferredObject';
+import {MemorySize} from '@monument/core/main/MemorySize';
 import {Delegate} from '@monument/core/main/decorators/Delegate';
 import {ListQueue} from '@monument/collections/main/ListQueue';
 import {Event} from '@monument/events/main/Event';
 import {EventArgs} from '@monument/events/main/EventArgs';
 import {ConfigurableEvent} from '@monument/events/main/ConfigurableEvent';
+import {StreamException} from '@monument/stream/main/StreamException';
 import {Path} from '../../path/Path';
 import {FileInputStream} from '../stream/FileInputStream';
-import {FileSize} from '../FileSize';
-import {StreamException} from '@monument/stream/main/StreamException';
 
 
 export class LocalFileInputStream implements FileInputStream {
@@ -27,8 +27,8 @@ export class LocalFileInputStream implements FileInputStream {
     }
 
 
-    public get bytesRead(): FileSize {
-        return new FileSize(this._stream.bytesRead);
+    public get bytesRead(): MemorySize {
+        return new MemorySize(this._stream.bytesRead);
     }
 
 

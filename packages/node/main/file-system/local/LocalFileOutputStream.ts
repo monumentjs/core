@@ -1,5 +1,6 @@
 import {WriteStream} from 'fs';
 import {DeferredObject} from '@monument/async/main/DeferredObject';
+import {MemorySize} from '@monument/core/main/MemorySize';
 import {Delegate} from '@monument/core/main/decorators/Delegate';
 import {ListQueue} from '@monument/collections/main/ListQueue';
 import {Event} from '@monument/events/main/Event';
@@ -7,7 +8,6 @@ import {EventArgs} from '@monument/events/main/EventArgs';
 import {ConfigurableEvent} from '@monument/events/main/ConfigurableEvent';
 import {Path} from '../../path/Path';
 import {FileOutputStream} from '../stream/FileOutputStream';
-import {FileSize} from '../FileSize';
 import ErrnoException = NodeJS.ErrnoException;
 
 
@@ -24,8 +24,8 @@ export class LocalFileOutputStream implements FileOutputStream {
     }
 
 
-    public get bytesWritten(): FileSize {
-        return new FileSize(this._stream.bytesWritten);
+    public get bytesWritten(): MemorySize {
+        return new MemorySize(this._stream.bytesWritten);
     }
 
 

@@ -1,7 +1,7 @@
+import {MemorySize} from '@monument/core/main/MemorySize';
 import {DateTime} from '@monument/time/main/DateTime';
 import {Path} from '../path/Path';
 import {AccessPermissions} from './AccessPermissions';
-import {FileSize} from './FileSize';
 
 
 export abstract class File {
@@ -17,6 +17,6 @@ export abstract class File {
         public readonly specialDeviceId: number,
         public readonly ownerUserId: number,
         public readonly ownerGroupId: number,
-        public readonly size: FileSize
+        public readonly size: MemorySize
     ) {}
 }
