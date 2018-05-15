@@ -35,7 +35,7 @@ export class BitSet implements Cloneable<BitSet>, Equatable<BitSet>, JSONSeriali
     }
 
 
-    private _bits: boolean[];
+    private readonly _bits: boolean[];
 
 
     public get length(): number {

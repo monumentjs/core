@@ -1,8 +1,8 @@
 
 
-export enum StringPool {
-    BLANK = '',
-    EOL_CRLF = '\r\n',
-    EOL_CR = '\r',
-    EOL_LF = '\n',
+export class StringPool {
+    public static readonly BLANK = '';
+    public static readonly EOL_CRLF = '\r\n';
+    public static readonly EOL_CR = '\r';
+    public static readonly EOL_LF = '\n';
 }

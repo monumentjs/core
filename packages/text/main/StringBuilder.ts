@@ -1,12 +1,12 @@
 import {Assert} from '@monument/assert/main/Assert';
+import {StringPool} from '@monument/core/main/StringPool';
 import {TemplateString} from './TemplateString';
-import {StringPool} from '../../core/main/StringPool';
 
 
 export class StringBuilder {
+    private readonly _capacity: number;
     private _value: string;
-    private _capacity: number;
-    private _linesSeparator = '\n';
+    private _linesSeparator: string = StringPool.EOL_CRLF;
 
 
     public get linesSeparator(): string {

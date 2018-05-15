@@ -103,16 +103,16 @@ class ThrottlingState extends MethodState {
 
 
 export class ThrottlingMethod {
-    private _normalState: MethodState;
-    private _throttlingState: MethodState;
+    private readonly _normalState: MethodState;
+    private readonly _throttlingState: MethodState;
     private _currentState: MethodState;
 
     private _lastCall: MethodCall | undefined;
     private _lastReturnValue: any;
 
-    private _method: Function;
-    private _delay: number;
-    private _callEdge: MethodCallEdge;
+    private readonly _method: Function;
+    private readonly _delay: number;
+    private readonly _callEdge: MethodCallEdge;
 
 
     public get isThrottling(): boolean {
