@@ -24,7 +24,6 @@
     "@monument/logger": "^0.0.52",
     "@monument/reflection": "^0.0.52",
     "@monument/stereotype": "^0.0.52",
-    "@monument/system": "^0.0.52",
     "@monument/time": "^0.0.52",
     "@monument/text": "^0.0.52",
     "@monument/node": "^0.0.52"
