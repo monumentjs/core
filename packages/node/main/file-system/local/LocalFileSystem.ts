@@ -364,7 +364,7 @@ export class LocalFileSystem implements FileStorage {
     public writeFile(filePath: Path): LocalFileOutputStream {
         const stream: WriteStream = createWriteStream(filePath.toString());
 
-        return new LocalFileOutputStream(this, filePath, stream);
+        return new LocalFileOutputStream(filePath, stream);
     }
 
 

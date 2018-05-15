@@ -10,7 +10,6 @@ export interface ChildProcess extends Channel {
     readonly closed: Event<ChildProcess, ProcessClosedEventArgs>;
     readonly disconnected: Event<ChildProcess, EventArgs>;
 
-    readonly id: number;
     readonly isKilled: boolean;
 
     kill(signal?: NodeJS.Signals): void;
