@@ -9,7 +9,6 @@
     "mock",
     "framework"
   ],
-  "preferGlobal": true,
   "bin": {
     "td": "./bin/td.js"
   },
