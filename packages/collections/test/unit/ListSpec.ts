@@ -5,9 +5,9 @@ import {ArgumentIndexOutOfBoundsException} from '@monument/core/main/exceptions/
 import {RangeException} from '@monument/core/main/exceptions/RangeException';
 import {IgnoreCaseComparator} from '@monument/core/main/IgnoreCaseComparator';
 import {ArgumentRangeException} from '@monument/core/main/exceptions/ArgumentRangeException';
-import {Test} from '@monument/test-drive/main/configuration/decorators/Test';
-import {Assert} from '@monument/test-drive/main/assert/Assert';
-import {MockFactory} from '@monument/test-drive/main/mock/MockFactory';
+import {Test} from '@monument/test-drive/main/decorators/Test';
+import {Assert} from '@monument/test-drive/main/modules/assert/Assert';
+import {FunctionMock} from '@monument/test-drive/main/modules/mock/FunctionMock';
 import {SortOrder} from '../../main/SortOrder';
 import {List} from '../../main/List';
 import {Grouping} from '../../main/Grouping';
@@ -293,9 +293,9 @@ export abstract class ListSpec extends CollectionSpec {
 
 
     @Test
-    public 'forEach() iterates over list'(assert: Assert, mockFactory: MockFactory) {
+    public 'forEach() iterates over list'(assert: Assert) {
         let list: List<string> = this.create(['one', 'two']);
-        let mock = mockFactory.function<IteratorFunction<string, void>>();
+        let mock = new FunctionMock<IteratorFunction<string, void>>();
 
         list.forEach(mock.value);
 
@@ -841,8 +841,12 @@ export abstract class ListSpec extends CollectionSpec {
     public 'slice() throws if slice range is invalid'(assert: Assert) {
         let list: List<string> = this.create();
 
-        assert.throws(() => list.slice(0, 1), RangeException);
-        assert.throws(() => list.slice(-1, 0), ArgumentIndexOutOfBoundsException);
+        assert.throws(() => {
+            list.slice(0, 1);
+        }, RangeException);
+        assert.throws(() => {
+            list.slice(-1, 0);
+        }, ArgumentIndexOutOfBoundsException);
     }
 
 

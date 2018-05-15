@@ -13,11 +13,9 @@
     "noStrictGenericChecks": false,
     "strictFunctionTypes": false,
     "forceConsistentCasingInFileNames": true,
-    "jsx": "react",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "lib": [
-      "dom",
       "es5",
       "es6",
       "es7",
@@ -36,7 +34,10 @@
       "es2017",
       "es2017.object",
       "es2017.sharedmemory",
-      "es2018"
+      "es2018",
+      "es2018.promise",
+      "es2018.regexp",
+      "esnext.asynciterable"
     ],
     "typeRoots": [
       "./node_modules/@types"

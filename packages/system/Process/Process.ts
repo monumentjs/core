@@ -1,23 +1,22 @@
 import * as net from 'net';
-import { Readable, Writable } from 'stream';
-import { ChildProcess as NodeChildProcess, spawn, SpawnOptions } from 'child_process';
-import { NoAssociatedProcessException } from './NoAssociatedProcessException';
-import { ProcessEventArgs } from './ProcessEventArgs';
-import { ProcessStartInfo } from './ProcessStartInfo';
-import { ProcessMessageEventArgs } from './ProcessMessageEventArgs';
-import { ProcessIOMode } from './ProcessIOMode';
-import { ProcessMessage } from './ProcessMessage';
-import { StandardInputStream } from './StandardInputStream';
-import { StandardOutputStream } from './StandardOutputStream';
-import { StandardErrorStream } from './StandardErrorStream';
-import { DeferredObject } from '../../async/main/DeferredObject';
-import { InvalidOperationException } from '../../core/main/exceptions/InvalidOperationException';
-import { ErrorEventArgs } from '@monument/core/Events/ErrorEventArgs';
-import { Exception } from '../../core/main/exceptions/Exception';
-import { EventDispatcher } from '@monument/core/Events/EventDispatcher';
-import { EventSource } from '@monument/core/Events/EventSource';
-import { Delegate } from '@monument/core/Events/Decorators/Delegate';
-import { AbstractComponent } from '../../component-model/main/component/AbstractComponent';
+import {Readable, Writable} from 'stream';
+import {ChildProcess as NodeChildProcess, spawn, SpawnOptions} from 'child_process';
+import {NoAssociatedProcessException} from './NoAssociatedProcessException';
+import {ProcessEventArgs} from './ProcessEventArgs';
+import {ProcessStartInfo} from './ProcessStartInfo';
+import {ProcessMessageEventArgs} from './ProcessMessageEventArgs';
+import {ProcessIOMode} from './ProcessIOMode';
+import {ProcessMessage} from './ProcessMessage';
+import {StandardInputStream} from './StandardInputStream';
+import {StandardOutputStream} from './StandardOutputStream';
+import {StandardErrorStream} from './StandardErrorStream';
+import {DeferredObject} from '../../async/main/DeferredObject';
+import {InvalidOperationException} from '../../core/main/exceptions/InvalidOperationException';
+import {ErrorEventArgs} from '@monument/core/Events/ErrorEventArgs';
+import {EventDispatcher} from '@monument/core/Events/EventDispatcher';
+import {EventSource} from '@monument/core/Events/EventSource';
+import {Delegate} from '@monument/core/Events/Decorators/Delegate';
+import {AbstractComponent} from '../../component-model/main/component/AbstractComponent';
 
 
 export class Process extends AbstractComponent {

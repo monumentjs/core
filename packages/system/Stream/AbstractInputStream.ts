@@ -1,11 +1,11 @@
 import {Readable} from 'stream';
 import {DeferredObject} from '../../async/main/DeferredObject';
-import {InputStream} from '../../stream-core/main/InputStream';
-import {ClosedStreamException} from '../../stream-core/main/ClosedStreamException';
-import {EndOfStreamException} from '../../stream-core/main/EndOfStreamException';
+import {InputStream} from '../../stream/main/InputStream';
+import {ClosedStreamException} from '../../stream/main/ClosedStreamException';
+import {EndOfStreamException} from '../../stream/main/EndOfStreamException';
 import {CloseableStream} from './CloseableStream';
-import {OutputStream} from '../../stream-core/main/OutputStream';
-import {Delegate} from '@monument/events/main/decorators/Delegate';
+import {OutputStream} from '../../stream/main/OutputStream';
+import {Delegate} from 'core/main/decorators/Delegate';
 
 
 export abstract class AbstractInputStream<T, TBase extends Readable & CloseableStream> implements InputStream<T> {

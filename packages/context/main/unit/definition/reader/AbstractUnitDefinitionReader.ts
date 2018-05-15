@@ -15,7 +15,7 @@ export abstract class AbstractUnitDefinitionReader implements UnitDefinitionRead
     }
 
 
-    public abstract scan<T extends object>(root: Type<T>): void;
+    public abstract scan(root: Type<object>): void;
 
 
     protected obtainUnitDefinition<T extends object>(type: Type<T>): UnitDefinition {

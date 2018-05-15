@@ -1,35 +1,39 @@
 import {Type} from '@monument/core/main/Type';
-import {ReadOnlyMap} from '@monument/collections/main/ReadOnlyMap';
-import {ReadOnlySet} from '@monument/collections/main/ReadOnlySet';
 import {ArrayList} from '@monument/collections/main/ArrayList';
-import {ListMap} from '@monument/collections/main/ListMap';
-import {Parameter} from '@monument/reflection/main/Parameter';
+import {ReadOnlyCollection} from '@monument/collections/main/ReadOnlyCollection';
+import {ReadOnlyMap} from '@monument/collections/main/ReadOnlyMap';
 import {Class} from '@monument/reflection/main/Class';
 import {Method} from '@monument/reflection/main/Method';
-import {DefaultType} from '@monument/stereotype/main/DefaultType';
-import {DefaultTypeConfiguration} from '@monument/stereotype/main/DefaultTypeConfiguration';
+import {PreDestroy} from '@monument/stereotype/main/PreDestroy';
+import {Destroy} from '@monument/stereotype/main/Destroy';
+import {PostConstruct} from '@monument/stereotype/main/PostConstruct';
+import {Init} from '@monument/stereotype/main/Init';
 import {UnitDefinition} from '../../definition/UnitDefinition';
 import {UnitDefinitionRegistry} from '../../definition/registry/UnitDefinitionRegistry';
 import {NoSuchUnitDefinitionException} from '../../NoSuchUnitDefinitionException';
 import {UnitPostProcessor} from '../configuration/UnitPostProcessor';
+import {ConfigurableListableUnitFactory} from '../configuration/ConfigurableListableUnitFactory';
 import {UnitFactory} from '../UnitFactory';
-import {ConfigurableUnitFactory} from '../ConfigurableUnitFactory';
+import {DefaultSingletonUnitRegistry} from './DefaultSingletonUnitRegistry';
+import {MethodInvoker} from './MethodInvoker';
+import {UnitRequest} from '../UnitRequest';
 
 
-export class DefaultUnitFactory implements ConfigurableUnitFactory {
+export class DefaultUnitFactory implements ConfigurableListableUnitFactory {
     private _parent: UnitFactory | undefined;
-    private readonly _registry: UnitDefinitionRegistry;
+    private readonly _unitDefinitionRegistry: UnitDefinitionRegistry;
+    private readonly _methodInvoker: MethodInvoker = new MethodInvoker(this);
     private readonly _unitPostProcessors: ArrayList<UnitPostProcessor> = new ArrayList();
-    private readonly _singletons: ListMap<Type<object>, Promise<object>> = new ListMap();
+    private readonly _singletonRegistry: DefaultSingletonUnitRegistry = new DefaultSingletonUnitRegistry();
 
 
-    public get unitTypes(): ReadOnlySet<Type<object>> {
-        return this._registry.unitTypes;
+    public get unitDefinitions(): ReadOnlyMap<Type<object>, UnitDefinition> {
+        return this._unitDefinitionRegistry.unitDefinitions;
     }
 
 
-    public get unitPostProcessorCount(): number {
-        return this._unitPostProcessors.length;
+    public get singletons(): ReadOnlyMap<Type<object>, object> {
+        return this._singletonRegistry.singletons;
     }
 
 
@@ -43,8 +47,23 @@ export class DefaultUnitFactory implements ConfigurableUnitFactory {
     }
 
 
-    public constructor(definitions: UnitDefinitionRegistry) {
-        this._registry = definitions;
+    public constructor(registry: UnitDefinitionRegistry) {
+        this._unitDefinitionRegistry = registry;
+    }
+
+
+    public containsSingleton(unitType: Type<object>): boolean {
+        return this._singletonRegistry.containsSingleton(unitType);
+    }
+
+
+    public getSingleton<T extends object>(unitType: Type<T>): T | undefined {
+        return this._singletonRegistry.getSingleton(unitType);
+    }
+
+
+    public registerSingleton<T extends object>(unitType: Type<T>, unitObject: T): void {
+        this._singletonRegistry.registerSingleton(unitType, unitObject);
     }
 
 
@@ -53,70 +72,104 @@ export class DefaultUnitFactory implements ConfigurableUnitFactory {
     }
 
 
-    public containsUnit<T extends object>(type: Type<T>): boolean {
-        return this._registry.containsUnitDefinition(type);
+    public containsUnit(unitType: Type<object>): boolean {
+        return this._unitDefinitionRegistry.containsUnitDefinition(unitType);
     }
 
 
-    public destroyUnit<T extends object>(type: Type<T>, instance: T): void {
-        let definition = this.getUnitDefinition(type);
+    public async destroyUnit<T extends object>(unitType: Type<T>, instance: T): Promise<void> {
+        const klass: Class<object> = Class.of(unitType);
+        const methods: ReadOnlyCollection<Method> = klass.methods;
+        const request: UnitRequest<T> = new UnitRequest(unitType);
 
-        if (definition.destroyMethodName != null) {
-            (instance as any)[definition.destroyMethodName]();
+        for (const method of methods) {
+            if (method.isDecoratedWith(PreDestroy)) {
+                await this._methodInvoker.invoke(request, instance, method);
+            }
+        }
+
+        for (const method of methods) {
+            if (method.isDecoratedWith(Destroy)) {
+                await this._methodInvoker.invoke(request, instance, method);
+            }
         }
     }
 
 
-    public getUnit<T extends object>(type: Type<T>): Promise<T> {
-        if (this.containsUnitDefinition(type)) {
-            let definition = this.getUnitDefinition(type);
+    public async getUnit<T extends object>(request: UnitRequest<T> | Type<T>): Promise<T> {
+        if (typeof request === 'function') {
+            request = new UnitRequest(request);
+        }
+
+        const unitType: Type<T> = request.type;
+
+        if (this.containsUnitDefinition(unitType)) {
+            const definition: UnitDefinition = this.getUnitDefinition(unitType);
 
             if (definition.isSingleton) {
-                if (!this._singletons.containsKey(type)) {
-                    this._singletons.put(type, this.createUnit(type));
+                let singleton: T | undefined = this._singletonRegistry.getSingleton(unitType);
+
+                if (singleton == null) {
+                    singleton = await this.createUnit(request);
+
+                    this._singletonRegistry.registerSingleton(request.type, singleton);
                 }
 
-                return this._singletons.get(type) as Promise<T>;
+                return singleton;
             } else {
-                return this.createUnit(type);
+                return this.createUnit(request);
             }
         }
 
         if (this.parent != null) {
-            return this.parent.getUnit(type);
+            return this.parent.getUnit(request);
         }
 
-        throw new NoSuchUnitDefinitionException(`Unit definition for type ${type.name} not found in ${this.constructor.name}.`);
+        throw new NoSuchUnitDefinitionException(`Definition for "${request.toString()}" not found.`);
     }
 
 
-    public registerUnitDefinition<T extends object>(type: Type<T>, definition: UnitDefinition): void {
-        this._registry.registerUnitDefinition(type, definition);
+    public async preInstantiateSingletons(): Promise<void> {
+        for (const {key: type, value: definition} of this._unitDefinitionRegistry.unitDefinitions) {
+            if (definition.isSingleton && !definition.isLazyInit) {
+                await this.getUnit(new UnitRequest(type));
+            }
+        }
     }
 
 
-    public containsUnitDefinition<T extends object>(type: Type<T>): boolean {
-        return this._registry.containsUnitDefinition(type);
+    // UnitDefinitionRegistry
+
+    public registerUnitDefinition(type: Type<object>, definition: UnitDefinition): void {
+        this._unitDefinitionRegistry.registerUnitDefinition(type, definition);
     }
 
 
-    public getUnitDefinition<T extends object>(type: Type<T>): UnitDefinition {
-        return this._registry.getUnitDefinition(type);
+    public containsUnitDefinition(type: Type<object>): boolean {
+        return this._unitDefinitionRegistry.containsUnitDefinition(type);
     }
 
 
-    protected async createUnit<T extends object>(type: Type<T>): Promise<T> {
-        const klass: Class<T> = Class.of(type);
-        const definition: UnitDefinition = this.getUnitDefinition(type);
+    public getUnitDefinition(type: Type<object>): UnitDefinition {
+        return this._unitDefinitionRegistry.getUnitDefinition(type);
+    }
+
+
+    private async createUnit<T extends object>(request: UnitRequest<T>): Promise<T> {
+        const unitType: Type<T> = request.type;
+        const definition: UnitDefinition = this.getUnitDefinition(unitType);
+        const klass: Class<T> = Class.of(unitType);
+        const methods: ReadOnlyCollection<Method> = klass.methods;
         let instance: T;
 
         if (definition.factoryMethodName != null && definition.factoryUnitType != null) {
             instance = await this.createUnitWithFactory(
+                request,
                 definition.factoryUnitType,
                 definition.factoryMethodName
             ) as T;
         } else {
-            let args: any[] = await this.getParameterValues(klass.constructorParameters);
+            let args: any[] = await this._methodInvoker.getArguments(request, klass.constructorParameters);
 
             instance = klass.instantiate(...args);
         }
@@ -124,59 +177,41 @@ export class DefaultUnitFactory implements ConfigurableUnitFactory {
         // TODO: set property values
         // TODO: After Properties Set phase
 
-        for (let methodName of definition.postConstructMethodNames) {
-            await (instance as any)[methodName]();
+        for (const method of methods) {
+            if (method.isDecoratedWith(PostConstruct)) {
+                await this._methodInvoker.invoke(request, instance, method);
+            }
         }
 
-        for (let processor of this._unitPostProcessors) {
-            instance = await processor.postProcessBeforeInitialization(instance, type);
+        for (const processor of this._unitPostProcessors) {
+            instance = await processor.postProcessBeforeInitialization(instance, unitType);
         }
 
-        if (definition.initMethodName != null) {
-            await (instance as any)[definition.initMethodName]();
+        for (const method of methods) {
+            if (method.isDecoratedWith(Init)) {
+                await this._methodInvoker.invoke(request, instance, method);
+            }
         }
 
-        for (let processor of this._unitPostProcessors) {
-            instance = await processor.postProcessAfterInitialization(instance, type);
+        for (const processor of this._unitPostProcessors) {
+            instance = await processor.postProcessAfterInitialization(instance, unitType);
         }
 
         return instance;
     }
 
 
-    private async createUnitWithFactory(
-        factoryUnitType: Type<object>,
+    private async createUnitWithFactory<T extends object>(
+        request: UnitRequest<object>,
+        factoryUnitType: Type<T>,
         factoryMethodName: string | symbol
     ): Promise<object> {
-        const factoryClass: Class<object> = Class.of(factoryUnitType);
+        const factoryRequest = request.next(factoryUnitType);
+        const factoryClass: Class<T> = Class.of(factoryUnitType);
         const factoryMethod: Method = factoryClass.getMethod(factoryMethodName);
-        const factoryInstance: object = await this.getUnit(factoryUnitType);
+        const factoryInstance: object = await this.getUnit(factoryRequest);
 
-        const args: any[] = await this.getParameterValues(factoryMethod.parameters);
-
-        return (factoryInstance as any)[factoryMethodName](...args);
+        return this._methodInvoker.invoke(request.next(factoryUnitType), factoryInstance, factoryMethod);
     }
 
-
-    private async getParameterValues(parameters: ReadOnlyMap<number, Parameter>): Promise<any[]> {
-        const args: any[] = [];
-
-        for (let {key, value: parameter} of parameters) {
-            let parameterType: Type<any> | undefined = parameter.type;
-
-            if (parameter.isDecoratedWith(DefaultType)) {
-                let configuration = parameter.getAttribute(DefaultTypeConfiguration.ATTRIBUTE_KEY);
-
-                if (configuration != null) {
-                    parameterType = configuration.defaultType;
-                }
-            }
-
-            if (parameterType != null) {
-                args[key] = await this.getUnit(parameterType);
-            }
-        }
-
-        return args;
-    }
 }

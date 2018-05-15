@@ -17,9 +17,9 @@ export class HttpResponseOutputStream extends AbstractOutputStream<Buffer, Serve
 
 
     public setHeaders(headers: HttpHeaders): void {
-        for (let {key, value} of headers) {
-            for (let v of value) {
-                this.baseStream.setHeader(key, v);
+        for (const {key: name, value: values} of headers) {
+            for (const value of values) {
+                this.baseStream.setHeader(name, value);
             }
         }
     }

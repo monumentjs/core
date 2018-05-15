@@ -1,8 +1,8 @@
-import {Test} from '@monument/test-drive/main/configuration/decorators/Test';
-import {Assert} from '@monument/test-drive/main/assert/Assert';
+import {IgnoreCaseComparator} from '@monument/core/main/IgnoreCaseComparator';
+import {Test} from '@monument/test-drive/main/decorators/Test';
+import {Assert} from '@monument/test-drive/main/modules/assert/Assert';
 import {ArrayList} from '../../main/ArrayList';
 import {ListSpec} from './ListSpec';
-import {IgnoreCaseComparator} from '../../../core/main/IgnoreCaseComparator';
 
 
 export class ArrayListTest extends ListSpec {

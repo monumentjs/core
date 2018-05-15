@@ -1,37 +1,16 @@
-import {PropertyNullException} from '@monument/core/main/exceptions/PropertyNullException';
-import {Type} from '@monument/core/main/Type';
-import {PropertyTypeException} from '@monument/core/main/exceptions/PropertyTypeException';
-import {RangeException} from '../../core/main/exceptions/RangeException';
+import {RangeException} from '@monument/core/main/exceptions/RangeException';
 import {IndexOutOfBoundsException} from '@monument/core/main/exceptions/IndexOutOfBoundsException';
-import {Countable} from '../../collections/main/Countable';
+import {Countable} from '@monument/collections/main/Countable';
 
 
 export class PropertyAssertion {
-    private _propertyName: string;
-    private _propertyValue: any;
+    private readonly _propertyName: string;
+    private readonly _propertyValue: any;
 
 
     public constructor(propertyName: string, propertyValue: any) {
         this._propertyName = propertyName;
         this._propertyValue = propertyValue;
-    }
-
-
-    public notNull(): this {
-        if (this._propertyValue == null) {
-            throw new PropertyNullException(this._propertyName);
-        }
-
-        return this;
-    }
-
-
-    public type(type: Type<any>): this {
-        if (!(this._propertyValue instanceof type)) {
-            throw new PropertyTypeException(this._propertyName, type);
-        }
-
-        return this;
     }
 
 

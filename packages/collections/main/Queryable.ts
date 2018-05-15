@@ -10,7 +10,7 @@ import {Grouping} from './Grouping';
 export interface Queryable<T> {
     /**
      * Applies an accumulator function over a sequence.
-     * The specified seed value is used as the initial accumulator value.
+     * The specified seed payload is used as the initial accumulator payload.
      */
     aggregate<TAggregate>(
         iterator: (lastSeed: TAggregate, item: T, index: number) => TAggregate,
@@ -59,12 +59,12 @@ export interface Queryable<T> {
     except(otherList: List<T>, comparator?: EqualityComparator<T>): List<T>;
 
     /**
-     * Returns first item of list. If list is empty, returns default value.
+     * Returns first item of list. If list is empty, returns default payload.
      */
     first(predicate: IteratorFunction<T, boolean>, defaultValue?: T): T | undefined;
 
     /**
-     * Returns first item of list. If list is empty, returns default value.
+     * Returns first item of list. If list is empty, returns default payload.
      */
     firstOrDefault(defaultValue: T): T;
 
@@ -94,22 +94,22 @@ export interface Queryable<T> {
     ): List<TResult>;
 
     /**
-     * Returns last item of list. If list is empty, returns default value.
+     * Returns last item of list. If list is empty, returns default payload.
      */
     last(predicate: IteratorFunction<T, boolean>, defaultValue?: T): T | undefined;
 
     /**
-     * Returns last item of list. If list is empty, returns default value.
+     * Returns last item of list. If list is empty, returns default payload.
      */
     lastOrDefault(defaultValue: T): T;
 
     /**
-     * Invokes a transform function on each element of a sequence and returns the maximum resulting value.
+     * Invokes a transform function on each element of a sequence and returns the maximum resulting payload.
      */
     max(selector: (item: T) => number): number;
 
     /**
-     * Invokes a transform function on each element of a sequence and returns the minimum resulting value.
+     * Invokes a transform function on each element of a sequence and returns the minimum resulting payload.
      */
     min(selector: (item: T) => number): number;
 

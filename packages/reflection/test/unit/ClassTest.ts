@@ -1,5 +1,5 @@
-import {Assert} from '@monument/test-drive/main/assert/Assert';
-import {Test} from '@monument/test-drive/main/configuration/decorators/Test';
+import {Assert} from '@monument/test-drive/main/modules/assert/Assert';
+import {Test} from '@monument/test-drive/main/decorators/Test';
 import {Class} from '../../main/Class';
 import {Field} from '../../main/Field';
 import {Example} from './support/decorators/Example';

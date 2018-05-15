@@ -36,7 +36,7 @@ export class MimeTypeResolver {
     public findTypeByExtension(extension: string, defaultType: string = 'application/octet-stream'): string {
         extension = extension.toLowerCase();
 
-        for (let mimeType of this.database.typeNames) {
+        for (const mimeType of this.database.typeNames) {
             const definition: MimeTypeDefinition = this.database.getTypeDefinition(mimeType);
 
             if (definition.extensions != null && definition.extensions.includes(extension)) {

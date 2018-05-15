@@ -79,10 +79,10 @@ export abstract class AbstractList<T> extends AbstractCollection<T> implements L
 
         let index: number = 0;
 
-        for (let collection of collections) {
+        for (const collection of collections) {
             let actualItem: T = this.getAt(index);
 
-            for (let innerItem of collection) {
+            for (const innerItem of collection) {
                 resultList.add(resultSelector(actualItem, innerItem));
             }
 
@@ -252,16 +252,16 @@ export abstract class AbstractList<T> extends AbstractCollection<T> implements L
         keySelector: IteratorFunction<T, TKey>,
         keyComparator: EqualityComparator<TKey> = StrictEqualityComparator.instance
     ): List<Grouping<TKey, T>> {
-        let keys: List<TKey> = this.select((item: T, index: number) => {
+        const keys: List<TKey> = this.select((item: T, index: number) => {
             return keySelector(item, index);
         }).distinct(keyComparator);
-        let groups: List<Grouping<TKey, T>> = this.createList();
+        const groups: List<Grouping<TKey, T>> = this.createList();
 
-        for (let key of keys) {
-            let items: Collection<T> = this.where((item: T, index: number): boolean => {
+        for (const key of keys) {
+            const items: Collection<T> = this.where((item: T, index: number): boolean => {
                 return keyComparator.equals(key, keySelector(item, index));
             });
-            let group: Grouping<TKey, T> = new Grouping(key, items);
+            const group: Grouping<TKey, T> = new Grouping(key, items);
 
             groups.add(group);
         }
@@ -282,7 +282,7 @@ export abstract class AbstractList<T> extends AbstractCollection<T> implements L
             }
         });
 
-        for (let otherItem of otherList) {
+        for (const otherItem of otherList) {
             if (!this.contains(otherItem, comparator)) {
                 difference.add(otherItem);
             }
@@ -315,13 +315,13 @@ export abstract class AbstractList<T> extends AbstractCollection<T> implements L
         resultSelector: CombineFunction<T, TOuter, TResult>,
         keyComparator: EqualityComparator<TKey> = StrictEqualityComparator.instance
     ): List<TResult> {
-        let listOfJoinedItems: List<TResult> = this.createList();
+        const listOfJoinedItems: List<TResult> = this.createList();
 
         this.forEach((innerItem: T, innerIndex: number): void => {
             let innerKey: TKey = innerKeySelector(innerItem, innerIndex);
             let outerIndex: number = 0;
 
-            for (let outerItem of outerList) {
+            for (const outerItem of outerList) {
                 let outerKey: TKey = outerKeySelector(outerItem, outerIndex);
 
                 if (keyComparator.equals(innerKey, outerKey)) {
@@ -385,9 +385,9 @@ export abstract class AbstractList<T> extends AbstractCollection<T> implements L
 
 
     public reverse(): List<T> {
-        let reversedList: List<any> = this.createList();
+        const reversedList: List<any> = this.createList();
 
-        for (let item of this) {
+        for (const item of this) {
             reversedList.insert(0, item);
         }
 
@@ -400,10 +400,10 @@ export abstract class AbstractList<T> extends AbstractCollection<T> implements L
             Assert.argument('offset', offset).isIndexOf(this);
         }
 
-        let result: List<T> = this.createList();
+        const result: List<T> = this.createList();
         let index: number = 0;
 
-        for (let item of this) {
+        for (const item of this) {
             if (index >= offset) {
                 result.add(item);
             }
@@ -436,10 +436,10 @@ export abstract class AbstractList<T> extends AbstractCollection<T> implements L
         Assert.argument('length', this.length).isLength();
         Assert.sequence(this).containsSlice(0, length);
 
-        let result: List<T> = this.createList();
+        const result: List<T> = this.createList();
         let index: number = 0;
 
-        for (let item of this) {
+        for (const item of this) {
             if (index >= length) {
                 break;
             }
@@ -473,11 +473,11 @@ export abstract class AbstractList<T> extends AbstractCollection<T> implements L
     public slice(startIndex: number, count: number): List<T> {
         this.validateSliceBounds(startIndex, count);
 
-        let result: List<T> = this.createList();
-        let maxIndex: number = startIndex + count;
+        const result: List<T> = this.createList();
+        const maxIndex: number = startIndex + count;
         let index: number = 0;
 
-        for (let item of this) {
+        for (const item of this) {
             if (index >= maxIndex) {
                 break;
             }
@@ -494,13 +494,13 @@ export abstract class AbstractList<T> extends AbstractCollection<T> implements L
 
 
     public concat(otherList: List<T>): List<T> {
-        let result: List<T> = this.createList();
+        const result: List<T> = this.createList();
 
-        for (let item of this) {
+        for (const item of this) {
             result.add(item);
         }
 
-        for (let item of otherList) {
+        for (const item of otherList) {
             result.add(item);
         }
 
@@ -526,8 +526,8 @@ export abstract class AbstractList<T> extends AbstractCollection<T> implements L
         otherList: List<TOther>,
         resultSelector: CombineFunction<T, TOther, TResult>
     ): List<TResult> {
-        let minLength: number = Math.min(this.length, otherList.length);
-        let resultList: List<TResult> = this.createList();
+        const minLength: number = Math.min(this.length, otherList.length);
+        const resultList: List<TResult> = this.createList();
 
         for (let index = 0; index < minLength; index++) {
             let actualItem: T = this.getAt(index);

@@ -7,7 +7,7 @@ import {HttpMethod} from '../Base/HttpMethod';
 import {HttpCookies} from '../Base/HttpCookies';
 import {HeaderName} from '../Headers/HeaderName';
 import {HttpHeaders} from '../Headers/HttpHeaders';
-import {EMPTY_STRING} from '@monument/core/main/constants';
+import {StringPool} from '@monument/core/main/StringPool';
 
 
 export class HttpRequestOutputStream extends AbstractOutputStream<Buffer, http.ClientRequest> {
@@ -38,7 +38,7 @@ export class HttpRequestOutputStream extends AbstractOutputStream<Buffer, http.C
             method: method,
             host: url.host,
             port: url.port,
-            path: url.path + (url.query.isEmpty ? EMPTY_STRING : '?' + url.query),
+            path: url.path + (url.query.isEmpty ? StringPool.BLANK : '?' + url.query),
             auth: url.auth,
             protocol: url.scheme
         }));
@@ -58,10 +58,7 @@ export class HttpRequestOutputStream extends AbstractOutputStream<Buffer, http.C
 
 
     public setHeaders(headers: HttpHeaders) {
-        for (let entry of headers) {
-            let name = entry.key;
-            let values = entry.value;
-
+        for (const {key: name, value: values} of headers) {
             if (values.length > 1) {
                 this.baseStream.setHeader(name, values.toArray());
             } else if (values.length === 1) {
@@ -72,7 +69,7 @@ export class HttpRequestOutputStream extends AbstractOutputStream<Buffer, http.C
 
 
     public setCookies(cookies: HttpCookies) {
-        for (let cookie of cookies) {
+        for (const cookie of cookies) {
             this.baseStream.setHeader(HeaderName.Cookie, cookie.toString());
         }
     }

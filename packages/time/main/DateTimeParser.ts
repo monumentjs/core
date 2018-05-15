@@ -1,7 +1,7 @@
 import {GetInstance} from '@monument/core/main/decorators/GetInstance';
-import {Map} from '@monument/collections/main/Map';
 import {ReadOnlyCollection} from '@monument/collections/main/ReadOnlyCollection';
-import {FormattableString} from '@monument/text/main/FormattableString';
+import {ReadOnlyMap} from '@monument/collections/main/ReadOnlyMap';
+import {TemplateString} from '@monument/text/main/TemplateString';
 import {DateTimeFormatInfo} from './DateTimeFormatInfo';
 import {InvariantDateTimeFormatInfo} from './InvariantDateTimeFormatInfo';
 import {DateTime} from './DateTime';
@@ -22,12 +22,12 @@ export class DateTimeParser {
         format: string,
         formatInfo: DateTimeFormatInfo = InvariantDateTimeFormatInfo.invariant
     ): DateTime {
-        const template: FormattableString = new FormattableString(format);
+        const template: TemplateString = new TemplateString(format);
         const formatEntries: ReadOnlyCollection<string> = template.uniqueEntries;
-        const values: Map<string, string> = template.extractValues(source);
+        const values: ReadOnlyMap<string, string> = template.extractValues(source);
         const builder: DateTime.Builder = new DateTime.Builder();
 
-        for (let formatEntry of formatEntries) {
+        for (const formatEntry of formatEntries) {
             const formatter: TimeEntryProcessor = TimeEntryProcessorProvider.instance.getFormatter(formatEntry);
             const stringValue: string = values.get(formatEntry) as string;
 

@@ -6,7 +6,7 @@ import {List} from '@monument/collections/main/List';
 import {DateTimeParser} from '@monument/time/main/DateTimeParser';
 import {InvalidArgumentException} from '@monument/core/main/exceptions/InvalidArgumentException';
 import {ArrayList} from '@monument/collections/main/ArrayList';
-import {EMPTY_STRING} from '@monument/core/main/constants';
+import {StringPool} from '@monument/core/main/StringPool';
 import {Assert} from '@monument/assert/main/Assert';
 import {Encoding} from '@monument/system/main/encoding/Encoding';
 
@@ -31,19 +31,19 @@ export class ContentDisposition {
      * Return an empty content disposition.
      */
     public static empty(): ContentDisposition {
-        return new ContentDisposition(EMPTY_STRING);
+        return new ContentDisposition(StringPool.BLANK);
     }
 
 
     /**
-     * Parse a {@literal Content-Disposition} header value as defined in RFC 2183.
-     * @param contentDisposition the {@literal Content-Disposition} header value
+     * Parse a {@literal Content-Disposition} header payload as defined in RFC 2183.
+     * @param contentDisposition the {@literal Content-Disposition} header payload
      * @return the parsed content disposition
      * @see #toString()
      */
     public static parse(contentDisposition: string): ContentDisposition {
-        let parts: List<string> = this.tokenize(contentDisposition);
-        let type: string = parts.getAt(0);
+        const parts: List<string> = this.tokenize(contentDisposition);
+        const type: string = parts.getAt(0);
         let name: string | undefined;
         let filename: string | undefined;
         let charset: Encoding | undefined;
@@ -237,12 +237,12 @@ export class ContentDisposition {
 
         let source: Buffer = charset.getBytes(input);
         let len: number = source.length;
-        let sb: StringBuilder = new StringBuilder(EMPTY_STRING, len << 1);
+        let sb: StringBuilder = new StringBuilder(StringPool.BLANK, len << 1);
 
         sb.append(charset.webName);
         sb.append('\'\'');
 
-        for (let b of source) {
+        for (const b of source) {
             if (this.isRFC5987AttrChar(new Buffer([b]).toString())) {
                 sb.append(new Buffer([b]).toString());
             } else {
@@ -346,7 +346,7 @@ export class ContentDisposition {
 
 
     /**
-     * Return the header value for this content disposition as defined in RFC 2183.
+     * Return the header payload for this content disposition as defined in RFC 2183.
      * @see #push(String)
      */
     public toString(): string {
@@ -403,12 +403,12 @@ export namespace ContentDisposition {
     export interface Builder {
 
         /**
-         * Set the value of the {@literal name} parameter
+         * Set the payload of the {@literal name} parameter
          */
         setName(name: string): Builder;
 
         /**
-         * Set the value of the {@literal filename*} that will be encoded as
+         * Set the payload of the {@literal filename*} that will be encoded as
          * defined in the RFC 5987. Only the US-ASCII, UTF-8 and ISO-8859-1
          * charsets are supported.
          * <p><strong>Note:</strong> Do not use this for a
@@ -420,22 +420,22 @@ export namespace ContentDisposition {
         setFileName(filename: string, encoding?: Encoding): Builder;
 
         /**
-         * Set the value of the {@literal setSize} parameter
+         * Set the payload of the {@literal setSize} parameter
          */
         setSize(size: number): Builder;
 
         /**
-         * Set the value of the {@literal creation-date} parameter.
+         * Set the payload of the {@literal creation-date} parameter.
          */
         setCreationDate(creationDate: DateTime): Builder;
 
         /**
-         * Set the value of the {@literal modification-date} parameter.
+         * Set the payload of the {@literal modification-date} parameter.
          */
         setModificationDate(modificationDate: DateTime): Builder;
 
         /**
-         * Set the value of the {@literal read-date} parameter.
+         * Set the payload of the {@literal read-date} parameter.
          */
         setReadDate(readDate: DateTime): Builder;
 

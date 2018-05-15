@@ -1,41 +1,38 @@
 import {Type} from '@monument/core/main/Type';
+import {AbstractLifecycle} from '@monument/core/main/lifecycle/AbstractLifecycle';
 import {Collection} from '@monument/collections/main/Collection';
-import {List} from '@monument/collections/main/List';
 import {ArrayList} from '@monument/collections/main/ArrayList';
-import {ReadOnlyMap} from '@monument/collections/main/ReadOnlyMap';
-import {Method} from '@monument/reflection/main/Method';
-import {Parameter} from '@monument/reflection/main/Parameter';
 import {DefaultUnitFactory} from '../../unit/factory/support/DefaultUnitFactory';
 import {UnitPostProcessor} from '../../unit/factory/configuration/UnitPostProcessor';
 import {UnitFactoryPostProcessor} from '../../unit/factory/configuration/UnitFactoryPostProcessor';
+import {UnitDefinition} from '../../unit/definition/UnitDefinition';
+import {UnitDefinitionReader} from '../../unit/definition/reader/UnitDefinitionReader';
 import {UnitDefinitionRegistry} from '../../unit/definition/registry/UnitDefinitionRegistry';
 import {UnitDefinitionRegistryPostProcessor} from '../../unit/definition/registry/configuration/UnitDefinitionRegistryPostProcessor';
 import {DefaultUnitDefinitionRegistry} from '../../unit/definition/registry/DefaultUnitDefinitionRegistry';
-import {UnitDefinitionReader} from '../../unit/definition/reader/UnitDefinitionReader';
 import {ComponentUnitDefinitionReader} from '../../unit/definition/reader/ComponentUnitDefinitionReader';
 import {ConfigurationUnitDefinitionReader} from '../../unit/definition/reader/ConfigurationUnitDefinitionReader';
 import {PostProcessorUnitDefinitionReader} from '../../unit/definition/reader/PostProcessorUnitDefinitionReader';
+import {UnitRequest} from '../../unit/factory/UnitRequest';
 import {ContextAwareUnitPostProcessor} from '../configuration/support/ContextAwareUnitPostProcessor';
 import {Context} from '../Context';
 import {ConfigurableContext} from '../ConfigurableContext';
 
 
-export class DefaultContext implements ConfigurableContext {
+export class DefaultContext extends AbstractLifecycle implements ConfigurableContext {
     private _parent: Context | undefined;
 
-    private _isRunning: boolean = false;
-
     private readonly _unitDefinitionReaders: Collection<UnitDefinitionReader> = new ArrayList();
-    private readonly _unitDefinitionRegistry: UnitDefinitionRegistry;
+    private readonly _unitDefinitionRegistry: UnitDefinitionRegistry = new DefaultUnitDefinitionRegistry();
     private readonly _unitFactory: DefaultUnitFactory;
 
-    private readonly _unitDefinitionRegistryPostProcessorTypes: List<Type<object>> = new ArrayList();
-    private readonly _unitFactoryPostProcessorTypes: List<Type<object>> = new ArrayList();
-    private readonly _unitPostProcessorTypes: List<Type<object>> = new ArrayList();
+    private readonly _unitDefinitionRegistryPostProcessorTypes: ArrayList<Type<object>> = new ArrayList();
+    private readonly _unitFactoryPostProcessorTypes: ArrayList<Type<object>> = new ArrayList();
+    private readonly _unitPostProcessorTypes: ArrayList<Type<object>> = new ArrayList();
 
-    private readonly _unitDefinitionRegistryPostProcessors: List<UnitDefinitionRegistryPostProcessor> = new ArrayList();
-    private readonly _unitFactoryPostProcessors: List<UnitFactoryPostProcessor> = new ArrayList();
-    private readonly _unitPostProcessors: List<UnitPostProcessor> = new ArrayList();
+    private readonly _unitDefinitionRegistryPostProcessors: ArrayList<UnitDefinitionRegistryPostProcessor> = new ArrayList();
+    private readonly _unitFactoryPostProcessors: ArrayList<UnitFactoryPostProcessor> = new ArrayList();
+    private readonly _unitPostProcessors: ArrayList<UnitPostProcessor> = new ArrayList();
 
 
     public get parent(): Context | undefined {
@@ -54,18 +51,14 @@ export class DefaultContext implements ConfigurableContext {
     }
 
 
-    public get isRunning(): boolean {
-        return this._isRunning;
-    }
-
-
     protected get unitDefinitionRegistry(): UnitDefinitionRegistry {
         return this._unitDefinitionRegistry;
     }
 
 
-    public constructor() {
-        this._unitDefinitionRegistry = new DefaultUnitDefinitionRegistry();
+    public constructor(parent?: Context, ...types: Array<Type<object>>) {
+        super();
+
         this._unitFactory = new DefaultUnitFactory(this._unitDefinitionRegistry);
 
         this.addUnitDefinitionReader(
@@ -77,12 +70,14 @@ export class DefaultContext implements ConfigurableContext {
                 this._unitDefinitionRegistryPostProcessorTypes
             )
         );
+
         this.addUnitDefinitionReader(
             new ComponentUnitDefinitionReader(
                 this._unitDefinitionRegistry,
                 this
             )
         );
+
         this.addUnitDefinitionReader(
             new ConfigurationUnitDefinitionReader(
                 this._unitDefinitionRegistry,
@@ -95,59 +90,63 @@ export class DefaultContext implements ConfigurableContext {
                 this
             )
         );
+
+        this.registerContext();
+
+        this.parent = parent;
+
+        for (const type of types) {
+            this.scan(type);
+        }
     }
 
 
     public async start(): Promise<void> {
-        if (!this._isRunning) {
-            await this.instantiatePostProcessors();
-            await this.postProcessUnitDefinitionRegistry();
-            await this.postProcessUnitFactory();
-            await this.instantiateSingletons();
+        this.setStarting();
 
-            this._isRunning = true;
-        }
+        await this.instantiatePostProcessors();
+        await this.postProcessUnitDefinitionRegistry();
+        await this.postProcessUnitFactory();
+        await this._unitFactory.preInstantiateSingletons();
+
+        this.setStarted();
     }
 
 
     public async stop(): Promise<void> {
-        // TODO: destroy units using definitions
-    }
+        this.setStopping();
 
+        for (const {key: type, value: definition} of this._unitDefinitionRegistry.unitDefinitions) {
+            if (definition.isSingleton) {
+                const instance: object = await this._unitFactory.getUnit(type);
 
-    public getUnit<T extends object>(type: Type<T>): Promise<T> {
-        return this._unitFactory.getUnit(type);
-    }
-
-
-    public containsUnit<T extends object>(type: Type<T>): boolean {
-        return this._unitFactory.containsUnit(type);
-    }
-
-
-    public destroyUnit<T extends object>(type: Type<T>, instance: T): void {
-        return this._unitFactory.destroyUnit(type, instance);
-    }
-
-
-    public scan<T extends object>(type: Type<T>): void {
-        for (let reader of this._unitDefinitionReaders) {
-            reader.scan(type);
-        }
-    }
-
-
-    public async invoke(method: Method, self: object): Promise<any> {
-        const args: any[] = [];
-        const parameters: ReadOnlyMap<number, Parameter> = method.parameters;
-
-        for (const {key: index, value: parameter} of parameters) {
-            if (parameter.type != null) {
-                args[index] = await this.getUnit(parameter.type);
+                await this._unitFactory.destroyUnit(type, instance);
             }
         }
 
-        return method.invoke(self, args);
+        this.setStopped();
+    }
+
+
+    public getUnit<T extends object>(request: UnitRequest<T> | Type<T>): Promise<T> {
+        return this._unitFactory.getUnit(request);
+    }
+
+
+    public containsUnit(unitType: Type<object>): boolean {
+        return this._unitFactory.containsUnit(unitType);
+    }
+
+
+    public destroyUnit<T extends object>(unitType: Type<T>, instance: T): Promise<void> {
+        return this._unitFactory.destroyUnit(unitType, instance);
+    }
+
+
+    public scan(type: Type<object>): void {
+        for (const reader of this._unitDefinitionReaders) {
+            reader.scan(type);
+        }
     }
 
 
@@ -186,33 +185,32 @@ export class DefaultContext implements ConfigurableContext {
             )
         );
 
-        for (let postProcessor of this._unitPostProcessors) {
+        for (const postProcessor of this._unitPostProcessors) {
             this._unitFactory.addUnitPostProcessor(postProcessor);
         }
     }
 
 
     private async postProcessUnitDefinitionRegistry(): Promise<void> {
-        for (let processor of this._unitDefinitionRegistryPostProcessors) {
+        for (const processor of this._unitDefinitionRegistryPostProcessors) {
             await processor.postProcessUnitDefinitionRegistry(this._unitDefinitionRegistry);
         }
     }
 
 
     private async postProcessUnitFactory(): Promise<void> {
-        for (let processor of this._unitFactoryPostProcessors) {
+        for (const processor of this._unitFactoryPostProcessors) {
             await processor.postProcessUnitFactory(this._unitFactory);
         }
     }
 
 
-    private async instantiateSingletons(): Promise<void> {
-        for (let type of this._unitDefinitionRegistry.unitTypes) {
-            let definition = this._unitDefinitionRegistry.getUnitDefinition(type);
+    private registerContext() {
+        const definition = new UnitDefinition();
 
-            if (definition.isSingleton && !definition.isLazyInit) {
-                await this.getUnit(type);
-            }
-        }
+        definition.isSingleton = true;
+
+        this._unitDefinitionRegistry.registerUnitDefinition(DefaultContext, definition);
+        this._unitFactory.registerSingleton(DefaultContext, this);
     }
 }

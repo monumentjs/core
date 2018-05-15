@@ -14,6 +14,7 @@
     "@monument/async": "^0.0.52",
     "@monument/assert": "^0.0.52",
     "@monument/collections": "^0.0.52",
+    "@monument/stereotype": "^0.0.52",
     "@monument/events": "^0.0.52",
     "@monument/time": "^0.0.52",
     "@monument/text": "^0.0.52"

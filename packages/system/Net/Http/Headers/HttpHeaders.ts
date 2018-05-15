@@ -87,7 +87,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Set the (new) value of the {@code Access-Control-Allow-Credentials} response header.
+     * Set the (new) payload of the {@code Access-Control-Allow-Credentials} response header.
      */
     public set accessControlAllowCredentials(allowCredentials: boolean) {
         this.setTo(HeaderName.AccessControlAllowCredentials, String(allowCredentials));
@@ -95,7 +95,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Return the value of the {@code Access-Control-Allow-Credentials} response header.
+     * Return the payload of the {@code Access-Control-Allow-Credentials} response header.
      */
     public get accessControlAllowCredentials(): boolean {
         return Boolean(this.getFirst(HeaderName.AccessControlAllowCredentials));
@@ -103,7 +103,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Set the (new) value of the {@code Access-Control-Allow-Headers} response header.
+     * Set the (new) payload of the {@code Access-Control-Allow-Headers} response header.
      */
     public set accessControlAllowHeaders(allowedHeaders: List<string>) {
         this.setTo(HeaderName.AccessControlAllowHeaders, this.toCommaDelimitedString(allowedHeaders));
@@ -111,7 +111,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Return the value of the {@code Access-Control-Allow-Headers} response header.
+     * Return the payload of the {@code Access-Control-Allow-Headers} response header.
      */
     public get accessControlAllowHeaders(): List<string> {
         return this.getValuesAsList(HeaderName.AccessControlAllowHeaders);
@@ -119,7 +119,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Set the (new) value of the {@code Access-Control-Allow-Methods} response header.
+     * Set the (new) payload of the {@code Access-Control-Allow-Methods} response header.
      */
     public set accessControlAllowMethods(allowedMethods: List<HttpMethod>) {
         this.setTo(HeaderName.AccessControlAllowMethods, StringUtils.collectionToDelimitedString(allowedMethods, ','));
@@ -127,7 +127,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Return the value of the {@code Access-Control-Allow-Methods} response header.
+     * Return the payload of the {@code Access-Control-Allow-Methods} response header.
      */
     public get accessControlAllowMethods(): List<HttpMethod> {
         let result: List<HttpMethod> = new ArrayList();
@@ -136,7 +136,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
         if (value != null) {
             let tokens: string[] = StringUtils.split(value, ',').map((token) => token.toUpperCase());
 
-            for (let token of tokens) {
+            for (const token of tokens) {
                 let resolved: HttpMethod | undefined = (HttpMethod as any)[token];
 
                 if (resolved != null) {
@@ -150,7 +150,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Set the (new) value of the {@code Access-Control-Allow-Origin} response header.
+     * Set the (new) payload of the {@code Access-Control-Allow-Origin} response header.
      */
     public set accessControlAllowOrigin(allowedOrigin: string | undefined) {
         this.setTo(HeaderName.AccessControlAllowOrigin, allowedOrigin);
@@ -158,7 +158,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Return the value of the {@code Access-Control-Allow-Origin} response header.
+     * Return the payload of the {@code Access-Control-Allow-Origin} response header.
      */
     public get accessControlAllowOrigin(): string | undefined {
         return this.getFieldValues(HeaderName.AccessControlAllowOrigin);
@@ -166,7 +166,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Set the (new) value of the {@code Access-Control-Expose-Headers} response header.
+     * Set the (new) payload of the {@code Access-Control-Expose-Headers} response header.
      */
     public set accessControlExposeHeaders(exposedHeaders: List<string>) {
         this.setTo(HeaderName.AccessControlExposeHeaders, this.toCommaDelimitedString(exposedHeaders));
@@ -174,7 +174,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Return the value of the {@code Access-Control-Expose-Headers} response header.
+     * Return the payload of the {@code Access-Control-Expose-Headers} response header.
      */
     public get accessControlExposeHeaders(): List<string> {
         return this.getValuesAsList(HeaderName.AccessControlExposeHeaders);
@@ -182,7 +182,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Set the (new) value of the {@code Access-Control-Max-Age} response header.
+     * Set the (new) payload of the {@code Access-Control-Max-Age} response header.
      */
     public set accessControlMaxAge(maxAge: number) {
         this.setTo(HeaderName.AccessControlMaxAge, maxAge.toString());
@@ -190,7 +190,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Return the value of the {@code Access-Control-Max-Age} response header.
+     * Return the payload of the {@code Access-Control-Max-Age} response header.
      * <p>Returns -1 when the max age is unknown.
      */
     public get accessControlMaxAge(): number {
@@ -201,7 +201,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Set the (new) value of the {@code Access-Control-Request-Headers} request header.
+     * Set the (new) payload of the {@code Access-Control-Request-Headers} request header.
      */
     public set accessControlRequestHeaders(requestHeaders: List<string>) {
         this.setTo(HeaderName.AccessControlRequestHeaders, this.toCommaDelimitedString(requestHeaders));
@@ -209,7 +209,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Return the value of the {@code Access-Control-Request-Headers} request header.
+     * Return the payload of the {@code Access-Control-Request-Headers} request header.
      */
     public get accessControlRequestHeaders(): List<string> {
         return this.getValuesAsList(HeaderName.AccessControlRequestHeaders);
@@ -217,7 +217,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Set the (new) value of the {@code Access-Control-Request-Method} request header.
+     * Set the (new) payload of the {@code Access-Control-Request-Method} request header.
      */
     public set accessControlRequestMethod(requestMethod: HttpMethod | undefined) {
         this.setTo(HeaderName.AccessControlRequestHeaders, requestMethod as any);
@@ -225,7 +225,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Return the value of the {@code Access-Control-Request-Method} request header.
+     * Return the payload of the {@code Access-Control-Request-Method} request header.
      */
     public get accessControlRequestMethod(): HttpMethod | undefined {
         let value = this.getFirst(HeaderName.AccessControlRequestMethod);
@@ -256,14 +256,14 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
      * as specified by the {@code Accept-Charset} header.
      */
     public get acceptCharset(): List<Encoding> {
-        let value: string | undefined = this.getFirst(HeaderName.AcceptCharset);
+        const value: string | undefined = this.getFirst(HeaderName.AcceptCharset);
 
         if (value != null) {
-            let tokens: string[] = StringUtils.split(value, ',');
-            let result: List<Encoding> = new ArrayList();
+            const tokens: string[] = StringUtils.split(value, ',');
+            const result: List<Encoding> = new ArrayList();
 
-            for (let token of tokens) {
-                let paramIdx: number = token.indexOf(';');
+            for (const token of tokens) {
+                const paramIdx: number = token.indexOf(';');
                 let charsetName: string;
 
                 if (paramIdx === -1) {
@@ -299,13 +299,13 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
      * <p>Returns an empty set when the allowed methods are unspecified.
      */
     public get allow(): Set<HttpMethod> {
-        let value: string | undefined = this.getFirst(HeaderName.Allow);
-        let result: Set<HttpMethod> = new ListSet();
+        const value: string | undefined = this.getFirst(HeaderName.Allow);
+        const result: Set<HttpMethod> = new ListSet();
 
         if (value != null && !StringUtils.isEmpty(value)) {
-            let tokens: string[] = StringUtils.split(value, ',');
+            const tokens: string[] = StringUtils.split(value, ',');
 
-            for (let token of tokens) {
+            for (const token of tokens) {
                 let resolved: HttpMethod | undefined = HttpMethod.resolve(token);
 
                 if (resolved != null) {
@@ -319,7 +319,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Set the (new) value of the {@code Cache-Control} header.
+     * Set the (new) payload of the {@code Cache-Control} header.
      */
     public set cacheControl(cacheControl: string | undefined) {
         this.setTo(HeaderName.CacheControl, cacheControl);
@@ -327,7 +327,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Return the value of the {@code Cache-Control} header.
+     * Return the payload of the {@code Cache-Control} header.
      */
     public get cacheControl(): string | undefined {
         return this.getFieldValues(HeaderName.CacheControl);
@@ -335,7 +335,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Set the (new) value of the {@code Connection} header.
+     * Set the (new) payload of the {@code Connection} header.
      */
     public set connection(connection: List<string>) {
         this.setTo(HeaderName.Connection, this.toCommaDelimitedString(connection));
@@ -343,7 +343,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Return the value of the {@code Connection} header.
+     * Return the payload of the {@code Connection} header.
      */
     public get connection(): List<string> {
         return this.getValuesAsList(HeaderName.Connection);
@@ -460,7 +460,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Set the date and time at which the message was created, as specified
+     * Set the date and time at which the payload was created, as specified
      * by the {@code Date} header.
      * <p>The date should be specified as the number of milliseconds since
      * January 1, 1970 GMT.
@@ -471,11 +471,11 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Return the date and time at which the message was created, as specified
+     * Return the date and time at which the payload was created, as specified
      * by the {@code Date} header.
      * <p>The date is returned as the number of milliseconds since
      * January 1, 1970 GMT. Returns -1 when the date is unknown.
-     * @throws IllegalArgumentException if the value can't be converted to a date
+     * @throws IllegalArgumentException if the payload can't be converted to a date
      */
     public get date(): number {
         return this.getFirstDate(HeaderName.Date);
@@ -509,7 +509,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Set the date and time at which the message is no longer valid,
+     * Set the date and time at which the payload is no longer valid,
      * as specified by the {@code Expires} header.
      * <p>The date should be specified as the number of milliseconds since
      * January 1, 1970 GMT.
@@ -520,7 +520,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Return the date and time at which the message is no longer valid,
+     * Return the date and time at which the payload is no longer valid,
      * as specified by the {@code Expires} header.
      * <p>The date is returned as the number of milliseconds since
      * January 1, 1970 GMT. Returns -1 when the date is unknown.
@@ -532,7 +532,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Set the (new) value of the {@code Host} header.
+     * Set the (new) payload of the {@code Host} header.
      * @since 5.0
      */
     public set host(host: string | undefined) {
@@ -541,8 +541,8 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Return the value of the required {@code Host} header.
-     * <p>If the header value does not contain a port, the returned
+     * Return the payload of the required {@code Host} header.
+     * <p>If the header payload does not contain a port, the returned
      * @since 5.0
      */
     public get host(): string | undefined {
@@ -551,7 +551,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Set the (new) value of the {@code If-Match} header.
+     * Set the (new) payload of the {@code If-Match} header.
      * @since 4.3
      */
     public set ifMatch(ifMatchList: List<string>) {
@@ -560,7 +560,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Return the value of the {@code If-Match} header.
+     * Return the payload of the {@code If-Match} header.
      * @since 4.3
      */
     public get ifMatch(): List<string> {
@@ -569,7 +569,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Set the (new) value of the {@code If-Modified-Since} header.
+     * Set the (new) payload of the {@code If-Modified-Since} header.
      * <p>The date should be specified as the number of milliseconds since
      * January 1, 1970 GMT.
      */
@@ -579,7 +579,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Return the value of the {@code If-Modified-Since} header.
+     * Return the payload of the {@code If-Modified-Since} header.
      * <p>The date is returned as the number of milliseconds since
      * January 1, 1970 GMT. Returns -1 when the date is unknown.
      * @see #getFirstDateTime(String)
@@ -590,7 +590,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Set the (new) value of the {@code If-None-Match} header.
+     * Set the (new) payload of the {@code If-None-Match} header.
      */
     public set ifNoneMatch(ifNoneMatchList: List<string>) {
         this.setTo(HeaderName.IfNoneMatch, this.toCommaDelimitedString(ifNoneMatchList));
@@ -598,7 +598,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Return the value of the {@code If-None-Match} header.
+     * Return the payload of the {@code If-None-Match} header.
      */
     public get ifNoneMatch(): List<string> {
         return this.getETagValuesAsList(HeaderName.IfNoneMatch);
@@ -606,7 +606,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Set the (new) value of the {@code If-Unmodified-Since} header.
+     * Set the (new) payload of the {@code If-Unmodified-Since} header.
      * <p>The date should be specified as the number of milliseconds since
      * January 1, 1970 GMT.
      * @since 4.3
@@ -617,7 +617,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Return the value of the {@code If-Unmodified-Since} header.
+     * Return the payload of the {@code If-Unmodified-Since} header.
      * <p>The date is returned as the number of milliseconds since
      * January 1, 1970 GMT. Returns -1 when the date is unknown.
      * @since 4.3
@@ -673,7 +673,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Set the (new) value of the {@code Origin} header.
+     * Set the (new) payload of the {@code Origin} header.
      */
     public set origin(origin: string | undefined) {
         this.setTo(HeaderName.Origin, origin);
@@ -681,7 +681,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Return the value of the {@code Origin} header.
+     * Return the payload of the {@code Origin} header.
      */
     public get origin(): string | undefined {
         return this.getFirst(HeaderName.Origin);
@@ -689,7 +689,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Set the (new) value of the {@code Pragma} header.
+     * Set the (new) payload of the {@code Pragma} header.
      */
     public set pragma(pragma: string | undefined) {
         this.setTo(HeaderName.Pragma, pragma);
@@ -697,7 +697,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Return the value of the {@code Pragma} header.
+     * Return the payload of the {@code Pragma} header.
      */
     public get pragma(): string | undefined {
         return this.getFirst(HeaderName.Pragma);
@@ -705,7 +705,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Sets the (new) value of the {@code Range} header.
+     * Sets the (new) payload of the {@code Range} header.
      */
     public set range(ranges: List<HttpRange>) {
         let value = HttpRange.toString(ranges);
@@ -715,7 +715,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Return the value of the {@code Range} header.
+     * Return the payload of the {@code Range} header.
      * <p>Returns an empty list when the range is unknown.
      */
     public get range(): List<HttpRange> {
@@ -730,7 +730,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Set the (new) value of the {@code Upgrade} header.
+     * Set the (new) payload of the {@code Upgrade} header.
      */
     public set upgrade(upgrade: string | undefined) {
         this.setTo(HeaderName.Upgrade, upgrade);
@@ -738,7 +738,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Return the value of the {@code Upgrade} header.
+     * Return the payload of the {@code Upgrade} header.
      */
     public get upgrade(): string | undefined {
         return this.getFirst(HeaderName.Upgrade);
@@ -748,7 +748,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
     /**
      * Set the request header names (e.g. "Accept-Language") for which the
      * response is subject to content negotiation and variances based on the
-     * value of those request headers.
+     * payload of those request headers.
      * @param requestHeaders the request header names
      * @since 4.3
      */
@@ -788,10 +788,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
     public toJSON(): HttpHeadersJson {
         let json: HttpHeadersJson = Object.create(null);
 
-        for (let entry of this) {
-            let name = entry.key;
-            let values = entry.value;
-
+        for (const {key: name, value: values} of this) {
             if (values.length > 1) {
                 json[name] = values.toArray();
             } else if (values.length === 1) {
@@ -859,15 +856,15 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
      * @since 4.3
      */
     public getValuesAsList(headerName: string): List<string> {
-        let values: List<string> | undefined = this.get(headerName);
-        let result: List<string> = new ArrayList();
+        const values: List<string> | undefined = this.get(headerName);
+        const result: List<string> = new ArrayList();
 
         if (values != null) {
-            for (let value of values) {
+            for (const value of values) {
                 if (value != null) {
-                    let tokens: string[] = StringUtils.split(value, ',');
+                    const tokens: string[] = StringUtils.split(value, ',');
 
-                    for (let token of tokens) {
+                    for (const token of tokens) {
                         result.add(token);
                     }
                 }
@@ -934,10 +931,10 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Parse the first header value for the given header name as a date,
-     * return -1 if there is no value or also in case of an invalid value
+     * Parse the first header payload for the given header name as a date,
+     * return -1 if there is no payload or also in case of an invalid payload
      * (if {@code rejectInvalid=false}), or raise {@link InvalidArgumentException}
-     * if the value cannot be parsed as a date.
+     * if the payload cannot be parsed as a date.
      * @param headerName the header name
      * @param rejectInvalid whether to reject invalid values with an
      * {@link InvalidArgumentException} ({@code true}) or rather return -1
@@ -953,10 +950,10 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
 
 
     /**
-     * Parse the first header value for the given header name as a date,
-     * return {@code null} if there is no value or also in case of an invalid value
+     * Parse the first header payload for the given header name as a date,
+     * return {@code null} if there is no payload or also in case of an invalid payload
      * (if {@code rejectInvalid=false}), or raise {@link IllegalArgumentException}
-     * if the value cannot be parsed as a date.
+     * if the payload cannot be parsed as a date.
      * @param headerName the header name
      * @param rejectInvalid whether to reject invalid values with an
      * {@link IllegalArgumentException} ({@code true}) or rather return {@code null}
@@ -967,7 +964,7 @@ export class HttpHeaders extends CaseInsensitiveMultiValueMap<string> implements
         let headerValue: string | undefined = this.getFirst(headerName);
 
         if (headerValue == null) {
-            // No header value sent at all
+            // No header payload sent at all
             return undefined;
         }
 

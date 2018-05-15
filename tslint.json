@@ -15,11 +15,11 @@
     "no-string-literal": true,
     "prefer-const": false,
     "space-before-function-paren": [true, {"anonymous": "always", "named": "never", "asyncArrow": "always"}],
-    "variable-name": ["ban-keywords", "check-format", "allow-leading-underscore"],
+    "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"],
     "no-empty-interface": true,
     "no-bitwise": false,
     "ban-types": true,
-    "no-parameter-properties": true,
+    "no-parameter-properties": false,
     "no-namespace": false,
     "no-implicit-dependencies": [true, "dev"],
     "max-classes-per-file": [false],
@@ -63,7 +63,6 @@
   },
   "exclude": [
     "node_modules",
-    "**/*.d.ts",
-    "Tests/**/*.ts"
+    "**/*.d.ts"
   ]
 }

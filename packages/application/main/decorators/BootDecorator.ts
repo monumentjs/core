@@ -4,11 +4,12 @@ import {ApplicationContext} from '../context/ApplicationContext';
 
 
 export class BootDecorator extends Decorator {
-    protected onClass(klass: Class<any>): void {
+    protected async onClass(klass: Class<any>) {
         const context: ApplicationContext = new ApplicationContext();
 
         context.scan(klass.type);
 
-        context.start();
+        await context.initialize();
+        await context.start();
     }
 }

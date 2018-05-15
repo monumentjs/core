@@ -1,8 +1,8 @@
-import {EMPTY_STRING} from '../../../../core/main/constants';
+import {StringPool} from '../../../../core/main/StringPool';
 
 
 export class HttpRequestAuthCredentials {
-    public static readonly BLANK: HttpRequestAuthCredentials = new HttpRequestAuthCredentials(EMPTY_STRING, EMPTY_STRING);
+    public static readonly StringPool.BLANK: HttpRequestAuthCredentials = new HttpRequestAuthCredentials(StringPool.BLANK, StringPool.BLANK);
 
 
     private _name: string;

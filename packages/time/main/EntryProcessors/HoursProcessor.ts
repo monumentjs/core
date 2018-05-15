@@ -4,7 +4,7 @@ import {DateTime} from '../DateTime';
 import {TimeSpan} from '../TimeSpan';
 import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
 import {TimeEntryProcessor} from './TimeEntryProcessor';
-import {EMPTY_STRING} from '@monument/core/main/constants';
+import {StringPool} from '@monument/core/main/StringPool';
 
 
 export class HoursProcessor extends TimeEntryProcessor {
@@ -55,7 +55,7 @@ export class HoursProcessor extends TimeEntryProcessor {
                 return StringUtils.padStart((hours % 12).toString(), targetLength, '0');
 
             default:
-                return EMPTY_STRING;
+                return StringPool.BLANK;
         }
     }
 }

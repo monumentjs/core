@@ -1,5 +1,5 @@
 import {RandomNumberGenerator} from '@monument/core/main/data/generator/RandomNumberGenerator';
-import {EMPTY_STRING} from '@monument/core/main/constants';
+import {StringPool} from '@monument/core/main/StringPool';
 import {Assert} from '@monument/assert/main/Assert';
 import {CharSequenceGenerator} from './CharSequenceGenerator';
 
@@ -15,7 +15,7 @@ export class RandomCharSequenceGenerator implements CharSequenceGenerator {
         Assert.argument('length', length).isLength();
         Assert.argument('charset', charset).notEmptyString();
 
-        let value: string = EMPTY_STRING;
+        let value: string = StringPool.BLANK;
 
         for (let i = 0; i < length; i++) {
             let characterIndex: number = RandomNumberGenerator.getInteger(0, charset.length);

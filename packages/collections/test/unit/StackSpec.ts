@@ -1,5 +1,5 @@
-import {Test} from '@monument/test-drive/main/configuration/decorators/Test';
-import {Assert} from '@monument/test-drive/main/assert/Assert';
+import {Test} from '@monument/test-drive/main/decorators/Test';
+import {Assert} from '@monument/test-drive/main/modules/assert/Assert';
 import {Stack} from '../../main/Stack';
 import {EmptyStackException} from '../../main/EmptyStackException';
 import {CollectionSpec} from './CollectionSpec';

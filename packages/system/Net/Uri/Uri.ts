@@ -5,7 +5,7 @@ import {JSONSerializable} from '../../../core/main/JSONSerializable';
 import {Equatable} from '../../../core/main/Equatable';
 import {List} from '../../../collections/main/List';
 import {ArrayList} from '../../../collections/main/ArrayList';
-import {EMPTY_STRING} from '../../../core/main/constants';
+import {StringPool} from '../../../core/main/StringPool';
 import {QueryParameters} from './QueryParameters';
 import {UriFormatException} from './UriFormatException';
 import {QueryStringParser} from './QueryStringParser';
@@ -78,16 +78,16 @@ export class Uri implements Cloneable<Uri>, JSONSerializable<string>, Equatable<
         return typeof url === 'string' ? new Uri(url) : url;
     }
 
-    private _originalUri: string = EMPTY_STRING;
+    private _originalUri: string = StringPool.BLANK;
     private _scheme: Scheme = Scheme.Unknown;
-    private _authority: string = EMPTY_STRING;
-    private _userName: string = EMPTY_STRING;
-    private _password: string = EMPTY_STRING;
-    private _host: string = EMPTY_STRING;
+    private _authority: string = StringPool.BLANK;
+    private _userName: string = StringPool.BLANK;
+    private _password: string = StringPool.BLANK;
+    private _host: string = StringPool.BLANK;
     private _port: number | undefined;
     private _path: string = Uri.ROOT_PATH;
     private _query: QueryParameters;
-    private _fragment: string = EMPTY_STRING;
+    private _fragment: string = StringPool.BLANK;
 
 
     public get originalUri(): string {
@@ -120,7 +120,7 @@ export class Uri implements Cloneable<Uri>, JSONSerializable<string>, Equatable<
             return `${this.userName}:${this.password}`;
         }
 
-        return EMPTY_STRING;
+        return StringPool.BLANK;
     }
 
 
@@ -178,7 +178,7 @@ export class Uri implements Cloneable<Uri>, JSONSerializable<string>, Equatable<
 
 
     public constructor(uri: string = Uri.ROOT_PATH) {
-        if (uri === EMPTY_STRING) {
+        if (uri === StringPool.BLANK) {
             throw new UriFormatException('URI cannot be empty string.');
         }
 
@@ -275,11 +275,11 @@ export class Uri implements Cloneable<Uri>, JSONSerializable<string>, Equatable<
         let [, , scheme, authority, path, , query, , fragment] = baseComponents;
 
         return [
-            scheme || EMPTY_STRING,
-            authority || EMPTY_STRING,
+            scheme || StringPool.BLANK,
+            authority || StringPool.BLANK,
             path || Uri.ROOT_PATH,
-            query || EMPTY_STRING,
-            fragment || EMPTY_STRING
+            query || StringPool.BLANK,
+            fragment || StringPool.BLANK
         ];
     }
 
@@ -294,10 +294,10 @@ export class Uri implements Cloneable<Uri>, JSONSerializable<string>, Equatable<
         let [, , userName, , password, host, , port] = authorityComponents;
 
         return [
-            userName || EMPTY_STRING,
-            password || EMPTY_STRING,
-            host || EMPTY_STRING,
-            port || EMPTY_STRING
+            userName || StringPool.BLANK,
+            password || StringPool.BLANK,
+            host || StringPool.BLANK,
+            port || StringPool.BLANK
         ];
     }
 
@@ -309,7 +309,7 @@ export class Uri implements Cloneable<Uri>, JSONSerializable<string>, Equatable<
         segments = path.split(Uri.PATH_SEGMENTS_DELIMITER);
 
         segments = segments.filter((segment: string): boolean => {
-            return (segment !== EMPTY_STRING && segment !== '.');
+            return (segment !== StringPool.BLANK && segment !== '.');
         });
 
         segments.forEach((segment: string, index: number): void => {

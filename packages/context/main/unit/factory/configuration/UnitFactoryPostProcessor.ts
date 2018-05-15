@@ -1,4 +1,4 @@
-import {ConfigurableUnitFactory} from '../ConfigurableUnitFactory';
+import {ConfigurableUnitFactory} from './ConfigurableUnitFactory';
 
 
 export interface UnitFactoryPostProcessor {

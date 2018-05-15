@@ -5,7 +5,7 @@ import {DateTime} from '../DateTime';
 import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
 import {TimeSpan} from '../TimeSpan';
 import {TimeEntryProcessor} from './TimeEntryProcessor';
-import {EMPTY_STRING} from '@monument/core/main/constants';
+import {StringPool} from '@monument/core/main/StringPool';
 
 
 export class AMPMProcessor extends TimeEntryProcessor {
@@ -64,7 +64,7 @@ export class AMPMProcessor extends TimeEntryProcessor {
                 return (hours < 12 ? formatInfo.amDesignator : formatInfo.pmDesignator).toLowerCase().slice(0, 1);
 
             default:
-                return EMPTY_STRING;
+                return StringPool.BLANK;
         }
     }
 }

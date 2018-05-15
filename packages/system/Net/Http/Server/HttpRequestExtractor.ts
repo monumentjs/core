@@ -30,7 +30,7 @@ export class HttpRequestExtractor {
 
     private extractRequestMethod(message: IncomingMessage): HttpMethod {
         if (message.method == null) {
-            throw new InvalidArgumentException('message', 'Invalid incoming message: HTTP method is not defined.');
+            throw new InvalidArgumentException('message', 'Invalid incoming payload: HTTP method is not defined.');
         }
 
         let methodName: string = StringUtils.toCapitalCase(message.method);

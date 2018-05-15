@@ -52,7 +52,7 @@ export class ObservableValue<T> implements Value<T>, Disposable {
 
 
     public dispose(): void {
-        for (let {key: observer, value: subscription} of this._observers) {
+        for (const {key: observer, value: subscription} of this._observers) {
             observer.onCompleted();
             subscription.dispose();
         }
@@ -60,7 +60,7 @@ export class ObservableValue<T> implements Value<T>, Disposable {
 
 
     private onChange(value: T): void {
-        for (let {key: observer} of this._observers) {
+        for (const {key: observer} of this._observers) {
             observer.onNext(value);
         }
     }

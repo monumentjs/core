@@ -1,4 +1,4 @@
-import {EMPTY_STRING} from '@monument/core/main/constants';
+import {StringPool} from '@monument/core/main/StringPool';
 import {Collection} from '@monument/collections/main/Collection';
 import {ArrayList} from '@monument/collections/main/ArrayList';
 import {AbstractStatefulParser} from '@monument/text/main/parser/AbstractStatefulParser';
@@ -26,7 +26,7 @@ export class ArgumentsParser extends AbstractStatefulParser<ArgumentsParserState
 
 
     public get result(): Arguments {
-        let [executablePath, mainModulePath, ...segments] = this.state.segments.toArray();
+        const [executablePath, mainModulePath, ...segments] = this.state.segments.toArray();
         let commands: Collection<string> = new ArrayList();
         let options: Option[] = [];
 
@@ -84,7 +84,7 @@ export class ArgumentsParser extends AbstractStatefulParser<ArgumentsParserState
         this.flushSegment();
 
         this.state.inQuotedSegment = false;
-        this.state.quotSign = EMPTY_STRING;
+        this.state.quotSign = StringPool.BLANK;
     }
 
 
@@ -93,7 +93,7 @@ export class ArgumentsParser extends AbstractStatefulParser<ArgumentsParserState
             this.state.segments.add(this.state.text);
         }
 
-        this.state.text = EMPTY_STRING;
+        this.state.text = StringPool.BLANK;
     }
 
 
@@ -105,14 +105,14 @@ export class ArgumentsParser extends AbstractStatefulParser<ArgumentsParserState
     private isLeadingQuot(): boolean {
         let {quotSign, currentChar} = this.state;
 
-        return quotSign === EMPTY_STRING && (currentChar === DOUBLE_QUOT_CHAR || currentChar === SINGLE_QUOT_CHAR);
+        return quotSign === StringPool.BLANK && (currentChar === DOUBLE_QUOT_CHAR || currentChar === SINGLE_QUOT_CHAR);
     }
 
 
     private isTrailingQuot(): boolean {
         let {quotSign, previousChar, currentChar} = this.state;
 
-        return quotSign !== EMPTY_STRING && currentChar === quotSign && previousChar !== QUOT_ESCAPE_SIGN;
+        return quotSign !== StringPool.BLANK && currentChar === quotSign && previousChar !== QUOT_ESCAPE_SIGN;
     }
 
 

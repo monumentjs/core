@@ -1,9 +1,9 @@
-import {EMPTY_STRING, EOL_CRLF} from '@monument/core/main/constants';
+import {BLANK, EOL_CRLF} from '@monument/core/main/StringPool';
 import {StringBuilder} from '@monument/text/main/StringBuilder';
 import {MimeTypeResolver} from '../../Mime/MimeTypeResolver';
 import {HeaderName} from '../Headers/HeaderName';
 import {ContentBoundary} from './ContentBoundary';
-import {FileInputStream} from '@monument/system/main/file-system/FileInputStream';
+import {FileInputStream} from '@monument/node/main/file-system/stream/FileInputStream';
 
 
 export class ContentDispositionGenerator {
@@ -32,7 +32,7 @@ export class ContentDispositionGenerator {
 
     public getFileContentDisposition(fieldName: string, file: FileInputStream): string {
         let path = new Path(file.path);
-        let fileExtensionWithoutLeadingDot: string = path.extension.replace(/^\.+/, EMPTY_STRING);
+        let fileExtensionWithoutLeadingDot: string = path.extension.replace(/^\.+/, StringPool.BLANK);
         let fileName: string = path.baseName;
         let mimeType: string = this._mimeTypeResolver.findTypeByExtension(fileExtensionWithoutLeadingDot);
         let sb: StringBuilder = new StringBuilder();

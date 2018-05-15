@@ -25,7 +25,7 @@ export class ConfigurableEvent<TTarget extends object, TArgs> implements Event<T
 
 
     public dispatch(args: TArgs): void {
-        for (let handler of this._handlers) {
+        for (const handler of this._handlers) {
             handler(this._target, args);
         }
     }

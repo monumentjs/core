@@ -9,7 +9,7 @@ import {Task} from './Task';
 export class TaskQueue<TResult> {
     public static readonly MIN_CONCURRENCY: number = 1;
 
-    private readonly _allTasks: ListQueue<KeyValuePair<DeferredObject, Task>> = new ListQueue();
+    private readonly _allTasks: ListQueue<KeyValuePair<DeferredObject<void>, Task>> = new ListQueue();
     private readonly _runningTasks: ArrayList<Task> = new ArrayList();
     private readonly _concurrency: number;
 

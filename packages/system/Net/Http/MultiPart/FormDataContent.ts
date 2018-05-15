@@ -73,7 +73,7 @@ export class FormDataContent extends HttpContent {
 
 
     private async writeForm(writer: HttpRequestOutputStream): Promise<void> {
-        for (let {key, value} of this._form) {
+        for (const {key, value} of this._form) {
             await this.writeText(writer, this._contentDispositionGenerator.getFormFieldContentDisposition(key));
             await this.writeText(writer, value);
         }
@@ -81,8 +81,8 @@ export class FormDataContent extends HttpContent {
 
 
     private async writeFiles(writer: HttpRequestOutputStream): Promise<void> {
-        for (let {key, value} of this._files) {
-            for (let file of value) {
+        for (const {key, value} of this._files) {
+            for (const file of value) {
                 await this.writeText(writer, this._contentDispositionGenerator.getFileContentDisposition(key, file));
 
                 await file.copyTo(writer);

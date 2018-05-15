@@ -1,4 +1,4 @@
-import {OutputStream} from '../../../../stream-core/main/OutputStream';
+import {OutputStream} from '../../../../stream/main/OutputStream';
 import {HttpHeaders} from '../Headers/HttpHeaders';
 
 

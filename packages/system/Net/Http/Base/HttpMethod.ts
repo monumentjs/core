@@ -56,7 +56,7 @@ export namespace HttpMethod {
     }
 
     /**
-     * Determine whether HttpMethod matches the given method value.
+     * Determine whether HttpMethod matches the given method payload.
      */
     export function isSupported(method: string): boolean {
         return ALL_METHODS.containsKey(method);

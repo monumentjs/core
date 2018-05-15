@@ -17,7 +17,7 @@ export abstract class AbstractStatefulParser<TState, TResult> implements Statefu
     }
 
 
-    public get result(): TResult {
+    public get result(): TResult | undefined {
         return this.context.result;
     }
 

@@ -52,7 +52,7 @@ export class HttpClient {
 
 
     private async getPreProcessedRequest(request: HttpRequest): Promise<HttpRequest> {
-        for (let processor of this._requestPreProcessors) {
+        for (const processor of this._requestPreProcessors) {
             request = await processor.transform(request);
         }
 
@@ -61,7 +61,7 @@ export class HttpClient {
 
 
     private async getPostProcessedResponse(response: HttpResponse): Promise<HttpResponse> {
-        for (let processor of this._responsePostProcessors) {
+        for (const processor of this._responsePostProcessors) {
             response = await processor.transform(response);
         }
 

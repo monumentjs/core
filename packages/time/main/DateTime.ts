@@ -4,10 +4,10 @@ import {Comparable} from '@monument/core/main/Comparable';
 import {Equatable} from '@monument/core/main/Equatable';
 import {Formattable} from '@monument/core/main/Formattable';
 import {JSONSerializable} from '@monument/core/main/JSONSerializable';
-import {FormattableString} from '@monument/text/main/FormattableString';
-import {Map} from '../../collections/main/Map';
-import {ReadOnlyCollection} from '../../collections/main/ReadOnlyCollection';
+import {ReadOnlyCollection} from '@monument/collections/main/ReadOnlyCollection';
+import {Map} from '@monument/collections/main/Map';
 import {ListMap} from '@monument/collections/main/ListMap';
+import {TemplateString} from '@monument/text/main/TemplateString';
 import {DAYS_OFFSET_PER_MONTH, DAYS_TO_MONTH_365, DAYS_TO_MONTH_366} from './Constants';
 import {InvariantDateTimeFormatInfo} from './InvariantDateTimeFormatInfo';
 import {DayOfWeek} from './DayOfWeek';
@@ -24,7 +24,7 @@ export class DateTime implements Cloneable<DateTime>, Comparable<DateTime>, Equa
     }
 
 
-    public static cast(date: DateTime | Date) {
+    public static cast(date: DateTime | Date): DateTime {
         if (date instanceof DateTime) {
             return date;
         }
@@ -315,7 +315,7 @@ export class DateTime implements Cloneable<DateTime>, Comparable<DateTime>, Equa
     public toString(format?: string, formatInfo: DateTimeFormatInfo = InvariantDateTimeFormatInfo.invariant): string {
         format = format || formatInfo.fullDateTimePattern;
 
-        let template: FormattableString = new FormattableString(format);
+        let template: TemplateString = new TemplateString(format);
         let dateComponents = this.getTimeComponents(this, template.uniqueEntries, formatInfo);
 
         return template.fillByKeys(dateComponents);

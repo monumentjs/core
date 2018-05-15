@@ -50,7 +50,7 @@ export class MediaType extends MimeType {
 
     /**
      * Parse the given String into a single {@code MediaType}.
-     * @throws InvalidMediaTypeException if the media type value cannot be parsed
+     * @throws InvalidMediaTypeException if the media type payload cannot be parsed
      */
     public static parseMediaType(mediaType: string): MediaType {
         let type: MimeType;

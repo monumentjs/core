@@ -1,7 +1,6 @@
-import {Test} from '@monument/test-drive/main/configuration/decorators/Test';
-import {Assert} from '@monument/test-drive/main/assert/Assert';
-import {MockFactory} from '@monument/test-drive/main/mock/MockFactory';
-import {FunctionMock} from '@monument/test-drive/main/mock/FunctionMock';
+import {Test} from '@monument/test-drive/main/decorators/Test';
+import {Assert} from '@monument/test-drive/main/modules/assert/Assert';
+import {FunctionMock} from '@monument/test-drive/main/modules/mock/FunctionMock';
 import {ConfigurableEvent} from '../../main/ConfigurableEvent';
 import {EventHandler} from '../../main/EventHandler';
 
@@ -9,8 +8,8 @@ import {EventHandler} from '../../main/EventHandler';
 export class ConfigurableEventTest {
 
     @Test
-    public 'event handler invoked with event args'(assert: Assert, mockFactory: MockFactory) {
-        const mock: FunctionMock<EventHandler<object, number>> = mockFactory.function();
+    public 'event handler invoked with event args'(assert: Assert) {
+        const mock: FunctionMock<EventHandler<object, number>> = new FunctionMock();
         const target: object = {};
         const event: ConfigurableEvent<object, number> = new ConfigurableEvent(target);
 
@@ -26,8 +25,8 @@ export class ConfigurableEventTest {
 
 
     @Test
-    public 'event handler not invoked after being unsubscribed'(assert: Assert, mockFactory: MockFactory) {
-        const mock: FunctionMock<EventHandler<object, number>> = mockFactory.function();
+    public 'event handler not invoked after being unsubscribed'(assert: Assert) {
+        const mock: FunctionMock<EventHandler<object, number>> = new FunctionMock();
         const target: object = {};
         const event: ConfigurableEvent<object, number> = new ConfigurableEvent(target);
 
@@ -45,8 +44,8 @@ export class ConfigurableEventTest {
 
 
     @Test
-    public 'event handlers detached when event is disposed'(assert: Assert, mockFactory: MockFactory) {
-        const mock: FunctionMock<EventHandler<object, number>> = mockFactory.function();
+    public 'event handlers detached when event is disposed'(assert: Assert) {
+        const mock: FunctionMock<EventHandler<object, number>> = new FunctionMock();
         const target: object = {};
         const event: ConfigurableEvent<object, number> = new ConfigurableEvent(target);
 

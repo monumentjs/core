@@ -4,7 +4,7 @@ import {DateTime} from '../DateTime';
 import {TimeSpan} from '../TimeSpan';
 import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
 import {TimeEntryProcessor} from './TimeEntryProcessor';
-import {EMPTY_STRING} from '@monument/core/main/constants';
+import {StringPool} from '@monument/core/main/StringPool';
 
 
 export class DayOfWeekProcessor extends TimeEntryProcessor {
@@ -55,7 +55,7 @@ export class DayOfWeekProcessor extends TimeEntryProcessor {
                 return (dayOfWeek + 1).toString();
 
             default:
-                return EMPTY_STRING;
+                return StringPool.BLANK;
         }
     }
 }

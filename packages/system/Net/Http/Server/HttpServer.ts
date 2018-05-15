@@ -1,6 +1,6 @@
 import * as http from 'http';
 import * as https from 'https';
-import {Delegate} from '@monument/events/main/decorators/Delegate';
+import {Delegate} from 'core/main/decorators/Delegate';
 import {Task} from '@monument/async/main/Task';
 import {DeferredObject} from '@monument/async/main/DeferredObject';
 import {HttpServerConfiguration} from './HttpServerConfiguration';

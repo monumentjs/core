@@ -1,0 +1,27 @@
+{
+  "name": "@monument/node",
+  "version": "0.0.52",
+  "description": "NodeJS",
+  "keywords": [
+
+  ],
+  "scripts": {
+    "test": "td"
+  },
+  "dependencies": {
+    "@monument/async": "^0.0.52",
+    "@monument/core": "^0.0.52",
+    "@monument/collections": "^0.0.52",
+    "@monument/events": "^0.0.52",
+    "@monument/pub-sub": "^0.0.52",
+    "@monument/text": "^0.0.52",
+    "@monument/time": "^0.0.52",
+    "@monument/reflection": "^0.0.52",
+    "@monument/stream": "^0.0.52",
+    "@monument/stereotype": "^0.0.52"
+  },
+  "devDependencies": {
+    "@types/node": "^10.0.8",
+    "@monument/test-drive": "^0.0.52"
+  }
+}

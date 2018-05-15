@@ -14,7 +14,7 @@ export class ContextAwareUnitPostProcessor implements UnitPostProcessor {
 
 
     public async postProcessBeforeInitialization<T extends object>(instance: T, unitType: Type<T>): Promise<T> {
-        const klass = Class.of(unitType);
+        const klass: Class<object> = Class.of(instance.constructor);
 
         if (klass.hasMethod('setContext')) {
             const method = klass.getMethod('setContext');

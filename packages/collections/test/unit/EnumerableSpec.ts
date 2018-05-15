@@ -1,7 +1,6 @@
-import {Test} from '@monument/test-drive/main/configuration/decorators/Test';
-import {Assert} from '@monument/test-drive/main/assert/Assert';
-import {MockFactory} from '@monument/test-drive/main/mock/MockFactory';
-import {FunctionMock} from '@monument/test-drive/main/mock/FunctionMock';
+import {Test} from '@monument/test-drive/main/decorators/Test';
+import {Assert} from '@monument/test-drive/main/modules/assert/Assert';
+import {FunctionMock} from '@monument/test-drive/main/modules/mock/FunctionMock';
 import {ArgumentIndexOutOfBoundsException} from '@monument/core/main/exceptions/ArgumentIndexOutOfBoundsException';
 import {InvalidArgumentException} from '@monument/core/main/exceptions/InvalidArgumentException';
 import {RangeException} from '@monument/core/main/exceptions/RangeException';
@@ -19,10 +18,10 @@ export abstract class EnumerableSpec {
 
     @Test
     public 'for...of loop allows iteration'(assert: Assert) {
-        let instance = this.create(TEST_ITEMS);
+        const instance = this.create(TEST_ITEMS);
         let index: number = 0;
 
-        for (let item of instance) {
+        for (const item of instance) {
             assert.equals(item, TEST_ITEMS[index]);
 
             index += 1;
@@ -34,10 +33,10 @@ export abstract class EnumerableSpec {
 
     @Test
     public 'for...of loop can be interrupted'(assert: Assert) {
-        let instance: Enumerable<string> = this.create(TEST_ITEMS);
+        const instance: Enumerable<string> = this.create(TEST_ITEMS);
         let index: number = 0;
 
-        for (let name of instance) {
+        for (const name of instance) {
             if (name === 'two') {
                 break;
             }
@@ -51,8 +50,8 @@ export abstract class EnumerableSpec {
 
     @Test
     public '.iterator returns iterator object'(assert: Assert) {
-        let instance: Enumerable<string> = this.create(TEST_ITEMS);
-        let iterator: Iterator<string> = instance.iterator;
+        const instance: Enumerable<string> = this.create(TEST_ITEMS);
+        const iterator: Iterator<string> = instance.iterator;
 
         assert.true(iterator != null);
 
@@ -63,11 +62,11 @@ export abstract class EnumerableSpec {
 
 
     @Test
-    public '.iterator overwrites default behavior of iteration'(assert: Assert, mockFactory: MockFactory) {
-        let instance: Enumerable<string> = this.create(TEST_ITEMS);
-        let mock: FunctionMock = mockFactory.function();
+    public '.iterator overwrites default behavior of iteration'(assert: Assert) {
+        const instance: Enumerable<string> = this.create(TEST_ITEMS);
+        const mock: FunctionMock = new FunctionMock();
 
-        for (let word of instance) {
+        for (const word of instance) {
             mock.value(word);
         }
 
@@ -79,9 +78,9 @@ export abstract class EnumerableSpec {
 
 
     @Test
-    public 'forEach() iterates from start to end'(assert: Assert, mockFactory: MockFactory) {
+    public 'forEach() iterates from start to end'(assert: Assert) {
         let instance: Enumerable<string> = this.create(TEST_ITEMS);
-        let mock = mockFactory.function<IteratorFunction<string, void>>();
+        let mock = new FunctionMock<IteratorFunction<string, void>>();
 
         instance.forEach(mock.value);
 
@@ -94,12 +93,9 @@ export abstract class EnumerableSpec {
 
 
     @Test
-    public 'forEach() iterates through the slice of list - starts from first element'(
-        assert: Assert,
-        mockFactory: MockFactory
-    ) {
+    public 'forEach() iterates through the slice of list - starts from first element'(assert: Assert) {
         let instance: Enumerable<string> = this.create(TEST_ITEMS);
-        let mock = mockFactory.function<IteratorFunction<string, void>>();
+        let mock = new FunctionMock<IteratorFunction<string, void>>();
 
         instance.forEach(mock.value, 0, 2);
 
@@ -111,12 +107,9 @@ export abstract class EnumerableSpec {
 
 
     @Test
-    public 'forEach() iterates through the slice of list - starts from middle element'(
-        assert: Assert,
-        mockFactory: MockFactory
-    ) {
+    public 'forEach() iterates through the slice of list - starts from middle element'(assert: Assert) {
         let instance: Enumerable<string> = this.create(TEST_ITEMS);
-        let mock = mockFactory.function<IteratorFunction<string, void>>();
+        let mock = new FunctionMock<IteratorFunction<string, void>>();
 
         instance.forEach(mock.value, 1, 2);
 
@@ -127,12 +120,9 @@ export abstract class EnumerableSpec {
     }
 
     @Test
-    public 'forEach() iterates through the slice of list - end index not specified'(
-        assert: Assert,
-        mockFactory: MockFactory
-    ) {
+    public 'forEach() iterates through the slice of list - end index not specified'(assert: Assert) {
         let instance: Enumerable<string> = this.create(TEST_ITEMS);
-        let mock = mockFactory.function<IteratorFunction<string, void>>();
+        let mock = new FunctionMock<IteratorFunction<string, void>>();
 
         instance.forEach(mock.value, 1);
 
@@ -144,12 +134,9 @@ export abstract class EnumerableSpec {
 
 
     @Test
-    public 'forEach() throws if `startIndex` argument is out of bounds'(
-        assert: Assert,
-        mockFactory: MockFactory
-    ) {
+    public 'forEach() throws if `startIndex` argument is out of bounds'(assert: Assert) {
         let instance: Enumerable<string> = this.create(TEST_ITEMS);
-        let mock = mockFactory.function<IteratorFunction<string, void>>();
+        let mock = new FunctionMock<IteratorFunction<string, void>>();
 
         assert.throws(() => {
             instance.forEach(mock.value, -1);
@@ -162,12 +149,9 @@ export abstract class EnumerableSpec {
 
 
     @Test
-    public 'forEach() throws if `count` argument is not a valid length'(
-        assert: Assert,
-        mockFactory: MockFactory
-    ) {
+    public 'forEach() throws if `count` argument is not a valid length'(assert: Assert) {
         let instance: Enumerable<string> = this.create(TEST_ITEMS);
-        let mock = mockFactory.function<IteratorFunction<string, void>>();
+        let mock = new FunctionMock<IteratorFunction<string, void>>();
 
         assert.throws(() => {
             instance.forEach(mock.value, 0, -1);
@@ -176,12 +160,9 @@ export abstract class EnumerableSpec {
 
 
     @Test
-    public 'forEach() throws if iteration range is not valid'(
-        assert: Assert,
-        mockFactory: MockFactory
-    ) {
+    public 'forEach() throws if iteration range is not valid'(assert: Assert) {
         let instance: Enumerable<string> = this.create(TEST_ITEMS);
-        let mock = mockFactory.function<IteratorFunction<string, void>>();
+        let mock = new FunctionMock<IteratorFunction<string, void>>();
 
         assert.throws(() => {
             instance.forEach(mock.value, 0, 4);

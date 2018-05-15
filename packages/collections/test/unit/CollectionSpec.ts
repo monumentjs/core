@@ -1,5 +1,5 @@
-import {Test} from '@monument/test-drive/main/configuration/decorators/Test';
-import {Assert} from '@monument/test-drive/main/assert/Assert';
+import {Test} from '@monument/test-drive/main/decorators/Test';
+import {Assert} from '@monument/test-drive/main/modules/assert/Assert';
 import {IgnoreCaseComparator} from '@monument/core/main/IgnoreCaseComparator';
 import {Collection} from '../../main/Collection';
 import {EnumerableSpec} from './EnumerableSpec';

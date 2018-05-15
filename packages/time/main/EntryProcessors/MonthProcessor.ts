@@ -1,6 +1,6 @@
 import {GetInstance} from '@monument/core/main/decorators/GetInstance';
 import {InvalidOperationException} from '@monument/core/main/exceptions/InvalidOperationException';
-import {EMPTY_STRING} from '@monument/core/main/constants';
+import {StringPool} from '@monument/core/main/StringPool';
 import {StringUtils} from '@monument/text/main/StringUtils';
 import {DateTime} from '../DateTime';
 import {TimeSpan} from '../TimeSpan';
@@ -67,7 +67,7 @@ export class MonthProcessor extends TimeEntryProcessor {
                 return formatInfo.abbreviatedMonthGenitiveNames.getAt(month);
 
             default:
-                return EMPTY_STRING;
+                return StringPool.BLANK;
         }
     }
 }

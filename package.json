@@ -15,14 +15,11 @@
     "test": "lerna run test"
   },
   "dependencies": {
-    "reflect-metadata": "^0.1.12",
-    "deep-equal": "^1.0.1"
+    "reflect-metadata": "^0.1.12"
   },
   "devDependencies": {
-    "@types/node": "^10.0.1",
-    "@types/deep-equal": "^1.0.1",
     "lerna": "^2.11.0",
-    "tslint": "^5.9.1",
+    "tslint": "^5.10.0",
     "typescript": "^2.8.3"
   }
 }

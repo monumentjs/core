@@ -5,7 +5,7 @@ import {HttpRouteValueDictionary} from './HttpRouteValueDictionary';
 
 export interface IHttpRouteConstraint {
     /**
-     * Determines whether the URL parameter contains a valid value for this constraint.
+     * Determines whether the URL parameter contains a valid payload for this constraint.
      */
     match(
         request: HttpRequestInputStream,

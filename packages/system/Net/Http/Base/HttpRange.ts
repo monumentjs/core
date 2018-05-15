@@ -51,10 +51,10 @@ export abstract class HttpRange {
 
         ranges = ranges.substring(HttpRange.BYTE_RANGE_PREFIX.length);
 
-        let tokens: string[] = StringUtils.split(ranges, ',');
-        let result: List<HttpRange> = new ArrayList();
+        const tokens: string[] = StringUtils.split(ranges, ',');
+        const result: List<HttpRange> = new ArrayList();
 
-        for (let token of tokens) {
+        for (const token of tokens) {
             result.add(this.parseRange(token));
         }
 

@@ -20,7 +20,7 @@ export class ConfigurationUnitDefinitionReader extends AbstractUnitDefinitionRea
         if (klass.isDecoratedWith(Configuration)) {
             let methods: ReadOnlyCollection<Method> = klass.methods;
 
-            for (let method of methods) {
+            for (const method of methods) {
                 if (method.isDecoratedWith(Unit)) {
                     let configuration = method.getAttribute(UnitConfiguration.ATTRIBUTE_KEY);
 

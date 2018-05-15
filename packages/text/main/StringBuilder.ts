@@ -1,6 +1,6 @@
 import {Assert} from '@monument/assert/main/Assert';
-import {FormattableString} from './FormattableString';
-import {EMPTY_STRING} from '../../core/main/constants';
+import {TemplateString} from './TemplateString';
+import {StringPool} from '../../core/main/StringPool';
 
 
 export class StringBuilder {
@@ -29,7 +29,7 @@ export class StringBuilder {
     }
 
 
-    public constructor(initialValue: string = EMPTY_STRING, capacity: number = Infinity) {
+    public constructor(initialValue: string = StringPool.BLANK, capacity: number = Infinity) {
         this._value = initialValue;
         this._capacity = capacity;
     }
@@ -45,7 +45,7 @@ export class StringBuilder {
 
 
     public prepend(text: string): this {
-        this._value += text;
+        this._value = text + this._value;
 
         this.normalizeValueLength();
 
@@ -56,7 +56,7 @@ export class StringBuilder {
     public appendTimes(text: string, times: number): this {
         Assert.argument('times', times).isLength();
 
-        let stringOfRepeatedChunks: string = EMPTY_STRING;
+        let stringOfRepeatedChunks: string = StringPool.BLANK;
 
         for (let i = 0; i < times; i++) {
             stringOfRepeatedChunks += text;
@@ -69,7 +69,7 @@ export class StringBuilder {
 
 
     public prependTimes(text: string, times: number): this {
-        let stringOfRepeatedChunks: string = EMPTY_STRING;
+        let stringOfRepeatedChunks: string = StringPool.BLANK;
 
         for (let i = 0; i < times; i++) {
             stringOfRepeatedChunks += text;
@@ -81,14 +81,14 @@ export class StringBuilder {
     }
 
 
-    public appendLine(text: string = EMPTY_STRING): this {
+    public appendLine(text: string = StringPool.BLANK): this {
         this.append(text + this._linesSeparator);
 
         return this;
     }
 
 
-    public prependLine(text: string = EMPTY_STRING): this {
+    public prependLine(text: string = StringPool.BLANK): this {
         this.prepend(text + this._linesSeparator);
 
         return this;
@@ -117,7 +117,7 @@ export class StringBuilder {
 
 
     public appendFormat(format: string, ...values: any[]): this {
-        let template: FormattableString = new FormattableString(format);
+        let template: TemplateString = new TemplateString(format);
 
         this.append(template.fillByPositions(values));
 
@@ -126,7 +126,7 @@ export class StringBuilder {
 
 
     public prependFormat(format: string, ...values: any[]): this {
-        let template: FormattableString = new FormattableString(format);
+        let template: TemplateString = new TemplateString(format);
 
         this.prepend(template.fillByPositions(values));
 
@@ -134,7 +134,7 @@ export class StringBuilder {
     }
 
 
-    public surround(before: string = EMPTY_STRING, after: string = EMPTY_STRING): this {
+    public surround(before: string = StringPool.BLANK, after: string = StringPool.BLANK): this {
         this._value = before + this._value + after;
 
         return this;
@@ -142,7 +142,7 @@ export class StringBuilder {
 
 
     public clear(): this {
-        this._value = EMPTY_STRING;
+        this._value = StringPool.BLANK;
 
         return this;
     }

@@ -3,7 +3,7 @@ import {MimeType} from './MimeType';
 import {Map} from '../../../../collections/main/Map';
 import {UnknownEncodingException} from '../../../Text/UnknownEncodingException';
 import {InvalidArgumentException} from '../../../../core/main/exceptions/InvalidArgumentException';
-import {EMPTY_STRING} from '../../../../core/main/constants';
+import {StringPool} from '../../../../core/main/StringPool';
 import {List} from '../../../../collections/main/List';
 import {StringUtils} from '../../../../text/main/StringUtils';
 import {StringBuilder} from '../../../../text/main/StringBuilder';
@@ -21,7 +21,7 @@ export class MimeTypeUtils {
      * @throws InvalidMimeTypeException if the string cannot be parsed
      */
     public static parseMimeType(mimeType: string): MimeType {
-        if (mimeType === EMPTY_STRING) {
+        if (mimeType === StringPool.BLANK) {
             throw new InvalidMimeTypeException(mimeType, '\'mimeType\' must not be empty');
         }
 
@@ -116,14 +116,14 @@ export class MimeTypeUtils {
      * @throws IllegalArgumentException if the string cannot be parsed
      */
     public static parseMimeTypes(mimeTypes: string): List<MimeType> {
-        if (mimeTypes === EMPTY_STRING) {
+        if (mimeTypes === StringPool.BLANK) {
             return new ArrayList();
         }
 
-        let tokens = StringUtils.split(mimeTypes, ',');
-        let result: List<MimeType> = new ArrayList();
+        const tokens = StringUtils.split(mimeTypes, ',');
+        const result: List<MimeType> = new ArrayList();
 
-        for (let token of tokens) {
+        for (const token of tokens) {
             result.add(this.parseMimeType(token));
         }
 
@@ -137,10 +137,10 @@ export class MimeTypeUtils {
      * @throws IllegalArgumentException if the String cannot be parsed
      */
     public static toString<T extends MimeType>(mimeTypes: Collection<T>): string {
-        let builder: StringBuilder = new StringBuilder();
+        const builder: StringBuilder = new StringBuilder();
         let index: number = 0;
 
-        for (let mimeType of mimeTypes) {
+        for (const mimeType of mimeTypes) {
             mimeType.appendTo(builder);
 
             if (index < mimeTypes.length - 1) {

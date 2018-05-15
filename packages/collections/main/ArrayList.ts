@@ -1,13 +1,13 @@
-import {Equatable} from '@monument/core/main/Equatable';
+import {Assert} from '@monument/assert/main/Assert';
 import {ArgumentIndexOutOfBoundsException} from '@monument/core/main/exceptions/ArgumentIndexOutOfBoundsException';
-import {EqualityComparator} from '@monument/core/main/EqualityComparator';
-import {Cloneable} from '@monument/core/main/Cloneable';
-import {StrictEqualityComparator} from '@monument/core/main/StrictEqualityComparator';
 import {ArgumentRangeException} from '@monument/core/main/exceptions/ArgumentRangeException';
+import {Cloneable} from '@monument/core/main/Cloneable';
+import {Equatable} from '@monument/core/main/Equatable';
+import {EqualityComparator} from '@monument/core/main/EqualityComparator';
+import {StrictEqualityComparator} from '@monument/core/main/StrictEqualityComparator';
 import {List} from './List';
 import {IteratorFunction} from './IteratorFunction';
 import {Collection} from './Collection';
-import {Assert} from '@monument/assert/main/Assert';
 import {AbstractList} from './AbstractList';
 
 
@@ -47,7 +47,7 @@ export class ArrayList<T> extends AbstractList<T> implements Cloneable<ArrayList
 
         let result: boolean | void;
 
-        for (let index = startIndex; count > 0 && result !== false; index++, count--) {
+        for (let index = startIndex, itemsLeft = count; itemsLeft > 0 && result !== false; index++, itemsLeft--) {
             result = iterator(this._items[index], index);
         }
     }
@@ -66,7 +66,7 @@ export class ArrayList<T> extends AbstractList<T> implements Cloneable<ArrayList
 
         let token: boolean | void;
 
-        for (let index = this.length - 1; count > 0 && token !== false; index--, count--) {
+        for (let index = this.length - 1, itemsLeft = count; count > 0 && token !== false; index--, itemsLeft--) {
             token = iterator(this._items[index], index);
         }
     }

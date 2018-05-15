@@ -7,27 +7,15 @@ import {Key} from '@monument/object-model/main/attributes/Key';
 export class ModuleConfiguration {
     public static readonly ATTRIBUTE_KEY: Key<ModuleConfiguration> = new Key();
 
-    private _imports: ListSet<Type<object>> = new ListSet();
-    private _exports: ListSet<Type<object>> = new ListSet();
+    private readonly _components: ListSet<Type<object>>;
 
 
-    public get imports(): ReadOnlySet<Type<object>> {
-        return this._imports;
+    public get components(): ReadOnlySet<Type<object>> {
+        return this._components;
     }
 
 
-    public get exports(): ReadOnlySet<Type<object>> {
-        return this._exports;
-    }
-
-
-    public constructor(imports?: Iterable<Type<object>>, exports?: Iterable<Type<object>>) {
-        if (imports != null) {
-            this._imports.addAll(imports);
-        }
-
-        if (exports != null) {
-            this._exports.addAll(exports);
-        }
+    public constructor(components?: Iterable<Type<object>>) {
+        this._components = new ListSet(components);
     }
 }

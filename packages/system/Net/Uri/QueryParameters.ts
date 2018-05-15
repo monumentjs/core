@@ -7,13 +7,13 @@ import {Uri} from './Uri';
 export class QueryParameters extends ListMap<string, string> implements Equatable<QueryParameters> {
 
     public equals(other: QueryParameters): boolean {
-        for (let currentItem of this) {
+        for (const currentItem of this) {
             if (!other.containsEntry(currentItem.key, currentItem.value)) {
                 return false;
             }
         }
 
-        for (let otherItem of other) {
+        for (const otherItem of other) {
             if (!this.containsEntry(otherItem.key, otherItem.value)) {
                 return false;
             }
@@ -24,10 +24,10 @@ export class QueryParameters extends ListMap<string, string> implements Equatabl
 
 
     public toString(): string {
-        let builder: StringBuilder = new StringBuilder();
+        const builder: StringBuilder = new StringBuilder();
         let index: number = 0;
 
-        for (let {key, value} of this) {
+        for (const {key, value} of this) {
             if (index > 0) {
                 builder.append('&');
             }

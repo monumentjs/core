@@ -19,7 +19,7 @@ export interface IHttpRouteData {
     // getSubRoutes(): Enumerable<IHttpRouteData>;
 
     // /**
-    //  * Removes all optional parameters that do not have a value from the route data.
+    //  * Removes all optional parameters that do not have a payload from the route data.
     //  */
     // removeOptionalRoutingParameters(): void;
 }

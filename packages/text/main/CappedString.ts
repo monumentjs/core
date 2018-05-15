@@ -1,4 +1,4 @@
-import {EMPTY_STRING} from '@monument/core/main/constants';
+import {StringPool} from '@monument/core/main/StringPool';
 
 
 export class CappedString {
@@ -21,7 +21,7 @@ export class CappedString {
     }
 
 
-    public constructor(maxLength: number, initialValue: string = EMPTY_STRING) {
+    public constructor(maxLength: number, initialValue: string = StringPool.BLANK) {
         this._maxLength = maxLength;
         this._value = initialValue;
     }
@@ -38,7 +38,7 @@ export class CappedString {
 
 
     public clear(): void {
-        this._value = EMPTY_STRING;
+        this._value = StringPool.BLANK;
     }
 
 

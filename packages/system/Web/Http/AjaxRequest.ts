@@ -38,7 +38,7 @@ export class AjaxRequest extends HttpRequest {
         xhr.timeout = timeout;
         xhr.withCredentials = crossDomain;
 
-        for (let {name, value} of headers) {
+        for (const {key: name, value} of headers) {
             xhr.setRequestHeader(name, value);
         }
     }

@@ -12,7 +12,7 @@ import {PreserveCaseComparator} from '../../../../core/main/PreserveCaseComparat
 import {ListMap} from '../../../../collections/main/ListMap';
 import {ArrayList} from '../../../../collections/main/ArrayList';
 import {List} from '../../../../collections/main/List';
-import {EMPTY_STRING} from '@monument/core/main/constants';
+import {StringPool} from '@monument/core/main/StringPool';
 
 
 export class MimeType implements Comparable<MimeType>, Equatable<MimeType> {
@@ -200,12 +200,12 @@ export class MimeType implements Comparable<MimeType>, Equatable<MimeType> {
             return comp;
         }
 
-        let thisAttributes: List<string> = new ArrayList(this.parameters.keys).distinct(IgnoreCaseComparator.instance);
-        let otherAttributes: List<string> = new ArrayList(other.parameters.keys).distinct(IgnoreCaseComparator.instance);
+        const thisAttributes: List<string> = new ArrayList(this.parameters.keys).distinct(IgnoreCaseComparator.instance);
+        const otherAttributes: List<string> = new ArrayList(other.parameters.keys).distinct(IgnoreCaseComparator.instance);
 
         for (let index = 0; index < thisAttributes.length; index++) {
-            let thisAttribute: string = thisAttributes.getAt(index);
-            let otherAttribute: string = otherAttributes.getAt(index);
+            const thisAttribute: string = thisAttributes.getAt(index);
+            const otherAttribute: string = otherAttributes.getAt(index);
 
             comp = IgnoreCaseComparator.instance.compare(thisAttribute, otherAttribute);
 
@@ -213,11 +213,11 @@ export class MimeType implements Comparable<MimeType>, Equatable<MimeType> {
                 return comp;
             }
 
-            let thisValue: string = this.parameters.get(thisAttribute) as string;
+            const thisValue: string = this.parameters.get(thisAttribute) as string;
             let otherValue: string | undefined = other.parameters.get(otherAttribute);
 
             if (otherValue == null) {
-                otherValue = EMPTY_STRING;
+                otherValue = StringPool.BLANK;
             }
 
             comp = PreserveCaseComparator.instance.compare(thisValue, otherValue);
@@ -232,7 +232,7 @@ export class MimeType implements Comparable<MimeType>, Equatable<MimeType> {
 
 
     public toString(): string {
-        const builder = new StringBuilder();
+        const builder: StringBuilder = new StringBuilder();
 
         this.appendTo(builder);
 
@@ -243,7 +243,7 @@ export class MimeType implements Comparable<MimeType>, Equatable<MimeType> {
     public appendTo(builder: StringBuilder): void {
         builder.append(`${this.type}/${this.subType}`);
 
-        for (let parameter of this.parameters) {
+        for (const parameter of this.parameters) {
             builder.append(`${MimeType.PARAMETERS_DELIMITER}${parameter.key}${MimeType.PARAMETER_DELIMITER}${parameter.value}`);
         }
     }

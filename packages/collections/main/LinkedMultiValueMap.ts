@@ -8,7 +8,7 @@ import {ArrayList} from './ArrayList';
 
 export class LinkedMultiValueMap<K, V> extends ListMap<K, List<V>> implements MultiValueMap<K, V> {
     /**
-     * Add the given single value to the current list of values for the given methodName.
+     * Add the given single payload to the current list of values for the given methodName.
      */
     public add(key: K, value: V): void {
         let list: List<V> | undefined = this.get(key);
@@ -58,7 +58,7 @@ export class LinkedMultiValueMap<K, V> extends ListMap<K, List<V>> implements Mu
     }
 
     /**
-     * Return the first value for the given methodName.
+     * Return the first payload for the given methodName.
      */
     public getFirst(key: K): V | undefined {
         let list: List<V> | undefined = this.get(key);
@@ -71,7 +71,7 @@ export class LinkedMultiValueMap<K, V> extends ListMap<K, List<V>> implements Mu
     }
 
     /**
-     * Set the given single value under the given methodName.
+     * Set the given single payload under the given methodName.
      */
     public setTo(key: K, value: V): void {
         let list: List<V> | undefined = this.get(key);

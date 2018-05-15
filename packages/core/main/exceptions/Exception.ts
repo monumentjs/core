@@ -14,9 +14,7 @@ export class Exception extends Error {
     }
 
 
-    public readonly timestamp: number = Date.now();
     public readonly innerException: Exception | undefined;
-    public helpLink?: string;
 
 
     public constructor(message: string, innerException?: Exception) {
@@ -29,10 +27,6 @@ export class Exception extends Error {
 
     public toString(): string {
         let error: string = `${this.name}: ${this.message}\n`;
-
-        if (this.helpLink) {
-            error += `See: ${this.helpLink}\n`;
-        }
 
         error += `Stack:\n${this.stack}\n`;
 

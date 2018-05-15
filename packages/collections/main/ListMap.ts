@@ -24,7 +24,7 @@ export class ListMap<K, V> extends AbstractMap<K, V> {
     public get keys(): ReadOnlySet<K> {
         const keys: ListSet<K> = new ListSet(undefined, this.keyComparator);
 
-        for (let {key} of this) {
+        for (const {key} of this) {
             keys.add(key);
         }
 
@@ -35,7 +35,7 @@ export class ListMap<K, V> extends AbstractMap<K, V> {
     public get values(): ReadOnlyCollection<V> {
         const values: ArrayList<V> = new ArrayList();
 
-        for (let {value} of this) {
+        for (const {value} of this) {
             values.add(value);
         }
 
@@ -70,7 +70,7 @@ export class ListMap<K, V> extends AbstractMap<K, V> {
         let newPair: KeyValuePair<K, V> = new KeyValuePair(key, value);
         let index: number = 0;
 
-        for (let pair of this._mapping) {
+        for (const pair of this._mapping) {
             if (this.keyComparator.equals(pair.key, key)) {
                 this._mapping.setAt(index, newPair);
 
@@ -89,11 +89,11 @@ export class ListMap<K, V> extends AbstractMap<K, V> {
     public putAll(values: Iterable<KeyValuePair<K, V>>): boolean {
         let hasOverridden: boolean = false;
 
-        for (let newPair of values) {
+        for (const newPair of values) {
             let index: number = 0;
             let isReplaced: boolean = false;
 
-            for (let pair of this._mapping) {
+            for (const pair of this._mapping) {
                 if (this.keyComparator.equals(pair.key, newPair.key)) {
                     this._mapping.setAt(index, newPair);
 
@@ -117,7 +117,7 @@ export class ListMap<K, V> extends AbstractMap<K, V> {
 
 
     public putIfAbsent(key: K, value: V): boolean {
-        for (let pair of this._mapping) {
+        for (const pair of this._mapping) {
             if (this.keyComparator.equals(pair.key, key)) {
                 return false;
             }
@@ -132,7 +132,7 @@ export class ListMap<K, V> extends AbstractMap<K, V> {
     public removeIf(key: K, value: V): boolean {
         let index: number = 0;
 
-        for (let pair of this._mapping) {
+        for (const pair of this._mapping) {
             if (this.keyComparator.equals(key, pair.key) && this.valueComparator.equals(value, pair.value)) {
                 this._mapping.removeAt(index);
 
@@ -149,7 +149,7 @@ export class ListMap<K, V> extends AbstractMap<K, V> {
     public remove(key: K): V | undefined {
         let index: number = 0;
 
-        for (let pair of this._mapping) {
+        for (const pair of this._mapping) {
             if (this.keyComparator.equals(pair.key, key)) {
                 this._mapping.removeAt(index);
 
@@ -166,7 +166,7 @@ export class ListMap<K, V> extends AbstractMap<K, V> {
     public replace(key: K, newValue: V): V | undefined {
         let index: number = 0;
 
-        for (let pair of this._mapping) {
+        for (const pair of this._mapping) {
             if (this.keyComparator.equals(key, pair.key)) {
                 this._mapping.setAt(index, new KeyValuePair(key, newValue));
 
@@ -183,7 +183,7 @@ export class ListMap<K, V> extends AbstractMap<K, V> {
     public replaceIf(key: K, oldValue: V, newValue: V): boolean {
         let index: number = 0;
 
-        for (let pair of this._mapping) {
+        for (const pair of this._mapping) {
             if (this.keyComparator.equals(key, pair.key) && this.valueComparator.equals(oldValue, pair.value)) {
                 this._mapping.setAt(index, new KeyValuePair(key, newValue));
 
@@ -198,7 +198,7 @@ export class ListMap<K, V> extends AbstractMap<K, V> {
 
 
     public get(key: K, defaultValue?: V): V | undefined {
-        for (let pair of this._mapping) {
+        for (const pair of this._mapping) {
             if (this.keyComparator.equals(pair.key, key)) {
                 return pair.value;
             }
@@ -209,7 +209,7 @@ export class ListMap<K, V> extends AbstractMap<K, V> {
 
 
     public containsKey(key: K): boolean {
-        for (let pair of this._mapping) {
+        for (const pair of this._mapping) {
             if (this.keyComparator.equals(pair.key, key)) {
                 return true;
             }
@@ -220,7 +220,7 @@ export class ListMap<K, V> extends AbstractMap<K, V> {
 
 
     public containsValue(value: V): boolean {
-        for (let pair of this._mapping) {
+        for (const pair of this._mapping) {
             if (this.valueComparator.equals(pair.value, value)) {
                 return true;
             }
@@ -231,7 +231,7 @@ export class ListMap<K, V> extends AbstractMap<K, V> {
 
 
     public containsEntry(key: K, value: V): boolean {
-        for (let pair of this._mapping) {
+        for (const pair of this._mapping) {
             if (this.keyComparator.equals(pair.key, key) && this.valueComparator.equals(pair.value, value)) {
                 return true;
             }

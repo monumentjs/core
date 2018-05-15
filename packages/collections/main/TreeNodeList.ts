@@ -54,7 +54,7 @@ export class TreeNodeList<TNodeValue> extends ArrayList<TreeNode<TNodeValue>> {
 
 
     public clear(): boolean {
-        for (let node of this) {
+        for (const node of this) {
             node.parentNode = undefined;
         }
 

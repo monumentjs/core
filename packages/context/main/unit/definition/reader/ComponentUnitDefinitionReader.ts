@@ -1,63 +1,39 @@
 import {Type} from '@monument/core/main/Type';
-import {ReadOnlyCollection} from '@monument/collections/main/ReadOnlyCollection';
+import {ReadOnlyMap} from '@monument/collections/main/ReadOnlyMap';
 import {Class} from '@monument/reflection/main/Class';
-import {Method} from '@monument/reflection/main/Method';
+import {Parameter} from '@monument/reflection/main/Parameter';
 import {Component} from '@monument/stereotype/main/Component';
-import {Init} from '@monument/stereotype/main/Init';
-import {PostConstruct} from '@monument/stereotype/main/PostConstruct';
-import {PreDestroy} from '@monument/stereotype/main/PreDestroy';
 import {Lazy} from '@monument/stereotype/main/Lazy';
 import {Primary} from '@monument/stereotype/main/Primary';
-import {Destroy} from '@monument/stereotype/main/Destroy';
-import {Qualifier} from '@monument/stereotype/main/Qualifier';
-import {QualifierConfiguration} from '@monument/stereotype/main/QualifierConfiguration';
+import {Singleton} from '@monument/stereotype/main/Singleton';
 import {UnitDefinition} from '../UnitDefinition';
 import {AbstractUnitDefinitionReader} from './AbstractUnitDefinitionReader';
 
 
 export class ComponentUnitDefinitionReader extends AbstractUnitDefinitionReader {
 
-    public scan<T extends object>(type: Type<T>): void {
-        let klass: Class<T> = Class.of(type);
-        let methods: ReadOnlyCollection<Method> = klass.methods;
+    public scan(type: Type<object>): void {
+        let klass: Class<object> = Class.of(type);
+        let parameters: ReadOnlyMap<number, Parameter> = klass.constructorParameters;
         let definition: UnitDefinition = this.obtainUnitDefinition(type);
 
-        if (klass.isDecoratedWith(Component)) {
-            definition.isSingleton = true;
+        for (const {value: parameter} of parameters) {
+            if (parameter.type != null) {
+                definition.dependsOn.add(parameter.type);
+            }
+        }
 
+        if (klass.isDecoratedWith(Singleton)) {
+            definition.isSingleton = true;
+        }
+
+        if (klass.isDecoratedWith(Component)) {
             if (klass.isDecoratedWith(Lazy)) {
                 definition.isLazyInit = true;
             }
 
             if (klass.isDecoratedWith(Primary)) {
                 definition.isPrimary = true;
-            }
-
-            if (klass.isDecoratedWith(Qualifier)) {
-                let configuration = klass.getAttribute(QualifierConfiguration.ATTRIBUTE_KEY);
-
-                if (configuration != null) {
-                    definition.qualifier = configuration.qualifier;
-                }
-            }
-
-            for (let method of methods) {
-                if (method.isDecoratedWith(PostConstruct)) {
-                    definition.postConstructMethodNames.add(method.name);
-                }
-
-                if (method.isDecoratedWith(PreDestroy)) {
-                    definition.preDestroyMethodNames.add(method.name);
-                }
-
-                if (method.isDecoratedWith(Init)) {
-                    definition.initMethodName = method.name;
-
-                }
-
-                if (method.isDecoratedWith(Destroy)) {
-                    definition.destroyMethodName = method.name;
-                }
             }
         }
     }

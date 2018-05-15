@@ -1,15 +1,14 @@
 language: node_js
 node_js:
   - "node"
+  - "8"
   - "6"
 before_install:
   - "npm --version"
 script:
   - "npm run lint"
   - "npm run compile"
-  - "npm run test:coverage"
-after_script:
-  - "npm run coveralls"
+  - "npm run test"
 os:
   - "linux"
   - "osx"

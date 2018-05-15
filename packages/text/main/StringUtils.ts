@@ -1,5 +1,5 @@
 import {Assert} from '@monument/assert/main/Assert';
-import {EMPTY_STRING} from '@monument/core/main/constants';
+import {StringPool} from '@monument/core/main/StringPool';
 import {Collection} from '@monument/collections/main/Collection';
 import {RegExpUtils} from './RegExpUtils';
 
@@ -13,7 +13,7 @@ export class StringUtils {
 
 
     public static isEmpty(value: string): boolean {
-        return value === EMPTY_STRING;
+        return value === StringPool.BLANK;
     }
 
 
@@ -29,7 +29,7 @@ export class StringUtils {
 
 
     public static getCharacters(input: string): string[] {
-        return input.split(EMPTY_STRING);
+        return input.split(StringPool.BLANK);
     }
 
 
@@ -49,7 +49,7 @@ export class StringUtils {
         }
 
         if (ignoreEmptyTokens) {
-            tokens = tokens.filter((token) => token !== EMPTY_STRING);
+            tokens = tokens.filter((token) => token !== StringPool.BLANK);
         }
 
         return tokens;
@@ -57,12 +57,12 @@ export class StringUtils {
 
 
     public static trimLeft(value: string): string {
-        return value.replace(StringUtils.LEADING_WHITESPACE_PATTERN, EMPTY_STRING);
+        return value.replace(StringUtils.LEADING_WHITESPACE_PATTERN, StringPool.BLANK);
     }
 
 
     public static trimRight(value: string): string {
-        return value.replace(StringUtils.TRAILING_WHITESPACE_PATTERN, EMPTY_STRING);
+        return value.replace(StringUtils.TRAILING_WHITESPACE_PATTERN, StringPool.BLANK);
     }
 
 
@@ -84,11 +84,11 @@ export class StringUtils {
     public static collectionToDelimitedString(
         values: Collection<any>,
         delimiter: string,
-        prefix: string = EMPTY_STRING,
-        suffix: string = EMPTY_STRING
+        prefix: string = StringPool.BLANK,
+        suffix: string = StringPool.BLANK
     ): string {
         if (values.isEmpty) {
-            return EMPTY_STRING;
+            return StringPool.BLANK;
         }
 
         return values.toArray().map((item) => {
@@ -110,7 +110,7 @@ export class StringUtils {
             }
         });
 
-        return slices.join(EMPTY_STRING);
+        return slices.join(StringPool.BLANK);
     }
 
 
@@ -123,7 +123,7 @@ export class StringUtils {
             return firstChar.toUpperCase() + slice.slice(1).toLowerCase();
         });
 
-        return slices.join(EMPTY_STRING);
+        return slices.join(StringPool.BLANK);
     }
 
 
@@ -233,7 +233,7 @@ export class StringUtils {
 
 
     private static getDelimitersPatternEntries(delimiters: string): string[] {
-        return delimiters.split(EMPTY_STRING).map((ch) => RegExpUtils.escape(ch));
+        return delimiters.split(StringPool.BLANK).map((ch) => RegExpUtils.escape(ch));
     }
 
 

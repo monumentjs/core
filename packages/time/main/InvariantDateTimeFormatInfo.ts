@@ -4,7 +4,7 @@ import {ArrayList} from '@monument/collections/main/ArrayList';
 import {CalendarWeekRule} from './CalendarWeekRule';
 import {DayOfWeek} from './DayOfWeek';
 import {DateTimeFormatInfo} from './DateTimeFormatInfo';
-import {EMPTY_STRING} from '@monument/core/main/constants';
+import {StringPool} from '@monument/core/main/StringPool';
 
 
 export class InvariantDateTimeFormatInfo implements DateTimeFormatInfo {
@@ -22,18 +22,18 @@ export class InvariantDateTimeFormatInfo implements DateTimeFormatInfo {
     ]);
     public readonly monthNames: ReadOnlyList<string> = new ArrayList([
         'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
-        'October', 'November', 'December', EMPTY_STRING
+        'October', 'November', 'December', StringPool.BLANK
     ]);
     public readonly abbreviatedMonthNames: ReadOnlyList<string> = new ArrayList([
-        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', EMPTY_STRING
+        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', StringPool.BLANK
     ]);
     public readonly monthGenitiveNames: ReadOnlyList<string> = new ArrayList([
         'of January', 'of February', 'of March', 'of April', 'of May', 'of June', 'of July', 'of August',
-        'of September', 'of October', 'of November', 'of December', EMPTY_STRING
+        'of September', 'of October', 'of November', 'of December', StringPool.BLANK
     ]);
     public readonly abbreviatedMonthGenitiveNames: ReadOnlyList<string> = new ArrayList([
         'of Jan', 'of Feb', 'of Mar', 'of Apr', 'of May', 'of Jun', 'of Jul', 'of Aug', 'of Sep',
-        'of Oct', 'of Nov', 'of Dec', EMPTY_STRING
+        'of Oct', 'of Nov', 'of Dec', StringPool.BLANK
     ]);
     public readonly amDesignator: string = 'AM';
     public readonly pmDesignator: string = 'PM';
@@ -44,7 +44,7 @@ export class InvariantDateTimeFormatInfo implements DateTimeFormatInfo {
     public readonly longDatePattern: string = '{YYYY}/{MM}/{DD}';
     public readonly longTimePattern: string = '{HH}:{mm}:{ss}.{fff}';
     public readonly monthDayPattern: string = '{MMMM} {DD}';
-    public readonly nativeCalendarName: string = EMPTY_STRING;
+    public readonly nativeCalendarName: string = StringPool.BLANK;
     public readonly rfc1123Pattern: string = `{ddd}, {DD} {MMM} {YYYY} {HH}:{mm}:{ss} GMT`;
     public readonly shortDatePattern: string = '{YYYY}/{M}/{D}';
     public readonly shortTimePattern: string = '{H}:{mm} {AA}';

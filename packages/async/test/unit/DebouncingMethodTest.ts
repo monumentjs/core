@@ -1,7 +1,6 @@
-import {Test} from '@monument/test-drive/main/configuration/decorators/Test';
-import {Assert} from '@monument/test-drive/main/assert/Assert';
-import {MockFactory} from '@monument/test-drive/main/mock/MockFactory';
-import {FunctionMock} from '@monument/test-drive/main/mock/FunctionMock';
+import {Test} from '@monument/test-drive/main/decorators/Test';
+import {Assert} from '@monument/test-drive/main/modules/assert/Assert';
+import {FunctionMock} from '@monument/test-drive/main/modules/mock/FunctionMock';
 import {DebouncingMethod} from '../../main/decorators/support/DebouncingMethod';
 import {MethodCallEdge} from '../../main/decorators/support/MethodCallEdge';
 import {AsyncUtils} from '../../main/AsyncUtils';
@@ -13,8 +12,8 @@ const TEST_ARGUMENTS = [1, 2, 3];
 export class DebouncingMethodTest {
 
     @Test
-    public 'constructor() creates method calling on leading edge by default'(assert: Assert, mockFactory: MockFactory) {
-        let mock: FunctionMock = mockFactory.function();
+    public 'constructor() creates method calling on leading edge by default'(assert: Assert) {
+        let mock: FunctionMock = new FunctionMock();
         let method: DebouncingMethod = new DebouncingMethod(mock.value, 100);
 
         assert.equals(method.delay, 100);
@@ -27,8 +26,8 @@ export class DebouncingMethodTest {
 
 
     @Test
-    public 'constructor() creates method calling on leading edge'(assert: Assert, mockFactory: MockFactory) {
-        let mock: FunctionMock = mockFactory.function();
+    public 'constructor() creates method calling on leading edge'(assert: Assert) {
+        let mock: FunctionMock = new FunctionMock();
         let method: DebouncingMethod = new DebouncingMethod(mock.value, 100, MethodCallEdge.Leading);
 
         assert.equals(method.delay, 100);
@@ -41,8 +40,8 @@ export class DebouncingMethodTest {
 
 
     @Test
-    public 'constructor() creates method calling on trailing edge'(assert: Assert, mockFactory: MockFactory) {
-        let mock: FunctionMock = mockFactory.function();
+    public 'constructor() creates method calling on trailing edge'(assert: Assert) {
+        let mock: FunctionMock = new FunctionMock();
         let method: DebouncingMethod = new DebouncingMethod(mock.value, 100, MethodCallEdge.Trailing);
 
         assert.equals(method.delay, 100);
@@ -55,11 +54,8 @@ export class DebouncingMethodTest {
 
 
     @Test
-    public 'constructor() creates method calling on leading and trailing edges'(
-        assert: Assert,
-        mockFactory: MockFactory
-    ) {
-        let mock: FunctionMock = mockFactory.function();
+    public 'constructor() creates method calling on leading and trailing edges'(assert: Assert) {
+        let mock: FunctionMock = new FunctionMock();
         let method: DebouncingMethod = new DebouncingMethod(mock.value, 100, MethodCallEdge.Both);
 
         assert.equals(method.delay, 100);
@@ -72,8 +68,8 @@ export class DebouncingMethodTest {
 
 
     @Test
-    public async 'call() skips too rapid calls - leading edge'(assert: Assert, mockFactory: MockFactory) {
-        let mock: FunctionMock = mockFactory.function();
+    public async 'call() skips too rapid calls - leading edge'(assert: Assert) {
+        let mock: FunctionMock = new FunctionMock();
         let method: DebouncingMethod = new DebouncingMethod(mock.value, 10, MethodCallEdge.Leading);
 
         method.call(null, TEST_ARGUMENTS);
@@ -91,8 +87,8 @@ export class DebouncingMethodTest {
 
 
     @Test
-    public async 'call() skips too rapid calls - trailing edge'(assert: Assert, mockFactory: MockFactory) {
-        let mock: FunctionMock = mockFactory.function();
+    public async 'call() skips too rapid calls - trailing edge'(assert: Assert) {
+        let mock: FunctionMock = new FunctionMock();
         let method: DebouncingMethod = new DebouncingMethod(mock.value, 10, MethodCallEdge.Trailing);
 
         method.call(null, TEST_ARGUMENTS);
@@ -111,8 +107,8 @@ export class DebouncingMethodTest {
 
 
     @Test
-    public async 'call() skips too rapid calls - leading and trailing edges'(assert: Assert, mockFactory: MockFactory) {
-        let mock: FunctionMock = mockFactory.function();
+    public async 'call() skips too rapid calls - leading and trailing edges'(assert: Assert) {
+        let mock: FunctionMock = new FunctionMock();
         let method: DebouncingMethod = new DebouncingMethod(mock.value, 10, MethodCallEdge.Both);
 
         method.call(null, TEST_ARGUMENTS);
@@ -130,11 +126,8 @@ export class DebouncingMethodTest {
 
 
     @Test
-    public async 'call() returns return value of last execution - leading edge'(
-        assert: Assert,
-        mockFactory: MockFactory
-    ) {
-        let mock: FunctionMock = mockFactory.function((x: number, y: number): number => {
+    public async 'call() returns return value of last execution - leading edge'(assert: Assert) {
+        let mock: FunctionMock = new FunctionMock((x: number, y: number): number => {
             return x + y;
         });
 
@@ -168,11 +161,8 @@ export class DebouncingMethodTest {
 
 
     @Test
-    public async 'call() returns return value of last execution - trailing only'(
-        assert: Assert,
-        mockFactory: MockFactory
-    ) {
-        let mock: FunctionMock = mockFactory.function((x: number, y: number): number => {
+    public async 'call() returns return value of last execution - trailing only'(assert: Assert) {
+        let mock: FunctionMock = new FunctionMock((x: number, y: number): number => {
             return x + y;
         });
 
@@ -205,11 +195,8 @@ export class DebouncingMethodTest {
 
 
     @Test
-    public async 'call() returns return value of last execution - leading and trailing'(
-        assert: Assert,
-        mockFactory: MockFactory
-    ) {
-        let mock: FunctionMock = mockFactory.function((x: number, y: number): number => {
+    public async 'call() returns return value of last execution - leading and trailing'(assert: Assert) {
+        let mock: FunctionMock = new FunctionMock((x: number, y: number): number => {
             return x + y;
         });
 
@@ -242,11 +229,8 @@ export class DebouncingMethodTest {
 
 
     @Test
-    public async 'call() debouncing - leading only - without max delay'(
-        assert: Assert,
-        mockFactory: MockFactory
-    ) {
-        let mock: FunctionMock = mockFactory.function();
+    public async 'call() debouncing - leading only - without max delay'(assert: Assert) {
+        let mock: FunctionMock = new FunctionMock();
         let method: DebouncingMethod = new DebouncingMethod(mock.value, 20, MethodCallEdge.Leading);
 
         assert.false(method.isThrottling);
@@ -290,11 +274,8 @@ export class DebouncingMethodTest {
 
 
     @Test
-    public async 'call() debouncing - leading only - with max delay'(
-        assert: Assert,
-        mockFactory: MockFactory
-    ) {
-        let mock: FunctionMock = mockFactory.function();
+    public async 'call() debouncing - leading only - with max delay'(assert: Assert) {
+        let mock: FunctionMock = new FunctionMock();
         let method: DebouncingMethod = new DebouncingMethod(mock.value, 20, MethodCallEdge.Leading, 40);
 
         assert.false(method.isThrottling);
@@ -333,11 +314,8 @@ export class DebouncingMethodTest {
 
 
     @Test
-    public async 'call() debouncing - trailing only - without max delay'(
-        assert: Assert,
-        mockFactory: MockFactory
-    ) {
-        let mock: FunctionMock = mockFactory.function();
+    public async 'call() debouncing - trailing only - without max delay'(assert: Assert) {
+        let mock: FunctionMock = new FunctionMock();
         let method: DebouncingMethod = new DebouncingMethod(mock.value, 20, MethodCallEdge.Trailing);
 
         assert.false(method.isThrottling);
@@ -366,11 +344,8 @@ export class DebouncingMethodTest {
 
 
     @Test
-    public async 'call() debouncing - trailing only - with max delay'(
-        assert: Assert,
-        mockFactory: MockFactory
-    ) {
-        let mock: FunctionMock = mockFactory.function();
+    public async 'call() debouncing - trailing only - with max delay'(assert: Assert) {
+        let mock: FunctionMock = new FunctionMock();
         let method: DebouncingMethod = new DebouncingMethod(mock.value, 20, MethodCallEdge.Trailing, 40);
 
         assert.false(method.isThrottling);
@@ -409,11 +384,8 @@ export class DebouncingMethodTest {
 
 
     @Test
-    public async 'call() debouncing - leading and trailing - without max delay'(
-        assert: Assert,
-        mockFactory: MockFactory
-    ) {
-        let mock: FunctionMock = mockFactory.function();
+    public async 'call() debouncing - leading and trailing - without max delay'(assert: Assert) {
+        let mock: FunctionMock = new FunctionMock();
         let method: DebouncingMethod = new DebouncingMethod(mock.value, 20, MethodCallEdge.Both);
 
         assert.false(method.isThrottling);
@@ -457,11 +429,8 @@ export class DebouncingMethodTest {
 
 
     @Test
-    public async 'call() debouncing - leading and trailing - with max delay'(
-        assert: Assert,
-        mockFactory: MockFactory
-    ) {
-        let mock: FunctionMock = mockFactory.function();
+    public async 'call() debouncing - leading and trailing - with max delay'(assert: Assert) {
+        let mock: FunctionMock = new FunctionMock();
         let method = new DebouncingMethod(mock.value, 20, MethodCallEdge.Both, 40);
 
         assert.false(method.isThrottling);

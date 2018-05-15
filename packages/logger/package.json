@@ -1,0 +1,20 @@
+{
+  "name": "@monument/logger",
+  "version": "0.0.52",
+  "description": "Logger",
+  "keywords": [
+
+  ],
+  "scripts": {
+    "test": "td"
+  },
+  "dependencies": {
+    "@monument/core": "^0.0.52",
+    "@monument/collections": "^0.0.52",
+    "@monument/text": "^0.0.52",
+    "@monument/stereotype": "^0.0.52"
+  },
+  "devDependencies": {
+    "@monument/test-drive": "^0.0.52"
+  }
+}

@@ -1,6 +1,6 @@
 
 
-export class DeferredObject<T = void> {
+export class DeferredObject<T> {
     private _isPending: boolean = true;
     private _isResolved: boolean = false;
     private _isRejected: boolean = false;

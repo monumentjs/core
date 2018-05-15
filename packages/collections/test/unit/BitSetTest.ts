@@ -1,7 +1,7 @@
-import {Test} from '@monument/test-drive/main/configuration/decorators/Test';
-import {Assert} from '@monument/test-drive/main/assert/Assert';
-import {ArgumentIndexOutOfBoundsException} from '@monument/core/main/exceptions/ArgumentIndexOutOfBoundsException';
 import {RangeException} from '@monument/core/main/exceptions/RangeException';
+import {ArgumentIndexOutOfBoundsException} from '@monument/core/main/exceptions/ArgumentIndexOutOfBoundsException';
+import {Test} from '@monument/test-drive/main/decorators/Test';
+import {Assert} from '@monument/test-drive/main/modules/assert/Assert';
 import {BitSet} from '../../main/BitSet';
 import {Collection} from '../../main/Collection';
 
@@ -73,8 +73,12 @@ export class BitSetTest {
     public 'getRange() throws if any of arguments is less than zero'(assert: Assert) {
         let bitSet: BitSet = new BitSet();
 
-        assert.throws(() => bitSet.getRange(-1, 10), ArgumentIndexOutOfBoundsException);
-        assert.throws(() => bitSet.getRange(0, -1), ArgumentIndexOutOfBoundsException);
+        assert.throws(() => {
+            bitSet.getRange(-1, 10);
+        }, ArgumentIndexOutOfBoundsException);
+        assert.throws(() => {
+            bitSet.getRange(0, -1);
+        }, ArgumentIndexOutOfBoundsException);
     }
 
 
@@ -82,7 +86,9 @@ export class BitSetTest {
     public 'getRange() throws if left bound is greater than right bound'(assert: Assert) {
         let bitSet: BitSet = new BitSet();
 
-        assert.throws(() => bitSet.getRange(10, 9), RangeException);
+        assert.throws(() => {
+            bitSet.getRange(10, 9);
+        }, RangeException);
     }
 
 
@@ -515,7 +521,9 @@ export class BitSetTest {
     public 'indexOf() throws if `fromIndex` argument is lower than zero'(assert: Assert) {
         let bitSet: BitSet = new BitSet();
 
-        assert.throws(() => bitSet.indexOf(true, -1), ArgumentIndexOutOfBoundsException);
+        assert.throws(() => {
+            bitSet.indexOf(true, -1);
+        }, ArgumentIndexOutOfBoundsException);
     }
 
 
@@ -523,7 +531,9 @@ export class BitSetTest {
     public 'indexOf() throws if `fromIndex` argument is out of set range'(assert: Assert) {
         let bitSet: BitSet = new BitSet();
 
-        assert.throws(() => bitSet.indexOf(true, 1), ArgumentIndexOutOfBoundsException);
+        assert.throws(() => {
+            bitSet.indexOf(true, 1);
+        }, ArgumentIndexOutOfBoundsException);
     }
 
 
@@ -558,7 +568,9 @@ export class BitSetTest {
     public 'lastIndexOf() throws if `fromIndex` argument is lower than zero'(assert: Assert) {
         let bitSet: BitSet = new BitSet();
 
-        assert.throws(() => bitSet.lastIndexOf(true, -1), ArgumentIndexOutOfBoundsException);
+        assert.throws(() => {
+            bitSet.lastIndexOf(true, -1);
+        }, ArgumentIndexOutOfBoundsException);
     }
 
 
@@ -566,7 +578,9 @@ export class BitSetTest {
     public 'lastIndexOf() throws if `fromIndex` argument is out of set range'(assert: Assert) {
         let bitSet: BitSet = new BitSet();
 
-        assert.throws(() => bitSet.lastIndexOf(true, 1), ArgumentIndexOutOfBoundsException);
+        assert.throws(() => {
+            bitSet.lastIndexOf(true, 1);
+        }, ArgumentIndexOutOfBoundsException);
     }
 
 

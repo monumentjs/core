@@ -1,10 +1,10 @@
 import {Type} from '@monument/core/main/Type';
-import {ReadOnlySet} from '@monument/collections/main/ReadOnlySet';
+import {ReadOnlyMap} from '@monument/collections/main/ReadOnlyMap';
 import {UnitDefinition} from '../UnitDefinition';
 
 
 export interface UnitDefinitionRegistry {
-    readonly unitTypes: ReadOnlySet<Type<object>>;
+    readonly unitDefinitions: ReadOnlyMap<Type<object>, UnitDefinition>;
 
     /**
      * @throws {NoSuchUnitDefinitionException}

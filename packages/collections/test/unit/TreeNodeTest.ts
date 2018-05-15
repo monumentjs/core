@@ -1,8 +1,7 @@
-import {Assert} from '@monument/test-drive/main/assert/Assert';
-import {MockFactory} from '@monument/test-drive/main/mock/MockFactory';
-import {FunctionMock} from '@monument/test-drive/main/mock/FunctionMock';
-import {Test} from '@monument/test-drive/main/configuration/decorators/Test';
-import {BeforeEach} from '@monument/test-drive/main/configuration/decorators/BeforeEach';
+import {Assert} from '@monument/test-drive/main/modules/assert/Assert';
+import {FunctionMock} from '@monument/test-drive/main/modules/mock/FunctionMock';
+import {Test} from '@monument/test-drive/main/decorators/Test';
+import {BeforeEach} from '@monument/test-drive/main/decorators/BeforeEach';
 import {TreeNode} from '../../main/TreeNode';
 
 
@@ -70,8 +69,8 @@ export class TreeNodeTest {
 
 
     @Test
-    public 'iteration over the tree'(assert: Assert, mockFactory: MockFactory) {
-        const mock: FunctionMock<(node: string) => void> = mockFactory.function();
+    public 'iteration over the tree'(assert: Assert) {
+        const mock: FunctionMock<(node: string) => void> = new FunctionMock();
 
         for (const value of this.html) {
             mock.value(value);

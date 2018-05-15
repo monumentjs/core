@@ -1,4 +1,4 @@
-import {OutputStream} from '../../../../stream-core/main/OutputStream';
+import {OutputStream} from '../../../../stream/main/OutputStream';
 import {HttpContent} from './HttpContent';
 import {Encoding} from '../../../Text/Encoding';
 import {MediaType} from '../Mime/MediaType';

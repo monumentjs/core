@@ -3,9 +3,9 @@ import {Exception} from '@monument/core/main/exceptions/Exception';
 import {DeferredObject} from '@monument/async/main/DeferredObject';
 import {ConfigurableEvent} from '../../events/main/ConfigurableEvent';
 import {ErrorEventArgs} from '@monument/events/main/ErrorEventArgs';
-import {OutputStream} from '@monument/stream-core/main/OutputStream';
-import {ClosedStreamException} from '@monument/stream-core/main/ClosedStreamException';
-import {EndOfStreamException} from '@monument/stream-core/main/EndOfStreamException';
+import {OutputStream} from '@monument/stream/main/OutputStream';
+import {ClosedStreamException} from '@monument/stream/main/ClosedStreamException';
+import {EndOfStreamException} from '@monument/stream/main/EndOfStreamException';
 import {CloseableStream} from './CloseableStream';
 
 

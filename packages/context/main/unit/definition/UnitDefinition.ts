@@ -4,46 +4,12 @@ import {Set} from '@monument/collections/main/Set';
 
 
 export class UnitDefinition {
-    private _postConstructMethodNames: Set<string | symbol> = new ListSet();
-    private _preDestroyMethodNames: Set<string | symbol> = new ListSet();
-    private _initMethodName: string | symbol | undefined;
-    private _destroyMethodName: string | symbol | undefined;
     private _isSingleton: boolean = false;
     private _isLazyInit: boolean = false;
     private _isPrimary: boolean = false;
     private _factoryUnitType: Type<object> | undefined;
     private _factoryMethodName: string | symbol | undefined;
-    private _qualifier: string | undefined;
-
-
-    public get postConstructMethodNames(): Set<string | symbol> {
-        return this._postConstructMethodNames;
-    }
-
-
-    public get preDestroyMethodNames(): Set<string | symbol> {
-        return this._preDestroyMethodNames;
-    }
-
-
-    public get initMethodName(): string | symbol | undefined {
-        return this._initMethodName;
-    }
-
-
-    public set initMethodName(value: string | symbol | undefined) {
-        this._initMethodName = value;
-    }
-
-
-    public get destroyMethodName(): string | symbol | undefined {
-        return this._destroyMethodName;
-    }
-
-
-    public set destroyMethodName(value: string | symbol | undefined) {
-        this._destroyMethodName = value;
-    }
+    private _dependsOn: ListSet<Type<object>> = new ListSet();
 
 
     public get isSingleton(): boolean {
@@ -76,16 +42,6 @@ export class UnitDefinition {
     }
 
 
-    public get qualifier(): string | undefined {
-        return this._qualifier;
-    }
-
-
-    public set qualifier(value: string | undefined) {
-        this._qualifier = value;
-    }
-
-
     public get factoryUnitType(): Type<object> | undefined {
         return this._factoryUnitType;
     }
@@ -105,4 +61,8 @@ export class UnitDefinition {
         this._factoryMethodName = value;
     }
 
+
+    public get dependsOn(): Set<Type<object>> {
+        return this._dependsOn;
+    }
 }

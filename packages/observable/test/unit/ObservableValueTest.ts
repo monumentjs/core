@@ -1,7 +1,6 @@
-import {Assert} from '@monument/test-drive/main/assert/Assert';
-import {MockFactory} from '@monument/test-drive/main/mock/MockFactory';
-import {Test} from '@monument/test-drive/main/configuration/decorators/Test';
-import {FunctionMock} from '@monument/test-drive/main/mock/FunctionMock';
+import {Assert} from '@monument/test-drive/main/modules/assert/Assert';
+import {Test} from '@monument/test-drive/main/decorators/Test';
+import {FunctionMock} from '@monument/test-drive/main/modules/mock/FunctionMock';
 import {ObservableValue} from '../../main/ObservableValue';
 
 
@@ -20,10 +19,10 @@ export class ObservableValueTest {
 
 
     @Test
-    public 'populates new subscriber with current value'(assert: Assert, mockFactory: MockFactory) {
-        const onNextMock: FunctionMock<(value: number) => void> = mockFactory.function();
-        const onCompletedMock: FunctionMock<() => void> = mockFactory.function();
-        const onErrorMock: FunctionMock<(error: Error) => void> = mockFactory.function();
+    public 'populates new subscriber with current value'(assert: Assert) {
+        const onNextMock: FunctionMock<(value: number) => void> = new FunctionMock();
+        const onCompletedMock: FunctionMock<() => void> = new FunctionMock();
+        const onErrorMock: FunctionMock<(error: Error) => void> = new FunctionMock();
 
         const value: ObservableValue<number> = new ObservableValue(0);
 
@@ -41,10 +40,10 @@ export class ObservableValueTest {
 
 
     @Test
-    public 'notifies about subscription complete'(assert: Assert, mockFactory: MockFactory) {
-        const onNextMock: FunctionMock<(value: number) => void> = mockFactory.function();
-        const onCompletedMock: FunctionMock<() => void> = mockFactory.function();
-        const onErrorMock: FunctionMock<(error: Error) => void> = mockFactory.function();
+    public 'notifies about subscription complete'(assert: Assert) {
+        const onNextMock: FunctionMock<(value: number) => void> = new FunctionMock();
+        const onCompletedMock: FunctionMock<() => void> = new FunctionMock();
+        const onErrorMock: FunctionMock<(error: Error) => void> = new FunctionMock();
 
         const value: ObservableValue<number> = new ObservableValue(0);
 
@@ -64,10 +63,10 @@ export class ObservableValueTest {
 
 
     @Test
-    public 'notifies subscribers only when value changed'(assert: Assert, mockFactory: MockFactory) {
-        const onNextMock: FunctionMock<(value: number) => void> = mockFactory.function();
-        const onCompletedMock: FunctionMock<() => void> = mockFactory.function();
-        const onErrorMock: FunctionMock<(error: Error) => void> = mockFactory.function();
+    public 'notifies subscribers only when value changed'(assert: Assert) {
+        const onNextMock: FunctionMock<(value: number) => void> = new FunctionMock();
+        const onCompletedMock: FunctionMock<() => void> = new FunctionMock();
+        const onErrorMock: FunctionMock<(error: Error) => void> = new FunctionMock();
 
         const value: ObservableValue<number> = new ObservableValue(0);
 

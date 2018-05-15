@@ -38,7 +38,7 @@ export class TimeEntryProcessorProvider {
 
 
     public getFormatter(formatEntry: string): TimeEntryProcessor {
-        for (let formatter of this._formatters) {
+        for (const formatter of this._formatters) {
             if (formatter.supportsEntry(formatEntry)) {
                 return formatter;
             }

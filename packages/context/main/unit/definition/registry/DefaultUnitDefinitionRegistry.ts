@@ -1,38 +1,37 @@
 import {Type} from '@monument/core/main/Type';
-import {Map} from '@monument/collections/main/Map';
-import {ReadOnlySet} from '@monument/collections/main/ReadOnlySet';
 import {ListMap} from '@monument/collections/main/ListMap';
+import {ReadOnlyMap} from '@monument/collections/main/ReadOnlyMap';
 import {NoSuchUnitDefinitionException} from '../../NoSuchUnitDefinitionException';
 import {UnitDefinition} from '../UnitDefinition';
 import {UnitDefinitionRegistry} from './UnitDefinitionRegistry';
 
 
 export class DefaultUnitDefinitionRegistry implements UnitDefinitionRegistry {
-    private readonly _registry: Map<Type<object>, UnitDefinition> = new ListMap();
+    private readonly _registry: ListMap<Type<object>, UnitDefinition> = new ListMap();
 
 
-    public get unitTypes(): ReadOnlySet<Type<object>> {
-        return this._registry.keys;
+    public get unitDefinitions(): ReadOnlyMap<Type<object>, UnitDefinition> {
+        return this._registry;
     }
 
 
-    public getUnitDefinition<T extends object>(type: Type<T>): UnitDefinition {
-        let definition = this._registry.get(type);
+    public getUnitDefinition(unitType: Type<object>): UnitDefinition {
+        let definition = this._registry.get(unitType);
 
         if (definition == null) {
-            throw new NoSuchUnitDefinitionException(`Unit definition for "${type.name}" not found in this registry.`);
+            throw new NoSuchUnitDefinitionException(`Unit definition for "${unitType.name}" not found in this registry.`);
         }
 
         return definition;
     }
 
 
-    public containsUnitDefinition<T extends object>(type: Type<T>): boolean {
-        return this._registry.containsKey(type);
+    public containsUnitDefinition(unitType: Type<object>): boolean {
+        return this._registry.containsKey(unitType);
     }
 
 
-    public registerUnitDefinition<T extends object>(type: Type<T>, definition: UnitDefinition): void {
-        this._registry.put(type, definition);
+    public registerUnitDefinition(unitType: Type<object>, definition: UnitDefinition): void {
+        this._registry.put(unitType, definition);
     }
 }

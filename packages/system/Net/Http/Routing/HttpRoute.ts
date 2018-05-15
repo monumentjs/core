@@ -4,7 +4,7 @@ import {HttpRequestHandler} from '../Server/HttpRequestHandler';
 import {HttpRouteData} from './HttpRouteData';
 import {IHttpRouteConstraint} from './IHttpRouteConstraint';
 import {HttpRequest} from '../Base/HttpRequest';
-import {FormattableString} from '../../../../text/main/FormattableString';
+import {TemplateString} from '../../../../text/main/TemplateString';
 import {Enumerable} from '@monument/core/Collections/Abstraction/Enumerable';
 import {Map} from '../../../../collections/main/Map';
 
@@ -15,7 +15,7 @@ export class HttpRoute implements IHttpRoute {
     private _constraints: Enumerable<IHttpRouteConstraint>;
     private _additionalValues: HttpRouteValueDictionary;
     private _defaultValues: HttpRouteValueDictionary;
-    private _template: FormattableString;
+    private _template: TemplateString;
 
 
     public get routeTemplate(): string {
@@ -54,12 +54,12 @@ export class HttpRoute implements IHttpRoute {
         this._additionalValues = additionalValues;
         this._constraints = constraints;
 
-        this._template = new FormattableString(routeTemplate);
+        this._template = new TemplateString(routeTemplate);
     }
 
 
     public getRouteData(request: HttpRequest): HttpRouteData | undefined {
-        let routeData: HttpRouteData | undefined = this.extractRouteData(request.url.path);
+        const routeData: HttpRouteData | undefined = this.extractRouteData(request.url.path);
 
         if (routeData == null) {
             return undefined;
@@ -73,7 +73,7 @@ export class HttpRoute implements IHttpRoute {
 
 
     private extractRouteData(requestPath: string): HttpRouteData | undefined {
-        let values: Map<string, string> | undefined = this._template.tryExtractValues(requestPath);
+        const values: Map<string, string> | undefined = this._template.tryExtractValues(requestPath);
 
         if (values == null) {
             return undefined;
@@ -84,14 +84,14 @@ export class HttpRoute implements IHttpRoute {
 
 
     private addDefaultValues(routeData: HttpRouteData): void {
-        for (let {key, value} of this.defaultValues) {
+        for (const {key, value} of this.defaultValues) {
             routeData.values.putIfAbsent(key, value);
         }
     }
 
 
     private addAdditionalValues(routeData: HttpRouteData): void {
-        for (let {key, value} of this.additionalValues) {
+        for (const {key, value} of this.additionalValues) {
             routeData.values.putIfAbsent(key, value);
         }
     }

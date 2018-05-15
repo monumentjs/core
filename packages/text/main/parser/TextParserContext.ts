@@ -1,9 +1,9 @@
-import {EMPTY_STRING} from '@monument/core/main/constants';
+import {StringPool} from '@monument/core/main/StringPool';
 
 
 export class TextParserContext<TResult> {
     private _result: TResult | undefined;
-    private _input: string = EMPTY_STRING;
+    private _input: string = StringPool.BLANK;
     private _index: number = 0;
     private _inputPosition: number = 0;
 
@@ -30,7 +30,7 @@ export class TextParserContext<TResult> {
 
 
     public get currentChar(): string {
-        return this._input[this._inputPosition] || EMPTY_STRING;
+        return this._input[this._inputPosition] || StringPool.BLANK;
     }
 
 

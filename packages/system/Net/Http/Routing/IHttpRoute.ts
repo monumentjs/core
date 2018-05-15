@@ -27,7 +27,7 @@ export interface IHttpRoute {
     readonly defaultValues: Map<string, any>;
 
     /**
-     * Gets the message handler that will be the recipient of the request.
+     * Gets the payload handler that will be the recipient of the request.
      */
     readonly handler: HttpRequestHandler;
 

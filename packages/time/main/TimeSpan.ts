@@ -6,7 +6,7 @@ import {ComparisonResult} from '@monument/core/main/ComparisonResult';
 import {Map} from '@monument/collections/main/Map';
 import {ReadOnlyCollection} from '@monument/collections/main/ReadOnlyCollection';
 import {ListMap} from '@monument/collections/main/ListMap';
-import {FormattableString} from '@monument/text/main/FormattableString';
+import {TemplateString} from '@monument/text/main/TemplateString';
 import {MILLISECONDS_IN_DAY, MILLISECONDS_IN_HOUR, MILLISECONDS_IN_MINUTE, MILLISECONDS_IN_SECOND} from './Constants';
 import {DateTimeFormatInfo} from './DateTimeFormatInfo';
 import {InvariantDateTimeFormatInfo} from './InvariantDateTimeFormatInfo';
@@ -153,10 +153,9 @@ export class TimeSpan implements Cloneable<TimeSpan>, Comparable<TimeSpan>, Equa
 
 
     public toString(format?: string, formatInfo: DateTimeFormatInfo = InvariantDateTimeFormatInfo.invariant): string {
-        format = format || formatInfo.longTimePattern;
-
-        let template: FormattableString = new FormattableString(format);
-        let dateComponents: Map<string, string> = this.getTimeComponents(this, template.uniqueEntries, formatInfo);
+        const fmt = format || formatInfo.longTimePattern;
+        const template: TemplateString = new TemplateString(fmt);
+        const dateComponents: Map<string, string> = this.getTimeComponents(this, template.uniqueEntries, formatInfo);
 
         return template.fillByKeys(dateComponents);
     }
@@ -167,9 +166,9 @@ export class TimeSpan implements Cloneable<TimeSpan>, Comparable<TimeSpan>, Equa
         formatEntries: ReadOnlyCollection<string>,
         formatInfo: DateTimeFormatInfo
     ): Map<string, string> {
-        let components: Map<string, string> = new ListMap();
+        const components: Map<string, string> = new ListMap();
 
-        for (let formatEntry of formatEntries) {
+        for (const formatEntry of formatEntries) {
             let formatter: TimeEntryProcessor = TimeEntryProcessorProvider.instance.getFormatter(formatEntry);
 
             components.put(formatEntry, formatter.formatTimeSpan(time, formatEntry, formatInfo));

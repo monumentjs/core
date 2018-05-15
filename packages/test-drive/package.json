@@ -1,29 +1,35 @@
 {
   "name": "@monument/test-drive",
   "version": "0.0.52",
-  "description": "TypeScript Standard Library",
+  "description": "Test runner",
   "keywords": [
-    "typescript",
-    "standard",
-    "library",
-    "nodejs",
-    "node"
+    "test",
+    "runner",
+    "assert",
+    "mock",
+    "framework"
   ],
   "preferGlobal": true,
   "bin": {
     "td": "./bin/td.js"
   },
   "dependencies": {
+    "deep-equal": "^1.0.1",
     "@monument/application": "^0.0.52",
     "@monument/async": "^0.0.52",
     "@monument/context": "^0.0.52",
     "@monument/core": "^0.0.52",
     "@monument/collections": "^0.0.52",
     "@monument/events": "^0.0.52",
+    "@monument/logger": "^0.0.52",
     "@monument/reflection": "^0.0.52",
     "@monument/stereotype": "^0.0.52",
     "@monument/system": "^0.0.52",
     "@monument/time": "^0.0.52",
-    "@monument/text": "^0.0.52"
+    "@monument/text": "^0.0.52",
+    "@monument/node": "^0.0.52"
+  },
+  "devDependencies": {
+    "@types/deep-equal": "^1.0.1"
   }
 }

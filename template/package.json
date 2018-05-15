@@ -1,0 +1,18 @@
+{
+  "name": "@monument/template",
+  "version": "0.0.52",
+  "description": "Template",
+  "keywords": [
+
+  ],
+  "scripts": {
+    "test": "td"
+  },
+  "dependencies": {
+    "@monument/core": "^0.0.52",
+    "@monument/collections": "^0.0.52"
+  },
+  "devDependencies": {
+    "@monument/test-drive": "^0.0.52"
+  }
+}

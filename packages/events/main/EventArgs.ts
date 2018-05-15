@@ -5,7 +5,7 @@ export class EventArgs extends CancellationSupport {
     public static readonly EMPTY: EventArgs = new EventArgs();
 
 
-    private _isCancellable: boolean = true;
+    private _isCancellable: boolean = false;
 
 
     public get isCancellable(): boolean {

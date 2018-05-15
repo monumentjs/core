@@ -29,7 +29,7 @@ export class LanguageRange {
 
         let numOfRanges: number = 0;
 
-        for (let range of langRanges) {
+        for (const range of langRanges) {
             let index;
             let r;
             let w;

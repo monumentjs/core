@@ -1,8 +1,8 @@
 import {ArgumentRangeException} from '@monument/core/main/exceptions/ArgumentRangeException';
-import {EMPTY_STRING} from '@monument/core/main/constants';
+import {StringPool} from '@monument/core/main/StringPool';
 import {ArrayList} from '@monument/collections/main/ArrayList';
-import {Test} from '@monument/test-drive/main/configuration/decorators/Test';
-import {Assert} from '@monument/test-drive/main/assert/Assert';
+import {Test} from '@monument/test-drive/main/decorators/Test';
+import {Assert} from '@monument/test-drive/main/modules/assert/Assert';
 import {StringUtils} from '../../main/StringUtils';
 
 
@@ -10,7 +10,7 @@ export class StringUtilsTest {
 
     @Test
     public hasText(assert: Assert) {
-        assert.false(StringUtils.hasText(EMPTY_STRING));
+        assert.false(StringUtils.hasText(StringPool.BLANK));
         assert.false(StringUtils.hasText(' '));
         assert.false(StringUtils.hasText('\t'));
         assert.false(StringUtils.hasText('\v'));
@@ -22,7 +22,7 @@ export class StringUtilsTest {
 
     @Test
     public getCharacters(assert: Assert) {
-        assert.identical(StringUtils.getCharacters(EMPTY_STRING), []);
+        assert.identical(StringUtils.getCharacters(StringPool.BLANK), []);
         assert.identical(StringUtils.getCharacters('Hi'), ['H', 'i']);
     }
 
@@ -92,7 +92,7 @@ export class StringUtilsTest {
         assert.equals(StringUtils.toKebabCase('person.name.length'), 'person-name-length');
         assert.equals(StringUtils.toKebabCase('.page-container'), 'page-container');
         assert.equals(StringUtils.toKebabCase('/api/contacts/list/{offset}/{limit}'), 'api-contacts-list-offset-limit');
-        assert.equals(StringUtils.toKebabCase('MAX_NUMBER_VALUE'), 'max-number-value');
+        assert.equals(StringUtils.toKebabCase('MAX_NUMBER_VALUE'), 'max-number-payload');
     }
 
 
@@ -211,22 +211,22 @@ export class StringUtilsTest {
 
         assert.equals(StringUtils.collectionToDelimitedString(new ArrayList([
             'text', 'value'
-        ]), ' '), 'text value');
+        ]), ' '), 'text payload');
 
         assert.equals(StringUtils.collectionToDelimitedString(new ArrayList([
             'text', 'value'
-        ]), ' ', '<'), '<text <value');
+        ]), ' ', '<'), '<text <payload');
 
         assert.equals(StringUtils.collectionToDelimitedString(new ArrayList([
             'text', 'value'
-        ]), ' ', '<', '>'), '<text> <value>');
+        ]), ' ', '<', '>'), '<text> <payload>');
     }
 
 
     @Test
     public padStart(assert: Assert) {
         assert.throws(() => {
-            return StringUtils.padStart('text', -1);
+            StringUtils.padStart('text', -1);
         }, ArgumentRangeException);
         assert.equals(StringUtils.padStart('text', 0), 'text');
         assert.equals(StringUtils.padStart('text', 3), 'text');
@@ -238,7 +238,7 @@ export class StringUtilsTest {
     @Test
     public padEnd(assert: Assert) {
         assert.throws(() => {
-            return StringUtils.padEnd('text', -1);
+            StringUtils.padEnd('text', -1);
         }, ArgumentRangeException);
         assert.equals(StringUtils.padEnd('text', 0), 'text');
         assert.equals(StringUtils.padEnd('text', 3), 'text');
@@ -250,7 +250,7 @@ export class StringUtilsTest {
     @Test
     public clipStart(assert: Assert) {
         assert.throws(() => {
-            return StringUtils.clipStart('text', -1);
+            StringUtils.clipStart('text', -1);
         }, ArgumentRangeException);
         assert.equals(StringUtils.clipStart('text', 0), '');
         assert.equals(StringUtils.clipStart('text', 3), 'tex');
@@ -261,7 +261,7 @@ export class StringUtilsTest {
     @Test
     public clipEnd(assert: Assert) {
         assert.throws(() => {
-            return StringUtils.clipEnd('text', -1);
+            StringUtils.clipEnd('text', -1);
         }, ArgumentRangeException);
         assert.equals(StringUtils.clipEnd('text', 0), '');
         assert.equals(StringUtils.clipEnd('text', 3), 'ext');
