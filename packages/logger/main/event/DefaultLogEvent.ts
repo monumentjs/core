@@ -1,4 +1,5 @@
-import {Logger} from '../logger/Logger';
+import {ReadOnlyMap} from '@monument/collections/main/ReadOnlyMap';
+import {ListMap} from '@monument/collections/main/ListMap';
 import {Level} from '../level/Level';
 import {Message} from '../message/Message';
 import {LogEvent} from './LogEvent';
@@ -8,8 +9,9 @@ import {Marker} from '../marker/Marker';
 export class DefaultLogEvent implements LogEvent {
     private readonly _message: Message;
     private readonly _level: Level;
-    private readonly _logger: Logger;
+    private readonly _loggerName: string;
     private readonly _marker: Marker | undefined;
+    private readonly _values: ListMap<string, string> = new ListMap();
 
 
     public get level(): Level {
@@ -18,7 +20,7 @@ export class DefaultLogEvent implements LogEvent {
 
 
     public get loggerName(): string {
-        return this._logger.name;
+        return this._loggerName;
     }
 
 
@@ -32,10 +34,21 @@ export class DefaultLogEvent implements LogEvent {
     }
 
 
-    public constructor(logger: Logger, level: Level, message: Message, marker?: Marker) {
-        this._logger = logger;
+    public get values(): ReadOnlyMap<string, string> {
+        return this._values;
+    }
+
+
+    public constructor(loggerName: string, level: Level, message: Message, marker?: Marker) {
+        this._loggerName = loggerName;
         this._level = level;
         this._message = message;
         this._marker = marker;
+
+        this._values.put('text', this.message.text);
+        this._values.put('level', Level[this.level]);
+        this._values.put('loggerName', this.loggerName);
+        this._values.put('errorMessage', this.message.error ? this.message.error.message : '');
+        this._values.put('errorStack', this.message.error ? this.message.error.stack || '' : '');
     }
 }

@@ -1,22 +1,8 @@
-import {TemplateString} from '@monument/text/main/TemplateString';
-import {Parameter} from './Parameter';
 
 
 export class Message {
-    private readonly _template: string;
-    private readonly _parameters: Parameter[];
     private readonly _error?: Error;
     private readonly _text: string;
-
-
-    public get template(): string {
-        return this._template;
-    }
-
-
-    public get parameters(): Parameter[] {
-        return this._parameters;
-    }
 
 
     public get error(): Error | undefined {
@@ -29,10 +15,8 @@ export class Message {
     }
 
 
-    public constructor(template: string, error?: Error, ...parameters: Parameter[]) {
-        this._template = template;
+    public constructor(text: string, error?: Error) {
+        this._text = text;
         this._error = error;
-        this._parameters = parameters;
-        this._text = new TemplateString(template).fillByPositions(parameters);
     }
 }

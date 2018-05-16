@@ -28,20 +28,5 @@ export abstract class AbstractAppender extends AbstractFilterable implements App
     }
 
 
-    public initialize(): Promise<void> {
-        return super.initialize();
-    }
-
-
-    public start(): Promise<void> {
-        return super.start();
-    }
-
-
-    public stop(): Promise<void> {
-        return super.stop();
-    }
-
-
     protected abstract doAppend(event: LogEvent): Promise<void>;
 }
