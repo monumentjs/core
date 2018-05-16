@@ -97,7 +97,7 @@ export class TestScenario {
             await invoker.invoke(new UnitRequest(this._testClass.type), instance, method);
             await logger.info(`DONE: ${testClassName} > ${method.name}`);
         } catch (error) {
-            await logger.error(`FAIL: ${testClassName} > ${method.name}\n`, error);
+            await logger.error(`FAIL: ${testClassName} > ${method.name}`, error);
         }
     }
 }

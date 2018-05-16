@@ -61,6 +61,8 @@ export class MasterApplication {
 
         await this._projectScanner.scan(path, this.onTestFile);
 
+        await this._logger.info('Complete');
+
         await this._currentProcess.exit(0);
     }
 
