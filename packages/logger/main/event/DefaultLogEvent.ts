@@ -48,7 +48,6 @@ export class DefaultLogEvent implements LogEvent {
         this._values.put('text', this.message.text);
         this._values.put('level', Level[this.level]);
         this._values.put('loggerName', this.loggerName);
-        this._values.put('errorMessage', this.message.error ? this.message.error.message : '');
-        this._values.put('errorStack', this.message.error ? this.message.error.stack || '' : '');
+        this._values.put('error', this.message.error ? this.message.error.stack || '' : '');
     }
 }
