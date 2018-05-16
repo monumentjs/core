@@ -28,8 +28,6 @@ class TestAppender extends AbstractAppender {
 
 
 export class LoggerTest {
-    private static readonly TRANSACTION_ERROR_TEMPLATE = 'Transaction error: code {0}';
-    private static readonly TRANSACTION_ERROR_CODE = 230;
     private static readonly TRANSACTION_ERROR_MESSAGE = 'Transaction error: code 230';
 
     private filter: RegExpFilter = new RegExpFilter(/transaction error/i);
@@ -65,12 +63,12 @@ export class LoggerTest {
 
         const error: Error = new Error('Test Error');
 
-        await this.logger.trace(LoggerTest.TRANSACTION_ERROR_TEMPLATE, LoggerTest.TRANSACTION_ERROR_CODE);
-        await this.logger.debug(LoggerTest.TRANSACTION_ERROR_TEMPLATE, LoggerTest.TRANSACTION_ERROR_CODE);
-        await this.logger.info(LoggerTest.TRANSACTION_ERROR_TEMPLATE, LoggerTest.TRANSACTION_ERROR_CODE);
-        await this.logger.warning(LoggerTest.TRANSACTION_ERROR_TEMPLATE, LoggerTest.TRANSACTION_ERROR_CODE);
-        await this.logger.error(LoggerTest.TRANSACTION_ERROR_TEMPLATE, error, LoggerTest.TRANSACTION_ERROR_CODE);
-        await this.logger.fatal(LoggerTest.TRANSACTION_ERROR_TEMPLATE, error, LoggerTest.TRANSACTION_ERROR_CODE);
+        await this.logger.trace(LoggerTest.TRANSACTION_ERROR_MESSAGE);
+        await this.logger.debug(LoggerTest.TRANSACTION_ERROR_MESSAGE);
+        await this.logger.info(LoggerTest.TRANSACTION_ERROR_MESSAGE);
+        await this.logger.warning(LoggerTest.TRANSACTION_ERROR_MESSAGE);
+        await this.logger.error(LoggerTest.TRANSACTION_ERROR_MESSAGE, error);
+        await this.logger.fatal(LoggerTest.TRANSACTION_ERROR_MESSAGE, error);
 
         assert.equals(this.appender.events.length, 6);
 
