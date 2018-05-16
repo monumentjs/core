@@ -1,6 +1,5 @@
 import {Component} from '@monument/stereotype/main/Component';
 import {Path} from '@monument/node/main/path/Path';
-import {FileStorage} from '@monument/node/main/file-system/FileStorage';
 import {LocalFileSystem} from '@monument/node/main/file-system/local/LocalFileSystem';
 import {FileSystemWalker} from '@monument/node/main/file-system/walker/FileSystemWalker';
 import {FileSystemEntryProcessor} from '@monument/node/main/file-system/walker/FileSystemEntryProcessor';
@@ -10,12 +9,12 @@ import {TestFileFilter} from './TestFileFilter';
 
 @Component
 export class ProjectScanner {
-    private readonly _fileStorage: FileStorage;
+    private readonly _fileSystem: LocalFileSystem;
     private readonly _fileFilter: FileSystemEntryFilter;
 
 
     public constructor(fileSystem: LocalFileSystem, fileFilter: TestFileFilter) {
-        this._fileStorage = fileSystem;
+        this._fileSystem = fileSystem;
         this._fileFilter = fileFilter;
     }
 
@@ -28,7 +27,7 @@ export class ProjectScanner {
 
 
     private createWalker(): FileSystemWalker {
-        const walker: FileSystemWalker = new FileSystemWalker(this._fileStorage);
+        const walker: FileSystemWalker = new FileSystemWalker(this._fileSystem);
 
         walker.addFilter(this._fileFilter);
 

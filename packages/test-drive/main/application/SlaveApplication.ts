@@ -40,7 +40,7 @@ export class SlaveApplication {
         this._process = process;
         this._runner = runner;
         this._process.messageReceived.subscribe(this.onMessageReceived);
-        this._logger = loggerManager.getLogger('Slave');
+        this._logger = loggerManager.getLogger(this.constructor.name);
     }
 
 

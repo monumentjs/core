@@ -49,7 +49,7 @@ export class MasterApplication {
         this._currentProcess = currentProcess;
         this._projectScanner = projectScanner;
         this._forkPool.messageReceived.subscribe(this.onMessageReceived);
-        this._logger = loggerManager.getLogger('Master');
+        this._logger = loggerManager.getLogger(this.constructor.name);
     }
 
 
@@ -60,6 +60,8 @@ export class MasterApplication {
         const path: Path = this._currentProcess.currentWorkingDirectory.resolve(new Path('./test'));
 
         await this._projectScanner.scan(path, this.onTestFile);
+
+        await this._logger.info('Complete');
 
         await this._currentProcess.exit(0);
     }
