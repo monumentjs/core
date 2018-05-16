@@ -49,7 +49,7 @@ export class MasterApplication {
         this._currentProcess = currentProcess;
         this._projectScanner = projectScanner;
         this._forkPool.messageReceived.subscribe(this.onMessageReceived);
-        this._logger = loggerManager.getLogger('Master');
+        this._logger = loggerManager.getLogger(this.constructor.name);
     }
 
 
