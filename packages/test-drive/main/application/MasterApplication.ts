@@ -90,7 +90,7 @@ export class MasterApplication {
 
 
     private async runTestFile(file: File) {
-        await this._logger.debug('Run rest file ' + file.path.toString());
+        await this._logger.debug('Run test file ' + file.path.toString());
 
         const deferred: DeferredObject<void> = new DeferredObject();
         const message: RunTestFileRequestClusterMessage = {
