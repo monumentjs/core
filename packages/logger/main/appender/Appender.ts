@@ -1,9 +1,9 @@
 import {Lifecycle} from '@monument/core/main/lifecycle/Lifecycle';
-import {LogEvent} from '../event/LogEvent';
+import {Message} from '../message/Message';
 
 
 export interface Appender extends Lifecycle {
     readonly name: string;
 
-    append(event: LogEvent): Promise<void>;
+    append(message: Message): Promise<void>;
 }

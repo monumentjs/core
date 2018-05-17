@@ -1,6 +1,6 @@
 import {AbstractFilterable} from '../filterable/AbstractFilterable';
 import {Filter} from '../filter/Filter';
-import {LogEvent} from '../event/LogEvent';
+import {Message} from '../message/Message';
 import {Appender} from './Appender';
 
 
@@ -19,14 +19,14 @@ export abstract class AbstractAppender extends AbstractFilterable implements App
     }
 
 
-    public async append(event: LogEvent): Promise<void> {
-        if (await this.isFiltered(event)) {
+    public async append(message: Message): Promise<void> {
+        if (await this.isFiltered(message)) {
             return;
         }
 
-        return this.doAppend(event);
+        return this.doAppend(message);
     }
 
 
-    protected abstract doAppend(event: LogEvent): Promise<void>;
+    protected abstract doAppend(message: Message): Promise<void>;
 }

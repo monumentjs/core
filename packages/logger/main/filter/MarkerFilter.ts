@@ -1,5 +1,5 @@
 import {Marker} from '../marker/Marker';
-import {LogEvent} from '../event/LogEvent';
+import {Message} from '../message/Message';
 import {AbstractFilter} from './AbstractFilter';
 import {FilterDecision} from './FilterDecision';
 
@@ -15,7 +15,7 @@ export class MarkerFilter extends AbstractFilter {
     }
 
 
-    public async decide(message: LogEvent): Promise<FilterDecision> {
+    public async decide(message: Message): Promise<FilterDecision> {
         if (message.marker == null) {
             return FilterDecision.NEUTRAL;
         }

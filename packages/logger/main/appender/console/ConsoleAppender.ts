@@ -1,6 +1,6 @@
 import {Filter} from '../../filter/Filter';
-import {LogEvent} from '../../event/LogEvent';
 import {Level} from '../../level/Level';
+import {Message} from '../../message/Message';
 import {AbstractAppender} from '../AbstractAppender';
 import {ConsoleMessageLayout} from './ConsoleMessageLayout';
 
@@ -18,33 +18,33 @@ export class ConsoleAppender extends AbstractAppender {
     }
 
 
-    protected async doAppend(event: LogEvent): Promise<void> {
+    protected async doAppend(message: Message): Promise<void> {
         /* tslint:disable:no-console */
-        const message: string = this._layout.serialize(event);
+        const text: string = this._layout.serialize(message);
 
-        switch (event.level) {
+        switch (message.level) {
             case Level.TRACE:
-                console.trace(message);
+                console.trace(text);
                 break;
 
             case Level.DEBUG:
-                console.debug(message);
+                console.debug(text);
                 break;
 
             case Level.INFO:
-                console.info(message);
+                console.info(text);
                 break;
 
             case Level.WARNING:
-                console.warn(message);
+                console.warn(text);
                 break;
 
             case Level.ERROR:
-                console.error(message);
+                console.error(text);
                 break;
 
             case Level.FATAL:
-                console.error(message);
+                console.error(text);
                 break;
 
             default:

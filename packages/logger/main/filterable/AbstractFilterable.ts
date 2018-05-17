@@ -1,7 +1,7 @@
 import {AbstractLifecycle} from '@monument/core/main/lifecycle/AbstractLifecycle';
 import {ListSet} from '@monument/collections/main/ListSet';
 import {ReadOnlySet} from '@monument/collections/main/ReadOnlySet';
-import {LogEvent} from '../event/LogEvent';
+import {Message} from '../message/Message';
 import {Filter} from '../filter/Filter';
 import {Filterable} from './Filterable';
 import {FilterDecision} from '../filter/FilterDecision';
@@ -22,9 +22,9 @@ export class AbstractFilterable extends AbstractLifecycle implements Filterable 
     }
 
 
-    public async isFiltered(event: LogEvent): Promise<boolean> {
+    public async isFiltered(message: Message): Promise<boolean> {
         for (const filter of this.filters) {
-            const decision = await filter.decide(event);
+            const decision: FilterDecision = await filter.decide(message);
 
             if (decision === FilterDecision.DENY) {
                 return true;
