@@ -1,8 +1,8 @@
 import {Lifecycle} from '@monument/core/main/lifecycle/Lifecycle';
-import {LogEvent} from '../event/LogEvent';
+import {Message} from '../message/Message';
 import {FilterDecision} from './FilterDecision';
 
 
 export interface Filter extends Lifecycle {
-    decide(event: LogEvent): Promise<FilterDecision>;
+    decide(message: Message): Promise<FilterDecision>;
 }

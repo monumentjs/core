@@ -1,6 +1,6 @@
 import {TemplateString} from '@monument/text/main/TemplateString';
 import {Level} from '../../level/Level';
-import {LogEvent} from '../../event/LogEvent';
+import {Message} from '../../message/Message';
 
 
 export class ConsoleMessageLayout {
@@ -9,8 +9,8 @@ export class ConsoleMessageLayout {
         new TemplateString('[{level}] {loggerName}: {text}'),
         new TemplateString('[{level}] {loggerName}: {text}'),
         new TemplateString('[{level}] {loggerName}: {text}'),
-        new TemplateString('[{level}] {loggerName}: {text}\n{error}'),
-        new TemplateString('[{level}] {loggerName}: {text}\n{error}')
+        new TemplateString('[{level}] {loggerName}: {text}\r\n{error}'),
+        new TemplateString('[{level}] {loggerName}: {text}\r\n{error}')
     );
 
     public static readonly SIMPLE: ConsoleMessageLayout = new ConsoleMessageLayout(
@@ -18,8 +18,8 @@ export class ConsoleMessageLayout {
         new TemplateString('{text}'),
         new TemplateString('{text}'),
         new TemplateString('{text}'),
-        new TemplateString('{text}\n{error}'),
-        new TemplateString('{text}\n{error}')
+        new TemplateString('{text}\n\n{error}'),
+        new TemplateString('{text}\n\n{error}')
     );
 
 
@@ -48,28 +48,28 @@ export class ConsoleMessageLayout {
     }
 
 
-    public serialize(event: LogEvent): string {
-        switch (event.level) {
+    public serialize(message: Message): string {
+        switch (message.level) {
             case Level.TRACE:
-                return this._trace.fillByKeys(event.values);
+                return this._trace.fillByKeys(message.values);
 
             case Level.DEBUG:
-                return this._debug.fillByKeys(event.values);
+                return this._debug.fillByKeys(message.values);
 
             case Level.INFO:
-                return this._info.fillByKeys(event.values);
+                return this._info.fillByKeys(message.values);
 
             case Level.WARNING:
-                return this._warning.fillByKeys(event.values);
+                return this._warning.fillByKeys(message.values);
 
             case Level.ERROR:
-                return this._error.fillByKeys(event.values);
+                return this._error.fillByKeys(message.values);
 
             case Level.FATAL:
-                return this._fatal.fillByKeys(event.values);
+                return this._fatal.fillByKeys(message.values);
 
             default:
-                return event.message.text;
+                return message.text;
         }
     }
 }

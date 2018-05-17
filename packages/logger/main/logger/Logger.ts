@@ -1,6 +1,6 @@
 import {Level} from '../level/Level';
 import {Message} from '../message/Message';
-import {DefaultLogEvent} from '../event/DefaultLogEvent';
+import {Marker} from '../marker/Marker';
 import {LoggerConfiguration} from './LoggerConfiguration';
 
 
@@ -20,53 +20,51 @@ export class Logger {
     }
 
 
-    public trace(format: string): Promise<void> {
-        const message: Message = new Message(format);
+    public trace(text: string, marker?: Marker): Promise<void> {
+        const message: Message = new Message(this.name, Level.TRACE, text, undefined, marker);
 
-        return this.log(Level.TRACE, message);
+        return this.log(message);
     }
 
 
-    public info(format: string): Promise<void> {
-        const message: Message = new Message(format);
+    public info(text: string, marker?: Marker): Promise<void> {
+        const message: Message = new Message(this.name, Level.INFO, text, undefined, marker);
 
-        return this.log(Level.INFO, message);
+        return this.log(message);
     }
 
 
-    public debug(format: string): Promise<void> {
-        const message: Message = new Message(format);
+    public debug(text: string, marker?: Marker): Promise<void> {
+        const message: Message = new Message(this.name, Level.DEBUG, text, undefined, marker);
 
-        return this.log(Level.DEBUG, message);
+        return this.log(message);
     }
 
 
-    public warning(format: string): Promise<void> {
-        const message: Message = new Message(format);
+    public warning(text: string, marker?: Marker): Promise<void> {
+        const message: Message = new Message(this.name, Level.WARNING, text, undefined, marker);
 
-        return this.log(Level.WARNING, message);
+        return this.log(message);
     }
 
 
-    public error(format: string, error?: Error): Promise<void> {
-        const message: Message = new Message(format, error);
+    public error(text: string, error?: Error, marker?: Marker): Promise<void> {
+        const message: Message = new Message(this.name, Level.ERROR, text, error, marker);
 
-        return this.log(Level.ERROR, message);
+        return this.log(message);
     }
 
 
-    public fatal(format: string, error?: Error): Promise<void> {
-        const message: Message = new Message(format, error);
+    public fatal(text: string, error?: Error, marker?: Marker): Promise<void> {
+        const message: Message = new Message(this.name, Level.FATAL, text, error, marker);
 
-        return this.log(Level.FATAL, message);
+        return this.log(message);
     }
 
 
-    private async log(level: Level, message: Message): Promise<void> {
-        const event: DefaultLogEvent = new DefaultLogEvent(this.name, level, message);
-
+    private async log(message: Message): Promise<void> {
         await Promise.all(this._configuration.appenders.toArray().map((appender) => {
-            return appender.append(event);
+            return appender.append(message);
         }));
     }
 }

@@ -1,4 +1,4 @@
-import {LogEvent} from '../event/LogEvent';
+import {Message} from '../message/Message';
 import {AbstractFilter} from './AbstractFilter';
 import {FilterDecision} from './FilterDecision';
 
@@ -14,7 +14,7 @@ export class RegExpFilter extends AbstractFilter {
     }
 
 
-    public async decide(event: LogEvent): Promise<FilterDecision> {
-        return this._pattern.test(event.message.text) ? FilterDecision.ACCEPT : FilterDecision.DENY;
+    public async decide(message: Message): Promise<FilterDecision> {
+        return this._pattern.test(message.text) ? FilterDecision.ACCEPT : FilterDecision.DENY;
     }
 }

@@ -6,14 +6,14 @@ import {AfterEach} from '@monument/test-drive/main/decorators/AfterEach';
 import {Logger} from '../../../main/logger/Logger';
 import {LoggerConfiguration} from '../../../main/logger/LoggerConfiguration';
 import {AbstractAppender} from '../../../main/appender/AbstractAppender';
-import {LogEvent} from '../../../main/event/LogEvent';
+import {Message} from '../../../main/message/Message';
 import {Filter} from '../../../main/filter/Filter';
 import {RegExpFilter} from '../../../main/filter/RegExpFilter';
 import {Level} from '../../../main/level/Level';
 
 
 class TestAppender extends AbstractAppender {
-    public events: ArrayList<LogEvent> = new ArrayList();
+    public messages: ArrayList<Message> = new ArrayList();
 
 
     public constructor(filters?: Iterable<Filter>) {
@@ -21,8 +21,8 @@ class TestAppender extends AbstractAppender {
     }
 
 
-    protected async doAppend(event: LogEvent): Promise<void> {
-        this.events.add(event);
+    protected async doAppend(message: Message): Promise<void> {
+        this.messages.add(message);
     }
 }
 
@@ -59,7 +59,7 @@ export class LoggerTest {
 
     @Test
     public async 'logger sends log events to appenders'(assert: Assert) {
-        assert.equals(this.appender.events.length, 0);
+        assert.equals(this.appender.messages.length, 0);
 
         const error: Error = new Error('Test Error');
 
@@ -70,42 +70,42 @@ export class LoggerTest {
         await this.logger.error(LoggerTest.TRANSACTION_ERROR_MESSAGE, error);
         await this.logger.fatal(LoggerTest.TRANSACTION_ERROR_MESSAGE, error);
 
-        assert.equals(this.appender.events.length, 6);
+        assert.equals(this.appender.messages.length, 6);
 
-        assert.equals(this.appender.events.getAt(0).message.text, LoggerTest.TRANSACTION_ERROR_MESSAGE);
-        assert.equals(this.appender.events.getAt(0).message.error, undefined);
-        assert.equals(this.appender.events.getAt(0).level, Level.TRACE);
-        assert.equals(this.appender.events.getAt(0).loggerName, 'TestLogger');
-        assert.equals(this.appender.events.getAt(0).marker, undefined);
+        assert.equals(this.appender.messages.getAt(0).text, LoggerTest.TRANSACTION_ERROR_MESSAGE);
+        assert.equals(this.appender.messages.getAt(0).error, undefined);
+        assert.equals(this.appender.messages.getAt(0).level, Level.TRACE);
+        assert.equals(this.appender.messages.getAt(0).loggerName, 'TestLogger');
+        assert.equals(this.appender.messages.getAt(0).marker, undefined);
 
-        assert.equals(this.appender.events.getAt(1).message.text, LoggerTest.TRANSACTION_ERROR_MESSAGE);
-        assert.equals(this.appender.events.getAt(1).message.error, undefined);
-        assert.equals(this.appender.events.getAt(1).level, Level.DEBUG);
-        assert.equals(this.appender.events.getAt(1).loggerName, 'TestLogger');
-        assert.equals(this.appender.events.getAt(1).marker, undefined);
+        assert.equals(this.appender.messages.getAt(1).text, LoggerTest.TRANSACTION_ERROR_MESSAGE);
+        assert.equals(this.appender.messages.getAt(1).error, undefined);
+        assert.equals(this.appender.messages.getAt(1).level, Level.DEBUG);
+        assert.equals(this.appender.messages.getAt(1).loggerName, 'TestLogger');
+        assert.equals(this.appender.messages.getAt(1).marker, undefined);
 
-        assert.equals(this.appender.events.getAt(2).message.text, LoggerTest.TRANSACTION_ERROR_MESSAGE);
-        assert.equals(this.appender.events.getAt(2).message.error, undefined);
-        assert.equals(this.appender.events.getAt(2).level, Level.INFO);
-        assert.equals(this.appender.events.getAt(2).loggerName, 'TestLogger');
-        assert.equals(this.appender.events.getAt(2).marker, undefined);
+        assert.equals(this.appender.messages.getAt(2).text, LoggerTest.TRANSACTION_ERROR_MESSAGE);
+        assert.equals(this.appender.messages.getAt(2).error, undefined);
+        assert.equals(this.appender.messages.getAt(2).level, Level.INFO);
+        assert.equals(this.appender.messages.getAt(2).loggerName, 'TestLogger');
+        assert.equals(this.appender.messages.getAt(2).marker, undefined);
 
-        assert.equals(this.appender.events.getAt(3).message.text, LoggerTest.TRANSACTION_ERROR_MESSAGE);
-        assert.equals(this.appender.events.getAt(3).message.error, undefined);
-        assert.equals(this.appender.events.getAt(3).level, Level.WARNING);
-        assert.equals(this.appender.events.getAt(3).loggerName, 'TestLogger');
-        assert.equals(this.appender.events.getAt(3).marker, undefined);
+        assert.equals(this.appender.messages.getAt(3).text, LoggerTest.TRANSACTION_ERROR_MESSAGE);
+        assert.equals(this.appender.messages.getAt(3).error, undefined);
+        assert.equals(this.appender.messages.getAt(3).level, Level.WARNING);
+        assert.equals(this.appender.messages.getAt(3).loggerName, 'TestLogger');
+        assert.equals(this.appender.messages.getAt(3).marker, undefined);
 
-        assert.equals(this.appender.events.getAt(4).message.text, LoggerTest.TRANSACTION_ERROR_MESSAGE);
-        assert.equals(this.appender.events.getAt(4).message.error, error);
-        assert.equals(this.appender.events.getAt(4).level, Level.ERROR);
-        assert.equals(this.appender.events.getAt(4).loggerName, 'TestLogger');
-        assert.equals(this.appender.events.getAt(4).marker, undefined);
+        assert.equals(this.appender.messages.getAt(4).text, LoggerTest.TRANSACTION_ERROR_MESSAGE);
+        assert.equals(this.appender.messages.getAt(4).error, error);
+        assert.equals(this.appender.messages.getAt(4).level, Level.ERROR);
+        assert.equals(this.appender.messages.getAt(4).loggerName, 'TestLogger');
+        assert.equals(this.appender.messages.getAt(4).marker, undefined);
 
-        assert.equals(this.appender.events.getAt(5).message.text, LoggerTest.TRANSACTION_ERROR_MESSAGE);
-        assert.equals(this.appender.events.getAt(5).message.error, error);
-        assert.equals(this.appender.events.getAt(5).level, Level.FATAL);
-        assert.equals(this.appender.events.getAt(5).loggerName, 'TestLogger');
-        assert.equals(this.appender.events.getAt(5).marker, undefined);
+        assert.equals(this.appender.messages.getAt(5).text, LoggerTest.TRANSACTION_ERROR_MESSAGE);
+        assert.equals(this.appender.messages.getAt(5).error, error);
+        assert.equals(this.appender.messages.getAt(5).level, Level.FATAL);
+        assert.equals(this.appender.messages.getAt(5).loggerName, 'TestLogger');
+        assert.equals(this.appender.messages.getAt(5).marker, undefined);
     }
 }
