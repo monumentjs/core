@@ -43,20 +43,16 @@
     <div class="section">
       <div class="container">
         <div class="row">
-          <div class="col-4"></div>
+          <div class="col-4">
+            <h2>Hello World Application</h2>
+          </div>
           <div class="col-8">
-            <pre><code class="typescript">
+            <pre><code class="ts">
 @Boot
-@Application({
-  modules: [
-    LoggerModule
-  ]
-})
-export class FirstApplication {
-  private readonly _logger: Logger;
-  
-  public constructor(loggerManager) {
-    this._logger = loggerManager.getLogger(this.constructor.name);
+export class HelloWorldApplication {
+  @Init
+  public init() {
+    console.log('Hello World');
   }
 }
             </code></pre>
