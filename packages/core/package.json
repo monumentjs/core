@@ -8,6 +8,9 @@
     "library",
     "core"
   ],
+  "scripts": {
+    "test": "td"
+  },
   "dependencies": {
     "deep-equal": "^1.0.1"
   },

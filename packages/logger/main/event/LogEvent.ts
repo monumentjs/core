@@ -1,7 +1,7 @@
+import {ReadOnlyMap} from '@monument/collections/main/ReadOnlyMap';
 import {Level} from '../level/Level';
 import {Message} from '../message/Message';
 import {Marker} from '../marker/Marker';
-import {ReadOnlyMap} from '@monument/collections/main/ReadOnlyMap';
 
 
 export interface LogEvent {
