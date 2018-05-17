@@ -1,72 +1,163 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>monument.js - TypeScript standard library</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>monument.js - TypeScript standard library</title>
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  
-  <link rel="stylesheet"
-      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" href="./styles/styles.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
 
 </head>
 <body>
-  <header>
-    <div class="container">
-      <nav class="nav">
-        <a class="nav-link active" href="#">Home</a>
-        <a class="nav-link" href="#">Documentation</a>
-        <a class="nav-link" href="#">Tutorials</a>
-        <a class="nav-link" href="#">Examples</a>
-      </nav>
-    </div>
-  </header>
-  <main>
-    <section class="jumbotron text-center">
-      <div class="container">
-        <h1 class="display-5 font-weight-bold">TypeScript standard library</h1>
-        <p class="lead">When arhitecture matters</p>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div class="btns">
-          <a href="./tutorials/get-started.html" class="btn btn-lg btn-primary">
-            Get Started
-          </a>
-          <a href="./tutorials/tutorial.html" class="btn btn btn-link">
-            Read Tutorial
-          </a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="nav navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Documentation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Tutorials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Examples</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-      </div>
+    </nav>
+</header>
+<main>
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="display-5 font-weight-bold">TypeScript Standard Library</h1>
+            <p class="lead">When architecture matters</p>
+
+            <div class="btns">
+                <a href="./tutorials/get-started.html" class="btn btn-lg btn-primary">
+                    Get Started
+                </a>
+                <a href="./tutorials/tutorial.html" class="btn btn btn-link">
+                    Read Tutorial
+                </a>
+            </div>
+        </div>
     </section>
-    
-    <div class="section">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-4 col-12">
-            <h4>Hello World Application</h4>
-            <p>
-              Each application runs with <code>@Boot</code> decorator.
-            </p>
-          </div>
-          <div class="col-md-8 col-12">
-            <pre><code class="ts">
+
+    <section class="page-block">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-12">
+                    <h4>Hello World Application</h4>
+                    <p>
+                        Each application runs with <code>@Boot</code> decorator.
+                    </p>
+                </div>
+                <div class="col-md-8 col-12">
+            <pre><code class="ts">// HelloWorldApplication.ts
+
 @Boot
 export class HelloWorldApplication {
-  @Init
-  public init() {
-    console.log('Hello World');
-  }
+    @Init
+    public init() {
+        console.log('Hello World');
+    }
 }
             </code></pre>
-          </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </main>
+    </section>
+
+    <section class="page-block">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-12">
+                    <h4>Hello World Application</h4>
+                    <p>
+                        Each application runs with <code>@Boot</code> decorator.
+                    </p>
+                </div>
+                <div class="col-md-8 col-12">
+            <pre><code class="ts">// RealWorldApplication.ts
+
+@Boot
+@Application({
+    modules: [
+        LoggerModule,
+        ConfigurationModule
+    ]
+})
+export class RealWorldApplication {
+    private readonly _logger: Logger;
+
+    public constructor(loggerManager: LoggerManager) {
+        this._logger = loggerManager.getLogger(this.constructor.name);
+    }
+
+    @Init
+    public async init() {
+        await this._logger.info('Hello Real World');
+    }
+}
+
+
+// modules/configuration/ConfigurationModule.ts
+
+@Module({
+    components: [
+        LoggerModule,
+        LoggingConfiguration
+    ]
+})
+export class ConfigurationModule {
+
+}
+
+
+// modules/configuration/diagnostics/LoggingConfiguration.ts
+
+@Configuration
+export class LoggingConfiguration {
+
+    @Unit(LoggerConfiguration)
+    public loggerConfiguration(): LoggerConfiguration {
+        return new LoggerConfiguration([
+            new ConsoleAppender(ConsoleMessageLayout.SIMPLE)
+        ]);
+    }
+}
+            </code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
 </body>
 </html>
