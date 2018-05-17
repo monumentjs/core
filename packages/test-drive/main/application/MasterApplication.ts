@@ -63,6 +63,7 @@ export class MasterApplication {
 
         await this._logger.info('Complete');
 
+        await this._forkPool.kill('SIGTERM');
         await this._currentProcess.exit(0);
     }
 
