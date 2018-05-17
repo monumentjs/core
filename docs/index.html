@@ -6,10 +6,14 @@
   <title>monument.js - TypeScript standard library</title>
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  
+  <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
 
 </head>
 <body>
@@ -17,14 +21,49 @@
     <nav class="nav">
       <a class="nav-link active" href="#">Home</a>
       <a class="nav-link" href="#">Documentation</a>
+      <a class="nav-link" href="#">Tutorials</a>
       <a class="nav-link" href="#">Examples</a>
     </nav>
   </header>
   <main>
     <section class="jumbotron text-center">
-      <h1 class="display-4">TypeScript standard library</h1>
+      <h1 class="display-5 font-weight-bold">TypeScript standard library</h1>
       <p class="lead">When arhitecture matters</p>
+      
+      <div class="btns">
+        <a href="./tutorials/get-started.html" class="btn btn-lg btn-primary">
+          Get Started
+        </a>
+        <a href="./tutorials/tutorial.html" class="btn btn btn-link">
+          Read Tutorial
+        </a>
+      </div>
     </section>
+    
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-4"></div>
+          <div class="col-8">
+            <pre><code class="typescript">
+@Boot
+@Application({
+  modules: [
+    LoggerModule
+  ]
+})
+export class FirstApplication {
+  private readonly _logger: Logger;
+  
+  public constructor(loggerManager) {
+    this._logger = loggerManager.getLogger(this.constructor.name);
+  }
+}
+            </code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
 </body>
 </html>
