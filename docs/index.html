@@ -18,38 +18,42 @@
 </head>
 <body>
   <header>
-    <nav class="nav">
-      <a class="nav-link active" href="#">Home</a>
-      <a class="nav-link" href="#">Documentation</a>
-      <a class="nav-link" href="#">Tutorials</a>
-      <a class="nav-link" href="#">Examples</a>
-    </nav>
+    <div class="container">
+      <nav class="nav">
+        <a class="nav-link active" href="#">Home</a>
+        <a class="nav-link" href="#">Documentation</a>
+        <a class="nav-link" href="#">Tutorials</a>
+        <a class="nav-link" href="#">Examples</a>
+      </nav>
+    </div>
   </header>
   <main>
     <section class="jumbotron text-center">
-      <h1 class="display-5 font-weight-bold">TypeScript standard library</h1>
-      <p class="lead">When arhitecture matters</p>
-      
-      <div class="btns">
-        <a href="./tutorials/get-started.html" class="btn btn-lg btn-primary">
-          Get Started
-        </a>
-        <a href="./tutorials/tutorial.html" class="btn btn btn-link">
-          Read Tutorial
-        </a>
+      <div class="container">
+        <h1 class="display-5 font-weight-bold">TypeScript standard library</h1>
+        <p class="lead">When arhitecture matters</p>
+
+        <div class="btns">
+          <a href="./tutorials/get-started.html" class="btn btn-lg btn-primary">
+            Get Started
+          </a>
+          <a href="./tutorials/tutorial.html" class="btn btn btn-link">
+            Read Tutorial
+          </a>
+        </div>
       </div>
     </section>
     
     <div class="section">
       <div class="container">
         <div class="row">
-          <div class="col-4">
+          <div class="col-md-4 col-12">
             <h4>Hello World Application</h4>
             <p>
               Each application runs with <code>@Boot</code> decorator.
             </p>
           </div>
-          <div class="col-8">
+          <div class="col-md-8 col-12">
             <pre><code class="ts">
 @Boot
 export class HelloWorldApplication {
