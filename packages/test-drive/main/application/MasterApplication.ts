@@ -16,7 +16,7 @@ import {ProcessMessage} from '@monument/node/main/process/ProcessMessage';
 import {ProcessMessageReceivedEventArgs} from '@monument/node/main/process/ProcessMessageReceivedEventArgs';
 import {ProjectModule} from '../modules/project/ProjectModule';
 import {ProjectScanner} from '../modules/project/scanner/ProjectScanner';
-import {LoggerConfigurationModule} from '../modules/logger/LoggerConfigurationModule';
+import {ConfigurationModule} from '../modules/configuration/ConfigurationModule';
 import {ClusterMessageType} from './communication/ClusterMessageType';
 import {RunTestFileRequestClusterMessage} from './communication/RunTestFileRequestClusterMessage';
 
@@ -25,7 +25,7 @@ import {RunTestFileRequestClusterMessage} from './communication/RunTestFileReque
 @NodeApplication({
     modules: [
         ProjectModule,
-        LoggerConfigurationModule
+        ConfigurationModule
     ]
 })
 export class MasterApplication {
@@ -68,14 +68,16 @@ export class MasterApplication {
 
 
     @Delegate
-    private onTestFile(file: File): Promise<void> {
+    private async onTestFile(file: File): Promise<void> {
         return this.runTestFile(file);
     }
 
 
     @Delegate
-    private onMessageReceived(target: ChildProcess, args: ProcessMessageReceivedEventArgs) {
+    private async onMessageReceived(target: ChildProcess, args: ProcessMessageReceivedEventArgs) {
         const message: ProcessMessage = args.message;
+
+        await this._logger.debug('Message received ' + JSON.stringify(message));
 
         switch (message.payload.type) {
             case ClusterMessageType.RUN_TEST_FILE_RESPONSE:
@@ -88,6 +90,8 @@ export class MasterApplication {
 
 
     private async runTestFile(file: File) {
+        await this._logger.debug('Run rest file ' + file.path.toString());
+
         const deferred: DeferredObject<void> = new DeferredObject();
         const message: RunTestFileRequestClusterMessage = {
             type: ClusterMessageType.RUN_TEST_FILE_REQUEST,

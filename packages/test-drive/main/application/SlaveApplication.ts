@@ -10,7 +10,7 @@ import {ProcessMessageReceivedEventArgs} from '@monument/node/main/process/Proce
 import {Path} from '@monument/node/main/path/Path';
 import {Logger} from '@monument/logger/main/logger/Logger';
 import {LoggerManager} from '@monument/logger/main/manager/LoggerManager';
-import {LoggerConfigurationModule} from '../modules/logger/LoggerConfigurationModule';
+import {ConfigurationModule} from '../modules/configuration/ConfigurationModule';
 import {AssertionModule} from '../modules/assert/AssertionModule';
 import {TestRunnerModule} from '../modules/runner/TestRunnerModule';
 import {TestRunner} from '../modules/runner/TestRunner';
@@ -26,7 +26,7 @@ import {RunTestFileResponseClusterMessage} from './communication/RunTestFileResp
     modules: [
         AssertionModule,
         TestRunnerModule,
-        LoggerConfigurationModule
+        ConfigurationModule
     ]
 })
 export class SlaveApplication {
@@ -48,10 +48,12 @@ export class SlaveApplication {
     private async onMessageReceived(target: CurrentProcess, args: ProcessMessageReceivedEventArgs) {
         const message: ProcessMessage = args.message;
 
+        await this._logger.debug('Message received ' + JSON.stringify(message));
+
         switch (message.payload.type) {
             case ClusterMessageType.RUN_TEST_FILE_REQUEST:
                 await this.runTestFile(message.payload.filePath);
-                await this.endTestFile(message.payload.filePath);
+                await this.reportBack(message.payload.filePath);
                 break;
 
             default:
@@ -62,6 +64,8 @@ export class SlaveApplication {
     private async runTestFile(filePath: string): Promise<void> {
         const path: Path = new Path(filePath);
 
+        await this._logger.debug('Start run test file ' + filePath);
+
         try {
             const constructor: Type<object> = await this._classLoader.load(path.toString(), path.baseNameWithoutExtension);
 
@@ -69,10 +73,14 @@ export class SlaveApplication {
         } catch (e) {
             await this._logger.error(e.message, e);
         }
+
+        await this._logger.debug('End run test file ' + filePath);
     }
 
 
-    private async endTestFile(filePath: string): Promise<void> {
+    private async reportBack(filePath: string): Promise<void> {
+        await this._logger.debug('Report back ' + filePath);
+
         const message: RunTestFileResponseClusterMessage = {
             type: ClusterMessageType.RUN_TEST_FILE_RESPONSE,
             filePath: filePath
