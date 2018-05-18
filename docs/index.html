@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width">
     <title>monument.js - TypeScript standard library</title>
 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
     <link rel="stylesheet" href="./styles/styles.css">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -37,16 +39,33 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="nav navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="#">
+                          Home <span class="sr-only">(current)</span>
+                      </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Documentation</a>
+                        <a class="nav-link" href="#">
+                          Documentation
+                      </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Tutorials</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Examples</a>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span class="fab fa-github"></span> GitHub
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            Contacts
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -80,8 +99,10 @@
                     </p>
                 </div>
                 <div class="col-md-8 col-12">
-            <pre><code class="ts">// HelloWorldApplication.ts
-
+                  <div class="card">
+  <div class="card-header">HelloWorldApplication.ts</div>
+  <div class="card-body">
+    <pre><code class="ts">
 @Boot
 export class HelloWorldApplication {
     @Init
@@ -90,6 +111,7 @@ export class HelloWorldApplication {
     }
 }
             </code></pre>
+                    </div> 
                 </div>
             </div>
         </div>
@@ -99,14 +121,16 @@ export class HelloWorldApplication {
         <div class="container">
             <div class="row">
                 <div class="col-md-4 col-12">
-                    <h4>Hello World Application</h4>
+                    <h4>Modular Architecture</h4>
                     <p>
                         Each application runs with <code>@Boot</code> decorator.
                     </p>
                 </div>
                 <div class="col-md-8 col-12">
-            <pre><code class="ts">// RealWorldApplication.ts
-
+                  <div class="card">
+                    <div class="card-header">RealWorldApplication.ts</div>
+                    <div class="card-body">
+<pre><code class="ts">
 @Boot
 @Application({
     modules: [
@@ -126,10 +150,14 @@ export class RealWorldApplication {
         await this._logger.info('Hello Real World');
     }
 }
+</code></pre>
+                    </div>
+                </div>
 
-
-// modules/configuration/ConfigurationModule.ts
-
+                  <div class="card">
+                    <div class="card-header">modules/configuration/ConfigurationModule.ts</div>
+                    <div class="card-body">
+<pre><code class="ts">
 @Module({
     components: [
         LoggerModule,
@@ -137,12 +165,16 @@ export class RealWorldApplication {
     ]
 })
 export class ConfigurationModule {
-
 }
+</code></pre>
+                    </div>
+                </div>
 
 
-// modules/configuration/diagnostics/LoggingConfiguration.ts
-
+                  <div class="card">
+                    <div class="card-header">modules/configuration/diagnostics/LoggingConfiguration.ts</div>
+                    <div class="card-body">
+<pre><code class="ts">
 @Configuration
 export class LoggingConfiguration {
 
@@ -153,7 +185,10 @@ export class LoggingConfiguration {
         ]);
     }
 }
-            </code></pre>
+</code></pre>
+                    </div>
+                </div>
+
                 </div>
             </div>
         </div>
