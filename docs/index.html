@@ -92,16 +92,15 @@
     <section class="page-block">
         <div class="container">
             <div class="row">
-                <div class="col-md-4 col-12">
+                <div class="col-lg-4 col-12">
                     <h4>Hello World Application</h4>
                     <p>
                         Each application runs with <code>@Boot</code> decorator.
                     </p>
                 </div>
-                <div class="col-md-8 col-12">
+                <div class="col-lg-8 col-12">
                   <div class="card">
   <div class="card-header">HelloWorldApplication.ts</div>
-  <div class="card-body">
 <pre><code class="ts">
 @Boot
 export class HelloWorldApplication {
@@ -111,7 +110,6 @@ export class HelloWorldApplication {
     }
 }
 </code></pre>
-                    </div> 
                 </div>
             </div>
         </div>
@@ -120,16 +118,15 @@ export class HelloWorldApplication {
     <section class="page-block">
         <div class="container">
             <div class="row">
-                <div class="col-md-4 col-12">
+                <div class="col-lg-4 col-12">
                     <h4>Modular Architecture</h4>
                     <p>
                         Each application runs with <code>@Boot</code> decorator.
                     </p>
                 </div>
-                <div class="col-md-8 col-12">
-                  <div class="card">
-                    <div class="card-header">RealWorldApplication.ts</div>
-                    <div class="card-body">
+                <div class="col-lg-8 col-12">
+                    <div class="card">
+                      <div class="card-header">RealWorldApplication.ts</div>
 <pre><code class="ts">
 @Boot
 @Application({
@@ -151,12 +148,10 @@ export class RealWorldApplication {
     }
 }
 </code></pre>
-                    </div>
                 </div>
 
                   <div class="card">
                     <div class="card-header">modules/configuration/ConfigurationModule.ts</div>
-                    <div class="card-body">
 <pre><code class="ts">
 @Module({
     components: [
@@ -167,13 +162,11 @@ export class RealWorldApplication {
 export class ConfigurationModule {
 }
 </code></pre>
-                    </div>
                 </div>
 
 
                   <div class="card">
                     <div class="card-header">modules/configuration/diagnostics/LoggingConfiguration.ts</div>
-                    <div class="card-body">
 <pre><code class="ts">
 @Configuration
 export class LoggingConfiguration {
@@ -186,7 +179,6 @@ export class LoggingConfiguration {
     }
 }
 </code></pre>
-                    </div>
                 </div>
 
                 </div>
