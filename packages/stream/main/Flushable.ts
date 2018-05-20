@@ -1,5 +1,5 @@
 
 
 export interface Flushable {
-    flush(): Promise<void>;
+    flush(): Promise<void> | void;
 }

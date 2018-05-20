@@ -13,5 +13,5 @@ export interface Closeable {
     /**
      * Closes this stream and releases any system resources associated with it.
      */
-    close(): Promise<void>;
+    close(): Promise<void> | void;
 }

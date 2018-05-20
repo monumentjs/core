@@ -1,4 +1,4 @@
-import {Exception} from '../../../core/main/exceptions/Exception';
+import {Exception} from '@monument/core/main/exceptions/Exception';
 
 
 export class IOException extends Exception {

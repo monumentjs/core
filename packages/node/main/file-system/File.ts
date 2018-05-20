@@ -2,21 +2,27 @@ import {MemorySize} from '@monument/core/main/MemorySize';
 import {DateTime} from '@monument/time/main/DateTime';
 import {Path} from '../path/Path';
 import {AccessPermissions} from './AccessPermissions';
+import {FileSystemEntry} from './FileSystemEntry';
 
 
-export abstract class File {
+export abstract class File extends FileSystemEntry {
+    public readonly size: MemorySize;
+
 
     protected constructor(
-        public readonly path: Path,
-        public readonly lastAccessTime: DateTime,
-        public readonly lastChangeTime: DateTime,
-        public readonly lastWriteTime: DateTime,
-        public readonly creationTime: DateTime,
-        public readonly accessPermissions: AccessPermissions,
-        public readonly deviceId: number,
-        public readonly specialDeviceId: number,
-        public readonly ownerUserId: number,
-        public readonly ownerGroupId: number,
-        public readonly size: MemorySize
-    ) {}
+        path: Path,
+        lastAccessTime: DateTime,
+        lastChangeTime: DateTime,
+        lastWriteTime: DateTime,
+        creationTime: DateTime,
+        accessPermissions: AccessPermissions,
+        deviceId: number | undefined,
+        specialDeviceId: number | undefined,
+        ownerUserId: number | undefined,
+        ownerGroupId: number | undefined,
+        size: MemorySize
+    ) {
+        super(path, lastAccessTime, lastChangeTime, lastWriteTime, creationTime, accessPermissions, deviceId, specialDeviceId, ownerUserId, ownerGroupId);
+        this.size = size;
+    }
 }

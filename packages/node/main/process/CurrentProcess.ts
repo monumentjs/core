@@ -4,7 +4,8 @@ import {DeferredObject} from '@monument/async/main/DeferredObject';
 import {Event} from '@monument/events/main/Event';
 import {EventArgs} from '@monument/events/main/EventArgs';
 import {ConfigurableEvent} from '@monument/events/main/ConfigurableEvent';
-import {Singleton} from '@monument/stereotype/main/Singleton';
+import {Component} from '@monument/stereotype/main/Component';
+import {Lazy} from '@monument/stereotype/main/Lazy';
 import {Path} from '../path/Path';
 import {ExitCode} from './ExitCode';
 import {Channel} from './Channel';
@@ -15,15 +16,16 @@ import {ProcessExitedEventArgs} from './ProcessExitedEventArgs';
 import {ProcessMessageReceivedEventArgs} from './ProcessMessageReceivedEventArgs';
 
 
-@Singleton
-export class CurrentProcess implements Channel, ProcessInfo {
+@Lazy
+@Component
+export class CurrentProcess implements Channel<any>, ProcessInfo {
     private readonly _process: NodeJS.Process = process;
-    private readonly _messageReceived: ConfigurableEvent<this, ProcessMessageReceivedEventArgs> = new ConfigurableEvent(this);
+    private readonly _messageReceived: ConfigurableEvent<this, ProcessMessageReceivedEventArgs<any>> = new ConfigurableEvent(this);
     private readonly _disconnected: ConfigurableEvent<this, EventArgs> = new ConfigurableEvent(this);
     private readonly _exited: ConfigurableEvent<this, ProcessExitedEventArgs> = new ConfigurableEvent(this);
 
 
-    public get messageReceived(): Event<this, ProcessMessageReceivedEventArgs> {
+    public get messageReceived(): Event<this, ProcessMessageReceivedEventArgs<any>> {
         return this._messageReceived;
     }
 
@@ -70,7 +72,7 @@ export class CurrentProcess implements Channel, ProcessInfo {
     }
 
 
-    public send(message: ProcessMessage): Promise<void> {
+    public send(message: ProcessMessage<any>): Promise<void> {
         const deferred: DeferredObject<void> = new DeferredObject();
 
         if (this._process.send != null) {

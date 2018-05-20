@@ -4,7 +4,7 @@ import {ChildProcess} from './ChildProcess';
 import {Fork} from './Fork';
 
 
-export class ForkPool extends ProcessPool {
+export class ForkPool<TMessage> extends ProcessPool<TMessage> {
     private readonly _moduleFile: Path;
     private readonly _args: string[];
 
@@ -17,7 +17,7 @@ export class ForkPool extends ProcessPool {
     }
 
 
-    protected createProcess(id: number): ChildProcess {
-        return new Fork(this._moduleFile, ...this._args, `--fork-id=${id}`);
+    protected createProcess(id: number): ChildProcess<TMessage> {
+        return new Fork<TMessage>(this._moduleFile, ...this._args, `--fork-id=${id}`);
     }
 }

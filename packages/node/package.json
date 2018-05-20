@@ -21,7 +21,7 @@
     "@monument/stereotype": "^0.0.52"
   },
   "devDependencies": {
-    "@types/node": "^10.0.10",
+    "@types/node": "^10.1.2",
     "@monument/test-drive": "^0.0.52"
   }
 }

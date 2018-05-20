@@ -2,28 +2,34 @@ import {Type} from '@monument/core/main/Type';
 import {ClassLoader} from '@monument/core/main/ClassLoader';
 import {Delegate} from '@monument/core/main/decorators/Delegate';
 import {Boot} from '@monument/application/main/decorators/Boot';
-import {NodeApplication} from '@monument/node/main/application/decorators/NodeApplication';
+import {Logger} from '@monument/logger/main/logger/Logger';
+import {LoggerModule} from '@monument/logger/main/LoggerModule';
+import {LoggerManager} from '@monument/logger/main/manager/LoggerManager';
+import {Application} from '@monument/stereotype/main/Application';
 import {CurrentProcess} from '@monument/node/main/process/CurrentProcess';
 import {ProcessMessage} from '@monument/node/main/process/ProcessMessage';
-import {LocalFileSystem} from '@monument/node/main/file-system/local/LocalFileSystem';
 import {ProcessMessageReceivedEventArgs} from '@monument/node/main/process/ProcessMessageReceivedEventArgs';
+import {CurrentProcessModule} from '@monument/node/main/process/CurrentProcessModule';
+import {LocalFileSystemModule} from '@monument/node/main/file-system/local/LocalFileSystemModule';
 import {Path} from '@monument/node/main/path/Path';
-import {Logger} from '@monument/logger/main/logger/Logger';
-import {LoggerManager} from '@monument/logger/main/manager/LoggerManager';
+import {Class} from '@monument/reflection/main/Class';
 import {ConfigurationModule} from '../modules/configuration/ConfigurationModule';
+import {TestCommand} from '../modules/reporter/TestCommand';
+import {TestFileReport} from '../modules/reporter/TestFileReport';
 import {AssertionModule} from '../modules/assert/AssertionModule';
-import {TestRunnerModule} from '../modules/runner/TestRunnerModule';
 import {TestRunner} from '../modules/runner/TestRunner';
-import {ClusterMessageType} from './communication/ClusterMessageType';
-import {RunTestFileResponseClusterMessage} from './communication/RunTestFileResponseClusterMessage';
+import {TestRunnerModule} from '../modules/runner/TestRunnerModule';
+import {MessageType} from './communication/MessageType';
+import {ProcessMessages} from './communication/ProcessMessages';
+import {Connection} from './communication/Connection';
 
 
 @Boot
-@NodeApplication({
-    components: [
-        LocalFileSystem
-    ],
+@Application({
     modules: [
+        LoggerModule,
+        CurrentProcessModule,
+        LocalFileSystemModule,
         AssertionModule,
         TestRunnerModule,
         ConfigurationModule
@@ -31,29 +37,31 @@ import {RunTestFileResponseClusterMessage} from './communication/RunTestFileResp
 })
 export class SlaveApplication {
     private readonly _classLoader: ClassLoader = new ClassLoader();
-    private readonly _process: CurrentProcess;
-    private readonly _runner: TestRunner;
+    private readonly _currentProcess: CurrentProcess;
+    private readonly _testRunner: TestRunner;
     private readonly _logger: Logger;
+    private readonly _connection: Connection;
 
 
-    public constructor(process: CurrentProcess, runner: TestRunner, loggerManager: LoggerManager) {
-        this._process = process;
-        this._runner = runner;
-        this._process.messageReceived.subscribe(this.onMessageReceived);
+    public constructor(process: CurrentProcess, testRunner: TestRunner, loggerManager: LoggerManager) {
         this._logger = loggerManager.getLogger(this.constructor.name);
+        this._currentProcess = process;
+        this._testRunner = testRunner;
+        this._currentProcess.messageReceived.subscribe(this.onMessageReceived);
+        this._connection = new Connection(this._currentProcess);
     }
 
 
     @Delegate
-    private async onMessageReceived(target: CurrentProcess, args: ProcessMessageReceivedEventArgs) {
-        const message: ProcessMessage = args.message;
+    private async onMessageReceived(target: CurrentProcess, args: ProcessMessageReceivedEventArgs<ProcessMessages>) {
+        const message: ProcessMessage<ProcessMessages> = args.message;
 
         await this._logger.debug('Message received ' + JSON.stringify(message));
 
         switch (message.payload.type) {
-            case ClusterMessageType.RUN_TEST_FILE_REQUEST:
-                await this.runTestFile(message.payload.filePath);
-                await this.reportBack(message.payload.filePath);
+            case MessageType.FILE_START:
+                await this.onFileStart(message.payload.path);
+
                 break;
 
             default:
@@ -61,31 +69,55 @@ export class SlaveApplication {
     }
 
 
-    private async runTestFile(filePath: string): Promise<void> {
+    private async onFileStart(filePath: string): Promise<void> {
         const path: Path = new Path(filePath);
+        const testClass: Class<object> | undefined = await this.loadTestClass(path);
 
-        await this._logger.debug('Start run test file ' + filePath);
-
-        try {
-            const constructor: Type<object> = await this._classLoader.load(path.toString(), path.baseNameWithoutExtension);
-
-            await this._runner.run(constructor);
-        } catch (e) {
-            await this._logger.error(e.message, e);
+        if (testClass != null) {
+            const report: TestFileReport = await this.runTestFile(path, testClass);
+            await this.reportBack(path, report);
+            await this.endTestFile(path);
         }
-
-        await this._logger.debug('End run test file ' + filePath);
     }
 
 
-    private async reportBack(filePath: string): Promise<void> {
-        await this._logger.debug('Report back ' + filePath);
+    private runTestFile(path: Path, testClass: Class<object>): Promise<TestFileReport> {
+        const testCommand: TestCommand = new TestCommand(path, testClass);
 
-        const message: RunTestFileResponseClusterMessage = {
-            type: ClusterMessageType.RUN_TEST_FILE_RESPONSE,
-            filePath: filePath
-        };
+        return this._testRunner.run(testCommand);
+    }
 
-        return this._process.send(new ProcessMessage(message));
+
+    private async endTestFile(path: Path): Promise<void> {
+        await this._logger.debug('File ending ' + path);
+
+        await this._connection.endFile(path);
+
+        await this._logger.debug('File ended ' + path);
+    }
+
+
+    private async reportBack(path: Path, report: TestFileReport): Promise<void> {
+        await this._logger.debug('Report back ' + path);
+
+        await this._connection.report(path, report);
+
+        await this._logger.debug('Report sent ' + path);
+    }
+
+
+    private async loadTestClass(path: Path): Promise<Class<object> | undefined> {
+        try {
+            const testConstructor: Type<object> = await this._classLoader.load(
+                path.toString(),
+                path.baseNameWithoutExtension
+            );
+
+            return Class.of(testConstructor);
+        } catch (e) {
+            await this._logger.error('Error loading test class', e);
+        }
+
+        return undefined;
     }
 }
