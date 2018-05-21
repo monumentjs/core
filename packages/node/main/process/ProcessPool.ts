@@ -11,33 +11,33 @@ import {ProcessExitedEventArgs} from './ProcessExitedEventArgs';
 import {ProcessMessageReceivedEventArgs} from './ProcessMessageReceivedEventArgs';
 
 
-export abstract class ProcessPool implements ChildProcess {
-    private readonly _messageReceived: ConfigurableEvent<this, ProcessMessageReceivedEventArgs> = new ConfigurableEvent(this);
+export abstract class ProcessPool<TMessage> implements ChildProcess<TMessage> {
+    private readonly _messageReceived: ConfigurableEvent<this, ProcessMessageReceivedEventArgs<TMessage>> = new ConfigurableEvent(this);
     private readonly _disconnected: ConfigurableEvent<this, EventArgs> = new ConfigurableEvent(this);
     private readonly _exited: ConfigurableEvent<this, ProcessExitedEventArgs> = new ConfigurableEvent(this);
     private readonly _closed: ConfigurableEvent<this, ProcessClosedEventArgs> = new ConfigurableEvent(this);
 
     private readonly _capacity: number;
-    private readonly _processes: ArrayList<ChildProcess> = new ArrayList();
+    private readonly _processes: ArrayList<ChildProcess<TMessage>> = new ArrayList();
     private readonly _indexGenerator: RepeatableNumberGenerator;
 
 
-    public get messageReceived(): Event<ChildProcess, ProcessMessageReceivedEventArgs> {
+    public get messageReceived(): Event<this, ProcessMessageReceivedEventArgs<TMessage>> {
         return this._messageReceived;
     }
 
 
-    public get exited(): Event<ChildProcess, ProcessExitedEventArgs> {
+    public get exited(): Event<this, ProcessExitedEventArgs> {
         return this._exited;
     }
 
 
-    public get closed(): Event<ChildProcess, ProcessClosedEventArgs> {
+    public get closed(): Event<this, ProcessClosedEventArgs> {
         return this._closed;
     }
 
 
-    public get disconnected(): Event<ChildProcess, EventArgs> {
+    public get disconnected(): Event<this, EventArgs> {
         return this._disconnected;
     }
 
@@ -62,15 +62,15 @@ export abstract class ProcessPool implements ChildProcess {
     }
 
 
-    public send(message: ProcessMessage): Promise<void> {
+    public send(message: ProcessMessage<TMessage>): Promise<void> {
         const index: number = this._indexGenerator.next();
-        const process: ChildProcess = this._processes.getAt(index);
+        const process: ChildProcess<TMessage> = this._processes.getAt(index);
 
         return process.send(message);
     }
 
 
-    protected abstract createProcess(id: number): ChildProcess;
+    protected abstract createProcess(id: number): ChildProcess<TMessage>;
 
 
     /**
@@ -84,8 +84,8 @@ export abstract class ProcessPool implements ChildProcess {
     }
 
 
-    private getProcess(id: number): ChildProcess {
-        const process: ChildProcess = this.createProcess(id);
+    private getProcess(id: number): ChildProcess<TMessage> {
+        const process: ChildProcess<TMessage> = this.createProcess(id);
 
         process.messageReceived.subscribe(this.onMessageReceived);
         process.disconnected.subscribe(this.onDisconnected);
@@ -97,25 +97,25 @@ export abstract class ProcessPool implements ChildProcess {
 
 
     @Delegate
-    private onMessageReceived(target: ChildProcess, args: ProcessMessageReceivedEventArgs) {
+    private onMessageReceived(target: ChildProcess<TMessage>, args: ProcessMessageReceivedEventArgs<TMessage>) {
         this._messageReceived.dispatch(args);
     }
 
 
     @Delegate
-    private onDisconnected(target: ChildProcess, args: EventArgs) {
+    private onDisconnected(target: ChildProcess<TMessage>, args: EventArgs) {
         this._disconnected.dispatch(args);
     }
 
 
     @Delegate
-    private onClosed(target: ChildProcess, args: ProcessClosedEventArgs) {
+    private onClosed(target: ChildProcess<TMessage>, args: ProcessClosedEventArgs) {
         this._closed.dispatch(args);
     }
 
 
     @Delegate
-    private onExited(target: ChildProcess, args: ProcessExitedEventArgs) {
+    private onExited(target: ChildProcess<TMessage>, args: ProcessExitedEventArgs) {
         this._exited.dispatch(args);
     }
 }

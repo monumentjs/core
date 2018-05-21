@@ -4,14 +4,12 @@ import {ApplicationDecorator} from './ApplicationDecorator';
 
 
 export function Application(configuration: {
-    components?: Array<Type<object>>,
     modules?: Array<Type<object>>
 } = {}) {
     return function (...args: any[]) {
         const decorator = new ApplicationDecorator(
             new ApplicationConfiguration(
-                configuration.modules,
-                configuration.components
+                configuration.modules
             )
         );
 

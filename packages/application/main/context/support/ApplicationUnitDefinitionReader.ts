@@ -18,11 +18,6 @@ export class ApplicationUnitDefinitionReader extends AbstractUnitDefinitionReade
             );
 
             if (configuration != null) {
-                for (const importedType of configuration.components) {
-                    definition.dependsOn.add(importedType);
-                    this.rootReader.scan(importedType);
-                }
-
                 for (const importedType of configuration.modules) {
                     definition.dependsOn.add(importedType);
                     this.rootReader.scan(importedType);

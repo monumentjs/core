@@ -14,15 +14,15 @@ import {ExitCode} from './ExitCode';
 import Signals = NodeJS.Signals;
 
 
-export abstract class AbstractChildProcess implements ChildProcess {
+export abstract class AbstractChildProcess<TMessage> implements ChildProcess<TMessage> {
     private readonly _process: NodeChildProcess;
-    private readonly _messageReceived: ConfigurableEvent<this, ProcessMessageReceivedEventArgs> = new ConfigurableEvent(this);
+    private readonly _messageReceived: ConfigurableEvent<this, ProcessMessageReceivedEventArgs<TMessage>> = new ConfigurableEvent(this);
     private readonly _disconnected: ConfigurableEvent<this, EventArgs> = new ConfigurableEvent(this);
     private readonly _exited: ConfigurableEvent<this, ProcessExitedEventArgs> = new ConfigurableEvent(this);
     private readonly _closed: ConfigurableEvent<this, ProcessClosedEventArgs> = new ConfigurableEvent(this);
 
 
-    public get messageReceived(): Event<this, ProcessMessageReceivedEventArgs> {
+    public get messageReceived(): Event<this, ProcessMessageReceivedEventArgs<TMessage>> {
         return this._messageReceived;
     }
 
@@ -62,7 +62,7 @@ export abstract class AbstractChildProcess implements ChildProcess {
     }
 
 
-    public send(message: ProcessMessage): Promise<void> {
+    public send(message: ProcessMessage<TMessage>): Promise<void> {
         const deferred: DeferredObject<void> = new DeferredObject();
 
         this._process.send(message.payload, message.socket || message.server, (error: Error) => {

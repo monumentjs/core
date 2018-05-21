@@ -20,13 +20,14 @@ import {
 } from 'fs';
 import {DeferredObject} from '@monument/async/main/DeferredObject';
 import {ArrayList} from '@monument/collections/main/ArrayList';
-import {Singleton} from '@monument/stereotype/main/Singleton';
+import {Component} from '@monument/stereotype/main/Component';
 import {Path} from '../../path/Path';
 import {FileStorage} from '../FileStorage';
 import {AccessPermissions} from '../AccessPermissions';
 import {IOException} from '../IOException';
 import {AccessMode} from '../AccessMode';
 import {DirectoryContent} from '../DirectoryContent';
+import {LocalLink} from './LocalLink';
 import {LocalFile} from './LocalFile';
 import {LocalDirectory} from './LocalDirectory';
 import {LocalFileInputStream} from './LocalFileInputStream';
@@ -34,7 +35,7 @@ import {LocalFileOutputStream} from './LocalFileOutputStream';
 import ErrnoException = NodeJS.ErrnoException;
 
 
-@Singleton
+@Component
 export class LocalFileSystem implements FileStorage {
 
     public async getFile(
@@ -93,7 +94,7 @@ export class LocalFileSystem implements FileStorage {
 
     public createDirectory(
         path: Path,
-        accessPermissions: AccessPermissions = AccessPermissions.ALL
+        accessPermissions: AccessPermissions = AccessPermissions.DEFAULT
     ): Promise<void> {
         const deferred: DeferredObject<void> = new DeferredObject();
 
@@ -111,7 +112,7 @@ export class LocalFileSystem implements FileStorage {
 
     public async createPath(
         path: Path,
-        accessPermissions: AccessPermissions = AccessPermissions.ALL
+        accessPermissions: AccessPermissions = AccessPermissions.DEFAULT
     ): Promise<void> {
         const names: string[] = path.split();
         const segments: string[] = [];
@@ -143,6 +144,7 @@ export class LocalFileSystem implements FileStorage {
 
         const directories: ArrayList<LocalDirectory> = new ArrayList();
         const files: ArrayList<LocalFile> = new ArrayList();
+        const links: ArrayList<LocalLink> = new ArrayList();
 
         for (const name of entryNames) {
             const currentPath: Path = path.resolve(new Path(name));
@@ -155,9 +157,13 @@ export class LocalFileSystem implements FileStorage {
             if (stats.isDirectory()) {
                 directories.add(new LocalDirectory(currentPath, stats));
             }
+
+            if (stats.isSymbolicLink()) {
+                links.add(new LocalLink(currentPath, stats));
+            }
         }
 
-        return new DirectoryContent(directories, files);
+        return new DirectoryContent(directories, files, links);
     }
 
 

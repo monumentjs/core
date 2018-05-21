@@ -3,7 +3,7 @@ import {Path} from '../path/Path';
 import {AbstractChildProcess} from './AbstractChildProcess';
 
 
-export class Fork extends AbstractChildProcess {
+export class Fork<TMessage> extends AbstractChildProcess<TMessage> {
 
     public constructor(moduleFile: Path, ...args: string[]) {
         super(fork(moduleFile.toString(), args, {

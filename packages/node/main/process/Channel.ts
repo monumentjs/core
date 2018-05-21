@@ -3,8 +3,8 @@ import {ProcessMessage} from './ProcessMessage';
 import {ProcessMessageReceivedEventArgs} from './ProcessMessageReceivedEventArgs';
 
 
-export interface Channel {
-    readonly messageReceived: Event<Channel, ProcessMessageReceivedEventArgs>;
+export interface Channel<TMessage> {
+    readonly messageReceived: Event<Channel<TMessage>, ProcessMessageReceivedEventArgs<TMessage>>;
 
-    send(message: ProcessMessage): Promise<void>;
+    send(message: ProcessMessage<TMessage>): Promise<void>;
 }

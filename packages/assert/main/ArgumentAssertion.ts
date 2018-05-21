@@ -1,9 +1,8 @@
-import {ArgumentNullException} from '@monument/core/main/exceptions/ArgumentNullException';
 import {Type} from '@monument/core/main/Type';
 import {ArgumentTypeException} from '@monument/core/main/exceptions/ArgumentTypeException';
 import {ArgumentRangeException} from '@monument/core/main/exceptions/ArgumentRangeException';
-import {ArgumentIndexOutOfBoundsException} from '@monument/core/main/exceptions/ArgumentIndexOutOfBoundsException';
 import {InvalidArgumentException} from '@monument/core/main/exceptions/InvalidArgumentException';
+import {ArgumentIndexOutOfBoundsException} from '@monument/core/main/exceptions/ArgumentIndexOutOfBoundsException';
 
 
 export class ArgumentAssertion {
@@ -18,15 +17,6 @@ export class ArgumentAssertion {
 
         this._argumentName = argumentName;
         this._argumentValue = argumentValue;
-    }
-
-
-    public notNull(): this {
-        if (this._argumentValue == null) {
-            throw new ArgumentNullException(this._argumentName);
-        }
-
-        return this;
     }
 
 

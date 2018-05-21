@@ -1,11 +1,10 @@
 import {Stats} from 'fs';
-import {MemorySize} from '@monument/core/main/MemorySize';
 import {DateTime} from '@monument/time/main/DateTime';
 import {Path} from '../../path/Path';
-import {File} from '../File';
+import {Link} from '../Link';
 
 
-export class LocalFile extends File {
+export class LocalLink extends Link {
 
     public constructor(path: Path, stats: Stats) {
         super(
@@ -18,8 +17,7 @@ export class LocalFile extends File {
             stats.dev,
             stats.rdev,
             stats.uid,
-            stats.gid,
-            new MemorySize(stats.size)
+            stats.gid
         );
     }
 }
