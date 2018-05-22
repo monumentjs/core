@@ -2,22 +2,25 @@ import {Decorator} from '@monument/reflection/main/Decorator';
 import {Class} from '@monument/reflection/main/Class';
 import {Method} from '@monument/reflection/main/Method';
 import {Unit} from './Unit';
-import {UnitConfiguration} from './UnitConfiguration';
+import {Type} from '@monument/core/main/Type';
+import {Key} from '@monument/object-model/main/attributes/Key';
 
 
 export class UnitDecorator extends Decorator {
-    private readonly _configuration: UnitConfiguration;
+    public static readonly TYPE: Key<Type<object>> = new Key();
+
+    private readonly _type: Type<object>;
 
 
-    public constructor(configuration: UnitConfiguration) {
+    public constructor(type: Type<object>) {
         super();
 
-        this._configuration = configuration;
+        this._type = type;
     }
 
 
     protected onMethod(klass: Class<any>, method: Method): void {
         method.decorate(Unit);
-        method.setAttribute(UnitConfiguration.ATTRIBUTE_KEY, this._configuration);
+        method.setAttribute(UnitDecorator.TYPE, this._type);
     }
 }

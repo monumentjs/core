@@ -3,10 +3,10 @@ import {ReadOnlyCollection} from '@monument/collections/main/ReadOnlyCollection'
 import {Class} from '@monument/reflection/main/Class';
 import {Method} from '@monument/reflection/main/Method';
 import {Configuration} from '@monument/stereotype/main/Configuration';
-import {UnitConfiguration} from '@monument/stereotype/main/UnitConfiguration';
 import {Unit} from '@monument/stereotype/main/Unit';
 import {UnitDefinition} from '../UnitDefinition';
 import {AbstractUnitDefinitionReader} from './AbstractUnitDefinitionReader';
+import {UnitDecorator} from '@monument/stereotype/main/UnitDecorator';
 
 
 export class ConfigurationUnitDefinitionReader extends AbstractUnitDefinitionReader {
@@ -22,12 +22,12 @@ export class ConfigurationUnitDefinitionReader extends AbstractUnitDefinitionRea
 
             for (const method of methods) {
                 if (method.isDecoratedWith(Unit)) {
-                    let configuration = method.getAttribute(UnitConfiguration.ATTRIBUTE_KEY);
+                    const unitType: Type<object> | undefined = method.getAttribute(UnitDecorator.TYPE);
 
-                    if (configuration != null) {
-                        this.rootReader.scan(configuration.type);
+                    if (unitType != null) {
+                        this.rootReader.scan(unitType);
 
-                        let unitDefinition: UnitDefinition = this.obtainUnitDefinition(configuration.type);
+                        let unitDefinition: UnitDefinition = this.obtainUnitDefinition(unitType);
 
                         unitDefinition.factoryMethodName = method.name;
                         unitDefinition.factoryUnitType = type;
