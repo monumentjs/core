@@ -14,7 +14,7 @@ export abstract class QueueSpec extends CollectionSpec {
 
 
     @BeforeEach
-    public setUpTest() {
+    public setup() {
         this.queue = this.create();
     }
 

@@ -1,17 +1,20 @@
+import {Type} from '@monument/core/main/Type';
 import {Class} from '@monument/reflection/main/Class';
+import {Key} from '@monument/object-model/main/attributes/Key';
 import {ConfigurationDecorator} from './ConfigurationDecorator';
 import {Module} from './Module';
-import {ModuleConfiguration} from './ModuleConfiguration';
 
 
 export class ModuleDecorator extends ConfigurationDecorator {
-    private readonly _configuration: ModuleConfiguration;
+    public static readonly COMPONENTS: Key<Array<Type<object>>> = new Key();
+
+    private readonly _components: Array<Type<object>>;
 
 
-    public constructor(configuration: ModuleConfiguration) {
+    public constructor(components: Array<Type<object>>) {
         super();
 
-        this._configuration = configuration;
+        this._components = components;
     }
 
 
@@ -19,6 +22,6 @@ export class ModuleDecorator extends ConfigurationDecorator {
         super.onClass(klass);
 
         klass.decorate(Module);
-        klass.setAttribute(ModuleConfiguration.ATTRIBUTE_KEY, this._configuration);
+        klass.setAttribute(ModuleDecorator.COMPONENTS, this._components);
     }
 }

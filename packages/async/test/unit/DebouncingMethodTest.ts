@@ -10,7 +10,7 @@ import {Ignore} from '@monument/test-drive/main/decorators/Ignore';
 const TEST_ARGUMENTS = [1, 2, 3];
 
 
-@Ignore
+@Ignore('Tests status depends on CPU performance')
 export class DebouncingMethodTest {
 
     @Test

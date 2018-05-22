@@ -19,7 +19,7 @@ export class LinkedListNodeTest {
 
 
     @BeforeEach
-    public setUpTest() {
+    public setup() {
         this.firstNode = new LinkedListNode(LinkedListNodeTest.FIRST_VALUE);
         this.previousNode = new LinkedListNode(LinkedListNodeTest.PREVIOUS_VALUE);
         this.currentNode = new LinkedListNode(LinkedListNodeTest.CURRENT_VALUE);

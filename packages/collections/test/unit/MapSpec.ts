@@ -19,7 +19,7 @@ export abstract class MapSpec {
 
 
     @BeforeEach
-    public 'create map'() {
+    public setup() {
         this.map = this.create(
             [
                 new KeyValuePair('One', 'ONE'),

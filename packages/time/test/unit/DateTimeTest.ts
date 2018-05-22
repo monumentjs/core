@@ -18,7 +18,7 @@ export class DateTimeTest {
 
 
     @BeforeEach
-    public setUpTest() {
+    public setup() {
         this.time = new DateTime(
             CURRENT_YEAR, CURRENT_MONTH, CURRENT_DAY_OF_MONTH,
             CURRENT_HOURS, CURRENT_MINUTES, CURRENT_SECONDS, CURRENT_MILLISECONDS

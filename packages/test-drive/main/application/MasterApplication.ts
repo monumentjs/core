@@ -4,7 +4,6 @@ import {DeferredObject} from '@monument/async/main/DeferredObject';
 import {Boot} from '@monument/application/main/decorators/Boot';
 import {Init} from '@monument/stereotype/main/Init';
 import {Application} from '@monument/stereotype/main/Application';
-import {Path} from '@monument/node/main/path/Path';
 import {File} from '@monument/node/main/file-system/File';
 import {ChildProcess} from '@monument/node/main/process/ChildProcess';
 import {CurrentProcess} from '@monument/node/main/process/CurrentProcess';
@@ -12,17 +11,18 @@ import {CurrentProcessModule} from '@monument/node/main/process/CurrentProcessMo
 import {LocalFileSystemModule} from '@monument/node/main/file-system/local/LocalFileSystemModule';
 import {FileSystemEntryProcessor} from '@monument/node/main/file-system/walker/FileSystemEntryProcessor';
 import {LoggerModule} from '@monument/logger/main/LoggerModule';
-import {ProjectModule} from '../project/ProjectModule';
+import {ProjectModule} from '@monument/project/main/ProjectModule';
 import {ProjectScanner} from '../project/scanner/ProjectScanner';
+import {ProjectScannerModule} from '../project/ProjectScannerModule';
 import {ConfigurationModule} from '../configuration/ConfigurationModule';
 import {TestReporterModule} from '../reporter/TestReporterModule';
+import {TestReportRegistry} from '../reporter/TestReportRegistry';
 import {TestReporter} from '../reporter/TestReporter';
 import {MasterConnection} from '../connection/MasterConnection';
+import {ConnectionModule} from '../connection/ConnectionModule';
 import {ProcessMessages} from '../connection/message/ProcessMessages';
 import {FileEndMessage} from '../connection/message/FileEndMessage';
 import {ReportMessage} from '../connection/message/ReportMessage';
-import {ConnectionModule} from '../connection/ConnectionModule';
-import {TestReportRegistry} from '../reporter/TestReportRegistry';
 
 
 @Boot
@@ -33,13 +33,12 @@ import {TestReportRegistry} from '../reporter/TestReportRegistry';
         LocalFileSystemModule,
         ConnectionModule,
         ProjectModule,
+        ProjectScannerModule,
         TestReporterModule,
         ConfigurationModule
     ]
 })
 export class MasterApplication implements FileSystemEntryProcessor {
-    private static readonly TEST_DIRECTORY: Path = new Path('./test');
-
     private readonly _currentProcess: CurrentProcess;
     private readonly _projectScanner: ProjectScanner;
     private readonly _pendingTests: ListMap<string, DeferredObject<void>> = new ListMap();
@@ -67,9 +66,7 @@ export class MasterApplication implements FileSystemEntryProcessor {
 
     @Init
     public async run() {
-        const path: Path = this._currentProcess.currentWorkingDirectory.resolve(MasterApplication.TEST_DIRECTORY);
-
-        await this._projectScanner.scan(path, this);
+        await this._projectScanner.scan(this);
 
         await this.printReports();
 

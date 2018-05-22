@@ -3,7 +3,7 @@ import {Class} from '@monument/reflection/main/Class';
 import {UnitDefinition} from '@monument/context/main/unit/definition/UnitDefinition';
 import {AbstractUnitDefinitionReader} from '@monument/context/main/unit/definition/reader/AbstractUnitDefinitionReader';
 import {Application} from '@monument/stereotype/main/Application';
-import {ApplicationConfiguration} from '@monument/stereotype/main/ApplicationConfiguration';
+import {ApplicationDecorator} from '@monument/stereotype/main/ApplicationDecorator';
 
 
 export class ApplicationUnitDefinitionReader extends AbstractUnitDefinitionReader {
@@ -13,14 +13,14 @@ export class ApplicationUnitDefinitionReader extends AbstractUnitDefinitionReade
 
         if (klass.isDecoratedWith(Application)) {
             const definition: UnitDefinition = this.obtainUnitDefinition(type);
-            const configuration: ApplicationConfiguration | undefined = klass.getDeclaredAttribute(
-                ApplicationConfiguration.ATTRIBUTE_KEY
+            const modules: Array<Type<object>> | undefined = klass.getDeclaredAttribute(
+                ApplicationDecorator.MODULES
             );
 
-            if (configuration != null) {
-                for (const importedType of configuration.modules) {
-                    definition.dependsOn.add(importedType);
-                    this.rootReader.scan(importedType);
+            if (modules != null) {
+                for (const module of modules) {
+                    definition.dependsOn.add(module);
+                    this.rootReader.scan(module);
                 }
             }
         }

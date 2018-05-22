@@ -21,6 +21,7 @@
     "@monument/collections": "^0.0.52",
     "@monument/events": "^0.0.52",
     "@monument/logger": "^0.0.52",
+    "@monument/project": "^0.0.52",
     "@monument/reflection": "^0.0.52",
     "@monument/stereotype": "^0.0.52",
     "@monument/time": "^0.0.52",

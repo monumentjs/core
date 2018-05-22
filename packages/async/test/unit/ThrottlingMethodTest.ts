@@ -1,16 +1,16 @@
 import {Test} from '@monument/test-drive/main/decorators/Test';
 import {Assert} from '@monument/test-drive/main/assert/Assert';
 import {FunctionMock} from '@monument/test-drive/main/mock/FunctionMock';
+import {Ignore} from '@monument/test-drive/main/decorators/Ignore';
 import {ThrottlingMethod} from '../../main/decorators/support/ThrottlingMethod';
 import {MethodCallEdge} from '../../main/decorators/support/MethodCallEdge';
 import {AsyncUtils} from '../../main/AsyncUtils';
-import {Ignore} from '@monument/test-drive/main/decorators/Ignore';
 
 
 const TEST_ARGUMENTS = [1, 2, 3];
 
 
-@Ignore
+@Ignore('Tests status depends on CPU performance')
 export class ThrottlingMethodTest {
 
     @Test

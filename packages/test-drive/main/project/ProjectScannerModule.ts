@@ -9,6 +9,6 @@ import {TestFileFilter} from './scanner/TestFileFilter';
         ProjectScanner
     ]
 })
-export class ProjectModule {
-    
+export class ProjectScannerModule {
+
 }

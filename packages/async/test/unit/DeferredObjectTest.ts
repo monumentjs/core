@@ -9,7 +9,7 @@ export class DeferredObjectTest {
 
 
     @BeforeEach
-    public setUpTest() {
+    public setup() {
         this.instance = new DeferredObject();
     }
 

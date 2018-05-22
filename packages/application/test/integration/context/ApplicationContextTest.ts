@@ -156,13 +156,13 @@ class PhoneApplication extends AbstractLifecycle implements Disposable {
 }
 
 
-@Ignore
+@Ignore('@DefaultType does not have effect')
 export class ApplicationContextTest {
     private readonly _context: ApplicationContext = new ApplicationContext();
 
 
     @BeforeAll
-    public async 'setup context'() {
+    public async setup() {
         this._context.scan(PhoneApplication);
 
         await this._context.initialize();
