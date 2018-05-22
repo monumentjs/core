@@ -4,11 +4,13 @@ import {FunctionMock} from '@monument/test-drive/main/mock/FunctionMock';
 import {ThrottlingMethod} from '../../main/decorators/support/ThrottlingMethod';
 import {MethodCallEdge} from '../../main/decorators/support/MethodCallEdge';
 import {AsyncUtils} from '../../main/AsyncUtils';
+import {Ignore} from '@monument/test-drive/main/decorators/Ignore';
 
 
 const TEST_ARGUMENTS = [1, 2, 3];
 
 
+@Ignore
 export class ThrottlingMethodTest {
 
     @Test

@@ -18,6 +18,7 @@ import {PostConstruct} from '@monument/stereotype/main/PostConstruct';
 import {PreDestroy} from '@monument/stereotype/main/PreDestroy';
 import {Destroy} from '@monument/stereotype/main/Destroy';
 import {ApplicationContext} from '../../../main/context/ApplicationContext';
+import {Ignore} from '@monument/test-drive/main/decorators/Ignore';
 
 
 interface PhoneCodeProvider {
@@ -155,6 +156,7 @@ class PhoneApplication extends AbstractLifecycle implements Disposable {
 }
 
 
+@Ignore
 export class ApplicationContextTest {
     private readonly _context: ApplicationContext = new ApplicationContext();
 

@@ -2,6 +2,7 @@ import {Component} from '@monument/stereotype/main/Component';
 import {LinkedList} from '@monument/collections/main/LinkedList';
 import {TestReport} from './TestReport';
 import {TestStatus} from './TestStatus';
+import {ReadOnlyList} from '@monument/collections/main/ReadOnlyList';
 
 
 @Component
@@ -10,9 +11,15 @@ export class TestReportRegistry {
     private _failedTestsCount: number = 0;
 
 
+    public get reports(): ReadOnlyList<TestReport> {
+        return this._reports;
+    }
+
+
     public get failedTestsCount(): number {
         return this._failedTestsCount;
     }
+
 
     public get hasFailedTests(): boolean {
         return this._failedTestsCount > 0;

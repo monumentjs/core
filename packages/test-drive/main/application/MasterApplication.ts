@@ -71,6 +71,8 @@ export class MasterApplication implements FileSystemEntryProcessor {
 
         await this._projectScanner.scan(path, this);
 
+        await this.printReports();
+
         await this._currentProcess.exit(this._testReportRegistry.hasFailedTests ? 1 : 0);
     }
 
@@ -97,9 +99,14 @@ export class MasterApplication implements FileSystemEntryProcessor {
 
 
     @Delegate
-    private onReported(target: ChildProcess<ProcessMessages>, message: ReportMessage): Promise<void> {
+    private onReported(target: ChildProcess<ProcessMessages>, message: ReportMessage): void {
         this._testReportRegistry.addReport(message.report);
+    }
 
-        return this._testReporter.report(message.report);
+
+    private async printReports() {
+        for (const report of this._testReportRegistry.reports) {
+            await this._testReporter.report(report);
+        }
     }
 }

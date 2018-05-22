@@ -92,7 +92,7 @@ export class StringUtilsTest {
         assert.equals(StringUtils.toKebabCase('person.name.length'), 'person-name-length');
         assert.equals(StringUtils.toKebabCase('.page-container'), 'page-container');
         assert.equals(StringUtils.toKebabCase('/api/contacts/list/{offset}/{limit}'), 'api-contacts-list-offset-limit');
-        assert.equals(StringUtils.toKebabCase('MAX_NUMBER_VALUE'), 'max-number-payload');
+        assert.equals(StringUtils.toKebabCase('MAX_NUMBER_VALUE'), 'max-number-value');
     }
 
 
@@ -211,15 +211,15 @@ export class StringUtilsTest {
 
         assert.equals(StringUtils.collectionToDelimitedString(new ArrayList([
             'text', 'value'
-        ]), ' '), 'text payload');
+        ]), ' '), 'text value');
 
         assert.equals(StringUtils.collectionToDelimitedString(new ArrayList([
             'text', 'value'
-        ]), ' ', '<'), '<text <payload');
+        ]), ' ', '<'), '<text <value');
 
         assert.equals(StringUtils.collectionToDelimitedString(new ArrayList([
             'text', 'value'
-        ]), ' ', '<', '>'), '<text> <payload>');
+        ]), ' ', '<', '>'), '<text> <value>');
     }
 
 
