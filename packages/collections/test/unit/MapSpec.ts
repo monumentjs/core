@@ -1,6 +1,6 @@
 import {BeforeEach} from '@monument/test-drive/main/decorators/BeforeEach';
 import {Test} from '@monument/test-drive/main/decorators/Test';
-import {Assert} from '@monument/test-drive/main/modules/assert/Assert';
+import {Assert} from '@monument/test-drive/main/assert/Assert';
 import {EqualityComparator} from '@monument/core/main/EqualityComparator';
 import {IgnoreCaseComparator} from '@monument/core/main/IgnoreCaseComparator';
 import {Map} from '../../main/Map';

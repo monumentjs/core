@@ -1,9 +1,9 @@
 import {MessageType} from './MessageType';
-import {SerializedTestReport} from '../../modules/reporter/SerializedTestReport';
+import {TestReport} from '../../reporter/TestReport';
 
 
 export interface ReportMessage {
     readonly type: MessageType.REPORT;
     readonly path: string;
-    readonly report: SerializedTestReport;
+    readonly report: TestReport;
 }

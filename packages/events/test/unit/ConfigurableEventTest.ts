@@ -1,6 +1,6 @@
 import {Test} from '@monument/test-drive/main/decorators/Test';
-import {Assert} from '@monument/test-drive/main/modules/assert/Assert';
-import {FunctionMock} from '@monument/test-drive/main/modules/mock/FunctionMock';
+import {Assert} from '@monument/test-drive/main/assert/Assert';
+import {FunctionMock} from '@monument/test-drive/main/mock/FunctionMock';
 import {ConfigurableEvent} from '../../main/ConfigurableEvent';
 import {EventHandler} from '../../main/EventHandler';
 

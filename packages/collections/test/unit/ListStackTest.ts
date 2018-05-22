@@ -1,5 +1,5 @@
 import {Test} from '@monument/test-drive/main/decorators/Test';
-import {Assert} from '@monument/test-drive/main/modules/assert/Assert';
+import {Assert} from '@monument/test-drive/main/assert/Assert';
 import {ListStack} from '../../main/ListStack';
 import {StackSpec} from './StackSpec';
 

@@ -1,6 +1,6 @@
 import {Exception} from '@monument/core/main/exceptions/Exception';
 import {Test} from '@monument/test-drive/main/decorators/Test';
-import {Assert} from '@monument/test-drive/main/modules/assert/Assert';
+import {Assert} from '@monument/test-drive/main/assert/Assert';
 import {Message} from '../../../main/message/Message';
 import {Level} from '../../../main/level/Level';
 import {Marker} from '../../../main/marker/Marker';

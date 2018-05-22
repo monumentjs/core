@@ -6,22 +6,20 @@ import {Logger} from '@monument/logger/main/logger/Logger';
 import {LoggerModule} from '@monument/logger/main/LoggerModule';
 import {LoggerManager} from '@monument/logger/main/manager/LoggerManager';
 import {Application} from '@monument/stereotype/main/Application';
-import {CurrentProcess} from '@monument/node/main/process/CurrentProcess';
-import {ProcessMessage} from '@monument/node/main/process/ProcessMessage';
-import {ProcessMessageReceivedEventArgs} from '@monument/node/main/process/ProcessMessageReceivedEventArgs';
 import {CurrentProcessModule} from '@monument/node/main/process/CurrentProcessModule';
 import {LocalFileSystemModule} from '@monument/node/main/file-system/local/LocalFileSystemModule';
 import {Path} from '@monument/node/main/path/Path';
+import {Channel} from '@monument/node/main/process/Channel';
 import {Class} from '@monument/reflection/main/Class';
-import {ConfigurationModule} from '../modules/configuration/ConfigurationModule';
-import {TestCommand} from '../modules/reporter/TestCommand';
-import {TestFileReport} from '../modules/reporter/TestFileReport';
-import {AssertionModule} from '../modules/assert/AssertionModule';
-import {TestRunner} from '../modules/runner/TestRunner';
-import {TestRunnerModule} from '../modules/runner/TestRunnerModule';
-import {MessageType} from './communication/MessageType';
-import {ProcessMessages} from './communication/ProcessMessages';
-import {Connection} from './communication/Connection';
+import {ConfigurationModule} from '../configuration/ConfigurationModule';
+import {TestCommand} from '../reporter/TestCommand';
+import {AssertionModule} from '../assert/AssertionModule';
+import {TestRunner} from '../runner/TestRunner';
+import {TestRunnerModule} from '../runner/TestRunnerModule';
+import {ProcessMessages} from '../connection/message/ProcessMessages';
+import {SlaveConnection} from '../connection/SlaveConnection';
+import {FileStartMessage} from '../connection/message/FileStartMessage';
+import {ConnectionModule} from '../connection/ConnectionModule';
 
 
 @Boot
@@ -30,6 +28,7 @@ import {Connection} from './communication/Connection';
         LoggerModule,
         CurrentProcessModule,
         LocalFileSystemModule,
+        ConnectionModule,
         AssertionModule,
         TestRunnerModule,
         ConfigurationModule
@@ -37,72 +36,32 @@ import {Connection} from './communication/Connection';
 })
 export class SlaveApplication {
     private readonly _classLoader: ClassLoader = new ClassLoader();
-    private readonly _currentProcess: CurrentProcess;
     private readonly _testRunner: TestRunner;
     private readonly _logger: Logger;
-    private readonly _connection: Connection;
+    private readonly _connection: SlaveConnection;
 
 
-    public constructor(process: CurrentProcess, testRunner: TestRunner, loggerManager: LoggerManager) {
+    public constructor(connection: SlaveConnection, testRunner: TestRunner, loggerManager: LoggerManager) {
         this._logger = loggerManager.getLogger(this.constructor.name);
-        this._currentProcess = process;
         this._testRunner = testRunner;
-        this._currentProcess.messageReceived.subscribe(this.onMessageReceived);
-        this._connection = new Connection(this._currentProcess);
+        this._connection = connection;
+
+        this._connection.fileStarted.subscribe(this.onFileStarted);
     }
 
 
     @Delegate
-    private async onMessageReceived(target: CurrentProcess, args: ProcessMessageReceivedEventArgs<ProcessMessages>) {
-        const message: ProcessMessage<ProcessMessages> = args.message;
-
-        await this._logger.debug('Message received ' + JSON.stringify(message));
-
-        switch (message.payload.type) {
-            case MessageType.FILE_START:
-                await this.onFileStart(message.payload.path);
-
-                break;
-
-            default:
-        }
-    }
-
-
-    private async onFileStart(filePath: string): Promise<void> {
-        const path: Path = new Path(filePath);
+    private async onFileStarted(target: Channel<ProcessMessages>, message: FileStartMessage) {
+        const path: Path = new Path(message.path);
         const testClass: Class<object> | undefined = await this.loadTestClass(path);
 
         if (testClass != null) {
-            const report: TestFileReport = await this.runTestFile(path, testClass);
-            await this.reportBack(path, report);
-            await this.endTestFile(path);
+            const testCommand: TestCommand = new TestCommand(path, testClass);
+
+            await this._testRunner.run(testCommand);
         }
-    }
-
-
-    private runTestFile(path: Path, testClass: Class<object>): Promise<TestFileReport> {
-        const testCommand: TestCommand = new TestCommand(path, testClass);
-
-        return this._testRunner.run(testCommand);
-    }
-
-
-    private async endTestFile(path: Path): Promise<void> {
-        await this._logger.debug('File ending ' + path);
 
         await this._connection.endFile(path);
-
-        await this._logger.debug('File ended ' + path);
-    }
-
-
-    private async reportBack(path: Path, report: TestFileReport): Promise<void> {
-        await this._logger.debug('Report back ' + path);
-
-        await this._connection.report(path, report);
-
-        await this._logger.debug('Report sent ' + path);
     }
 
 

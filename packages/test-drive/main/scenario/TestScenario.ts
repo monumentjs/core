@@ -2,12 +2,12 @@ import {ArrayList} from '@monument/collections/main/ArrayList';
 import {ReadOnlyCollection} from '@monument/collections/main/ReadOnlyCollection';
 import {Class} from '@monument/reflection/main/Class';
 import {Method} from '@monument/reflection/main/Method';
-import {Ignore} from '../../decorators/Ignore';
-import {Test} from '../../decorators/Test';
-import {BeforeAll} from '../../decorators/BeforeAll';
-import {AfterAll} from '../../decorators/AfterAll';
-import {BeforeEach} from '../../decorators/BeforeEach';
-import {AfterEach} from '../../decorators/AfterEach';
+import {Ignore} from '../decorators/Ignore';
+import {Test} from '../decorators/Test';
+import {BeforeAll} from '../decorators/BeforeAll';
+import {AfterAll} from '../decorators/AfterAll';
+import {BeforeEach} from '../decorators/BeforeEach';
+import {AfterEach} from '../decorators/AfterEach';
 
 
 export class TestScenario {

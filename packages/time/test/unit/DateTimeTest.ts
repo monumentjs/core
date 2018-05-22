@@ -1,4 +1,4 @@
-import {Assert} from '@monument/test-drive/main/modules/assert/Assert';
+import {Assert} from '@monument/test-drive/main/assert/Assert';
 import {BeforeEach} from '@monument/test-drive/main/decorators/BeforeEach';
 import {Test} from '@monument/test-drive/main/decorators/Test';
 import {DateTime} from '../../main/DateTime';

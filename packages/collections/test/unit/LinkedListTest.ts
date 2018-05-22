@@ -1,5 +1,5 @@
 import {Test} from '@monument/test-drive/main/decorators/Test';
-import {Assert} from '@monument/test-drive/main/modules/assert/Assert';
+import {Assert} from '@monument/test-drive/main/assert/Assert';
 import {IgnoreCaseComparator} from '@monument/core/main/IgnoreCaseComparator';
 import {LinkedList} from '../../main/LinkedList';
 import {ListSpec} from './ListSpec';

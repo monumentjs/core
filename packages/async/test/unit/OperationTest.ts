@@ -1,7 +1,7 @@
 import {Exception} from '@monument/core/main/exceptions/Exception';
 import {InvalidOperationException} from '@monument/core/main/exceptions/InvalidOperationException';
 import {Test} from '@monument/test-drive/main/decorators/Test';
-import {Assert} from '@monument/test-drive/main/modules/assert/Assert';
+import {Assert} from '@monument/test-drive/main/assert/Assert';
 import {TestOperation} from './support/TestOperation';
 
 

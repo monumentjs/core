@@ -17,6 +17,6 @@ export class LoggingConfiguration {
 
 
     private getMainAppender() {
-        return new ConsoleAppender(ConsoleMessageLayout.DEFAULT);
+        return new ConsoleAppender(ConsoleMessageLayout.SIMPLE);
     }
 }

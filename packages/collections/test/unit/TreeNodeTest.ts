@@ -1,5 +1,5 @@
-import {Assert} from '@monument/test-drive/main/modules/assert/Assert';
-import {FunctionMock} from '@monument/test-drive/main/modules/mock/FunctionMock';
+import {Assert} from '@monument/test-drive/main/assert/Assert';
+import {FunctionMock} from '@monument/test-drive/main/mock/FunctionMock';
 import {Test} from '@monument/test-drive/main/decorators/Test';
 import {BeforeEach} from '@monument/test-drive/main/decorators/BeforeEach';
 import {TreeNode} from '../../main/TreeNode';

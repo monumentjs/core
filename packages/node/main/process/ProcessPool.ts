@@ -12,14 +12,20 @@ import {ProcessMessageReceivedEventArgs} from './ProcessMessageReceivedEventArgs
 
 
 export abstract class ProcessPool<TMessage> implements ChildProcess<TMessage> {
-    private readonly _messageReceived: ConfigurableEvent<this, ProcessMessageReceivedEventArgs<TMessage>> = new ConfigurableEvent(this);
+    private readonly _messageReceived: ConfigurableEvent<this, ProcessMessageReceivedEventArgs<TMessage>> =
+        new ConfigurableEvent(this);
     private readonly _disconnected: ConfigurableEvent<this, EventArgs> = new ConfigurableEvent(this);
     private readonly _exited: ConfigurableEvent<this, ProcessExitedEventArgs> = new ConfigurableEvent(this);
     private readonly _closed: ConfigurableEvent<this, ProcessClosedEventArgs> = new ConfigurableEvent(this);
 
-    private readonly _capacity: number;
+    private readonly _size: number;
     private readonly _processes: ArrayList<ChildProcess<TMessage>> = new ArrayList();
     private readonly _indexGenerator: RepeatableNumberGenerator;
+
+
+    public get size(): number {
+        return this._size;
+    }
 
 
     public get messageReceived(): Event<this, ProcessMessageReceivedEventArgs<TMessage>> {
@@ -49,9 +55,9 @@ export abstract class ProcessPool<TMessage> implements ChildProcess<TMessage> {
     }
 
 
-    protected constructor(capacity: number) {
-        this._capacity = capacity;
-        this._indexGenerator = new RepeatableNumberGenerator(capacity);
+    protected constructor(size: number) {
+        this._size = size;
+        this._indexGenerator = new RepeatableNumberGenerator(size);
     }
 
 
@@ -62,7 +68,7 @@ export abstract class ProcessPool<TMessage> implements ChildProcess<TMessage> {
     }
 
 
-    public send(message: ProcessMessage<TMessage>): Promise<void> {
+    public async send(message: ProcessMessage<TMessage>): Promise<void> {
         const index: number = this._indexGenerator.next();
         const process: ChildProcess<TMessage> = this._processes.getAt(index);
 
@@ -78,7 +84,7 @@ export abstract class ProcessPool<TMessage> implements ChildProcess<TMessage> {
      * This method must be called in constructor after all properties set.
      */
     protected initialize() {
-        for (let id = 0; id < this._capacity; id++) {
+        for (let id = 0; id < this._size; id++) {
             this._processes.add(this.getProcess(id));
         }
     }

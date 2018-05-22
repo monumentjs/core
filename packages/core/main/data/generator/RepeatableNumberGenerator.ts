@@ -11,9 +11,9 @@ export class RepeatableNumberGenerator {
 
 
     public next(): number {
-        if (this._index < this._max) {
-            this._index++;
-        } else {
+        this._index++;
+
+        if (this._index >= this._max) {
             this._index = 0;
         }
 

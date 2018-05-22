@@ -1,7 +1,7 @@
 import {RangeException} from '@monument/core/main/exceptions/RangeException';
 import {ArgumentIndexOutOfBoundsException} from '@monument/core/main/exceptions/ArgumentIndexOutOfBoundsException';
 import {Test} from '@monument/test-drive/main/decorators/Test';
-import {Assert} from '@monument/test-drive/main/modules/assert/Assert';
+import {Assert} from '@monument/test-drive/main/assert/Assert';
 import {BitSet} from '../../main/BitSet';
 import {Collection} from '../../main/Collection';
 

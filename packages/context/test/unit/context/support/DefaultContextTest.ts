@@ -1,5 +1,5 @@
 import {ArrayList} from '@monument/collections/main/ArrayList';
-import {Assert} from '@monument/test-drive/main/modules/assert/Assert';
+import {Assert} from '@monument/test-drive/main/assert/Assert';
 import {Init} from '@monument/stereotype/main/Init';
 import {Destroy} from '@monument/stereotype/main/Destroy';
 import {PreDestroy} from '@monument/stereotype/main/PreDestroy';

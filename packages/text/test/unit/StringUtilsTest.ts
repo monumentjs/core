@@ -2,7 +2,7 @@ import {ArgumentRangeException} from '@monument/core/main/exceptions/ArgumentRan
 import {StringPool} from '@monument/core/main/StringPool';
 import {ArrayList} from '@monument/collections/main/ArrayList';
 import {Test} from '@monument/test-drive/main/decorators/Test';
-import {Assert} from '@monument/test-drive/main/modules/assert/Assert';
+import {Assert} from '@monument/test-drive/main/assert/Assert';
 import {StringUtils} from '../../main/StringUtils';
 
 

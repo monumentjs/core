@@ -1,6 +1,6 @@
-import {Assert} from '@monument/test-drive/main/modules/assert/Assert';
+import {Assert} from '@monument/test-drive/main/assert/Assert';
 import {Test} from '@monument/test-drive/main/decorators/Test';
-import {FunctionMock} from '@monument/test-drive/main/modules/mock/FunctionMock';
+import {FunctionMock} from '@monument/test-drive/main/mock/FunctionMock';
 import {ObservableValue} from '../../main/ObservableValue';
 
 

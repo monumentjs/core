@@ -1,6 +1,7 @@
+import {JSONSerializable} from '../JSONSerializable';
 
 
-export class Exception extends Error {
+export class Exception extends Error implements JSONSerializable<Error> {
     public static cast(error: Error): Exception {
         if (error instanceof Exception) {
             return error;
@@ -25,11 +26,11 @@ export class Exception extends Error {
     }
 
 
-    public toString(): string {
-        let error: string = `${this.name}: ${this.message}\n`;
-
-        error += `Stack:\n${this.stack}\n`;
-
-        return error;
+    public toJSON() {
+        return {
+            message: this.message,
+            name: this.name,
+            stack: this.stack
+        };
     }
 }

@@ -6,7 +6,7 @@ import {ListMap} from '@monument/collections/main/ListMap';
 import {ArrayList} from '@monument/collections/main/ArrayList';
 import {BeforeAll} from '@monument/test-drive/main/decorators/BeforeAll';
 import {Test} from '@monument/test-drive/main/decorators/Test';
-import {Assert} from '@monument/test-drive/main/modules/assert/Assert';
+import {Assert} from '@monument/test-drive/main/assert/Assert';
 import {Application} from '@monument/stereotype/main/Application';
 import {Module} from '@monument/stereotype/main/Module';
 import {Service} from '@monument/stereotype/main/Service';

@@ -1,31 +1,28 @@
-import {cpus} from 'os';
 import {Delegate} from '@monument/core/main/decorators/Delegate';
 import {ListMap} from '@monument/collections/main/ListMap';
 import {DeferredObject} from '@monument/async/main/DeferredObject';
 import {Boot} from '@monument/application/main/decorators/Boot';
 import {Init} from '@monument/stereotype/main/Init';
+import {Application} from '@monument/stereotype/main/Application';
 import {Path} from '@monument/node/main/path/Path';
 import {File} from '@monument/node/main/file-system/File';
-import {ForkPool} from '@monument/node/main/process/ForkPool';
 import {ChildProcess} from '@monument/node/main/process/ChildProcess';
 import {CurrentProcess} from '@monument/node/main/process/CurrentProcess';
-import {ProcessMessage} from '@monument/node/main/process/ProcessMessage';
-import {ProcessMessageReceivedEventArgs} from '@monument/node/main/process/ProcessMessageReceivedEventArgs';
 import {CurrentProcessModule} from '@monument/node/main/process/CurrentProcessModule';
-import {ProjectModule} from '../modules/project/ProjectModule';
-import {ProjectScanner} from '../modules/project/scanner/ProjectScanner';
-import {ConfigurationModule} from '../modules/configuration/ConfigurationModule';
-import {MessageType} from './communication/MessageType';
-import {SerializedTestReport} from '../modules/reporter/SerializedTestReport';
-import {TestReporterModule} from '../modules/reporter/TestReporterModule';
-import {TestReporter} from '../modules/reporter/TestReporter';
-import {TestFileReport} from '../modules/reporter/TestFileReport';
-import {Application} from '@monument/stereotype/main/Application';
-import {FileSystemEntryProcessor} from '@monument/node/main/file-system/walker/FileSystemEntryProcessor';
 import {LocalFileSystemModule} from '@monument/node/main/file-system/local/LocalFileSystemModule';
+import {FileSystemEntryProcessor} from '@monument/node/main/file-system/walker/FileSystemEntryProcessor';
 import {LoggerModule} from '@monument/logger/main/LoggerModule';
-import {ProcessMessages} from './communication/ProcessMessages';
-import {Connection} from './communication/Connection';
+import {ProjectModule} from '../project/ProjectModule';
+import {ProjectScanner} from '../project/scanner/ProjectScanner';
+import {ConfigurationModule} from '../configuration/ConfigurationModule';
+import {TestReporterModule} from '../reporter/TestReporterModule';
+import {TestReporter} from '../reporter/TestReporter';
+import {MasterConnection} from '../connection/MasterConnection';
+import {ProcessMessages} from '../connection/message/ProcessMessages';
+import {FileEndMessage} from '../connection/message/FileEndMessage';
+import {ReportMessage} from '../connection/message/ReportMessage';
+import {ConnectionModule} from '../connection/ConnectionModule';
+import {TestReportRegistry} from '../reporter/TestReportRegistry';
 
 
 @Boot
@@ -34,36 +31,37 @@ import {Connection} from './communication/Connection';
         LoggerModule,
         CurrentProcessModule,
         LocalFileSystemModule,
+        ConnectionModule,
         ProjectModule,
         TestReporterModule,
         ConfigurationModule
     ]
 })
 export class MasterApplication implements FileSystemEntryProcessor {
-    private static readonly SLAVE_APPLICATION_EXECUTABLE: Path = Path.resolve([
-        new Path(__dirname),
-        new Path('./SlaveApplication')
-    ]);
     private static readonly TEST_DIRECTORY: Path = new Path('./test');
 
     private readonly _currentProcess: CurrentProcess;
     private readonly _projectScanner: ProjectScanner;
-    private readonly _forkPool: ForkPool<ProcessMessages> = new ForkPool(cpus().length, MasterApplication.SLAVE_APPLICATION_EXECUTABLE);
     private readonly _pendingTests: ListMap<string, DeferredObject<void>> = new ListMap();
+    private readonly _connection: MasterConnection;
     private readonly _testReporter: TestReporter;
-    private readonly _connection: Connection;
+    private readonly _testReportRegistry: TestReportRegistry;
 
 
     public constructor(
+        connection: MasterConnection,
         currentProcess: CurrentProcess,
         projectScanner: ProjectScanner,
-        testReporter: TestReporter
+        testReporter: TestReporter,
+        testReportRegistry: TestReportRegistry
     ) {
         this._currentProcess = currentProcess;
         this._projectScanner = projectScanner;
         this._testReporter = testReporter;
-        this._forkPool.messageReceived.subscribe(this.onMessageReceived);
-        this._connection = new Connection(this._forkPool);
+        this._connection = connection;
+        this._testReportRegistry = testReportRegistry;
+        this._connection.fileEnded.subscribe(this.onFileEnded);
+        this._connection.reported.subscribe(this.onReported);
     }
 
 
@@ -73,47 +71,11 @@ export class MasterApplication implements FileSystemEntryProcessor {
 
         await this._projectScanner.scan(path, this);
 
-        await this._currentProcess.exit(0);
+        await this._currentProcess.exit(this._testReportRegistry.hasFailedTests ? 1 : 0);
     }
 
 
-    @Delegate
     public async onFile(file: File): Promise<void> {
-        return this.runTestFile(file);
-    }
-
-
-    @Delegate
-    private async onMessageReceived(target: ChildProcess<ProcessMessages>, args: ProcessMessageReceivedEventArgs<ProcessMessages>) {
-        const message: ProcessMessage<ProcessMessages> = args.message;
-
-        switch (message.payload.type) {
-            case MessageType.FILE_END:
-                await this.onFileEnd(message.payload.path);
-                break;
-
-            case MessageType.REPORT:
-                await this.onReport(message.payload.report);
-                break;
-
-            default:
-        }
-    }
-
-
-    private async onReport(report: SerializedTestReport): Promise<void> {
-        await this._testReporter.report(TestFileReport.fromJSON(report));
-    }
-
-
-    private async onFileEnd(path: string): Promise<void> {
-        this.endTestFile(path);
-    }
-
-
-    private async runTestFile(file: File) {
-        await this._logger.debug('Run test file ' + file.path.toString());
-
         const deferred: DeferredObject<void> = new DeferredObject();
 
         this._pendingTests.put(file.path.toString(), deferred);
@@ -124,11 +86,20 @@ export class MasterApplication implements FileSystemEntryProcessor {
     }
 
 
-    private endTestFile(filePath: string) {
-        const deferred: DeferredObject<void> | undefined = this._pendingTests.remove(filePath);
+    @Delegate
+    private onFileEnded(target: ChildProcess<ProcessMessages>, message: FileEndMessage): void {
+        const deferred: DeferredObject<void> | undefined = this._pendingTests.remove(message.path);
 
         if (deferred != null) {
             deferred.resolve();
         }
+    }
+
+
+    @Delegate
+    private onReported(target: ChildProcess<ProcessMessages>, message: ReportMessage): Promise<void> {
+        this._testReportRegistry.addReport(message.report);
+
+        return this._testReporter.report(message.report);
     }
 }

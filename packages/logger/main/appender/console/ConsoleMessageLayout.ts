@@ -9,8 +9,8 @@ export class ConsoleMessageLayout {
         new TemplateString('[{level}] {loggerName}: {text}'),
         new TemplateString('[{level}] {loggerName}: {text}'),
         new TemplateString('[{level}] {loggerName}: {text}'),
-        new TemplateString('[{level}] {loggerName}: {text}\r\n{error}'),
-        new TemplateString('[{level}] {loggerName}: {text}\r\n{error}')
+        new TemplateString('[{level}] {loggerName}: {text}\n{error}'),
+        new TemplateString('[{level}] {loggerName}: {text}\n{error}')
     );
 
     public static readonly SIMPLE: ConsoleMessageLayout = new ConsoleMessageLayout(
@@ -18,8 +18,8 @@ export class ConsoleMessageLayout {
         new TemplateString('{text}'),
         new TemplateString('{text}'),
         new TemplateString('{text}'),
-        new TemplateString('{text}\n\n{error}'),
-        new TemplateString('{text}\n\n{error}')
+        new TemplateString('{text}\n{error}'),
+        new TemplateString('{text}\n{error}')
     );
 
 
