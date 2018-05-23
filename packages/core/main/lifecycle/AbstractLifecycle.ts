@@ -1,18 +1,24 @@
 import {Lifecycle} from './Lifecycle';
 import {LifecycleState} from './LifecycleState';
+import {InvalidStateException} from '../exceptions/InvalidStateException';
 
 
 export class AbstractLifecycle implements Lifecycle {
-    private _state: LifecycleState = LifecycleState.INITIALIZED;
+    private _state: LifecycleState = LifecycleState.PENDING;
 
 
     public get isInitialized(): boolean {
-        return this._state === LifecycleState.INITIALIZED;
+        return this._state >= LifecycleState.INITIALIZED;
+    }
+
+
+    public get isInitializing(): boolean {
+        return this._state === LifecycleState.INITIALIZING;
     }
 
 
     public get isStarted(): boolean {
-        return this._state === LifecycleState.STARTED;
+        return this._state >= LifecycleState.STARTED;
     }
 
 
@@ -77,6 +83,12 @@ export class AbstractLifecycle implements Lifecycle {
 
 
     private setState(state: LifecycleState): void {
+        if (state <= this._state) {
+            throw new InvalidStateException(
+                `Transition from state ${LifecycleState[this._state]} to ${LifecycleState[state]} is not possible.`
+            );
+        }
+
         this._state = state;
     }
 }

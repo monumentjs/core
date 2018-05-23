@@ -2,8 +2,6 @@ import {Type} from '@monument/core/main/Type';
 import {ReadOnlyMap} from '@monument/collections/main/ReadOnlyMap';
 import {Method} from '@monument/reflection/main/Method';
 import {Parameter} from '@monument/reflection/main/Parameter';
-import {DefaultType} from '@monument/stereotype/main/DefaultType';
-import {DefaultTypeConfiguration} from '@monument/stereotype/main/DefaultTypeConfiguration';
 import {UnitFactory} from '../UnitFactory';
 import {UnitRequest} from '../UnitRequest';
 
@@ -27,16 +25,8 @@ export class MethodInvoker {
     public async getArguments(request: UnitRequest<object>, parameters: ReadOnlyMap<number, Parameter>): Promise<any[]> {
         const args: any[] = [];
 
-        for (let {key, value: parameter} of parameters) {
-            let parameterType: Type<any> | undefined = parameter.type;
-
-            if (parameter.isDecoratedWith(DefaultType)) {
-                let configuration = parameter.getAttribute(DefaultTypeConfiguration.ATTRIBUTE_KEY);
-
-                if (configuration != null) {
-                    parameterType = configuration.defaultType;
-                }
-            }
+        for (const {key, value: parameter} of parameters) {
+            const parameterType: Type<any> | undefined = parameter.type;
 
             if (parameterType != null) {
                 args[key] = await this._factory.getUnit(request.next(parameterType));

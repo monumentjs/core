@@ -1,6 +1,8 @@
 
 
 export enum LifecycleState {
+    PENDING,
+
     INITIALIZING,
     INITIALIZED,
 

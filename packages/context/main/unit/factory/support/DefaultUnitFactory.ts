@@ -206,7 +206,7 @@ export class DefaultUnitFactory implements ConfigurableListableUnitFactory {
         factoryUnitType: Type<T>,
         factoryMethodName: string | symbol
     ): Promise<object> {
-        const factoryRequest = request.next(factoryUnitType);
+        const factoryRequest: UnitRequest<object> = request.next(factoryUnitType);
         const factoryClass: Class<T> = Class.of(factoryUnitType);
         const factoryMethod: Method = factoryClass.getMethod(factoryMethodName);
         const factoryInstance: object = await this.getUnit(factoryRequest);

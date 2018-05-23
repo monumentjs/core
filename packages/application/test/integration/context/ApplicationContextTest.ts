@@ -12,13 +12,12 @@ import {Module} from '@monument/stereotype/main/Module';
 import {Service} from '@monument/stereotype/main/Service';
 import {Lazy} from '@monument/stereotype/main/Lazy';
 import {Init} from '@monument/stereotype/main/Init';
-import {DefaultType} from '@monument/stereotype/main/DefaultType';
 import {Unit} from '@monument/stereotype/main/Unit';
 import {PostConstruct} from '@monument/stereotype/main/PostConstruct';
 import {PreDestroy} from '@monument/stereotype/main/PreDestroy';
 import {Destroy} from '@monument/stereotype/main/Destroy';
 import {ApplicationContext} from '../../../main/context/ApplicationContext';
-import {Ignore} from '@monument/test-drive/main/decorators/Ignore';
+import {Configuration} from '@monument/stereotype/main/Configuration';
 
 
 interface PhoneCodeProvider {
@@ -74,6 +73,27 @@ class PhoneCallProcess {
 }
 
 
+@Configuration
+class PhoneCodeRegistryConfiguration {
+    private readonly _phoneCodeProvider: PhoneCodeProviderImpl;
+
+
+    public constructor(
+        phoneCodeProvider: PhoneCodeProviderImpl
+    ) {
+        this._phoneCodeProvider = phoneCodeProvider;
+    }
+
+
+    @Unit(PhoneCodeRegistry)
+    public async phoneCodeRegistry(): Promise<PhoneCodeRegistry> {
+        const codes: ReadOnlyMap<string, string> = await this._phoneCodeProvider.getAllCodes();
+
+        return new PhoneCodeRegistry(codes);
+    }
+}
+
+
 @Module({
     components: [
         PhoneCallProcess,
@@ -82,34 +102,30 @@ class PhoneCallProcess {
     ]
 })
 class PhoneCodeModule {
-    private readonly _phoneCodeProvider: PhoneCodeProvider;
+
+}
 
 
-    public constructor(
-        @DefaultType(PhoneCodeProviderImpl) phoneCodeProvider: PhoneCodeProvider
-    ) {
-        this._phoneCodeProvider = phoneCodeProvider;
-    }
+@Module({
+    components: [
+        PhoneCodeRegistryConfiguration
+    ]
+})
+class ConfigurationModule {
 
-
-    @Unit(PhoneCodeRegistry)
-    public async getPhoneCodeRegistry(): Promise<PhoneCodeRegistry> {
-        let codes = await this._phoneCodeProvider.getAllCodes();
-
-        return new PhoneCodeRegistry(codes);
-    }
 }
 
 
 @Application({
     modules: [
-        PhoneCodeModule
+        PhoneCodeModule,
+        ConfigurationModule
     ]
 })
 class PhoneApplication extends AbstractLifecycle implements Disposable {
-    public isDisposed = false;
+    public isDisposed: boolean = false;
     public phoneCodeRegistry: PhoneCodeRegistry;
-    public postConstructCalls = new ArrayList();
+    public postConstructCalls: ArrayList<string> = new ArrayList();
 
 
     public constructor(phoneCodeRegistry: PhoneCodeRegistry) {
@@ -120,7 +136,7 @@ class PhoneApplication extends AbstractLifecycle implements Disposable {
 
 
     @PostConstruct
-    public validate() {
+    public validate(): void {
         if (this.phoneCodeRegistry.length === 0) {
             throw new Exception('Phone code registry cannot be empty.');
         }
@@ -130,7 +146,7 @@ class PhoneApplication extends AbstractLifecycle implements Disposable {
 
 
     @PostConstruct
-    public initialize() {
+    public initialize(): Promise<void> {
         this.postConstructCalls.add('initialize');
 
         return super.initialize();
@@ -138,25 +154,24 @@ class PhoneApplication extends AbstractLifecycle implements Disposable {
 
 
     @Init
-    public start() {
+    public start(): Promise<void> {
         return super.start();
     }
 
 
     @PreDestroy
-    public stop() {
+    public stop(): Promise<void> {
         return super.stop();
     }
 
 
     @Destroy
-    public async dispose() {
+    public dispose(): void {
         this.isDisposed = true;
     }
 }
 
 
-@Ignore('@DefaultType does not have effect')
 export class ApplicationContextTest {
     private readonly _context: ApplicationContext = new ApplicationContext();
 
@@ -174,8 +189,8 @@ export class ApplicationContextTest {
     public async 'provides fully configured instances of specified class'(assert: Assert) {
         let app: PhoneApplication = await this._context.getUnit(PhoneApplication);
 
-        assert.true(app.isStarted);
         assert.true(app.isInitialized);
+        assert.true(app.isStarted);
         assert.false(app.isDisposed);
         assert.true(app.postConstructCalls.contains('validate'));
         assert.true(app.postConstructCalls.contains('initialize'));
