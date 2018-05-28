@@ -1,6 +1,6 @@
 {
   "name": "@monument/core",
-  "version": "1.0.0-alpha.1",
+  "version": "0.9.0",
   "description": "Core module of TypeScript standard library",
   "keywords": [
     "typescript",
@@ -14,6 +14,6 @@
   "dependencies": {
   },
   "devDependencies": {
-    "@monument/test-drive": "^1.0.0-alpha.1"
+    "@monument/test-drive": "^0.9.0"
   }
 }

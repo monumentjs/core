@@ -1,6 +1,6 @@
 {
   "name": "@monument/template",
-  "version": "1.0.0-alpha.1",
+  "version": "0.9.0",
   "description": "Template",
   "keywords": [
 
@@ -9,10 +9,10 @@
     "test": "td"
   },
   "dependencies": {
-    "@monument/core": "^1.0.0-alpha.1",
-    "@monument/collections": "^1.0.0-alpha.1"
+    "@monument/core": "^0.9.0",
+    "@monument/collections": "^0.9.0"
   },
   "devDependencies": {
-    "@monument/test-drive": "^1.0.0-alpha.1"
+    "@monument/test-drive": "^0.9.0"
   }
 }

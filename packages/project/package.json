@@ -1,6 +1,6 @@
 {
   "name": "@monument/project",
-  "version": "1.0.0-alpha.1",
+  "version": "0.9.0",
   "description": "Project structure",
   "keywords": [
   ],
@@ -8,11 +8,11 @@
     "test": "td"
   },
   "dependencies": {
-    "@monument/core": "^1.0.0-alpha.1",
-    "@monument/decorators": "^1.0.0-alpha.1",
-    "@monument/node": "^1.0.0-alpha.1"
+    "@monument/core": "^0.9.0",
+    "@monument/decorators": "^0.9.0",
+    "@monument/node": "^0.9.0"
   },
   "devDependencies": {
-    "@monument/test-drive": "^1.0.0-alpha.1"
+    "@monument/test-drive": "^0.9.0"
   }
 }

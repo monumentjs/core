@@ -1,6 +1,6 @@
 {
   "name": "@monument/test-drive",
-  "version": "1.0.0-alpha.1",
+  "version": "0.9.0",
   "description": "Test runner",
   "keywords": [
     "test",
@@ -14,20 +14,20 @@
   },
   "dependencies": {
     "deep-equal": "^1.0.1",
-    "@monument/application": "^1.0.0-alpha.1",
-    "@monument/async": "^1.0.0-alpha.1",
-    "@monument/context": "^1.0.0-alpha.1",
-    "@monument/core": "^1.0.0-alpha.1",
-    "@monument/collections": "^1.0.0-alpha.1",
-    "@monument/events": "^1.0.0-alpha.1",
-    "@monument/logger": "^1.0.0-alpha.1",
-    "@monument/object-model": "^1.0.0-alpha.1",
-    "@monument/project": "^1.0.0-alpha.1",
-    "@monument/reflection": "^1.0.0-alpha.1",
-    "@monument/decorators": "^1.0.0-alpha.1",
-    "@monument/time": "^1.0.0-alpha.1",
-    "@monument/text": "^1.0.0-alpha.1",
-    "@monument/node": "^1.0.0-alpha.1"
+    "@monument/application": "^0.9.0",
+    "@monument/async": "^0.9.0",
+    "@monument/context": "^0.9.0",
+    "@monument/core": "^0.9.0",
+    "@monument/collections": "^0.9.0",
+    "@monument/events": "^0.9.0",
+    "@monument/logger": "^0.9.0",
+    "@monument/object-model": "^0.9.0",
+    "@monument/project": "^0.9.0",
+    "@monument/reflection": "^0.9.0",
+    "@monument/decorators": "^0.9.0",
+    "@monument/time": "^0.9.0",
+    "@monument/text": "^0.9.0",
+    "@monument/node": "^0.9.0"
   },
   "devDependencies": {
     "@types/deep-equal": "^1.0.1"

@@ -1,11 +1,11 @@
 {
   "name": "@monument/pub-sub",
-  "version": "1.0.0-alpha.1",
+  "version": "0.9.0",
   "description": "Publisher-subscriber pattern implementation",
   "keywords": [
   ],
   "dependencies": {
-    "@monument/core": "^1.0.0-alpha.1",
-    "@monument/collections": "^1.0.0-alpha.1"
+    "@monument/core": "^0.9.0",
+    "@monument/collections": "^0.9.0"
   }
 }
