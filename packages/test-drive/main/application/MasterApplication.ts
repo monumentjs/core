@@ -11,6 +11,8 @@ import {CurrentProcessModule} from '@monument/node/main/process/CurrentProcessMo
 import {LocalFileSystemModule} from '@monument/node/main/file-system/local/LocalFileSystemModule';
 import {FileSystemEntryProcessor} from '@monument/node/main/file-system/walker/FileSystemEntryProcessor';
 import {SystemInfoModule} from '@monument/node/main/system/info/SystemInfoModule';
+import {Logger} from '@monument/logger/main/logger/Logger';
+import {LoggerManager} from '@monument/logger/main/manager/LoggerManager';
 import {LoggerModule} from '@monument/logger/main/LoggerModule';
 import {ProjectModule} from '@monument/project/main/ProjectModule';
 import {ProjectScanner} from '../project/scanner/ProjectScanner';
@@ -47,6 +49,7 @@ export class MasterApplication implements FileSystemEntryProcessor {
     private readonly _connection: MasterConnection;
     private readonly _testReporter: TestReporter;
     private readonly _testReportRegistry: TestReportRegistry;
+    private readonly _logger: Logger;
 
 
     public constructor(
@@ -54,41 +57,52 @@ export class MasterApplication implements FileSystemEntryProcessor {
         currentProcess: CurrentProcess,
         projectScanner: ProjectScanner,
         testReporter: TestReporter,
-        testReportRegistry: TestReportRegistry
+        testReportRegistry: TestReportRegistry,
+        loggerManager: LoggerManager
     ) {
+        this._logger = loggerManager.getLogger(this.constructor.name);
         this._currentProcess = currentProcess;
         this._projectScanner = projectScanner;
         this._testReporter = testReporter;
         this._connection = connection;
         this._testReportRegistry = testReportRegistry;
-        this._connection.fileEnded.subscribe(this.onFileEnded);
-        this._connection.reported.subscribe(this.onReported);
+        this._connection.fileEnded.subscribe(this.handleFileEnded);
+        this._connection.reported.subscribe(this.handleReported);
     }
 
 
     @Init
     public async run() {
+        await this._logger.info('Running tests in ' + this._currentProcess.currentWorkingDirectory.toString());
         await this._projectScanner.scan(this);
 
+        await this._logger.info('REPORT');
         await this.printReports();
 
-        await this._currentProcess.exit(this._testReportRegistry.hasFailedTests ? 1 : 0);
+        const exitCode: number = this._testReportRegistry.hasFailedTests ? 1 : 0;
+
+        await this._logger.debug('Exit with code: ' + exitCode);
+        await this._currentProcess.exit(exitCode);
     }
 
 
     public async onFile(file: File): Promise<void> {
+        await this._logger.debug('Run file ' + file.path.toString());
+
         const deferred: DeferredObject<void> = new DeferredObject();
 
         this._pendingTests.put(file.path.toString(), deferred);
 
         await this._connection.startFile(file.path);
 
-        return deferred.promise;
+        await deferred.promise;
+
+        await this._logger.debug('End file ' + file.path.toString());
     }
 
 
     @Delegate
-    private onFileEnded(target: ChildProcess<ProcessMessages>, message: FileEndMessage): void {
+    private handleFileEnded(target: ChildProcess<ProcessMessages>, message: FileEndMessage): void {
         const deferred: DeferredObject<void> | undefined = this._pendingTests.remove(message.path);
 
         if (deferred != null) {
@@ -98,7 +112,7 @@ export class MasterApplication implements FileSystemEntryProcessor {
 
 
     @Delegate
-    private onReported(target: ChildProcess<ProcessMessages>, message: ReportMessage): void {
+    private handleReported(target: ChildProcess<ProcessMessages>, message: ReportMessage): void {
         this._testReportRegistry.addReport(message.report);
     }
 
