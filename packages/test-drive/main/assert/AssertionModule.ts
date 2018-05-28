@@ -1,10 +1,12 @@
-import {Module} from '@monument/stereotype/main/Module';
+import {DeepEqualityComparator} from '@monument/core/main/utils/DeepEqualityComparator';
+import {Module} from '@monument/decorators/main/stereotype/Module';
 import {Assert} from './Assert';
 
 
 @Module({
     components: [
-        Assert
+        Assert,
+        DeepEqualityComparator
     ]
 })
 export class AssertionModule {

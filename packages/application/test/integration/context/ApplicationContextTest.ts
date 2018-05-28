@@ -7,17 +7,17 @@ import {ArrayList} from '@monument/collections/main/ArrayList';
 import {BeforeAll} from '@monument/test-drive/main/decorators/BeforeAll';
 import {Test} from '@monument/test-drive/main/decorators/Test';
 import {Assert} from '@monument/test-drive/main/assert/Assert';
-import {Application} from '@monument/stereotype/main/Application';
-import {Module} from '@monument/stereotype/main/Module';
-import {Service} from '@monument/stereotype/main/Service';
-import {Lazy} from '@monument/stereotype/main/Lazy';
-import {Init} from '@monument/stereotype/main/Init';
-import {Unit} from '@monument/stereotype/main/Unit';
-import {PostConstruct} from '@monument/stereotype/main/PostConstruct';
-import {PreDestroy} from '@monument/stereotype/main/PreDestroy';
-import {Destroy} from '@monument/stereotype/main/Destroy';
+import {Application} from '@monument/decorators/main/stereotype/Application';
+import {Module} from '@monument/decorators/main/stereotype/Module';
+import {Service} from '@monument/decorators/main/stereotype/Service';
+import {Configuration} from '@monument/decorators/main/stereotype/Configuration';
+import {Lazy} from '@monument/decorators/main/stereotype/configuration/Lazy';
+import {Init} from '@monument/decorators/main/stereotype/lifecycle/Init';
+import {PostConstruct} from '@monument/decorators/main/stereotype/lifecycle/PostConstruct';
+import {PreDestroy} from '@monument/decorators/main/stereotype/lifecycle/PreDestroy';
+import {Destroy} from '@monument/decorators/main/stereotype/lifecycle/Destroy';
+import {Unit} from '@monument/decorators/main/stereotype/Unit';
 import {ApplicationContext} from '../../../main/context/ApplicationContext';
-import {Configuration} from '@monument/stereotype/main/Configuration';
 
 
 interface PhoneCodeProvider {

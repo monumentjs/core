@@ -1,15 +1,16 @@
-import {Singleton} from '@monument/stereotype/main/Singleton';
-import {Lazy} from '@monument/stereotype/main/Lazy';
+import {Singleton} from '@monument/decorators/main/stereotype/Singleton';
+import {Lazy} from '@monument/decorators/main/stereotype/configuration/Lazy';
+import {Path} from '@monument/node/main/path/Path';
 
 
 @Lazy
 @Singleton
 export class PackageLayout {
-    public readonly mainDirectory: string = './main';
-    public readonly testDirectory: string = './test';
+    public readonly executableFileExtension: string = '.js';
+    public readonly mainDirectory: Path = new Path('./main');
+    public readonly testDirectory: Path = new Path('./test');
     public readonly testFileNameSuffix: string = 'Test';
-    public readonly testFileExtension: string = '.js';
-    public readonly unitTestDirectory: string = './test/unit';
-    public readonly integrationTestDirectory: string = './test/integration';
-    public readonly endToEndTestDirectory: string = './test/e2e';
+    public readonly unitTestDirectory: Path = new Path('./test/unit');
+    public readonly integrationTestDirectory: Path = new Path('./test/integration');
+    public readonly endToEndTestDirectory: Path = new Path('./test/e2e');
 }

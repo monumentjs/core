@@ -103,6 +103,6 @@ export abstract class AbstractOutputStream<T, TBase extends Writable & Closeable
 
     @Delegate
     protected onBaseStreamFailed(error: Error): void {
-        this._failed.dispatch(new ErrorEventArgs(Exception.cast(error)));
+        this._failed.trigger(new ErrorEventArgs(Exception.cast(error)));
     }
 }

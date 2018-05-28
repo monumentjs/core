@@ -154,7 +154,7 @@ export class Process extends AbstractComponent {
         this._nativeProcess.on('error', this.onError);
         this._nativeProcess.on('message', this.onMessage);
 
-        this._started.dispatch(new ProcessEventArgs());
+        this._started.trigger(new ProcessEventArgs());
     }
 
 
@@ -282,7 +282,7 @@ export class Process extends AbstractComponent {
 
     @Delegate
     private onDisconnect(): void {
-        this._disconnected.dispatch(new ProcessEventArgs());
+        this._disconnected.trigger(new ProcessEventArgs());
     }
 
 
@@ -310,7 +310,7 @@ export class Process extends AbstractComponent {
 
     @Delegate
     private onError(error: Error): void {
-        this._error.dispatch(new ErrorEventArgs(error));
+        this._error.trigger(new ErrorEventArgs(error));
     }
 
 
@@ -320,7 +320,7 @@ export class Process extends AbstractComponent {
 
         message.handle = handle;
 
-        this._messageReceived.dispatch(new ProcessMessageEventArgs(message));
+        this._messageReceived.trigger(new ProcessMessageEventArgs(message));
     }
 
 
@@ -328,7 +328,7 @@ export class Process extends AbstractComponent {
         if (this._exitCode == null) {
             this._exitCode = exitCode;
 
-            this._exited.dispatch(new ProcessEventArgs());
+            this._exited.trigger(new ProcessEventArgs());
         }
     }
 
@@ -337,7 +337,7 @@ export class Process extends AbstractComponent {
         if (this._terminationSignal == null) {
             this._terminationSignal = terminationSignal;
 
-            this._terminated.dispatch(new ProcessEventArgs());
+            this._terminated.trigger(new ProcessEventArgs());
         }
     }
 
@@ -346,7 +346,7 @@ export class Process extends AbstractComponent {
         if (this._exitCode == null) {
             this._exitCode = exitCode;
 
-            this._closed.dispatch(new ProcessEventArgs());
+            this._closed.trigger(new ProcessEventArgs());
         }
     }
 

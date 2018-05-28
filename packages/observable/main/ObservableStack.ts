@@ -1,7 +1,6 @@
 import {Disposable} from '@monument/core/main/Disposable';
 import {Cloneable} from '@monument/core/main/Cloneable';
 import {EqualityComparator} from '@monument/core/main/EqualityComparator';
-import {NullSafeEqualityComparator} from '@monument/core/main/NullSafeEqualityComparator';
 import {Enumerable} from '@monument/collections/main/Enumerable';
 import {IteratorFunction} from '@monument/collections/main/IteratorFunction';
 import {ListStack} from '@monument/collections/main/ListStack';
@@ -12,7 +11,7 @@ import {NotifyCollectionChanged} from './NotifyCollectionChanged';
 
 
 export class ObservableStack<T> extends ListStack<T> implements Cloneable<ObservableStack<T>>, Disposable, NotifyCollectionChanged<T> {
-    private readonly _collectionChanged: ConfigurableEvent<this, CollectionChangedEventArgs> = new ConfigurableEvent(this);
+    private readonly _collectionChanged: ConfigurableEvent<this, CollectionChangedEventArgs> = new ConfigurableEvent();
 
 
     public get collectionChanged(): Event<this, CollectionChangedEventArgs> {
@@ -82,7 +81,7 @@ export class ObservableStack<T> extends ListStack<T> implements Cloneable<Observ
 
     public retainAll(
         otherItems: Enumerable<T>,
-        comparator: EqualityComparator<T> = NullSafeEqualityComparator.instance
+        comparator?: EqualityComparator<T>
     ): boolean {
         if (super.retainAll(otherItems, comparator)) {
             this.onCollectionChanged();
@@ -120,6 +119,6 @@ export class ObservableStack<T> extends ListStack<T> implements Cloneable<Observ
 
 
     protected onCollectionChanged() {
-        this._collectionChanged.dispatch(new CollectionChangedEventArgs());
+        this._collectionChanged.trigger(this, new CollectionChangedEventArgs());
     }
 }

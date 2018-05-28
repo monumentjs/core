@@ -1,4 +1,4 @@
-import {Module} from '@monument/stereotype/main/Module';
+import {Module} from '@monument/decorators/main/stereotype/Module';
 import {Environment} from './Environment';
 
 
@@ -8,5 +8,5 @@ import {Environment} from './Environment';
     ]
 })
 export class EnvironmentModule {
-    
+
 }

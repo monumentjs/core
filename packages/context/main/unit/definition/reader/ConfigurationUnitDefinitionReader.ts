@@ -2,11 +2,11 @@ import {Type} from '@monument/core/main/Type';
 import {ReadOnlyCollection} from '@monument/collections/main/ReadOnlyCollection';
 import {Class} from '@monument/reflection/main/Class';
 import {Method} from '@monument/reflection/main/Method';
-import {Configuration} from '@monument/stereotype/main/Configuration';
-import {Unit} from '@monument/stereotype/main/Unit';
+import {Configuration} from '@monument/decorators/main/stereotype/Configuration';
+import {Unit} from '@monument/decorators/main/stereotype/Unit';
 import {UnitDefinition} from '../UnitDefinition';
 import {AbstractUnitDefinitionReader} from './AbstractUnitDefinitionReader';
-import {UnitDecorator} from '@monument/stereotype/main/UnitDecorator';
+import {UnitDecorator} from '@monument/decorators/main/stereotype/UnitDecorator';
 
 
 export class ConfigurationUnitDefinitionReader extends AbstractUnitDefinitionReader {

@@ -13,7 +13,7 @@ import {ObservableCollection} from './ObservableCollection';
 export abstract class AbstractObservableList<T> implements List<T>, ObservableCollection<T> {
     private readonly _items: List<T>;
 
-    public readonly collectionChanged: ConfigurableEvent<this, CollectionChangedEventArgs> = new ConfigurableEvent(this);
+    public readonly collectionChanged: ConfigurableEvent<this, CollectionChangedEventArgs> = new ConfigurableEvent();
 
 
     public get isEmpty(): boolean {
@@ -312,6 +312,6 @@ export abstract class AbstractObservableList<T> implements List<T>, ObservableCo
 
 
     protected onCollectionChanged(): void {
-        this.collectionChanged.dispatch(new CollectionChangedEventArgs());
+        this.collectionChanged.trigger(this, new CollectionChangedEventArgs());
     }
 }

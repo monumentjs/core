@@ -3,14 +3,14 @@ import {BeforeEach} from '@monument/test-drive/main/decorators/BeforeEach';
 import {AfterEach} from '@monument/test-drive/main/decorators/AfterEach';
 import {Assert} from '@monument/test-drive/main/assert/Assert';
 import {Test} from '@monument/test-drive/main/decorators/Test';
-import {Init} from '@monument/stereotype/main/Init';
-import {Destroy} from '@monument/stereotype/main/Destroy';
-import {Service} from '@monument/stereotype/main/Service';
-import {Singleton} from '@monument/stereotype/main/Singleton';
-import {Component} from '@monument/stereotype/main/Component';
-import {PreDestroy} from '@monument/stereotype/main/PreDestroy';
-import {Injectable} from '@monument/stereotype/main/Injectable';
-import {PostConstruct} from '@monument/stereotype/main/PostConstruct';
+import {Init} from '@monument/decorators/main/stereotype/lifecycle/Init';
+import {Destroy} from '@monument/decorators/main/stereotype/lifecycle/Destroy';
+import {Service} from '@monument/decorators/main/stereotype/Service';
+import {Singleton} from '@monument/decorators/main/stereotype/Singleton';
+import {Component} from '@monument/decorators/main/stereotype/Component';
+import {PreDestroy} from '@monument/decorators/main/stereotype/lifecycle/PreDestroy';
+import {Injectable} from '@monument/decorators/main/base/Injectable';
+import {PostConstruct} from '@monument/decorators/main/stereotype/lifecycle/PostConstruct';
 import {DefaultContext} from '../../../../main/context/support/DefaultContext';
 import {NoSuchUnitDefinitionException} from '../../../../main/unit/NoSuchUnitDefinitionException';
 
@@ -84,8 +84,14 @@ export class DefaultContextTest {
 
     @BeforeEach
     public async setup() {
-        this.parent = new DefaultContext(undefined, Arg);
-        this.context = new DefaultContext(this.parent, Example, ComponentExample, SingletonExample, ServiceExample);
+        this.parent = new DefaultContext();
+        this.context = new DefaultContext(this.parent);
+
+        this.parent.scan(Arg);
+        this.context.scan(Example);
+        this.context.scan(ComponentExample);
+        this.context.scan(SingletonExample);
+        this.context.scan(ServiceExample);
 
         await this.context.initialize();
         await this.context.start();

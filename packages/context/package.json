@@ -1,6 +1,6 @@
 {
   "name": "@monument/context",
-  "version": "0.0.52",
+  "version": "1.0.0-alpha.1",
   "description": "Inversion of control",
   "keywords": [
     "ioc",
@@ -17,15 +17,15 @@
     "test": "td"
   },
   "dependencies": {
-    "@monument/assert": "^0.0.52",
-    "@monument/core": "^0.0.52",
-    "@monument/collections": "^0.0.52",
-    "@monument/object-model": "^0.0.52",
-    "@monument/reflection": "^0.0.52",
-    "@monument/stereotype": "^0.0.52",
-    "@monument/text": "^0.0.52"
+    "@monument/assert": "^1.0.0-alpha.1",
+    "@monument/core": "^1.0.0-alpha.1",
+    "@monument/collections": "^1.0.0-alpha.1",
+    "@monument/object-model": "^1.0.0-alpha.1",
+    "@monument/reflection": "^1.0.0-alpha.1",
+    "@monument/decorators": "^1.0.0-alpha.1",
+    "@monument/text": "^1.0.0-alpha.1"
   },
   "devDependencies": {
-    "@monument/test-drive": "^0.0.52"
+    "@monument/test-drive": "^1.0.0-alpha.1"
   }
 }

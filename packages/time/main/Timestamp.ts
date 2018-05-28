@@ -24,7 +24,7 @@ export class Timestamp implements JSONSerializable<number> {
     }
 
 
-    private _value: number;
+    private readonly _value: number;
 
 
     public constructor(value: number) {

@@ -2,10 +2,10 @@ import {Type} from '@monument/core/main/Type';
 import {ReadOnlyMap} from '@monument/collections/main/ReadOnlyMap';
 import {Class} from '@monument/reflection/main/Class';
 import {Parameter} from '@monument/reflection/main/Parameter';
-import {Component} from '@monument/stereotype/main/Component';
-import {Lazy} from '@monument/stereotype/main/Lazy';
-import {Primary} from '@monument/stereotype/main/Primary';
-import {Singleton} from '@monument/stereotype/main/Singleton';
+import {Component} from '@monument/decorators/main/stereotype/Component';
+import {Lazy} from '@monument/decorators/main/stereotype/configuration/Lazy';
+import {Primary} from '@monument/decorators/main/stereotype/configuration/Primary';
+import {Singleton} from '@monument/decorators/main/stereotype/Singleton';
 import {UnitDefinition} from '../UnitDefinition';
 import {AbstractUnitDefinitionReader} from './AbstractUnitDefinitionReader';
 

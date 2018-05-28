@@ -1,7 +1,8 @@
 import {ReadStream} from 'fs';
-import {DeferredObject} from '@monument/async/main/DeferredObject';
+import {InvalidStateException} from '@monument/core/main/exceptions/InvalidStateException';
 import {MemorySize} from '@monument/core/main/MemorySize';
 import {Delegate} from '@monument/core/main/decorators/Delegate';
+import {DeferredObject} from '@monument/async/main/DeferredObject';
 import {ListQueue} from '@monument/collections/main/ListQueue';
 import {Event} from '@monument/events/main/Event';
 import {EventArgs} from '@monument/events/main/EventArgs';
@@ -12,13 +13,14 @@ import {FileInputStream} from '../stream/FileInputStream';
 
 
 export class LocalFileInputStream implements FileInputStream {
-    private readonly _closed: ConfigurableEvent<this, EventArgs> = new ConfigurableEvent(this);
-    private readonly _ended: ConfigurableEvent<this, EventArgs> = new ConfigurableEvent(this);
+    private readonly _closed: ConfigurableEvent<this, EventArgs> = new ConfigurableEvent();
+    private readonly _ended: ConfigurableEvent<this, EventArgs> = new ConfigurableEvent();
     private readonly _readCommands: ListQueue<DeferredObject<Buffer | undefined>> = new ListQueue();
-    private readonly _closeCommands: ListQueue<DeferredObject<void>> = new ListQueue();
     private readonly _stream: ReadStream;
     private readonly _path: Path;
+    private _closeCommand: DeferredObject<void> | undefined;
     private _isClosed: boolean = false;
+    private _isClosing: boolean = false;
     private _isEnded: boolean = false;
 
 
@@ -83,16 +85,16 @@ export class LocalFileInputStream implements FileInputStream {
 
 
     public async close(): Promise<void> {
-        if (this.isClosed) {
-            return;
+        if (this._isClosed === false && this._isClosing === false) {
+            this._isClosing = true;
+
+            this._closeCommand = new DeferredObject();
+            this._stream.close();
+
+            return this._closeCommand.promise;
         }
 
-        const deferred: DeferredObject<void> = new DeferredObject();
-
-        this._closeCommands.enqueue(deferred);
-        this._stream.close();
-
-        return deferred.promise;
+        throw new InvalidStateException(`Cannot close stream because it's already closed or closing in process.`);
     }
 
 
@@ -111,12 +113,14 @@ export class LocalFileInputStream implements FileInputStream {
 
     @Delegate
     private onClose() {
-        if (this._isClosed === false) {
+        if (this._closeCommand != null) {
+            this._isClosing = false;
             this._isClosed = true;
 
-            for (const command of this._closeCommands) {
-                command.resolve();
-            }
+            this._closeCommand.resolve();
+            this._closeCommand = undefined;
+
+            this._closed.trigger(this, new EventArgs());
         }
     }
 
@@ -128,8 +132,10 @@ export class LocalFileInputStream implements FileInputStream {
         while (!this._readCommands.isEmpty) {
             const deferred: DeferredObject<Buffer | undefined> = this._readCommands.pop();
 
-            deferred.reject(new StreamException('Stream ended.'));
+            deferred.reject(new StreamException('Cannot read from stream: stream ended.'));
         }
+
+        this._ended.trigger(this, new EventArgs());
     }
 
 

@@ -9,8 +9,8 @@ export class ForkPool<TMessage> extends ProcessPool<TMessage> {
     private readonly _args: string[];
 
 
-    public constructor(capacity: number, moduleFile: Path, ...args: string[]) {
-        super(capacity);
+    public constructor(size: number, moduleFile: Path, ...args: string[]) {
+        super(size);
         this._moduleFile = moduleFile;
         this._args = args;
         this.initialize();

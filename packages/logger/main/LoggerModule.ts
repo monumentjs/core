@@ -1,4 +1,4 @@
-import {Module} from '@monument/stereotype/main/Module';
+import {Module} from '@monument/decorators/main/stereotype/Module';
 import {LoggerManager} from './manager/LoggerManager';
 
 

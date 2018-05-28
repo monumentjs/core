@@ -1,8 +1,9 @@
-import {Component} from '@monument/stereotype/main/Component';
+import {Component} from '@monument/decorators/main/stereotype/Component';
 import {Logger} from '@monument/logger/main/logger/Logger';
 import {LoggerManager} from '@monument/logger/main/manager/LoggerManager';
 import {TestReport} from './TestReport';
 import {TestStatus} from './TestStatus';
+import {Exception} from '@monument/core/main/exceptions/Exception';
 
 
 @Component
@@ -20,7 +21,7 @@ export class TestReporter {
         const message = `${TestStatus[status]} in ${duration}ms: ${testClassName} > ${testMethodName}`;
 
         if (report.status === TestStatus.FAILED) {
-            await this._logger.error(message, report.error);
+            await this._logger.error(message, Exception.cast(report.error as Error));
         } else {
             await this._logger.info(message);
         }

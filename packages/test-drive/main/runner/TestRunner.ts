@@ -4,7 +4,7 @@ import {Context} from '@monument/context/main/context/Context';
 import {UnitRequest} from '@monument/context/main/unit/factory/UnitRequest';
 import {LoggerManager} from '@monument/logger/main/manager/LoggerManager';
 import {Logger} from '@monument/logger/main/logger/Logger';
-import {Component} from '@monument/stereotype/main/Component';
+import {Component} from '@monument/decorators/main/stereotype/Component';
 import {Method} from '@monument/reflection/main/Method';
 import {TestContext} from '../context/TestContext';
 import {TestScenario} from '../scenario/TestScenario';
@@ -12,6 +12,7 @@ import {SlaveConnection} from '../connection/SlaveConnection';
 import {TestCommand} from '../reporter/TestCommand';
 import {TestReport} from '../reporter/TestReport';
 import {TestStatus} from '../reporter/TestStatus';
+import {Exception} from '@monument/core/main/exceptions/Exception';
 
 
 @Component
@@ -75,17 +76,17 @@ export class TestRunner implements ContextAware {
 
 
     private async invokeMethod(context: TestContext, command: TestCommand, method: Method, instance: object): Promise<void> {
-        let error: Error | undefined;
+        let error: Exception | undefined;
 
-        const startTime = Date.now();
+        const startTime: number = Date.now();
 
         try {
             await context.invoke(new UnitRequest(command.testClass.type), instance, method);
         } catch (e) {
-            error = e;
+            error = Exception.cast(e);
         }
 
-        const endTime = Date.now();
+        const endTime: number = Date.now();
 
         const report: TestReport = {
             testFilePath: command.filePath.toString(),
@@ -101,7 +102,9 @@ export class TestRunner implements ContextAware {
 
 
     private async createTestsContext(type: Type<object>): Promise<TestContext> {
-        const context: TestContext = new TestContext(this._parentContext, type);
+        const context: TestContext = new TestContext(this._parentContext);
+
+        context.scan(type);
 
         await context.initialize();
         await context.start();

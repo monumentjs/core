@@ -1,21 +1,22 @@
-import {Type} from '@monument/core/main/Type';
 import {Context} from '@monument/context/main/context/Context';
 import {DefaultContext} from '@monument/context/main/context/support/DefaultContext';
 import {MethodInvoker} from '@monument/context/main/unit/factory/support/MethodInvoker';
 import {UnitRequest} from '@monument/context/main/unit/factory/UnitRequest';
 import {Method} from '@monument/reflection/main/Method';
+import {TestConfigurationUnitDefinitionReader} from './support/TestConfigurationUnitDefinitionReader';
 
 
 export class TestContext extends DefaultContext {
     private readonly _invoker: MethodInvoker;
 
-    public readonly testConstructor: Type<object>;
 
+    public constructor(parent?: Context) {
+        super(parent);
 
-    public constructor(parent: Context | undefined, testConstructor: Type<object>) {
-        super(parent, testConstructor);
+        this.addUnitDefinitionReader(
+            new TestConfigurationUnitDefinitionReader(this.unitDefinitionRegistry, this)
+        );
 
-        this.testConstructor = testConstructor;
         this._invoker = new MethodInvoker(this);
     }
 

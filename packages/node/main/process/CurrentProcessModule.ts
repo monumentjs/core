@@ -1,4 +1,4 @@
-import {Module} from '@monument/stereotype/main/Module';
+import {Module} from '@monument/decorators/main/stereotype/Module';
 import {CurrentProcess} from './CurrentProcess';
 
 
@@ -8,5 +8,5 @@ import {CurrentProcess} from './CurrentProcess';
     ]
 })
 export class CurrentProcessModule {
-    
+
 }

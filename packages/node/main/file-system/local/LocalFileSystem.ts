@@ -20,7 +20,7 @@ import {
 } from 'fs';
 import {DeferredObject} from '@monument/async/main/DeferredObject';
 import {ArrayList} from '@monument/collections/main/ArrayList';
-import {Component} from '@monument/stereotype/main/Component';
+import {Component} from '@monument/decorators/main/stereotype/Component';
 import {Path} from '../../path/Path';
 import {FileStorage} from '../FileStorage';
 import {AccessPermissions} from '../AccessPermissions';

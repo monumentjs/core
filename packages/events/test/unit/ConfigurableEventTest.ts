@@ -11,13 +11,13 @@ export class ConfigurableEventTest {
     public 'event handler invoked with event args'(assert: Assert) {
         const mock: FunctionMock<EventHandler<object, number>> = new FunctionMock();
         const target: object = {};
-        const event: ConfigurableEvent<object, number> = new ConfigurableEvent(target);
+        const event: ConfigurableEvent<object, number> = new ConfigurableEvent();
 
         assert.equals(mock.calls.length, 0);
 
         assert.true(event.subscribe(mock.value));
 
-        event.dispatch(123);
+        event.trigger(target, 123);
 
         assert.equals(mock.calls.length, 1);
         assert.true(mock.testCallArguments(0, [target, 123]));
@@ -28,15 +28,15 @@ export class ConfigurableEventTest {
     public 'event handler not invoked after being unsubscribed'(assert: Assert) {
         const mock: FunctionMock<EventHandler<object, number>> = new FunctionMock();
         const target: object = {};
-        const event: ConfigurableEvent<object, number> = new ConfigurableEvent(target);
+        const event: ConfigurableEvent<object, number> = new ConfigurableEvent();
 
         assert.true(event.subscribe(mock.value));
 
-        event.dispatch(123);
+        event.trigger(target, 123);
 
         assert.true(event.unsubscribe(mock.value));
 
-        event.dispatch(456);
+        event.trigger(target, 456);
 
         assert.equals(mock.calls.length, 1);
         assert.true(mock.testCallArguments(0, [target, 123]));
@@ -47,15 +47,15 @@ export class ConfigurableEventTest {
     public 'event handlers detached when event is disposed'(assert: Assert) {
         const mock: FunctionMock<EventHandler<object, number>> = new FunctionMock();
         const target: object = {};
-        const event: ConfigurableEvent<object, number> = new ConfigurableEvent(target);
+        const event: ConfigurableEvent<object, number> = new ConfigurableEvent();
 
         assert.true(event.subscribe(mock.value));
 
-        event.dispatch(123);
+        event.trigger(target, 123);
 
         event.dispose();
 
-        event.dispatch(456);
+        event.trigger(target, 456);
 
         assert.equals(mock.calls.length, 1);
         assert.true(mock.testCallArguments(0, [target, 123]));

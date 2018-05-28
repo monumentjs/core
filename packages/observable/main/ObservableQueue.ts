@@ -1,6 +1,5 @@
 import {Disposable} from '@monument/core/main/Disposable';
 import {EqualityComparator} from '@monument/core/main/EqualityComparator';
-import {NullSafeEqualityComparator} from '@monument/core/main/NullSafeEqualityComparator';
 import {IteratorFunction} from '@monument/collections/main/IteratorFunction';
 import {Enumerable} from '@monument/collections/main/Enumerable';
 import {ListQueue} from '@monument/collections/main/ListQueue';
@@ -11,7 +10,7 @@ import {NotifyCollectionChanged} from './NotifyCollectionChanged';
 
 
 export class ObservableQueue<T> extends ListQueue<T> implements Disposable, NotifyCollectionChanged<T> {
-    private readonly _collectionChanged: ConfigurableEvent<this, CollectionChangedEventArgs> = new ConfigurableEvent(this);
+    private readonly _collectionChanged: ConfigurableEvent<this, CollectionChangedEventArgs> = new ConfigurableEvent();
 
 
     public get collectionChanged(): Event<this, CollectionChangedEventArgs> {
@@ -81,7 +80,7 @@ export class ObservableQueue<T> extends ListQueue<T> implements Disposable, Noti
 
     public retainAll(
         otherItems: Enumerable<T>,
-        comparator: EqualityComparator<T> = NullSafeEqualityComparator.instance
+        comparator?: EqualityComparator<T>
     ): boolean {
         if (super.retainAll(otherItems, comparator)) {
             this.onCollectionChanged();
@@ -119,6 +118,6 @@ export class ObservableQueue<T> extends ListQueue<T> implements Disposable, Noti
 
 
     protected onCollectionChanged() {
-        this._collectionChanged.dispatch(new CollectionChangedEventArgs());
+        this._collectionChanged.trigger(this, new CollectionChangedEventArgs());
     }
 }

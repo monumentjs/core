@@ -1,5 +1,5 @@
-import {Component} from '@monument/stereotype/main/Component';
-import {Lazy} from '@monument/stereotype/main/Lazy';
+import {Component} from '@monument/decorators/main/stereotype/Component';
+import {Lazy} from '@monument/decorators/main/stereotype/configuration/Lazy';
 import {CurrentProcess} from '@monument/node/main/process/CurrentProcess';
 import {Connection} from './Connection';
 

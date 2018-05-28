@@ -1,11 +1,22 @@
-import {Test} from '@monument/test-drive/main/decorators/Test';
 import {Assert} from '@monument/test-drive/main/assert/Assert';
+import {Test} from '@monument/test-drive/main/decorators/Test';
+import {TestConfiguration} from '@monument/test-drive/main/decorators/TestConfiguration';
 import {ParsingException} from '@monument/text/main/parser/ParsingException';
 import {VersionParser} from '../../main/VersionParser';
 
 
+@TestConfiguration({
+    components: [
+        VersionParser
+    ]
+})
 export class VersionParserTest {
-    private readonly parser: VersionParser = VersionParser.instance;
+    private readonly parser: VersionParser;
+
+
+    public constructor(parser: VersionParser) {
+        this.parser = parser;
+    }
 
 
     @Test

@@ -2,14 +2,15 @@ import {Delegate} from '@monument/core/main/decorators/Delegate';
 import {ListMap} from '@monument/collections/main/ListMap';
 import {DeferredObject} from '@monument/async/main/DeferredObject';
 import {Boot} from '@monument/application/main/decorators/Boot';
-import {Init} from '@monument/stereotype/main/Init';
-import {Application} from '@monument/stereotype/main/Application';
+import {Init} from '@monument/decorators/main/stereotype/lifecycle/Init';
+import {Application} from '@monument/decorators/main/stereotype/Application';
 import {File} from '@monument/node/main/file-system/File';
 import {ChildProcess} from '@monument/node/main/process/ChildProcess';
 import {CurrentProcess} from '@monument/node/main/process/CurrentProcess';
 import {CurrentProcessModule} from '@monument/node/main/process/CurrentProcessModule';
 import {LocalFileSystemModule} from '@monument/node/main/file-system/local/LocalFileSystemModule';
 import {FileSystemEntryProcessor} from '@monument/node/main/file-system/walker/FileSystemEntryProcessor';
+import {SystemInfoModule} from '@monument/node/main/system/info/SystemInfoModule';
 import {LoggerModule} from '@monument/logger/main/LoggerModule';
 import {ProjectModule} from '@monument/project/main/ProjectModule';
 import {ProjectScanner} from '../project/scanner/ProjectScanner';
@@ -35,7 +36,8 @@ import {ReportMessage} from '../connection/message/ReportMessage';
         ProjectModule,
         ProjectScannerModule,
         TestReporterModule,
-        ConfigurationModule
+        ConfigurationModule,
+        SystemInfoModule
     ]
 })
 export class MasterApplication implements FileSystemEntryProcessor {

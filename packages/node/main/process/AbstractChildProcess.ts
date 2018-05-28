@@ -16,10 +16,10 @@ import Signals = NodeJS.Signals;
 
 export abstract class AbstractChildProcess<TMessage> implements ChildProcess<TMessage> {
     private readonly _process: NodeChildProcess;
-    private readonly _messageReceived: ConfigurableEvent<this, ProcessMessageReceivedEventArgs<TMessage>> = new ConfigurableEvent(this);
-    private readonly _disconnected: ConfigurableEvent<this, EventArgs> = new ConfigurableEvent(this);
-    private readonly _exited: ConfigurableEvent<this, ProcessExitedEventArgs> = new ConfigurableEvent(this);
-    private readonly _closed: ConfigurableEvent<this, ProcessClosedEventArgs> = new ConfigurableEvent(this);
+    private readonly _messageReceived: ConfigurableEvent<this, ProcessMessageReceivedEventArgs<TMessage>> = new ConfigurableEvent();
+    private readonly _disconnected: ConfigurableEvent<this, EventArgs> = new ConfigurableEvent();
+    private readonly _exited: ConfigurableEvent<this, ProcessExitedEventArgs> = new ConfigurableEvent();
+    private readonly _closed: ConfigurableEvent<this, ProcessClosedEventArgs> = new ConfigurableEvent();
 
 
     public get messageReceived(): Event<this, ProcessMessageReceivedEventArgs<TMessage>> {
@@ -84,7 +84,8 @@ export abstract class AbstractChildProcess<TMessage> implements ChildProcess<TMe
 
     @Delegate
     private onMessage(message: any, socket?: Socket | Server): void {
-        this._messageReceived.dispatch(
+        this._messageReceived.trigger(
+            this,
             new ProcessMessageReceivedEventArgs(
                 new ProcessMessage(
                     message,
@@ -98,7 +99,8 @@ export abstract class AbstractChildProcess<TMessage> implements ChildProcess<TMe
 
     @Delegate
     private onExit(code: ExitCode, signal: Signals): void {
-        this._exited.dispatch(
+        this._exited.trigger(
+            this,
             new ProcessExitedEventArgs(code, signal)
         );
     }
@@ -106,7 +108,8 @@ export abstract class AbstractChildProcess<TMessage> implements ChildProcess<TMe
 
     @Delegate
     private onClose(code: ExitCode, signal: Signals): void {
-        this._closed.dispatch(
+        this._closed.trigger(
+            this,
             new ProcessClosedEventArgs(code, signal)
         );
     }
@@ -114,6 +117,6 @@ export abstract class AbstractChildProcess<TMessage> implements ChildProcess<TMe
 
     @Delegate
     private onDisconnect(): void {
-        this._disconnected.dispatch(new EventArgs());
+        this._disconnected.trigger(this, new EventArgs());
     }
 }

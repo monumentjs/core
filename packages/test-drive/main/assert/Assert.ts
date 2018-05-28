@@ -1,11 +1,19 @@
 import {Type} from '@monument/core/main/Type';
-import {ObjectUtils} from '@monument/core/main/utils/ObjectUtils';
-import {Component} from '@monument/stereotype/main/Component';
+import {Component} from '@monument/decorators/main/stereotype/Component';
 import {AssertionException} from './AssertionException';
+import {DeepEqualityComparator} from '@monument/core/main/utils/DeepEqualityComparator';
 
 
 @Component
 export class Assert {
+    private readonly _deepEqualityComparator: DeepEqualityComparator<object>;
+
+
+    public constructor(deepEqualityComparator: DeepEqualityComparator<object>) {
+        this._deepEqualityComparator = deepEqualityComparator;
+
+    }
+
 
     public fail(message: string): void {
         throw new AssertionException(message);
@@ -22,6 +30,7 @@ export class Assert {
             this.fail(message || `Expected value to be equal to ${expected}. Instead received ${actual}.`);
         }
     }
+
 
     /**
      * Checks equality of actual and expected values using strict equality comparison (=== operator).
@@ -45,15 +54,15 @@ export class Assert {
     }
 
 
-    public identical<T>(actual: T, expected: T, message?: string): void {
-        if (!ObjectUtils.isIdentical(actual, expected)) {
+    public identical<T extends object>(actual: T, expected: T, message?: string): void {
+        if (!this._deepEqualityComparator.equals(actual, expected)) {
             this.fail(message || `Actual value is not identical to expected.`);
         }
     }
 
 
-    public notIdentical<T>(actual: T, expected: T, message?: string): void {
-        if (ObjectUtils.isIdentical(actual, expected)) {
+    public notIdentical<T extends object>(actual: T, expected: T, message?: string): void {
+        if (this._deepEqualityComparator.equals(actual, expected)) {
             this.fail(message || `Actual value is identical to expected.`);
         }
     }
@@ -66,13 +75,13 @@ export class Assert {
             if (returnValue instanceof Promise) {
                 return returnValue.catch((e) => {
                     if (!(e instanceof errorType)) {
-                        this.fail(`Expected function to throw ${errorType.name}. Instead thrown ${e.constructor.name}.`);
+                        this.fail(`Expected function to throw ${errorType.name}. Instead thrown ${e.constructor.name}: ${e.message}.`);
                     }
                 });
             }
         } catch (e) {
             if (!(e instanceof errorType)) {
-                this.fail(`Expected function to throw ${errorType.name}. Instead thrown ${e.constructor.name}.`);
+                this.fail(`Expected function to throw ${errorType.name}. Instead thrown ${e.constructor.name}: ${e.message}.`);
             }
 
             return;

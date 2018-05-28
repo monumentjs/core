@@ -12,11 +12,11 @@ import {ProcessMessageReceivedEventArgs} from './ProcessMessageReceivedEventArgs
 
 
 export abstract class ProcessPool<TMessage> implements ChildProcess<TMessage> {
-    private readonly _messageReceived: ConfigurableEvent<this, ProcessMessageReceivedEventArgs<TMessage>> =
-        new ConfigurableEvent(this);
-    private readonly _disconnected: ConfigurableEvent<this, EventArgs> = new ConfigurableEvent(this);
-    private readonly _exited: ConfigurableEvent<this, ProcessExitedEventArgs> = new ConfigurableEvent(this);
-    private readonly _closed: ConfigurableEvent<this, ProcessClosedEventArgs> = new ConfigurableEvent(this);
+    private readonly _messageReceived: ConfigurableEvent<ChildProcess<TMessage>, ProcessMessageReceivedEventArgs<TMessage>> =
+        new ConfigurableEvent();
+    private readonly _disconnected: ConfigurableEvent<ChildProcess<TMessage>, EventArgs> = new ConfigurableEvent();
+    private readonly _exited: ConfigurableEvent<ChildProcess<TMessage>, ProcessExitedEventArgs> = new ConfigurableEvent();
+    private readonly _closed: ConfigurableEvent<ChildProcess<TMessage>, ProcessClosedEventArgs> = new ConfigurableEvent();
 
     private readonly _size: number;
     private readonly _processes: ArrayList<ChildProcess<TMessage>> = new ArrayList();
@@ -28,22 +28,22 @@ export abstract class ProcessPool<TMessage> implements ChildProcess<TMessage> {
     }
 
 
-    public get messageReceived(): Event<this, ProcessMessageReceivedEventArgs<TMessage>> {
+    public get messageReceived(): Event<ChildProcess<TMessage>, ProcessMessageReceivedEventArgs<TMessage>> {
         return this._messageReceived;
     }
 
 
-    public get exited(): Event<this, ProcessExitedEventArgs> {
+    public get exited(): Event<ChildProcess<TMessage>, ProcessExitedEventArgs> {
         return this._exited;
     }
 
 
-    public get closed(): Event<this, ProcessClosedEventArgs> {
+    public get closed(): Event<ChildProcess<TMessage>, ProcessClosedEventArgs> {
         return this._closed;
     }
 
 
-    public get disconnected(): Event<this, EventArgs> {
+    public get disconnected(): Event<ChildProcess<TMessage>, EventArgs> {
         return this._disconnected;
     }
 
@@ -104,24 +104,24 @@ export abstract class ProcessPool<TMessage> implements ChildProcess<TMessage> {
 
     @Delegate
     private onMessageReceived(target: ChildProcess<TMessage>, args: ProcessMessageReceivedEventArgs<TMessage>) {
-        this._messageReceived.dispatch(args);
+        this._messageReceived.trigger(target, args);
     }
 
 
     @Delegate
     private onDisconnected(target: ChildProcess<TMessage>, args: EventArgs) {
-        this._disconnected.dispatch(args);
+        this._disconnected.trigger(target, args);
     }
 
 
     @Delegate
     private onClosed(target: ChildProcess<TMessage>, args: ProcessClosedEventArgs) {
-        this._closed.dispatch(args);
+        this._closed.trigger(target, args);
     }
 
 
     @Delegate
     private onExited(target: ChildProcess<TMessage>, args: ProcessExitedEventArgs) {
-        this._exited.dispatch(args);
+        this._exited.trigger(target, args);
     }
 }

@@ -7,13 +7,13 @@ import {GetterFunction, SetterFunction} from './types';
 
 
 export class Field extends DefaultHierarchicalAccessibleObject {
-    private readonly _declaringClass: Class<any>;
+    private readonly _declaringClass: Class<object>;
     private readonly _name: string | symbol;
     private readonly _getter: GetterFunction | undefined;
     private readonly _setter: SetterFunction | undefined;
-    private readonly _isConfigurable: boolean;
-    private readonly _isWritable: boolean;
-    private readonly _isEnumerable: boolean;
+    private readonly _isConfigurable: boolean | undefined;
+    private readonly _isWritable: boolean | undefined;
+    private readonly _isEnumerable: boolean | undefined;
 
 
     public get parent(): Field | undefined {
@@ -25,7 +25,7 @@ export class Field extends DefaultHierarchicalAccessibleObject {
     }
 
 
-    public get declaringClass(): Class<any> {
+    public get declaringClass(): Class<object> {
         return this._declaringClass;
     }
 
@@ -50,17 +50,17 @@ export class Field extends DefaultHierarchicalAccessibleObject {
     }
 
 
-    public get isConfigurable(): boolean {
+    public get isConfigurable(): boolean | undefined {
         return this._isConfigurable;
     }
 
 
-    public get isWritable(): boolean {
+    public get isWritable(): boolean | undefined {
         return this._isWritable;
     }
 
 
-    public get isEnumerable(): boolean {
+    public get isEnumerable(): boolean | undefined {
         return this._isEnumerable;
     }
 
@@ -75,13 +75,13 @@ export class Field extends DefaultHierarchicalAccessibleObject {
 
 
     public constructor(
-        declaringClass: Class<any>,
+        declaringClass: Class<object>,
         name: string | symbol,
         getter?: GetterFunction,
         setter?: SetterFunction,
-        isConfigurable: boolean = false,
-        isWritable: boolean = false,
-        isEnumerable: boolean = false
+        isConfigurable?: boolean,
+        isWritable?: boolean,
+        isEnumerable?: boolean
     ) {
         super();
 
@@ -100,7 +100,7 @@ export class Field extends DefaultHierarchicalAccessibleObject {
 
 
     private getParentField(): Field | undefined {
-        let klass: Class<any> | undefined = this.declaringClass.parent;
+        let klass: Class<object> | undefined = this.declaringClass.parent;
 
         while (klass != null) {
             if (klass.hasDeclaredField(this.name)) {

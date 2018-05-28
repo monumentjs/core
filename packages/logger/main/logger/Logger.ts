@@ -2,6 +2,7 @@ import {Level} from '../level/Level';
 import {Message} from '../message/Message';
 import {Marker} from '../marker/Marker';
 import {LoggerConfiguration} from './LoggerConfiguration';
+import {Exception} from '@monument/core/main/exceptions/Exception';
 
 
 export class Logger {
@@ -48,14 +49,14 @@ export class Logger {
     }
 
 
-    public error(text: string, error?: Error, marker?: Marker): Promise<void> {
+    public error(text: string, error?: Exception, marker?: Marker): Promise<void> {
         const message: Message = new Message(this.name, Level.ERROR, text, error, marker);
 
         return this.log(message);
     }
 
 
-    public fatal(text: string, error?: Error, marker?: Marker): Promise<void> {
+    public fatal(text: string, error?: Exception, marker?: Marker): Promise<void> {
         const message: Message = new Message(this.name, Level.FATAL, text, error, marker);
 
         return this.log(message);

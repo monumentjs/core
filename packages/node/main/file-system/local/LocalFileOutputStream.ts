@@ -12,7 +12,7 @@ import ErrnoException = NodeJS.ErrnoException;
 
 
 export class LocalFileOutputStream implements FileOutputStream {
-    private readonly _closed: ConfigurableEvent<this, EventArgs> = new ConfigurableEvent(this);
+    private readonly _closed: ConfigurableEvent<this, EventArgs> = new ConfigurableEvent();
     private readonly _path: Path;
     private readonly _stream: WriteStream;
     private readonly _closeCommands: ListQueue<DeferredObject<void>> = new ListQueue();
@@ -47,16 +47,14 @@ export class LocalFileOutputStream implements FileOutputStream {
 
 
     public async close(): Promise<void> {
-        if (this.isClosed) {
-            return;
+        if (this._isClosed === false) {
+            const deferred: DeferredObject<void> = new DeferredObject();
+
+            this._closeCommands.enqueue(deferred);
+            this._stream.close();
+
+            return deferred.promise;
         }
-
-        const deferred: DeferredObject<void> = new DeferredObject();
-
-        this._closeCommands.enqueue(deferred);
-        this._stream.close();
-
-        return deferred.promise;
     }
 
 
@@ -82,5 +80,7 @@ export class LocalFileOutputStream implements FileOutputStream {
         for (const command of this._closeCommands) {
             command.resolve();
         }
+
+        this._closed.trigger(this, new EventArgs());
     }
 }

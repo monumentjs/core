@@ -1,7 +1,7 @@
-import {cpus} from 'os';
-import {Lazy} from '@monument/stereotype/main/Lazy';
-import {Component} from '@monument/stereotype/main/Component';
+import {Lazy} from '@monument/decorators/main/stereotype/configuration/Lazy';
+import {Component} from '@monument/decorators/main/stereotype/Component';
 import {ForkPool} from '@monument/node/main/process/ForkPool';
+import {CPUInfo} from '../../../node/main/system/info/cpu/CPUInfo';
 import {Path} from '@monument/node/main/path/Path';
 import {Connection} from './Connection';
 
@@ -15,9 +15,9 @@ export class MasterConnection extends Connection {
     ]);
 
 
-    public constructor() {
+    public constructor(cpuInfo: CPUInfo) {
         super(new ForkPool(
-            cpus().length,
+            cpuInfo.coresCount,
             MasterConnection.SLAVE_APPLICATION_EXECUTABLE
         ));
     }

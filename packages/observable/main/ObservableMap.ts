@@ -9,7 +9,7 @@ import {NotifyMapChanged} from './NotifyMapChanged';
 
 
 export class ObservableMap<K, V> extends ListMap<K, V> implements Disposable, NotifyMapChanged<K, V> {
-    private readonly _mapChanged: ConfigurableEvent<this, MapChangedEventArgs> = new ConfigurableEvent(this);
+    private readonly _mapChanged: ConfigurableEvent<this, MapChangedEventArgs> = new ConfigurableEvent();
 
 
     public get mapChanged(): Event<this, MapChangedEventArgs> {
@@ -117,6 +117,6 @@ export class ObservableMap<K, V> extends ListMap<K, V> implements Disposable, No
 
 
     protected onMapChanged(): void {
-        this._mapChanged.dispatch(new MapChangedEventArgs());
+        this._mapChanged.trigger(this, new MapChangedEventArgs());
     }
 }

@@ -1,9 +1,9 @@
+import {Type} from '@monument/core/main/Type';
 import {Decorator} from '@monument/reflection/main/Decorator';
 import {Class} from '@monument/reflection/main/Class';
 import {Method} from '@monument/reflection/main/Method';
-import {Unit} from './Unit';
-import {Type} from '@monument/core/main/Type';
 import {Key} from '@monument/object-model/main/attributes/Key';
+import {Unit} from './Unit';
 
 
 export class UnitDecorator extends Decorator {

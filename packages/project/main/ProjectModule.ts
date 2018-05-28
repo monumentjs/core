@@ -1,4 +1,4 @@
-import {Module} from '@monument/stereotype/main/Module';
+import {Module} from '@monument/decorators/main/stereotype/Module';
 import {PackageLayout} from './layout/PackageLayout';
 import {ProjectLayout} from './layout/ProjectLayout';
 

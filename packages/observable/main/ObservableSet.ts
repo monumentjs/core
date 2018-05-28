@@ -8,7 +8,7 @@ import {ObservableCollection} from './ObservableCollection';
 
 
 export class ObservableSet<T> extends ListSet<T> implements ObservableCollection<T> {
-    private readonly _collectionChanged: ConfigurableEvent<this, CollectionChangedEventArgs> = new ConfigurableEvent(this);
+    private readonly _collectionChanged: ConfigurableEvent<this, CollectionChangedEventArgs> = new ConfigurableEvent();
 
 
     public get collectionChanged(): Event<this, CollectionChangedEventArgs> {
@@ -126,6 +126,6 @@ export class ObservableSet<T> extends ListSet<T> implements ObservableCollection
 
 
     protected onCollectionChanged() {
-        this._collectionChanged.dispatch(new CollectionChangedEventArgs());
+        this._collectionChanged.trigger(this, new CollectionChangedEventArgs());
     }
 }

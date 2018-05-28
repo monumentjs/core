@@ -1,4 +1,5 @@
 import {JSONSerializable} from '../JSONSerializable';
+import {StringPool} from '../StringPool';
 
 
 export class Exception extends Error implements JSONSerializable<Error> {
@@ -7,7 +8,7 @@ export class Exception extends Error implements JSONSerializable<Error> {
             return error;
         }
 
-        let ex: Exception = new Exception(error.message);
+        const ex: Exception = new Exception(error.message);
 
         ex.stack = error.stack;
 
@@ -18,11 +19,32 @@ export class Exception extends Error implements JSONSerializable<Error> {
     public readonly innerException: Exception | undefined;
 
 
-    public constructor(message: string, innerException?: Exception) {
+    public constructor(message: string, innerException?: Error) {
         super(message);
 
         this.name = this.constructor.name;
-        this.innerException = innerException;
+
+        if (innerException != null) {
+            this.innerException = Exception.cast(innerException);
+        }
+    }
+
+
+    public toString(): string {
+        let value: string = '';
+
+        if (this.stack != null) {
+            value = this.stack;
+        } else {
+            value = `${this.name} ${this.message}`;
+        }
+
+        if (this.innerException != null) {
+            value += StringPool.EOL_CRLF + 'Inner exception:' + StringPool.EOL_CRLF;
+            value += this.innerException.toString();
+        }
+
+        return value;
     }
 
 
@@ -30,7 +52,8 @@ export class Exception extends Error implements JSONSerializable<Error> {
         return {
             message: this.message,
             name: this.name,
-            stack: this.stack
+            stack: this.stack,
+            innerException: this.innerException
         };
     }
 }

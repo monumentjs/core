@@ -1,6 +1,6 @@
 {
   "name": "@monument/node",
-  "version": "0.0.52",
+  "version": "1.0.0-alpha.1",
   "description": "NodeJS",
   "keywords": [
 
@@ -9,19 +9,19 @@
     "test": "td"
   },
   "dependencies": {
-    "@monument/async": "^0.0.52",
-    "@monument/core": "^0.0.52",
-    "@monument/collections": "^0.0.52",
-    "@monument/events": "^0.0.52",
-    "@monument/pub-sub": "^0.0.52",
-    "@monument/text": "^0.0.52",
-    "@monument/time": "^0.0.52",
-    "@monument/reflection": "^0.0.52",
-    "@monument/stream": "^0.0.52",
-    "@monument/stereotype": "^0.0.52"
+    "@monument/async": "^1.0.0-alpha.1",
+    "@monument/core": "^1.0.0-alpha.1",
+    "@monument/collections": "^1.0.0-alpha.1",
+    "@monument/events": "^1.0.0-alpha.1",
+    "@monument/pub-sub": "^1.0.0-alpha.1",
+    "@monument/text": "^1.0.0-alpha.1",
+    "@monument/time": "^1.0.0-alpha.1",
+    "@monument/reflection": "^1.0.0-alpha.1",
+    "@monument/stream": "^1.0.0-alpha.1",
+    "@monument/decorators": "^1.0.0-alpha.1"
   },
   "devDependencies": {
     "@types/node": "^10.1.2",
-    "@monument/test-drive": "^0.0.52"
+    "@monument/test-drive": "^1.0.0-alpha.1"
   }
 }

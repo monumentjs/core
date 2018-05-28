@@ -6,13 +6,6 @@ import {Event} from './Event';
 
 export class ConfigurableEvent<TTarget extends object, TArgs> implements Event<TTarget, TArgs>, Disposable {
     private readonly _handlers: ListSet<EventHandler<TTarget, TArgs>> = new ListSet();
-    private readonly _target: TTarget;
-
-
-    public constructor(target: TTarget) {
-        this._target = target;
-    }
-
 
     public subscribe(handler: EventHandler<TTarget, TArgs>): boolean {
         return this._handlers.add(handler);
@@ -24,9 +17,9 @@ export class ConfigurableEvent<TTarget extends object, TArgs> implements Event<T
     }
 
 
-    public dispatch(args: TArgs): void {
+    public trigger(target: TTarget, args: TArgs): void {
         for (const handler of this._handlers) {
-            handler(this._target, args);
+            handler(target, args);
         }
     }
 

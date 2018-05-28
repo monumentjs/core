@@ -9,6 +9,4 @@ export function using<T extends Disposable>(o: T, closure: (o: T) => Promise<voi
             return o.dispose();
         });
     }
-
-    return undefined;
 }

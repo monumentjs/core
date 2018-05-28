@@ -46,27 +46,27 @@ export class AjaxRequest extends HttpRequest {
 
     private attachEventHandlers(xhr: XMLHttpRequest): void {
         xhr.addEventListener('loadstart', () => {
-            this._loadingStarted.dispatch(new HttpEventArgs());
+            this._loadingStarted.trigger(new HttpEventArgs());
         });
 
         xhr.addEventListener('loadend', () => {
-            this._loadingEnded.dispatch(new HttpEventArgs());
+            this._loadingEnded.trigger(new HttpEventArgs());
         });
 
         xhr.addEventListener('load', () => {
-            this._loaded.dispatch(new HttpEventArgs());
+            this._loaded.trigger(new HttpEventArgs());
         });
 
         xhr.addEventListener('error', () => {
-            this._loadingFailed.dispatch(new ErrorEventArgs());
+            this._loadingFailed.trigger(new ErrorEventArgs());
         });
 
         xhr.addEventListener('abort', () => {
-            this._loadingAborted.dispatch(new HttpEventArgs());
+            this._loadingAborted.trigger(new HttpEventArgs());
         });
 
         xhr.addEventListener('progress', (event: ProgressEvent) => {
-            this._loadingProgress.dispatch(new HttpProgressEventArgs(event.lengthComputable, event.loaded, event.total));
+            this._loadingProgress.trigger(new HttpProgressEventArgs(event.lengthComputable, event.loaded, event.total));
         });
 
         xhr.addEventListener('timeout', () => {

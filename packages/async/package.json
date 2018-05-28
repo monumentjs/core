@@ -1,6 +1,6 @@
 {
   "name": "@monument/async",
-  "version": "0.0.52",
+  "version": "1.0.0-alpha.1",
   "description": "Async utils",
   "keywords": [
   ],
@@ -8,12 +8,12 @@
     "test": "td"
   },
   "dependencies": {
-    "@monument/core": "^0.0.52",
-    "@monument/assert": "^0.0.52",
-    "@monument/collections": "^0.0.52",
-    "@monument/events": "^0.0.52"
+    "@monument/core": "^1.0.0-alpha.1",
+    "@monument/assert": "^1.0.0-alpha.1",
+    "@monument/collections": "^1.0.0-alpha.1",
+    "@monument/events": "^1.0.0-alpha.1"
   },
   "devDependencies": {
-    "@monument/test-drive": "^0.0.52"
+    "@monument/test-drive": "^1.0.0-alpha.1"
   }
 }

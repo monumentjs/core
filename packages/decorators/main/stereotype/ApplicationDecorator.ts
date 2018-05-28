@@ -1,8 +1,8 @@
+import {Type} from '@monument/core/main/Type';
+import {Key} from '@monument/object-model/main/attributes/Key';
 import {Class} from '@monument/reflection/main/Class';
 import {ConfigurationDecorator} from './ConfigurationDecorator';
 import {Application} from './Application';
-import {Key} from '@monument/object-model/main/attributes/Key';
-import {Type} from '@monument/core/main/Type';
 
 
 export class ApplicationDecorator extends ConfigurationDecorator {

@@ -1,4 +1,4 @@
-import {Component} from '@monument/stereotype/main/Component';
+import {Component} from '@monument/decorators/main/stereotype/Component';
 import {Path} from '@monument/node/main/path/Path';
 import {LocalFileSystem} from '@monument/node/main/file-system/local/LocalFileSystem';
 import {FileSystemWalker} from '@monument/node/main/file-system/walker/FileSystemWalker';
@@ -39,7 +39,7 @@ export class ProjectScanner {
 
     public async scan(processor: FileSystemEntryProcessor): Promise<void> {
         const currentWorkingDirectory: Path = this._currentProcess.currentWorkingDirectory;
-        const testDirectory: Path = currentWorkingDirectory.resolve(new Path(this._packageLayout.testDirectory));
+        const testDirectory: Path = currentWorkingDirectory.resolve(this._packageLayout.testDirectory);
 
         if (await this._fileSystem.directoryExists(testDirectory)) {
             await this._walker.walk(testDirectory, processor);

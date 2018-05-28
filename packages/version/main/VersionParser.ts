@@ -1,16 +1,13 @@
-import {GetInstance} from '@monument/core/main/decorators/GetInstance';
 import {ParsingException} from '@monument/text/main/parser/ParsingException';
 import {Version} from './Version';
 import {ReleaseStatus} from './ReleaseStatus';
+import {Singleton} from '@monument/decorators/main/stereotype/Singleton';
+import {Lazy} from '@monument/decorators/main/stereotype/configuration/Lazy';
 
 
+@Lazy
+@Singleton
 export class VersionParser {
-    @GetInstance()
-    public static readonly instance: VersionParser;
-
-
-    private constructor() {}
-
 
     public parse(version: string): Version {
         if (Version.PATTERN.test(version) === false) {

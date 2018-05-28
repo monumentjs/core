@@ -1,5 +1,5 @@
 import {IgnoreCaseComparator} from '@monument/core/main/IgnoreCaseComparator';
-import {Component} from '@monument/stereotype/main/Component';
+import {Component} from '@monument/decorators/main/stereotype/Component';
 import {FileSystemEntryFilter} from '@monument/node/main/file-system/walker/FileSystemEntryFilter';
 import {FileSystemEntry} from '@monument/node/main/file-system/FileSystemEntry';
 import {File} from '@monument/node/main/file-system/File';
@@ -20,10 +20,11 @@ export class TestFileFilter implements FileSystemEntryFilter {
     public async decide(entry: FileSystemEntry): Promise<boolean> {
         const fileExtension: string = entry.path.extension;
         const className: string = entry.path.baseNameWithoutExtension;
-        const {testFileNameSuffix, testFileExtension} = this._packageLayout;
+        const testFileNameSuffix: string = this._packageLayout.testFileNameSuffix;
+        const executableFileExtension: string = this._packageLayout.executableFileExtension;
         const isFile: boolean = entry instanceof File;
         const hasNameSuffix: boolean = className.endsWith(testFileNameSuffix);
-        const hasExtension: boolean = this._extensionComparator.equals(fileExtension, testFileExtension);
+        const hasExtension: boolean = this._extensionComparator.equals(fileExtension, executableFileExtension);
 
         return isFile && hasNameSuffix && hasExtension;
     }

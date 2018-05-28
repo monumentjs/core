@@ -1,6 +1,5 @@
 import {Type} from '@monument/core/main/Type';
 import {AbstractLifecycle} from '@monument/core/main/lifecycle/AbstractLifecycle';
-import {Collection} from '@monument/collections/main/Collection';
 import {ArrayList} from '@monument/collections/main/ArrayList';
 import {DefaultUnitFactory} from '../../unit/factory/support/DefaultUnitFactory';
 import {UnitPostProcessor} from '../../unit/factory/configuration/UnitPostProcessor';
@@ -22,9 +21,9 @@ import {ConfigurableContext} from '../ConfigurableContext';
 export class DefaultContext extends AbstractLifecycle implements ConfigurableContext {
     private _parent: Context | undefined;
 
-    private readonly _unitDefinitionReaders: Collection<UnitDefinitionReader> = new ArrayList();
-    private readonly _unitDefinitionRegistry: UnitDefinitionRegistry = new DefaultUnitDefinitionRegistry();
-    private readonly _unitFactory: DefaultUnitFactory;
+    private readonly _unitDefinitionReaders: ArrayList<UnitDefinitionReader> = new ArrayList();
+    private readonly _unitDefinitionRegistry: DefaultUnitDefinitionRegistry = new DefaultUnitDefinitionRegistry();
+    private readonly _unitFactory: DefaultUnitFactory = new DefaultUnitFactory(this._unitDefinitionRegistry);
 
     private readonly _unitDefinitionRegistryPostProcessorTypes: ArrayList<Type<object>> = new ArrayList();
     private readonly _unitFactoryPostProcessorTypes: ArrayList<Type<object>> = new ArrayList();
@@ -56,10 +55,10 @@ export class DefaultContext extends AbstractLifecycle implements ConfigurableCon
     }
 
 
-    public constructor(parent?: Context, ...types: Array<Type<object>>) {
+    public constructor(parent?: Context) {
         super();
 
-        this._unitFactory = new DefaultUnitFactory(this._unitDefinitionRegistry);
+        this.parent = parent;
 
         this.addUnitDefinitionReader(
             new PostProcessorUnitDefinitionReader(
@@ -92,12 +91,18 @@ export class DefaultContext extends AbstractLifecycle implements ConfigurableCon
         );
 
         this.registerContext();
+    }
 
-        this.parent = parent;
 
-        for (const type of types) {
-            this.scan(type);
-        }
+    public async initialize(): Promise<void> {
+        this.setInitializing();
+
+        await this.instantiatePostProcessors();
+        await this.postProcessUnitDefinitionRegistry();
+        await this.postProcessUnitFactory();
+        await this._unitFactory.preInstantiateSingletons();
+
+        this.setInitialized();
     }
 
 
@@ -206,7 +211,7 @@ export class DefaultContext extends AbstractLifecycle implements ConfigurableCon
 
 
     private registerContext() {
-        const definition = new UnitDefinition();
+        const definition: UnitDefinition = new UnitDefinition();
 
         definition.isSingleton = true;
 

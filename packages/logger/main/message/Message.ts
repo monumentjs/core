@@ -2,6 +2,7 @@ import {ReadOnlyMap} from '@monument/collections/main/ReadOnlyMap';
 import {ListMap} from '@monument/collections/main/ListMap';
 import {Marker} from '../marker/Marker';
 import {Level} from '../level/Level';
+import {Exception} from '@monument/core/main/exceptions/Exception';
 
 
 export class Message {
@@ -43,7 +44,7 @@ export class Message {
     }
 
 
-    public constructor(loggerName: string, level: Level, text: string, error?: Error, marker?: Marker) {
+    public constructor(loggerName: string, level: Level, text: string, error?: Exception, marker?: Marker) {
         this._loggerName = loggerName;
         this._level = level;
         this._text = text;
@@ -53,6 +54,11 @@ export class Message {
         this._values.put('text', text);
         this._values.put('level', Level[level]);
         this._values.put('loggerName', loggerName);
-        this._values.put('error', error && error.stack || '');
+
+        if (error == null) {
+            this._values.put('error', '');
+        } else {
+            this._values.put('error', error.toString());
+        }
     }
 }

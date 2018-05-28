@@ -1,4 +1,4 @@
-import {Module} from '@monument/stereotype/main/Module';
+import {Module} from '@monument/decorators/main/stereotype/Module';
 import {LocalFileSystem} from './LocalFileSystem';
 
 
@@ -8,5 +8,5 @@ import {LocalFileSystem} from './LocalFileSystem';
     ]
 })
 export class LocalFileSystemModule {
-    
+
 }

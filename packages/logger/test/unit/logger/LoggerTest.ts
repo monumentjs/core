@@ -10,6 +10,7 @@ import {Message} from '../../../main/message/Message';
 import {Filter} from '../../../main/filter/Filter';
 import {RegExpFilter} from '../../../main/filter/RegExpFilter';
 import {Level} from '../../../main/level/Level';
+import {Exception} from '@monument/core/main/exceptions/Exception';
 
 
 class TestAppender extends AbstractAppender {
@@ -61,7 +62,7 @@ export class LoggerTest {
     public async 'logger sends log events to appenders'(assert: Assert) {
         assert.equals(this.appender.messages.length, 0);
 
-        const error: Error = new Error('Test Error');
+        const error: Exception = new Exception('Test Error');
 
         await this.logger.trace(LoggerTest.TRANSACTION_ERROR_MESSAGE);
         await this.logger.debug(LoggerTest.TRANSACTION_ERROR_MESSAGE);

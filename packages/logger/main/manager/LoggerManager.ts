@@ -1,5 +1,5 @@
 import {ListMap} from '@monument/collections/main/ListMap';
-import {Service} from '@monument/stereotype/main/Service';
+import {Service} from '@monument/decorators/main/stereotype/Service';
 import {Logger} from '../logger/Logger';
 import {LoggerConfiguration} from '../logger/LoggerConfiguration';
 

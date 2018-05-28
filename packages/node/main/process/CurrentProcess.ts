@@ -4,8 +4,8 @@ import {DeferredObject} from '@monument/async/main/DeferredObject';
 import {Event} from '@monument/events/main/Event';
 import {EventArgs} from '@monument/events/main/EventArgs';
 import {ConfigurableEvent} from '@monument/events/main/ConfigurableEvent';
-import {Component} from '@monument/stereotype/main/Component';
-import {Lazy} from '@monument/stereotype/main/Lazy';
+import {Component} from '@monument/decorators/main/stereotype/Component';
+import {Lazy} from '@monument/decorators/main/stereotype/configuration/Lazy';
 import {Path} from '../path/Path';
 import {ExitCode} from './ExitCode';
 import {Channel} from './Channel';
@@ -20,9 +20,9 @@ import {ProcessMessageReceivedEventArgs} from './ProcessMessageReceivedEventArgs
 @Component
 export class CurrentProcess implements Channel<any>, ProcessInfo {
     private readonly _process: NodeJS.Process = process;
-    private readonly _messageReceived: ConfigurableEvent<this, ProcessMessageReceivedEventArgs<any>> = new ConfigurableEvent(this);
-    private readonly _disconnected: ConfigurableEvent<this, EventArgs> = new ConfigurableEvent(this);
-    private readonly _exited: ConfigurableEvent<this, ProcessExitedEventArgs> = new ConfigurableEvent(this);
+    private readonly _messageReceived: ConfigurableEvent<this, ProcessMessageReceivedEventArgs<any>> = new ConfigurableEvent();
+    private readonly _disconnected: ConfigurableEvent<this, EventArgs> = new ConfigurableEvent();
+    private readonly _exited: ConfigurableEvent<this, ProcessExitedEventArgs> = new ConfigurableEvent();
 
 
     public get messageReceived(): Event<this, ProcessMessageReceivedEventArgs<any>> {
@@ -102,7 +102,8 @@ export class CurrentProcess implements Channel<any>, ProcessInfo {
 
     @Delegate
     private onMessage(message: any, socket: Socket | Server): void {
-        this._messageReceived.dispatch(
+        this._messageReceived.trigger(
+            this,
             new ProcessMessageReceivedEventArgs(
                 new ProcessMessage(
                     message,
@@ -116,7 +117,8 @@ export class CurrentProcess implements Channel<any>, ProcessInfo {
 
     @Delegate
     private onExit(code: ExitCode): void {
-        this._exited.dispatch(
+        this._exited.trigger(
+            this,
             new ProcessExitedEventArgs(code)
         );
     }
@@ -124,6 +126,6 @@ export class CurrentProcess implements Channel<any>, ProcessInfo {
 
     @Delegate
     private onDisconnect(): void {
-        this._disconnected.dispatch(new EventArgs());
+        this._disconnected.trigger(this, new EventArgs());
     }
 }

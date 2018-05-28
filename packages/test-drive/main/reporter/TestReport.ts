@@ -7,5 +7,5 @@ export interface TestReport {
     readonly testMethodName: string;
     readonly duration: number;
     readonly status: TestStatus;
-    readonly error?: Error;
+    readonly error?: object;
 }

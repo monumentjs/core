@@ -5,7 +5,7 @@ import {Boot} from '@monument/application/main/decorators/Boot';
 import {Logger} from '@monument/logger/main/logger/Logger';
 import {LoggerModule} from '@monument/logger/main/LoggerModule';
 import {LoggerManager} from '@monument/logger/main/manager/LoggerManager';
-import {Application} from '@monument/stereotype/main/Application';
+import {Application} from '@monument/decorators/main/stereotype/Application';
 import {CurrentProcessModule} from '@monument/node/main/process/CurrentProcessModule';
 import {LocalFileSystemModule} from '@monument/node/main/file-system/local/LocalFileSystemModule';
 import {Path} from '@monument/node/main/path/Path';

@@ -4,10 +4,10 @@ import {ReadOnlyCollection} from '@monument/collections/main/ReadOnlyCollection'
 import {ReadOnlyMap} from '@monument/collections/main/ReadOnlyMap';
 import {Class} from '@monument/reflection/main/Class';
 import {Method} from '@monument/reflection/main/Method';
-import {PreDestroy} from '@monument/stereotype/main/PreDestroy';
-import {Destroy} from '@monument/stereotype/main/Destroy';
-import {PostConstruct} from '@monument/stereotype/main/PostConstruct';
-import {Init} from '@monument/stereotype/main/Init';
+import {PreDestroy} from '@monument/decorators/main/stereotype/lifecycle/PreDestroy';
+import {Destroy} from '@monument/decorators/main/stereotype/lifecycle/Destroy';
+import {PostConstruct} from '@monument/decorators/main/stereotype/lifecycle/PostConstruct';
+import {Init} from '@monument/decorators/main/stereotype/lifecycle/Init';
 import {UnitDefinition} from '../../definition/UnitDefinition';
 import {UnitDefinitionRegistry} from '../../definition/registry/UnitDefinitionRegistry';
 import {NoSuchUnitDefinitionException} from '../../NoSuchUnitDefinitionException';
@@ -128,6 +128,8 @@ export class DefaultUnitFactory implements ConfigurableListableUnitFactory {
         throw new NoSuchUnitDefinitionException(`Definition for "${request.toString()}" not found.`);
     }
 
+
+    // ConfigurableUnitFactory
 
     public async preInstantiateSingletons(): Promise<void> {
         for (const {key: type, value: definition} of this._unitDefinitionRegistry.unitDefinitions) {

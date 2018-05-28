@@ -4,7 +4,7 @@ import {VersionBuilder} from '../../main/VersionBuilder';
 import {ReleaseStatus} from '../../main/ReleaseStatus';
 
 
-export class VersionBuilderSpec {
+export class VersionBuilderTest {
 
     @Test
     public 'constructor() creates new instance of VersionBuilder initialized by default version'(assert: Assert) {

@@ -1,4 +1,4 @@
-import {Component} from '@monument/stereotype/main/Component';
+import {Component} from '@monument/decorators/main/stereotype/Component';
 import {LinkedList} from '@monument/collections/main/LinkedList';
 import {TestReport} from './TestReport';
 import {TestStatus} from './TestStatus';
