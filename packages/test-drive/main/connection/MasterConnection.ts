@@ -17,7 +17,7 @@ export class MasterConnection extends Connection {
 
     public constructor(cpuInfo: CPUInfo) {
         super(new ForkPool(
-            Math.max(cpuInfo.coresCount, 2),
+            cpuInfo.coresCount,
             MasterConnection.SLAVE_APPLICATION_EXECUTABLE
         ));
     }

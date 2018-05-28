@@ -4,7 +4,7 @@
   "license": "MIT",
   "repository": "https://github.com/monumentjs/core.git",
   "engines": {
-    "node": ">=6"
+    "node": ">=8"
   },
   "scripts": {
     "bootstrap": "lerna bootstrap --hoist",
@@ -18,7 +18,7 @@
     "reflect-metadata": "^0.1.12"
   },
   "devDependencies": {
-    "lerna": "^3.0.0-beta.21",
+    "lerna": "^2.11.0",
     "tslint": "^5.10.0",
     "typescript": "^2.8.3"
   }
