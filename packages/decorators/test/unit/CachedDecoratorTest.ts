@@ -1,7 +1,7 @@
 import {Test} from '@monument/test-drive/main/decorators/Test';
 import {Assert} from '@monument/test-drive/main/assert/Assert';
-import {Cached} from '@monument/decorators/main/Cached';
 import {BeforeEach} from '@monument/test-drive/main/decorators/BeforeEach';
+import {Cached} from '../../main/Cached';
 
 
 class Example {
