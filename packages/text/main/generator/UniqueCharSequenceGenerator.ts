@@ -1,6 +1,6 @@
 import {RandomCharSequenceGenerator} from './RandomCharSequenceGenerator';
-import {Set} from '../../../collections/main/Set';
-import {ListSet} from '../../../collections/main/ListSet';
+import {Set} from '@monument/collections/main/Set';
+import {ListSet} from '@monument/collections/main/ListSet';
 
 
 export class UniqueCharSequenceGenerator extends RandomCharSequenceGenerator {
