@@ -7,8 +7,8 @@ export class AbstractLifecycle implements Lifecycle {
     private _state: LifecycleState = LifecycleState.PENDING;
 
 
-    public get isInitialized(): boolean {
-        return this._state >= LifecycleState.INITIALIZED;
+    public get isPending(): boolean {
+        return this._state === LifecycleState.PENDING;
     }
 
 
@@ -17,8 +17,8 @@ export class AbstractLifecycle implements Lifecycle {
     }
 
 
-    public get isStarted(): boolean {
-        return this._state >= LifecycleState.STARTED;
+    public get isInitialized(): boolean {
+        return this._state >= LifecycleState.INITIALIZED;
     }
 
 
@@ -27,13 +27,18 @@ export class AbstractLifecycle implements Lifecycle {
     }
 
 
-    public get isStopped(): boolean {
-        return this._state === LifecycleState.STOPPED;
+    public get isStarted(): boolean {
+        return this._state >= LifecycleState.STARTED;
     }
 
 
     public get isStopping(): boolean {
         return this._state === LifecycleState.STOPPING;
+    }
+
+
+    public get isStopped(): boolean {
+        return this._state === LifecycleState.STOPPED;
     }
 
 
