@@ -27,6 +27,8 @@ import {ProcessMessages} from '../connection/message/ProcessMessages';
 import {FileEndMessage} from '../connection/message/FileEndMessage';
 import {ReportMessage} from '../connection/message/ReportMessage';
 
+/*tslint:disable:no-console*/
+console.log('Master App Loaded');
 
 @Boot
 @Application({
