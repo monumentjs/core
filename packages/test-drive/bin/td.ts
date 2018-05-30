@@ -1,2 +1,7 @@
 #!/usr/bin/env node
-import '../main/application/MasterApplication';
+
+
+/*tslint:disable:no-console*/
+console.log('Master App Loaded');
+
+import('../main/application/MasterApplication');
