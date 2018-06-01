@@ -21,7 +21,7 @@
     "@monument/decorators": "^0.9.0"
   },
   "devDependencies": {
-    "@types/node": "^10.1.4",
+    "@types/node": "^10.3.0",
     "@monument/test-drive": "^0.9.0"
   }
 }
