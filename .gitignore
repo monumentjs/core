@@ -3,4 +3,4 @@
 *.js.map
 *.d.ts
 node_modules
-packages/system
+system
