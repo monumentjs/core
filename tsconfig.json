@@ -50,7 +50,6 @@
     }
   },
   "exclude": [
-    "./system",
     "node_modules"
   ]
 }
