@@ -10,7 +10,7 @@ import {CurrentProcess} from '@monument/node/main/process/CurrentProcess';
 import {CurrentProcessModule} from '@monument/node/main/process/CurrentProcessModule';
 import {LocalFileSystemModule} from '@monument/node/main/file-system/local/LocalFileSystemModule';
 import {FileSystemEntryProcessor} from '@monument/node/main/file-system/walker/FileSystemEntryProcessor';
-import {SystemInfoModule} from '@monument/node/main/system/info/SystemInfoModule';
+// import {SystemInfoModule} from '@monument/node/main/system/info/SystemInfoModule';
 import {Logger} from '@monument/logger/main/logger/Logger';
 import {LoggerManager} from '@monument/logger/main/manager/LoggerManager';
 import {LoggerModule} from '@monument/logger/main/LoggerModule';
@@ -26,6 +26,10 @@ import {ConnectionModule} from '../connection/ConnectionModule';
 import {ProcessMessages} from '../connection/message/ProcessMessages';
 import {FileEndMessage} from '../connection/message/FileEndMessage';
 import {ReportMessage} from '../connection/message/ReportMessage';
+// import {CPUInfo} from '@monument/node/main/system/info/cpu/CPUInfo';
+// import {RAMInfo} from '@monument/node/main/system/info/ram/RAMInfo';
+// import {OSInfo} from '@monument/node/main/system/info/os/OSInfo';
+// import {StringBuilder} from '@monument/text/main/StringBuilder';
 
 
 @Boot
@@ -34,12 +38,13 @@ import {ReportMessage} from '../connection/message/ReportMessage';
         LoggerModule,
         CurrentProcessModule,
         LocalFileSystemModule,
+        // SystemInfoModule,
+
         ConnectionModule,
         ProjectModule,
         ProjectScannerModule,
         TestReporterModule,
-        ConfigurationModule,
-        SystemInfoModule
+        ConfigurationModule
     ]
 })
 export class MasterApplication implements FileSystemEntryProcessor {
@@ -50,6 +55,9 @@ export class MasterApplication implements FileSystemEntryProcessor {
     private readonly _testReporter: TestReporter;
     private readonly _testReportRegistry: TestReportRegistry;
     private readonly _logger: Logger;
+    // private readonly _cpu: CPUInfo;
+    // private readonly _ram: RAMInfo;
+    // private readonly _os: OSInfo;
 
 
     public constructor(
@@ -58,8 +66,14 @@ export class MasterApplication implements FileSystemEntryProcessor {
         projectScanner: ProjectScanner,
         testReporter: TestReporter,
         testReportRegistry: TestReportRegistry,
-        loggerManager: LoggerManager
+        loggerManager: LoggerManager,
+        // cpu: CPUInfo,
+        // ram: RAMInfo,
+        // os: OSInfo
     ) {
+        // this._cpu = cpu;
+        // this._ram = ram;
+        // this._os = os;
         this._logger = loggerManager.getLogger(this.constructor.name);
         this._currentProcess = currentProcess;
         this._projectScanner = projectScanner;
@@ -73,6 +87,15 @@ export class MasterApplication implements FileSystemEntryProcessor {
 
     @Init
     public async run() {
+        // const sb = new StringBuilder();
+
+        // sb.appendLine(`System info:`);
+        // sb.appendLine(`CPU: ${this._cpu.coresCount} cores; ${this._cpu.architecture}`);
+        // sb.appendLine(`RAM: ${Math.round(this._ram.total.megabytes)}Mb`);
+        // sb.appendLine(`OS: ${this._os.platform}`);
+
+        // await this._logger.debug(sb.toString());
+
         await this._logger.info('Running tests in ' + this._currentProcess.currentWorkingDirectory.toString());
         await this._projectScanner.scan(this);
 
