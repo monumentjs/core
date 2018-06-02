@@ -10,7 +10,7 @@ export enum CPUArchitecture {
     POWER_PC_64 = 'ppc64',
     S390 = 's390',
     S390X = 's390x',
-    X_32 = 'x32',
-    X_64 = 'x64',
+    X32 = 'x32',
+    X64 = 'x64',
     UNKNOWN = ''
 }

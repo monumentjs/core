@@ -3,10 +3,7 @@ node_js:
   - "node"
   - "8"
 script:
-  - "npm run lint"      # lint TypeScript sources
-  - "npm run compile"   # compile TypeScript sources
-  - "npm install"       # build dependencies graph with Lerna
-  - "npm test"          # run tests
+  - "npm run build"
 os:
   - "linux"
   - "osx"

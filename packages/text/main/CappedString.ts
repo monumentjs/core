@@ -23,7 +23,7 @@ export class CappedString {
 
     public constructor(maxLength: number, initialValue: string = StringPool.BLANK) {
         this._maxLength = maxLength;
-        this._value = initialValue;
+        this._value = this.cutText(initialValue);
     }
 
 
