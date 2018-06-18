@@ -1,14 +1,14 @@
 import {WriteStream} from 'fs';
-import {DeferredObject} from '@monument/async/main/DeferredObject';
-import {MemorySize} from '@monument/core/main/MemorySize';
-import {Delegate} from '@monument/core/main/decorators/Delegate';
-import {ListQueue} from '@monument/collections/main/ListQueue';
-import {Event} from '@monument/events/main/Event';
-import {EventArgs} from '@monument/events/main/EventArgs';
-import {ConfigurableEvent} from '@monument/events/main/ConfigurableEvent';
 import {Path} from '../../path/Path';
 import {FileOutputStream} from '../stream/FileOutputStream';
 import ErrnoException = NodeJS.ErrnoException;
+import {ConfigurableEvent} from '@monument/core/main/events/ConfigurableEvent';
+import {EventArgs} from '@monument/core/main/events/EventArgs';
+import {ListQueue} from '@monument/core/main/collections/ListQueue';
+import {DeferredObject} from '@monument/core/main/async/DeferredObject';
+import {MemorySize} from '@monument/core/main/MemorySize';
+import {Event} from '@monument/core/main/events/Event';
+import {Delegate} from '@monument/core/main/decorators/Delegate';
 
 
 export class LocalFileOutputStream implements FileOutputStream {
@@ -42,7 +42,7 @@ export class LocalFileOutputStream implements FileOutputStream {
     public constructor(path: Path, stream: WriteStream) {
         this._path = path;
         this._stream = stream;
-        this._stream.on('close', this.onClose);
+        this._stream.on('close', this.handleClose);
     }
 
 
@@ -74,13 +74,13 @@ export class LocalFileOutputStream implements FileOutputStream {
 
 
     @Delegate
-    private onClose() {
+    private handleClose() {
         this._isClosed = true;
 
         for (const command of this._closeCommands) {
             command.resolve();
         }
 
-        this._closed.trigger(this, new EventArgs());
+        this._closed.trigger(this, EventArgs.EMPTY);
     }
 }

@@ -1,9 +1,9 @@
 import {endianness, EOL, platform, uptime} from 'os';
-import {Singleton} from '@monument/decorators/main/stereotype/Singleton';
-import {Lazy} from '@monument/decorators/main/stereotype/configuration/Lazy';
-import {Duration} from '@monument/time/main/Duration';
 import {ByteOrder} from '../../../ByteOrder';
 import {Platform} from './Platform';
+import {Lazy} from '@monument/core/main/stereotype/configuration/Lazy';
+import {Singleton} from '@monument/core/main/stereotype/Singleton';
+import {Duration} from '@monument/core/main/time/Duration';
 
 
 @Lazy

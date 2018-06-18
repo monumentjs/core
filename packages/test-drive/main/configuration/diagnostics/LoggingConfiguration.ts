@@ -1,12 +1,13 @@
-import {Configuration} from '@monument/decorators/main/stereotype/Configuration';
-import {Unit} from '@monument/decorators/main/stereotype/Unit';
 import {LoggerConfiguration} from '@monument/logger/main/logger/LoggerConfiguration';
 import {ConsoleAppender} from '@monument/logger/main/appender/console/ConsoleAppender';
-import {ConsoleMessageLayout} from '@monument/logger/main/appender/console/ConsoleMessageLayout';
+import {Configuration} from '@monument/core/main/stereotype/Configuration';
+import {Unit} from '@monument/core/main/stereotype/Unit';
+import {Message} from '@monument/logger/main/message/Message';
 
 
 @Configuration
 export class LoggingConfiguration {
+
 
     @Unit(LoggerConfiguration)
     public loggerConfiguration(): LoggerConfiguration {
@@ -16,7 +17,15 @@ export class LoggingConfiguration {
     }
 
 
-    private getMainAppender() {
-        return new ConsoleAppender(ConsoleMessageLayout.DEFAULT);
+    private getMainAppender(): ConsoleAppender {
+        return new ConsoleAppender(ConsoleAppender.DEFAULT_NAME, {
+            format: (message: Message): string => {
+                if (message.error != null) {
+                    return `${message.text}\n${message.error.toString()}`;
+                } else {
+                    return `${message.text}`;
+                }
+            }
+        });
     }
 }

@@ -1,8 +1,8 @@
-import {MemorySize} from '@monument/core/main/MemorySize';
-import {DateTime} from '@monument/time/main/DateTime';
 import {Path} from '../path/Path';
 import {AccessPermissions} from './AccessPermissions';
 import {FileSystemEntry} from './FileSystemEntry';
+import {MemorySize} from '@monument/core/main/MemorySize';
+import {DateTime} from '@monument/core/main/time/DateTime';
 
 
 export abstract class File extends FileSystemEntry {

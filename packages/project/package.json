@@ -1,18 +1,12 @@
 {
   "name": "@monument/project",
   "version": "0.9.0",
-  "description": "Project structure",
+  "description": "Conventional project structure",
   "keywords": [
+    "project", "structure", "convention"
   ],
-  "scripts": {
-    "test": "td"
-  },
   "dependencies": {
     "@monument/core": "^0.9.0",
-    "@monument/decorators": "^0.9.0",
     "@monument/node": "^0.9.0"
-  },
-  "devDependencies": {
-    "@monument/test-drive": "^0.9.0"
   }
 }

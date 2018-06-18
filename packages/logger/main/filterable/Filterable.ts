@@ -1,7 +1,7 @@
-import {Lifecycle} from '@monument/core/main/lifecycle/Lifecycle';
-import {ReadOnlySet} from '@monument/collections/main/ReadOnlySet';
 import {Message} from '../message/Message';
 import {Filter} from '../filter/Filter';
+import {ReadOnlySet} from '@monument/core/main/collections/ReadOnlySet';
+import {Lifecycle} from '@monument/core/main/lifecycle/Lifecycle';
 
 
 export interface Filterable extends Lifecycle {

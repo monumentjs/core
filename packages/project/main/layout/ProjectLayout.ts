@@ -1,6 +1,6 @@
-import {Singleton} from '@monument/decorators/main/stereotype/Singleton';
-import {Lazy} from '@monument/decorators/main/stereotype/configuration/Lazy';
 import {Path} from '@monument/node/main/path/Path';
+import {Lazy} from '@monument/core/main/stereotype/configuration/Lazy';
+import {Singleton} from '@monument/core/main/stereotype/Singleton';
 
 
 @Lazy

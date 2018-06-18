@@ -1,6 +1,8 @@
 
 
 export interface Lifecycle {
+    readonly isPending: boolean;
+    readonly isInitializing: boolean;
     readonly isInitialized: boolean;
     readonly isStarting: boolean;
     readonly isStarted: boolean;

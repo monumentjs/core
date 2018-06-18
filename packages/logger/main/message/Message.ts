@@ -1,8 +1,7 @@
-import {ReadOnlyMap} from '@monument/collections/main/ReadOnlyMap';
-import {ListMap} from '@monument/collections/main/ListMap';
+import {Exception} from '@monument/core/main/exceptions/Exception';
+import {DateTime} from '@monument/core/main/time/DateTime';
 import {Marker} from '../marker/Marker';
 import {Level} from '../level/Level';
-import {Exception} from '@monument/core/main/exceptions/Exception';
 
 
 export class Message {
@@ -11,7 +10,7 @@ export class Message {
     private readonly _loggerName: string;
     private readonly _error?: Error;
     private readonly _marker: Marker | undefined;
-    private readonly _values: ListMap<string, string> = new ListMap();
+    private readonly _timestamp: DateTime = DateTime.now;
 
 
     public get level(): Level {
@@ -39,8 +38,8 @@ export class Message {
     }
 
 
-    public get values(): ReadOnlyMap<string, string> {
-        return this._values;
+    public get timestamp(): DateTime {
+        return this._timestamp;
     }
 
 
@@ -50,15 +49,5 @@ export class Message {
         this._text = text;
         this._error = error;
         this._marker = marker;
-
-        this._values.put('text', text);
-        this._values.put('level', Level[level]);
-        this._values.put('loggerName', loggerName);
-
-        if (error == null) {
-            this._values.put('error', '');
-        } else {
-            this._values.put('error', error.toString());
-        }
     }
 }

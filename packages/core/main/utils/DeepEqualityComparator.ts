@@ -1,6 +1,8 @@
 import {EqualityComparator} from '../EqualityComparator';
+import {Singleton} from '../stereotype/Singleton';
 
 
+@Singleton
 export class DeepEqualityComparator<T extends object> implements EqualityComparator<T> {
     public equals(actual: T, expected: T): boolean {
         // 7.1. All identical values are equivalent, as determined by ===.

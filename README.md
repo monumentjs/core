@@ -56,7 +56,7 @@ In standard library functions that performs async work are always `async`.
 Also thanks to TypeScript **we can use the latest EcmaScript features today**.
 
 
-## Test coverage
+## TestMethod coverage
 
 Ask yourself, how many frameworks and libraries you know that still grow over the years of development?
 

@@ -1,6 +1,6 @@
-import {DateTime} from '@monument/time/main/DateTime';
 import {Path} from '../path/Path';
 import {AccessPermissions} from './AccessPermissions';
+import {DateTime} from '@monument/core/main/time/DateTime';
 
 
 export abstract class FileSystemEntry {

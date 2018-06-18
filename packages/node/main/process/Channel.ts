@@ -1,6 +1,6 @@
-import {Event} from '@monument/events/main/Event';
 import {ProcessMessage} from './ProcessMessage';
 import {ProcessMessageReceivedEventArgs} from './ProcessMessageReceivedEventArgs';
+import {Event} from '@monument/core/main/events/Event';
 
 
 export interface Channel<TMessage> {

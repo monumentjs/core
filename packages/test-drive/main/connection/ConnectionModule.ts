@@ -1,6 +1,6 @@
-import {Module} from '@monument/decorators/main/stereotype/Module';
 import {MasterConnection} from './MasterConnection';
 import {SlaveConnection} from './SlaveConnection';
+import {Module} from '@monument/core/main/stereotype/Module';
 
 
 @Module({

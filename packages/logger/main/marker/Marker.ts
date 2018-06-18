@@ -1,14 +1,7 @@
-import {ReadOnlyCollection} from '@monument/collections/main/ReadOnlyCollection';
-import {ListSet} from '@monument/collections/main/ListSet';
+import {ListSet} from '@monument/core/main/collections/ListSet';
+import {ReadOnlyCollection} from '@monument/core/main/collections/ReadOnlyCollection';
 
 
-/**
- * Markers are objects that are used to add easily filterable information to log messages.
- *
- * Markers can be hierarchical - each Marker may have a parent.
- * This allows for broad categories being subdivided into more specific categories.
- * An example might be a Marker named "Error" with children named "SystemError" and "ApplicationError".
- */
 export class Marker {
     private readonly _name: string;
     private readonly _parents: ListSet<Marker>;

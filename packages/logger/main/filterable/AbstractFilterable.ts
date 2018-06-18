@@ -1,10 +1,10 @@
-import {AbstractLifecycle} from '@monument/core/main/lifecycle/AbstractLifecycle';
-import {ListSet} from '@monument/collections/main/ListSet';
-import {ReadOnlySet} from '@monument/collections/main/ReadOnlySet';
 import {Message} from '../message/Message';
 import {Filter} from '../filter/Filter';
 import {Filterable} from './Filterable';
 import {FilterDecision} from '../filter/FilterDecision';
+import {AbstractLifecycle} from '@monument/core/main/lifecycle/AbstractLifecycle';
+import {ListSet} from '@monument/core/main/collections/ListSet';
+import {ReadOnlySet} from '@monument/core/main/collections/ReadOnlySet';
 
 
 export class AbstractFilterable extends AbstractLifecycle implements Filterable {

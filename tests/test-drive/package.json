@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "name": "@monument/test-drive-tests",
+  "version": "0.9.0",
+  "description": "Tests for test-drive package",
+  "scripts": {
+    "test": "td"
+  },
+  "keywords": [
+    "tests"
+  ],
+  "author": "Alex Chugaev <achugaev93@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@monument/test-drive": "^0.9.0"
+  }
+}

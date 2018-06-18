@@ -1,8 +1,8 @@
 import {Stats} from 'fs';
-import {MemorySize} from '@monument/core/main/MemorySize';
-import {DateTime} from '@monument/time/main/DateTime';
 import {Path} from '../../path/Path';
 import {File} from '../File';
+import {DateTime} from '@monument/core/main/time/DateTime';
+import {MemorySize} from '@monument/core/main/MemorySize';
 
 
 export class LocalFile extends File {

@@ -1,11 +1,15 @@
-import {Type} from '@monument/core/main/Type';
 import {TestConfigurationDecorator} from './TestConfigurationDecorator';
+import {Type} from '@monument/core/main/Type';
 
 
 export function TestConfiguration(configuration: {
-    components: Array<Type<object>>
+    modules?: Array<Type<object>>,
+    components?: Array<Type<object>>
 }) {
     return function (...args: any[]) {
-        new TestConfigurationDecorator(configuration.components).apply(args);
+        new TestConfigurationDecorator(
+            configuration.components || [],
+            configuration.modules || []
+        ).apply(args);
     };
 }

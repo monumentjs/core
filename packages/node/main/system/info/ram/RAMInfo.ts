@@ -1,7 +1,7 @@
 import {freemem, totalmem} from 'os';
+import {Lazy} from '@monument/core/main/stereotype/configuration/Lazy';
+import {Singleton} from '@monument/core/main/stereotype/Singleton';
 import {MemorySize} from '@monument/core/main/MemorySize';
-import {Singleton} from '@monument/decorators/main/stereotype/Singleton';
-import {Lazy} from '@monument/decorators/main/stereotype/configuration/Lazy';
 
 
 @Lazy

@@ -1,7 +1,7 @@
 import {arch, CpuInfo, cpus} from 'os';
-import {Lazy} from '@monument/decorators/main/stereotype/configuration/Lazy';
-import {Singleton} from '@monument/decorators/main/stereotype/Singleton';
 import {CPUArchitecture} from './CPUArchitecture';
+import {Lazy} from '@monument/core/main/stereotype/configuration/Lazy';
+import {Singleton} from '@monument/core/main/stereotype/Singleton';
 
 
 @Lazy

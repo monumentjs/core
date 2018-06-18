@@ -8,10 +8,6 @@
     "strict": true,
     "alwaysStrict": true,
     "removeComments": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "noStrictGenericChecks": false,
-    "strictFunctionTypes": false,
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
@@ -37,6 +33,7 @@
       "es2018",
       "es2018.promise",
       "es2018.regexp",
+      "esnext.array",
       "esnext.asynciterable"
     ],
     "typeRoots": [

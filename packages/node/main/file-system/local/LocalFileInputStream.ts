@@ -1,15 +1,15 @@
 import {ReadStream} from 'fs';
-import {InvalidStateException} from '@monument/core/main/exceptions/InvalidStateException';
-import {MemorySize} from '@monument/core/main/MemorySize';
-import {Delegate} from '@monument/core/main/decorators/Delegate';
-import {DeferredObject} from '@monument/async/main/DeferredObject';
-import {ListQueue} from '@monument/collections/main/ListQueue';
-import {Event} from '@monument/events/main/Event';
-import {EventArgs} from '@monument/events/main/EventArgs';
-import {ConfigurableEvent} from '@monument/events/main/ConfigurableEvent';
-import {StreamException} from '@monument/stream/main/StreamException';
 import {Path} from '../../path/Path';
 import {FileInputStream} from '../stream/FileInputStream';
+import {ConfigurableEvent} from '@monument/core/main/events/ConfigurableEvent';
+import {EventArgs} from '@monument/core/main/events/EventArgs';
+import {ListQueue} from '@monument/core/main/collections/ListQueue';
+import {DeferredObject} from '@monument/core/main/async/DeferredObject';
+import {MemorySize} from '@monument/core/main/MemorySize';
+import {Event} from '@monument/core/main/events/Event';
+import {InvalidStateException} from '@monument/core/main/exceptions/InvalidStateException';
+import {Delegate} from '@monument/core/main/decorators/Delegate';
+import {StreamException} from '@monument/core/main/stream/StreamException';
 
 
 export class LocalFileInputStream implements FileInputStream {
@@ -57,9 +57,9 @@ export class LocalFileInputStream implements FileInputStream {
     public constructor(path: Path, stream: ReadStream) {
         this._path = path;
         this._stream = stream;
-        this._stream.on('readable', this.onReadable);
-        this._stream.on('close', this.onClose);
-        this._stream.on('end', this.onEnd);
+        this._stream.on('readable', this.handleReadable);
+        this._stream.on('close', this.handleClose);
+        this._stream.on('end', this.handleEnd);
     }
 
 
@@ -112,7 +112,7 @@ export class LocalFileInputStream implements FileInputStream {
 
 
     @Delegate
-    private onClose() {
+    private handleClose() {
         if (this._closeCommand != null) {
             this._isClosing = false;
             this._isClosed = true;
@@ -120,13 +120,13 @@ export class LocalFileInputStream implements FileInputStream {
             this._closeCommand.resolve();
             this._closeCommand = undefined;
 
-            this._closed.trigger(this, new EventArgs());
+            this._closed.trigger(this, EventArgs.EMPTY);
         }
     }
 
 
     @Delegate
-    private onEnd() {
+    private handleEnd() {
         this._isEnded = true;
 
         while (!this._readCommands.isEmpty) {
@@ -135,12 +135,12 @@ export class LocalFileInputStream implements FileInputStream {
             deferred.reject(new StreamException('Cannot read from stream: stream ended.'));
         }
 
-        this._ended.trigger(this, new EventArgs());
+        this._ended.trigger(this, EventArgs.EMPTY);
     }
 
 
     @Delegate
-    private onReadable() {
+    private handleReadable() {
         while (!this._readCommands.isEmpty && this._stream.readable) {
             const deferred: DeferredObject<Buffer | undefined> = this._readCommands.pop();
 

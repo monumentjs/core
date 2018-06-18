@@ -1,9 +1,9 @@
 import {isAbsolute, join, parse, ParsedPath, posix, relative, resolve, win32} from 'path';
+import {PathFormat} from './PathFormat';
 import {Cloneable} from '@monument/core/main/Cloneable';
 import {Equatable} from '@monument/core/main/Equatable';
 import {JSONSerializable} from '@monument/core/main/JSONSerializable';
-import {StringUtils} from '@monument/text/main/StringUtils';
-import {PathFormat} from './PathFormat';
+import {StringUtils} from '@monument/core/main/text/StringUtils';
 
 
 export class Path implements Cloneable<Path>, Equatable<Path>, JSONSerializable<string> {

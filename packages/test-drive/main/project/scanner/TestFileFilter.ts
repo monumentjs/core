@@ -1,19 +1,20 @@
-import {IgnoreCaseComparator} from '@monument/core/main/IgnoreCaseComparator';
-import {Component} from '@monument/decorators/main/stereotype/Component';
 import {FileSystemEntryFilter} from '@monument/node/main/file-system/walker/FileSystemEntryFilter';
 import {FileSystemEntry} from '@monument/node/main/file-system/FileSystemEntry';
 import {File} from '@monument/node/main/file-system/File';
 import {PackageLayout} from '@monument/project/main/layout/PackageLayout';
+import {Component} from '@monument/core/main/stereotype/Component';
+import {IgnoreCaseComparator} from '@monument/core/main/text/IgnoreCaseComparator';
 
 
 @Component
 export class TestFileFilter implements FileSystemEntryFilter {
-    private readonly _extensionComparator: IgnoreCaseComparator = IgnoreCaseComparator.instance;
     private readonly _packageLayout: PackageLayout;
+    private readonly _extensionComparator: IgnoreCaseComparator;
 
 
-    public constructor(packageLayout: PackageLayout) {
+    public constructor(packageLayout: PackageLayout, extensionComparator: IgnoreCaseComparator) {
         this._packageLayout = packageLayout;
+        this._extensionComparator = extensionComparator;
     }
 
 

@@ -1,4 +1,4 @@
-import {Module} from '@monument/decorators/main/stereotype/Module';
+import {Module} from '@monument/core/main/stereotype/Module';
 import {CurrentProcess} from './CurrentProcess';
 
 

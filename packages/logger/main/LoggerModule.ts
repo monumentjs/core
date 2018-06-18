@@ -1,5 +1,5 @@
-import {Module} from '@monument/decorators/main/stereotype/Module';
 import {LoggerManager} from './manager/LoggerManager';
+import {Module} from '@monument/core/main/stereotype/Module';
 
 
 @Module({

@@ -1,5 +1,5 @@
-import {Module} from '@monument/decorators/main/stereotype/Module';
 import {LocalFileSystem} from './LocalFileSystem';
+import {Module} from '@monument/core/main/stereotype/Module';
 
 
 @Module({

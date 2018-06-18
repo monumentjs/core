@@ -1,7 +1,7 @@
-import {Decorator} from '@monument/reflection/main/Decorator';
-import {Key} from '@monument/object-model/main/attributes/Key';
-import {Class} from '@monument/reflection/main/Class';
-import {Method} from '@monument/reflection/main/Method';
+import {Key} from '@monument/core/main/object-model/attributes/Key';
+import {Class} from '@monument/core/main/reflection/Class';
+import {Method} from '@monument/core/main/reflection/Method';
+import {Decorator} from '@monument/core/main/reflection/Decorator';
 import {Ignore} from './Ignore';
 
 

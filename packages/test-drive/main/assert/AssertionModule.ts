@@ -1,6 +1,6 @@
-import {DeepEqualityComparator} from '@monument/core/main/utils/DeepEqualityComparator';
-import {Module} from '@monument/decorators/main/stereotype/Module';
 import {Assert} from './Assert';
+import {Module} from '@monument/core/main/stereotype/Module';
+import {DeepEqualityComparator} from '@monument/core/main/utils/DeepEqualityComparator';
 
 
 @Module({

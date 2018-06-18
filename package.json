@@ -1,5 +1,6 @@
 {
   "private": true,
+  "version": "0.9.0",
   "author": "Alex Chugaev <achugaev93@gmail.com>",
   "license": "MIT",
   "homepage": "https://monumentjs.github.io",
@@ -8,7 +9,7 @@
     "node": ">=8"
   },
   "scripts": {
-    "bootstrap": "lerna bootstrap",
+    "bootstrap": "lerna bootstrap --hoist",
     "prepublishOnly": "npm run lint && npm run compile && lerna run test",
     "postinstall": "npm run bootstrap",
     "lint": "tslint --format stylish --project .",
@@ -23,6 +24,6 @@
   "devDependencies": {
     "lerna": "^2.11.0",
     "tslint": "^5.10.0",
-    "typescript": "^2.9.1"
+    "typescript": "^2.9.2"
   }
 }

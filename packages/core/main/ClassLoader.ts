@@ -1,7 +1,9 @@
 import {Type} from './Type';
 import {ClassLoaderException} from './ClassLoaderException';
+import {Singleton} from './stereotype/Singleton';
 
 
+@Singleton
 export class ClassLoader {
 
     public async load<T>(filePath: string, className: string): Promise<Type<T>> {

@@ -1,18 +1,18 @@
-import {Delegate} from '@monument/core/main/decorators/Delegate';
-import {Disposable} from '@monument/core/main/Disposable';
-import {Event} from '@monument/events/main/Event';
-import {ConfigurableEvent} from '@monument/events/main/ConfigurableEvent';
-import {Destroy} from '@monument/decorators/main/stereotype/lifecycle/Destroy';
 import {Path} from '@monument/node/main/path/Path';
 import {Channel} from '@monument/node/main/process/Channel';
 import {ProcessMessage} from '@monument/node/main/process/ProcessMessage';
 import {ProcessMessageReceivedEventArgs} from '@monument/node/main/process/ProcessMessageReceivedEventArgs';
-import {TestReport} from '../reporter/TestReport';
-import {ProcessMessages} from './message/ProcessMessages';
-import {FileStartMessage} from './message/FileStartMessage';
-import {FileEndMessage} from './message/FileEndMessage';
-import {MessageType} from './message/MessageType';
-import {ReportMessage} from './message/ReportMessage';
+import {TestReport} from '../report/TestReport';
+import {ProcessMessages} from './messaging/ProcessMessages';
+import {FileStartMessage} from './messaging/FileStartMessage';
+import {FileEndMessage} from './messaging/FileEndMessage';
+import {MessageType} from './messaging/MessageType';
+import {ReportMessage} from './messaging/ReportMessage';
+import {Disposable} from '@monument/core/main/Disposable';
+import {ConfigurableEvent} from '@monument/core/main/events/ConfigurableEvent';
+import {Event} from '@monument/core/main/events/Event';
+import {Destroy} from '@monument/core/main/stereotype/lifecycle/Destroy';
+import {Delegate} from '@monument/core/main/decorators/Delegate';
 
 
 export abstract class Connection implements Disposable {
@@ -94,6 +94,7 @@ export abstract class Connection implements Disposable {
     protected onReported(target: Channel<ProcessMessages>, message: ReportMessage) {
         this._reported.trigger(target, message);
     }
+
 
     @Delegate
     private handleMessageReceived(

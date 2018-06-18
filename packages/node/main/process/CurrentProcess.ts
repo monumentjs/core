@@ -1,11 +1,4 @@
 import {Server, Socket} from 'net';
-import {Delegate} from '@monument/core/main/decorators/Delegate';
-import {DeferredObject} from '@monument/async/main/DeferredObject';
-import {Event} from '@monument/events/main/Event';
-import {EventArgs} from '@monument/events/main/EventArgs';
-import {ConfigurableEvent} from '@monument/events/main/ConfigurableEvent';
-import {Component} from '@monument/decorators/main/stereotype/Component';
-import {Lazy} from '@monument/decorators/main/stereotype/configuration/Lazy';
 import {Path} from '../path/Path';
 import {ExitCode} from './ExitCode';
 import {Channel} from './Channel';
@@ -14,6 +7,13 @@ import {ProcessMessage} from './ProcessMessage';
 import {ProcessException} from './ProcessException';
 import {ProcessExitedEventArgs} from './ProcessExitedEventArgs';
 import {ProcessMessageReceivedEventArgs} from './ProcessMessageReceivedEventArgs';
+import {Lazy} from '@monument/core/main/stereotype/configuration/Lazy';
+import {Component} from '@monument/core/main/stereotype/Component';
+import {ConfigurableEvent} from '@monument/core/main/events/ConfigurableEvent';
+import {EventArgs} from '@monument/core/main/events/EventArgs';
+import {Event} from '@monument/core/main/events/Event';
+import {DeferredObject} from '@monument/core/main/async/DeferredObject';
+import {Delegate} from '@monument/core/main/decorators/Delegate';
 
 
 @Lazy
@@ -66,9 +66,9 @@ export class CurrentProcess implements Channel<any>, ProcessInfo {
 
 
     public constructor() {
-        this._process.on('exit', this.onExit);
-        this._process.on('message', this.onMessage);
-        this._process.on('disconnect', this.onDisconnect);
+        this._process.on('exit', this.handleExit);
+        this._process.on('message', this.handleMessage);
+        this._process.on('disconnect', this.handleDisconnect);
     }
 
 
@@ -86,7 +86,7 @@ export class CurrentProcess implements Channel<any>, ProcessInfo {
         } else {
             deferred.reject(
                 new ProcessException(
-                    'Unable to send payload to master process: inter-process ipc (IPC) is not enabled.'
+                    'Unable to send payload to master process: inter-process communication (IPC) is not enabled.'
                 )
             );
         }
@@ -101,7 +101,7 @@ export class CurrentProcess implements Channel<any>, ProcessInfo {
 
 
     @Delegate
-    private onMessage(message: any, socket: Socket | Server): void {
+    private handleMessage(message: any, socket: Socket | Server): void {
         this._messageReceived.trigger(
             this,
             new ProcessMessageReceivedEventArgs(
@@ -116,7 +116,7 @@ export class CurrentProcess implements Channel<any>, ProcessInfo {
 
 
     @Delegate
-    private onExit(code: ExitCode): void {
+    private handleExit(code: ExitCode): void {
         this._exited.trigger(
             this,
             new ProcessExitedEventArgs(code)
@@ -125,7 +125,7 @@ export class CurrentProcess implements Channel<any>, ProcessInfo {
 
 
     @Delegate
-    private onDisconnect(): void {
-        this._disconnected.trigger(this, new EventArgs());
+    private handleDisconnect(): void {
+        this._disconnected.trigger(this, EventArgs.EMPTY);
     }
 }

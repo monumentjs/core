@@ -1,19 +1,18 @@
-import {Delegate} from '@monument/core/main/decorators/Delegate';
-import {RepeatableNumberGenerator} from '@monument/core/main/data/generator/RepeatableNumberGenerator';
-import {ArrayList} from '@monument/collections/main/ArrayList';
-import {Event} from '@monument/events/main/Event';
-import {EventArgs} from '@monument/events/main/EventArgs';
-import {ConfigurableEvent} from '@monument/events/main/ConfigurableEvent';
 import {ChildProcess} from './ChildProcess';
 import {ProcessMessage} from './ProcessMessage';
 import {ProcessClosedEventArgs} from './ProcessClosedEventArgs';
 import {ProcessExitedEventArgs} from './ProcessExitedEventArgs';
 import {ProcessMessageReceivedEventArgs} from './ProcessMessageReceivedEventArgs';
+import {ConfigurableEvent} from '@monument/core/main/events/ConfigurableEvent';
+import {EventArgs} from '@monument/core/main/events/EventArgs';
+import {ArrayList} from '@monument/core/main/collections/ArrayList';
+import {RepeatableNumberGenerator} from '@monument/core/main/data/generator/RepeatableNumberGenerator';
+import {Event} from '@monument/core/main/events/Event';
+import {Delegate} from '@monument/core/main/decorators/Delegate';
 
 
 export abstract class ProcessPool<TMessage> implements ChildProcess<TMessage> {
-    private readonly _messageReceived: ConfigurableEvent<ChildProcess<TMessage>, ProcessMessageReceivedEventArgs<TMessage>> =
-        new ConfigurableEvent();
+    private readonly _messageReceived: ConfigurableEvent<ChildProcess<TMessage>, ProcessMessageReceivedEventArgs<TMessage>> = new ConfigurableEvent();
     private readonly _disconnected: ConfigurableEvent<ChildProcess<TMessage>, EventArgs> = new ConfigurableEvent();
     private readonly _exited: ConfigurableEvent<ChildProcess<TMessage>, ProcessExitedEventArgs> = new ConfigurableEvent();
     private readonly _closed: ConfigurableEvent<ChildProcess<TMessage>, ProcessClosedEventArgs> = new ConfigurableEvent();
@@ -93,35 +92,35 @@ export abstract class ProcessPool<TMessage> implements ChildProcess<TMessage> {
     private getProcess(id: number): ChildProcess<TMessage> {
         const process: ChildProcess<TMessage> = this.createProcess(id);
 
-        process.messageReceived.subscribe(this.onMessageReceived);
-        process.disconnected.subscribe(this.onDisconnected);
-        process.closed.subscribe(this.onClosed);
-        process.exited.subscribe(this.onExited);
+        process.messageReceived.subscribe(this.handleMessageReceived);
+        process.disconnected.subscribe(this.handleDisconnected);
+        process.closed.subscribe(this.handleClosed);
+        process.exited.subscribe(this.handleExited);
 
         return process;
     }
 
 
     @Delegate
-    private onMessageReceived(target: ChildProcess<TMessage>, args: ProcessMessageReceivedEventArgs<TMessage>) {
+    private handleMessageReceived(target: ChildProcess<TMessage>, args: ProcessMessageReceivedEventArgs<TMessage>) {
         this._messageReceived.trigger(target, args);
     }
 
 
     @Delegate
-    private onDisconnected(target: ChildProcess<TMessage>, args: EventArgs) {
+    private handleDisconnected(target: ChildProcess<TMessage>, args: EventArgs) {
         this._disconnected.trigger(target, args);
     }
 
 
     @Delegate
-    private onClosed(target: ChildProcess<TMessage>, args: ProcessClosedEventArgs) {
+    private handleClosed(target: ChildProcess<TMessage>, args: ProcessClosedEventArgs) {
         this._closed.trigger(target, args);
     }
 
 
     @Delegate
-    private onExited(target: ChildProcess<TMessage>, args: ProcessExitedEventArgs) {
+    private handleExited(target: ChildProcess<TMessage>, args: ProcessExitedEventArgs) {
         this._exited.trigger(target, args);
     }
 }

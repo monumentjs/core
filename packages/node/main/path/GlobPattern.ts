@@ -1,6 +1,6 @@
-import {StringPool} from '../../../core/main/StringPool';
-import {Assert} from '../../../assert/main/Assert';
 import {PathPattern} from './PathPattern';
+import {StringPool} from '@monument/core/main/StringPool';
+import {Assert} from '@monument/core/main/assert/Assert';
 
 
 export class GlobPattern extends PathPattern {

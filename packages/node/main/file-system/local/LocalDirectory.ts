@@ -1,7 +1,7 @@
 import {Stats} from 'fs';
-import {DateTime} from '@monument/time/main/DateTime';
 import {Path} from '../../path/Path';
 import {Directory} from '../Directory';
+import {DateTime} from '@monument/core/main/time/DateTime';
 
 
 export class LocalDirectory extends Directory {

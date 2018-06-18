@@ -18,9 +18,6 @@ import {
     unlink,
     WriteStream
 } from 'fs';
-import {DeferredObject} from '@monument/async/main/DeferredObject';
-import {ArrayList} from '@monument/collections/main/ArrayList';
-import {Component} from '@monument/decorators/main/stereotype/Component';
 import {Path} from '../../path/Path';
 import {FileStorage} from '../FileStorage';
 import {AccessPermissions} from '../AccessPermissions';
@@ -33,6 +30,9 @@ import {LocalDirectory} from './LocalDirectory';
 import {LocalFileInputStream} from './LocalFileInputStream';
 import {LocalFileOutputStream} from './LocalFileOutputStream';
 import ErrnoException = NodeJS.ErrnoException;
+import {Component} from '@monument/core/main/stereotype/Component';
+import {DeferredObject} from '@monument/core/main/async/DeferredObject';
+import {ArrayList} from '@monument/core/main/collections/ArrayList';
 
 
 @Component

@@ -1,4 +1,3 @@
-import {Component} from '@monument/decorators/main/stereotype/Component';
 import {Path} from '@monument/node/main/path/Path';
 import {LocalFileSystem} from '@monument/node/main/file-system/local/LocalFileSystem';
 import {FileSystemWalker} from '@monument/node/main/file-system/walker/FileSystemWalker';
@@ -7,11 +6,12 @@ import {FileSystemWalkerConfiguration} from '@monument/node/main/file-system/wal
 import {TestFileFilter} from './TestFileFilter';
 import {CurrentProcess} from '@monument/node/main/process/CurrentProcess';
 import {PackageLayout} from '@monument/project/main/layout/PackageLayout';
+import {Component} from '@monument/core/main/stereotype/Component';
 
 
 @Component
 export class ProjectScanner {
-    private readonly _currentWorkingDirectory: Path;
+    private readonly _testDirectory: Path;
     private readonly _fileSystem: LocalFileSystem;
     private readonly _walker: FileSystemWalker;
     private readonly _packageLayout: PackageLayout;
@@ -23,7 +23,7 @@ export class ProjectScanner {
         testFileFilter: TestFileFilter,
         packageLayout: PackageLayout
     ) {
-        this._currentWorkingDirectory = currentProcess.currentWorkingDirectory;
+        this._testDirectory = currentProcess.currentWorkingDirectory.resolve(packageLayout.testDirectory);
         this._fileSystem = localFileSystem;
         this._packageLayout = packageLayout;
         this._walker = new FileSystemWalker(
@@ -36,10 +36,8 @@ export class ProjectScanner {
 
 
     public async scan(processor: FileSystemEntryProcessor): Promise<void> {
-        const testDirectory: Path = this._currentWorkingDirectory.resolve(this._packageLayout.testDirectory);
-
-        if (await this._fileSystem.directoryExists(testDirectory)) {
-            await this._walker.walk(testDirectory, processor);
+        if (await this._fileSystem.directoryExists(this._testDirectory)) {
+            await this._walker.walk(this._testDirectory, processor);
         }
     }
 }

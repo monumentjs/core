@@ -1,6 +1,6 @@
-import {Module} from '@monument/decorators/main/stereotype/Module';
 import {PackageLayout} from './layout/PackageLayout';
 import {ProjectLayout} from './layout/ProjectLayout';
+import {Module} from '@monument/core/main/stereotype/Module';
 
 
 @Module({

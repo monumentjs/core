@@ -1,7 +1,7 @@
-import {Module} from '@monument/decorators/main/stereotype/Module';
 import {CPUInfo} from './cpu/CPUInfo';
 import {RAMInfo} from './ram/RAMInfo';
 import {OSInfo} from './os/OSInfo';
+import {Module} from '@monument/core/main/stereotype/Module';
 
 
 @Module({

@@ -1,10 +1,10 @@
-import {MemorySize} from '@monument/core/main/MemorySize';
-import {InputStream} from '@monument/stream/main/InputStream';
-import {Closeable} from '@monument/stream/main/Closeable';
 import {Path} from '../../path/Path';
+import {InputStream} from '@monument/core/main/stream/InputStream';
+import {MemorySize} from '@monument/core/main/MemorySize';
+import {CloseableStream} from '@monument/core/main/stream/CloseableStream';
 
 
-export interface FileInputStream extends InputStream<Buffer>, Closeable {
+export interface FileInputStream extends InputStream<Buffer>, CloseableStream {
     readonly path: Path;
     readonly bytesRead: MemorySize;
 }

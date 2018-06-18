@@ -1,10 +1,5 @@
 import {Server, Socket} from 'net';
 import {ChildProcess as NodeChildProcess} from 'child_process';
-import {DeferredObject} from '@monument/async/main/DeferredObject';
-import {Delegate} from '@monument/core/main/decorators/Delegate';
-import {Event} from '@monument/events/main/Event';
-import {EventArgs} from '@monument/events/main/EventArgs';
-import {ConfigurableEvent} from '@monument/events/main/ConfigurableEvent';
 import {ProcessMessageReceivedEventArgs} from './ProcessMessageReceivedEventArgs';
 import {ProcessClosedEventArgs} from './ProcessClosedEventArgs';
 import {ProcessExitedEventArgs} from './ProcessExitedEventArgs';
@@ -12,6 +7,11 @@ import {ChildProcess} from './ChildProcess';
 import {ProcessMessage} from './ProcessMessage';
 import {ExitCode} from './ExitCode';
 import Signals = NodeJS.Signals;
+import {ConfigurableEvent} from '@monument/core/main/events/ConfigurableEvent';
+import {EventArgs} from '@monument/core/main/events/EventArgs';
+import {Event} from '@monument/core/main/events/Event';
+import {DeferredObject} from '@monument/core/main/async/DeferredObject';
+import {Delegate} from '@monument/core/main/decorators/Delegate';
 
 
 export abstract class AbstractChildProcess<TMessage> implements ChildProcess<TMessage> {
@@ -55,10 +55,10 @@ export abstract class AbstractChildProcess<TMessage> implements ChildProcess<TMe
     protected constructor(process: NodeChildProcess) {
         this._process = process;
 
-        this._process.on('exit', this.onExit);
-        this._process.on('close', this.onClose);
-        this._process.on('message', this.onMessage);
-        this._process.on('disconnect', this.onDisconnect);
+        this._process.on('exit', this.handleExit);
+        this._process.on('close', this.handleClose);
+        this._process.on('message', this.handleMessage);
+        this._process.on('disconnect', this.handleDisconnect);
     }
 
 
@@ -83,7 +83,7 @@ export abstract class AbstractChildProcess<TMessage> implements ChildProcess<TMe
 
 
     @Delegate
-    private onMessage(message: any, socket?: Socket | Server): void {
+    private handleMessage(message: any, socket?: Socket | Server): void {
         this._messageReceived.trigger(
             this,
             new ProcessMessageReceivedEventArgs(
@@ -98,7 +98,7 @@ export abstract class AbstractChildProcess<TMessage> implements ChildProcess<TMe
 
 
     @Delegate
-    private onExit(code: ExitCode, signal: Signals): void {
+    private handleExit(code: ExitCode, signal: Signals): void {
         this._exited.trigger(
             this,
             new ProcessExitedEventArgs(code, signal)
@@ -107,7 +107,7 @@ export abstract class AbstractChildProcess<TMessage> implements ChildProcess<TMe
 
 
     @Delegate
-    private onClose(code: ExitCode, signal: Signals): void {
+    private handleClose(code: ExitCode, signal: Signals): void {
         this._closed.trigger(
             this,
             new ProcessClosedEventArgs(code, signal)
@@ -116,7 +116,7 @@ export abstract class AbstractChildProcess<TMessage> implements ChildProcess<TMe
 
 
     @Delegate
-    private onDisconnect(): void {
-        this._disconnected.trigger(this, new EventArgs());
+    private handleDisconnect(): void {
+        this._disconnected.trigger(this, EventArgs.EMPTY);
     }
 }

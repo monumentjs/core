@@ -1,7 +1,7 @@
-import {Decorator} from '@monument/reflection/main/Decorator';
-import {Class} from '@monument/reflection/main/Class';
-import {Method} from '@monument/reflection/main/Method';
 import {Test} from './Test';
+import {Decorator} from '@monument/core/main/reflection/Decorator';
+import {Class} from '@monument/core/main/reflection/Class';
+import {Method} from '@monument/core/main/reflection/Method';
 
 
 export class TestDecorator extends Decorator {

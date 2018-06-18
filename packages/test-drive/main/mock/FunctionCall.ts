@@ -1,4 +1,4 @@
-import {Countable} from '@monument/collections/main/Countable';
+import {Countable} from '@monument/core/main/collections/Countable';
 
 
 export class FunctionCall {

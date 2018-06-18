@@ -1,7 +1,7 @@
-import {Type} from '@monument/core/main/Type';
-import {DeepEqualityComparator} from '@monument/core/main/utils/DeepEqualityComparator';
-import {Component} from '@monument/decorators/main/stereotype/Component';
 import {AssertionException} from './AssertionException';
+import {Component} from '@monument/core/main/stereotype/Component';
+import {DeepEqualityComparator} from '@monument/core/main/utils/DeepEqualityComparator';
+import {Type} from '@monument/core/main/Type';
 
 
 @Component

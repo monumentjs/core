@@ -1,26 +1,26 @@
 import {Filter} from '../../filter/Filter';
 import {Level} from '../../level/Level';
 import {Message} from '../../message/Message';
+import {MessageFormatter} from '../../message/MessageFormatter';
 import {AbstractAppender} from '../AbstractAppender';
-import {ConsoleMessageLayout} from './ConsoleMessageLayout';
 
 
 export class ConsoleAppender extends AbstractAppender {
     public static readonly DEFAULT_NAME: string = 'ConsoleAppender';
 
-    private readonly _layout: ConsoleMessageLayout;
+    private readonly _formatter: MessageFormatter;
 
 
-    public constructor(layout: ConsoleMessageLayout = ConsoleMessageLayout.DEFAULT, filters?: Iterable<Filter>) {
-        super(ConsoleAppender.DEFAULT_NAME, filters);
+    public constructor(name: string, formatter: MessageFormatter, filters?: Iterable<Filter>) {
+        super(name, filters);
 
-        this._layout = layout;
+        this._formatter = formatter;
     }
 
 
     protected async doAppend(message: Message): Promise<void> {
         /* tslint:disable:no-console */
-        const text: string = this._layout.serialize(message);
+        const text: string = this._formatter.format(message);
 
         switch (message.level) {
             case Level.TRACE:
