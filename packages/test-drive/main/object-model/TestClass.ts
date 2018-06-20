@@ -12,6 +12,8 @@ import {TestCase} from './TestCase';
 import {TestHook} from './TestHook';
 import {Ignorable} from './Ignorable';
 import {IgnoreDecorator} from '../decorators/IgnoreDecorator';
+import {DisplayName} from '../decorators/DisplayName';
+import {DisplayNameDecorator} from '../decorators/DisplayNameDecorator';
 
 
 export class TestClass implements Ignorable {
@@ -21,9 +23,15 @@ export class TestClass implements Ignorable {
     private readonly _afterAllHooks: ArrayList<TestHook> = new ArrayList();
     private readonly _beforeEachHooks: ArrayList<TestHook> = new ArrayList();
     private readonly _afterEachHooks: ArrayList<TestHook> = new ArrayList();
+    private readonly _displayName: string;
 
     public get class(): Class<object> {
         return this._class;
+    }
+
+
+    public get displayName(): string {
+        return this._displayName;
     }
 
 
@@ -64,6 +72,16 @@ export class TestClass implements Ignorable {
 
     public constructor(klass: Class<object>) {
         this._class = klass;
+
+        this._displayName = klass.name;
+
+        if (klass.isDecoratedWith(DisplayName)) {
+            const displayName: string | undefined = klass.getAttribute(DisplayNameDecorator.NAME);
+
+            if (displayName) {
+                this._displayName = displayName;
+            }
+        }
 
         const methods: ReadOnlyList<Method> = klass.methods;
 

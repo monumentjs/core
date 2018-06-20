@@ -45,7 +45,7 @@ export class DefaultTestReporter implements TestReporter {
 
 
     public onTestClassStarted(args: TestClassStartedEventArgs): void | Promise<void> {
-        return undefined;
+        process.stdout.write(args.testClass.displayName + ' ' + args.testFile.path + StringPool.EOL_CRLF);
     }
 
 
@@ -60,20 +60,17 @@ export class DefaultTestReporter implements TestReporter {
 
 
     public onTestCaseEnded(args: TestCaseEndedEventArgs): void | Promise<void> {
-        const {testClassName, testMethodName, status, duration, error} = args.testReport;
+        const {testMethodName, status, duration, error} = args.testReport;
         const sb: StringBuilder = new StringBuilder();
         const statusStyle: Rule = this._styles.getStatusStyle(status);
         const durationStyle: Rule = this._styles.durationStyle;
         const errorStyle: Rule = this._styles.errorStyle;
         const textStyle: Rule = this._styles.textStyle;
 
-        sb.append(statusStyle.apply(`[${TestStatus[status]}]`));
-        sb.append(StringPool.SPACE);
-        sb.append('in ' + durationStyle.apply(duration.toString() + 'ms'));
-        sb.append(StringPool.SPACE);
-        sb.append(testClassName);
-        sb.append(' > ');
-        sb.append(testMethodName);
+        const statusText: string = statusStyle.apply(`${TestStatus[status]}`);
+        const durationText: string = durationStyle.apply(duration.toString() + 'ms');
+
+        sb.append(`    ${statusText} in ${durationText} ${testMethodName}`);
 
         if (error) {
             sb.append(StringPool.EOL_CRLF);
