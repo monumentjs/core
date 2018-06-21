@@ -1,4 +1,4 @@
-import {TestClassConfigurationUnitDefinitionReader} from './support/TestClassConfigurationUnitDefinitionReader';
+import {TestContextConfigurationUnitDefinitionReader} from './support/TestContextConfigurationUnitDefinitionReader';
 import {ApplicationContext} from '@monument/core/main/application/context/ApplicationContext';
 import {Context} from '@monument/core/main/context/Context';
 
@@ -9,7 +9,7 @@ export class TestClassContext extends ApplicationContext {
         super(parent);
 
         this.addUnitDefinitionReader(
-            new TestClassConfigurationUnitDefinitionReader(this.unitDefinitionRegistry, this)
+            new TestContextConfigurationUnitDefinitionReader(this.unitDefinitionRegistry, this)
         );
     }
 }

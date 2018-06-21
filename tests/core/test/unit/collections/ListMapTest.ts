@@ -1,4 +1,4 @@
-import {TestConfiguration} from '@monument/test-drive/main/decorators/TestConfiguration';
+import {ContextConfiguration} from '@monument/test-drive/main/decorators/ContextConfiguration';
 import {Map} from '@monument/core/main/collections/Map';
 import {ListMap} from '@monument/core/main/collections/ListMap';
 import {KeyValuePair} from '@monument/core/main/collections/KeyValuePair';
@@ -6,7 +6,7 @@ import {EqualityComparator} from '@monument/core/main/EqualityComparator';
 import {IgnoreCaseComparator} from '@monument/core/main/text/IgnoreCaseComparator';
 import {MapSpec} from './MapSpec';
 
-@TestConfiguration({
+@ContextConfiguration({
     components: [
         IgnoreCaseComparator
     ]

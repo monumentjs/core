@@ -1,11 +1,11 @@
-import {TestConfiguration} from './TestConfiguration';
+import {ContextConfiguration} from './ContextConfiguration';
 import {Decorator} from '@monument/core/main/reflection/Decorator';
 import {Type} from '@monument/core/main/Type';
 import {Key} from '@monument/core/main/object-model/attributes/Key';
 import {Class} from '@monument/core/main/reflection/Class';
 
 
-export class TestConfigurationDecorator extends Decorator {
+export class ContextConfigurationDecorator extends Decorator {
     public static readonly COMPONENTS: Key<Array<Type<object>>> = new Key();
     public static readonly MODULES: Key<Array<Type<object>>> = new Key();
 
@@ -22,8 +22,8 @@ export class TestConfigurationDecorator extends Decorator {
 
 
     protected onClass(klass: Class<any>): void {
-        klass.decorate(TestConfiguration);
-        klass.setAttribute(TestConfigurationDecorator.COMPONENTS, this._components);
-        klass.setAttribute(TestConfigurationDecorator.MODULES, this._modules);
+        klass.decorate(ContextConfiguration);
+        klass.setAttribute(ContextConfigurationDecorator.COMPONENTS, this._components);
+        klass.setAttribute(ContextConfigurationDecorator.MODULES, this._modules);
     }
 }

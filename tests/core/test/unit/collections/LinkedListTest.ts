@@ -1,12 +1,12 @@
 import {ListSpec} from './ListSpec';
 import {Test} from '@monument/test-drive/main/decorators/Test';
-import {TestConfiguration} from '@monument/test-drive/main/decorators/TestConfiguration';
+import {ContextConfiguration} from '@monument/test-drive/main/decorators/ContextConfiguration';
 import {Assert} from '@monument/test-drive/main/assert/Assert';
 import {IgnoreCaseComparator} from '@monument/core/main/text/IgnoreCaseComparator';
 import {LinkedList} from '@monument/core/main/collections/LinkedList';
 
 
-@TestConfiguration({
+@ContextConfiguration({
     components: [
         IgnoreCaseComparator
     ]
