@@ -39,27 +39,27 @@ export class DefaultTestReporter implements TestReporter {
     }
 
 
-    public onTestClassEnded(args: TestClassEndedEventArgs): void | Promise<void> {
-        return undefined;
+    public onTestClassEnded(args: TestClassEndedEventArgs): void {
+        // Stub
     }
 
 
-    public onTestClassStarted(args: TestClassStartedEventArgs): void | Promise<void> {
+    public onTestClassStarted(args: TestClassStartedEventArgs): void {
         process.stdout.write(args.testClass.displayName + ' ' + args.testFile.path + StringPool.EOL_CRLF);
     }
 
 
-    public onTestFileEnded(args: TestFileEndedEventArgs): void | Promise<void> {
-        return undefined;
+    public onTestFileEnded(args: TestFileEndedEventArgs): void {
+        // Stub
     }
 
 
-    public onTestFileStarted(args: TestFileStartedEventArgs): void | Promise<void> {
-        return undefined;
+    public onTestFileStarted(args: TestFileStartedEventArgs): void {
+        // Stub
     }
 
 
-    public onTestCaseEnded(args: TestCaseEndedEventArgs): void | Promise<void> {
+    public onTestCaseEnded(args: TestCaseEndedEventArgs): void {
         const {testMethodName, status, duration, error} = args.testReport;
         const sb: StringBuilder = new StringBuilder();
         const statusStyle: Rule = this._styles.getStatusStyle(status);
@@ -85,13 +85,13 @@ export class DefaultTestReporter implements TestReporter {
     }
 
 
-    public onTestCaseStarted(args: TestCaseStartedEventArgs): void | Promise<void> {
-        return undefined;
+    public onTestCaseStarted(args: TestCaseStartedEventArgs): void {
+        // Stub
     }
 
 
     public onEnded(): void | Promise<void> {
-        return undefined;
+        // Stub
     }
 
 
@@ -100,7 +100,7 @@ export class DefaultTestReporter implements TestReporter {
 
         sb.appendLine(`SYSTEM INFO:`);
         sb.appendLine(`CPU: ${this._cpu.coresCount} cores; ${this._cpu.architecture}`);
-        sb.appendLine(`RAM: ${Math.round(this._ram.total.gigabytes)}Gb`);
+        sb.appendLine(`RAM: ${Math.round(this._ram.total.megabytes)}Mb`);
         sb.appendLine(`OS: ${this._os.platform}`);
 
         const message: string = this._styles.textStyle.apply(sb.toString());

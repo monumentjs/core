@@ -5,14 +5,22 @@ import {Parameter} from '@monument/core/main/reflection/Parameter';
 import {Ignore} from '../decorators/Ignore';
 import {Ignorable} from './Ignorable';
 import {IgnoreDecorator} from '../decorators/IgnoreDecorator';
+import {DisplayName} from '../decorators/DisplayName';
+import {DisplayNameDecorator} from '../decorators/DisplayNameDecorator';
 
 
 export abstract class TestMethod implements Invokable, Ignorable {
+    private readonly _displayName: string;
     protected readonly method: Method;
 
 
     public get isIgnored(): boolean {
         return this.method.isDecoratedWith(Ignore);
+    }
+
+
+    public get displayName(): string {
+        return this._displayName;
     }
 
 
@@ -28,6 +36,15 @@ export abstract class TestMethod implements Invokable, Ignorable {
 
     public constructor(method: Method) {
         this.method = method;
+        this._displayName = method.name.toString();
+
+        if (method.isDecoratedWith(DisplayName)) {
+            const displayName = method.getAttribute(DisplayNameDecorator.NAME);
+
+            if (displayName) {
+                this._displayName = displayName;
+            }
+        }
     }
 
 

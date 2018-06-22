@@ -5,7 +5,7 @@ export function Cached(target: object, key: string, descriptor: PropertyDescript
     const getter: GetterFunction | undefined = descriptor.get;
 
     if (getter != null) {
-        const prop = Symbol();
+        const prop: symbol = Symbol();
 
         return {
             ...descriptor,

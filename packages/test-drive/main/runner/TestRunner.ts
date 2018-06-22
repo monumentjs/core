@@ -128,7 +128,7 @@ export class TestRunner {
         const testReport: TestReport = {
             testFilePath: testFile.path.toString(),
             testClassName: testClass.class.name,
-            testMethodName: testCase.description,
+            testMethodName: testCase.displayName,
             status: testCase.isIgnored ? TestStatus.SKIPPED : error == null ? TestStatus.PASSED : TestStatus.FAILED,
             duration: durationMeter.duration.totalMilliseconds,
             error: error
