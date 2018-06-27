@@ -1,12 +1,14 @@
 import {TestRunner} from './TestRunner';
 import {Module} from '@monument/core/main/stereotype/Module';
-import {TestFileLoader} from './TestFileLoader';
 import {ClassLoader} from '@monument/core/main/ClassLoader';
+import {TestFileLoader} from './TestFileLoader';
 
 
 @Module({
+    dependsOn: [
+        ClassLoader
+    ],
     components: [
-        ClassLoader,
         TestFileLoader,
         TestRunner
     ]

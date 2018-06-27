@@ -39,7 +39,7 @@ export abstract class TestMethod implements Invokable, Ignorable {
         this._displayName = method.name.toString();
 
         if (method.isDecoratedWith(DisplayName)) {
-            const displayName = method.getAttribute(DisplayNameDecorator.NAME);
+            const displayName: string | undefined = method.getAttribute(DisplayNameDecorator.NAME);
 
             if (displayName) {
                 this._displayName = displayName;

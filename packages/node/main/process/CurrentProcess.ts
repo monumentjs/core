@@ -65,6 +65,11 @@ export class CurrentProcess implements Channel<any>, ProcessInfo {
     }
 
 
+    public get exitCode(): ExitCode {
+        return this._process.exitCode;
+    }
+
+
     public constructor() {
         this._process.on('exit', this.handleExit);
         this._process.on('message', this.handleMessage);
@@ -72,7 +77,7 @@ export class CurrentProcess implements Channel<any>, ProcessInfo {
     }
 
 
-    public send(message: ProcessMessage<any>): Promise<void> {
+    public sendMessage(message: ProcessMessage<any>): Promise<void> {
         const deferred: DeferredObject<void> = new DeferredObject();
 
         if (this._process.send != null) {
@@ -126,6 +131,6 @@ export class CurrentProcess implements Channel<any>, ProcessInfo {
 
     @Delegate
     private handleDisconnect(): void {
-        this._disconnected.trigger(this, EventArgs.EMPTY);
+        this._disconnected.trigger(this, new EventArgs());
     }
 }

@@ -3,5 +3,5 @@
 export enum TestStatus {
     PASSED,
     FAILED,
-    SKIPPED
+    IGNORED
 }

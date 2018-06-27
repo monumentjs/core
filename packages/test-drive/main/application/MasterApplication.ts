@@ -4,19 +4,16 @@ import {CurrentProcessModule} from '@monument/node/main/process/CurrentProcessMo
 import {LocalFileSystemModule} from '@monument/node/main/file-system/local/LocalFileSystemModule';
 import {FileSystemEntryProcessor} from '@monument/node/main/file-system/walker/FileSystemEntryProcessor';
 import {SystemInfoModule} from '@monument/node/main/system/info/SystemInfoModule';
-import {Logger} from '@monument/logger/main/logger/Logger';
-import {LoggerManager} from '@monument/logger/main/manager/LoggerManager';
 import {LoggerModule} from '@monument/logger/main/LoggerModule';
 import {ProjectModule} from '@monument/project/main/ProjectModule';
 import {ProjectScanner} from '../project/scanner/ProjectScanner';
 import {ProjectScannerModule} from '../project/ProjectScannerModule';
 import {ConfigurationModule} from '../configuration/ConfigurationModule';
 import {TestReporterModule} from '../reporter/TestReporterModule';
-import {MasterConnection} from '../connection/MasterConnection';
+import {MasterProcessController} from '../connection/MasterProcessController';
 import {ConnectionModule} from '../connection/ConnectionModule';
 import {ProcessMessages} from '../connection/messaging/ProcessMessages';
-import {FileEndMessage} from '../connection/messaging/FileEndMessage';
-import {ReportMessage} from '../connection/messaging/ReportMessage';
+import {TestFileEndedMessage} from '../connection/messaging/TestFileEndedMessage';
 import {Boot} from '@monument/core/main/application/decorators/Boot';
 import {Application} from '@monument/core/main/stereotype/Application';
 import {ListMap} from '@monument/core/main/collections/ListMap';
@@ -25,6 +22,11 @@ import {Init} from '@monument/core/main/stereotype/lifecycle/Init';
 import {Delegate} from '@monument/core/main/decorators/Delegate';
 import {Channel} from '@monument/node/main/process/Channel';
 import {TestReporterManager} from '../reporter/TestReporterManager';
+import {TestReportSummaryBuilder} from '../reporter/TestReportSummaryBuilder';
+import {TestReportSummary} from '../reporter/TestReportSummary';
+import {Path} from '@monument/node/main/path/Path';
+import {ForkPool} from '@monument/node/main/process/ForkPool';
+import {CPUInfo} from '@monument/node/main/system/info/cpu/CPUInfo';
 
 
 @Boot
@@ -43,28 +45,25 @@ import {TestReporterManager} from '../reporter/TestReporterManager';
     ]
 })
 export class MasterApplication implements FileSystemEntryProcessor {
+
     private readonly _currentProcess: CurrentProcess;
     private readonly _projectScanner: ProjectScanner;
     private readonly _pendingTests: ListMap<string, DeferredObject<void>> = new ListMap();
-    private readonly _connection: MasterConnection;
     private readonly _testReporterManager: TestReporterManager;
-    private readonly _logger: Logger;
+    private readonly _summaryBuilder: TestReportSummaryBuilder;
 
 
     public constructor(
-        connection: MasterConnection,
         currentProcess: CurrentProcess,
         projectScanner: ProjectScanner,
         testReporterManager: TestReporterManager,
-        loggerManager: LoggerManager
+        summaryBuilder: TestReportSummaryBuilder
     ) {
-        this._logger = loggerManager.getLogger(this.constructor.name);
+        this._summaryBuilder = summaryBuilder;
         this._currentProcess = currentProcess;
         this._projectScanner = projectScanner;
-        this._connection = connection;
         this._testReporterManager = testReporterManager;
-        this._connection.fileEnded.subscribe(this.handleFileEnded);
-        this._connection.reported.subscribe(this.handleReported);
+
     }
 
 
@@ -74,9 +73,11 @@ export class MasterApplication implements FileSystemEntryProcessor {
         await this._projectScanner.scan(this);
         await this._testReporterManager.onEnded();
 
-        // const exitCode: number = this._testReportRegistry.hasFailedTests ? 1 : 0;
+        const summary: TestReportSummary = this._summaryBuilder.build();
 
-        await this._currentProcess.exit(0);
+        const exitCode: number = summary.failedTestsCount > 0 ? 1 : 0;
+
+        await this._currentProcess.exit(exitCode);
     }
 
 
@@ -92,7 +93,7 @@ export class MasterApplication implements FileSystemEntryProcessor {
 
 
     @Delegate
-    private handleFileEnded(target: Channel<ProcessMessages>, message: FileEndMessage): void {
+    private handleFileEnded(target: Channel<ProcessMessages>, message: TestFileEndedMessage): void {
         const deferred: DeferredObject<void> | undefined = this._pendingTests.remove(message.path);
 
         if (deferred != null) {
@@ -102,7 +103,7 @@ export class MasterApplication implements FileSystemEntryProcessor {
 
 
     @Delegate
-    private async handleReported(target: Channel<ProcessMessages>, message: ReportMessage): Promise<void> {
-        // await this._testReporterController.addReport(message.report);
+    private handleReported(target: Channel<ProcessMessages>, message: ReportMessage): void {
+        this._summaryBuilder.analyze(message.report);
     }
 }

@@ -3,17 +3,17 @@ import {EventArgs} from './EventArgs';
 
 
 export class ErrorEventArgs extends EventArgs {
-    private readonly _error: Exception;
+    private readonly _exception: Exception;
 
 
-    public get error(): Exception {
-        return this._error;
+    public get exception(): Exception {
+        return this._exception;
     }
 
 
-    public constructor(error: Exception) {
+    public constructor(exception: Exception) {
         super();
 
-        this._error = error;
+        this._exception = exception;
     }
 }

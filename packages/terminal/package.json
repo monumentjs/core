@@ -6,5 +6,7 @@
     "console", "terminal"
   ],
   "dependencies": {
+    "@monument/core": "^0.9.0",
+    "@monument/geometry": "^0.9.0"
   }
 }

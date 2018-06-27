@@ -12,34 +12,45 @@ import {TestHook} from '../object-model/TestHook';
 import {TestCase} from '../object-model/TestCase';
 import {TestClassContextFactory} from '../context/factory/TestClassContextFactory';
 import {DurationMeter} from '@monument/core/main/time/DurationMeter';
-import {TestReporterManager} from '../reporter/TestReporterManager';
 import {TestFileStartedEventArgs} from '../reporter/events/TestFileStartedEventArgs';
 import {TestFileEndedEventArgs} from '../reporter/events/TestFileEndedEventArgs';
 import {TestCaseEndedEventArgs} from '../reporter/events/TestCaseEndedEventArgs';
 import {TestCaseStartedEventArgs} from '../reporter/events/TestCaseStartedEventArgs';
 import {TestClassStartedEventArgs} from '../reporter/events/TestClassStartedEventArgs';
 import {TestClassEndedEventArgs} from '../reporter/events/TestClassEndedEventArgs';
+import {TestFileLoader} from './TestFileLoader';
+import {Path} from '@monument/node/main/path/Path';
+import {SlaveConnection} from '../connection/SlaveConnection';
 
 
 @Component
 export class TestRunner {
     private readonly _logger: Logger;
+    private readonly _connection: SlaveConnection;
+    private readonly _testFileLoader: TestFileLoader;
     private readonly _testContextFactory: TestClassContextFactory;
-    private readonly _testReporterManager: TestReporterManager;
 
 
-    public constructor(loggerManager: LoggerManager, testContextFactory: TestClassContextFactory, testReporterManager: TestReporterManager) {
+    public constructor(
+        loggerManager: LoggerManager,
+        connection: SlaveConnection,
+        testContextFactory: TestClassContextFactory,
+        testFileLoader: TestFileLoader
+    ) {
         this._logger = loggerManager.getLogger(this.constructor.name);
+        this._connection = connection;
+        this._testFileLoader = testFileLoader;
         this._testContextFactory = testContextFactory;
-        this._testReporterManager = testReporterManager;
     }
 
 
-    public async runTestFile(testFile: TestFile): Promise<void> {
+    public async runTestFile(path: Path): Promise<void> {
+        const testFile: TestFile = await this._testFileLoader.load(path);
+
         try {
             const durationMeter: DurationMeter = new DurationMeter();
 
-            await this._testReporterManager.onTestFileStarted(new TestFileStartedEventArgs(testFile));
+            await this._connection.notifyTestFileStarted(path);
 
             durationMeter.start();
 
@@ -47,7 +58,7 @@ export class TestRunner {
 
             durationMeter.end();
 
-            await this._testReporterManager.onTestFileEnded(new TestFileEndedEventArgs(testFile, durationMeter.duration));
+            await this._connection.notifyTestFileEnded(new TestFileEndedEventArgs(testFile, durationMeter.duration));
         } catch (e) {
             await this._logger.error(`Error in test file "${testFile.path.toString()}"`, e);
         }
@@ -64,33 +75,33 @@ export class TestRunner {
         const testContext: TestClassContext = await this._testContextFactory.get(testConstructor);
         const instance: object = await testContext.getUnit(testConstructor);
 
-        await this._testReporterManager.onTestClassStarted(new TestClassStartedEventArgs(testFile, testClass));
+        await this._connection.onTestClassStarted(new TestClassStartedEventArgs(testFile, testClass));
 
         durationMeter.start();
 
-        for (const hook of testClass.beforeAllHooks) {
-            await this.runTestHook(hook, testContext, instance);
+        for (const testHook of testClass.beforeAllHooks) {
+            await this.runTestHook(testHook, testContext, instance);
         }
 
         for (const testCase of testClass.testCases) {
-            for (const hook of testClass.beforeEachHooks) {
-                await this.runTestHook(hook, testContext, instance);
+            for (const testHook of testClass.beforeEachHooks) {
+                await this.runTestHook(testHook, testContext, instance);
             }
 
             await this.runTestCase(testFile, testClass, testCase, testContext, instance);
 
-            for (const hook of testClass.afterEachHooks) {
-                await this.runTestHook(hook, testContext, instance);
+            for (const testHook of testClass.afterEachHooks) {
+                await this.runTestHook(testHook, testContext, instance);
             }
         }
 
-        for (const hook of testClass.afterAllHooks) {
-            await this.runTestHook(hook, testContext, instance);
+        for (const testHook of testClass.afterAllHooks) {
+            await this.runTestHook(testHook, testContext, instance);
         }
 
         durationMeter.end();
 
-        await this._testReporterManager.onTestClassEnded(new TestClassEndedEventArgs(testFile, testClass, durationMeter.duration));
+        await this._connection.onTestClassEnded(new TestClassEndedEventArgs(testFile, testClass, durationMeter.duration));
 
         await testContext.stop();
     }
@@ -109,7 +120,7 @@ export class TestRunner {
         const durationMeter: DurationMeter = new DurationMeter();
         let error: Exception | undefined;
 
-        await this._testReporterManager.onTestCaseStarted(
+        await this._connection.onTestCaseStarted(
             new TestCaseStartedEventArgs(testFile, testClass, testCase)
         );
 
@@ -129,12 +140,12 @@ export class TestRunner {
             testFilePath: testFile.path.toString(),
             testClassName: testClass.class.name,
             testMethodName: testCase.displayName,
-            status: testCase.isIgnored ? TestStatus.SKIPPED : error == null ? TestStatus.PASSED : TestStatus.FAILED,
+            status: testCase.isIgnored ? TestStatus.IGNORED : error == null ? TestStatus.PASSED : TestStatus.FAILED,
             duration: durationMeter.duration.totalMilliseconds,
             error: error
         };
 
-        await this._testReporterManager.onTestCaseEnded(
+        await this._connection.onTestCaseEnded(
             new TestCaseEndedEventArgs(testFile, testClass, testCase, testReport, durationMeter.duration)
         );
     }

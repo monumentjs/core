@@ -1,14 +1,13 @@
 import {ChildProcess} from './ChildProcess';
-import {ProcessMessage} from './ProcessMessage';
 import {ProcessClosedEventArgs} from './ProcessClosedEventArgs';
 import {ProcessExitedEventArgs} from './ProcessExitedEventArgs';
 import {ProcessMessageReceivedEventArgs} from './ProcessMessageReceivedEventArgs';
 import {ConfigurableEvent} from '@monument/core/main/events/ConfigurableEvent';
 import {EventArgs} from '@monument/core/main/events/EventArgs';
 import {ArrayList} from '@monument/core/main/collections/ArrayList';
-import {RepeatableNumberGenerator} from '@monument/core/main/data/generator/RepeatableNumberGenerator';
 import {Event} from '@monument/core/main/events/Event';
 import {Delegate} from '@monument/core/main/decorators/Delegate';
+import {ProcessMessage} from './ProcessMessage';
 
 
 export abstract class ProcessPool<TMessage> implements ChildProcess<TMessage> {
@@ -19,7 +18,6 @@ export abstract class ProcessPool<TMessage> implements ChildProcess<TMessage> {
 
     private readonly _size: number;
     private readonly _processes: ArrayList<ChildProcess<TMessage>> = new ArrayList();
-    private readonly _indexGenerator: RepeatableNumberGenerator;
 
 
     public get size(): number {
@@ -56,7 +54,6 @@ export abstract class ProcessPool<TMessage> implements ChildProcess<TMessage> {
 
     protected constructor(size: number) {
         this._size = size;
-        this._indexGenerator = new RepeatableNumberGenerator(size);
     }
 
 
@@ -67,15 +64,11 @@ export abstract class ProcessPool<TMessage> implements ChildProcess<TMessage> {
     }
 
 
-    public async send(message: ProcessMessage<TMessage>): Promise<void> {
-        const index: number = this._indexGenerator.next();
-        const process: ChildProcess<TMessage> = this._processes.getAt(index);
+    public async sendMessage(message: ProcessMessage<TMessage>): Promise<void> {
+        const process: ChildProcess<TMessage> = this._processes.getAt(0);
 
-        return process.send(message);
+        return process.sendMessage(message);
     }
-
-
-    protected abstract createProcess(id: number): ChildProcess<TMessage>;
 
 
     /**
@@ -87,6 +80,9 @@ export abstract class ProcessPool<TMessage> implements ChildProcess<TMessage> {
             this._processes.add(this.getProcess(id));
         }
     }
+
+
+    protected abstract createProcess(id: number): ChildProcess<TMessage>;
 
 
     private getProcess(id: number): ChildProcess<TMessage> {

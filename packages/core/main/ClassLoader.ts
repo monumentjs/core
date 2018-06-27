@@ -12,13 +12,13 @@ export class ClassLoader {
         try {
             exports = await import(filePath);
         } catch (e) {
-            throw new ClassLoaderException(`Class ${className} cannot be imported from ${filePath}`, e);
+            throw new ClassLoaderException(`Class "${className}" cannot be imported from "${filePath}".`, e);
         }
 
         const constructor = exports[className];
 
         if (typeof constructor !== 'function') {
-            throw new ClassLoaderException(`Class ${className} not found in ${filePath}`);
+            throw new ClassLoaderException(`Class "${className}" not found in "${filePath}".`);
         }
 
         return constructor;

@@ -1,14 +1,18 @@
 import {Module} from '@monument/core/main/stereotype/Module';
 import {DefaultTestReporter} from './support/DefaultTestReporter';
-import {DefaultTestReporterStyles} from './support/DefaultTestReporterStyles';
 import {TestReporterManager} from './TestReporterManager';
 import {Unit} from '@monument/core/main/stereotype/Unit';
+import {TerminalModule} from '@monument/terminal/main/terminal/TerminalModule';
+import {TestReportSummaryBuilder} from './TestReportSummaryBuilder';
 
 
 @Module({
+    dependsOn: [
+        TerminalModule
+    ],
     components: [
         DefaultTestReporter,
-        DefaultTestReporterStyles
+        TestReportSummaryBuilder
     ]
 })
 export class TestReporterModule {
