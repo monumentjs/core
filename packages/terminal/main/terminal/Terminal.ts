@@ -4,6 +4,7 @@ import {Event} from '@monument/core/main/events/Event';
 import {ConfigurableEvent} from '@monument/core/main/events/ConfigurableEvent';
 import {Size} from '@monument/geometry/main/base/Size';
 import {TerminalResizeEventArgs} from './events/TerminalResizeEventArgs';
+import {Delegate} from '@monument/core/main/decorators/Delegate';
 
 
 @Component
@@ -33,17 +34,7 @@ export class Terminal {
             this._stdout.rows || Terminal.MIN_HEIGHT
         );
 
-        this._stdout.on('resize', () => {
-            const oldSize = this._size;
-            const newSize: Size = new Size(
-                this._stdout.columns || Terminal.MIN_WIDTH,
-                this._stdout.rows || Terminal.MIN_HEIGHT
-            );
-
-            this._size = newSize;
-
-            this._resized.trigger(this, new TerminalResizeEventArgs(oldSize, newSize));
-        });
+        this._stdout.on('resize', this.onResize);
     }
 
 
@@ -70,5 +61,19 @@ export class Terminal {
                 }
             });
         });
+    }
+
+
+    @Delegate
+    private onResize(): void {
+        const oldSize: Size = this._size;
+        const newSize: Size = new Size(
+            this._stdout.columns || Terminal.MIN_WIDTH,
+            this._stdout.rows || Terminal.MIN_HEIGHT
+        );
+
+        this._size = newSize;
+
+        this._resized.trigger(this, new TerminalResizeEventArgs(oldSize, newSize));
     }
 }
