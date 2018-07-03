@@ -4,8 +4,8 @@ import {ProcessMessage} from '@monument/node/main/process/ProcessMessage';
 import {ProcessMessageReceivedEventArgs} from '@monument/node/main/process/ProcessMessageReceivedEventArgs';
 import {TestReport} from '../report/TestReport';
 import {ProcessMessages} from './messaging/ProcessMessages';
-import {FileStartMessage} from './messaging/FileStartMessage';
-import {FileEndMessage} from './messaging/FileEndMessage';
+import {TestFileStartedMessage} from './messaging/TestFileStartedMessage';
+import {TestFileEndedMessage} from './messaging/TestFileEndedMessage';
 import {MessageType} from './messaging/MessageType';
 import {ReportMessage} from './messaging/ReportMessage';
 import {Disposable} from '@monument/core/main/Disposable';
@@ -16,18 +16,22 @@ import {Delegate} from '@monument/core/main/decorators/Delegate';
 
 
 export abstract class Connection implements Disposable {
-    private readonly _fileStarted: ConfigurableEvent<Channel<ProcessMessages>, FileStartMessage> = new ConfigurableEvent();
-    private readonly _fileEnded: ConfigurableEvent<Channel<ProcessMessages>, FileEndMessage> = new ConfigurableEvent();
+    private readonly _fileStarted: ConfigurableEvent<Channel<ProcessMessages>, TestFileStartedMessage> = new ConfigurableEvent();
+    private readonly _fileEnded: ConfigurableEvent<Channel<ProcessMessages>, TestFileEndedMessage> = new ConfigurableEvent();
     private readonly _reported: ConfigurableEvent<Channel<ProcessMessages>, ReportMessage> = new ConfigurableEvent();
     private readonly _channel: Channel<ProcessMessages>;
 
 
-    public get fileStarted(): Event<Channel<ProcessMessages>, FileStartMessage> {
+    public async notifyTestFileStarted(path: Path): void {
+        this._channel.sendMessage()
+    }
+
+    public get fileStarted(): Event<Channel<ProcessMessages>, TestFileStartedMessage> {
         return this._fileStarted;
     }
 
 
-    public get fileEnded(): Event<Channel<ProcessMessages>, FileEndMessage> {
+    public get fileEnded(): Event<Channel<ProcessMessages>, TestFileEndedMessage> {
         return this._fileEnded;
     }
 
@@ -45,22 +49,22 @@ export abstract class Connection implements Disposable {
 
 
     public async startFile(path: Path): Promise<void> {
-        const message: FileStartMessage = {
-            type: MessageType.FILE_START,
+        const message: TestFileStartedMessage = {
+            type: MessageType.FILE_STARTED,
             path: path.toString()
         };
 
-        return this._channel.send(new ProcessMessage(message));
+        return this._channel.sendMessage(new ProcessMessage(message));
     }
 
 
     public endFile(path: Path): Promise<void> {
-        const message: FileEndMessage = {
-            type: MessageType.FILE_END,
+        const message: TestFileEndedMessage = {
+            type: MessageType.FILE_ENDED,
             path: path.toString()
         };
 
-        return this._channel.send(new ProcessMessage(message));
+        return this._channel.sendMessage(new ProcessMessage(message));
     }
 
 
@@ -71,7 +75,7 @@ export abstract class Connection implements Disposable {
             path: path.toString()
         };
 
-        return this._channel.send(new ProcessMessage(message));
+        return this._channel.sendMessage(new ProcessMessage(message));
     }
 
 
@@ -81,12 +85,12 @@ export abstract class Connection implements Disposable {
     }
 
 
-    protected onFileStarted(target: Channel<ProcessMessages>, message: FileStartMessage) {
+    protected onFileStarted(target: Channel<ProcessMessages>, message: TestFileStartedMessage) {
         this._fileStarted.trigger(target, message);
     }
 
 
-    protected onFileEnded(target: Channel<ProcessMessages>, message: FileEndMessage) {
+    protected onFileEnded(target: Channel<ProcessMessages>, message: TestFileEndedMessage) {
         this._fileEnded.trigger(target, message);
     }
 
@@ -104,11 +108,11 @@ export abstract class Connection implements Disposable {
         const payload: ProcessMessages = args.message.payload;
 
         switch (payload.type) {
-            case MessageType.FILE_START:
+            case MessageType.FILE_STARTED:
                 this.onFileStarted(target, payload);
                 break;
 
-            case MessageType.FILE_END:
+            case MessageType.FILE_ENDED:
                 this.onFileEnded(target, payload);
                 break;
 

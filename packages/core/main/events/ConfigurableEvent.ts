@@ -2,9 +2,10 @@ import {Disposable} from '../Disposable';
 import {ListSet} from '../collections/ListSet';
 import {EventHandler} from './EventHandler';
 import {Event} from './Event';
+import {EventArgs} from './EventArgs';
 
 
-export class ConfigurableEvent<TTarget extends object, TArgs> implements Event<TTarget, TArgs>, Disposable {
+export class ConfigurableEvent<TTarget extends object, TArgs extends EventArgs> implements Event<TTarget, TArgs>, Disposable {
     private readonly _handlers: ListSet<EventHandler<TTarget, TArgs>> = new ListSet();
 
     public subscribe(handler: EventHandler<TTarget, TArgs>): boolean {

@@ -6,8 +6,10 @@ import {TestClassStartedEventArgs} from './events/TestClassStartedEventArgs';
 import {TestClassEndedEventArgs} from './events/TestClassEndedEventArgs';
 import {TestCaseStartedEventArgs} from './events/TestCaseStartedEventArgs';
 import {TestCaseEndedEventArgs} from './events/TestCaseEndedEventArgs';
+import {Component} from '@monument/core/main/stereotype/Component';
 
 
+@Component
 export class TestReporterManager implements TestReporter {
     private readonly _reporters: ListSet<TestReporter> = new ListSet();
 

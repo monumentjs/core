@@ -4,7 +4,6 @@ import {ProcessMessageReceivedEventArgs} from './ProcessMessageReceivedEventArgs
 import {ProcessClosedEventArgs} from './ProcessClosedEventArgs';
 import {ProcessExitedEventArgs} from './ProcessExitedEventArgs';
 import {ChildProcess} from './ChildProcess';
-import {ProcessMessage} from './ProcessMessage';
 import {ExitCode} from './ExitCode';
 import Signals = NodeJS.Signals;
 import {ConfigurableEvent} from '@monument/core/main/events/ConfigurableEvent';
@@ -12,6 +11,8 @@ import {EventArgs} from '@monument/core/main/events/EventArgs';
 import {Event} from '@monument/core/main/events/Event';
 import {DeferredObject} from '@monument/core/main/async/DeferredObject';
 import {Delegate} from '@monument/core/main/decorators/Delegate';
+import {ProcessMessage} from './ProcessMessage';
+import {ProcessDisconnectedEventArgs} from './ProcessDisconnectedEventArgs';
 
 
 export abstract class AbstractChildProcess<TMessage> implements ChildProcess<TMessage> {
@@ -37,7 +38,7 @@ export abstract class AbstractChildProcess<TMessage> implements ChildProcess<TMe
     }
 
 
-    public get disconnected(): Event<this, EventArgs> {
+    public get disconnected(): Event<this, ProcessDisconnectedEventArgs> {
         return this._disconnected;
     }
 
@@ -62,7 +63,7 @@ export abstract class AbstractChildProcess<TMessage> implements ChildProcess<TMe
     }
 
 
-    public send(message: ProcessMessage<TMessage>): Promise<void> {
+    public sendMessage(message: ProcessMessage<TMessage>): Promise<void> {
         const deferred: DeferredObject<void> = new DeferredObject();
 
         this._process.send(message.payload, message.socket || message.server, (error: Error) => {
@@ -117,6 +118,6 @@ export abstract class AbstractChildProcess<TMessage> implements ChildProcess<TMe
 
     @Delegate
     private handleDisconnect(): void {
-        this._disconnected.trigger(this, EventArgs.EMPTY);
+        this._disconnected.trigger(this, new EventArgs());
     }
 }

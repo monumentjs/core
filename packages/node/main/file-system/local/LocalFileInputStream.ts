@@ -120,7 +120,7 @@ export class LocalFileInputStream implements FileInputStream {
             this._closeCommand.resolve();
             this._closeCommand = undefined;
 
-            this._closed.trigger(this, EventArgs.EMPTY);
+            this._closed.trigger(this, new EventArgs());
         }
     }
 
@@ -135,7 +135,7 @@ export class LocalFileInputStream implements FileInputStream {
             deferred.reject(new StreamException('Cannot read from stream: stream ended.'));
         }
 
-        this._ended.trigger(this, EventArgs.EMPTY);
+        this._ended.trigger(this, new EventArgs());
     }
 
 

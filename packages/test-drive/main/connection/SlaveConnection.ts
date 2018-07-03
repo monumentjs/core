@@ -11,4 +11,5 @@ export class SlaveConnection extends Connection {
     public constructor(currentProcess: CurrentProcess) {
         super(currentProcess);
     }
+
 }

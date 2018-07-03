@@ -9,6 +9,6 @@
     "@monument/core": "^0.9.0"
   },
   "devDependencies": {
-    "@types/node": "^10.3.3"
+    "@types/node": "^10.3.6"
   }
 }

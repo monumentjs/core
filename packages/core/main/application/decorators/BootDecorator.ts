@@ -5,9 +5,9 @@ import {ApplicationContext} from '../context/ApplicationContext';
 
 export class BootDecorator extends Decorator {
     protected async onClass(klass: Class<any>) {
-        try {
-            const context: ApplicationContext = new ApplicationContext();
+        const context: ApplicationContext = new ApplicationContext();
 
+        try {
             context.scan(klass.type);
 
             await context.initialize();
@@ -15,6 +15,7 @@ export class BootDecorator extends Decorator {
         } catch (e) {
             /* tslint:disable:no-console */
             console.error('Application boot failed:\n%s', e.stack);
+            await context.stop();
         }
     }
 }

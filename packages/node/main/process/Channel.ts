@@ -1,10 +1,10 @@
-import {ProcessMessage} from './ProcessMessage';
-import {ProcessMessageReceivedEventArgs} from './ProcessMessageReceivedEventArgs';
 import {Event} from '@monument/core/main/events/Event';
+import {ProcessMessageReceivedEventArgs} from './ProcessMessageReceivedEventArgs';
+import {ProcessMessage} from './ProcessMessage';
 
 
 export interface Channel<TMessage> {
     readonly messageReceived: Event<Channel<TMessage>, ProcessMessageReceivedEventArgs<TMessage>>;
 
-    send(message: ProcessMessage<TMessage>): Promise<void>;
+    sendMessage(message: ProcessMessage<TMessage>): Promise<void>;
 }

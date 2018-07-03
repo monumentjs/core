@@ -17,7 +17,7 @@ export class ForkPool<TMessage> extends ProcessPool<TMessage> {
     }
 
 
-    protected createProcess(id: number): ChildProcess<TMessage> {
-        return new Fork<TMessage>(this._moduleFile, ...this._args, `--fork-id=${id}`);
+    protected createProcess(): ChildProcess<TMessage> {
+        return new Fork<TMessage>(this._moduleFile, ...this._args);
     }
 }

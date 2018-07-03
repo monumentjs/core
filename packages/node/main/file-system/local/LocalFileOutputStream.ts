@@ -81,6 +81,6 @@ export class LocalFileOutputStream implements FileOutputStream {
             command.resolve();
         }
 
-        this._closed.trigger(this, EventArgs.EMPTY);
+        this._closed.trigger(this, new EventArgs());
     }
 }
