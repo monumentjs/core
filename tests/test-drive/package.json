@@ -12,6 +12,7 @@
   "author": "Alex Chugaev <achugaev93@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@monument/core": "^0.9.0"
   },
   "devDependencies": {
     "@monument/test-drive": "^0.9.0"
