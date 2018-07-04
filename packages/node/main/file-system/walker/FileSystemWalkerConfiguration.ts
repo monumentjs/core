@@ -1,5 +1,5 @@
 import {FileStorage} from '../FileStorage';
-import {FileSystemEntryFilter} from './FileSystemEntryFilter';
+import {FileSystemEntryFilter} from '../filter/FileSystemEntryFilter';
 import {ReadOnlyList} from '@monument/core/main/collections/ReadOnlyList';
 import {ArrayList} from '@monument/core/main/collections/ArrayList';
 

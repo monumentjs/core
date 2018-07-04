@@ -1,9 +1,9 @@
-import {FileSystemEntryFilter} from '@monument/node/main/file-system/walker/FileSystemEntryFilter';
 import {FileSystemEntry} from '@monument/node/main/file-system/FileSystemEntry';
 import {File} from '@monument/node/main/file-system/File';
 import {PackageLayout} from '@monument/project/main/layout/PackageLayout';
 import {Component} from '@monument/core/main/stereotype/Component';
 import {IgnoreCaseComparator} from '@monument/core/main/text/IgnoreCaseComparator';
+import {FileSystemEntryFilter} from '@monument/node/main/file-system/filter/FileSystemEntryFilter';
 
 
 @Component
