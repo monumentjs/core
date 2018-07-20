@@ -1,27 +1,22 @@
 import {Decorator} from '@monument/core/main/reflection/Decorator';
-import {Field} from '@monument/core/main/reflection/Field';
 import {Class} from '@monument/core/main/reflection/Class';
 import {Type} from '@monument/core/main/Type';
 import {Key} from '@monument/core/main/object-model/attributes/Key';
 import {List} from '@monument/core/main/collections/List';
 import {BindingConfiguration} from '../BindingConfiguration';
 import {ArrayList} from '@monument/core/main/collections/ArrayList';
+import {BindingDefinition} from '../BindingDefinition';
 
 
-export class BindingDecorator extends Decorator {
-    public static readonly BINDINGS: Key<List<BindingConfiguration>> = new Key();
+export class BindingDecorator<T> extends Decorator {
+    public static readonly DEFINITIONS: Key<List<BindingDefinition<any>>> = new Key();
 
-    private readonly _configuration: BindingConfiguration;
+    private readonly _configuration: BindingConfiguration<T>;
 
 
-    public constructor(configuration: BindingConfiguration) {
+    public constructor(configuration: BindingConfiguration<T>) {
         super();
         this._configuration = configuration;
-    }
-
-
-    protected onField(klass: Class<any>, field: Field): void {
-        this.addBinding(klass, field.name);
     }
 
 
@@ -31,14 +26,17 @@ export class BindingDecorator extends Decorator {
 
 
     private addBinding(klass: Class<any>, key: string | symbol): void {
-        let bindings: List<BindingConfiguration> | undefined = klass.getAttribute(BindingDecorator.BINDINGS);
+        let bindings: List<BindingDefinition<T>> | undefined = klass.getAttribute(BindingDecorator.DEFINITIONS);
 
         if (bindings == null) {
             bindings = new ArrayList();
 
-            klass.setAttribute(BindingDecorator.BINDINGS, bindings);
+            klass.setAttribute(BindingDecorator.DEFINITIONS, bindings);
         }
 
-        bindings.add(this._configuration);
+        bindings.add({
+            ...this._configuration,
+            key
+        });
     }
 }

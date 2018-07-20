@@ -10,6 +10,11 @@
   },
   "dependencies": {
     "react": "^16.4.1",
+    "react-dom": "^16.4.1",
     "@monument/core": "^0.9.0"
+  },
+  "devDependencies": {
+    "@types/react": "^16.4.6",
+    "@types/react-dom": "^16.0.6"
   }
 }

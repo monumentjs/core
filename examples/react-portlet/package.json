@@ -1,0 +1,24 @@
+{
+  "private": true,
+  "version": "0.9.0",
+  "description": "React Portlet",
+  "keywords": [
+
+  ],
+  "scripts": {
+    "serve": "parcel server main/html/index.html --out-dir build/debug",
+    "build": "parcel build main/html/index.html --out-dir build/release",
+    "test": "td"
+  },
+  "dependencies": {
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "@monument/core": "^0.9.0",
+    "@monument/react": "^0.9.0"
+  },
+  "devDependencies": {
+    "@types/react": "^16.4.6",
+    "@types/react-dom": "^16.0.6",
+    "parcel-bundler": "^1.9.7"
+  }
+}

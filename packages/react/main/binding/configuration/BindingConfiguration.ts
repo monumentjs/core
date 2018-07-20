@@ -1,6 +1,6 @@
-import {BindingDirection} from './BindingDirection';
+import {EqualityComparator} from '@monument/core/main/EqualityComparator';
 
 
-export interface BindingConfiguration {
-    readonly direction: BindingDirection;
+export interface BindingConfiguration<T> {
+    readonly comparator?: EqualityComparator<T>;
 }

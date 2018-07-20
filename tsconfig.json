@@ -3,6 +3,7 @@
     "module": "commonjs",
     "target": "es6",
     "moduleResolution": "node",
+    "jsx": "react",
     "sourceMap": true,
     "declaration": true,
     "strict": true,
@@ -12,6 +13,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "lib": [
+      "dom",
       "es5",
       "es6",
       "es7",
