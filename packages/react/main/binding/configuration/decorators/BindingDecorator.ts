@@ -26,17 +26,19 @@ export class BindingDecorator<T> extends Decorator {
 
 
     private addBinding(klass: Class<any>, key: string | symbol): void {
-        let bindings: List<BindingDefinition<T>> | undefined = klass.getAttribute(BindingDecorator.DEFINITIONS);
+        let bindings: List<BindingDefinition<T>> | undefined = klass.getDeclaredAttribute(BindingDecorator.DEFINITIONS);
 
         if (bindings == null) {
             bindings = new ArrayList();
-
-            klass.setAttribute(BindingDecorator.DEFINITIONS, bindings);
         }
+
+        klass.setAttribute(BindingDecorator.DEFINITIONS, bindings);
 
         bindings.add({
             ...this._configuration,
             key
         });
+
+        console.log(klass.getAttributeValues(BindingDecorator.DEFINITIONS));
     }
 }

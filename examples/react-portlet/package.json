@@ -6,7 +6,7 @@
 
   ],
   "scripts": {
-    "serve": "parcel server main/html/index.html --out-dir build/debug",
+    "serve": "parcel serve main/html/index.html --out-dir build/debug",
     "build": "parcel build main/html/index.html --out-dir build/release",
     "test": "td"
   },

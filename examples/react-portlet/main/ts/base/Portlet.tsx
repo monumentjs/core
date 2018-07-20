@@ -39,19 +39,23 @@ export class Portlet<TModel, TController extends PortletController<TModel>> exte
         const klass: Class<TController> = Class.of(props.controller.constructor);
         const bindingLists: ReadOnlyCollection<List<BindingDefinition<any>>> = klass.getAttributeValues(BindingDecorator.DEFINITIONS);
 
-        console.log(bindingLists);
+        console.log(klass.name, bindingLists);
 
         for (const bindingList of bindingLists) {
             for (const {key, comparator} of bindingList) {
-                console.log(key, props.controller);
-
                 const valueKey: symbol = Symbol();
 
+                console.log('add binding', key);
+
                 Object.defineProperty(props.controller, key, {
+                    configurable: false,
+                    writable: false,
                     get(this: any) {
                         return this[valueKey];
                     },
                     set(this: any, value: any) {
+                        console.log('SET', key, value);
+
                         this[valueKey] = value;
 
                         self.setState({
@@ -141,13 +145,11 @@ abstract class LoginFormController implements PortletController<LoginFormModel> 
 
     @Delegate
     public setEmail(value: string): void {
-        console.log('set email', value);
         this._email = value;
     }
 
     @Delegate
     public setPassword(value: string): void {
-        console.log('set password', value);
         this._password = value;
     }
 
@@ -187,13 +189,11 @@ class LoginFormView extends React.Component<LoginFormModel> {
 
     @Delegate
     private onEmailChange(event: React.ChangeEvent<HTMLInputElement>) {
-        console.log('on email change', event.currentTarget.value);
         this.props.setEmail(event.currentTarget.value);
     }
 
     @Delegate
     private onPasswordChange(event: React.ChangeEvent<HTMLInputElement>) {
-        console.log('on password change', event.currentTarget.value);
         this.props.setPassword(event.currentTarget.value);
     }
 }
