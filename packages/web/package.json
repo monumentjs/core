@@ -1,0 +1,12 @@
+{
+  "name": "@monument/web",
+  "version": "0.9.0",
+  "description": "Web",
+  "keywords": [
+
+  ],
+  "dependencies": {
+    "@monument/core": "^0.9.0",
+    "@monument/node": "^0.9.0"
+  }
+}
