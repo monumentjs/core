@@ -9,5 +9,9 @@ export interface UnitFactoryPostProcessor {
      *
      * @throws {UnitException}
      */
-    postProcessUnitFactory(factory: ConfigurableUnitFactory): Promise<void>;
+    [UnitFactoryPostProcessor.postProcessUnitFactory](factory: ConfigurableUnitFactory): Promise<void>;
+}
+
+export namespace UnitFactoryPostProcessor {
+    export const postProcessUnitFactory = Symbol();
 }

@@ -12,6 +12,7 @@ import {Method} from './Method';
 import {Parameter} from './Parameter';
 import {ReadOnlyList} from '../collections/ReadOnlyList';
 import {ArrayList} from '../collections/ArrayList';
+import {ObjectPattern} from '@monument/core/main/language/ObjectPattern';
 
 
 export class Class<T extends object> extends DefaultHierarchicalAccessibleObject {
@@ -129,6 +130,22 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
         this._declaredMethods = this.getDeclaredMethods();
     }
 
+
+    public matches(pattern: ObjectPattern): boolean {
+        for (const field of pattern.fields) {
+            if (this.hasField(field) === false) {
+                return false;
+            }
+        }
+
+        for (const method of pattern.methods) {
+            if (this.hasMethod(method) === false) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     /**
      * Returns own or inherited field.

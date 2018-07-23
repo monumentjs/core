@@ -19,6 +19,8 @@ import {Init} from '../../../stereotype/lifecycle/Init';
 import {ReadOnlyList} from '../../../collections/ReadOnlyList';
 import {Parameter} from '../../../reflection/Parameter';
 import {Invokable} from '../../../reflection/Invokable';
+import {InitializingUnitPattern} from '../InitializingUnitPattern';
+import {InitializingUnit} from '../InitializingUnit';
 
 
 export class DefaultUnitFactory implements ConfigurableListableUnitFactory {
@@ -202,7 +204,12 @@ export class DefaultUnitFactory implements ConfigurableListableUnitFactory {
         }
 
         // TODO: set property values
-        // TODO: After Properties Set phase
+
+        if (InitializingUnitPattern.get().test(instance)) {
+            const method: Method = klass.getMethod(InitializingUnit.afterPropertiesSet);
+
+            await this.invoke(request, instance, method);
+        }
 
         for (const method of methods) {
             if (method.isDecoratedWith(PostConstruct)) {
@@ -211,7 +218,7 @@ export class DefaultUnitFactory implements ConfigurableListableUnitFactory {
         }
 
         for (const processor of this._unitPostProcessors) {
-            instance = await processor.postProcessBeforeInitialization(instance, unitType);
+            instance = await processor[UnitPostProcessor.postProcessBeforeInitialization](instance, unitType);
         }
 
         for (const method of methods) {
@@ -221,7 +228,7 @@ export class DefaultUnitFactory implements ConfigurableListableUnitFactory {
         }
 
         for (const processor of this._unitPostProcessors) {
-            instance = await processor.postProcessAfterInitialization(instance, unitType);
+            instance = await processor[UnitPostProcessor.postProcessAfterInitialization](instance, unitType);
         }
 
         return instance;

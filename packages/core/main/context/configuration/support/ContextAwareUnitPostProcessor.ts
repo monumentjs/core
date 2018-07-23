@@ -1,7 +1,10 @@
-import {UnitPostProcessor} from '../../../unit/factory/configuration/UnitPostProcessor';
-import {Context} from '../../Context';
-import {Class} from '../../../reflection/Class';
 import {Type} from '../../../Type';
+import {Class} from '../../../reflection/Class';
+import {Method} from '../../../reflection/Method';
+import {Context} from '../../Context';
+import {ContextAware} from '../ContextAware';
+import {ContextAwarePattern} from '../ContextAwarePattern';
+import {UnitPostProcessor} from '../../../unit/factory/configuration/UnitPostProcessor';
 
 
 export class ContextAwareUnitPostProcessor implements UnitPostProcessor {
@@ -13,20 +16,20 @@ export class ContextAwareUnitPostProcessor implements UnitPostProcessor {
     }
 
 
-    public async postProcessBeforeInitialization<T extends object>(instance: T, unitType: Type<T>): Promise<T> {
-        const klass = Class.of(instance.constructor);
+    public async [UnitPostProcessor.postProcessBeforeInitialization]<T extends object>(instance: T, unitType: Type<T>): Promise<T> {
+        const klass: Class<object> = Class.of(unitType);
 
-        if (klass.hasMethod('setContext')) {
-            const method = klass.getMethod('setContext');
+        if (klass.matches(ContextAwarePattern.get())) {
+            const method: Method = klass.getMethod(ContextAware.setContext);
 
-            method.invoke(instance, [this._context]);
+            await method.invoke(instance, [this._context]);
         }
 
         return instance;
     }
 
 
-    public async postProcessAfterInitialization<T extends object>(instance: T, unitType: Type<T>): Promise<T> {
+    public async [UnitPostProcessor.postProcessAfterInitialization]<T extends object>(instance: T): Promise<T> {
         return instance;
     }
 }

@@ -2,5 +2,9 @@ import {UnitDefinitionRegistry} from '../UnitDefinitionRegistry';
 
 
 export interface UnitDefinitionRegistryPostProcessor {
-    postProcessUnitDefinitionRegistry(registry: UnitDefinitionRegistry): Promise<void>;
+    [UnitDefinitionRegistryPostProcessor.postProcessUnitDefinitionRegistry](registry: UnitDefinitionRegistry): Promise<void>;
+}
+
+export namespace UnitDefinitionRegistryPostProcessor {
+    export const postProcessUnitDefinitionRegistry = Symbol();
 }
