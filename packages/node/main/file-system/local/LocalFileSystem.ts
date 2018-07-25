@@ -32,7 +32,7 @@ import {LocalFileOutputStream} from './LocalFileOutputStream';
 import ErrnoException = NodeJS.ErrnoException;
 import {Component} from '@monument/core/main/stereotype/Component';
 import {DeferredObject} from '@monument/core/main/async/DeferredObject';
-import {ArrayList} from '@monument/core/main/collections/ArrayList';
+import {ArrayList} from '@monument/core/main/collection/ArrayList';
 
 
 @Component

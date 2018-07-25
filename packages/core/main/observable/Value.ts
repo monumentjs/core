@@ -1,7 +1,7 @@
 import {Observable} from './Observable';
-import {Supplier} from '../Supplier';
 
 
-export interface Value<T> extends Supplier<T>, Observable<T> {
+export interface Value<T> extends Observable<T> {
+    get(): T;
     set(value: T): void;
 }

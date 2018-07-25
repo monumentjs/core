@@ -1,7 +1,7 @@
 import {FileStorage} from '../FileStorage';
 import {FileSystemEntryFilter} from '../filter/FileSystemEntryFilter';
-import {ReadOnlyList} from '@monument/core/main/collections/ReadOnlyList';
-import {ArrayList} from '@monument/core/main/collections/ArrayList';
+import {ReadOnlyList} from '@monument/core/main/collection/ReadOnlyList';
+import {ArrayList} from '@monument/core/main/collection/ArrayList';
 
 
 export class FileSystemWalkerConfiguration {

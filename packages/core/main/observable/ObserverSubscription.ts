@@ -1,4 +1,4 @@
-import {Map} from '../collections/Map';
+import {Map} from '../collection/Map';
 import {Observer} from './Observer';
 import {Disposable} from '../Disposable';
 

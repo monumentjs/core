@@ -1,4 +1,4 @@
-import {ArrayList} from '../collections/ArrayList';
+import {ArrayList} from '../collection/ArrayList';
 import {AbstractObservableList} from './AbstractObservableList';
 
 

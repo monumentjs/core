@@ -1,7 +1,7 @@
-import {Exception} from '../exceptions/Exception';
+import {RuntimeException} from '../exceptions/RuntimeException';
 
 
-export class NoSuchMethodException extends Exception {
+export class NoSuchMethodException extends RuntimeException {
     public constructor(key: PropertyKey) {
         super(`Descriptor of method "${key.toString()}" is not defined.`);
     }

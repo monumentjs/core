@@ -7,7 +7,7 @@ import {Singleton} from '../../../stereotype/Singleton';
 import {Lazy} from '../../../stereotype/configuration/Lazy';
 import {Primary} from '../../../stereotype/configuration/Primary';
 import {Component} from '../../../stereotype/Component';
-import {ReadOnlyList} from '../../../collections/ReadOnlyList';
+import {ReadOnlyList} from '../../../collection/ReadOnlyList';
 
 
 export class ComponentUnitDefinitionReader extends AbstractUnitDefinitionReader {

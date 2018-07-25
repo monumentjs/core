@@ -1,0 +1,10 @@
+
+
+.Nav {}
+
+.NavMenu {display: flex; flex-direction: row; flex-wrap: nowrap;}
+
+.NavMenuItem {padding: 10px 20px;}
+.NavMenuItem:first-child {padding: 10px 20px 10px 0;}
+.NavMenuItem:last-child {padding: 10px 0 10px 20px;}
+

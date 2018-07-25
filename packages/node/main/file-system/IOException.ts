@@ -1,5 +1,5 @@
-import {Exception} from '@monument/core/main/exceptions/Exception';
+import {RuntimeException} from '@monument/core/main/exceptions/RuntimeException';
 
 
-export class IOException extends Exception {
+export class IOException extends RuntimeException {
 }

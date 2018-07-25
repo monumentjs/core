@@ -1,0 +1,13 @@
+
+
+.StackLayout {display: flex; flex-grow: 1; width: 100%; height: 100%;}
+.StackLayout[data-direction="vertical"] {flex-direction: column;}
+.StackLayout[data-direction="vertical"][data-reversed="true"] {flex-direction: column-reverse;}
+.StackLayout[data-direction="horizontal"] {flex-direction: row;}
+.StackLayout[data-direction="horizontal"][data-reversed="true"] {flex-direction: row-reverse;}
+
+.StackLayoutBlock {display: flex; flex-grow: 0; flex-direction: column;}
+
+.StackLayoutBody {display: flex; flex-grow: 1; flex-direction: column;}
+
+

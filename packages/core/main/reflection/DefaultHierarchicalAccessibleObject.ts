@@ -1,5 +1,5 @@
-import {ReadOnlyCollection} from '../collections/ReadOnlyCollection';
-import {ReadOnlySet} from '../collections/ReadOnlySet';
+import {ReadOnlyCollection} from '../collection/ReadOnlyCollection';
+import {ReadOnlySet} from '../collection/ReadOnlySet';
 import {Key} from '../object-model/attributes/Key';
 import {DefaultHierarchicalAttributeAccessor} from '../object-model/attributes/support/DefaultHierarchicalAttributeAccessor';
 import {HierarchicalAttributeAccessor} from '../object-model/attributes/HierarchicalAttributeAccessor';

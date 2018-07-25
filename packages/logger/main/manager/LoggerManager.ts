@@ -1,7 +1,7 @@
 import {Logger} from '../logger/Logger';
 import {LoggerConfiguration} from '../logger/LoggerConfiguration';
 import {Service} from '@monument/core/main/stereotype/Service';
-import {ListMap} from '@monument/core/main/collections/ListMap';
+import {ListMap} from '@monument/core/main/collection/ListMap';
 
 
 @Service

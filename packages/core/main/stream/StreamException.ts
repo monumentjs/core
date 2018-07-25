@@ -1,6 +1,6 @@
-import {Exception} from '../exceptions/Exception';
+import {RuntimeException} from '../exceptions/RuntimeException';
 
 
-export class StreamException extends Exception {
+export class StreamException extends RuntimeException {
 
 }

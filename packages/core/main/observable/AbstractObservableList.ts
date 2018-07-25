@@ -1,8 +1,8 @@
-import {IteratorFunction} from '../collections/IteratorFunction';
-import {List} from '../collections/List';
-import {CombineFunction} from '../collections/CombineFunction';
-import {SortOrder} from '../collections/SortOrder';
-import {Grouping} from '../collections/Grouping';
+import {IteratorFunction} from '../collection/IteratorFunction';
+import {List} from '../collection/List';
+import {CombineFunction} from '../collection/CombineFunction';
+import {SortOrder} from '../collection/SortOrder';
+import {Grouping} from '../collection/Grouping';
 import {CollectionChangedEventArgs} from './CollectionChangedEventArgs';
 import {ObservableCollection} from './ObservableCollection';
 import {ConfigurableEvent} from '../events/ConfigurableEvent';
@@ -252,8 +252,8 @@ export abstract class AbstractObservableList<T> implements List<T>, ObservableCo
     }
 
 
-    public select<TResult>(selector: IteratorFunction<T, TResult>): List<TResult> {
-        return this._items.select(selector);
+    public map<TResult>(selector: IteratorFunction<T, TResult>): List<TResult> {
+        return this._items.map(selector);
     }
 
 
@@ -290,8 +290,8 @@ export abstract class AbstractObservableList<T> implements List<T>, ObservableCo
     }
 
 
-    public where(predicate: IteratorFunction<T, boolean>): List<T> {
-        return this._items.where(predicate);
+    public findAll(predicate: IteratorFunction<T, boolean>): List<T> {
+        return this._items.findAll(predicate);
     }
 
 

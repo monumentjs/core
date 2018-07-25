@@ -14,7 +14,7 @@ import {ContextAwareUnitPostProcessor} from '../configuration/support/ContextAwa
 import {Context} from '../Context';
 import {ConfigurableContext} from '../ConfigurableContext';
 import {AbstractLifecycle} from '../../lifecycle/AbstractLifecycle';
-import {ArrayList} from '../../collections/ArrayList';
+import {ArrayList} from '../../collection/ArrayList';
 import {Type} from '../../Type';
 import {InvalidStateException} from '../../exceptions/InvalidStateException';
 import {InvocationContext} from '../InvocationContext';
@@ -200,7 +200,7 @@ export class DefaultContext extends AbstractLifecycle implements ConfigurableCon
     private async instantiatePostProcessors(): Promise<void> {
         this._unitDefinitionRegistryPostProcessors.addAll(
             await Promise.all(
-                this._unitDefinitionRegistryPostProcessorTypes.select((type) => {
+                this._unitDefinitionRegistryPostProcessorTypes.map((type) => {
                     return this.getUnit(type) as Promise<UnitDefinitionRegistryPostProcessor>;
                 })
             )
@@ -208,7 +208,7 @@ export class DefaultContext extends AbstractLifecycle implements ConfigurableCon
 
         this._unitFactoryPostProcessors.addAll(
             await Promise.all(
-                this._unitFactoryPostProcessorTypes.select((type) => {
+                this._unitFactoryPostProcessorTypes.map((type) => {
                     return this.getUnit(type) as Promise<UnitFactoryPostProcessor>;
                 })
             )
@@ -216,7 +216,7 @@ export class DefaultContext extends AbstractLifecycle implements ConfigurableCon
 
         this._unitPostProcessors.addAll(
             await Promise.all(
-                this._unitDefinitionRegistryPostProcessorTypes.select((type) => {
+                this._unitDefinitionRegistryPostProcessorTypes.map((type) => {
                     return this.getUnit(type) as Promise<UnitPostProcessor>;
                 })
             )

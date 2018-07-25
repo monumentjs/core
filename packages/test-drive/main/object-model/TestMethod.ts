@@ -1,6 +1,6 @@
 import {Invokable} from '@monument/core/main/reflection/Invokable';
 import {Method} from '@monument/core/main/reflection/Method';
-import {ReadOnlyList} from '@monument/core/main/collections/ReadOnlyList';
+import {ReadOnlyList} from '@monument/core/main/collection/ReadOnlyList';
 import {Parameter} from '@monument/core/main/reflection/Parameter';
 import {Ignore} from '../decorators/Ignore';
 import {Ignorable} from './Ignorable';

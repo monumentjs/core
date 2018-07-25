@@ -1,6 +1,6 @@
-import {Exception} from './Exception';
+import {RuntimeException} from './RuntimeException';
 
 
-export class IndexOutOfBoundsException extends Exception {
+export class IndexOutOfBoundsException extends RuntimeException {
 
 }

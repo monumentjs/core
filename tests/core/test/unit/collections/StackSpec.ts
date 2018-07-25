@@ -1,8 +1,8 @@
 import {CollectionSpec} from './CollectionSpec';
-import {Stack} from '@monument/core/main/collections/Stack';
+import {Stack} from '@monument/core/main/collection/Stack';
 import {Test} from '@monument/test-drive/main/decorators/Test';
 import {Assert} from '@monument/test-drive/main/assert/Assert';
-import {EmptyStackException} from '@monument/core/main/collections/EmptyStackException';
+import {EmptyStackException} from '@monument/core/main/collection/EmptyStackException';
 
 
 export abstract class StackSpec extends CollectionSpec {

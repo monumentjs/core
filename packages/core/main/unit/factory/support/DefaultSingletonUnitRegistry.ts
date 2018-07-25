@@ -1,6 +1,6 @@
 import {Type} from '../../../Type';
-import {ListMap} from '../../../collections/ListMap';
-import {ReadOnlyMap} from '../../../collections/ReadOnlyMap';
+import {ListMap} from '../../../collection/ListMap';
+import {ReadOnlyMap} from '../../../collection/ReadOnlyMap';
 import {SingletonUnitRegistry} from '../configuration/SingletonUnitRegistry';
 
 

@@ -1,7 +1,7 @@
 import {Directory} from './Directory';
 import {File} from './File';
 import {Link} from './Link';
-import {ReadOnlyList} from '@monument/core/main/collections/ReadOnlyList';
+import {ReadOnlyList} from '@monument/core/main/collection/ReadOnlyList';
 
 
 export class DirectoryContent {

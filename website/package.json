@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "name": "@monument/website",
+  "version": "0.9.0",
+  "description": "Website",
+  "scripts": {
+    "build": "parcel build main/html/index.html -d build/release",
+    "debug": "parcel main/html/index.html -d build/debug"
+  },
+  "dependencies": {
+    "@monument/core": "^0.9.0",
+    "@monument/react": "^0.9.0",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
+  },
+  "devDependencies": {
+    "@types/react": "^16.4.6",
+    "@types/react-dom": "^16.0.6",
+    "parcel-bundler": "^1.9.7"
+  }
+}

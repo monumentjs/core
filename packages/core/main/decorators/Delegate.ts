@@ -2,10 +2,15 @@
 
 export function Delegate(
     prototype: object | Function,
-    methodName: PropertyKey,
-    descriptor: PropertyDescriptor
+    methodName: PropertyKey
 ) {
     const key: symbol = Symbol();
+    const descriptor: PropertyDescriptor | undefined = Object.getOwnPropertyDescriptor(prototype, methodName);
+
+    if (descriptor == null) {
+        return;
+    }
+
     const originalFunction: Function = descriptor.value;
 
     return {

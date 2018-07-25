@@ -1,5 +1,5 @@
 import {Disposable} from '../Disposable';
-import {ListSet} from '../collections/ListSet';
+import {ListSet} from '../collection/ListSet';
 import {EventHandler} from './EventHandler';
 import {Event} from './Event';
 import {EventArgs} from './EventArgs';

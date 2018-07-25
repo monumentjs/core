@@ -1,5 +1,5 @@
-import {Map} from '../collections/Map';
-import {ListMap} from '../collections/ListMap';
+import {Map} from '../collection/Map';
+import {ListMap} from '../collection/ListMap';
 import {Value} from './Value';
 import {Observer} from './Observer';
 import {ObserverSubscription} from './ObserverSubscription';

@@ -3,8 +3,8 @@ import {Filter} from '../filter/Filter';
 import {Filterable} from './Filterable';
 import {FilterDecision} from '../filter/FilterDecision';
 import {AbstractLifecycle} from '@monument/core/main/lifecycle/AbstractLifecycle';
-import {ListSet} from '@monument/core/main/collections/ListSet';
-import {ReadOnlySet} from '@monument/core/main/collections/ReadOnlySet';
+import {ListSet} from '@monument/core/main/collection/ListSet';
+import {ReadOnlySet} from '@monument/core/main/collection/ReadOnlySet';
 
 
 export class AbstractFilterable extends AbstractLifecycle implements Filterable {

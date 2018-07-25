@@ -1,7 +1,7 @@
 import {Test} from '@monument/test-drive/main/decorators/Test';
 import {Assert} from '@monument/test-drive/main/assert/Assert';
-import {ListGenerator} from '@monument/core/main/collections/ListGenerator';
-import {List} from '@monument/core/main/collections/List';
+import {ListGenerator} from '@monument/core/main/collection/ListGenerator';
+import {List} from '@monument/core/main/collection/List';
 import {ArgumentRangeException} from '@monument/core/main/exceptions/ArgumentRangeException';
 import {RangeException} from '@monument/core/main/exceptions/RangeException';
 

@@ -1,5 +1,5 @@
-import {ListSet} from '@monument/core/main/collections/ListSet';
-import {ReadOnlyCollection} from '@monument/core/main/collections/ReadOnlyCollection';
+import {ListSet} from '@monument/core/main/collection/ListSet';
+import {ReadOnlyCollection} from '@monument/core/main/collection/ReadOnlyCollection';
 
 
 export class Marker {

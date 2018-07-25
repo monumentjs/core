@@ -1,6 +1,6 @@
 import {RangeException} from '../exceptions/RangeException';
 import {IndexOutOfBoundsException} from '../exceptions/IndexOutOfBoundsException';
-import {Countable} from '../collections/Countable';
+import {Countable} from '../collection/Countable';
 
 
 export class PropertyAssertion {

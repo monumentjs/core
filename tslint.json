@@ -34,6 +34,8 @@
     "no-this-assignment": false,
     "no-return-await": true,
     "member-access": [true, "check-accessor", "check-constructor"],
+    "unified-signatures": false,
+    "no-arg": true,
     "member-ordering": [
       true,
       {

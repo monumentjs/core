@@ -3,7 +3,7 @@ node_js:
   - "node"
   - "8"
 script:
-  - "npm run get"
+  - "npm run build"
 os:
   - "linux"
   - "osx"

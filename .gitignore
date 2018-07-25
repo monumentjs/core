@@ -1,4 +1,6 @@
 .idea
+.cache
+build
 *.js
 *.js.map
 *.d.ts

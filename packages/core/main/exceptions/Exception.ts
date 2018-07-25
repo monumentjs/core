@@ -16,16 +16,16 @@ export class Exception extends Error implements JSONSerializable<Error> {
     }
 
 
-    public readonly innerException: Exception | undefined;
+    public readonly cause: Exception | undefined;
 
 
-    public constructor(message: string, innerException?: Error) {
+    public constructor(message: string, cause?: Error) {
         super(message);
 
         this.name = this.constructor.name;
 
-        if (innerException != null) {
-            this.innerException = Exception.cast(innerException);
+        if (cause != null) {
+            this.cause = Exception.cast(cause);
         }
     }
 
@@ -39,9 +39,9 @@ export class Exception extends Error implements JSONSerializable<Error> {
             value = `${this.name} ${this.message}`;
         }
 
-        if (this.innerException != null) {
+        if (this.cause != null) {
             value += StringPool.EOL_CRLF + 'Inner exception:' + StringPool.EOL_CRLF;
-            value += this.innerException.toString();
+            value += this.cause.toString();
         }
 
         return value;
@@ -53,7 +53,7 @@ export class Exception extends Error implements JSONSerializable<Error> {
             message: this.message,
             name: this.name,
             stack: this.stack,
-            innerException: this.innerException
+            cause: this.cause
         };
     }
 }

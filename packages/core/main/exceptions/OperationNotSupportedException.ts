@@ -1,6 +1,6 @@
-import {Exception} from './Exception';
+import {RuntimeException} from './RuntimeException';
 
 
-export class OperationNotSupportedException extends Exception {
+export class OperationNotSupportedException extends RuntimeException {
 
 }

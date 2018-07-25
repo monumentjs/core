@@ -1,7 +1,7 @@
 import {Assert} from '../assert/Assert';
-import {ListQueue} from '../collections/ListQueue';
-import {ArrayList} from '../collections/ArrayList';
-import {KeyValuePair} from '../collections/KeyValuePair';
+import {ListQueue} from '../collection/ListQueue';
+import {ArrayList} from '../collection/ArrayList';
+import {KeyValuePair} from '../collection/KeyValuePair';
 import {DeferredObject} from './DeferredObject';
 import {Task} from './Task';
 

@@ -1,6 +1,6 @@
 import {Type} from '../../Type';
-import {ListSet} from '../../collections/ListSet';
-import {Set} from '../../collections/Set';
+import {ListSet} from '../../collection/ListSet';
+import {Set} from '../../collection/Set';
 
 
 export class UnitDefinition {

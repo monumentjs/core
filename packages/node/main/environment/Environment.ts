@@ -1,10 +1,10 @@
 import {Lazy} from '@monument/core/main/stereotype/configuration/Lazy';
 import {Component} from '@monument/core/main/stereotype/Component';
-import {AbstractReadOnlyMap} from '@monument/core/main/collections/AbstractReadOnlyMap';
-import {CaseInsensitiveMap} from '@monument/core/main/collections/CaseInsensitiveMap';
-import {ReadOnlySet} from '@monument/core/main/collections/ReadOnlySet';
-import {ReadOnlyCollection} from '@monument/core/main/collections/ReadOnlyCollection';
-import {KeyValuePair} from '@monument/core/main/collections/KeyValuePair';
+import {AbstractReadOnlyMap} from '@monument/core/main/collection/AbstractReadOnlyMap';
+import {CaseInsensitiveMap} from '@monument/core/main/collection/CaseInsensitiveMap';
+import {ReadOnlySet} from '@monument/core/main/collection/ReadOnlySet';
+import {ReadOnlyCollection} from '@monument/core/main/collection/ReadOnlyCollection';
+import {KeyValuePair} from '@monument/core/main/collection/KeyValuePair';
 
 
 @Lazy

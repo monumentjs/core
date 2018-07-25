@@ -4,8 +4,8 @@ import {DefaultHierarchicalAccessibleObject} from './DefaultHierarchicalAccessib
 import {Class} from './Class';
 import {Parameter} from './Parameter';
 import {Invokable} from './Invokable';
-import {ReadOnlyList} from '../collections/ReadOnlyList';
-import {ArrayList} from '../collections/ArrayList';
+import {ReadOnlyList} from '../collection/ReadOnlyList';
+import {ArrayList} from '../collection/ArrayList';
 
 
 export class Method extends DefaultHierarchicalAccessibleObject implements Invokable {

@@ -1,6 +1,6 @@
-import {ReadOnlySet} from '../../../collections/ReadOnlySet';
-import {Map} from '../../../collections/Map';
-import {ListMap} from '../../../collections/ListMap';
+import {ReadOnlySet} from '../../../collection/ReadOnlySet';
+import {Map} from '../../../collection/Map';
+import {ListMap} from '../../../collection/ListMap';
 import {Key} from '../Key';
 import {AttributeAccessor} from '../AttributeAccessor';
 

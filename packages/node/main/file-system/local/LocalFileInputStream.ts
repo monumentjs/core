@@ -3,7 +3,7 @@ import {Path} from '../../path/Path';
 import {FileInputStream} from '../stream/FileInputStream';
 import {ConfigurableEvent} from '@monument/core/main/events/ConfigurableEvent';
 import {EventArgs} from '@monument/core/main/events/EventArgs';
-import {ListQueue} from '@monument/core/main/collections/ListQueue';
+import {ListQueue} from '@monument/core/main/collection/ListQueue';
 import {DeferredObject} from '@monument/core/main/async/DeferredObject';
 import {MemorySize} from '@monument/core/main/MemorySize';
 import {Event} from '@monument/core/main/events/Event';

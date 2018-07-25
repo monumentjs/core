@@ -1,4 +1,4 @@
-import {ReadOnlyCollection} from '../collections/ReadOnlyCollection';
+import {ReadOnlyCollection} from '../collection/ReadOnlyCollection';
 import {CollectionChangedEventArgs} from './CollectionChangedEventArgs';
 import {Event} from '../events/Event';
 

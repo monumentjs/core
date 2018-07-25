@@ -1,0 +1,14 @@
+
+.PageLayout {display: flex; flex-direction: column; flex-grow: 1; min-height: 100%;}
+
+.PageHeader {flex-grow: 0;}
+
+.PageBody {display: flex; flex-grow: 1; flex-direction: column;}
+.PageSidebar {display: flex; flex-grow: 1; flex-direction: column;}
+.PageMain {display: flex; flex-grow: 1; flex-direction: column;}
+
+.PageColumn {max-width: 1200px; margin: 0 auto; padding: 0 40px;}
+
+.PageFooter {flex-grow: 0;}
+
+

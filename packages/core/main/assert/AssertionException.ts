@@ -1,6 +1,6 @@
-import {Exception} from '../exceptions/Exception';
+import {RuntimeException} from '../exceptions/RuntimeException';
 
 
-export class AssertionException extends Exception {
+export class AssertionException extends RuntimeException {
 
 }

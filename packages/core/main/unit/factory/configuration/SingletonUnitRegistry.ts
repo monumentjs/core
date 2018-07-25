@@ -1,5 +1,5 @@
 import {Type} from '../../../Type';
-import {ReadOnlyMap} from '../../../collections/ReadOnlyMap';
+import {ReadOnlyMap} from '../../../collection/ReadOnlyMap';
 
 
 export interface SingletonUnitRegistry {

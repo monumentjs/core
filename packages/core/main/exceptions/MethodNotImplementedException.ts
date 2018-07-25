@@ -1,7 +1,7 @@
-import {Exception} from './Exception';
+import {RuntimeException} from './RuntimeException';
 
 
-export class MethodNotImplementedException extends Exception {
+export class MethodNotImplementedException extends RuntimeException {
     public readonly helpInfo: string = 'This exceptions throws when attempting to call method that is not implemented.';
 
 

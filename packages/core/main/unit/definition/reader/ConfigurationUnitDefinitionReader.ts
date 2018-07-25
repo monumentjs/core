@@ -4,7 +4,7 @@ import {Type} from '../../../Type';
 import {Class} from '../../../reflection/Class';
 import {Configuration} from '../../../stereotype/Configuration';
 import {Method} from '../../../reflection/Method';
-import {ReadOnlyCollection} from '../../../collections/ReadOnlyCollection';
+import {ReadOnlyCollection} from '../../../collection/ReadOnlyCollection';
 import {Unit} from '../../../stereotype/Unit';
 import {UnitDecorator} from '../../../stereotype/UnitDecorator';
 

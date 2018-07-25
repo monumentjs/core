@@ -1,6 +1,7 @@
 import {ArgumentRangeException} from '../exceptions/ArgumentRangeException';
 import {InvalidArgumentException} from '../exceptions/InvalidArgumentException';
 import {ArgumentIndexOutOfBoundsException} from '../exceptions/ArgumentIndexOutOfBoundsException';
+import {Sequence} from '../collection/Sequence';
 
 
 export class ArgumentAssertion {
@@ -59,7 +60,7 @@ export class ArgumentAssertion {
     }
 
 
-    public isIndexOf(sequence: ArrayLike<any>): this {
+    public isIndexOf(sequence: Sequence<any>): this {
         if (this._argumentValue < 0 || this._argumentValue >= sequence.length) {
             throw new ArgumentIndexOutOfBoundsException(
                 this._argumentName,

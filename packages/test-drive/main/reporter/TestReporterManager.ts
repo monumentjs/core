@@ -1,4 +1,4 @@
-import {ListSet} from '@monument/core/main/collections/ListSet';
+import {ListSet} from '@monument/core/main/collection/ListSet';
 import {TestReporter} from './TestReporter';
 import {TestFileEndedEventArgs} from './events/TestFileEndedEventArgs';
 import {TestFileStartedEventArgs} from './events/TestFileStartedEventArgs';

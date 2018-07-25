@@ -1,4 +1,4 @@
-import {ReadOnlySet} from '../collections/ReadOnlySet';
+import {ReadOnlySet} from '../collection/ReadOnlySet';
 
 
 export interface DecoratorAccessor {

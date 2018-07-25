@@ -1,4 +1,4 @@
-import {ReadOnlyList} from '../collections/ReadOnlyList';
+import {ReadOnlyList} from '../collection/ReadOnlyList';
 import {DayOfWeek} from './DayOfWeek';
 import {CalendarWeekRule} from './CalendarWeekRule';
 

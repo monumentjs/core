@@ -1,0 +1,10 @@
+
+.Panel {display: flex; flex-grow: 1; width: 100%; height: 100%;}
+
+.Panel[data-horizontal="start"] {justify-content: flex-start;}
+.Panel[data-horizontal="center"] {justify-content: center;}
+.Panel[data-horizontal="end"] {justify-content: flex-end;}
+
+.Panel[data-vertical="start"] {align-items: flex-start;}
+.Panel[data-vertical="center"] {align-items: center;}
+.Panel[data-vertical="end"] {align-items: flex-end;}

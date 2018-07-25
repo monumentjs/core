@@ -3,6 +3,7 @@
   "packages": [
     "./packages/*",
     "./tests/*",
+    "./website",
     "./examples/*"
   ],
   "version": "0.9.0"

@@ -1,6 +1,6 @@
-import {Exception} from './Exception';
+import {RuntimeException} from './RuntimeException';
 
 
-export class NullPointerException extends Exception {
+export class NullPointerException extends RuntimeException {
 
 }

@@ -1,9 +1,9 @@
 import {Test} from '@monument/test-drive/main/decorators/Test';
 import {Assert} from '@monument/test-drive/main/assert/Assert';
-import {BitSet} from '@monument/core/main/collections/BitSet';
+import {BitSet} from '@monument/core/main/collection/BitSet';
 import {ArgumentIndexOutOfBoundsException} from '@monument/core/main/exceptions/ArgumentIndexOutOfBoundsException';
 import {RangeException} from '@monument/core/main/exceptions/RangeException';
-import {Collection} from '@monument/core/main/collections/Collection';
+import {Collection} from '@monument/core/main/collection/Collection';
 
 
 export class BitSetTest {

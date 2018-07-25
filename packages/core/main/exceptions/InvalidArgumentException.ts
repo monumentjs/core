@@ -1,18 +1,12 @@
-import {Exception} from './Exception';
+import {RuntimeException} from './RuntimeException';
 
 
-export class InvalidArgumentException extends Exception {
-    private readonly _argumentName: string;
-
-
-    public get argumentName(): string {
-        return this._argumentName;
-    }
-
+export class InvalidArgumentException extends RuntimeException {
+    public readonly argumentName: string;
 
     public constructor(argumentName: string, message: string) {
         super(`Invalid argument "${argumentName}": ${message}`);
 
-        this._argumentName = argumentName;
+        this.argumentName = argumentName;
     }
 }
