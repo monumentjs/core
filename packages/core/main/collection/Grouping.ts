@@ -1,14 +1,12 @@
-import {ReadOnlyList} from './ReadOnlyList';
-import {ArrayList} from './ArrayList';
-import {Sequence} from './Sequence';
+import {Sequence} from './readonly/Sequence';
 
 
 export class Grouping<K, V> {
     public readonly key: K;
-    public readonly items: ReadOnlyList<V>;
+    public readonly items: Sequence<V>;
 
-    public constructor(key: K, values: Sequence<V>) {
+    public constructor(key: K, items: Sequence<V>) {
         this.key = key;
-        this.items = new ArrayList(values);
+        this.items = items;
     }
 }

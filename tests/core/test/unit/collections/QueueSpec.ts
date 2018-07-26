@@ -1,7 +1,7 @@
 import {BeforeEach} from '@monument/test-drive/main/decorators/BeforeEach';
 import {Test} from '@monument/test-drive/main/decorators/Test';
 import {Assert} from '@monument/test-drive/main/assert/Assert';
-import {Queue} from '@monument/core/main/collection/Queue';
+import {Queue} from 'core/main/collection/mutable/Queue';
 import {EmptyQueueException} from '@monument/core/main/collection/EmptyQueueException';
 import {CollectionSpec} from './CollectionSpec';
 

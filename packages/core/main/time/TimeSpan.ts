@@ -1,11 +1,11 @@
 import {Cloneable} from '../Cloneable';
-import {Comparable} from '../Comparable';
+import {Comparable} from '../utils/comparison/Comparable';
 import {Equatable} from '../Equatable';
 import {Formattable} from '../Formattable';
-import {ComparisonResult} from '../ComparisonResult';
-import {Map} from '../collection/Map';
-import {ReadOnlyCollection} from '../collection/ReadOnlyCollection';
-import {ListMap} from '../collection/ListMap';
+import {ComparisonResult} from '../utils/comparison/ComparisonResult';
+import {Map} from '../collection/mutable/Map';
+import {ReadOnlyCollection} from '../collection/readonly/ReadOnlyCollection';
+import {ListMap} from '../collection/mutable/ListMap';
 import {MILLISECONDS_IN_DAY, MILLISECONDS_IN_HOUR, MILLISECONDS_IN_MINUTE, MILLISECONDS_IN_SECOND} from './Constants';
 import {DateTimeFormatInfo} from './DateTimeFormatInfo';
 import {InvariantDateTimeFormatInfo} from './InvariantDateTimeFormatInfo';

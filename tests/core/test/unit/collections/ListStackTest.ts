@@ -1,4 +1,4 @@
-import {ListStack} from '@monument/core/main/collection/ListStack';
+import {ListStack} from 'core/main/collection/mutable/ListStack';
 import {Test} from '@monument/test-drive/main/decorators/Test';
 import {Assert} from '@monument/test-drive/main/assert/Assert';
 import {ContextConfiguration} from '@monument/test-drive/main/decorators/ContextConfiguration';

@@ -1,8 +1,8 @@
 import {Type} from '../Type';
-import {Map} from '../collection/Map';
-import {ReadOnlyCollection} from '../collection/ReadOnlyCollection';
-import {ReadOnlyMap} from '../collection/ReadOnlyMap';
-import {ListMap} from '../collection/ListMap';
+import {Map} from '../collection/mutable/Map';
+import {ReadOnlyCollection} from '../collection/readonly/ReadOnlyCollection';
+import {ReadOnlyMap} from '../collection/readonly/ReadOnlyMap';
+import {ListMap} from '../collection/mutable/ListMap';
 import {DefaultHierarchicalAccessibleObject} from './DefaultHierarchicalAccessibleObject';
 import {ReflectionUtils} from './utils/ReflectionUtils';
 import {NoSuchFieldException} from './NoSuchFieldException';
@@ -10,8 +10,8 @@ import {NoSuchMethodException} from './NoSuchMethodException';
 import {Field} from './Field';
 import {Method} from './Method';
 import {Parameter} from './Parameter';
-import {ReadOnlyList} from '../collection/ReadOnlyList';
-import {ArrayList} from '../collection/ArrayList';
+import {ReadOnlyList} from '../collection/readonly/ReadOnlyList';
+import {ArrayList} from '../collection/mutable/ArrayList';
 import {ObjectPattern} from '@monument/core/main/language/ObjectPattern';
 
 

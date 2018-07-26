@@ -2,7 +2,7 @@ import {Test} from '@monument/test-drive/main/decorators/Test';
 import {Assert} from '@monument/test-drive/main/assert/Assert';
 import {FunctionMock} from '@monument/test-drive/main/mock/FunctionMock';
 import {IteratorFunction} from '@monument/core/main/collection/IteratorFunction';
-import {Enumerable} from '@monument/core/main/collection/Enumerable';
+import {Enumerable} from 'core/main/collection/readonly/Enumerable';
 import {ArgumentIndexOutOfBoundsException} from '@monument/core/main/exceptions/ArgumentIndexOutOfBoundsException';
 import {InvalidArgumentException} from '@monument/core/main/exceptions/InvalidArgumentException';
 import {RangeException} from '@monument/core/main/exceptions/RangeException';

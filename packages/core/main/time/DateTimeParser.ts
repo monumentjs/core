@@ -1,5 +1,5 @@
-import {ReadOnlyCollection} from '../collection/ReadOnlyCollection';
-import {ReadOnlyMap} from '../collection/ReadOnlyMap';
+import {ReadOnlyCollection} from '../collection/readonly/ReadOnlyCollection';
+import {ReadOnlyMap} from '../collection/readonly/ReadOnlyMap';
 import {DateTimeFormatInfo} from './DateTimeFormatInfo';
 import {InvariantDateTimeFormatInfo} from './InvariantDateTimeFormatInfo';
 import {DateTime} from './DateTime';

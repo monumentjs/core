@@ -1,7 +1,7 @@
 import {ArgumentRangeException} from '../exceptions/ArgumentRangeException';
 import {InvalidArgumentException} from '../exceptions/InvalidArgumentException';
 import {ArgumentIndexOutOfBoundsException} from '../exceptions/ArgumentIndexOutOfBoundsException';
-import {Sequence} from '../collection/Sequence';
+import {Sequence} from '../collection/readonly/Sequence';
 
 
 export class ArgumentAssertion {

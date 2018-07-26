@@ -1,7 +1,7 @@
 import {InvalidArgumentException} from '../../exceptions/InvalidArgumentException';
-import {ReadOnlyList} from '../ReadOnlyList';
+import {ReadOnlyList} from '../readonly/ReadOnlyList';
 import {TreeNodeList} from './TreeNodeList';
-import {Sequence} from '../Sequence';
+import {Sequence} from '../readonly/Sequence';
 import {NEGATIVE_ONE, ZERO} from '@monument/core/main/Constants';
 
 

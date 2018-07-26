@@ -4,7 +4,7 @@ import {Assert} from '@monument/test-drive/main/assert/Assert';
 import {KeyValuePair} from '@monument/core/main/collection/KeyValuePair';
 import {EqualityComparator} from '@monument/core/main/EqualityComparator';
 import {IgnoreCaseComparator} from '@monument/core/main/text/IgnoreCaseComparator';
-import {Map} from '@monument/core/main/collection/Map';
+import {Map} from 'core/main/collection/mutable/Map';
 
 
 export abstract class MapSpec {

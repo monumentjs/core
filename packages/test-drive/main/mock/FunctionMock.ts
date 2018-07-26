@@ -1,7 +1,7 @@
 import {FunctionCall} from './FunctionCall';
-import {ArrayList} from '@monument/core/main/collection/ArrayList';
-import {ReadOnlyList} from '@monument/core/main/collection/ReadOnlyList';
-import {Countable} from '@monument/core/main/collection/Countable';
+import {ArrayList} from 'core/main/collection/mutable/ArrayList';
+import {ReadOnlyList} from 'core/main/collection/readonly/ReadOnlyList';
+import {Countable} from 'core/main/collection/readonly/Countable';
 
 
 export class FunctionMock<TFunc extends Function = Function> {

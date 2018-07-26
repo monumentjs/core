@@ -1,7 +1,7 @@
 import {Singleton} from '../stereotype/Singleton';
 import {EqualityComparator} from '../EqualityComparator';
-import {Comparator} from '../Comparator';
-import {ComparisonResult} from '../ComparisonResult';
+import {Comparator} from '../utils/comparison/Comparator';
+import {ComparisonResult} from '../utils/comparison/ComparisonResult';
 
 
 @Singleton

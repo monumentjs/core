@@ -1,6 +1,6 @@
 import {Assert} from '../assert/Assert';
 import {StringPool} from '../StringPool';
-import {Collection} from '../collection/Collection';
+import {Collection} from '../collection/mutable/Collection';
 import {RegExpUtils} from './RegExpUtils';
 
 

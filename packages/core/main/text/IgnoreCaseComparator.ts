@@ -1,6 +1,6 @@
 import {EqualityComparator} from '../EqualityComparator';
-import {ComparisonResult} from '../ComparisonResult';
-import {Comparator} from '../Comparator';
+import {ComparisonResult} from '../utils/comparison/ComparisonResult';
+import {Comparator} from '../utils/comparison/Comparator';
 import {Singleton} from '../stereotype/Singleton';
 
 

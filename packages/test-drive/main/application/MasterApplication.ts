@@ -16,7 +16,7 @@ import {ProcessMessages} from '../connection/messaging/ProcessMessages';
 import {TestFileEndedMessage} from '../connection/messaging/TestFileEndedMessage';
 import {Boot} from '@monument/core/main/application/decorators/Boot';
 import {Application} from '@monument/core/main/stereotype/Application';
-import {ListMap} from '@monument/core/main/collection/ListMap';
+import {ListMap} from 'core/main/collection/mutable/ListMap';
 import {DeferredObject} from '@monument/core/main/async/DeferredObject';
 import {Init} from '@monument/core/main/stereotype/lifecycle/Init';
 import {Delegate} from '@monument/core/main/decorators/Delegate';

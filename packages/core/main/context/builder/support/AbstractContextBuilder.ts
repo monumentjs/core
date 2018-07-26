@@ -1,7 +1,7 @@
 import {Context} from '../../Context';
 import {ContextBuilder} from '../ContextBuilder';
 import {Type} from '../../../Type';
-import {ListSet} from '../../../collection/ListSet';
+import {ListSet} from '../../../collection/mutable/ListSet';
 import {ConfigurableContext} from '../../ConfigurableContext';
 
 

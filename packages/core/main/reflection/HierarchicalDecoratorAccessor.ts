@@ -1,4 +1,4 @@
-import {ReadOnlySet} from '../collection/ReadOnlySet';
+import {ReadOnlySet} from '../collection/readonly/ReadOnlySet';
 import {DecoratorAccessor} from './DecoratorAccessor';
 
 

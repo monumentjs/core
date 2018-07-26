@@ -4,7 +4,7 @@ import {ProcessExitedEventArgs} from './ProcessExitedEventArgs';
 import {ProcessMessageReceivedEventArgs} from './ProcessMessageReceivedEventArgs';
 import {ConfigurableEvent} from '@monument/core/main/events/ConfigurableEvent';
 import {EventArgs} from '@monument/core/main/events/EventArgs';
-import {ArrayList} from '@monument/core/main/collection/ArrayList';
+import {ArrayList} from 'core/main/collection/mutable/ArrayList';
 import {Event} from '@monument/core/main/events/Event';
 import {Delegate} from '@monument/core/main/decorators/Delegate';
 import {ProcessMessage} from './ProcessMessage';

@@ -1,6 +1,6 @@
-import {ComparisonResult} from '../ComparisonResult';
+import {ComparisonResult} from '../utils/comparison/ComparisonResult';
 import {Equatable} from '../Equatable';
-import {Comparable} from '../Comparable';
+import {Comparable} from '../utils/comparison/Comparable';
 import {Time} from './Time';
 import {MILLISECONDS_IN_HOUR, MILLISECONDS_IN_MINUTE, MILLISECONDS_IN_SECOND} from './Constants';
 

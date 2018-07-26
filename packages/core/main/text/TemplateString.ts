@@ -1,11 +1,11 @@
 import {StringPool} from '../StringPool';
 import {MissingKeyException} from '../exceptions/MissingKeyException';
 import {Assert} from '../assert/Assert';
-import {ListMap} from '../collection/ListMap';
-import {ArrayList} from '../collection/ArrayList';
-import {ReadOnlyMap} from '../collection/ReadOnlyMap';
-import {ReadOnlyList} from '../collection/ReadOnlyList';
-import {ReadOnlyCollection} from '../collection/ReadOnlyCollection';
+import {ListMap} from '../collection/mutable/ListMap';
+import {ArrayList} from '../collection/mutable/ArrayList';
+import {ReadOnlyMap} from '../collection/readonly/ReadOnlyMap';
+import {ReadOnlyList} from '../collection/readonly/ReadOnlyList';
+import {ReadOnlyCollection} from '../collection/readonly/ReadOnlyCollection';
 import {ParsingException} from './parser/ParsingException';
 import {RegExpUtils} from './RegExpUtils';
 

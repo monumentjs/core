@@ -1,8 +1,8 @@
 import {Singleton} from '../stereotype/Singleton';
-import {Comparator} from '../Comparator';
-import {ComparisonResult} from '../ComparisonResult';
+import {Comparator} from '../utils/comparison/Comparator';
+import {ComparisonResult} from '../utils/comparison/ComparisonResult';
 import {Version} from './Version';
-import {NumberComparator} from '../utils/NumberComparator';
+import {NumberComparator} from '../utils/comparison/NumberComparator';
 
 
 @Singleton

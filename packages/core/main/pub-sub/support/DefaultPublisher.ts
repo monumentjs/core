@@ -1,7 +1,7 @@
 import {Disposable} from '../../Disposable';
 import {Subscriber} from '../Subscriber';
 import {Publisher} from '../Publisher';
-import {ListSet} from '../../collection/ListSet';
+import {ListSet} from '../../collection/mutable/ListSet';
 
 
 export class DefaultPublisher<T> implements Publisher<T>, Disposable {

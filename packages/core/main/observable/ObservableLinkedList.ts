@@ -1,4 +1,4 @@
-import {LinkedList} from '../collection/LinkedList';
+import {LinkedList} from '../collection/mutable/LinkedList';
 import {AbstractObservableList} from './AbstractObservableList';
 
 

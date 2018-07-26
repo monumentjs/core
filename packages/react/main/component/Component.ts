@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Observer} from '@monument/core/main/observable/Observer';
 import {Value} from '@monument/core/main/observable/Value';
-import {ArrayList} from '@monument/core/main/collection/ArrayList';
+import {ArrayList} from 'core/main/collection/mutable/ArrayList';
 import {Disposable} from '@monument/core/main/Disposable';
 
 

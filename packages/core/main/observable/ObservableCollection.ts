@@ -1,4 +1,4 @@
-import {Collection} from '../collection/Collection';
+import {Collection} from '../collection/mutable/Collection';
 import {NotifyCollectionChanged} from './NotifyCollectionChanged';
 import {Disposable} from '../Disposable';
 

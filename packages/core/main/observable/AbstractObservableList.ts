@@ -1,5 +1,5 @@
 import {IteratorFunction} from '../collection/IteratorFunction';
-import {List} from '../collection/List';
+import {List} from '../collection/mutable/List';
 import {CombineFunction} from '../collection/CombineFunction';
 import {SortOrder} from '../collection/SortOrder';
 import {Grouping} from '../collection/Grouping';
@@ -7,7 +7,7 @@ import {CollectionChangedEventArgs} from './CollectionChangedEventArgs';
 import {ObservableCollection} from './ObservableCollection';
 import {ConfigurableEvent} from '../events/ConfigurableEvent';
 import {EqualityComparator} from '../EqualityComparator';
-import {Comparator} from '../Comparator';
+import {Comparator} from '../utils/comparison/Comparator';
 
 
 export abstract class AbstractObservableList<T> implements List<T>, ObservableCollection<T> {

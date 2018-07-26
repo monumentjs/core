@@ -1,6 +1,6 @@
-import {Set} from '../collection/Set';
-import {ReadOnlySet} from '../collection/ReadOnlySet';
-import {ListSet} from '../collection/ListSet';
+import {Set} from '../collection/mutable/Set';
+import {ReadOnlySet} from '../collection/readonly/ReadOnlySet';
+import {ListSet} from '../collection/mutable/ListSet';
 import {HierarchicalDecoratorAccessor} from './HierarchicalDecoratorAccessor';
 
 

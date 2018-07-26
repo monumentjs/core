@@ -1,8 +1,8 @@
 import {Example} from './decorators/Example';
 import {Employee} from './Employee';
-import {ListSet} from '@monument/core/main/collection/ListSet';
-import {ReadOnlySet} from '@monument/core/main/collection/ReadOnlySet';
-import {Set} from '@monument/core/main/collection/Set';
+import {ListSet} from 'core/main/collection/mutable/ListSet';
+import {ReadOnlySet} from 'core/main/collection/readonly/ReadOnlySet';
+import {Set} from 'core/main/collection/mutable/Set';
 
 
 @Example

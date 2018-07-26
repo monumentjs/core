@@ -1,5 +1,5 @@
 import {Type} from '../../../Type';
-import {ReadOnlyMap} from '../../../collection/ReadOnlyMap';
+import {ReadOnlyMap} from '../../../collection/readonly/ReadOnlyMap';
 import {UnitDefinition} from '../UnitDefinition';
 
 

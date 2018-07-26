@@ -1,7 +1,7 @@
 import {Test} from '@monument/test-drive/main/decorators/Test';
 import {Assert} from '@monument/test-drive/main/assert/Assert';
 import {Duration} from '@monument/core/main/time/Duration';
-import {ComparisonResult} from '@monument/core/main/ComparisonResult';
+import {ComparisonResult} from 'core/main/utils/comparison/ComparisonResult';
 import {MILLISECONDS_IN_HOUR, MILLISECONDS_IN_MINUTE, MILLISECONDS_IN_SECOND} from '@monument/core/main/time/Constants';
 
 const HOURS = 12;

@@ -14,7 +14,7 @@ import {ContextAwareUnitPostProcessor} from '../configuration/support/ContextAwa
 import {Context} from '../Context';
 import {ConfigurableContext} from '../ConfigurableContext';
 import {AbstractLifecycle} from '../../lifecycle/AbstractLifecycle';
-import {ArrayList} from '../../collection/ArrayList';
+import {ArrayList} from '../../collection/mutable/ArrayList';
 import {Type} from '../../Type';
 import {InvalidStateException} from '../../exceptions/InvalidStateException';
 import {InvocationContext} from '../InvocationContext';

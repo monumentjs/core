@@ -1,4 +1,4 @@
-import {ReadOnlyMap} from '../collection/ReadOnlyMap';
+import {ReadOnlyMap} from '../collection/readonly/ReadOnlyMap';
 import {MapChangedEventArgs} from './MapChangedEventArgs';
 import {Event} from '../events/Event';
 

@@ -1,5 +1,5 @@
-import {ReadOnlyCollection} from '../../collection/ReadOnlyCollection';
-import {ReadOnlySet} from '../../collection/ReadOnlySet';
+import {ReadOnlyCollection} from '../../collection/readonly/ReadOnlyCollection';
+import {ReadOnlySet} from '../../collection/readonly/ReadOnlySet';
 import {Key} from './Key';
 import {AttributeAccessor} from './AttributeAccessor';
 

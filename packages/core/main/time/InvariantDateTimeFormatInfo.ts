@@ -1,5 +1,5 @@
-import {ReadOnlyList} from '../collection/ReadOnlyList';
-import {ArrayList} from '../collection/ArrayList';
+import {ReadOnlyList} from '../collection/readonly/ReadOnlyList';
+import {ArrayList} from '../collection/mutable/ArrayList';
 import {CalendarWeekRule} from './CalendarWeekRule';
 import {DayOfWeek} from './DayOfWeek';
 import {DateTimeFormatInfo} from './DateTimeFormatInfo';

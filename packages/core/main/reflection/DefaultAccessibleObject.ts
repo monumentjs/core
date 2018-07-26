@@ -1,4 +1,4 @@
-import {ReadOnlySet} from '../collection/ReadOnlySet';
+import {ReadOnlySet} from '../collection/readonly/ReadOnlySet';
 import {Key} from '../object-model/attributes/Key';
 import {DefaultAttributeAccessor} from '../object-model/attributes/support/DefaultAttributeAccessor';
 import {DefaultDecoratorAccessor} from './DefaultDecoratorAccessor';
