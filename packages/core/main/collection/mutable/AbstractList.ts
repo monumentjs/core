@@ -1,4 +1,4 @@
-import {EqualityComparator} from '../../EqualityComparator';
+import {EqualityComparator} from '../../utils/comparison/EqualityComparator';
 import {InvalidOperationException} from '../../exceptions/InvalidOperationException';
 import {Comparator} from '../../utils/comparison/Comparator';
 import {Assert} from '../../assert/Assert';

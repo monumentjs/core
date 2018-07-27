@@ -1,4 +1,4 @@
-import {EqualityComparator} from '../../EqualityComparator';
+import {EqualityComparator} from '../../utils/comparison/EqualityComparator';
 import {IgnoreCaseComparator} from '../../text/IgnoreCaseComparator';
 import {KeyValuePair} from '../KeyValuePair';
 import {List} from '../mutable/List';

@@ -1,4 +1,4 @@
-import {EqualityComparator} from '../../EqualityComparator';
+import {EqualityComparator} from '../../utils/comparison/EqualityComparator';
 import {IteratorFunction} from '../IteratorFunction';
 import {ReadOnlyList} from '../readonly/ReadOnlyList';
 import {Grouping} from '../Grouping';

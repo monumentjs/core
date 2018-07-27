@@ -1,4 +1,4 @@
-import {EqualityComparator} from '../../EqualityComparator';
+import {EqualityComparator} from '../../utils/comparison/EqualityComparator';
 import {Set} from './Set';
 import {AbstractCollection} from './AbstractCollection';
 import {Sequence} from '../readonly/Sequence';

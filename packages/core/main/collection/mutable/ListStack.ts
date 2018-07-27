@@ -1,5 +1,5 @@
-import {Equatable} from '../../Equatable';
-import {EqualityComparator} from '../../EqualityComparator';
+import {Equatable} from '../../utils/comparison/Equatable';
+import {EqualityComparator} from '../../utils/comparison/EqualityComparator';
 import {Stack} from './Stack';
 import {EmptyStackException} from '../EmptyStackException';
 import {LinkedList} from './LinkedList';

@@ -1,4 +1,4 @@
-import {EqualityComparator} from '../../EqualityComparator';
+import {EqualityComparator} from './EqualityComparator';
 
 
 export class DeepEqualityComparator<T extends object> implements EqualityComparator<T> {

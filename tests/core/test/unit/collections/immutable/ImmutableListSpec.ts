@@ -1,5 +1,5 @@
-import {ImmutableListImpl} from 'core/main/collection/immutable/ImmutableListImpl';
-import {StrictEqualityComparator} from 'core/main/utils/comparison/StrictEqualityComparator';
+import {ImmutableListImpl} from '@monument/core/main/collection/immutable/ImmutableListImpl';
+import {StrictEqualityComparator} from '@monument/core/main/utils/comparison/StrictEqualityComparator';
 
 
 export class ImmutableListSpec {

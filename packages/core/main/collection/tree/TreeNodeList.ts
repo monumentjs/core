@@ -1,10 +1,9 @@
-import {Assert} from '../../assert/Assert';
 import {TreeNode} from './TreeNode';
 import {Sequence} from '../readonly/Sequence';
 import {ArrayList} from '../mutable/ArrayList';
 import {List} from '../mutable/List';
 import {IteratorFunction} from '../IteratorFunction';
-import {EqualityComparator} from '../../EqualityComparator';
+import {EqualityComparator} from '../../utils/comparison/EqualityComparator';
 import {Grouping} from '../Grouping';
 
 

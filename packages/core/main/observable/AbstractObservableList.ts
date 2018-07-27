@@ -6,7 +6,7 @@ import {Grouping} from '../collection/Grouping';
 import {CollectionChangedEventArgs} from './CollectionChangedEventArgs';
 import {ObservableCollection} from './ObservableCollection';
 import {ConfigurableEvent} from '../events/ConfigurableEvent';
-import {EqualityComparator} from '../EqualityComparator';
+import {EqualityComparator} from '../utils/comparison/EqualityComparator';
 import {Comparator} from '../utils/comparison/Comparator';
 
 

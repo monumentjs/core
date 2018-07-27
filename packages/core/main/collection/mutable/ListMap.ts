@@ -1,4 +1,4 @@
-import {EqualityComparator} from '../../EqualityComparator';
+import {EqualityComparator} from '../../utils/comparison/EqualityComparator';
 import {KeyValuePair} from '../KeyValuePair';
 import {ReadOnlySet} from '../readonly/ReadOnlySet';
 import {ReadOnlyCollection} from '../readonly/ReadOnlyCollection';

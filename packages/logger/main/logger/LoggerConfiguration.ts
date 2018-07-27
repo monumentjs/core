@@ -1,5 +1,5 @@
-import {ListSet} from 'core/main/collection/mutable/ListSet';
-import {ReadOnlySet} from 'core/main/collection/readonly/ReadOnlySet';
+import {ListSet} from '@monument/core/main/collection/mutable/ListSet';
+import {ReadOnlySet} from '@monument/core/main/collection/readonly/ReadOnlySet';
 import {Appender} from '../appender/Appender';
 
 

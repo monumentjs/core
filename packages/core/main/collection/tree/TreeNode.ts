@@ -2,7 +2,7 @@ import {InvalidArgumentException} from '../../exceptions/InvalidArgumentExceptio
 import {ReadOnlyList} from '../readonly/ReadOnlyList';
 import {TreeNodeList} from './TreeNodeList';
 import {Sequence} from '../readonly/Sequence';
-import {NEGATIVE_ONE, ZERO} from '@monument/core/main/Constants';
+import {NEGATIVE_ONE, ZERO} from '../../Constants';
 
 
 export class TreeNode<TValue> implements Sequence<TValue> {

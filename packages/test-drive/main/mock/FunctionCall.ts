@@ -1,4 +1,4 @@
-import {Countable} from 'core/main/collection/readonly/Countable';
+import {Countable} from '@monument/core/main/collection/readonly/Countable';
 
 
 export class FunctionCall {

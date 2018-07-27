@@ -3,7 +3,7 @@ import {Test} from '@monument/test-drive/main/decorators/Test';
 import {ContextConfiguration} from '@monument/test-drive/main/decorators/ContextConfiguration';
 import {Assert} from '@monument/test-drive/main/assert/Assert';
 import {IgnoreCaseComparator} from '@monument/core/main/text/IgnoreCaseComparator';
-import {LinkedList} from 'core/main/collection/mutable/LinkedList';
+import {LinkedList} from '@monument/core/main/collection/mutable/LinkedList';
 
 
 @ContextConfiguration({

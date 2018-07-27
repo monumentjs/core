@@ -1,5 +1,5 @@
 import {Singleton} from '../stereotype/Singleton';
-import {EqualityComparator} from '../EqualityComparator';
+import {EqualityComparator} from '../utils/comparison/EqualityComparator';
 import {Comparator} from '../utils/comparison/Comparator';
 import {ComparisonResult} from '../utils/comparison/ComparisonResult';
 

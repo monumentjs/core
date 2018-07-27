@@ -1,7 +1,7 @@
 import {Sequence} from './Sequence';
 import {RangeException} from '../../exceptions/RangeException';
 import {IndexOutOfBoundsException} from '../../exceptions/IndexOutOfBoundsException';
-import {EqualityComparator} from '../../EqualityComparator';
+import {EqualityComparator} from '../../utils/comparison/EqualityComparator';
 import {ZERO} from '../../Constants';
 import {Assert} from '../../assert/Assert';
 

@@ -21,6 +21,9 @@ export interface FileStorage {
     removeFile(path: Path): Promise<void>;
     fileExists(path: Path): Promise<boolean>;
 
+    readAllBytes(path: Path): Promise<Buffer>;
+    readAllText(path: Path): Promise<string>;
+
     createPath(path: Path, accessPermissions?: AccessPermissions): Promise<void>;
     getAbsolutePath(path: Path): Promise<Path>;
     

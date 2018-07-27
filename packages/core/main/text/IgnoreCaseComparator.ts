@@ -1,4 +1,4 @@
-import {EqualityComparator} from '../EqualityComparator';
+import {EqualityComparator} from '../utils/comparison/EqualityComparator';
 import {ComparisonResult} from '../utils/comparison/ComparisonResult';
 import {Comparator} from '../utils/comparison/Comparator';
 import {Singleton} from '../stereotype/Singleton';

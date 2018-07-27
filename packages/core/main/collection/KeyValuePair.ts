@@ -1,4 +1,4 @@
-import {EqualityComparator} from '../EqualityComparator';
+import {EqualityComparator} from '../utils/comparison/EqualityComparator';
 
 
 export class KeyValuePair<K, V> {

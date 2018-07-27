@@ -1,4 +1,4 @@
-import {EqualityComparator} from '@monument/core/main/EqualityComparator';
+import {EqualityComparator} from '@monument/core/main/utils/comparison/EqualityComparator';
 
 
 export interface BindingConfiguration<T> {

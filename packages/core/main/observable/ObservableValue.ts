@@ -1,15 +1,14 @@
-import {Map} from '../collection/mutable/Map';
 import {ListMap} from '../collection/mutable/ListMap';
 import {Value} from './Value';
 import {Observer} from './Observer';
 import {ObserverSubscription} from './ObserverSubscription';
 import {Disposable} from '../Disposable';
-import {EqualityComparator} from '../EqualityComparator';
+import {EqualityComparator} from '../utils/comparison/EqualityComparator';
 
 
 export class ObservableValue<T> implements Value<T>, Disposable {
     private readonly _comparator: EqualityComparator<T> | undefined;
-    private readonly _observers: Map<Observer<T>, ObserverSubscription<T>> = new ListMap();
+    private readonly _observers: ListMap<Observer<T>, ObserverSubscription<T>> = new ListMap();
     private _value: T;
 
 
@@ -18,11 +17,9 @@ export class ObservableValue<T> implements Value<T>, Disposable {
         this._comparator = equalityComparator;
     }
 
-
     public get(): T {
         return this._value;
     }
-
 
     public set(value: T): void {
         if (!this.isEqualValue(value)) {
@@ -31,7 +28,6 @@ export class ObservableValue<T> implements Value<T>, Disposable {
             this.onChange(value);
         }
     }
-
 
     public subscribe(observer: Observer<T>): Disposable {
         const existingSubscription: ObserverSubscription<T> | undefined = this._observers.get(observer);

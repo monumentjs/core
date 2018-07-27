@@ -1,6 +1,6 @@
 import {ReadOnlyCollection} from '../ReadOnlyCollection';
 import {EnumerableProxy} from './EnumerableProxy';
-import {EqualityComparator} from '../../../EqualityComparator';
+import {EqualityComparator} from '../../../utils/comparison/EqualityComparator';
 import {Sequence} from '../Sequence';
 
 

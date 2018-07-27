@@ -2,7 +2,7 @@ import {Collection} from './Collection';
 import {ReadOnlyList} from '../readonly/ReadOnlyList';
 import {Sequence} from '../readonly/Sequence';
 import {CombineFunction} from '../CombineFunction';
-import {EqualityComparator} from '../../EqualityComparator';
+import {EqualityComparator} from '../../utils/comparison/EqualityComparator';
 import {SortOrder} from '../SortOrder';
 import {Grouping} from '../Grouping';
 import {Comparator} from '../../utils/comparison/Comparator';

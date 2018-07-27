@@ -1,6 +1,6 @@
 import {Cloneable} from '../Cloneable';
 import {Comparable} from '../utils/comparison/Comparable';
-import {Equatable} from '../Equatable';
+import {Equatable} from '../utils/comparison/Equatable';
 import {Formattable} from '../Formattable';
 import {ComparisonResult} from '../utils/comparison/ComparisonResult';
 import {Map} from '../collection/mutable/Map';

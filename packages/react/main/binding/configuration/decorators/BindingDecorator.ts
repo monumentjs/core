@@ -2,9 +2,9 @@ import {Decorator} from '@monument/core/main/reflection/Decorator';
 import {Class} from '@monument/core/main/reflection/Class';
 import {Type} from '@monument/core/main/Type';
 import {Key} from '@monument/core/main/object-model/attributes/Key';
-import {List} from '@monument/core/main/collections/List';
+import {List} from '@monument/core/main/collection/mutable/List';
 import {BindingConfiguration} from '../BindingConfiguration';
-import {ArrayList} from '@monument/core/main/collections/ArrayList';
+import {ArrayList} from '@monument/core/main/collection/mutable/ArrayList';
 import {BindingDefinition} from '../BindingDefinition';
 
 
@@ -30,15 +30,13 @@ export class BindingDecorator<T> extends Decorator {
 
         if (bindings == null) {
             bindings = new ArrayList();
-        }
 
-        klass.setAttribute(BindingDecorator.DEFINITIONS, bindings);
+            klass.setAttribute(BindingDecorator.DEFINITIONS, bindings);
+        }
 
         bindings.add({
             ...this._configuration,
             key
         });
-
-        console.log(klass.getAttributeValues(BindingDecorator.DEFINITIONS));
     }
 }

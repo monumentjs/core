@@ -3,8 +3,9 @@ import {Filter} from '../filter/Filter';
 import {Filterable} from './Filterable';
 import {FilterDecision} from '../filter/FilterDecision';
 import {AbstractLifecycle} from '@monument/core/main/lifecycle/AbstractLifecycle';
-import {ListSet} from 'core/main/collection/mutable/ListSet';
-import {ReadOnlySet} from 'core/main/collection/readonly/ReadOnlySet';
+import {ListSet} from '@monument/core/main/collection/mutable/ListSet';
+import {ReadOnlySet} from '@monument/core/main/collection/readonly/ReadOnlySet';
+import {Sequence} from '@monument/core/main/collection/readonly/Sequence';
 
 
 export class AbstractFilterable extends AbstractLifecycle implements Filterable {
@@ -15,7 +16,7 @@ export class AbstractFilterable extends AbstractLifecycle implements Filterable 
     }
 
 
-    public constructor(filters?: Iterable<Filter>) {
+    public constructor(filters?: Sequence<Filter>) {
         super();
 
         this._filters = new ListSet(filters);

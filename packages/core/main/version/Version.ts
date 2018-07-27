@@ -1,5 +1,5 @@
 import {ReleaseStatus} from './ReleaseStatus';
-import {Equatable} from '../Equatable';
+import {Equatable} from '../utils/comparison/Equatable';
 import {Cloneable} from '../Cloneable';
 import {JSONSerializable} from '../JSONSerializable';
 import {StringBuilder} from '../text/StringBuilder';

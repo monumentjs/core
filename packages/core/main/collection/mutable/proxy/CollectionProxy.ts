@@ -1,7 +1,7 @@
 import {Collection} from '../Collection';
 import {ReadOnlyCollectionProxy} from '../../readonly/proxy/ReadOnlyCollectionProxy';
 import {Sequence} from '../../readonly/Sequence';
-import {EqualityComparator} from '../../../EqualityComparator';
+import {EqualityComparator} from '../../../utils/comparison/EqualityComparator';
 import {IteratorFunction} from '../../IteratorFunction';
 
 

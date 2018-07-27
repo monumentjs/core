@@ -4,7 +4,7 @@ import {FileOutputStream} from '../stream/FileOutputStream';
 import ErrnoException = NodeJS.ErrnoException;
 import {ConfigurableEvent} from '@monument/core/main/events/ConfigurableEvent';
 import {EventArgs} from '@monument/core/main/events/EventArgs';
-import {ListQueue} from 'core/main/collection/mutable/ListQueue';
+import {ListQueue} from '@monument/core/main/collection/mutable/ListQueue';
 import {DeferredObject} from '@monument/core/main/async/DeferredObject';
 import {MemorySize} from '@monument/core/main/MemorySize';
 import {Event} from '@monument/core/main/events/Event';

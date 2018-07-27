@@ -7,7 +7,7 @@ import {Cloneable} from '../Cloneable';
 import {ConfigurableEvent} from '../events/ConfigurableEvent';
 import {Disposable} from '../Disposable';
 import {Event} from '../events/Event';
-import {EqualityComparator} from '../EqualityComparator';
+import {EqualityComparator} from '../utils/comparison/EqualityComparator';
 
 
 export class ObservableStack<T> extends ListStack<T> implements Cloneable<ObservableStack<T>>, Disposable, NotifyCollectionChanged<T> {

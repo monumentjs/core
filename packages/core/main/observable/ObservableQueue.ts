@@ -6,7 +6,7 @@ import {NotifyCollectionChanged} from './NotifyCollectionChanged';
 import {Disposable} from '../Disposable';
 import {ConfigurableEvent} from '../events/ConfigurableEvent';
 import {Event} from '../events/Event';
-import {EqualityComparator} from '../EqualityComparator';
+import {EqualityComparator} from '../utils/comparison/EqualityComparator';
 
 
 export class ObservableQueue<T> extends ListQueue<T> implements Disposable, NotifyCollectionChanged<T> {

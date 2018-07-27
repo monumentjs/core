@@ -1,37 +1,38 @@
-import {Equatable} from '../../Equatable';
+import {Equatable} from '../../utils/comparison/Equatable';
 import {ReadOnlyMap} from './ReadOnlyMap';
 import {KeyValuePair} from '../KeyValuePair';
 import {ReadOnlySet} from './ReadOnlySet';
 import {ReadOnlyCollection} from './ReadOnlyCollection';
-import {EqualityComparator} from '../../EqualityComparator';
+import {EqualityComparator} from '../../utils/comparison/EqualityComparator';
 import {AbstractSequence} from './AbstractSequence';
 import {IteratorFunction} from '../IteratorFunction';
 import {ZERO} from '../../Constants';
+import {StrictEqualityComparator} from '../../utils/comparison/StrictEqualityComparator';
 
 
 export abstract class AbstractReadOnlyMap<K, V> extends AbstractSequence<KeyValuePair<K, V>> implements ReadOnlyMap<K, V>, Equatable<ReadOnlyMap<K, V>> {
-    private readonly _keyComparator: EqualityComparator<K> | undefined;
-    private readonly _valueComparator: EqualityComparator<V> | undefined;
+    private readonly _keyComparator: EqualityComparator<K>;
+    private readonly _valueComparator: EqualityComparator<V>;
 
     public get isEmpty(): boolean {
         return this.length === ZERO;
     }
 
-    public get keyComparator(): EqualityComparator<K> | undefined {
+    public get keyComparator(): EqualityComparator<K> {
         return this._keyComparator;
     }
 
     public abstract get keys(): ReadOnlySet<K>;
 
-    public get valueComparator(): EqualityComparator<V> | undefined {
+    public get valueComparator(): EqualityComparator<V> {
         return this._valueComparator;
     }
 
     public abstract get values(): ReadOnlyCollection<V>;
 
     protected constructor(
-        keyComparator?: EqualityComparator<K>,
-        valueComparator?: EqualityComparator<V>
+        keyComparator: EqualityComparator<K> = StrictEqualityComparator.get(),
+        valueComparator: EqualityComparator<V> = StrictEqualityComparator.get()
     ) {
         super();
 

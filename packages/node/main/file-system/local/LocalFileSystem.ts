@@ -29,10 +29,10 @@ import {LocalFile} from './LocalFile';
 import {LocalDirectory} from './LocalDirectory';
 import {LocalFileInputStream} from './LocalFileInputStream';
 import {LocalFileOutputStream} from './LocalFileOutputStream';
-import ErrnoException = NodeJS.ErrnoException;
 import {Component} from '@monument/core/main/stereotype/Component';
 import {DeferredObject} from '@monument/core/main/async/DeferredObject';
-import {ArrayList} from 'core/main/collection/mutable/ArrayList';
+import {ArrayList} from '@monument/core/main/collection/mutable/ArrayList';
+import ErrnoException = NodeJS.ErrnoException;
 
 
 @Component
@@ -371,6 +371,23 @@ export class LocalFileSystem implements FileStorage {
         const stream: WriteStream = createWriteStream(filePath.toString());
 
         return new LocalFileOutputStream(filePath, stream);
+    }
+
+    public async readAllBytes(path: Path): Promise<Buffer> {
+        const stream: LocalFileInputStream = this.readFile(path);
+        const chunks: Buffer[] = [];
+
+        for await (const chunk of stream) {
+            chunks.push(chunk);
+        }
+
+        return Buffer.concat(chunks);
+    }
+
+    public async readAllText(path: Path): Promise<string> {
+        const bytes: Buffer = await this.readAllBytes(path);
+
+        return bytes.toString();
     }
 
 

@@ -9,7 +9,7 @@ import {Message} from '@monument/logger/main/message/Message';
 import {Filter} from '@monument/logger/main/filter/Filter';
 import {RegExpFilter} from '@monument/logger/main/filter/RegExpFilter';
 import {Level} from '@monument/logger/main/level/Level';
-import {ArrayList} from 'core/main/collection/mutable/ArrayList';
+import {ArrayList} from '@monument/core/main/collection/mutable/ArrayList';
 import {Exception} from '@monument/core/main/exceptions/Exception';
 
 

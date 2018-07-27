@@ -1,7 +1,7 @@
 import {isAbsolute, join, parse, ParsedPath, posix, relative, resolve, win32} from 'path';
 import {PathFormat} from './PathFormat';
 import {Cloneable} from '@monument/core/main/Cloneable';
-import {Equatable} from '@monument/core/main/Equatable';
+import {Equatable} from 'packages/core/main/utils/comparison/Equatable';
 import {JSONSerializable} from '@monument/core/main/JSONSerializable';
 import {StringUtils} from '@monument/core/main/text/StringUtils';
 

@@ -3,7 +3,7 @@ import {EventArgs} from '@monument/core/main/events/EventArgs';
 import {Event} from '@monument/core/main/events/Event';
 import {ConfigurableEvent} from '@monument/core/main/events/ConfigurableEvent';
 import {Delegate} from '@monument/core/main/decorators/Delegate';
-import {ListQueue} from 'core/main/collection/mutable/ListQueue';
+import {ListQueue} from '@monument/core/main/collection/mutable/ListQueue';
 import {EndOfStreamException} from '@monument/core/main/stream/EndOfStreamException';
 import {ReadRequest} from './support/ReadRequest';
 import {Readable} from 'stream';

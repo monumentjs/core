@@ -3,7 +3,7 @@ import {Sequence} from '../readonly/Sequence';
 import {Comparator} from '../../utils/comparison/Comparator';
 import {ArrayList} from '../mutable/ArrayList';
 import {SortOrder} from '../SortOrder';
-import {EqualityComparator} from '../../EqualityComparator';
+import {EqualityComparator} from '../../utils/comparison/EqualityComparator';
 import {IteratorFunction} from '../IteratorFunction';
 import {List} from '../mutable/List';
 

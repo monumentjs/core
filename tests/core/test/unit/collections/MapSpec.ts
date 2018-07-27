@@ -2,9 +2,9 @@ import {BeforeEach} from '@monument/test-drive/main/decorators/BeforeEach';
 import {Test} from '@monument/test-drive/main/decorators/Test';
 import {Assert} from '@monument/test-drive/main/assert/Assert';
 import {KeyValuePair} from '@monument/core/main/collection/KeyValuePair';
-import {EqualityComparator} from '@monument/core/main/EqualityComparator';
+import {EqualityComparator} from 'packages/core/main/utils/comparison/EqualityComparator';
 import {IgnoreCaseComparator} from '@monument/core/main/text/IgnoreCaseComparator';
-import {Map} from 'core/main/collection/mutable/Map';
+import {Map} from '@monument/core/main/collection/mutable/Map';
 
 
 export abstract class MapSpec {

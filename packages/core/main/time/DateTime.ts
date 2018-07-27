@@ -1,7 +1,7 @@
 import {Cloneable} from '../Cloneable';
 import {ComparisonResult} from '../utils/comparison/ComparisonResult';
 import {Comparable} from '../utils/comparison/Comparable';
-import {Equatable} from '../Equatable';
+import {Equatable} from '../utils/comparison/Equatable';
 import {Formattable} from '../Formattable';
 import {DAYS_OFFSET_PER_MONTH, DAYS_TO_MONTH_365, DAYS_TO_MONTH_366} from './Constants';
 import {DayOfWeek} from './DayOfWeek';

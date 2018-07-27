@@ -1,4 +1,4 @@
-import {Sequence} from '../collections/Sequence';
+import {Sequence} from '../collection/Sequence';
 import {Pattern} from './Pattern';
 import {FieldPattern} from './FieldPattern';
 import {MethodPattern} from './MethodPattern';

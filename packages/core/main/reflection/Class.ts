@@ -12,7 +12,7 @@ import {Method} from './Method';
 import {Parameter} from './Parameter';
 import {ReadOnlyList} from '../collection/readonly/ReadOnlyList';
 import {ArrayList} from '../collection/mutable/ArrayList';
-import {ObjectPattern} from '@monument/core/main/language/ObjectPattern';
+import {ObjectPattern} from '../language/ObjectPattern';
 
 
 export class Class<T extends object> extends DefaultHierarchicalAccessibleObject {
@@ -308,7 +308,7 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
 
 
     private getDeclaredFields(): Map<string | symbol, Field> {
-        const fields: Map<string | symbol, Field> = new ListMap();
+        const fields: Map<string | symbol, Field> = new ListMap<string | symbol, Field>();
 
         if (this.prototype != null) {
             const propertyDescriptors = Object.getOwnPropertyDescriptors(this.prototype);
@@ -340,7 +340,7 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
 
 
     private getDeclaredMethods(): Map<string | symbol, Method> {
-        const methods: Map<string | symbol, Method> = new ListMap();
+        const methods: Map<string | symbol, Method> = new ListMap<string | symbol, Method>();
 
         if (this.prototype != null) {
             const propertyDescriptors = Object.getOwnPropertyDescriptors(this.prototype);

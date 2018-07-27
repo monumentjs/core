@@ -1,6 +1,6 @@
-import {ReadOnlyMap} from 'core/main/collection/readonly/ReadOnlyMap';
+import {ReadOnlyMap} from '@monument/core/main/collection/readonly/ReadOnlyMap';
 import {Service} from '@monument/core/main/stereotype/Service';
-import {ListMap} from 'core/main/collection/mutable/ListMap';
+import {ListMap} from '@monument/core/main/collection/mutable/ListMap';
 import {Lazy} from '@monument/core/main/stereotype/configuration/Lazy';
 import {Init} from '@monument/core/main/stereotype/lifecycle/Init';
 import {Configuration} from '@monument/core/main/stereotype/Configuration';
@@ -9,7 +9,7 @@ import {Module} from '@monument/core/main/stereotype/Module';
 import {Application} from '@monument/core/main/stereotype/Application';
 import {AbstractLifecycle} from '@monument/core/main/lifecycle/AbstractLifecycle';
 import {Disposable} from '@monument/core/main/Disposable';
-import {ArrayList} from 'core/main/collection/mutable/ArrayList';
+import {ArrayList} from '@monument/core/main/collection/mutable/ArrayList';
 import {PostConstruct} from '@monument/core/main/stereotype/lifecycle/PostConstruct';
 import {Exception} from '@monument/core/main/exceptions/Exception';
 import {PreDestroy} from '@monument/core/main/stereotype/lifecycle/PreDestroy';

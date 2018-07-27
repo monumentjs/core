@@ -1,6 +1,6 @@
 import {Assert} from '../../assert/Assert';
 import {Cloneable} from '../../Cloneable';
-import {Equatable} from '../../Equatable';
+import {Equatable} from '../../utils/comparison/Equatable';
 import {JSONSerializable} from '../../JSONSerializable';
 import {Collection} from '../mutable/Collection';
 import {ArrayList} from '../mutable/ArrayList';

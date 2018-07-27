@@ -2,8 +2,8 @@ import {Assert} from '@monument/test-drive/main/assert/Assert';
 import {Test} from '@monument/test-drive/main/decorators/Test';
 import {BeforeEach} from '@monument/test-drive/main/decorators/BeforeEach';
 import {AfterEach} from '@monument/test-drive/main/decorators/AfterEach';
-import {ReadOnlyList} from 'core/main/collection/readonly/ReadOnlyList';
-import {ArrayList} from 'core/main/collection/mutable/ArrayList';
+import {ReadOnlyList} from '@monument/core/main/collection/readonly/ReadOnlyList';
+import {ArrayList} from '@monument/core/main/collection/mutable/ArrayList';
 import {Ignore} from '@monument/test-drive/main/decorators/Ignore';
 
 interface Element {
