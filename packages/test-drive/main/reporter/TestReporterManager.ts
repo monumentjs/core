@@ -7,6 +7,7 @@ import {TestClassEndedEventArgs} from './events/TestClassEndedEventArgs';
 import {TestCaseStartedEventArgs} from './events/TestCaseStartedEventArgs';
 import {TestCaseEndedEventArgs} from './events/TestCaseEndedEventArgs';
 import {Component} from '@monument/core/main/stereotype/Component';
+import {Sequence} from '@monument/core/main/collection/readonly/Sequence';
 
 
 @Component
@@ -14,7 +15,7 @@ export class TestReporterManager implements TestReporter {
     private readonly _reporters: ListSet<TestReporter> = new ListSet();
 
 
-    public constructor(reporters: Iterable<TestReporter>) {
+    public constructor(reporters: Sequence<TestReporter>) {
         this._reporters.addAll(reporters);
     }
 

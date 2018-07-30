@@ -1,4 +1,4 @@
-import {Value} from 'packages/core/main/observable/Value';
+import {Value} from '@monument/core/main/observable/Value';
 import {PropertyValidationState} from './validation/PropertyValidationState';
 
 

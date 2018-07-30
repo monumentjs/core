@@ -1,8 +1,8 @@
 import {Component} from '@monument/core/main/stereotype/Component';
-import {Sequence} from '@monument/core/main/collection/Sequence';
+import {Sequence} from '@monument/core/main/collection/readonly/Sequence';
 import {UrlRewriteRuleDefinition} from './UrlRewriteRuleDefinition';
 import {UrlRewriteRule} from './UrlRewriteRule';
-import {LinkedList} from '@monument/core/main/collection/LinkedList';
+import {LinkedList} from '@monument/core/main/collection/mutable/LinkedList';
 
 @Component
 export class UrlRewriteConfiguration {

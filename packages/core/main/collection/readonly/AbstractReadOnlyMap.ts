@@ -2,12 +2,11 @@ import {Equatable} from '../../utils/comparison/Equatable';
 import {ReadOnlyMap} from './ReadOnlyMap';
 import {KeyValuePair} from '../KeyValuePair';
 import {ReadOnlySet} from './ReadOnlySet';
-import {ReadOnlyCollection} from './ReadOnlyCollection';
 import {EqualityComparator} from '../../utils/comparison/EqualityComparator';
 import {AbstractSequence} from './AbstractSequence';
-import {IteratorFunction} from '../IteratorFunction';
 import {ZERO} from '../../Constants';
 import {StrictEqualityComparator} from '../../utils/comparison/StrictEqualityComparator';
+import {ReadOnlyList} from './ReadOnlyList';
 
 
 export abstract class AbstractReadOnlyMap<K, V> extends AbstractSequence<KeyValuePair<K, V>> implements ReadOnlyMap<K, V>, Equatable<ReadOnlyMap<K, V>> {
@@ -28,7 +27,7 @@ export abstract class AbstractReadOnlyMap<K, V> extends AbstractSequence<KeyValu
         return this._valueComparator;
     }
 
-    public abstract get values(): ReadOnlyCollection<V>;
+    public abstract get values(): ReadOnlyList<V>;
 
     protected constructor(
         keyComparator: EqualityComparator<K> = StrictEqualityComparator.get(),
@@ -95,30 +94,8 @@ export abstract class AbstractReadOnlyMap<K, V> extends AbstractSequence<KeyValu
         return true;
     }
 
-    public forEach(iterator: IteratorFunction<KeyValuePair<K, V>, false | void>): void {
-        let index: number = 0;
-
-        for (const pair of this) {
-            const stop: boolean = iterator(pair, index) === false;
-
-            if (stop) {
-                break;
-            }
-
-            index++;
-        }
-    }
-
-    public abstract forEachReversed(iterator: IteratorFunction<KeyValuePair<K, V>, boolean | void>): void;
-
-    public abstract forEachReversed(iterator: IteratorFunction<KeyValuePair<K, V>, boolean | void>, startIndex: number): void;
-
-    public abstract forEachReversed(iterator: IteratorFunction<KeyValuePair<K, V>, boolean | void>, startIndex: number, count: number): void;
-
-    public get(key: K, defaultValue: V): V;
-
     public get(key: K): V | undefined;
-
+    public get(key: K, defaultValue: V): V;
     public get(key: K, defaultValue?: V): V | undefined {
         for (const pair of this) {
             if (this.checkEquality(pair.key, key, this.keyComparator)) {

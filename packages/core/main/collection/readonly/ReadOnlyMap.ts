@@ -1,13 +1,14 @@
 import {EqualityComparator} from '../../utils/comparison/EqualityComparator';
 import {ReadOnlySet} from './ReadOnlySet';
-import {ReadOnlyCollection} from './ReadOnlyCollection';
 import {KeyValuePair} from '../KeyValuePair';
-import {Enumerable} from './Enumerable';
+import {ReadOnlyList} from './ReadOnlyList';
+import {Sequence} from './Sequence';
 
 
-export interface ReadOnlyMap<K, V> extends Enumerable<KeyValuePair<K, V>> {
+export interface ReadOnlyMap<K, V> extends Sequence<KeyValuePair<K, V>> {
+    readonly isEmpty: boolean;
     readonly keys: ReadOnlySet<K>;
-    readonly values: ReadOnlyCollection<V>;
+    readonly values: ReadOnlyList<V>;
     readonly keyComparator: EqualityComparator<K>;
     readonly valueComparator: EqualityComparator<V>;
 

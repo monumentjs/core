@@ -12,12 +12,13 @@ import {TimeZoneProcessor} from './TimeZoneProcessor';
 import {AMPMProcessor} from './AMPMProcessor';
 import {SignProcessor} from './SignProcessor';
 import {Singleton} from '../../stereotype/Singleton';
+import {Sequence} from '../../collection/readonly/Sequence';
 
 
 @Singleton
 export class TimeEntryProcessorProvider {
 
-    private readonly _formatters: Iterable<TimeEntryProcessor>;
+    private readonly _formatters: Sequence<TimeEntryProcessor>;
 
 
     public constructor(

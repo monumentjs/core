@@ -1,6 +1,5 @@
 import {Sequence} from './Sequence';
 import {RangeException} from '../../exceptions/RangeException';
-import {IndexOutOfBoundsException} from '../../exceptions/IndexOutOfBoundsException';
 import {EqualityComparator} from '../../utils/comparison/EqualityComparator';
 import {ZERO} from '../../Constants';
 import {Assert} from '../../assert/Assert';
@@ -12,10 +11,21 @@ export abstract class AbstractSequence<T> implements Sequence<T> {
 
     public abstract [Symbol.iterator](): Iterator<T>;
 
-    protected validateIndex(index: number): void {
-        if (index < 0 || index >= this.length) {
-            throw new IndexOutOfBoundsException(`Index out of bounds: index = ${index}; length = ${this.length}.`);
+    protected checkEquality<I>(currentItem: I, otherItem: I, comparator?: EqualityComparator<I>): boolean {
+        if (comparator != null) {
+            return comparator.equals(currentItem, otherItem);
+        } else {
+            return currentItem === otherItem;
         }
+    }
+
+    protected validateSliceBounds<I>(startIndex: number, count: number): void {
+        if (startIndex !== ZERO) {
+            Assert.argument('startIndex', startIndex).isIndexOf(this);
+        }
+
+        Assert.argument('count', count).isLength();
+        this.validateSliceRange(startIndex, count);
     }
 
     protected validateSliceRange(offset: number = 0, length: number = this.length - offset): void {
@@ -36,23 +46,6 @@ export abstract class AbstractSequence<T> implements Sequence<T> {
                 `Invalid bounds (${offset}...${offset + length}) of slice range, ` +
                 `original range is (0...${this.length}).`
             );
-        }
-    }
-
-    protected validateSliceBounds<I>(startIndex: number, count: number): void {
-        if (startIndex !== ZERO) {
-            Assert.argument('startIndex', startIndex).isIndexOf(this);
-        }
-
-        Assert.argument('count', count).isLength();
-        this.validateSliceRange(startIndex, count);
-    }
-
-    protected checkEquality<I>(currentItem: I, otherItem: I, comparator?: EqualityComparator<I>): boolean {
-        if (comparator != null) {
-            return comparator.equals(currentItem, otherItem);
-        } else {
-            return currentItem === otherItem;
         }
     }
 }

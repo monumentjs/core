@@ -14,7 +14,7 @@ export class ListSet<T> extends AbstractSet<T> {
         return this._items.length;
     }
 
-    public constructor(items?: Sequence<T>, comparator: EqualityComparator<T> = new StrictEqualityComparator()) {
+    public constructor(items?: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()) {
         super(undefined, comparator);
 
         this._items = new ArrayList();

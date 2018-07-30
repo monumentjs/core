@@ -1,7 +1,7 @@
-import {Comparable} from '@monument/core/main/Comparable';
-import {Equatable} from 'packages/core/main/utils/comparison/Equatable';
-import {ComparisonResult} from '@monument/core/main/ComparisonResult';
-import {NumberComparator} from '@monument/core/main/utils/NumberComparator';
+import {Comparable} from '@monument/core/main/utils/comparison/Comparable';
+import {Equatable} from '@monument/core/main/utils/comparison/Equatable';
+import {ComparisonResult} from '@monument/core/main/utils/comparison/ComparisonResult';
+import {NumberComparator} from '@monument/core/main/utils/comparison/NumberComparator';
 import {HttpVersion} from './HttpVersion';
 
 /**
@@ -14,7 +14,7 @@ export class HttpProtocol implements HttpVersion, Comparable<HttpProtocol>, Equa
 
     public static readonly DEFAULT: HttpProtocol = HttpProtocol.HTTP_1_1;
 
-    private readonly _numberComparator: NumberComparator = new NumberComparator();
+    private readonly _numberComparator: NumberComparator = NumberComparator.get();
 
     public readonly major: number;
     public readonly minor: number;

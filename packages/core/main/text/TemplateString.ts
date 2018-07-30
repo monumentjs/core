@@ -1,6 +1,5 @@
 import {StringPool} from '../StringPool';
 import {MissingKeyException} from '../exceptions/MissingKeyException';
-import {Assert} from '../assert/Assert';
 import {ListMap} from '../collection/mutable/ListMap';
 import {ArrayList} from '../collection/mutable/ArrayList';
 import {ReadOnlyMap} from '../collection/readonly/ReadOnlyMap';
@@ -8,7 +7,7 @@ import {ReadOnlyList} from '../collection/readonly/ReadOnlyList';
 import {ReadOnlyCollection} from '../collection/readonly/ReadOnlyCollection';
 import {ParsingException} from './parser/ParsingException';
 import {RegExpUtils} from './RegExpUtils';
-
+import {IndexOutOfBoundsException} from '../exceptions/IndexOutOfBoundsException';
 
 const NORMAL_ENTRY_PATTERN: RegExp = /{(\w+)}/g;
 const ESCAPED_ENTRY_PATTERN: RegExp = /\\{(\w+)\\}/g;
@@ -38,7 +37,7 @@ export class TemplateString {
         return this.fillEntries((key: string): string => {
             const index: number = parseInt(key, 10);
 
-            Assert.sequence(values).containsIndex(index);
+            IndexOutOfBoundsException.testIndex(index, values.length);
 
             return values[index] + StringPool.BLANK;
         });
@@ -83,7 +82,7 @@ export class TemplateString {
 
 
     public extractValues(source: string): ReadOnlyMap<string, string> {
-        const values: ListMap<string, string> = new ListMap<string, string>();
+        const values: ListMap<string, string> = new ListMap();
         const match: RegExpExecArray | null = this._extractionPattern.exec(source);
 
         if (!match) {

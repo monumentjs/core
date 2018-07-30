@@ -1,4 +1,4 @@
-import {ReadOnlyList} from 'packages/core/main/collection/ReadOnlyList';
+import {ReadOnlyList} from '@monument/core/main/collection/readonly/ReadOnlyList';
 import {HttpResponseFilter} from '../HttpResponseFilter';
 
 

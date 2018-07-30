@@ -3,6 +3,7 @@ import {ContextBuilder} from '../ContextBuilder';
 import {Type} from '../../../Type';
 import {ListSet} from '../../../collection/mutable/ListSet';
 import {ConfigurableContext} from '../../ConfigurableContext';
+import {Sequence} from '../../../collection/readonly/Sequence';
 
 
 export abstract class AbstractContextBuilder<TContext extends Context> implements ContextBuilder<TContext> {
@@ -28,7 +29,7 @@ export abstract class AbstractContextBuilder<TContext extends Context> implement
     }
 
 
-    public scanAll(types: Iterable<Type<object>>): void {
+    public scanAll(types: Sequence<Type<object>>): void {
         this._types.addAll(types);
     }
 

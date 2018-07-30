@@ -5,6 +5,10 @@ import {NullPointerException} from '../exceptions/NullPointerException';
 export class MethodPattern implements Pattern {
     private readonly _key: string | symbol;
 
+    public get key(): string | symbol {
+        return this._key;
+    }
+
     public constructor(key: string | symbol) {
         this._key = key;
     }

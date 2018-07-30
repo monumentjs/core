@@ -10,7 +10,7 @@ export class FunctionCall {
     }
 
 
-    public get arguments(): Iterable<any> & Countable {
+    public get arguments(): Sequence<any> & Countable {
         return this._arguments;
     }
 
@@ -26,7 +26,7 @@ export class FunctionCall {
     }
 
 
-    public testArguments(args: Iterable<any> & Countable): boolean {
+    public testArguments(args: Sequence<any> & Countable): boolean {
         if (this._arguments.length !== args.length) {
             return false;
         }

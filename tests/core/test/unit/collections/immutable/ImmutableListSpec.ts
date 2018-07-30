@@ -1,4 +1,4 @@
-import {ImmutableListImpl} from '@monument/core/main/collection/immutable/ImmutableListImpl';
+import {ImmutableListImpl} from '@monument/core/main/collection/immutable/ImmutableArrayList';
 import {StrictEqualityComparator} from '@monument/core/main/utils/comparison/StrictEqualityComparator';
 
 

@@ -1,8 +1,9 @@
+import {ZERO} from '../../Constants';
 
 
 export class RepeatableNumberGenerator {
     private readonly _max: number;
-    private _index: number = 0;
+    private _value: number = ZERO;
 
 
     public constructor(max: number = Number.MAX_SAFE_INTEGER) {
@@ -11,12 +12,12 @@ export class RepeatableNumberGenerator {
 
 
     public next(): number {
-        this._index++;
+        this._value++;
 
-        if (this._index >= this._max) {
-            this._index = 0;
+        if (this._value >= this._max) {
+            this._value = 0;
         }
 
-        return this._index;
+        return this._value;
     }
 }

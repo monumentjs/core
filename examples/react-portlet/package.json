@@ -6,8 +6,8 @@
 
   ],
   "scripts": {
-    "serve": "parcel serve main/html/index.html --out-dir build/debug",
-    "build": "parcel build main/html/index.html --out-dir build/release",
+    "serve": "parcel main/html/index.html -d build/debug",
+    "build": "parcel build main/html/index.html -d build/release",
     "test": "td"
   },
   "dependencies": {

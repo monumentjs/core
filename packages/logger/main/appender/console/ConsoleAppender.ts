@@ -3,6 +3,7 @@ import {Level} from '../../level/Level';
 import {Message} from '../../message/Message';
 import {MessageFormatter} from '../../message/MessageFormatter';
 import {AbstractAppender} from '../AbstractAppender';
+import {Sequence} from '@monument/core/main/collection/readonly/Sequence';
 
 
 export class ConsoleAppender extends AbstractAppender {
@@ -11,7 +12,7 @@ export class ConsoleAppender extends AbstractAppender {
     private readonly _formatter: MessageFormatter;
 
 
-    public constructor(name: string, formatter: MessageFormatter, filters?: Iterable<Filter>) {
+    public constructor(name: string, formatter: MessageFormatter, filters?: Sequence<Filter>) {
         super(name, filters);
 
         this._formatter = formatter;

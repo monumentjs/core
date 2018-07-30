@@ -1,9 +1,8 @@
 import {ObjectPattern} from '../../../../language/ObjectPattern';
 import {MethodPattern} from '../../../../language/MethodPattern';
 import {UnitDefinitionRegistryPostProcessor} from './UnitDefinitionRegistryPostProcessor';
-import {Singleton} from '../../../../stereotype/Singleton';
 
-@Singleton
+
 export class UnitDefinitionRegistryPostProcessorPattern extends ObjectPattern {
     private static _instance: UnitDefinitionRegistryPostProcessorPattern | undefined;
 

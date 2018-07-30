@@ -20,6 +20,7 @@ import {InvalidStateException} from '../../exceptions/InvalidStateException';
 import {InvocationContext} from '../InvocationContext';
 import {Invokable} from '../../reflection/Invokable';
 import {UnitException} from '../../unit/UnitException';
+import {Sequence} from '../../collection/readonly/Sequence';
 
 
 export class DefaultContext extends AbstractLifecycle implements ConfigurableContext, InvocationContext {
@@ -37,11 +38,9 @@ export class DefaultContext extends AbstractLifecycle implements ConfigurableCon
     private readonly _unitFactoryPostProcessors: ArrayList<UnitFactoryPostProcessor> = new ArrayList();
     private readonly _unitPostProcessors: ArrayList<UnitPostProcessor> = new ArrayList();
 
-
     public get parent(): Context | undefined {
         return this._parent;
     }
-
 
     public set parent(value: Context | undefined) {
         this._parent = value;
@@ -53,11 +52,9 @@ export class DefaultContext extends AbstractLifecycle implements ConfigurableCon
         }
     }
 
-
     protected get unitDefinitionRegistry(): UnitDefinitionRegistry {
         return this._unitDefinitionRegistry;
     }
-
 
     public constructor(parent?: Context) {
         super();
@@ -94,9 +91,20 @@ export class DefaultContext extends AbstractLifecycle implements ConfigurableCon
             )
         );
 
-        this.registerContext();
+        // this.registerContext();
     }
 
+    public containsUnit(unitType: Type<object>): boolean {
+        return this._unitFactory.containsUnit(unitType);
+    }
+
+    public destroyUnit<T extends object>(unitType: Type<T>, instance: T): Promise<void> {
+        return this._unitFactory.destroyUnit(unitType, instance);
+    }
+
+    public getUnit<T extends object>(request: UnitRequest<T> | Type<T>): Promise<T> {
+        return this._unitFactory.getUnit(request);
+    }
 
     public async initialize(): Promise<void> {
         this.setInitializing();
@@ -109,6 +117,37 @@ export class DefaultContext extends AbstractLifecycle implements ConfigurableCon
         this.setInitialized();
     }
 
+    public async invoke(instance: object, invokable: Invokable): Promise<any> {
+        const args: any[] = [];
+
+        for (const parameter of invokable.parameters) {
+            if (parameter.type == null) {
+                throw new UnitException('Parameter type is not defined.');
+            }
+
+            const arg = await this.getUnit(parameter.type);
+
+            args.push(arg);
+        }
+
+        return invokable.invoke(instance, args);
+    }
+
+    public scan(type: Type<object>): void {
+        if (!this.isPending) {
+            throw new InvalidStateException('Class scan allowed only in pending state before lifecycle methods called.');
+        }
+
+        for (const reader of this._unitDefinitionReaders) {
+            reader.scan(type);
+        }
+    }
+
+    public scanAll(types: Sequence<Type<object>>): void {
+        for (const type of types) {
+            this.scan(type);
+        }
+    }
 
     public async start(): Promise<void> {
         this.setStarting();
@@ -120,7 +159,6 @@ export class DefaultContext extends AbstractLifecycle implements ConfigurableCon
 
         this.setStarted();
     }
-
 
     public async stop(): Promise<void> {
         this.setStopping();
@@ -136,73 +174,20 @@ export class DefaultContext extends AbstractLifecycle implements ConfigurableCon
         this.setStopped();
     }
 
-
-    public getUnit<T extends object>(request: UnitRequest<T> | Type<T>): Promise<T> {
-        return this._unitFactory.getUnit(request);
-    }
-
-
-    public containsUnit(unitType: Type<object>): boolean {
-        return this._unitFactory.containsUnit(unitType);
-    }
-
-
-    public destroyUnit<T extends object>(unitType: Type<T>, instance: T): Promise<void> {
-        return this._unitFactory.destroyUnit(unitType, instance);
-    }
-
-
-    public scan(type: Type<object>): void {
-        if (!this.isPending) {
-            throw new InvalidStateException('Class scan allowed only in pending state before lifecycle methods called.');
-        }
-
-        for (const reader of this._unitDefinitionReaders) {
-            reader.scan(type);
-        }
-    }
-
-
-    public scanAll(types: Iterable<Type<object>>): void {
-        for (const type of types) {
-            this.scan(type);
-        }
-    }
-
-
-    public async invoke(instance: object, invokable: Invokable): Promise<any> {
-        const args: any[] = [];
-        
-        for (const parameter of invokable.parameters) {
-            if (parameter.type == null) {
-                throw new UnitException('Parameter type is not defined.');
-            }
-
-            const arg = await this.getUnit(parameter.type);
-
-            args.push(arg);
-        }
-
-        return invokable.invoke(instance, args);
-    }
-
-
     protected addUnitDefinitionReader(reader: UnitDefinitionReader): void {
         this._unitDefinitionReaders.add(reader);
     }
 
-
     protected addUnitPostProcessor(postProcessor: UnitPostProcessor): void {
         this._unitFactory.addUnitPostProcessor(postProcessor);
     }
-
 
     private async instantiatePostProcessors(): Promise<void> {
         this._unitDefinitionRegistryPostProcessors.addAll(
             await Promise.all(
                 this._unitDefinitionRegistryPostProcessorTypes.map((type) => {
                     return this.getUnit(type) as Promise<UnitDefinitionRegistryPostProcessor>;
-                })
+                }).toArray()
             )
         );
 
@@ -210,7 +195,7 @@ export class DefaultContext extends AbstractLifecycle implements ConfigurableCon
             await Promise.all(
                 this._unitFactoryPostProcessorTypes.map((type) => {
                     return this.getUnit(type) as Promise<UnitFactoryPostProcessor>;
-                })
+                }).toArray()
             )
         );
 
@@ -218,7 +203,7 @@ export class DefaultContext extends AbstractLifecycle implements ConfigurableCon
             await Promise.all(
                 this._unitDefinitionRegistryPostProcessorTypes.map((type) => {
                     return this.getUnit(type) as Promise<UnitPostProcessor>;
-                })
+                }).toArray()
             )
         );
 
@@ -227,27 +212,24 @@ export class DefaultContext extends AbstractLifecycle implements ConfigurableCon
         }
     }
 
-
     private async postProcessUnitDefinitionRegistry(): Promise<void> {
         for (const processor of this._unitDefinitionRegistryPostProcessors) {
-            await processor.postProcessUnitDefinitionRegistry(this._unitDefinitionRegistry);
+            await processor[UnitDefinitionRegistryPostProcessor.postProcessUnitDefinitionRegistry](this._unitDefinitionRegistry);
         }
     }
-
 
     private async postProcessUnitFactory(): Promise<void> {
         for (const processor of this._unitFactoryPostProcessors) {
-            await processor.postProcessUnitFactory(this._unitFactory);
+            await processor[UnitFactoryPostProcessor.postProcessUnitFactory](this._unitFactory);
         }
     }
 
-
-    private registerContext() {
-        const definition: UnitDefinition = new UnitDefinition();
-
-        definition.isSingleton = true;
-
-        this._unitDefinitionRegistry.registerUnitDefinition(DefaultContext, definition);
-        this._unitFactory.registerSingleton(DefaultContext, this);
-    }
+    // private registerContext() {
+    //     const definition: UnitDefinition = new UnitDefinition();
+    //
+    //     definition.isSingleton = true;
+    //
+    //     this._unitDefinitionRegistry.registerUnitDefinition(DefaultContext, definition);
+    //     this._unitFactory.registerSingleton(DefaultContext, this);
+    // }
 }

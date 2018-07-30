@@ -11,13 +11,14 @@ import {RegExpFilter} from '@monument/logger/main/filter/RegExpFilter';
 import {Level} from '@monument/logger/main/level/Level';
 import {ArrayList} from '@monument/core/main/collection/mutable/ArrayList';
 import {Exception} from '@monument/core/main/exceptions/Exception';
+import {Sequence} from '@monument/core/main/collection/readonly/Sequence';
 
 
 class TestAppender extends AbstractAppender {
     public messages: ArrayList<Message> = new ArrayList();
 
 
-    public constructor(filters?: Iterable<Filter>) {
+    public constructor(filters?: Sequence<Filter>) {
         super('TestAppender', filters);
     }
 

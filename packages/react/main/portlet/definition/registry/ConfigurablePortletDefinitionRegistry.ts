@@ -7,5 +7,5 @@ export interface ConfigurablePortletDefinitionRegistry extends PortletDefinition
      * @throws {PortletIdException} if portlet with such ID already registered.
      * @throws {PortletDefinitionRegistryException} if portlet with such ID already registered.
      */
-    addPortletDefinition(id: string, definition: PortletDefinition): void;
+    addPortletDefinition(definition: PortletDefinition): void;
 }

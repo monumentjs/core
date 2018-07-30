@@ -1,6 +1,7 @@
 import {KeyValuePair} from '../KeyValuePair';
 import {ReadOnlyMap} from '../readonly/ReadOnlyMap';
 import {Sequence} from '../readonly/Sequence';
+import {IteratorFunction} from '../IteratorFunction';
 
 
 export interface Map<K, V> extends ReadOnlyMap<K, V> {
@@ -15,6 +16,8 @@ export interface Map<K, V> extends ReadOnlyMap<K, V> {
     remove(key: K): V | undefined;
 
     removeIf(key: K, value: V): boolean;
+
+    removeBy(predicate: IteratorFunction<KeyValuePair<K, V>, boolean>): boolean;
 
     replace(key: K, newValue: V): V | undefined;
 

@@ -1,8 +1,21 @@
 import {EqualityComparator} from './EqualityComparator';
 
 
-export class DeepEqualityComparator<T extends object> implements EqualityComparator<T> {
-    public equals(actual: T, expected: T): boolean {
+export class DeepEqualityComparator implements EqualityComparator<object> {
+    private static _instance: DeepEqualityComparator | undefined;
+
+    public static get(): DeepEqualityComparator {
+        if (this._instance == null) {
+            this._instance = new DeepEqualityComparator();
+        }
+
+        return this._instance;
+    }
+
+    private constructor() {
+    }
+
+    public equals(actual: object, expected: object): boolean {
         // 7.1. All identical values are equivalent, as determined by ===.
         if (actual === expected) {
             return true;
@@ -26,16 +39,9 @@ export class DeepEqualityComparator<T extends object> implements EqualityCompara
         }
     }
 
-
     private isArguments(obj: object): boolean {
         return Object.prototype.toString.call(obj) === '[object Arguments]';
     }
-
-
-    private isUndefinedOrNull(value: any): boolean {
-        return value === null || value === undefined;
-    }
-
 
     private isBuffer(x: any): boolean {
         if (!x || typeof x !== 'object' || typeof x.length !== 'number') {
@@ -46,13 +52,8 @@ export class DeepEqualityComparator<T extends object> implements EqualityCompara
             return false;
         }
 
-        if (x.length > 0 && typeof x[0] !== 'number') {
-            return false;
-        }
-
-        return true;
+        return !(x.length > 0 && typeof x[0] !== 'number');
     }
-
 
     private objEquiv(a: any, b: any): boolean {
         let kb: any;
@@ -60,7 +61,7 @@ export class DeepEqualityComparator<T extends object> implements EqualityCompara
         let i;
         let key;
 
-        if (this.isUndefinedOrNull(a) || this.isUndefinedOrNull(b)) {
+        if (a == null || b == null) {
             return false;
         }
 

@@ -1,15 +1,15 @@
 import {EqualityComparator} from '../../utils/comparison/EqualityComparator';
 import {KeyValuePair} from '../KeyValuePair';
 import {ReadOnlySet} from '../readonly/ReadOnlySet';
-import {ReadOnlyCollection} from '../readonly/ReadOnlyCollection';
 import {ArrayList} from './ArrayList';
 import {ListSet} from './ListSet';
 import {Sequence} from '../readonly/Sequence';
 import {ZERO} from '../../Constants';
 import {Cloneable} from '../../Cloneable';
-import {IteratorFunction} from '../IteratorFunction';
 import {AbstractReadOnlyMap} from '../readonly/AbstractReadOnlyMap';
 import {Map} from './Map';
+import {ReadOnlyList} from '../readonly/ReadOnlyList';
+import {IteratorFunction} from '../IteratorFunction';
 
 
 export class ListMap<K, V> extends AbstractReadOnlyMap<K, V> implements Map<K, V>, Cloneable<ListMap<K, V>> {
@@ -29,7 +29,7 @@ export class ListMap<K, V> extends AbstractReadOnlyMap<K, V> implements Map<K, V
         return this._mapping.length;
     }
 
-    public get values(): ReadOnlyCollection<V> {
+    public get values(): ReadOnlyList<V> {
         const values: ArrayList<V> = new ArrayList();
 
         for (const {value} of this) {
@@ -61,24 +61,6 @@ export class ListMap<K, V> extends AbstractReadOnlyMap<K, V> implements Map<K, V
 
     public clone(): ListMap<K, V> {
         return new ListMap(this, this.keyComparator, this.valueComparator);
-    }
-
-    public forEachReversed(iterator: IteratorFunction<KeyValuePair<K, V>, boolean | void>): void;
-
-    public forEachReversed(iterator: IteratorFunction<KeyValuePair<K, V>, boolean | void>, startIndex: number): void;
-
-    public forEachReversed(iterator: IteratorFunction<KeyValuePair<K, V>, boolean | void>, startIndex: number, count: number): void;
-
-    public forEachReversed(iterator: IteratorFunction<KeyValuePair<K, V>, boolean | void>, startIndex?: number, count?: number): void {
-        if (startIndex != null && count != null) {
-            return this._mapping.forEachReversed(iterator, startIndex, count);
-        }
-
-        if (startIndex != null && count == null) {
-            return this._mapping.forEachReversed(iterator, startIndex);
-        }
-
-        this._mapping.forEachReversed(iterator);
     }
 
     public put(key: K, value: V): V | undefined {
@@ -155,6 +137,10 @@ export class ListMap<K, V> extends AbstractReadOnlyMap<K, V> implements Map<K, V
         }
 
         return undefined;
+    }
+
+    public removeBy(predicate: IteratorFunction<KeyValuePair<K, V>, boolean>): boolean {
+        return this._mapping.removeBy(predicate);
     }
 
     public removeIf(key: K, value: V): boolean {

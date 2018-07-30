@@ -2,6 +2,7 @@ import {FileStorage} from '../FileStorage';
 import {FileSystemEntryFilter} from '../filter/FileSystemEntryFilter';
 import {ReadOnlyList} from '@monument/core/main/collection/readonly/ReadOnlyList';
 import {ArrayList} from '@monument/core/main/collection/mutable/ArrayList';
+import {Sequence} from '@monument/core/main/collection/readonly/Sequence';
 
 
 export class FileSystemWalkerConfiguration {
@@ -25,7 +26,7 @@ export class FileSystemWalkerConfiguration {
     }
 
 
-    public constructor(storage: FileStorage, filters: Iterable<FileSystemEntryFilter> = [], maxDepth: number = Infinity) {
+    public constructor(storage: FileStorage, filters: Sequence<FileSystemEntryFilter> = [], maxDepth: number = Infinity) {
         this._storage = storage;
         this._filters = new ArrayList(filters);
         this._maxDepth = maxDepth;

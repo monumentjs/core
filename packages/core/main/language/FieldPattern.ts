@@ -7,6 +7,10 @@ export class FieldPattern implements Pattern {
     private readonly _typeOf: string | undefined;
     private readonly _instanceOf: Function | undefined;
 
+    public get key(): string | symbol {
+        return this._key;
+    }
+
     public constructor(key: string | symbol, typeOf?: string, instanceOf?: Function) {
         this._key = key;
         this._typeOf = typeOf;
@@ -32,5 +36,5 @@ export class FieldPattern implements Pattern {
 
         return true;
     }
-    
+
 }

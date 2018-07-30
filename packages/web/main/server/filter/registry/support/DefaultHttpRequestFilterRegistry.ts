@@ -1,25 +1,17 @@
-import {NumberComparator} from 'packages/core/main/utils/NumberComparator';
-import {List} from 'packages/core/main/collection/List';
-import {ReadOnlyList} from 'packages/core/main/collection/ReadOnlyList';
-import {ArrayList} from 'packages/core/main/collection/ArrayList';
+import {ReadOnlyList} from '@monument/core/main/collection/readonly/ReadOnlyList';
 import {HttpRequestFilterRegistry} from '../HttpRequestFilterRegistry';
 import {HttpRequestFilter} from '../../HttpRequestFilter';
+import {PrioritizedList} from '@monument/core/main/collection/specialized/PrioritizedList';
 
 
 export class DefaultHttpRequestFilterRegistry implements HttpRequestFilterRegistry {
-    private readonly _numberComparator: NumberComparator = new NumberComparator();
-    private readonly _requestFilters: List<HttpRequestFilter> = new ArrayList();
+    private readonly _requestFilters: PrioritizedList<HttpRequestFilter> = new PrioritizedList();
 
     public get requestFilters(): ReadOnlyList<HttpRequestFilter> {
         return this._requestFilters;
     }
 
     public addRequestFilter(filter: HttpRequestFilter): void {
-        // TODO: use ordered list OrderedList : ListWrapper <- SimpleOrderedList = OrderedList<Ordered>
         this._requestFilters.add(filter);
-        this._requestFilters = this._requestFilters.orderBy((item: HttpRequestFilter) => {
-            return item.order;
-        }, this._numberComparator);
     }
-    
 }

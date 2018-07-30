@@ -2,15 +2,13 @@ import {ReadOnlyCollection} from '../collection/readonly/ReadOnlyCollection';
 import {ReadOnlySet} from '../collection/readonly/ReadOnlySet';
 import {Key} from '../object-model/attributes/Key';
 import {DefaultHierarchicalAttributeAccessor} from '../object-model/attributes/support/DefaultHierarchicalAttributeAccessor';
-import {HierarchicalAttributeAccessor} from '../object-model/attributes/HierarchicalAttributeAccessor';
 import {DefaultHierarchicalDecoratorAccessor} from './DefaultHierarchicalDecoratorAccessor';
-import {HierarchicalDecoratorAccessor} from './HierarchicalDecoratorAccessor';
 import {HierarchicalAccessibleObject} from './HierarchicalAccessibleObject';
 
 
 export class DefaultHierarchicalAccessibleObject implements HierarchicalAccessibleObject {
-    private readonly _attributes: HierarchicalAttributeAccessor = new DefaultHierarchicalAttributeAccessor();
-    private readonly _decorators: HierarchicalDecoratorAccessor = new DefaultHierarchicalDecoratorAccessor();
+    private readonly _attributes: DefaultHierarchicalAttributeAccessor;
+    private readonly _decorators: DefaultHierarchicalDecoratorAccessor;
     private _parent: HierarchicalAccessibleObject | undefined;
 
 
@@ -40,6 +38,8 @@ export class DefaultHierarchicalAccessibleObject implements HierarchicalAccessib
 
 
     public constructor(parent?: HierarchicalAccessibleObject) {
+        this._attributes = new DefaultHierarchicalAttributeAccessor();
+        this._decorators = new DefaultHierarchicalDecoratorAccessor();
         this.setParent(parent);
     }
 

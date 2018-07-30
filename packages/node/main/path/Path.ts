@@ -1,9 +1,10 @@
 import {isAbsolute, join, parse, ParsedPath, posix, relative, resolve, win32} from 'path';
 import {PathFormat} from './PathFormat';
 import {Cloneable} from '@monument/core/main/Cloneable';
-import {Equatable} from 'packages/core/main/utils/comparison/Equatable';
+import {Equatable} from '@monument/core/main/utils/comparison/Equatable';
 import {JSONSerializable} from '@monument/core/main/JSONSerializable';
 import {StringUtils} from '@monument/core/main/text/StringUtils';
+import {Sequence} from '@monument/core/main/collection/readonly/Sequence';
 
 
 export class Path implements Cloneable<Path>, Equatable<Path>, JSONSerializable<string> {
@@ -15,14 +16,14 @@ export class Path implements Cloneable<Path>, Equatable<Path>, JSONSerializable<
     }
 
 
-    public static resolve(segments: Iterable<Path>): Path {
+    public static resolve(segments: Sequence<Path>): Path {
         return new Path(resolve(...Array.prototype.map.call(segments, (segment: Path) => {
             return segment.toString();
         })));
     }
 
 
-    public static join(segments: Iterable<string>): Path {
+    public static join(segments: Sequence<string>): Path {
         return new Path(join(...Array.prototype.map.call(segments, (segment: Path) => {
             return segment.toString();
         })));

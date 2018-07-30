@@ -28,35 +28,9 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
         return (type as any)[this.CLASS_REFLECTION_PROPERTY_KEY];
     }
 
-
     private readonly _type: Type<T>;
     private readonly _declaredFields: ReadOnlyMap<string | symbol, Field>;
     private readonly _declaredMethods: ReadOnlyMap<string | symbol, Method>;
-
-
-    public get parent(): Class<any> | undefined {
-        if (!this.hasParent()) {
-            this.setParent(this.getSuperClass());
-        }
-
-        return this.getParent() as Class<any> | undefined;
-    }
-
-
-    public get type(): Type<T> {
-        return this._type;
-    }
-
-
-    public get prototype(): object | undefined {
-        return this.type.prototype;
-    }
-
-
-    public get name(): string {
-        return this.type.name;
-    }
-
 
     public get constructorParameters(): ReadOnlyList<Parameter> {
         const parameters: ArrayList<Parameter> = new ArrayList();
@@ -73,6 +47,21 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
         return parameters;
     }
 
+    public get declaredFieldKeys(): ReadOnlyCollection<string | symbol> {
+        return this._declaredFields.keys;
+    }
+
+    public get declaredFields(): ReadOnlyCollection<Field> {
+        return this._declaredFields.values;
+    }
+
+    public get declaredMethodKeys(): ReadOnlyCollection<string | symbol> {
+        return this._declaredMethods.keys;
+    }
+
+    public get declaredMethods(): ReadOnlyCollection<Method> {
+        return this._declaredMethods.values;
+    }
 
     public get fields(): ReadOnlyList<Field> {
         const fields: ArrayList<Field> = new ArrayList();
@@ -87,17 +76,6 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
         return fields;
     }
 
-
-    public get declaredFields(): ReadOnlyCollection<Field> {
-        return this._declaredFields.values;
-    }
-
-
-    public get declaredFieldKeys(): ReadOnlyCollection<string | symbol> {
-        return this._declaredFields.keys;
-    }
-
-
     public get methods(): ReadOnlyList<Method> {
         const methods: ArrayList<Method> = new ArrayList();
         let klass: Class<any> | undefined = this;
@@ -111,16 +89,25 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
         return methods;
     }
 
-
-    public get declaredMethods(): ReadOnlyCollection<Method> {
-        return this._declaredMethods.values;
+    public get name(): string {
+        return this.type.name;
     }
 
+    public get parent(): Class<any> | undefined {
+        if (!this.hasParent()) {
+            this.setParent(this.getSuperClass());
+        }
 
-    public get declaredMethodKeys(): ReadOnlyCollection<string | symbol> {
-        return this._declaredMethods.keys;
+        return this.getParent() as Class<any> | undefined;
     }
 
+    public get prototype(): object | undefined {
+        return this.type.prototype;
+    }
+
+    public get type(): Type<T> {
+        return this._type;
+    }
 
     private constructor(type: Type<T> | Function) {
         super();
@@ -130,21 +117,30 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
         this._declaredMethods = this.getDeclaredMethods();
     }
 
+    /**
+     * @throws {NoSuchFieldException} If property not found.
+     */
+    public getDeclaredField(key: string | symbol): Field {
+        const value: Field | undefined = this._declaredFields.get(key);
 
-    public matches(pattern: ObjectPattern): boolean {
-        for (const field of pattern.fields) {
-            if (this.hasField(field) === false) {
-                return false;
-            }
+        if (value == null) {
+            throw new NoSuchFieldException(key);
         }
 
-        for (const method of pattern.methods) {
-            if (this.hasMethod(method) === false) {
-                return false;
-            }
+        return value;
+    }
+
+    /**
+     * @throws {NoSuchMethodException} If method not found.
+     */
+    public getDeclaredMethod(key: string | symbol): Method {
+        const value: Method | undefined = this._declaredMethods.get(key);
+
+        if (value == null) {
+            throw new NoSuchMethodException(key);
         }
 
-        return true;
+        return value;
     }
 
     /**
@@ -172,41 +168,6 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
         return field;
     }
 
-
-    public hasField(key: string | symbol): boolean {
-        let klass: Class<any> | undefined = this;
-
-        while (klass != null) {
-            if (klass.hasDeclaredField(key)) {
-                return true;
-            }
-
-            klass = klass.parent;
-        }
-
-        return false;
-    }
-
-
-    /**
-     * @throws {NoSuchFieldException} If property not found.
-     */
-    public getDeclaredField(key: string | symbol): Field {
-        const value: Field | undefined = this._declaredFields.get(key);
-
-        if (value == null) {
-            throw new NoSuchFieldException(key);
-        }
-
-        return value;
-    }
-
-
-    public hasDeclaredField(key: string | symbol): boolean {
-        return this._declaredFields.containsKey(key);
-    }
-
-
     /**
      * Returns own or inherited method.
      * @throws {NoSuchMethodException} If method not found.
@@ -232,6 +193,31 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
         return method;
     }
 
+    public getParameterAt(index: number): Parameter {
+        return this.constructorParameters.getAt(index);
+    }
+
+    public hasDeclaredField(key: string | symbol): boolean {
+        return this._declaredFields.containsKey(key);
+    }
+
+    public hasDeclaredMethod(key: string | symbol): boolean {
+        return this._declaredMethods.containsKey(key);
+    }
+
+    public hasField(key: string | symbol): boolean {
+        let klass: Class<any> | undefined = this;
+
+        while (klass != null) {
+            if (klass.hasDeclaredField(key)) {
+                return true;
+            }
+
+            klass = klass.parent;
+        }
+
+        return false;
+    }
 
     public hasMethod(key: string | symbol): boolean {
         let klass: Class<any> | undefined = this;
@@ -247,35 +233,9 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
         return false;
     }
 
-
-    /**
-     * @throws {NoSuchMethodException} If method not found.
-     */
-    public getDeclaredMethod(key: string | symbol): Method {
-        const value: Method | undefined = this._declaredMethods.get(key);
-
-        if (value == null) {
-            throw new NoSuchMethodException(key);
-        }
-
-        return value;
-    }
-
-
-    public hasDeclaredMethod(key: string | symbol): boolean {
-        return this._declaredMethods.containsKey(key);
-    }
-
-
-    public getParameterAt(index: number): Parameter {
-        return this.constructorParameters.getAt(index);
-    }
-
-
     public instantiate(...args: any[]): T {
         return new this._type(...args);
     }
-
 
     public isSubClassOf(baseClass: Class<any>): boolean {
         let parent: Class<any> | undefined = this.parent;
@@ -291,7 +251,6 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
         return false;
     }
 
-
     public isSuperClassOf(derivedClass: Class<any>): boolean {
         let parent: Class<any> | undefined = derivedClass.parent;
 
@@ -306,9 +265,24 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
         return false;
     }
 
+    public matches(pattern: ObjectPattern): boolean {
+        for (const field of pattern.fields) {
+            if (this.hasField(field.key) === false) {
+                return false;
+            }
+        }
+
+        for (const method of pattern.methods) {
+            if (this.hasMethod(method.key) === false) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     private getDeclaredFields(): Map<string | symbol, Field> {
-        const fields: Map<string | symbol, Field> = new ListMap<string | symbol, Field>();
+        const fields: Map<string | symbol, Field> = new ListMap();
 
         if (this.prototype != null) {
             const propertyDescriptors = Object.getOwnPropertyDescriptors(this.prototype);
@@ -337,7 +311,6 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
 
         return fields;
     }
-
 
     private getDeclaredMethods(): Map<string | symbol, Method> {
         const methods: Map<string | symbol, Method> = new ListMap<string | symbol, Method>();
@@ -369,7 +342,6 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
         return methods;
     }
 
-
     private getSuperClass(): Class<any> | undefined {
         if (this._type !== Object as Type<Object>) {
             const parentPrototype: object | undefined = Object.getPrototypeOf(this._type.prototype);
@@ -383,11 +355,9 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
         return undefined;
     }
 
-
     private isFieldDescriptor(descriptor: TypedPropertyDescriptor<any>): boolean {
         return descriptor.get != null || descriptor.set != null;
     }
-
 
     private isMethodDescriptor(descriptor: TypedPropertyDescriptor<any>): boolean {
         return typeof descriptor.value === 'function';

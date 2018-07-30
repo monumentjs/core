@@ -8,6 +8,7 @@ import {ObservableCollection} from './ObservableCollection';
 import {ConfigurableEvent} from '../events/ConfigurableEvent';
 import {EqualityComparator} from '../utils/comparison/EqualityComparator';
 import {Comparator} from '../utils/comparison/Comparator';
+import {Sequence} from '../collection/readonly/Sequence';
 
 
 export abstract class AbstractObservableList<T> implements List<T>, ObservableCollection<T> {
@@ -51,7 +52,7 @@ export abstract class AbstractObservableList<T> implements List<T>, ObservableCo
     }
 
 
-    public insertAll(index: number, items: Iterable<T>): boolean {
+    public insertAll(index: number, items: Sequence<T>): boolean {
         return this._items.insertAll(index, items);
     }
 
@@ -81,7 +82,7 @@ export abstract class AbstractObservableList<T> implements List<T>, ObservableCo
     }
 
 
-    public addAll(items: Iterable<T>): boolean {
+    public addAll(items: Sequence<T>): boolean {
         return this._items.addAll(items);
     }
 
@@ -91,7 +92,7 @@ export abstract class AbstractObservableList<T> implements List<T>, ObservableCo
     }
 
 
-    public containsAll(items: Iterable<T>, comparator?: EqualityComparator<T>): boolean {
+    public containsAll(items: Sequence<T>, comparator?: EqualityComparator<T>): boolean {
         return this._items.containsAll(items, comparator);
     }
 
@@ -101,7 +102,7 @@ export abstract class AbstractObservableList<T> implements List<T>, ObservableCo
     }
 
 
-    public removeAll(items: Iterable<T>, comparator?: EqualityComparator<T>): boolean {
+    public removeAll(items: Sequence<T>, comparator?: EqualityComparator<T>): boolean {
         return this._items.removeAll(items, comparator);
     }
 
@@ -111,7 +112,7 @@ export abstract class AbstractObservableList<T> implements List<T>, ObservableCo
     }
 
 
-    public retainAll(items: Iterable<T>, comparator?: EqualityComparator<T>): boolean {
+    public retainAll(items: Sequence<T>, comparator?: EqualityComparator<T>): boolean {
         return this._items.retainAll(items, comparator);
     }
 

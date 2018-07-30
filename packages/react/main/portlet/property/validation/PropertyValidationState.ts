@@ -1,4 +1,4 @@
-import {ReadOnlyList} from 'packages/core/main/collection/readonly/ReadOnlyList';
+import {ReadOnlyList} from '@monument/core/main/collection/readonly/ReadOnlyList';
 import {PropertyValidationException} from './PropertyValidationException';
 
 

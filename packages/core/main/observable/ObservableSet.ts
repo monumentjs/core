@@ -5,6 +5,7 @@ import {CollectionChangedEventArgs} from './CollectionChangedEventArgs';
 import {ObservableCollection} from './ObservableCollection';
 import {ConfigurableEvent} from '../events/ConfigurableEvent';
 import {Event} from '../events/Event';
+import {Sequence} from '../collection/readonly/Sequence';
 
 
 export class ObservableSet<T> extends ListSet<T> implements ObservableCollection<T> {
@@ -32,7 +33,7 @@ export class ObservableSet<T> extends ListSet<T> implements ObservableCollection
     }
 
 
-    public addAll(items: Iterable<T>): boolean {
+    public addAll(items: Sequence<T>): boolean {
         if (super.addAll(items)) {
             this.onCollectionChanged();
 

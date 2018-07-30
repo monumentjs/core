@@ -1,10 +1,19 @@
 import {Comparator} from './Comparator';
 import {ComparisonResult} from './ComparisonResult';
-import {Singleton} from '../../stereotype/Singleton';
 
 
-@Singleton
 export class NumberComparator implements Comparator<number> {
+    private static _instance: NumberComparator | undefined;
+
+    public static get(): NumberComparator {
+        if (this._instance == null) {
+            this._instance = new NumberComparator();
+        }
+
+        return this._instance;
+    }
+
+    private constructor() {}
 
     public compare(x: number, y: number): ComparisonResult {
         if (x > y) {

@@ -1,4 +1,4 @@
-import {RuntimeException} from 'packages/core/main/exceptions/RuntimeException';
+import {RuntimeException} from '@monument/core/main/exceptions/RuntimeException';
 
 
 export class PortletIdException extends RuntimeException {

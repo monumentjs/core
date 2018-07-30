@@ -104,6 +104,14 @@ export interface ImmutableList<T> extends ReadOnlyList<T>, ImmutableCollection<T
      */
     orderBy<TKey>(
         keySelector: (actualItem: T) => TKey,
+        comparator: Comparator<TKey>
+    ): ImmutableList<T>;
+
+    /**
+     * Sorts the elements of a sequence in ascending order by using a specified comparator.
+     */
+    orderBy<TKey>(
+        keySelector: (actualItem: T) => TKey,
         comparator: Comparator<TKey>,
         sortOrder: SortOrder
     ): ImmutableList<T>;

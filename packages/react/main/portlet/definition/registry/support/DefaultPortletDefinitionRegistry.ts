@@ -2,8 +2,6 @@ import {ConfigurablePortletDefinitionRegistry} from '../ConfigurablePortletDefin
 import {ReadOnlySet} from '@monument/core/main/collection/readonly/ReadOnlySet';
 import {PortletDefinition} from '../../PortletDefinition';
 import {ListMap} from '@monument/core/main/collection/mutable/ListMap';
-import {StringPool} from '@monument/core/main/StringPool';
-import {PortletIdException} from '../../../PortletIdException';
 import {DuplicatePortletIdException} from '../DuplicatePortletIdException';
 import {NoSuchPortletDefinitionException} from '../NoSuchPortletDefinitionException';
 import {Component} from '@monument/core/main/stereotype/Component';
@@ -17,16 +15,12 @@ export class DefaultPortletDefinitionRegistry implements ConfigurablePortletDefi
         return this._definitions.keys;
     }
 
-    public addPortletDefinition(id: string, definition: PortletDefinition): void {
-        if (id === StringPool.BLANK) {
-            throw new PortletIdException('Portlet ID cannot be empty string');
+    public addPortletDefinition(definition: PortletDefinition): void {
+        if (this._definitions.containsKey(definition.id)) {
+            throw new DuplicatePortletIdException(`Portlet definition with ID="${definition.id}" already registered in this registry`);
         }
 
-        if (this._definitions.containsKey(id)) {
-            throw new DuplicatePortletIdException(`Portlet definition with ID="${id}" already registered in this registry`);
-        }
-
-        this._definitions.put(id, definition);
+        this._definitions.put(definition.id, definition);
     }
 
     public getPortletDefinition(id: string): PortletDefinition {

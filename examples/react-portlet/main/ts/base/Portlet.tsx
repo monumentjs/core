@@ -4,8 +4,14 @@ import {Delegate} from '@monument/core/main/decorators/Delegate';
 import {PortletBase} from '@monument/react/main/portlet/PortletBase';
 import {Duration} from '@monument/core/main/time/Duration';
 import {Delay} from '@monument/core/main/async/Delay';
-import {ApplicationContext} from '@monument/core/main/application/context/ApplicationContext';
 import {Property} from '@monument/react/main/portlet/property/Property';
+import {Portlet} from '@monument/react/main/components/Portlet';
+import {DefaultPortletContainer} from '@monument/react/main/portlet/container/support/DefaultPortletContainer';
+import {DefaultPortletDefinitionRegistry} from '@monument/react/main/portlet/definition/registry/support/DefaultPortletDefinitionRegistry';
+import {PortletDefinition} from '@monument/react/main/portlet/definition/PortletDefinition';
+import {Portal} from '@monument/react/main/components/Portal';
+import {PortletMapping} from '@monument/react/main/portlet/configuration/decorator/PortletMapping';
+import {Singleton} from '@monument/core/main/stereotype/Singleton';
 
 
 interface LoginFormProps {
@@ -59,10 +65,14 @@ class LoginFormView extends React.Component<LoginFormProps> {
     }
 }
 
-@PortletMapping('LoginForm')
+
+@PortletMapping({
+    id: 'LoginForm'
+})
+@Singleton
 class LoginFormPortlet extends PortletBase {
-    private readonly _email: Property<string> = this.getProperty('');
-    private readonly _password: Property<string> = this.getProperty('');
+    private readonly _email: Property<string> = this.getProperty('alex@drivelog.de');
+    private readonly _password: Property<string> = this.getProperty('SuperAlex');
     private readonly _processing: Property<boolean> = this.getProperty(false);
 
     public render() {
@@ -88,15 +98,21 @@ class LoginFormPortlet extends PortletBase {
     }
 }
 
-(async () => {
-    const context = new ApplicationContext();
 
+(async () => {
+    const portletDefinitionRegistry = new DefaultPortletDefinitionRegistry();
+    portletDefinitionRegistry.addPortletDefinition(new PortletDefinition(LoginFormPortlet));
+
+    const portletContainer = new DefaultPortletContainer(portletDefinitionRegistry);
+
+    await portletContainer.initialize();
 
     render(
-        <Portal context={context}>
+        <Portal portletContainer={portletContainer}>
+            <Portlet id="LoginForm"/>
+            <hr/>
             <Portlet id="LoginForm"/>
         </Portal>,
         document.querySelector('#app')
     );
 })();
-

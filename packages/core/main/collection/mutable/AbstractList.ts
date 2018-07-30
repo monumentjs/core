@@ -399,6 +399,15 @@ export abstract class AbstractList<T> extends AbstractCollection<T> implements L
 
     public orderBy<TKey>(
         keySelector: (item: T) => TKey,
+        comparator: Comparator<TKey>
+    ): List<T>;
+    public orderBy<TKey>(
+        keySelector: (item: T) => TKey,
+        comparator: Comparator<TKey>,
+        sortOrder: SortOrder
+    ): List<T>;
+    public orderBy<TKey>(
+        keySelector: (item: T) => TKey,
         comparator: Comparator<TKey>,
         sortOrder: SortOrder = SortOrder.ASCENDING
     ): List<T> {

@@ -2,6 +2,7 @@ import {AbstractFilterable} from '../filterable/AbstractFilterable';
 import {Filter} from '../filter/Filter';
 import {Message} from '../message/Message';
 import {Appender} from './Appender';
+import {Sequence} from '@monument/core/main/collection/readonly/Sequence';
 
 
 export abstract class AbstractAppender extends AbstractFilterable implements Appender {
@@ -12,7 +13,7 @@ export abstract class AbstractAppender extends AbstractFilterable implements App
     }
 
 
-    protected constructor(name: string, filters?: Iterable<Filter>) {
+    protected constructor(name: string, filters?: Sequence<Filter>) {
         super(filters);
 
         this._name = name;

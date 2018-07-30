@@ -6,10 +6,13 @@ import {ReadOnlySet} from '@monument/core/main/collection/readonly/ReadOnlySet';
 import {PortletDefinition} from '../../definition/PortletDefinition';
 import {PortletContainer} from '../PortletContainer';
 import {ContextAware} from '@monument/core/main/context/configuration/ContextAware';
+import {ListMap} from '@monument/core/main/collection/mutable/ListMap';
+import {NoSuchPortletDefinitionException} from '@monument/react/main/portlet/definition/registry/NoSuchPortletDefinitionException';
 
 
 export class PortletContainerBase implements PortletContainer, ContextAware {
     private readonly _registry: PortletDefinitionRegistry;
+    private readonly _contexts: ListMap<string, DefaultContext> = new ListMap();
     private _context: Context | undefined;
 
     public get portletIds(): ReadOnlySet<string> {
@@ -24,21 +27,28 @@ export class PortletContainerBase implements PortletContainer, ContextAware {
         this._context = context;
     }
 
+    public async initialize(): Promise<void> {
+        for (const id of this._registry.portletIds) {
+            const definition = this._registry.getPortletDefinition(id);
+            const context = new DefaultContext(this._context);
+
+            context.scan(definition.type);
+
+            await context.initialize();
+            await context.start();
+
+            this._contexts.put(id, context);
+        }
+    }
+
     public async getPortlet(id: string): Promise<PortletCore> {
         const definition: PortletDefinition = this._registry.getPortletDefinition(id);
-        const context: DefaultContext = new DefaultContext(this._context);
+        let context: DefaultContext | undefined = this._contexts.get(id);
 
-        context.scan(definition.type);
+        if (context == null) {
+            throw new NoSuchPortletDefinitionException(`Context for portlet with ID=${id} is not found.`);
+        }
 
-        await context.initialize();
-        await context.start();
-
-        const portlet: PortletCore = await context.getUnit(definition.type);
-
-        portlet.portletDestroyed.subscribe(async () => {
-            await context.stop();
-        });
-
-        return portlet;
+        return context.getUnit(definition.type);
     }
 }

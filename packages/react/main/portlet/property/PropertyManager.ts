@@ -1,13 +1,13 @@
-import {Disposable} from 'packages/core/main/Disposable';
-import {ArrayList} from 'packages/core/main/collection/mutable/ArrayList';
+import {Disposable} from '@monument/core/main/Disposable';
+import {ArrayList} from '@monument/core/main/collection/mutable/ArrayList';
 import {PropertyFactory} from './factory/PropertyFactory';
 import {PropertyConfiguration} from './configuration/PropertyConfiguration';
 import {DefaultProperty} from './support/DefaultProperty';
 import {Property} from './Property';
-import {ConfigurableEvent} from 'packages/core/main/events/ConfigurableEvent';
-import {Event} from 'packages/core/main/events/Event';
-import {NotifyPropertyChanged} from 'packages/core/main/observable/NotifyPropertyChanged';
-import {PropertyChangedEventArgs} from 'packages/core/main/observable/PropertyChangedEventArgs';
+import {ConfigurableEvent} from '@monument/core/main/events/ConfigurableEvent';
+import {Event} from '@monument/core/main/events/Event';
+import {NotifyPropertyChanged} from '@monument/core/main/observable/NotifyPropertyChanged';
+import {PropertyChangedEventArgs} from '@monument/core/main/observable/PropertyChangedEventArgs';
 
 
 export class PropertyManager implements PropertyFactory, NotifyPropertyChanged<Property<any>>, Disposable {

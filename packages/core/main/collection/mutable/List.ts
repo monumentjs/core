@@ -101,6 +101,14 @@ export interface List<T> extends ReadOnlyList<T>, Collection<T> {
      */
     orderBy<TKey>(
         keySelector: (actualItem: T) => TKey,
+        keyComparator: Comparator<TKey>
+    ): List<T>;
+
+    /**
+     * Sorts the elements of a sequence in ascending order by using a specified comparator.
+     */
+    orderBy<TKey>(
+        keySelector: (actualItem: T) => TKey,
         keyComparator: Comparator<TKey>,
         sortOrder: SortOrder
     ): List<T>;

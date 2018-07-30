@@ -12,7 +12,7 @@ export abstract class AbstractSet<T> extends AbstractCollection<T> implements Se
         return this._comparator;
     }
 
-    protected constructor(items?: Sequence<T>, comparator: EqualityComparator<T> = new StrictEqualityComparator()) {
+    protected constructor(items?: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()) {
         super();
 
         this._comparator = comparator;

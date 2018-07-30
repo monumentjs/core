@@ -19,7 +19,7 @@ export class ContextAwareUnitPostProcessor implements UnitPostProcessor {
     public async [UnitPostProcessor.postProcessBeforeInitialization]<T extends object>(instance: T, unitType: Type<T>): Promise<T> {
         const klass: Class<object> = Class.of(unitType);
 
-        if (klass.matches(ContextAwarePattern.get())) {
+        if (ContextAwarePattern.get().test(instance)) {
             const method: Method = klass.getMethod(ContextAware.setContext);
 
             await method.invoke(instance, [this._context]);

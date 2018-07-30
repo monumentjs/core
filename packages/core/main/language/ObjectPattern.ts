@@ -1,4 +1,4 @@
-import {Sequence} from '../collection/Sequence';
+import {Sequence} from '../collection/readonly/Sequence';
 import {Pattern} from './Pattern';
 import {FieldPattern} from './FieldPattern';
 import {MethodPattern} from './MethodPattern';

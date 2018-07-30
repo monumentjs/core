@@ -13,9 +13,9 @@ import {ReadOnlyList} from '../../../collection/readonly/ReadOnlyList';
 export class ComponentUnitDefinitionReader extends AbstractUnitDefinitionReader {
 
     public scan(type: Type<object>): void {
-        let klass: Class<object> = Class.of(type);
-        let parameters: ReadOnlyList<Parameter> = klass.constructorParameters;
-        let definition: UnitDefinition = this.obtainUnitDefinition(type);
+        const klass: Class<object> = Class.of(type);
+        const parameters: ReadOnlyList<Parameter> = klass.constructorParameters;
+        const definition: UnitDefinition = this.obtainUnitDefinition(type);
 
         for (const parameter of parameters) {
             if (parameter.type != null) {
@@ -36,5 +36,7 @@ export class ComponentUnitDefinitionReader extends AbstractUnitDefinitionReader 
                 definition.isPrimary = true;
             }
         }
+
+        console.log('Scan', klass);
     }
 }

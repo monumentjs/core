@@ -1,5 +1,3 @@
-import {Equatable} from '../../utils/comparison/Equatable';
-import {EqualityComparator} from '../../utils/comparison/EqualityComparator';
 import {Stack} from './Stack';
 import {EmptyStackException} from '../EmptyStackException';
 import {LinkedList} from './LinkedList';
@@ -8,7 +6,7 @@ import {Cloneable} from '../../Cloneable';
 import {ListProxy} from './proxy/ListProxy';
 
 
-export class ListStack<T> extends ListProxy<T> implements Cloneable<ListStack<T>>, Stack<T>, Equatable<Stack<T>> {
+export class ListStack<T> extends ListProxy<T, LinkedList<T>> implements Cloneable<ListStack<T>>, Stack<T> {
 
     public constructor(items?: Sequence<T>) {
         super(new LinkedList(items));
@@ -16,35 +14,6 @@ export class ListStack<T> extends ListProxy<T> implements Cloneable<ListStack<T>
 
     public clone(): ListStack<T> {
         return new ListStack(this);
-    }
-
-    public equals(other: Stack<T>): boolean;
-    public equals(other: Stack<T>, comparator: EqualityComparator<T>): boolean;
-    public equals(other: Stack<T>, comparator?: EqualityComparator<T>): boolean {
-        if (this === other) {
-            return true;
-        }
-
-        if (this.length !== other.length) {
-            return false;
-        }
-
-        const currentIterator: Iterator<T> = this[Symbol.iterator]();
-        const otherIterator: Iterator<T> = other[Symbol.iterator]();
-
-        let a: IteratorResult<T> = currentIterator.next();
-        let b: IteratorResult<T> = otherIterator.next();
-
-        while (!a.done && !b.done) {
-            if (!this.checkEquality(a.value, b.value, comparator)) {
-                return false;
-            }
-
-            a = currentIterator.next();
-            b = otherIterator.next();
-        }
-
-        return true;
     }
 
     public peek(): T {

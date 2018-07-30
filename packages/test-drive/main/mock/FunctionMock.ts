@@ -46,12 +46,12 @@ export class FunctionMock<TFunc extends Function = Function> {
     }
 
 
-    public testCallArguments(index: number, args: Iterable<any> & Countable): boolean {
+    public testCallArguments(index: number, args: Sequence<any>): boolean {
         return this._calls.getAt(index).testArguments(args);
     }
 
 
-    public haveBeenCalledWith(args: Iterable<any> & Countable): boolean {
+    public haveBeenCalledWith(args: Sequence<any>): boolean {
         for (const call of this._calls) {
             if (call.testArguments(args)) {
                 return true;

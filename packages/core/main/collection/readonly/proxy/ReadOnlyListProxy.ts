@@ -159,8 +159,11 @@ export abstract class ReadOnlyListProxy<TItem, TItems extends ReadOnlyList<TItem
         return this._items.min(selector);
     }
 
-    public orderBy<TKey>(keySelector: (actualItem: TItem) => TKey, keyComparator: Comparator<TKey>, sortOrder: SortOrder): ReadOnlyList<TItem> {
-        return this._items.orderBy(keySelector, keyComparator, sortOrder);
+    public orderBy<TKey>(keySelector: (actualItem: TItem) => TKey, keyComparator: Comparator<TKey>): ReadOnlyList<TItem>;
+    public orderBy<TKey>(keySelector: (actualItem: TItem) => TKey, keyComparator: Comparator<TKey>, sortOrder: SortOrder): ReadOnlyList<TItem>;
+    public orderBy<TKey>(keySelector: (actualItem: TItem) => TKey, keyComparator: Comparator<TKey>, sortOrder?: SortOrder): ReadOnlyList<TItem> {
+        // @ts-ignore
+        return this._items.orderBy(...arguments);
     }
 
     public reverse(): ReadOnlyList<TItem> {

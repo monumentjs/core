@@ -2,6 +2,7 @@ import {Type} from '../../../Type';
 import {UnitDefinitionRegistry} from '../registry/UnitDefinitionRegistry';
 import {UnitDefinition} from '../UnitDefinition';
 import {UnitDefinitionReader} from './UnitDefinitionReader';
+import {Sequence} from '../../../collection/readonly/Sequence';
 
 
 export abstract class AbstractUnitDefinitionReader implements UnitDefinitionReader {
@@ -18,7 +19,7 @@ export abstract class AbstractUnitDefinitionReader implements UnitDefinitionRead
     public abstract scan(root: Type<object>): void;
 
 
-    public scanAll(types: Iterable<Type<object>>): void {
+    public scanAll(types: Sequence<Type<object>>): void {
         for (const type of types) {
             this.scan(type);
         }

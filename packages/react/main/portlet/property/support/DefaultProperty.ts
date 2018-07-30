@@ -1,14 +1,14 @@
 import {ConfigurableProperty} from '../configuration/ConfigurableProperty';
-import {ObservableValue} from 'packages/core/main/observable/ObservableValue';
-import {ReadOnlyList} from 'packages/core/main/collection/readonly/ReadOnlyList';
+import {ObservableValue} from '@monument/core/main/observable/ObservableValue';
+import {ReadOnlyList} from '@monument/core/main/collection/readonly/ReadOnlyList';
 import {PropertyValidationException} from '../validation/PropertyValidationException';
-import {ArrayList} from 'packages/core/main/collection/mutable/ArrayList';
+import {ArrayList} from '@monument/core/main/collection/mutable/ArrayList';
 import {PropertyConfiguration} from '../configuration/PropertyConfiguration';
-import {Observer} from 'packages/core/main/observable/Observer';
-import {Disposable} from 'packages/core/main/Disposable';
+import {Observer} from '@monument/core/main/observable/Observer';
+import {Disposable} from '@monument/core/main/Disposable';
 import {PropertyValidationRule} from '../validation/PropertyValidationRule';
-import {Sequence} from 'packages/core/main/collection/readonly/Sequence';
-import {Delegate} from 'packages/core/main/decorators/Delegate';
+import {Sequence} from '@monument/core/main/collection/readonly/Sequence';
+import {Delegate} from '@monument/core/main/decorators/Delegate';
 
 
 export class DefaultProperty<T> implements ConfigurableProperty<T> {

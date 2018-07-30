@@ -1,5 +1,5 @@
-import {Equatable} from 'packages/core/main/utils/comparison/Equatable';
-import {Comparable} from '@monument/core/main/Comparable';
+import {Equatable} from '@monument/core/main/utils/comparison/Equatable';
+import {Comparable} from '@monument/core/main/utils/comparison/Comparable';
 
 
 export interface HttpVersion extends Equatable<HttpVersion>, Comparable<HttpVersion> {

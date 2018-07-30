@@ -1,4 +1,4 @@
-import {Disposable} from 'packages/core/main/Disposable';
+import {Disposable} from '@monument/core/main/Disposable';
 import {Property} from '../Property';
 
 

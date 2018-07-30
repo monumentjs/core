@@ -1,7 +1,7 @@
-import {EqualityComparator} from 'packages/core/main/utils/comparison/EqualityComparator';
-import {Sequence} from 'packages/core/main/collection/readonly/Sequence';
+import {EqualityComparator} from '@monument/core/main/utils/comparison/EqualityComparator';
+import {Sequence} from '@monument/core/main/collection/readonly/Sequence';
 import {PropertyValidationRule} from '../validation/PropertyValidationRule';
-import {StrictEqualityComparator} from 'packages/core/main/utils/comparison/StrictEqualityComparator';
+import {StrictEqualityComparator} from '@monument/core/main/utils/comparison/StrictEqualityComparator';
 
 
 export class PropertyConfiguration<T> {
