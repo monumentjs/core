@@ -1,6 +1,6 @@
-import {RuntimeException} from '@monument/core/main/exceptions/RuntimeException';
+import {PropertyException} from '../PropertyException';
 
 
-export class PropertyValidationException extends RuntimeException {
+export class PropertyValidationException extends PropertyException {
 
 }

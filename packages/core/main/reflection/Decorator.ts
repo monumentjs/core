@@ -15,7 +15,7 @@ export class Decorator {
         let target: any = args[0];
         let key = args[1];
         let descriptor = args[2];
-        let klass: Class<any>;
+        let klass: Class<object>;
         let method: Method;
         let field: Field;
         let parameter: Parameter;
@@ -62,32 +62,32 @@ export class Decorator {
     }
 
 
-    protected onClass(klass: Class<any>): void {
+    protected onClass(klass: Class<object>): void {
         throw new DecoratorTargetException(`Decorator cannot be applied to class.`);
     }
 
 
-    protected onConstructorParameter(klass: Class<any>, parameter: Parameter): void {
+    protected onConstructorParameter(klass: Class<object>, parameter: Parameter): void {
         throw new DecoratorTargetException(`Decorator cannot be applied to constructor parameter.`);
     }
 
 
-    protected onMethod(klass: Class<any>, method: Method): void {
+    protected onMethod(klass: Class<object>, method: Method): void {
         throw new DecoratorTargetException(`Decorator cannot be applied to method.`);
     }
 
 
-    protected onMethodParameter(klass: Class<any>, method: Method, parameter: Parameter): void {
+    protected onMethodParameter(klass: Class<object>, method: Method, parameter: Parameter): void {
         throw new DecoratorTargetException(`Decorator cannot be applied to method parameter.`);
     }
 
 
-    protected onField(klass: Class<any>, field: Field): void {
+    protected onField(klass: Class<object>, field: Field): void {
         throw new DecoratorTargetException(`Decorator cannot be applied to field.`);
     }
 
 
-    protected onProperty(klass: Class<any>, key: string | symbol, type: Type<any> | undefined): void {
+    protected onProperty(klass: Class<object>, key: string | symbol, type: Type<any> | undefined): void {
         throw new DecoratorTargetException(`Decorator cannot be applied to property.`);
     }
 

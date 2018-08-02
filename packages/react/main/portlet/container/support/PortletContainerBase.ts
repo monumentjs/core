@@ -7,7 +7,7 @@ import {PortletDefinition} from '../../definition/PortletDefinition';
 import {PortletContainer} from '../PortletContainer';
 import {ContextAware} from '@monument/core/main/context/configuration/ContextAware';
 import {ListMap} from '@monument/core/main/collection/mutable/ListMap';
-import {NoSuchPortletDefinitionException} from '@monument/react/main/portlet/definition/registry/NoSuchPortletDefinitionException';
+import {NoSuchPortletDefinitionException} from '../../definition/registry/NoSuchPortletDefinitionException';
 
 
 export class PortletContainerBase implements PortletContainer, ContextAware {

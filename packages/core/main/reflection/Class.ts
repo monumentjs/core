@@ -1,5 +1,4 @@
 import {Type} from '../Type';
-import {Map} from '../collection/mutable/Map';
 import {ReadOnlyCollection} from '../collection/readonly/ReadOnlyCollection';
 import {ReadOnlyMap} from '../collection/readonly/ReadOnlyMap';
 import {ListMap} from '../collection/mutable/ListMap';
@@ -16,7 +15,7 @@ import {ObjectPattern} from '../language/ObjectPattern';
 
 
 export class Class<T extends object> extends DefaultHierarchicalAccessibleObject {
-    private static readonly CLASS_REFLECTION_PROPERTY_KEY: symbol = Symbol();
+    private static readonly CLASS_REFLECTION_PROPERTY_KEY: symbol = Symbol('Class reflection');
     private static readonly CONSTRUCTOR_PROPERTY_NAME: string = 'constructor';
 
 
@@ -111,6 +110,8 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
 
     private constructor(type: Type<T> | Function) {
         super();
+
+        console.log(`new Class(${type.name})`);
 
         this._type = type as Type<T>;
         this._declaredFields = this.getDeclaredFields();
@@ -281,8 +282,8 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
         return true;
     }
 
-    private getDeclaredFields(): Map<string | symbol, Field> {
-        const fields: Map<string | symbol, Field> = new ListMap();
+    private getDeclaredFields(): ListMap<string | symbol, Field> {
+        const fields: ListMap<string | symbol, Field> = new ListMap();
 
         if (this.prototype != null) {
             const propertyDescriptors = Object.getOwnPropertyDescriptors(this.prototype);
@@ -312,8 +313,8 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
         return fields;
     }
 
-    private getDeclaredMethods(): Map<string | symbol, Method> {
-        const methods: Map<string | symbol, Method> = new ListMap<string | symbol, Method>();
+    private getDeclaredMethods(): ListMap<string | symbol, Method> {
+        const methods: ListMap<string | symbol, Method> = new ListMap<string | symbol, Method>();
 
         if (this.prototype != null) {
             const propertyDescriptors = Object.getOwnPropertyDescriptors(this.prototype);
