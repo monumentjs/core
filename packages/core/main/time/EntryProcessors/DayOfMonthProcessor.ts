@@ -3,10 +3,8 @@ import {DateTime} from '../DateTime';
 import {TimeSpan} from '../TimeSpan';
 import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
 import {StringUtils} from '../../text/StringUtils';
-import {Singleton} from '../../stereotype/Singleton';
 
 
-@Singleton
 export class DayOfMonthProcessor extends TimeEntryProcessor {
     protected entryPattern: RegExp = /^(D+)$/;
 

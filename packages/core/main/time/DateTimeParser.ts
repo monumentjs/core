@@ -5,11 +5,9 @@ import {InvariantDateTimeFormatInfo} from './InvariantDateTimeFormatInfo';
 import {DateTime} from './DateTime';
 import {TimeEntryProcessorProvider} from './EntryProcessors/TimeEntryProcessorProvider';
 import {TimeEntryProcessor} from './EntryProcessors/TimeEntryProcessor';
-import {Singleton} from '../stereotype/Singleton';
 import {TemplateString} from '../text/TemplateString';
 
 
-@Singleton
 export class DateTimeParser {
     private readonly _entryProcessorProvider: TimeEntryProcessorProvider;
 

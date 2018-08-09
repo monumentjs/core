@@ -2,10 +2,8 @@ import {Invokable} from '@monument/core/main/reflection/Invokable';
 import {Method} from '@monument/core/main/reflection/Method';
 import {ReadOnlyList} from '@monument/core/main/collection/readonly/ReadOnlyList';
 import {Parameter} from '@monument/core/main/reflection/Parameter';
-import {Ignore} from '../decorators/Ignore';
 import {Ignorable} from './Ignorable';
 import {IgnoreDecorator} from '../decorators/IgnoreDecorator';
-import {DisplayName} from '../decorators/DisplayName';
 import {DisplayNameDecorator} from '../decorators/DisplayNameDecorator';
 
 
@@ -15,7 +13,7 @@ export abstract class TestMethod implements Invokable, Ignorable {
 
 
     public get isIgnored(): boolean {
-        return this.method.isDecoratedWith(Ignore);
+        return this.method.isDecoratedWith(IgnoreDecorator);
     }
 
 
@@ -38,7 +36,7 @@ export abstract class TestMethod implements Invokable, Ignorable {
         this.method = method;
         this._displayName = method.name.toString();
 
-        if (method.isDecoratedWith(DisplayName)) {
+        if (method.isDecoratedWith(DisplayNameDecorator)) {
             const displayName: string | undefined = method.getAttribute(DisplayNameDecorator.NAME);
 
             if (displayName) {

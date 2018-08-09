@@ -4,10 +4,8 @@ import {PortletDefinition} from '../../PortletDefinition';
 import {ListMap} from '@monument/core/main/collection/mutable/ListMap';
 import {DuplicatePortletIdException} from '../DuplicatePortletIdException';
 import {NoSuchPortletDefinitionException} from '../NoSuchPortletDefinitionException';
-import {Component} from '@monument/core/main/stereotype/Component';
 
 
-@Component
 export class DefaultPortletDefinitionRegistry implements ConfigurablePortletDefinitionRegistry {
     private readonly _definitions: ListMap<string, PortletDefinition> = new ListMap();
 

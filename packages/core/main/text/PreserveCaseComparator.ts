@@ -1,10 +1,8 @@
-import {Singleton} from '../stereotype/Singleton';
 import {EqualityComparator} from '../utils/comparison/EqualityComparator';
 import {Comparator} from '../utils/comparison/Comparator';
 import {ComparisonResult} from '../utils/comparison/ComparisonResult';
 
 
-@Singleton
 export class PreserveCaseComparator implements EqualityComparator<string>, Comparator<string> {
 
     public equals(current: string, other: string): boolean {

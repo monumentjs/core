@@ -1,5 +1,4 @@
 import {ContextConfigurationDecorator} from '../../decorators/ContextConfigurationDecorator';
-import {ContextConfiguration} from '../../decorators/ContextConfiguration';
 import {AbstractUnitDefinitionReader} from '@monument/core/main/unit/definition/reader/AbstractUnitDefinitionReader';
 import {Type} from '@monument/core/main/Type';
 import {Class} from '@monument/core/main/reflection/Class';
@@ -12,7 +11,7 @@ export class TestContextConfigurationUnitDefinitionReader extends AbstractUnitDe
         const klass: Class<T> = Class.of(type);
         const definition: UnitDefinition = this.obtainUnitDefinition(type);
 
-        if (klass.isDecoratedWith(ContextConfiguration)) {
+        if (klass.isDecoratedWith(ContextConfigurationDecorator)) {
             const components: Array<Type<object>> | undefined = klass.getDeclaredAttribute(ContextConfigurationDecorator.COMPONENTS);
             const modules: Array<Type<object>> | undefined = klass.getDeclaredAttribute(ContextConfigurationDecorator.MODULES);
 

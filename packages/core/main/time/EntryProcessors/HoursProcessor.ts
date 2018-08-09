@@ -4,10 +4,8 @@ import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
 import {TimeEntryProcessor} from './TimeEntryProcessor';
 import {StringUtils} from '../../text/StringUtils';
 import {StringPool} from '../../StringPool';
-import {Singleton} from '../../stereotype/Singleton';
 
 
-@Singleton
 export class HoursProcessor extends TimeEntryProcessor {
 
     protected entryPattern: RegExp = /^(H+|h+)$/;

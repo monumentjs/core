@@ -1,6 +1,5 @@
 import {Type} from '../../../Type';
 import {Class} from '../../../reflection/Class';
-import {Module} from '../../../stereotype/Module';
 import {ModuleDecorator} from '../../../stereotype/ModuleDecorator';
 import {AbstractUnitDefinitionReader} from '../../../unit/definition/reader/AbstractUnitDefinitionReader';
 import {UnitDefinition} from '../../../unit/definition/UnitDefinition';
@@ -12,7 +11,7 @@ export class ModuleUnitDefinitionReader extends AbstractUnitDefinitionReader {
         const klass: Class<T> = Class.of(type);
         const definition: UnitDefinition = this.obtainUnitDefinition(type);
 
-        if (klass.isDecoratedWith(Module)) {
+        if (klass.isDecoratedWith(ModuleDecorator)) {
             const components = klass.getDeclaredAttribute(ModuleDecorator.COMPONENTS);
             const dependsOn = klass.getDeclaredAttribute(ModuleDecorator.DEPENDS_ON);
 

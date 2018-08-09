@@ -3,11 +3,11 @@ import {AbstractUnitDefinitionReader} from './AbstractUnitDefinitionReader';
 import {Parameter} from '../../../reflection/Parameter';
 import {Class} from '../../../reflection/Class';
 import {Type} from '../../../Type';
-import {Singleton} from '../../../stereotype/Singleton';
-import {Lazy} from '../../../stereotype/configuration/Lazy';
-import {Primary} from '../../../stereotype/configuration/Primary';
-import {Component} from '../../../stereotype/Component';
 import {ReadOnlyList} from '../../../collection/readonly/ReadOnlyList';
+import {SingletonDecorator} from '../../../stereotype/SingletonDecorator';
+import {ComponentDecorator} from '../../../stereotype/ComponentDecorator';
+import {PrimaryDecorator} from '../../../stereotype/configuration/PrimaryDecorator';
+import {LazyDecorator} from '../../../stereotype/configuration/LazyDecorator';
 
 
 export class ComponentUnitDefinitionReader extends AbstractUnitDefinitionReader {
@@ -23,20 +23,19 @@ export class ComponentUnitDefinitionReader extends AbstractUnitDefinitionReader 
             }
         }
 
-        if (klass.isDecoratedWith(Singleton)) {
+        if (klass.getAttribute(SingletonDecorator.IS_SINGLETON) === true) {
             definition.isSingleton = true;
         }
 
-        if (klass.isDecoratedWith(Component)) {
-            if (klass.isDecoratedWith(Lazy)) {
+        if (klass.isDecoratedWith(ComponentDecorator)) {
+            if (klass.isDecoratedWith(LazyDecorator)) {
                 definition.isLazyInit = true;
             }
 
-            if (klass.isDecoratedWith(Primary)) {
+            if (klass.isDecoratedWith(PrimaryDecorator)) {
                 definition.isPrimary = true;
             }
         }
 
-        console.log('Scan', klass);
     }
 }

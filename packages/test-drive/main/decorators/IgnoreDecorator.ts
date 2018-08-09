@@ -2,11 +2,10 @@ import {Key} from '@monument/core/main/object-model/attributes/Key';
 import {Class} from '@monument/core/main/reflection/Class';
 import {Method} from '@monument/core/main/reflection/Method';
 import {Decorator} from '@monument/core/main/reflection/Decorator';
-import {Ignore} from './Ignore';
 
 
 export class IgnoreDecorator extends Decorator {
-    public static readonly REASON: Key<string> = new Key();
+    public static readonly REASON: Key<string> = new Key('Test ignorance reason');
 
     private readonly _reason: string;
 
@@ -18,13 +17,13 @@ export class IgnoreDecorator extends Decorator {
 
 
     protected onClass(klass: Class<any>): void {
-        klass.decorate(Ignore);
+        klass.decorate(IgnoreDecorator);
         klass.setAttribute(IgnoreDecorator.REASON, this._reason);
     }
 
 
     protected onMethod(klass: Class<any>, method: Method): void {
-        method.decorate(Ignore);
+        method.decorate(IgnoreDecorator);
         method.setAttribute(IgnoreDecorator.REASON, this._reason);
     }
 }

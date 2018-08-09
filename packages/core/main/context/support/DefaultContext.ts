@@ -1,7 +1,6 @@
 import {DefaultUnitFactory} from '../../unit/factory/support/DefaultUnitFactory';
 import {UnitPostProcessor} from '../../unit/factory/configuration/UnitPostProcessor';
 import {UnitFactoryPostProcessor} from '../../unit/factory/configuration/UnitFactoryPostProcessor';
-import {UnitDefinition} from '../../unit/definition/UnitDefinition';
 import {UnitDefinitionReader} from '../../unit/definition/reader/UnitDefinitionReader';
 import {UnitDefinitionRegistry} from '../../unit/definition/registry/UnitDefinitionRegistry';
 import {UnitDefinitionRegistryPostProcessor} from '../../unit/definition/registry/configuration/UnitDefinitionRegistryPostProcessor';
@@ -90,8 +89,6 @@ export class DefaultContext extends AbstractLifecycle implements ConfigurableCon
                 this
             )
         );
-
-        // this.registerContext();
     }
 
     public containsUnit(unitType: Type<object>): boolean {
@@ -103,6 +100,10 @@ export class DefaultContext extends AbstractLifecycle implements ConfigurableCon
     }
 
     public getUnit<T extends object>(request: UnitRequest<T> | Type<T>): Promise<T> {
+        if (!this.isStarted) {
+            throw new InvalidStateException('Unable to get unit from context that is not started.');
+        }
+
         return this._unitFactory.getUnit(request);
     }
 
@@ -112,7 +113,6 @@ export class DefaultContext extends AbstractLifecycle implements ConfigurableCon
         await this.instantiatePostProcessors();
         await this.postProcessUnitDefinitionRegistry();
         await this.postProcessUnitFactory();
-        await this._unitFactory.preInstantiateSingletons();
 
         this.setInitialized();
     }
@@ -152,9 +152,6 @@ export class DefaultContext extends AbstractLifecycle implements ConfigurableCon
     public async start(): Promise<void> {
         this.setStarting();
 
-        await this.instantiatePostProcessors();
-        await this.postProcessUnitDefinitionRegistry();
-        await this.postProcessUnitFactory();
         await this._unitFactory.preInstantiateSingletons();
 
         this.setStarted();
@@ -183,29 +180,23 @@ export class DefaultContext extends AbstractLifecycle implements ConfigurableCon
     }
 
     private async instantiatePostProcessors(): Promise<void> {
-        this._unitDefinitionRegistryPostProcessors.addAll(
-            await Promise.all(
-                this._unitDefinitionRegistryPostProcessorTypes.map((type) => {
-                    return this.getUnit(type) as Promise<UnitDefinitionRegistryPostProcessor>;
-                }).toArray()
-            )
-        );
+        for (const type of this._unitDefinitionRegistryPostProcessorTypes) {
+            this._unitDefinitionRegistryPostProcessors.add(
+                await this.getUnit(type) as UnitDefinitionRegistryPostProcessor
+            );
+        }
 
-        this._unitFactoryPostProcessors.addAll(
-            await Promise.all(
-                this._unitFactoryPostProcessorTypes.map((type) => {
-                    return this.getUnit(type) as Promise<UnitFactoryPostProcessor>;
-                }).toArray()
-            )
-        );
+        for (const type of this._unitFactoryPostProcessorTypes) {
+            this._unitFactoryPostProcessors.add(
+                await this.getUnit(type) as UnitFactoryPostProcessor
+            );
+        }
 
-        this._unitPostProcessors.addAll(
-            await Promise.all(
-                this._unitDefinitionRegistryPostProcessorTypes.map((type) => {
-                    return this.getUnit(type) as Promise<UnitPostProcessor>;
-                }).toArray()
-            )
-        );
+        for (const type of this._unitPostProcessorTypes) {
+            this._unitPostProcessors.add(
+                await this.getUnit(type) as UnitPostProcessor
+            );
+        }
 
         for (const postProcessor of this._unitPostProcessors) {
             this._unitFactory.addUnitPostProcessor(postProcessor);
@@ -223,13 +214,4 @@ export class DefaultContext extends AbstractLifecycle implements ConfigurableCon
             await processor[UnitFactoryPostProcessor.postProcessUnitFactory](this._unitFactory);
         }
     }
-
-    // private registerContext() {
-    //     const definition: UnitDefinition = new UnitDefinition();
-    //
-    //     definition.isSingleton = true;
-    //
-    //     this._unitDefinitionRegistry.registerUnitDefinition(DefaultContext, definition);
-    //     this._unitFactory.registerSingleton(DefaultContext, this);
-    // }
 }

@@ -1,10 +1,6 @@
 import {Path} from '@monument/node/main/path/Path';
-import {Lazy} from '@monument/core/main/stereotype/configuration/Lazy';
-import {Singleton} from '@monument/core/main/stereotype/Singleton';
 
 
-@Lazy
-@Singleton
 export class PackageLayout {
     public readonly executableFileExtension: string = '.js';
     public readonly mainDirectory: Path = new Path('./main');

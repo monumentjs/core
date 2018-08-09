@@ -1,11 +1,7 @@
 import {arch, CpuInfo, cpus} from 'os';
 import {CPUArchitecture} from './CPUArchitecture';
-import {Lazy} from '@monument/core/main/stereotype/configuration/Lazy';
-import {Singleton} from '@monument/core/main/stereotype/Singleton';
 
 
-@Lazy
-@Singleton
 export class CPUInfo {
     private _cores: CpuInfo[] | undefined;
     private _architecture: CPUArchitecture | undefined;

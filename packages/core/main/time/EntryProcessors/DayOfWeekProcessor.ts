@@ -4,10 +4,8 @@ import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
 import {TimeEntryProcessor} from './TimeEntryProcessor';
 import {InvalidOperationException} from '../../exceptions/InvalidOperationException';
 import {StringPool} from '../../StringPool';
-import {Singleton} from '../../stereotype/Singleton';
 
 
-@Singleton
 export class DayOfWeekProcessor extends TimeEntryProcessor {
     protected entryPattern: RegExp = /^(d{1,4})$/;
 

@@ -1,11 +1,10 @@
-import {Set} from '../collection/mutable/Set';
 import {ReadOnlySet} from '../collection/readonly/ReadOnlySet';
 import {ListSet} from '../collection/mutable/ListSet';
 import {HierarchicalDecoratorAccessor} from './HierarchicalDecoratorAccessor';
 
 
 export class DefaultHierarchicalDecoratorAccessor implements HierarchicalDecoratorAccessor {
-    private readonly _decorators: Set<Function> = new ListSet();
+    private readonly _decorators: ListSet<Function> = new ListSet();
     private _parent: HierarchicalDecoratorAccessor | undefined;
 
 
@@ -20,7 +19,7 @@ export class DefaultHierarchicalDecoratorAccessor implements HierarchicalDecorat
 
 
     public get decorators(): ReadOnlySet<Function> {
-        let allDecorators: Set<Function> = new ListSet();
+        const allDecorators: ListSet<Function> = new ListSet();
         let accessor: HierarchicalDecoratorAccessor | undefined = this;
 
         while (accessor != null) {

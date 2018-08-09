@@ -1,11 +1,9 @@
-import {Singleton} from '../stereotype/Singleton';
 import {Comparator} from '../utils/comparison/Comparator';
 import {ComparisonResult} from '../utils/comparison/ComparisonResult';
 import {Version} from './Version';
 import {NumberComparator} from '../utils/comparison/NumberComparator';
 
 
-@Singleton
 export class VersionComparator implements Comparator<Version> {
     private readonly _numberComparator: NumberComparator;
 

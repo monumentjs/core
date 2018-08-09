@@ -1,12 +1,8 @@
 import {Version} from './Version';
 import {ReleaseStatus} from './ReleaseStatus';
-import {Lazy} from '../stereotype/configuration/Lazy';
-import {Singleton} from '../stereotype/Singleton';
 import {ParsingException} from '../text/parser/ParsingException';
 
 
-@Lazy
-@Singleton
 export class VersionParser {
     public static readonly PATTERN: RegExp = /^(\d+)\.(\d+)\.(\d+)(-(alpha|beta|rc)(\.(\d+))?)?$/;
 

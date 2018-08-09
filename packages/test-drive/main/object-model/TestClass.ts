@@ -1,9 +1,3 @@
-import {Ignore} from '../decorators/Ignore';
-import {Test} from '../decorators/Test';
-import {BeforeAll} from '../decorators/BeforeAll';
-import {AfterAll} from '../decorators/AfterAll';
-import {BeforeEach} from '../decorators/BeforeEach';
-import {AfterEach} from '../decorators/AfterEach';
 import {ArrayList} from '@monument/core/main/collection/mutable/ArrayList';
 import {Method} from '@monument/core/main/reflection/Method';
 import {ReadOnlyList} from '@monument/core/main/collection/readonly/ReadOnlyList';
@@ -12,8 +6,12 @@ import {TestCase} from './TestCase';
 import {TestHook} from './TestHook';
 import {Ignorable} from './Ignorable';
 import {IgnoreDecorator} from '../decorators/IgnoreDecorator';
-import {DisplayName} from '../decorators/DisplayName';
 import {DisplayNameDecorator} from '../decorators/DisplayNameDecorator';
+import {TestDecorator} from '../decorators/TestDecorator';
+import {BeforeAllDecorator} from '../decorators/BeforeAllDecorator';
+import {AfterAllDecorator} from '../decorators/AfterAllDecorator';
+import {BeforeEachDecorator} from '../decorators/BeforeEachDecorator';
+import {AfterEachDecorator} from '../decorators/AfterEachDecorator';
 
 
 export class TestClass implements Ignorable {
@@ -36,7 +34,7 @@ export class TestClass implements Ignorable {
 
 
     public get isIgnored(): boolean {
-        return this._class.isDecoratedWith(Ignore);
+        return this._class.isDecoratedWith(IgnoreDecorator);
     }
 
 
@@ -75,7 +73,7 @@ export class TestClass implements Ignorable {
 
         this._displayName = klass.name;
 
-        if (klass.isDecoratedWith(DisplayName)) {
+        if (klass.isDecoratedWith(DisplayNameDecorator)) {
             const displayName: string | undefined = klass.getAttribute(DisplayNameDecorator.NAME);
 
             if (displayName) {
@@ -86,23 +84,23 @@ export class TestClass implements Ignorable {
         const methods: ReadOnlyList<Method> = klass.methods;
 
         for (const method of methods) {
-            if (method.isDecoratedWith(Test)) {
+            if (method.isDecoratedWith(TestDecorator)) {
                 this._testCases.add(new TestCase(method));
             }
 
-            if (method.isDecoratedWith(BeforeAll)) {
+            if (method.isDecoratedWith(BeforeAllDecorator)) {
                 this._beforeAllHooks.add(new TestHook(method));
             }
 
-            if (method.isDecoratedWith(AfterAll)) {
+            if (method.isDecoratedWith(AfterAllDecorator)) {
                 this._afterAllHooks.add(new TestHook(method));
             }
 
-            if (method.isDecoratedWith(BeforeEach)) {
+            if (method.isDecoratedWith(BeforeEachDecorator)) {
                 this._beforeEachHooks.add(new TestHook(method));
             }
 
-            if (method.isDecoratedWith(AfterEach)) {
+            if (method.isDecoratedWith(AfterEachDecorator)) {
                 this._afterEachHooks.add(new TestHook(method));
             }
         }

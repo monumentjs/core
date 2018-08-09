@@ -5,10 +5,8 @@ import {TimeEntryProcessor} from './TimeEntryProcessor';
 import {InvalidOperationException} from '../../exceptions/InvalidOperationException';
 import {IgnoreCaseComparator} from '../../text/IgnoreCaseComparator';
 import {StringPool} from '../../StringPool';
-import {Singleton} from '../../stereotype/Singleton';
 
 
-@Singleton
 export class AMPMProcessor extends TimeEntryProcessor {
 
     private readonly _comparator: IgnoreCaseComparator;

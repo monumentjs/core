@@ -4,10 +4,8 @@ import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
 import {TimeEntryProcessor} from './TimeEntryProcessor';
 import {InvalidOperationException} from '../../exceptions/InvalidOperationException';
 import {StringUtils} from '../../text/StringUtils';
-import {Singleton} from '../../stereotype/Singleton';
 
 
-@Singleton
 export class YearProcessor extends TimeEntryProcessor {
     protected entryPattern: RegExp = /^(Y+)$/;
 

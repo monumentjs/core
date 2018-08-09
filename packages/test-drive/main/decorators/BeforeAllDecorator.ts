@@ -1,4 +1,3 @@
-import {BeforeAll} from './BeforeAll';
 import {Decorator} from '@monument/core/main/reflection/Decorator';
 import {Class} from '@monument/core/main/reflection/Class';
 import {Method} from '@monument/core/main/reflection/Method';
@@ -7,6 +6,6 @@ import {Method} from '@monument/core/main/reflection/Method';
 export class BeforeAllDecorator extends Decorator {
 
     protected onMethod(klass: Class<any>, method: Method): void {
-        method.decorate(BeforeAll);
+        method.decorate(BeforeAllDecorator);
     }
 }

@@ -5,10 +5,8 @@ import {TimeEntryProcessor} from './TimeEntryProcessor';
 import {InvalidOperationException} from '../../exceptions/InvalidOperationException';
 import {StringUtils} from '../../text/StringUtils';
 import {StringPool} from '../../StringPool';
-import {Singleton} from '../../stereotype/Singleton';
 
 
-@Singleton
 export class MonthProcessor extends TimeEntryProcessor {
 
     protected entryPattern: RegExp = /^(M(M{0,3}|G|g))$/;

@@ -3,10 +3,8 @@ import {DateTime} from '../DateTime';
 import {TimeSpan} from '../TimeSpan';
 import {DateTimeFormatException} from '../DateTimeFormatException';
 import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
-import {Singleton} from '../../stereotype/Singleton';
 
 
-@Singleton
 export class SignProcessor extends TimeEntryProcessor {
 
     protected entryPattern: RegExp = /^(S)$/;

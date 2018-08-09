@@ -16,12 +16,16 @@
     "fixstyle": "tslint --fix --format stylish --project .",
     "compile": "tsc",
     "test": "lerna run test",
-    "build": "npm run lint && npm run compile && npm install && lerna run test"
+    "build": "npm run lint && npm run compile && npm install && lerna run test",
+    "clean": "gulp clean",
+    "recompile": "gulp clean && tsc"
   },
   "dependencies": {},
   "devDependencies": {
     "lerna": "^2.11.0",
     "tslint": "^5.11.0",
-    "typescript": "^3.0.1"
+    "typescript": "^3.0.1",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.4.0"
   }
 }

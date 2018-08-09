@@ -1,19 +1,17 @@
-import {Context} from '@monument/core/main/context/Context';
 import {PortletDefinitionRegistry} from '../../definition/registry/PortletDefinitionRegistry';
-import {DefaultContext} from '@monument/core/main/context/support/DefaultContext';
 import {PortletCore} from '../../PortletCore';
 import {ReadOnlySet} from '@monument/core/main/collection/readonly/ReadOnlySet';
 import {PortletDefinition} from '../../definition/PortletDefinition';
 import {PortletContainer} from '../PortletContainer';
+import {DefaultContext} from '@monument/core/main/context/support/DefaultContext';
 import {ContextAware} from '@monument/core/main/context/configuration/ContextAware';
 import {ListMap} from '@monument/core/main/collection/mutable/ListMap';
 import {NoSuchPortletDefinitionException} from '../../definition/registry/NoSuchPortletDefinitionException';
 
 
-export class PortletContainerBase implements PortletContainer, ContextAware {
+export class PortletContainerBase implements PortletContainer {
     private readonly _registry: PortletDefinitionRegistry;
-    private readonly _contexts: ListMap<string, DefaultContext> = new ListMap();
-    private _context: Context | undefined;
+    private readonly _context: DefaultContext = new DefaultContext();
 
     public get portletIds(): ReadOnlySet<string> {
         return this._registry.portletIds;
@@ -21,34 +19,24 @@ export class PortletContainerBase implements PortletContainer, ContextAware {
 
     public constructor(registry: PortletDefinitionRegistry) {
         this._registry = registry;
-    }
 
-    public [ContextAware.setContext](context: Context): void {
-        this._context = context;
-    }
+        for (const id of registry.portletIds) {
+            const definition = registry.getPortletDefinition(id);
 
-    public async initialize(): Promise<void> {
-        for (const id of this._registry.portletIds) {
-            const definition = this._registry.getPortletDefinition(id);
-            const context = new DefaultContext(this._context);
-
-            context.scan(definition.type);
-
-            await context.initialize();
-            await context.start();
-
-            this._contexts.put(id, context);
+            this._context.scan(definition.type);
         }
     }
+
+
+    public async initialize() {
+        await this._context.initialize();
+        await this._context.start();
+    }
+
 
     public async getPortlet(id: string): Promise<PortletCore> {
         const definition: PortletDefinition = this._registry.getPortletDefinition(id);
-        let context: DefaultContext | undefined = this._contexts.get(id);
 
-        if (context == null) {
-            throw new NoSuchPortletDefinitionException(`Context for portlet with ID=${id} is not found.`);
-        }
-
-        return context.getUnit(definition.type);
+        return this._context.getUnit(definition.type);
     }
 }

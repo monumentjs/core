@@ -1,13 +1,9 @@
 import {endianness, EOL, platform, uptime} from 'os';
 import {ByteOrder} from '../../../ByteOrder';
 import {Platform} from './Platform';
-import {Lazy} from '@monument/core/main/stereotype/configuration/Lazy';
-import {Singleton} from '@monument/core/main/stereotype/Singleton';
 import {Duration} from '@monument/core/main/time/Duration';
 
 
-@Lazy
-@Singleton
 export class OSInfo {
     public get platform(): Platform {
         return platform() as Platform;

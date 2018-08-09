@@ -6,13 +6,14 @@
 
   ],
   "scripts": {
-    "serve": "parcel main/html/index.html -d build/debug",
+    "serve": "parcel main/html/index.html --no-cache --no-hmr -d build/debug",
     "build": "parcel build main/html/index.html -d build/release",
     "test": "td"
   },
   "dependencies": {
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "reflect-metadata": "^0.1.12",
     "@monument/core": "^0.9.0",
     "@monument/react": "^0.9.0"
   },

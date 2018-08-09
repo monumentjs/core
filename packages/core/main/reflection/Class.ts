@@ -15,7 +15,7 @@ import {ObjectPattern} from '../language/ObjectPattern';
 
 
 export class Class<T extends object> extends DefaultHierarchicalAccessibleObject {
-    private static readonly CLASS_REFLECTION_PROPERTY_KEY: symbol = Symbol('Class reflection');
+    private static readonly CLASS_REFLECTION_PROPERTY_KEY: symbol = Symbol();
     private static readonly CONSTRUCTOR_PROPERTY_NAME: string = 'constructor';
 
 
@@ -110,8 +110,6 @@ export class Class<T extends object> extends DefaultHierarchicalAccessibleObject
 
     private constructor(type: Type<T> | Function) {
         super();
-
-        console.log(`new Class(${type.name})`);
 
         this._type = type as Type<T>;
         this._declaredFields = this.getDeclaredFields();

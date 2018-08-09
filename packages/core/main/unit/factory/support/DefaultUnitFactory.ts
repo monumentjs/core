@@ -9,18 +9,18 @@ import {UnitRequest} from '../UnitRequest';
 import {ArrayList} from '../../../collection/mutable/ArrayList';
 import {ReadOnlyMap} from '../../../collection/readonly/ReadOnlyMap';
 import {Type} from '../../../Type';
-import {PreDestroy} from '../../../stereotype/lifecycle/PreDestroy';
 import {Method} from '../../../reflection/Method';
 import {ReadOnlyCollection} from '../../../collection/readonly/ReadOnlyCollection';
 import {Class} from '../../../reflection/Class';
-import {Destroy} from '../../../stereotype/lifecycle/Destroy';
-import {PostConstruct} from '../../../stereotype/lifecycle/PostConstruct';
-import {Init} from '../../../stereotype/lifecycle/Init';
 import {ReadOnlyList} from '../../../collection/readonly/ReadOnlyList';
 import {Parameter} from '../../../reflection/Parameter';
 import {Invokable} from '../../../reflection/Invokable';
 import {InitializingUnitPattern} from '../InitializingUnitPattern';
 import {InitializingUnit} from '../InitializingUnit';
+import {PreDestroyDecorator} from '../../../stereotype/lifecycle/PreDestroyDecorator';
+import {DestroyDecorator} from '../../../stereotype/lifecycle/DestroyDecorator';
+import {PostConstructDecorator} from '../../../stereotype/lifecycle/PostConstructDecorator';
+import {InitDecorator} from '../../../stereotype/lifecycle/InitDecorator';
 
 
 export class DefaultUnitFactory implements ConfigurableListableUnitFactory {
@@ -86,13 +86,13 @@ export class DefaultUnitFactory implements ConfigurableListableUnitFactory {
         const request: UnitRequest<T> = new UnitRequest(unitType);
 
         for (const method of methods) {
-            if (method.isDecoratedWith(PreDestroy)) {
+            if (method.isDecoratedWith(PreDestroyDecorator)) {
                 await this.invoke(request, instance, method);
             }
         }
 
         for (const method of methods) {
-            if (method.isDecoratedWith(Destroy)) {
+            if (method.isDecoratedWith(DestroyDecorator)) {
                 await this.invoke(request, instance, method);
             }
         }
@@ -136,7 +136,7 @@ export class DefaultUnitFactory implements ConfigurableListableUnitFactory {
 
     public async preInstantiateSingletons(): Promise<void> {
         for (const {key: type, value: definition} of this._unitDefinitionRegistry.unitDefinitions) {
-            if (definition.isSingleton && !definition.isLazyInit) {
+            if (definition.isSingleton && !definition.isLazyInit && !this._singletonRegistry.containsSingleton(type)) {
                 await this.getUnit(new UnitRequest(type));
             }
         }
@@ -212,7 +212,7 @@ export class DefaultUnitFactory implements ConfigurableListableUnitFactory {
         }
 
         for (const method of methods) {
-            if (method.isDecoratedWith(PostConstruct)) {
+            if (method.isDecoratedWith(PostConstructDecorator)) {
                 await this.invoke(request, instance, method);
             }
         }
@@ -222,7 +222,7 @@ export class DefaultUnitFactory implements ConfigurableListableUnitFactory {
         }
 
         for (const method of methods) {
-            if (method.isDecoratedWith(Init)) {
+            if (method.isDecoratedWith(InitDecorator)) {
                 await this.invoke(request, instance, method);
             }
         }

@@ -16,7 +16,7 @@ export class DefaultUnitDefinitionRegistry implements UnitDefinitionRegistry {
 
 
     public getUnitDefinition(unitType: Type<object>): UnitDefinition {
-        let definition = this._registry.get(unitType);
+        const definition: UnitDefinition | undefined = this._registry.get(unitType);
 
         if (definition == null) {
             throw new NoSuchUnitDefinitionException(`Unit definition for "${unitType.name}" not found in this registry.`);

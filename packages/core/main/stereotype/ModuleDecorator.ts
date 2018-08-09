@@ -1,13 +1,12 @@
 import {ConfigurationDecorator} from './ConfigurationDecorator';
-import {Module} from './Module';
 import {Key} from '../object-model/attributes/Key';
 import {Type} from '../Type';
 import {Class} from '../reflection/Class';
 
 
 export class ModuleDecorator extends ConfigurationDecorator {
-    public static readonly COMPONENTS: Key<Array<Type<object>>> = new Key();
-    public static readonly DEPENDS_ON: Key<Array<Type<object>>> = new Key();
+    public static readonly COMPONENTS: Key<Array<Type<object>>> = new Key('Module components');
+    public static readonly DEPENDS_ON: Key<Array<Type<object>>> = new Key('Module dependencies');
 
     private readonly _components: Array<Type<object>>;
     private readonly _dependsOn: Array<Type<object>>;
@@ -24,7 +23,7 @@ export class ModuleDecorator extends ConfigurationDecorator {
     protected onClass(klass: Class<any>): void {
         super.onClass(klass);
 
-        klass.decorate(Module);
+        klass.decorate(ModuleDecorator);
         klass.setAttribute(ModuleDecorator.COMPONENTS, this._components);
         klass.setAttribute(ModuleDecorator.DEPENDS_ON, this._dependsOn);
     }

@@ -1,4 +1,3 @@
-import {ContextConfiguration} from './ContextConfiguration';
 import {Decorator} from '@monument/core/main/reflection/Decorator';
 import {Type} from '@monument/core/main/Type';
 import {Key} from '@monument/core/main/object-model/attributes/Key';
@@ -22,7 +21,7 @@ export class ContextConfigurationDecorator extends Decorator {
 
 
     protected onClass(klass: Class<any>): void {
-        klass.decorate(ContextConfiguration);
+        klass.decorate(ContextConfigurationDecorator);
         klass.setAttribute(ContextConfigurationDecorator.COMPONENTS, this._components);
         klass.setAttribute(ContextConfigurationDecorator.MODULES, this._modules);
     }

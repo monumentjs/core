@@ -3,10 +3,8 @@ import {TimeSpan} from '../TimeSpan';
 import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
 import {TimeEntryProcessor} from './TimeEntryProcessor';
 import {InvalidOperationException} from '../../exceptions/InvalidOperationException';
-import {Singleton} from '../../stereotype/Singleton';
 
 
-@Singleton
 export class TimeZoneProcessor extends TimeEntryProcessor {
 
     protected entryPattern: RegExp = /^(Z)$/;

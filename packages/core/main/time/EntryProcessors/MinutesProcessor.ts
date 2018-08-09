@@ -3,10 +3,8 @@ import {TimeSpan} from '../TimeSpan';
 import {DateTimeFormatInfo} from '../DateTimeFormatInfo';
 import {TimeEntryProcessor} from './TimeEntryProcessor';
 import {StringUtils} from '../../text/StringUtils';
-import {Singleton} from '../../stereotype/Singleton';
 
 
-@Singleton
 export class MinutesProcessor extends TimeEntryProcessor {
 
     protected entryPattern: RegExp = /^(m+)$/;

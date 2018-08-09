@@ -1,7 +1,7 @@
 
 
 export function Delegate(
-    prototype: object | Function,
+    prototype: object,
     methodName: PropertyKey
 ) {
     const key: symbol = Symbol();

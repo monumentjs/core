@@ -5,7 +5,7 @@ import {PortletMappingConfiguration} from './PortletMappingConfiguration';
 
 
 export class PortletMappingDecorator extends Decorator {
-    public static readonly CONFIGURATION: Key<PortletMappingConfiguration> = new Key();
+    public static readonly CONFIGURATION: Key<PortletMappingConfiguration> = new Key('Portlet mapping configuration');
 
     private readonly _configuration: PortletMappingConfiguration;
 

@@ -1,11 +1,7 @@
 import {freemem, totalmem} from 'os';
-import {Lazy} from '@monument/core/main/stereotype/configuration/Lazy';
-import {Singleton} from '@monument/core/main/stereotype/Singleton';
 import {MemorySize} from '@monument/core/main/MemorySize';
 
 
-@Lazy
-@Singleton
 export class RAMInfo {
     public get total(): MemorySize {
         return new MemorySize(totalmem());
