@@ -22,7 +22,7 @@ It would be nice to have a consistent standard library with tons of solutions un
     GreetingModule
   ],
   configurations: [
-    ApplicationConfiguration
+    GreetingApplicationConfiguration
   ]
 })
 export class GreetingApplication {
@@ -40,7 +40,7 @@ export class GreetingApplication {
 
 
 @Configuration
-export class ApplicationConfiguration {
+export class GreetingApplicationConfiguration {
   @Unit
   public getGreetingService(printer: ConsolePrinter): GreetingService {
     return new GreetingService(printer);
@@ -102,7 +102,7 @@ export class ConsolePrinter implements Printer {
 
 ```ts
 
-@Component
+@Mock
 export class PrinterMock implements Printer {
   private readonly _messages: LinkedList<string> = new LinkedList();
   
@@ -129,8 +129,10 @@ export class GreetingServiceTestConfiguration {
   modules: [
     GreetingModule
   ],
-  components: [
-    PrinterMock,
+  mocks: [
+    PrinterMock
+  ],
+  configurations: [
     GreetingServiceTestConfiguration
   ]
 })
