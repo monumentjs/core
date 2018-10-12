@@ -1,9 +1,10 @@
 import {Assert} from '../assert/Assert';
 import {StringPool} from '../StringPool';
 import {TemplateString} from './TemplateString';
+import {TextOutput} from './TextOutput';
 
 
-export class StringBuilder {
+export class StringBuilder implements TextOutput {
     private readonly _capacity: number;
     private _value: string;
     private _linesSeparator: string = StringPool.EOL_CRLF;
@@ -117,7 +118,7 @@ export class StringBuilder {
 
 
     public appendFormat(format: string, ...values: any[]): this {
-        let template: TemplateString = new TemplateString(format);
+        const template: TemplateString = new TemplateString(format);
 
         this.append(template.fillByPositions(values));
 
@@ -126,7 +127,7 @@ export class StringBuilder {
 
 
     public prependFormat(format: string, ...values: any[]): this {
-        let template: TemplateString = new TemplateString(format);
+        const template: TemplateString = new TemplateString(format);
 
         this.prepend(template.fillByPositions(values));
 

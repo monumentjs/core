@@ -1,0 +1,14 @@
+{
+  "name": "@monument/uri",
+  "version": "0.9.0",
+  "description": "URI manipulation",
+  "keywords": [
+    "uri", "url", "parse", "parser", "build", "format"
+  ],
+  "scripts": {
+    "test": "td"
+  },
+  "dependencies": {
+    "@monument/core": "^0.9.0"
+  }
+}

@@ -1,6 +1,0 @@
-
-
-.ChatMessageForm {border-top: var(--border);}
-.ChatMessageForm_MessageInput {max-height: calc(7em + 4px); border: transparent solid 2px; border-radius: 0; padding: 10px;}
-.ChatMessageForm_MessageInput:focus {border-color: dodgerblue; }
-

@@ -24,10 +24,19 @@
     "typeRoots": [
       "./node_modules/@types"
     ],
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
-      "@monument/*": [
-        "packages/*"
+      "@monument/core": [
+        "packages/core"
+      ],
+      "@monument/core/*": [
+        "packages/core/*"
+      ],
+      "@monument/uri": [
+        "packages/uri"
+      ],
+      "@monument/uri/*": [
+        "packages/uri/*"
       ]
     }
   },
