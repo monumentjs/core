@@ -12,6 +12,10 @@ are very important.
 
 It would be nice to have a consistent standard library with tons of solutions under one hood, to have possibility to easily pick necessary ones and combine them with less amount of "clue"?
 
+## Community driven
+
+Join [Slack Channel](https://join.slack.com/t/monumentjs/shared_invite/enQtNDY1ODA1MTExMzQ4LTI0MjllODEwOTk5MjM0NGIwY2YwNzVjNDU3YjEwYzYwYTNjMmI0NjFkNmNjMDFlMjA1NzgzODk0NjcxZTc4NjM) to get help, discuss and request features.
+
 ## Examples
 
 ### Application
