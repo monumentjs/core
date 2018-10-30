@@ -14,7 +14,7 @@ It would be nice to have a consistent standard library with tons of solutions un
 
 ## Community driven
 
-Join [Slack Channel](https://join.slack.com/t/monumentjs/shared_invite/enQtNDY1ODA1MTExMzQ4LTI0MjllODEwOTk5MjM0NGIwY2YwNzVjNDU3YjEwYzYwYTNjMmI0NjFkNmNjMDFlMjA1NzgzODk0NjcxZTc4NjM) to get help, discuss and request features.
+Join [Slack Channel](https://join.slack.com/t/monumentjs/shared_invite/enQtNDY1ODA1MTExMzQ4LTI0MjllODEwOTk5MjM0NGIwY2YwNzVjNDU3YjEwYzYwYTNjMmI0NjFkNmNjMDFlMjA1NzgzODk0NjcxZTc4NjM) to get help and ask questions, participante in discussions and polls and propose features.
 
 ## Examples
 
