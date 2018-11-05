@@ -20,7 +20,7 @@ Join [Slack channel](https://join.slack.com/t/monumentjs/shared_invite/enQtNDY1O
 
 ## Contribution
 
-Start with the [roadmap](https://github.com/monumentjs/core/wiki/Roadmap) and [contributing](https://github.com/monumentjs/core/blob/master/CONTRIBUTING.md) documents. It's pretty trivial procedure. Also you can [join Slack channel](https://join.slack.com/t/monumentjs/shared_invite/enQtNDY1ODA1MTExMzQ4LTI0MjllODEwOTk5MjM0NGIwY2YwNzVjNDU3YjEwYzYwYTNjMmI0NjFkNmNjMDFlMjA1NzgzODk0NjcxZTc4NjM) to keep in touch with team.
+Start with the [roadmap](https://github.com/monumentjs/core/wiki/Roadmap) and [contributing](https://github.com/monumentjs/core/blob/master/CONTRIBUTING.md) documents. Also you can [join Slack channel](https://join.slack.com/t/monumentjs/shared_invite/enQtNDY1ODA1MTExMzQ4LTI0MjllODEwOTk5MjM0NGIwY2YwNzVjNDU3YjEwYzYwYTNjMmI0NjFkNmNjMDFlMjA1NzgzODk0NjcxZTc4NjM) to keep in touch with team.
 
 
 ## License
