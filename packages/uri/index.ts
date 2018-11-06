@@ -1,9 +1,9 @@
 
-export * from './main/Uri';
-export * from './main/UriComponents';
-export * from './main/UriBuilder';
-export * from './main/UriSerializer';
-export * from './main/UriIntegrityException';
-export * from './main/UriFormatException';
-export * from './main/UriUtils';
-export * from './main/UriParser';
+export * from './src/Uri';
+export * from './src/UriComponents';
+export * from './src/UriBuilder';
+export * from './src/UriIntegrityException';
+export * from './src/UriFormatException';
+export * from './src/ReadOnlyQueryParameters';
+export * from './src/QueryParametersObject';
+export * from './src/UriSchema';

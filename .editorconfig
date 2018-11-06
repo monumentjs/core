@@ -1,27 +1,9 @@
 [*]
-charset=utf-8
-end_of_line=crlf
-insert_final_newline=false
-indent_style=space
-indent_size=4
-
-[{.babelrc,.prettierrc,.stylelintrc,.eslintrc,jest.config,.postcssrc,*.json,*.jsb3,*.jsb2,*.bowerrc}]
-indent_style=space
-indent_size=2
-
-[{tsconfig.app.json,tsconfig.spec.json,tsconfig.json,tsconfig.e2e.json}]
-indent_style=space
-indent_size=2
-
-[*.js.map]
-indent_style=space
-indent_size=2
-
-[{*.yml,*.yaml}]
-indent_style=space
-indent_size=2
-
-[tslint.json]
-indent_style=space
-indent_size=2
-
+charset = utf-8
+end_of_line = crlf
+insert_final_newline = true
+indent_style = space
+indent_size = 4
+max_line_length = 140
+tab_width = 4
+trim_trailing_whitespace = true

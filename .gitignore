@@ -1,7 +1,7 @@
 .idea
 .cache
-build
+dist
+node_modules
 *.js
 *.js.map
 *.d.ts
-node_modules

@@ -1,0 +1,16 @@
+import {ReadOnlyQueue} from '../readonly/ReadOnlyQueue';
+
+/**
+ * @author Alex Chugaev
+ * @since 0.0.1
+ */
+export interface Queue<T> extends ReadOnlyQueue<T> {
+    clear(): boolean;
+
+    /**
+     * @throws {EmptyQueueException}
+     */
+    dequeue(): T;
+
+    enqueue(item: T): boolean;
+}

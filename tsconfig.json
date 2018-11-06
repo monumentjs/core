@@ -1,46 +1,33 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "target": "es6",
-    "moduleResolution": "node",
-    "jsx": "react",
-    "sourceMap": true,
-    "declaration": true,
-    "strict": true,
-    "alwaysStrict": true,
-    "removeComments": true,
-    "forceConsistentCasingInFileNames": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "lib": [
-      "dom",
-      "es2017",
-      "es2017.object",
-      "es2017.string",
-      "es2017.sharedmemory",
-      "esnext.asynciterable",
-      "es2018.promise"
-    ],
-    "typeRoots": [
-      "./node_modules/@types"
-    ],
-    "baseUrl": "./",
-    "paths": {
-      "@monument/core": [
-        "packages/core"
-      ],
-      "@monument/core/*": [
-        "packages/core/*"
-      ],
-      "@monument/uri": [
-        "packages/uri"
-      ],
-      "@monument/uri/*": [
-        "packages/uri/*"
-      ]
-    }
-  },
-  "exclude": [
-    "node_modules"
-  ]
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es6",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "declaration": true,
+        "strict": true,
+        "alwaysStrict": true,
+        "removeComments": true,
+        "forceConsistentCasingInFileNames": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "skipLibCheck": true,
+        "lib": [
+            "dom",
+            "esnext"
+        ],
+        "typeRoots": [
+            "./node_modules/@types"
+        ],
+        "strictFunctionTypes": true,
+        "baseUrl": "./",
+        "paths": {
+            "@monument/*": [
+                "packages/*"
+            ]
+        }
+    },
+    "exclude": [
+        "./node_modules/**"
+    ]
 }

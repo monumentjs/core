@@ -1,0 +1,24 @@
+{
+    "name": "@monument/class-loader",
+    "version": "0.0.1",
+    "description": "Dynamic class loader support",
+    "keywords": [
+        "class",
+        "loader",
+        "load",
+        "import",
+        "async"
+    ],
+    "license": "MIT",
+    "homepage": "https://monumentjs.github.io",
+    "repository": "https://github.com/monumentjs/core.git",
+    "contributors": [
+        {
+            "name": "Alex Chugaev",
+            "email": "achugaev93@gmail.com"
+        }
+    ],
+    "dependencies": {
+        "@monument/core": "^0.0.1"
+    }
+}
