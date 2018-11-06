@@ -1,19 +1,25 @@
 # Contributing
 
-1\. Install dependencies
+1. Fork repository
+
+2. Clone your fork to local machine
 
 ```bash
-npm i
+mkdir monumentjs
+cd monumentjs
+git clone <your_fork_url>
+cd core
 ```
 
-2\. Compile sources:
+3. Bootstrap dependencies
 
 ```bash
-npm run compile
+npm install
 ```
 
-3\. Run tests:
+4. Start work on one of [open issues](https://github.com/monumentjs/core/issues) in new git branch. You can open new ticket to start work on feature described in [project roadmap](https://github.com/monumentjs/core/wiki/Roadmap).
 
-```bash
-npm test
-```
+5. Push changes to your repository
+
+6. Submit pull request
+
