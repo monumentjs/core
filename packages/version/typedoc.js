@@ -1,5 +1,5 @@
 module.exports = {
-    name: '@modument/version',
+    name: '@monument/version',
     mode: 'file',
     out: 'doc/',
     // excludeExternals: false,
