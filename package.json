@@ -1,7 +1,7 @@
 {
     "private": true,
     "scripts": {
-        "bootstrap": "lerna bootstrap --hoist",
+        "bootstrap": "lerna bootstrap",
         "compile": "tsc",
         "lint": "tslint --format stylish --project .",
         "lint:fix": "tslint --fix --format stylish --project .",
