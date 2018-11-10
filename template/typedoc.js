@@ -1,3 +1,3 @@
 module.exports = {
-    name: '@modument/template'
+    name: '@monument/template'
 }
