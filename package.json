@@ -3,18 +3,24 @@
     "scripts": {
         "bootstrap": "lerna bootstrap",
         "compile": "tsc",
+        "docs": "gulp docs",
         "lint": "tslint --format stylish --project .",
         "lint:fix": "tslint --fix --format stylish --project .",
         "postinstall": "npm run bootstrap",
         "prepublishOnly": "npm run lint && npm run compile && npm install && npm test",
         "test": "jest"
     },
+    "dependencies": {},
     "devDependencies": {
         "@types/jest": "^23.3.9",
-        "ts-jest": "^23.10.4",
         "jest": "^23.6.0",
         "lerna": "^3.4.3",
+        "ts-jest": "^23.10.4",
         "tslint": "^5.11.0",
+        "gulp": "^3.9.1",
+        "gulp-typedoc": "^2.2.0",
+        "gulp-clean": "^0.4.0",
+        "typedoc": "^0.13.0",
         "typescript": "^3.1.6"
     },
     "jest": {
