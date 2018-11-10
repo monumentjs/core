@@ -6,7 +6,7 @@
         "lint": "tslint --format stylish --project .",
         "lint:fix": "tslint --fix --format stylish --project .",
         "postinstall": "npm run bootstrap",
-        "doc": "lerna exec -- typedoc --out doc/ --mode file --target ES2018 ./index.ts --options ./typedoc.js --excludeExternals",
+        "generate-doc": "lerna run generate-doc",
         "prepublishOnly": "npm run lint && npm run compile && npm install && npm test",
         "test": "jest"
     },

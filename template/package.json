@@ -4,6 +4,9 @@
     "description": "Template",
     "keywords": [
     ],
+    "scripts": {
+        "generate-doc": "typedoc  --tsconfig ../../tsconfig.json --options ./typedoc.js ./index.ts"
+    },
     "dependencies": {
         "@monument/core": "^0.0.1"
     }

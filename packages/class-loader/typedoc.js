@@ -1,3 +1,25 @@
 module.exports = {
-    name:'@monument/class-loader'
+    name:'@monument/class-loader',
+    mode: 'file',
+    out: 'doc/',
+    // excludeExternals: false,
+    // theme: 'default',
+    // ignoreCompilerErrors: true,
+    // excludePrivate: false,
+    // excludeNotExported: true,
+    excludePattern:'@monument/core',
+    target: 'ES2017',
+    // moduleResolution: 'node',
+    // preserveConstEnums: true,
+    // stripInternal: true,
+    // suppressExcessPropertyErrors: true,
+    // suppressImplicitAnyIndexErrors: true,
+    // module: 'commonjs',
+    // readme: 'README.md',
+    tsconfig:'../../tsconfig.json',
+    exclude: [
+      'core/**/*.ts',
+      '**/*.spec.ts',
+      '**/*.module.ts',
+    ],
 }
