@@ -11,6 +11,7 @@ gulp.task('docs:generate', ['docs:clean'], function () {
         name: 'TypeScript Standard Library',
         mode: 'file',
         out: 'docs/',
+        readme: 'none',
         excludePrivate: true,
         tsconfig: './tsconfig.json'
     }));
