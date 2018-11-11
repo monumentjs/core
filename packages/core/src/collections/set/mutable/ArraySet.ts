@@ -267,22 +267,16 @@ export class ArraySet<T> extends QueryableProxy<T, ArrayList<T>> implements Set<
     }
 
     public symmetricExceptWith(other: Sequence<T>): boolean {
-        /* tslint:disable:cyclomatic-complexity */
-
         let hasChanged: boolean = false;
 
         for (const otherItem of other) {
-            if (this.remove(otherItem)) {
-                hasChanged = true;
-            }
-        }
-
-        for (const currentItem of this) {
-            for (const otherItem of other) {
-                if (this.comparator.equals(currentItem, otherItem)) {
-                    if (this.remove(currentItem)) {
-                        hasChanged = true;
-                    }
+            if (this.contains(otherItem)) {
+                if (this.remove(otherItem)) {
+                    hasChanged = true;
+                }
+            } else {
+                if (this.add(otherItem)) {
+                    hasChanged = true;
                 }
             }
         }
