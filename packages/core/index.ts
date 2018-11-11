@@ -1,6 +1,4 @@
 export * from './src/base/Builder';
-export * from './src/base/Cancellable';
-export * from './src/base/CancellationSupport';
 export * from './src/base/Cloneable';
 export * from './src/base/Disposable';
 export * from './src/base/Mergeable';
