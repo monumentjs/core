@@ -11,6 +11,7 @@ gulp.task('docs', ['docs:clean'], function () {
         out: 'docs/',
         readme: 'none',
         excludePrivate: true,
+        excludeNotExported: true,
         tsconfig: './tsconfig.json'
     }));
 });
