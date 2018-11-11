@@ -2,6 +2,11 @@ language: node_js
 node_js:
     - "node"
     - "8"
+env:
+    global:
+        - USER=monumentjs
+        - REPO=monumentjs.github.io
+        - GITHUB_REPO="github.com/${USER}/${REPO}.git"
 script:
     - "npm run lint"
     - "npm run compile"
@@ -18,7 +23,7 @@ after_success:
     - "mv ../docs ./docs"
     - "git add ."
     - "git commit -m \"updated source code documentation\""
-    - "git push \"https://${GITHUB_TOKEN}@monumentjs/monumentjs.github.io.git\" master"
+    - "git push \"https://${GITHUB_TOKEN}@${GITHUB_REPO}\" master"
 os:
     - "linux"
     - "osx"
