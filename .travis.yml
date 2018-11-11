@@ -18,7 +18,7 @@ after_success:
     - "mv ../docs ./docs"
     - "git add ."
     - "git commit -m \"updated source code documentation\""
-    - "git push \"https://${GITHUB_TOKEN}@monumentjs/monumentjs.github.io.git\" master > /dev/null 2>&1"
+    - "git push \"https://${GITHUB_TOKEN}@monumentjs/monumentjs.github.io.git\" master"
 os:
     - "linux"
     - "osx"
