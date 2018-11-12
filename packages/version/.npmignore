@@ -1,4 +1,4 @@
-*.ts
-!*.d.ts
 node_modules
 test
+*.ts
+!*.d.ts
