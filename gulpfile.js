@@ -12,6 +12,7 @@ gulp.task('docs', ['docs:clean'], function () {
         readme: 'none',
         excludePrivate: true,
         excludeNotExported: true,
+        gaID: 'UA-129068725-1',
         tsconfig: './tsconfig.json'
     }));
 });
