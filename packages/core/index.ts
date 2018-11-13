@@ -79,7 +79,6 @@ export * from './src/collections/stack/mutable/Stack';
 
 export * from './src/collections/set/readonly/ReadOnlySet';
 export * from './src/collections/set/mutable/Set';
-export * from './src/collections/set/mutable/AbstractSet';
 export * from './src/collections/set/mutable/ArraySet';
 export * from './src/collections/set/observable/SetChangedEventArgs';
 export * from './src/collections/set/observable/SetChange';

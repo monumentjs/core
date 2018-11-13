@@ -1,12 +1,4 @@
-import {
-    EqualityComparator,
-    ItemRemovedSetChange,
-    Sequence,
-    Set,
-    SetChangedEventArgs,
-    ItemAddedSetChange,
-    SetChangeKind
-} from '../../../..';
+import {EqualityComparator, ItemRemovedSetChange, Sequence, Set, SetChangedEventArgs, SetChangeKind} from '../../../..';
 import {testReadOnlySet} from '../readonly/ReadOnlySet.spec';
 import {assertLengthAndIsEmpty} from '../../base/Queryable.spec';
 
@@ -363,51 +355,6 @@ export function testSet(create: <T>(items?: Sequence<T>, comparator?: EqualityCo
                     }
                 }
             );
-        });
-
-        describe('unionWith()', function () {
-            it('should take the unit of current set with other', function () {
-                const first: Set<string> = create(['one', 'two', 'three']);
-                const second: Set<string> = create(['two', 'three', 'four']);
-
-                expect(first.unionWith(second)).toBe(true);
-                expect(first.length).toBe(4);
-                expect(first.toArray()).toEqual(['one', 'two', 'three', 'four']);
-                expect(second.length).toBe(3);
-                expect(second.toArray()).toEqual(['two', 'three', 'four']);
-            });
-
-            it('should trigger "change" event with added items', function () {
-                const first: Set<string> = create(['one', 'two', 'three']);
-                const second: Set<string> = create(['two', 'three', 'four', 'five']);
-                const callback = jest.fn();
-
-                first.changed.subscribe(callback);
-
-                first.unionWith(second);
-
-                expect(callback).toHaveBeenCalledTimes(1);
-
-                {
-                    const args: SetChangedEventArgs<string> = callback.mock.calls[0][0];
-
-                    expect(args.changes.length).toBe(2);
-
-                    {
-                        const change: ItemAddedSetChange<string> = args.changes[0] as ItemAddedSetChange<string>;
-
-                        expect(change.item).toBe('four');
-                        expect(change.type).toBe(SetChangeKind.ITEM_ADDED);
-                    }
-
-                    {
-                        const change: ItemAddedSetChange<string> = args.changes[1] as ItemAddedSetChange<string>;
-
-                        expect(change.item).toBe('five');
-                        expect(change.type).toBe(SetChangeKind.ITEM_ADDED);
-                    }
-                }
-            });
         });
     });
 }

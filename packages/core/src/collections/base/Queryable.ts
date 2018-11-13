@@ -11,7 +11,6 @@ import {Equatable} from '../../comparison/equality/Equatable';
 import {ToJSON} from '../../base/ToJSON';
 import {ToArray} from './ToArray';
 
-
 /**
  * @author Alex Chugaev
  * @since 0.0.1
