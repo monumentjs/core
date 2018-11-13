@@ -8,7 +8,7 @@ gulp.task('docs', ['docs:clean'], function () {
     ]).pipe(typedoc({
         name: 'TypeScript Standard Library',
         mode: 'file',
-        out: 'api/',
+        out: 'docs/',
         readme: 'none',
         excludePrivate: true,
         excludeNotExported: true,
@@ -19,7 +19,7 @@ gulp.task('docs', ['docs:clean'], function () {
 
 gulp.task('docs:clean', function () {
     return gulp.src([
-        './api'
+        './docs'
     ], {
         read: false
     }).pipe(clean());
