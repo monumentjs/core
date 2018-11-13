@@ -7,9 +7,9 @@ import {ObservableList} from './ObservableList';
  * @since 0.0.1
  */
 export class ListChangedEventArgs<T> extends EventArgs<ObservableList<T>> {
-    public readonly changes: Array<ListChange<T>>;
+    public readonly changes: ReadonlyArray<ListChange<T>>;
 
-    public constructor(target: ObservableList<T>, changes: Array<ListChange<T>>) {
+    public constructor(target: ObservableList<T>, changes: ReadonlyArray<ListChange<T>>) {
         super(target);
         this.changes = changes;
     }

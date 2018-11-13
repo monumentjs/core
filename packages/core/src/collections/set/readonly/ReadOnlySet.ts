@@ -11,6 +11,14 @@ export interface ReadOnlySet<T> extends Queryable<T> {
 
     /**
      * Determines whether the current set is a proper (strict) subset of a specified collection.
+     *
+     * @remarks
+     * If the current set is a proper subset of other, other must have at least one element that the current set does not have.
+     *
+     * An empty set is a proper subset of any other collection.
+     * Therefore, this method returns true if the current set is empty, unless the other parameter is also an empty set.
+     *
+     * This method always returns false if the current set has more or the same number of elements than other.
      */
     isProperSubsetOf(other: Sequence<T>): boolean;
 
