@@ -19,10 +19,10 @@ after_success:
     - "git config user.name \"Alex Chugaev\""
     - "git clone https://${GITHUB_SITE_REPO}"
     - "cd ${SITE_REPO_NAME}"
-    - "rm -rf ./docs"
-    - "mv ../docs ./docs"
+    - "rm -rf ./api"
+    - "mv ../api ./api"
     - "git add ."
-    - "git commit -m \"updated source code documentation\""
+    - "git commit -m \"updated api reference\""
     - "git push \"https://${GITHUB_TOKEN}@${GITHUB_SITE_REPO}\" master"
 os:
     - "linux"
