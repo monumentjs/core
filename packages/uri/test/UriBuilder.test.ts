@@ -1,4 +1,4 @@
-import {UriBuilder, UriIntegrityException} from '..';
+import {UriBuilder} from '..';
 
 describe('UriBuilder', function () {
     let builder!: UriBuilder;
@@ -8,22 +8,8 @@ describe('UriBuilder', function () {
     });
 
     describe('build()', function () {
-        it('should represent root path by default', function () {
+        it('should create URI pointing to the root ("/")', function () {
             expect(builder.build().toString()).toBe('/');
-        });
-
-        it('should throw UriIntegrityException if URI not configured properly', function () {
-            builder.schema = 'file';
-
-            expect(builder.build().toString()).toBe('file:///');
-        });
-
-        it('should allow UriIntegrityException if URI not configured properly', function () {
-            builder.schema = 'http';
-
-            expect(() => {
-                builder.build();
-            }).toThrow(UriIntegrityException);
         });
     });
 });

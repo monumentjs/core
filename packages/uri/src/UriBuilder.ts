@@ -81,6 +81,24 @@ export class UriBuilder implements UriComponents, Builder<Uri> {
         this._userName = userName;
     }
 
+    public constructor();
+    public constructor(components: UriComponents);
+    public constructor(components?: UriComponents) {
+        if (components) {
+            this.schema = components.schema;
+            this.userName = components.userName;
+            this.password = components.password;
+            this.host = components.host;
+            this.port = components.port;
+            this.path = components.path;
+            this.fragment = components.fragment;
+
+            if (components.queryParameters) {
+                this._queryParameters.putAll(components.queryParameters);
+            }
+        }
+    }
+
     public addParameter(name: string, value: ToString): boolean {
         return this._queryParameters.put(name, value.toString());
     }

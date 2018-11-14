@@ -19,6 +19,8 @@ import {UriSchema} from './UriSchema';
 import {UriSerializer} from './UriSerializer';
 import {UriConstants} from './UriConstants';
 import {UriParser} from './UriParser';
+import {UriBuilder} from './UriBuilder';
+import {QueryParametersObject} from './QueryParametersObject';
 
 
 /**
@@ -188,6 +190,78 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
 
     public toJSON(): string {
         return this.toString();
+    }
+
+    public withSchema(schema: string): Uri {
+        const builder: UriBuilder = new UriBuilder(this);
+
+        builder.schema = schema;
+
+        return builder.build();
+    }
+
+    public withUserName(userName: string): Uri {
+        const builder: UriBuilder = new UriBuilder(this);
+
+        builder.userName = userName;
+
+        return builder.build();
+    }
+
+    public withPassword(password: string): Uri {
+        const builder: UriBuilder = new UriBuilder(this);
+
+        builder.password = password;
+
+        return builder.build();
+    }
+
+    public withHost(host: string): Uri {
+        const builder: UriBuilder = new UriBuilder(this);
+
+        builder.host = host;
+
+        return builder.build();
+    }
+
+    public withPort(port: number): Uri {
+        const builder: UriBuilder = new UriBuilder(this);
+
+        builder.port = port;
+
+        return builder.build();
+    }
+
+    public withPath(path: string): Uri {
+        const builder: UriBuilder = new UriBuilder(this);
+
+        builder.path = path;
+
+        return builder.build();
+    }
+
+    public withFragment(fragment: string): Uri {
+        const builder: UriBuilder = new UriBuilder(this);
+
+        builder.fragment = fragment;
+
+        return builder.build();
+    }
+
+    public withParameter(name: string, value: ToString): Uri {
+        const builder: UriBuilder = new UriBuilder(this);
+
+        builder.addParameter(name, value);
+
+        return builder.build();
+    }
+
+    public withParameters(parameters: QueryParametersObject): Uri {
+        const builder: UriBuilder = new UriBuilder(this);
+
+        builder.setParameters(parameters);
+
+        return builder.build();
     }
 
     public toString(): string {
