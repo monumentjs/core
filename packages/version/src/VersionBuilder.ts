@@ -97,14 +97,12 @@ export class VersionBuilder implements VersionComponents, Builder<Version> {
                 this.releaseStatus = components.releaseStatus;
                 this.revision = components.revision;
                 break;
-            case 'number':
+            default:
                 this.major = major;
                 this.minor = minor;
                 this.patch = patch;
                 this.releaseStatus = releaseStatus;
                 this.revision = revision;
-                break;
-            default:
                 break;
         }
     }

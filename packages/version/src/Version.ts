@@ -180,11 +180,13 @@ export class Version
 
             case 'object':
                 const components: VersionComponents = major;
+
                 _major = components.major;
                 _minor = components.minor;
                 _patch = components.patch;
                 _releaseStatus = components.releaseStatus;
                 _revision = components.revision;
+
                 break;
 
             default:
@@ -193,6 +195,7 @@ export class Version
                 _patch = patch;
                 _releaseStatus = releaseStatus;
                 _revision = revision;
+                break;
         }
 
         this.setMajor(_major);
