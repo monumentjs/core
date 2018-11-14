@@ -74,18 +74,39 @@ export class VersionBuilder implements VersionComponents, Builder<Version> {
         this._revision = value;
     }
 
+    public constructor();
+    public constructor(components: VersionComponents);
+    public constructor(major: number);
+    public constructor(major: number, minor: number);
+    public constructor(major: number, minor: number, patch: number);
+    public constructor(major: number, minor: number, patch: number, releaseStatus: ReleaseStatus);
+    public constructor(major: number, minor: number, patch: number, releaseStatus: ReleaseStatus, revision: number);
     public constructor(
-        major: number = 0,
+        major: VersionComponents | number = 0,
         minor: number = 0,
         patch: number = 0,
         releaseStatus: ReleaseStatus = ReleaseStatus.ALPHA,
         revision: number = 0
     ) {
-        this.major = major;
-        this.minor = minor;
-        this.patch = patch;
-        this.releaseStatus = releaseStatus;
-        this.revision = revision;
+        switch (typeof major) {
+            case 'object':
+                const components: VersionComponents = major;
+                this.major = components.major;
+                this.minor = components.minor;
+                this.patch = components.patch;
+                this.releaseStatus = components.releaseStatus;
+                this.revision = components.revision;
+                break;
+            case 'number':
+                this.major = major;
+                this.minor = minor;
+                this.patch = patch;
+                this.releaseStatus = releaseStatus;
+                this.revision = revision;
+                break;
+            default:
+                break;
+        }
     }
 
     public build(): Version {

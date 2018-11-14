@@ -324,5 +324,4 @@ export class ArraySet<T> extends QueryableProxy<T, ArrayList<T>> implements Set<
             throw new InvalidStateException('Change transaction is not started.');
         }
     }
-
 }

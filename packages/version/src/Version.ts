@@ -13,11 +13,14 @@ import {
 import {ReleaseStatus} from './ReleaseStatus';
 import {VersionComponents} from './VersionComponents';
 import {VersionFormatException} from './VersionFormatException';
+import {VersionBuilder} from './VersionBuilder';
 
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
+ * @immutable
+ * @final
  */
 export class Version
     implements Equatable<VersionComponents>,
@@ -229,46 +232,6 @@ export class Version
         return comparator.result;
     }
 
-    public setMajor(value: number) {
-        if (!isFinite(value) || isNaN(value) || value < 0) {
-            throw new InvalidArgumentException('Version major component is invalid.');
-        }
-
-        this._major = value;
-    }
-
-    public setMinor(value: number) {
-        if (!isFinite(value) || isNaN(value) || value < 0) {
-            throw new InvalidArgumentException('Version minor component is invalid.');
-        }
-
-        this._minor = value;
-    }
-
-    public setPatch(value: number) {
-        if (!isFinite(value) || isNaN(value) || value < 0) {
-            throw new InvalidArgumentException('Version patch component is invalid.');
-        }
-
-        this._patch = value;
-    }
-
-    public setReleaseStatus(value: ReleaseStatus) {
-        if (!isFinite(value) || isNaN(value) || value < ReleaseStatus.ALPHA || value > ReleaseStatus.STABLE) {
-            throw new InvalidArgumentException('Version release status component is invalid.');
-        }
-
-        this._releaseStatus = value;
-    }
-
-    public setRevision(value: number) {
-        if (!isFinite(value) || isNaN(value) || value < 0) {
-            throw new InvalidArgumentException('Version revision component is invalid.');
-        }
-
-        this._revision = value;
-    }
-
     public toJSON(): string {
         return this.toString();
     }
@@ -294,5 +257,85 @@ export class Version
         }
 
         return this._serialized;
+    }
+
+    public withMajor(value: number): Version {
+        const builder: VersionBuilder = new VersionBuilder(this);
+
+        builder.major = value;
+
+        return builder.build();
+    }
+
+    public withMinor(value: number): Version {
+        const builder: VersionBuilder = new VersionBuilder(this);
+
+        builder.minor = value;
+
+        return builder.build();
+    }
+
+    public withPatch(value: number): Version {
+        const builder: VersionBuilder = new VersionBuilder(this);
+
+        builder.patch = value;
+
+        return builder.build();
+    }
+
+    public withReleaseStatus(value: ReleaseStatus): Version {
+        const builder: VersionBuilder = new VersionBuilder(this);
+
+        builder.releaseStatus = value;
+
+        return builder.build();
+    }
+
+    public withRevision(value: number): Version {
+        const builder: VersionBuilder = new VersionBuilder(this);
+
+        builder.revision = value;
+
+        return builder.build();
+    }
+
+    private setMajor(value: number) {
+        if (!isFinite(value) || isNaN(value) || value < 0) {
+            throw new InvalidArgumentException('Version major component is invalid.');
+        }
+
+        this._major = value;
+    }
+
+    private setMinor(value: number) {
+        if (!isFinite(value) || isNaN(value) || value < 0) {
+            throw new InvalidArgumentException('Version minor component is invalid.');
+        }
+
+        this._minor = value;
+    }
+
+    private setPatch(value: number) {
+        if (!isFinite(value) || isNaN(value) || value < 0) {
+            throw new InvalidArgumentException('Version patch component is invalid.');
+        }
+
+        this._patch = value;
+    }
+
+    private setReleaseStatus(value: ReleaseStatus) {
+        if (!isFinite(value) || isNaN(value) || value < ReleaseStatus.ALPHA || value > ReleaseStatus.STABLE) {
+            throw new InvalidArgumentException('Version release status component is invalid.');
+        }
+
+        this._releaseStatus = value;
+    }
+
+    private setRevision(value: number) {
+        if (!isFinite(value) || isNaN(value) || value < 0) {
+            throw new InvalidArgumentException('Version revision component is invalid.');
+        }
+
+        this._revision = value;
     }
 }
