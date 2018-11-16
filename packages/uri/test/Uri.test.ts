@@ -751,7 +751,7 @@ describe('Uri', function () {
                 port: 3000,
                 fragment: 'id-3',
                 queryParameters: (() => {
-                    const parameters = new QueryParameters();
+                    const parameters: QueryParameters = new QueryParameters();
 
                     parameters.put('age', '25');
                     parameters.put('name', 'Alex');
@@ -761,6 +761,78 @@ describe('Uri', function () {
                     return parameters;
                 })()
             }))).toBe('"https://alex:PaSsWoRd@site.com:3000?age=25&name=Alex&position=Senior%20Developer&q=#id-3"');
+        });
+    });
+
+    describe('withSchema(string)', function () {
+        it('should return new URI with overridden schema component', function () {
+            const originalUri: Uri = new Uri('site.com');
+            const newUri: Uri = originalUri.withSchema('https');
+
+            expect(originalUri).not.toBe(newUri);
+            expect(originalUri.schema).not.toBe(newUri.schema);
+            expect(originalUri.schema).toBe(undefined);
+            expect(newUri.schema).toBe('https');
+        });
+    });
+
+    describe('withoutSchema()', function () {
+        it('should return new URI without schema component', function () {
+            const originalUri: Uri = new Uri('https://site.com');
+            const newUri: Uri = originalUri.withoutSchema();
+
+            expect(originalUri).not.toBe(newUri);
+            expect(originalUri.schema).not.toBe(newUri.schema);
+            expect(originalUri.schema).toBe('https');
+            expect(newUri.schema).toBe(undefined);
+        });
+    });
+
+    describe('withHost(string)', function () {
+        it('should return new URI with overridden host component', function () {
+            const originalUri: Uri = new Uri('/');
+            const newUri: Uri = originalUri.withHost('site.com');
+
+            expect(originalUri).not.toBe(newUri);
+            expect(originalUri.host).not.toBe(newUri.host);
+            expect(originalUri.host).toBe(undefined);
+            expect(newUri.host).toBe('site.com');
+        });
+    });
+
+    describe('withoutHost()', function () {
+        it('should return new URI without host component', function () {
+            const originalUri: Uri = new Uri('site.com');
+            const newUri: Uri = originalUri.withoutHost();
+
+            expect(originalUri).not.toBe(newUri);
+            expect(originalUri.host).not.toBe(newUri.host);
+            expect(originalUri.host).toBe('site.com');
+            expect(newUri.host).toBe(undefined);
+        });
+    });
+
+    describe('withPort(number)', function () {
+        it('should return new URI with overridden port component', function () {
+            const originalUri: Uri = new Uri('site.com');
+            const newUri: Uri = originalUri.withPort(3000);
+
+            expect(originalUri).not.toBe(newUri);
+            expect(originalUri.port).not.toBe(newUri.port);
+            expect(originalUri.port).toBe(undefined);
+            expect(newUri.port).toBe(3000);
+        });
+    });
+
+    describe('withoutPort()', function () {
+        it('should return new URI without port component', function () {
+            const originalUri: Uri = new Uri('site.com');
+            const newUri: Uri = originalUri.withoutHost();
+
+            expect(originalUri).not.toBe(newUri);
+            expect(originalUri.host).not.toBe(newUri.host);
+            expect(originalUri.host).toBe('site.com');
+            expect(newUri.host).toBe(undefined);
         });
     });
 

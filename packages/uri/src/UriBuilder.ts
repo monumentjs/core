@@ -180,4 +180,8 @@ export class UriBuilder implements UriComponents, Builder<Uri> {
 
         return changed;
     }
+
+    public clearParameters(): boolean {
+        return this._queryParameters.clear();
+    }
 }

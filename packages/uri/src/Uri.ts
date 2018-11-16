@@ -192,26 +192,20 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
         return this.toString();
     }
 
-    public withSchema(schema: string): Uri {
-        const builder: UriBuilder = new UriBuilder(this);
+    public toString(): string {
+        // Check is disabled because logic is primitive
+        /* tslint:disable:cyclomatic-complexity */
+        if (this._serialized == null) {
+            this._serialized = new UriSerializer().serialize(this);
+        }
 
-        builder.schema = schema;
-
-        return builder.build();
+        return this._serialized;
     }
 
-    public withUserName(userName: string): Uri {
+    public withFragment(fragment: string): Uri {
         const builder: UriBuilder = new UriBuilder(this);
 
-        builder.userName = userName;
-
-        return builder.build();
-    }
-
-    public withPassword(password: string): Uri {
-        const builder: UriBuilder = new UriBuilder(this);
-
-        builder.password = password;
+        builder.fragment = fragment;
 
         return builder.build();
     }
@@ -220,30 +214,6 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
         const builder: UriBuilder = new UriBuilder(this);
 
         builder.host = host;
-
-        return builder.build();
-    }
-
-    public withPort(port: number): Uri {
-        const builder: UriBuilder = new UriBuilder(this);
-
-        builder.port = port;
-
-        return builder.build();
-    }
-
-    public withPath(path: string): Uri {
-        const builder: UriBuilder = new UriBuilder(this);
-
-        builder.path = path;
-
-        return builder.build();
-    }
-
-    public withFragment(fragment: string): Uri {
-        const builder: UriBuilder = new UriBuilder(this);
-
-        builder.fragment = fragment;
 
         return builder.build();
     }
@@ -264,14 +234,125 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
         return builder.build();
     }
 
-    public toString(): string {
-        // Check is disabled because logic is primitive
-        /* tslint:disable:cyclomatic-complexity */
-        if (this._serialized == null) {
-            this._serialized = new UriSerializer().serialize(this);
+    public withPassword(password: string): Uri {
+        const builder: UriBuilder = new UriBuilder(this);
+
+        builder.password = password;
+
+        return builder.build();
+    }
+
+    public withPath(path: string): Uri {
+        const builder: UriBuilder = new UriBuilder(this);
+
+        builder.path = path;
+
+        return builder.build();
+    }
+
+    public withPort(port: number): Uri {
+        const builder: UriBuilder = new UriBuilder(this);
+
+        builder.port = port;
+
+        return builder.build();
+    }
+
+    public withSchema(schema: string): Uri {
+        const builder: UriBuilder = new UriBuilder(this);
+
+        builder.schema = schema;
+
+        return builder.build();
+    }
+
+    public withUserName(userName: string): Uri {
+        const builder: UriBuilder = new UriBuilder(this);
+
+        builder.userName = userName;
+
+        return builder.build();
+    }
+
+    public withoutFragment(): Uri {
+        const builder: UriBuilder = new UriBuilder(this);
+
+        builder.fragment = undefined;
+
+        return builder.build();
+    }
+
+    public withoutHost(): Uri {
+        const builder: UriBuilder = new UriBuilder(this);
+
+        builder.host = undefined;
+
+        return builder.build();
+    }
+
+    public withoutParameter(name: string): Uri;
+
+    public withoutParameter(name: string, value: ToString): Uri;
+
+    public withoutParameter(name: string, value?: ToString): Uri {
+        const builder: UriBuilder = new UriBuilder(this);
+
+        if (value == null) {
+            builder.removeParameter(name);
+        } else {
+            builder.removeParameter(name, value);
         }
 
-        return this._serialized;
+        return builder.build();
+    }
+
+    public withoutParameters(): Uri {
+        const builder: UriBuilder = new UriBuilder(this);
+
+        builder.clearParameters();
+
+        return builder.build();
+    }
+
+    public withoutPassword(): Uri {
+        const builder: UriBuilder = new UriBuilder(this);
+
+        builder.password = undefined;
+
+        return builder.build();
+    }
+
+    public withoutPath(): Uri {
+        const builder: UriBuilder = new UriBuilder(this);
+
+        builder.path = undefined;
+
+        return builder.build();
+    }
+
+    public withoutPort(): Uri {
+        const builder: UriBuilder = new UriBuilder(this);
+
+        builder.port = undefined;
+
+        return builder.build();
+    }
+
+    public withoutSchema(): Uri {
+        const builder: UriBuilder = new UriBuilder(this);
+
+        builder.schema = undefined;
+
+        return builder.build();
+    }
+
+    public withoutUserName(): Uri {
+        const builder: UriBuilder = new UriBuilder(this);
+
+        builder.userName = undefined;
+        builder.password = undefined;
+
+        return builder.build();
     }
 
     private validateIntegrity(): void {

@@ -8,7 +8,8 @@
         "lint:fix": "tslint --fix --format stylish --project .",
         "postinstall": "npm run bootstrap",
         "prepublishOnly": "npm run lint && npm run compile && npm install && npm test",
-        "test": "jest"
+        "test": "jest",
+        "test:watch": "jest --watch"
     },
     "dependencies": {},
     "devDependencies": {
@@ -26,9 +27,6 @@
     "jest": {
         "clearMocks": true,
         "automock": false,
-        "roots": [
-            "<rootDir>/packages"
-        ],
         "transform": {
             "^.+\\.tsx?$": "ts-jest"
         },
@@ -43,7 +41,7 @@
         ],
         "collectCoverage": true,
         "coverageThreshold": {
-            "global": {
+            "./packages": {
                 "branches": 90,
                 "functions": 90,
                 "lines": 90,
