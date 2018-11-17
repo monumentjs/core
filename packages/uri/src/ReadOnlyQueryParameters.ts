@@ -1,11 +1,11 @@
-import {Queryable, ReadOnlyMultiValueMap} from '@monument/core';
+import {Queryable, ReadOnlyMultiValueMap, ToString} from '@monument/core';
 
 
 /**
  * @since 0.0.1
  * @author Alex Chugaev
  */
-export interface ReadOnlyQueryParameters extends ReadOnlyMultiValueMap<string, string> {
+export interface ReadOnlyQueryParameters extends ReadOnlyMultiValueMap<string, ToString> {
     getBoolean(key: string): boolean | undefined;
 
     getBoolean(key: string, defaultValue: boolean): boolean;

@@ -100,7 +100,7 @@ export class UriBuilder implements UriComponents, Builder<Uri> {
     }
 
     public addParameter(name: string, value: ToString): boolean {
-        return this._queryParameters.put(name, value.toString());
+        return this._queryParameters.put(name, value);
     }
 
     public build(): Uri {
@@ -113,21 +113,21 @@ export class UriBuilder implements UriComponents, Builder<Uri> {
         if (value == null) {
             return this._queryParameters.containsKey(name);
         } else {
-            return this._queryParameters.containsEntry(name, value.toString());
+            return this._queryParameters.containsEntry(name, value);
         }
     }
 
-    public getParameter(name: string): string | undefined;
-    public getParameter(name: string, defaultValue: ToString): string;
-    public getParameter(name: string, defaultValue?: ToString): string | undefined {
-        const value: string | undefined = this._queryParameters.getFirst(name);
+    public getParameter(name: string): ToString | undefined;
+    public getParameter(name: string, defaultValue: ToString): ToString;
+    public getParameter(name: string, defaultValue?: ToString): ToString | undefined {
+        const value: ToString | undefined = this._queryParameters.getFirst(name);
 
         if (value != null) {
             return value;
         }
 
         if (defaultValue != null) {
-            return defaultValue.toString();
+            return defaultValue;
         }
     }
 
@@ -137,7 +137,7 @@ export class UriBuilder implements UriComponents, Builder<Uri> {
         if (value == null) {
             return this._queryParameters.remove(name) != null;
         } else {
-            return this._queryParameters.removeIf(name, value.toString());
+            return this._queryParameters.removeIf(name, value);
         }
     }
 
@@ -156,15 +156,15 @@ export class UriBuilder implements UriComponents, Builder<Uri> {
     }
 
     public setParameter(name: string, value: ToString): boolean {
-        const values: ReadOnlyList<string> = this._queryParameters.get(name);
+        const values: ReadOnlyList<ToString> = this._queryParameters.get(name);
 
-        if (values.length === 1 && values.getAt(0) === value.toString()) {
+        if (values.length === 1 && values.getAt(0) === value) {
             return false;
         }
 
         this._queryParameters.remove(name);
 
-        return this._queryParameters.put(name, value.toString());
+        return this._queryParameters.put(name, value);
     }
 
     public setParameters(values: QueryParametersObject): boolean {
@@ -172,7 +172,7 @@ export class UriBuilder implements UriComponents, Builder<Uri> {
 
         Object.entries(values).forEach(([key, value]) => {
             if (value != null) {
-                if (this._queryParameters.put(key, value.toString())) {
+                if (this._queryParameters.put(key, value)) {
                     changed = true;
                 }
             }

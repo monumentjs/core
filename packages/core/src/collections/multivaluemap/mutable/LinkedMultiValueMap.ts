@@ -11,7 +11,7 @@ import {MultiValueMap} from './MultiValueMap';
 import {List} from '../../list/mutable/List';
 import {ReadOnlyMap} from '../../map/readonly/ReadOnlyMap';
 import {MapIteratorFunction} from '../../base/MapIteratorFunction';
-import {ObjectEqualityComparator} from '../../../comparison/equality/ObjectEqualityComparator';
+import {ChainedEqualityComparator} from '../../../comparison/equality/ChainedEqualityComparator';
 
 
 /**
@@ -135,7 +135,11 @@ export class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V> {
     }
 
     public equals(other: Sequence<KeyValuePair<K, V>>): boolean {
-        const comparator: ObjectEqualityComparator<Sequence<KeyValuePair<K, V>>> = new ObjectEqualityComparator(this, other);
+        if (this === other) {
+            return true;
+        }
+
+        const comparator: ChainedEqualityComparator = new ChainedEqualityComparator();
 
         comparator.withField(this.length, other.length);
 

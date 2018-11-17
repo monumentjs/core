@@ -1,4 +1,4 @@
-import {Equatable, IgnoreCaseEqualityComparator, ObjectEqualityComparator, ToJSON, ToString} from '@monument/core';
+import {Equatable, IgnoreCaseEqualityComparator, ChainedEqualityComparator, ToJSON, ToString} from '@monument/core';
 
 const FILE_DEFAULT_HOST = 'localhost';
 

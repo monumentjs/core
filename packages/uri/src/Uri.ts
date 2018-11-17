@@ -3,7 +3,7 @@ import {
     Equatable,
     EquatableComparator,
     IgnoreCaseEqualityComparator,
-    ObjectEqualityComparator,
+    ChainedEqualityComparator,
     PreserveCaseEqualityComparator,
     ReadOnlyList,
     ToJSON,
@@ -42,7 +42,6 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
     private readonly _path: string;
     private readonly _fragment?: string;
     private readonly _queryParameters: QueryParameters;
-    private _serialized?: string;
 
     public get fragment(): string | undefined {
         return this._fragment;
@@ -77,6 +76,12 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
     }
 
     /**
+     * Creates URI pointing to root location ("/").
+     * @throws {UriFormatException}
+     */
+    public constructor();
+
+    /**
      * Creates URI by parsing source string.
      * @throws {UriFormatException}
      */
@@ -88,7 +93,7 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
      */
     public constructor(source: UriComponents);
 
-    public constructor(source: UriComponents | string) {
+    public constructor(source: UriComponents | string = UriConstants.PATH_FRAGMENT_DELIMITER) {
         const components: UriComponents = typeof source === 'object' ? source : new UriParser().parse(source);
         const normalizedComponents = new UriComponentsNormalizer().normalize(components);
 
@@ -143,20 +148,24 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
     public equals(other: UriComponents, ignoreCase: boolean): boolean;
 
     public equals(other: UriComponents | string, ignoreCase: boolean = false): boolean {
+        if (this === other) {
+            return true;
+        }
+
         const textComparator: EqualityComparator<string> = ignoreCase ?
             IgnoreCaseEqualityComparator.get() :
             PreserveCaseEqualityComparator.get();
-        const comparator = new ObjectEqualityComparator<ToString | UriComponents>(this, other);
+        const comparator = new ChainedEqualityComparator();
         const components: UriComponents = typeof other === 'object' ? other : new Uri(other);
 
-        comparator.withField(this.schema, components.schema, EquatableComparator.get());
+        comparator.withField(this.schema, components.schema, textComparator);
         comparator.withField(this.userName, components.userName, textComparator);
         comparator.withField(this.password, components.password, textComparator);
         comparator.withField(this.host, components.host, textComparator);
         comparator.withField(this.port, components.port);
         comparator.withField(this.path, components.path, textComparator);
         comparator.withField(this.fragment, components.fragment, textComparator);
-        comparator.withField(this.queryParameters, components.queryParameters || new QueryParameters(), EquatableComparator.get());
+        comparator.withField(this.queryParameters, (components.queryParameters || new QueryParameters()), new EquatableComparator());
 
         return comparator.result;
     }
@@ -164,27 +173,27 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
     /**
      * Returns first value of query parameter with specified name.
      */
-    public getParameterValue(name: string): string | undefined;
+    public getParameterValue(name: string): ToString | undefined;
 
     /**
      * Returns first value of query parameter with specified name.
      * If no value(s) stored under specified name, default value will be returned.
      */
-    public getParameterValue(name: string, defaultValue: ToString): string;
+    public getParameterValue(name: string, defaultValue: ToString): ToString;
 
-    public getParameterValue(name: string, defaultValue?: ToString): string | undefined {
-        const value: string | undefined = this._queryParameters.getFirst(name);
+    public getParameterValue(name: string, defaultValue?: ToString): ToString | undefined {
+        const value: ToString | undefined = this._queryParameters.getFirst(name);
 
         if (value != null) {
             return value;
         }
 
         if (defaultValue != null) {
-            return defaultValue.toString();
+            return defaultValue;
         }
     }
 
-    public getParameterValues(name: string): ReadOnlyList<string> {
+    public getParameterValues(name: string): ReadOnlyList<ToString> {
         return this._queryParameters.get(name);
     }
 
@@ -193,13 +202,7 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
     }
 
     public toString(): string {
-        // Check is disabled because logic is primitive
-        /* tslint:disable:cyclomatic-complexity */
-        if (this._serialized == null) {
-            this._serialized = new UriSerializer().serialize(this);
-        }
-
-        return this._serialized;
+        return new UriSerializer().serialize(this);
     }
 
     public withFragment(fragment: string): Uri {
@@ -355,6 +358,7 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
         return builder.build();
     }
 
+    // tslint:disable-next-line:cyclomatic-complexity
     private validateIntegrity(): void {
         if (!this.host) {
             if (!UriSchema.FILE.equals(this.schema)) {

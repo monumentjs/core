@@ -5,7 +5,7 @@ import {
     InvalidArgumentException,
     NumberComparator,
     ObjectComparator,
-    ObjectEqualityComparator,
+    ChainedEqualityComparator,
     StringBuilder,
     ToJSON,
     ToString
@@ -223,8 +223,12 @@ export class Version
     public equals(other: string): boolean;
     public equals(other: VersionComponents): boolean;
     public equals(other: VersionComponents | string): boolean {
+        if (this === other) {
+            return true;
+        }
+
         const components: VersionComponents = typeof other === 'object' ? other : new Version(other);
-        const comparator: ObjectEqualityComparator<VersionComponents> = new ObjectEqualityComparator(this, components);
+        const comparator: ChainedEqualityComparator = new ChainedEqualityComparator();
 
         comparator.withField(this.major, components.major);
         comparator.withField(this.minor, components.minor);

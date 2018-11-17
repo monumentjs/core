@@ -2,10 +2,10 @@ import {
     BooleanParser,
     FloatParser,
     IntParser,
-    LinkedMultiValueMap,
+    LinkedMultiValueMap, List,
     PreserveCaseEqualityComparator,
     Queryable,
-    ReadOnlyList
+    ReadOnlyList, ToString
 } from '@monument/core';
 import {ReadOnlyQueryParameters} from './ReadOnlyQueryParameters';
 
@@ -21,11 +21,11 @@ const VALUE_COMPONENT_INDEX = 1;
  * @author Alex Chugaev
  * @final
  */
-export class QueryParameters extends LinkedMultiValueMap<string, string> implements ReadOnlyQueryParameters {
+export class QueryParameters extends LinkedMultiValueMap<string, ToString> implements ReadOnlyQueryParameters {
     public constructor();
     public constructor(source: string);
     public constructor(source?: string) {
-        super(PreserveCaseEqualityComparator.get(), PreserveCaseEqualityComparator.get());
+        super(PreserveCaseEqualityComparator.get());
 
         if (source != null) {
             const pairs: string[] = source.split(PARAMETERS_DELIMITER);
@@ -58,56 +58,58 @@ export class QueryParameters extends LinkedMultiValueMap<string, string> impleme
     public getFloat(key: string): number | undefined;
     public getFloat(key: string, defaultValue: number): number;
     public getFloat(key: string, defaultValue?: number): number | undefined {
-        const value: string | undefined = this.getFirst(key);
+        const value: ToString | undefined = this.getFirst(key);
 
         if (value != null) {
-            return FloatParser.WEAK.parse(value);
+            return FloatParser.WEAK.parse(value.toString());
         }
 
         return defaultValue;
     }
 
     public getFloats(key: string): Queryable<number> {
-        const slot = this.obtainSlot(key);
+        const slot: List<ToString> = this.obtainSlot(key);
 
-        return slot.map((actualItem) => {
-            return FloatParser.WEAK.parse(actualItem);
+        return slot.map((value) => {
+            return FloatParser.WEAK.parse(value.toString());
         });
     }
 
     public getInteger(key: string): number | undefined;
     public getInteger(key: string, defaultValue: number): number;
     public getInteger(key: string, defaultValue?: number): number | undefined {
-        const value: string | undefined = this.getFirst(key);
+        const value: ToString | undefined = this.getFirst(key);
 
         if (value != null) {
-            return IntParser.WEAK.parse(value);
+            return IntParser.WEAK.parse(value.toString());
         }
 
         return defaultValue;
     }
 
     public getIntegers(key: string): Queryable<number> {
-        const slot = this.obtainSlot(key);
+        const slot: List<ToString> = this.obtainSlot(key);
 
-        return slot.map((actualItem) => {
-            return FloatParser.WEAK.parse(actualItem);
+        return slot.map((value) => {
+            return FloatParser.WEAK.parse(value.toString());
         });
     }
 
     public getString(key: string): string | undefined;
     public getString(key: string, defaultValue: string): string;
     public getString(key: string, defaultValue?: string): string | undefined {
-        const values: ReadOnlyList<string> = this.get(key);
+        const values: ReadOnlyList<ToString> = this.get(key);
 
         if (values.length > 0) {
-            return values.getAt(0);
+            return values.getAt(0).toString();
         }
 
         return defaultValue;
     }
 
     public getStrings(key: string): Queryable<string> {
-        return this.get(key);
+        return this.get(key).map((item) => {
+            return item.toString();
+        });
     }
 }

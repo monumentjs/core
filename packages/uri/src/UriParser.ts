@@ -5,15 +5,6 @@ import {UriFormatException} from './UriFormatException';
 import {UriConstants} from './UriConstants';
 import {UriComponentsNormalizer} from './UriComponentsNormalizer';
 
-const SCHEMA_COMPONENT_INDEX = 2;
-const USER_NAME_COMPONENT_INDEX = 4;
-const PASSWORD_COMPONENT_INDEX = 6;
-const HOST_COMPONENT_INDEX = 7;
-const PORT_COMPONENT_INDEX = 9;
-const PATH_COMPONENT_INDEX = 10;
-const SEARCH_COMPONENT_INDEX = 12;
-const FRAGMENT_COMPONENT_INDEX = 14;
-
 /**
  * @author Alex Chugaev
  * @since 0.0.1
@@ -30,14 +21,14 @@ export class UriParser implements Parser<UriComponents> {
             throw new UriFormatException(`URI has invalid format`);
         }
 
-        const schema: string | undefined = parts[SCHEMA_COMPONENT_INDEX];
-        const userName: string | undefined = parts[USER_NAME_COMPONENT_INDEX];
-        const password: string | undefined = parts[PASSWORD_COMPONENT_INDEX];
-        const host: string | undefined = parts[HOST_COMPONENT_INDEX];
-        const port: string | undefined = parts[PORT_COMPONENT_INDEX];
-        const path: string | undefined = parts[PATH_COMPONENT_INDEX];
-        const search: string = parts[SEARCH_COMPONENT_INDEX] || StringPool.BLANK;
-        const fragment: string | undefined = parts[FRAGMENT_COMPONENT_INDEX];
+        const schema: string | undefined = parts[UriConstants.SCHEMA_COMPONENT_INDEX];
+        const userName: string | undefined = parts[UriConstants.USER_NAME_COMPONENT_INDEX];
+        const password: string | undefined = parts[UriConstants.PASSWORD_COMPONENT_INDEX];
+        const host: string | undefined = parts[UriConstants.HOST_COMPONENT_INDEX];
+        const port: string | undefined = parts[UriConstants.PORT_COMPONENT_INDEX];
+        const path: string | undefined = parts[UriConstants.PATH_COMPONENT_INDEX];
+        const search: string = parts[UriConstants.SEARCH_COMPONENT_INDEX] || StringPool.BLANK;
+        const fragment: string | undefined = parts[UriConstants.FRAGMENT_COMPONENT_INDEX];
 
         return new UriComponentsNormalizer().normalize({
             schema,
