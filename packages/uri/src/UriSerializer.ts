@@ -3,12 +3,14 @@ import {UriSchema} from './UriSchema';
 import {UriComponents} from './UriComponents';
 import {UriComponentsNormalizer} from './UriComponentsNormalizer';
 import {UriConstants} from './UriConstants';
+import {UriEncoder} from './UriEncoder';
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
  */
 export class UriSerializer {
+    private readonly _encoder: UriEncoder = new UriEncoder();
 
     public serialize(components: UriComponents): string {
         const builder: StringBuilder = new StringBuilder();
@@ -30,11 +32,11 @@ export class UriSerializer {
         const {userName, password} = components;
 
         if (userName) {
-            builder.append(userName);
+            builder.append(this._encoder.encodeComponent(userName));
 
             if (password) {
                 builder.append(UriConstants.CREDENTIALS_DELIMITER);
-                builder.append(password);
+                builder.append(this._encoder.encodeComponent(password));
             }
 
             builder.append(UriConstants.AUTHORITY_PREFIX);
@@ -46,7 +48,7 @@ export class UriSerializer {
 
         if (fragment) {
             builder.append(UriConstants.FRAGMENT_PREFIX);
-            builder.append(fragment);
+            builder.append(this._encoder.encodeComponent(fragment));
         }
     }
 
@@ -56,10 +58,10 @@ export class UriSerializer {
         if (host) {
             if (UriSchema.FILE.equals(schema)) {
                 if (!UriSchema.FILE.isDefaultHost(host) || port != null) {
-                    builder.append(host);
+                    builder.append(this._encoder.encodeComponent(host));
                 }
             } else {
-                builder.append(host);
+                builder.append(this._encoder.encodeComponent(host));
             }
         }
     }
@@ -68,7 +70,7 @@ export class UriSerializer {
         const {schema, host, path} = components;
 
         if (path) {
-            const encodedPath: string = encodeURI(path);
+            const encodedPath: string = this._encoder.encodeUri(path);
 
             if (UriSchema.FILE.equals(schema)) {
                 builder.append(encodedPath);
@@ -90,9 +92,9 @@ export class UriSerializer {
     }
 
     private writeQueryParameter(builder: StringBuilder, key: string, value: ToString) {
-        builder.append(encodeURIComponent(key));
+        builder.append(this._encoder.encodeComponent(key));
         builder.append(UriConstants.QUERY_PARAM_DELIMITER);
-        builder.append(encodeURIComponent(value.toString()));
+        builder.append(this._encoder.encodeComponent(value.toString()));
     }
 
     private writeQueryParameters(builder: StringBuilder, components: UriComponents) {

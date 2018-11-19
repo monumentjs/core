@@ -39,7 +39,7 @@ export class UriParser implements Parser<UriComponents> {
             password: this._encoder.decodeComponent(password),
             host: this._encoder.decodeComponent(host),
             port: port == null ? undefined : parseInt(port, 10),
-            path: this._encoder.decodeComponent(path || UriConstants.PATH_FRAGMENT_DELIMITER),
+            path: this._encoder.decodeUri(path || UriConstants.PATH_FRAGMENT_DELIMITER),
             queryParameters: new QueryParameters(search),
             fragment: this._encoder.decodeComponent(fragment)
         });

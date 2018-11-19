@@ -94,7 +94,7 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
 
     public constructor(source: UriComponents | string = UriConstants.PATH_FRAGMENT_DELIMITER) {
         const components: UriComponents = typeof source === 'object' ? source : new UriParser().parse(source);
-        const normalizedComponents = new UriComponentsNormalizer().normalize(components);
+        const normalizedComponents: UriComponents = new UriComponentsNormalizer().normalize(components);
 
         this._schema = normalizedComponents.schema;
         this._userName = normalizedComponents.userName;
@@ -114,17 +114,17 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
 
     public getParameter(name: string): ToString | undefined;
 
-    public getParameter(name: string, defaultValue: ToString): ToString;
+    public getParameter(name: string, fallback: ToString): ToString;
 
-    public getParameter(name: string, defaultValue?: ToString): ToString | undefined {
+    public getParameter(name: string, fallback?: ToString): ToString | undefined {
         const value: ToString | undefined = this._queryParameters.getFirst(name);
 
         if (value != null) {
             return value;
         }
 
-        if (defaultValue != null) {
-            return defaultValue;
+        if (fallback != null) {
+            return fallback;
         }
     }
 

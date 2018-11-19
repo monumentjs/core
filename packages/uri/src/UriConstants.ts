@@ -6,7 +6,7 @@
 export namespace UriConstants {
     export const URI_PATTERN: RegExp =
         /^((([^:]+):)?\/\/)?(([^:@\/]+)(:([^@\/]+))?@)?([^.@:\/?#][^@:\/?#]*)?(:(\d+))?([.]{0,2}\/[^?#]*)?(\?([^#]*))?(#(.*))?$/;
-    //    | schema         | username | password      | host                 | port   | path             | search    | fragment |
+    //    | schema         | username   | password    | host                 | port   | path             | search    | fragment |
 
     export const SCHEMA_COMPONENT_INDEX: number = 3;
     export const USER_NAME_COMPONENT_INDEX: number = 5;

@@ -12,8 +12,14 @@ describe('Uri', function () {
         expect(uri.host).toBe(components.host);
         expect(uri.port).toBe(components.port);
         expect(uri.path).toBe(components.path);
-        expect(uri.queryParameters.equals((components.queryParameters || new QueryParameters()))).toBe(true);
         expect(uri.fragment).toBe(components.fragment);
+        expect(uri.queryParameters.equals((components.queryParameters || new QueryParameters()))).toBe(true);
+
+        if (components.queryParameters) {
+            for (const {key, value} of components.queryParameters) {
+                expect(uri.hasParameter(key, value));
+            }
+        }
     }
 
     describe('constructor(string)', function () {
@@ -557,7 +563,7 @@ describe('Uri', function () {
                 host: 'localhost',
                 path: '/',
                 queryParameters: (() => {
-                    const parameters = new QueryParameters();
+                    const parameters: QueryParameters = new QueryParameters();
 
                     parameters.put('age', '25');
                     parameters.put('name', 'Alex');
@@ -574,7 +580,7 @@ describe('Uri', function () {
                 host: 'localhost',
                 path: '/',
                 queryParameters: (() => {
-                    const parameters = new QueryParameters();
+                    const parameters: QueryParameters = new QueryParameters();
 
                     parameters.put('age', '25');
                     parameters.put('name', 'Alex');
@@ -591,7 +597,7 @@ describe('Uri', function () {
                 host: 'site.com',
                 path: '/',
                 queryParameters: (() => {
-                    const parameters = new QueryParameters();
+                    const parameters: QueryParameters = new QueryParameters();
 
                     parameters.put('age', '25');
                     parameters.put('name', 'Alex');
@@ -608,7 +614,7 @@ describe('Uri', function () {
                 host: 'site.com',
                 path: '/',
                 queryParameters: (() => {
-                    const parameters = new QueryParameters();
+                    const parameters: QueryParameters = new QueryParameters();
 
                     parameters.put('age', '25');
                     parameters.put('name', 'Alex');
@@ -626,7 +632,7 @@ describe('Uri', function () {
                 path: '/',
                 port: 3000,
                 queryParameters: (() => {
-                    const parameters = new QueryParameters();
+                    const parameters: QueryParameters = new QueryParameters();
 
                     parameters.put('age', '25');
                     parameters.put('name', 'Alex');
@@ -644,7 +650,7 @@ describe('Uri', function () {
                 path: '/',
                 port: 3000,
                 queryParameters: (() => {
-                    const parameters = new QueryParameters();
+                    const parameters: QueryParameters = new QueryParameters();
 
                     parameters.put('age', '25');
                     parameters.put('name', 'Alex');
@@ -662,7 +668,7 @@ describe('Uri', function () {
                 path: '/',
                 port: 3000,
                 queryParameters: (() => {
-                    const parameters = new QueryParameters();
+                    const parameters: QueryParameters = new QueryParameters();
 
                     parameters.put('age', '25');
                     parameters.put('name', 'Alex');
@@ -680,7 +686,7 @@ describe('Uri', function () {
                 path: '/',
                 port: 3000,
                 queryParameters: (() => {
-                    const parameters = new QueryParameters();
+                    const parameters: QueryParameters = new QueryParameters();
 
                     parameters.put('age', '25');
                     parameters.put('name', 'Alex');
@@ -699,7 +705,7 @@ describe('Uri', function () {
                 path: '/',
                 port: 3000,
                 queryParameters: (() => {
-                    const parameters = new QueryParameters();
+                    const parameters: QueryParameters = new QueryParameters();
 
                     parameters.put('age', '25');
                     parameters.put('name', 'Alex');
@@ -718,7 +724,7 @@ describe('Uri', function () {
                 path: '/',
                 port: 3000,
                 queryParameters: (() => {
-                    const parameters = new QueryParameters();
+                    const parameters: QueryParameters = new QueryParameters();
 
                     parameters.put('age', '25');
                     parameters.put('name', 'Alex');
@@ -737,7 +743,7 @@ describe('Uri', function () {
                 path: '/',
                 port: 3000,
                 queryParameters: (() => {
-                    const parameters = new QueryParameters();
+                    const parameters: QueryParameters = new QueryParameters();
 
                     parameters.put('age', '25');
                     parameters.put('name', 'Alex');
@@ -756,7 +762,7 @@ describe('Uri', function () {
                 path: '/',
                 port: 3000,
                 queryParameters: (() => {
-                    const parameters = new QueryParameters();
+                    const parameters: QueryParameters = new QueryParameters();
 
                     parameters.put('age', '25');
                     parameters.put('name', 'Alex');
@@ -776,7 +782,7 @@ describe('Uri', function () {
                 path: '/',
                 port: 3000,
                 queryParameters: (() => {
-                    const parameters = new QueryParameters();
+                    const parameters: QueryParameters = new QueryParameters();
 
                     parameters.put('age', '25');
                     parameters.put('name', 'Alex');
@@ -796,7 +802,7 @@ describe('Uri', function () {
                 path: '/',
                 port: 3000,
                 queryParameters: (() => {
-                    const parameters = new QueryParameters();
+                    const parameters: QueryParameters = new QueryParameters();
 
                     parameters.put('age', '25');
                     parameters.put('name', 'Alex');
@@ -816,7 +822,7 @@ describe('Uri', function () {
                 path: '/',
                 port: 3000,
                 queryParameters: (() => {
-                    const parameters = new QueryParameters();
+                    const parameters: QueryParameters = new QueryParameters();
 
                     parameters.put('age', '25');
                     parameters.put('name', 'Alex');
@@ -836,7 +842,7 @@ describe('Uri', function () {
                 path: '/',
                 port: 3000,
                 queryParameters: (() => {
-                    const parameters = new QueryParameters();
+                    const parameters: QueryParameters = new QueryParameters();
 
                     parameters.put('age', '25');
                     parameters.put('name', 'Alex');
@@ -857,7 +863,7 @@ describe('Uri', function () {
                 path: '/',
                 port: 3000,
                 queryParameters: (() => {
-                    const parameters = new QueryParameters();
+                    const parameters: QueryParameters = new QueryParameters();
 
                     parameters.put('age', '25');
                     parameters.put('name', 'Alex');
@@ -878,7 +884,7 @@ describe('Uri', function () {
                 path: '/',
                 port: 3000,
                 queryParameters: (() => {
-                    const parameters = new QueryParameters();
+                    const parameters: QueryParameters = new QueryParameters();
 
                     parameters.put('age', '25');
                     parameters.put('name', 'Alex');
@@ -900,7 +906,7 @@ describe('Uri', function () {
                 port: 3000,
                 fragment: 'id-3',
                 queryParameters: (() => {
-                    const parameters = new QueryParameters();
+                    const parameters: QueryParameters = new QueryParameters();
 
                     parameters.put('age', '25');
                     parameters.put('name', 'Alex');
@@ -922,7 +928,7 @@ describe('Uri', function () {
                 port: 3000,
                 fragment: 'id-3',
                 queryParameters: (() => {
-                    const parameters = new QueryParameters();
+                    const parameters: QueryParameters = new QueryParameters();
 
                     parameters.put('age', '25');
                     parameters.put('name', 'Alex');
@@ -1124,7 +1130,7 @@ describe('Uri', function () {
                 path: '/path/to/resource',
                 fragment: 'footer',
                 queryParameters: (() => {
-                    const parameters = new QueryParameters();
+                    const parameters: QueryParameters = new QueryParameters();
 
                     parameters.put('q', 'javascript');
                     parameters.put('p', 2);
@@ -1137,12 +1143,52 @@ describe('Uri', function () {
 
     describe('equals(UriComponents)', function () {
         it('should compare current URI with other specified as UriComponents', function () {
-            const uri = new Uri({
+            const uri: Uri = new Uri({
                 host: 'site.com',
                 port: 3000
             });
 
             expect(uri.equals(uri)).toBe(true);
+        });
+    });
+
+    describe('getParameter(string)', function () {
+        it('should return first query parameter value associated with given name', function () {
+            const uri: Uri = new Uri('site.com?t=1&t=2&p=2');
+
+            expect(uri.getParameter('t')).toBe('1');
+            expect(uri.getParameter('p')).toBe('2');
+            expect(uri.getParameter('s')).toBe(undefined);
+        });
+    });
+
+    describe('getParameter(string, ToString)', function () {
+        it('should determine whether URI has query parameter with given name and value', function () {
+            const uri: Uri = new Uri('site.com?t=123');
+
+            expect(uri.getParameter('t', '456')).toBe('123');
+            expect(uri.getParameter('q', 'javascript')).toBe('javascript');
+            expect(uri.getParameter('p', 2)).toBe(2);
+        });
+    });
+
+    describe('hasParameter(string)', function () {
+        it('should determine whether URI has query parameter with given name', function () {
+            const uri: Uri = new Uri('site.com?q=javascript&p=2');
+
+            expect(uri.hasParameter('q')).toBe(true);
+            expect(uri.hasParameter('p')).toBe(true);
+            expect(uri.hasParameter('d')).toBe(false);
+            expect(uri.hasParameter('b')).toBe(false);
+        });
+    });
+
+    describe('hasParameter(string, ToString)', function () {
+        it('should determine whether URI has query parameter with given name and value', function () {
+            const uri: Uri = new Uri('site.com?q=javascript&p=2');
+
+            expect(uri.hasParameter('q', 'javascript')).toBe(true);
+            expect(uri.hasParameter('p', 2)).toBe(true);
         });
     });
 
@@ -1157,7 +1203,7 @@ describe('Uri', function () {
                 port: 3000,
                 fragment: 'id-3',
                 queryParameters: (() => {
-                    const parameters = new QueryParameters();
+                    const parameters: QueryParameters = new QueryParameters();
 
                     parameters.put('age', '25');
                     parameters.put('name', 'Alex');
@@ -1179,7 +1225,7 @@ describe('Uri', function () {
                 port: 3000,
                 fragment: 'id-3',
                 queryParameters: (() => {
-                    const parameters = new QueryParameters();
+                    const parameters: QueryParameters = new QueryParameters();
 
                     parameters.put('age', '25');
                     parameters.put('name', 'Alex');
@@ -1209,7 +1255,7 @@ describe('Uri', function () {
                 host: 'site.com',
                 port: 3000,
                 queryParameters: (() => {
-                    const parameters = new QueryParameters();
+                    const parameters: QueryParameters = new QueryParameters();
 
                     parameters.put('age', '25');
                     parameters.put('name', 'Alex');
@@ -1287,7 +1333,7 @@ describe('Uri', function () {
                 port: 3000,
                 fragment: 'id-3',
                 queryParameters: (() => {
-                    const parameters = new QueryParameters();
+                    const parameters: QueryParameters = new QueryParameters();
 
                     parameters.put('age', '25');
                     parameters.put('name', 'Alex');
@@ -1624,16 +1670,16 @@ describe('Uri', function () {
     });
 
     test('immutability of with* and without* methods', function () {
-        const uri = new Uri();
-        const withHost = uri.withHost('site.com');
-        const withSchema = withHost.withSchema('https');
-        const withPort = withSchema.withPort(3000);
-        const withPath = withPort.withPath('/path/to/resource');
-        const withUserName = withPath.withUserName('alex');
-        const withPassword = withUserName.withPassword('secret');
-        const withFragment = withPassword.withFragment('section-b');
-        const withParameter = withFragment.withParameter('q', 'typescript');
-        const withParameters = withParameter.withParameters({
+        const uri: Uri = new Uri();
+        const withHost: Uri = uri.withHost('site.com');
+        const withSchema: Uri = withHost.withSchema('https');
+        const withPort: Uri = withSchema.withPort(3000);
+        const withPath: Uri = withPort.withPath('/path/to/resource');
+        const withUserName: Uri = withPath.withUserName('alex');
+        const withPassword: Uri = withUserName.withPassword('secret');
+        const withFragment: Uri = withPassword.withFragment('section-b');
+        const withParameter: Uri = withFragment.withParameter('q', 'typescript');
+        const withParameters: Uri = withParameter.withParameters({
             p: 1
         });
 
