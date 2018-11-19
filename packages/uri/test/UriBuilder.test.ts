@@ -96,6 +96,63 @@ describe('UriBuilder', function () {
         });
     });
 
+    describe('getParameter(string)', function () {
+        it('should return first query parameter value associated with specified name', function () {
+            builder.host = 'localhost';
+            builder.setParameters({
+                id: 123,
+                limit: '10'
+            });
+            expect(builder.getParameter('id')).toBe(123);
+            expect(builder.getParameter('limit')).toBe('10');
+            expect(builder.getParameter('page')).toBe(undefined);
+        });
+    });
+
+    describe('getParameter(string, ToString)', function () {
+        it('should return first query parameter value associated with specified name and fallback', function () {
+            builder.host = 'localhost';
+            builder.setParameters({
+                id: 123,
+                limit: '10'
+            });
+            expect(builder.getParameter('id', 1)).toBe(123);
+            expect(builder.getParameter('limit', 20)).toBe('10');
+            expect(builder.getParameter('page', 10)).toBe(10);
+            expect(builder.getParameter('q', '')).toBe('');
+        });
+    });
+
+    describe('hasParameter(string)', function () {
+        it('should determine whether URI contains query parameter associated with specified name', function () {
+            builder.host = 'localhost';
+            builder.setParameters({
+                id: 123,
+                limit: '10'
+            });
+            expect(builder.hasParameter('id')).toBe(true);
+            expect(builder.hasParameter('limit')).toBe(true);
+            expect(builder.hasParameter('page')).toBe(false);
+        });
+    });
+
+    describe('hasParameter(string, ToString)', function () {
+        it('should determine whether URI contains query parameter associated with specified name and value', function () {
+            builder.host = 'localhost';
+            builder.setParameters({
+                id: 123,
+                limit: '10'
+            });
+            expect(builder.hasParameter('id', 1)).toBe(false);
+            expect(builder.hasParameter('id', 123)).toBe(true);
+            expect(builder.hasParameter('id', '123')).toBe(true);
+            expect(builder.hasParameter('limit', '10')).toBe(true);
+            expect(builder.hasParameter('limit', 10)).toBe(true);
+            expect(builder.hasParameter('limit', 20)).toBe(false);
+            expect(builder.hasParameter('page', 10)).toBe(false);
+        });
+    });
+
     describe('setParameter(string, ToString)', function () {
         it('should set query parameter', function () {
             builder.host = 'localhost';

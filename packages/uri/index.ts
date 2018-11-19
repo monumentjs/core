@@ -5,5 +5,6 @@ export * from './src/UriBuilder';
 export * from './src/UriIntegrityException';
 export * from './src/UriFormatException';
 export * from './src/ReadOnlyQueryParameters';
+export * from './src/QueryParameters';
 export * from './src/QueryParametersObject';
 export * from './src/UriSchema';
