@@ -2,18 +2,17 @@ import {
     BooleanParser,
     FloatParser,
     IntParser,
-    LinkedMultiValueMap, List,
+    LinkedMultiValueMap,
+    List,
     PreserveCaseEqualityComparator,
     Queryable,
-    ReadOnlyList, ToString
+    ReadOnlyList,
+    ToString
 } from '@monument/core';
 import {ReadOnlyQueryParameters} from './ReadOnlyQueryParameters';
-
-const PARAMETERS_DELIMITER = '&';
-const KEY_VALUE_DELIMITER = '=';
-const KEY_VALUE_PAIR_LENGTH = 2;
-const KEY_COMPONENT_INDEX = 0;
-const VALUE_COMPONENT_INDEX = 1;
+import {QueryParameterValueEqualityComparator} from './QueryParameterValueEqualityComparator';
+import {UriConstants} from './UriConstants';
+import {UriEncoder} from './UriEncoder';
 
 
 /**
@@ -22,20 +21,22 @@ const VALUE_COMPONENT_INDEX = 1;
  * @final
  */
 export class QueryParameters extends LinkedMultiValueMap<string, ToString> implements ReadOnlyQueryParameters {
+    private readonly _encoder: UriEncoder = new UriEncoder();
+
     public constructor();
     public constructor(source: string);
     public constructor(source?: string) {
-        super(PreserveCaseEqualityComparator.get());
+        super(PreserveCaseEqualityComparator.get(), QueryParameterValueEqualityComparator.get());
 
         if (source != null) {
-            const pairs: string[] = source.split(PARAMETERS_DELIMITER);
+            const pairs: string[] = source.split(UriConstants.PARAMETERS_DELIMITER);
 
             for (const pair of pairs) {
-                const parts: string[] = pair.split(KEY_VALUE_DELIMITER);
+                const parts: string[] = pair.split(UriConstants.KEY_VALUE_DELIMITER);
 
-                if (parts.length === KEY_VALUE_PAIR_LENGTH) {
-                    const name: string = decodeURIComponent(parts[KEY_COMPONENT_INDEX]);
-                    const value: string = decodeURIComponent(parts[VALUE_COMPONENT_INDEX]);
+                if (parts.length === UriConstants.KEY_VALUE_PAIR_LENGTH) {
+                    const name: string = this._encoder.decodeComponent(parts[UriConstants.KEY_COMPONENT_INDEX]);
+                    const value: string = this._encoder.decodeComponent(parts[UriConstants.VALUE_COMPONENT_INDEX]);
 
                     this.put(name, value);
                 }
@@ -70,7 +71,7 @@ export class QueryParameters extends LinkedMultiValueMap<string, ToString> imple
     public getFloats(key: string): Queryable<number> {
         const slot: List<ToString> = this.obtainSlot(key);
 
-        return slot.map((value) => {
+        return slot.map((value: ToString): number => {
             return FloatParser.WEAK.parse(value.toString());
         });
     }
@@ -90,7 +91,7 @@ export class QueryParameters extends LinkedMultiValueMap<string, ToString> imple
     public getIntegers(key: string): Queryable<number> {
         const slot: List<ToString> = this.obtainSlot(key);
 
-        return slot.map((value) => {
+        return slot.map((value: ToString): number => {
             return FloatParser.WEAK.parse(value.toString());
         });
     }
@@ -108,7 +109,7 @@ export class QueryParameters extends LinkedMultiValueMap<string, ToString> imple
     }
 
     public getStrings(key: string): Queryable<string> {
-        return this.get(key).map((item) => {
+        return this.get(key).map((item: ToString): string => {
             return item.toString();
         });
     }

@@ -23,6 +23,12 @@ describe('Uri', function () {
             });
         });
 
+        it('should parse absolute path with escaped characters', function () {
+            testComponents('/path/to/this%20file.txt', {
+                path: '/path/to/this file.txt'
+            });
+        });
+
         it('should parse absolute path', function () {
             testComponents('//path/to/resource', {
                 host: 'path',
@@ -275,10 +281,25 @@ describe('Uri', function () {
             });
         });
 
+        it('should parse encoded host and encoded path', function () {
+            // tslint:disable-next-line:max-line-length
+            testComponents('%D1%81%D0%B0%D0%B9%D1%82.%D1%80%D1%84/%D0%BF%D1%83%D1%82%D1%8C/%D0%BA/%D1%80%D0%B5%D1%81%D1%83%D1%80%D1%81%D1%83', {
+                host: 'сайт.рф',
+                path: '/путь/к/ресурсу'
+            });
+        });
+
         it('should parse host and path', function () {
             testComponents('localhost/path/to/resource', {
                 host: 'localhost',
                 path: '/path/to/resource'
+            });
+        });
+
+        it('should parse host and encoded path', function () {
+            testComponents('localhost/path/to/%D0%BC%D0%BE%D1%8F%20%D0%BF%D0%B0%D0%BF%D0%BA%D0%B0', {
+                host: 'localhost',
+                path: '/path/to/моя папка'
             });
         });
 
@@ -316,6 +337,15 @@ describe('Uri', function () {
                 schema: 'https',
                 host: 'localhost',
                 path: '/path/to/resource'
+            });
+        });
+
+        it('should parse schema, encoded host and encoded path', function () {
+            // tslint:disable-next-line:max-line-length
+            testComponents('https://%D1%81%D0%B0%D0%B9%D1%82.%D1%80%D1%84/%D0%BF%D1%83%D1%82%D1%8C/%D0%BA/%D1%80%D0%B5%D1%81%D1%83%D1%80%D1%81%D1%83', {
+                schema: 'https',
+                host: 'сайт.рф',
+                path: '/путь/к/ресурсу'
             });
         });
 
@@ -1358,6 +1388,50 @@ describe('Uri', function () {
         });
     });
 
+    describe('withUserName(string)', function () {
+        it('should return new URI with overridden user name component', function () {
+            const originalUri: Uri = new Uri('site.com');
+            const newUri: Uri = originalUri.withUserName('alex');
+
+            expect(originalUri).not.toBe(newUri);
+            expect(originalUri.toString()).toBe('site.com');
+            expect(newUri.toString()).toBe('alex@site.com');
+        });
+    });
+
+    describe('withoutUserName()', function () {
+        it('should return new URI without user name component', function () {
+            const originalUri: Uri = new Uri('alex@site.com');
+            const newUri: Uri = originalUri.withoutUserName();
+
+            expect(originalUri).not.toBe(newUri);
+            expect(originalUri.toString()).toBe('alex@site.com');
+            expect(newUri.toString()).toBe('site.com');
+        });
+    });
+
+    describe('withPassword(string)', function () {
+        it('should return new URI with overridden password component', function () {
+            const originalUri: Uri = new Uri('alex@site.com');
+            const newUri: Uri = originalUri.withPassword('secret');
+
+            expect(originalUri).not.toBe(newUri);
+            expect(originalUri.toString()).toBe('alex@site.com');
+            expect(newUri.toString()).toBe('alex:secret@site.com');
+        });
+    });
+
+    describe('withoutPassword()', function () {
+        it('should return new URI without password component', function () {
+            const originalUri: Uri = new Uri('alex:secret@site.com');
+            const newUri: Uri = originalUri.withoutPassword();
+
+            expect(originalUri).not.toBe(newUri);
+            expect(originalUri.toString()).toBe('alex:secret@site.com');
+            expect(newUri.toString()).toBe('alex@site.com');
+        });
+    });
+
     describe('withHost(string)', function () {
         it('should return new URI with overridden host component', function () {
             const originalUri: Uri = new Uri('/path');
@@ -1402,6 +1476,28 @@ describe('Uri', function () {
         });
     });
 
+    describe('withPath(string)', function () {
+        it('should return new URI with overridden path component', function () {
+            const originalUri: Uri = new Uri('site.com');
+            const newUri: Uri = originalUri.withPath('/path/to/resource');
+
+            expect(originalUri).not.toBe(newUri);
+            expect(originalUri.toString()).toBe('site.com');
+            expect(newUri.toString()).toBe('site.com/path/to/resource');
+        });
+    });
+
+    describe('withoutPath()', function () {
+        it('should return new URI without path component', function () {
+            const originalUri: Uri = new Uri('site.com/path/to/resource');
+            const newUri: Uri = originalUri.withoutPath();
+
+            expect(originalUri).not.toBe(newUri);
+            expect(originalUri.toString()).toBe('site.com/path/to/resource');
+            expect(newUri.toString()).toBe('site.com');
+        });
+    });
+
     describe('withFragment(string)', function () {
         it('should return new URI with overridden fragment component', function () {
             const originalUri: Uri = new Uri('site.com');
@@ -1424,47 +1520,67 @@ describe('Uri', function () {
         });
     });
 
-    describe('withUserName(string)', function () {
-        it('should return new URI with overridden user name component', function () {
+    describe('withParameter(string, ToString)', function () {
+        it('should return new URI with overridden query parameter component', function () {
             const originalUri: Uri = new Uri('site.com');
-            const newUri: Uri = originalUri.withUserName('alex');
+            const newUri: Uri = originalUri.withParameter('q', 'javascript');
 
             expect(originalUri).not.toBe(newUri);
             expect(originalUri.toString()).toBe('site.com');
-            expect(newUri.toString()).toBe('alex@site.com');
+            expect(newUri.toString()).toBe('site.com?q=javascript');
+        });
+
+        it('should return new URI with overridden query parameter component', function () {
+            const originalUri: Uri = new Uri('site.com');
+            const newUri: Uri = originalUri
+                .withParameter('q', 'javascript')
+                .withParameter('p', 2);
+
+            expect(originalUri).not.toBe(newUri);
+            expect(originalUri.toString()).toBe('site.com');
+            expect(newUri.toString()).toBe('site.com?q=javascript&p=2');
         });
     });
 
-    describe('withoutUserName()', function () {
-        it('should return new URI without user name component', function () {
-            const originalUri: Uri = new Uri('alex@site.com');
-            const newUri: Uri = originalUri.withoutUserName();
+    describe('withoutParameter()', function () {
+        it('should return new URI without query parameter component', function () {
+            const originalUri: Uri = new Uri('site.com?q=javascript&p=2');
+            const newUri: Uri = originalUri.withoutParameter('p');
 
             expect(originalUri).not.toBe(newUri);
-            expect(originalUri.toString()).toBe('alex@site.com');
+            expect(originalUri.toString()).toBe('site.com?q=javascript&p=2');
+            expect(newUri.toString()).toBe('site.com?q=javascript');
+        });
+
+        it('should return new URI without query parameter component', function () {
+            const originalUri: Uri = new Uri('site.com?q=javascript&p=2');
+            const newUri: Uri = originalUri.withoutParameter('p', 2);
+
+            expect(originalUri).not.toBe(newUri);
+            expect(originalUri.toString()).toBe('site.com?q=javascript&p=2');
+            expect(newUri.toString()).toBe('site.com?q=javascript');
+        });
+
+        it('should return new URI without query parameter component', function () {
+            const originalUri: Uri = new Uri('site.com?q=javascript&p=2');
+            const newUri: Uri = originalUri
+                .withoutParameter('p', 2)
+                .withoutParameter('q', 'javascript');
+
+            expect(originalUri).not.toBe(newUri);
+            expect(originalUri.toString()).toBe('site.com?q=javascript&p=2');
             expect(newUri.toString()).toBe('site.com');
         });
     });
 
-    describe('withPassword(string)', function () {
-        it('should return new URI with overridden password component', function () {
-            const originalUri: Uri = new Uri('alex@site.com');
-            const newUri: Uri = originalUri.withPassword('secret');
+    describe('withoutParameters()', function () {
+        it('should return new URI without query parameters', function () {
+            const originalUri: Uri = new Uri('site.com?q=javascript&p=2');
+            const newUri: Uri = originalUri.withoutParameters();
 
             expect(originalUri).not.toBe(newUri);
-            expect(originalUri.toString()).toBe('alex@site.com');
-            expect(newUri.toString()).toBe('alex:secret@site.com');
-        });
-    });
-
-    describe('withoutPassword()', function () {
-        it('should return new URI without password component', function () {
-            const originalUri: Uri = new Uri('alex:secret@site.com');
-            const newUri: Uri = originalUri.withoutPassword();
-
-            expect(originalUri).not.toBe(newUri);
-            expect(originalUri.toString()).toBe('alex:secret@site.com');
-            expect(newUri.toString()).toBe('alex@site.com');
+            expect(originalUri.toString()).toBe('site.com?q=javascript&p=2');
+            expect(newUri.toString()).toBe('site.com');
         });
     });
 

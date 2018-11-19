@@ -4,12 +4,15 @@ import {QueryParameters} from './QueryParameters';
 import {UriFormatException} from './UriFormatException';
 import {UriConstants} from './UriConstants';
 import {UriComponentsNormalizer} from './UriComponentsNormalizer';
+import {UriEncoder} from './UriEncoder';
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
  */
 export class UriParser implements Parser<UriComponents> {
+    private readonly _encoder: UriEncoder = new UriEncoder();
+
     public canParse(source: string): boolean {
         return UriConstants.URI_PATTERN.test(source);
     }
@@ -31,14 +34,14 @@ export class UriParser implements Parser<UriComponents> {
         const fragment: string | undefined = parts[UriConstants.FRAGMENT_COMPONENT_INDEX];
 
         return new UriComponentsNormalizer().normalize({
-            schema,
-            userName,
-            password,
-            host,
-            port: port ? parseInt(port, 10) : undefined,
-            path: path || UriConstants.PATH_FRAGMENT_DELIMITER,
+            schema: this._encoder.decodeComponent(schema),
+            userName: this._encoder.decodeComponent(userName),
+            password: this._encoder.decodeComponent(password),
+            host: this._encoder.decodeComponent(host),
+            port: port == null ? undefined : parseInt(port, 10),
+            path: this._encoder.decodeComponent(path || UriConstants.PATH_FRAGMENT_DELIMITER),
             queryParameters: new QueryParameters(search),
-            fragment
+            fragment: this._encoder.decodeComponent(fragment)
         });
     }
 }

@@ -8,14 +8,14 @@ export namespace UriConstants {
         /^((([^:]+):)?\/\/)?(([^:@\/]+)(:([^@\/]+))?@)?([^.@:\/?#][^@:\/?#]*)?(:(\d+))?([.]{0,2}\/[^?#]*)?(\?([^#]*))?(#(.*))?$/;
     //    | schema         | username | password      | host                 | port   | path             | search    | fragment |
 
-    export const SCHEMA_COMPONENT_INDEX = 3;
-    export const USER_NAME_COMPONENT_INDEX = 5;
-    export const PASSWORD_COMPONENT_INDEX = 7;
-    export const HOST_COMPONENT_INDEX = 8;
-    export const PORT_COMPONENT_INDEX = 10;
-    export const PATH_COMPONENT_INDEX = 11;
-    export const SEARCH_COMPONENT_INDEX = 13;
-    export const FRAGMENT_COMPONENT_INDEX = 15;
+    export const SCHEMA_COMPONENT_INDEX: number = 3;
+    export const USER_NAME_COMPONENT_INDEX: number = 5;
+    export const PASSWORD_COMPONENT_INDEX: number = 7;
+    export const HOST_COMPONENT_INDEX: number = 8;
+    export const PORT_COMPONENT_INDEX: number = 10;
+    export const PATH_COMPONENT_INDEX: number = 11;
+    export const SEARCH_COMPONENT_INDEX: number = 13;
+    export const FRAGMENT_COMPONENT_INDEX: number = 15;
 
     export const WINDOWS_ABSOLUTE_PATH_PATTERN: RegExp = /^\w*:[\\/]/i;
     export const UNIX_ABSOLUTE_PATH_PATTERN: RegExp = /^\//i;
@@ -30,4 +30,12 @@ export namespace UriConstants {
     export const SEARCH_STRING_PREFIX: string = '?';
     export const FRAGMENT_PREFIX: string = '#';
     export const PORT_RADIX: number = 10;
+
+
+    export const PARAMETERS_DELIMITER: string = '&';
+    export const KEY_VALUE_DELIMITER: string = '=';
+    export const KEY_VALUE_PAIR_LENGTH: number = 2;
+    export const KEY_COMPONENT_INDEX: number = 0;
+    export const VALUE_COMPONENT_INDEX: number = 1;
+
 }

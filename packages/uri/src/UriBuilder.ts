@@ -107,18 +107,14 @@ export class UriBuilder implements UriComponents, Builder<Uri> {
         return new Uri(this);
     }
 
-    public containsParameter(name: string): boolean;
-    public containsParameter(name: string, value: ToString): boolean;
-    public containsParameter(name: string, value?: ToString): boolean {
-        if (value == null) {
-            return this._queryParameters.containsKey(name);
-        } else {
-            return this._queryParameters.containsEntry(name, value);
-        }
+    public clearParameters(): boolean {
+        return this._queryParameters.clear();
     }
 
     public getParameter(name: string): ToString | undefined;
+
     public getParameter(name: string, defaultValue: ToString): ToString;
+
     public getParameter(name: string, defaultValue?: ToString): ToString | undefined {
         const value: ToString | undefined = this._queryParameters.getFirst(name);
 
@@ -131,8 +127,22 @@ export class UriBuilder implements UriComponents, Builder<Uri> {
         }
     }
 
+    public hasParameter(name: string): boolean;
+
+    public hasParameter(name: string, value: ToString): boolean;
+
+    public hasParameter(name: string, value?: ToString): boolean {
+        if (value == null) {
+            return this._queryParameters.containsKey(name);
+        } else {
+            return this._queryParameters.containsEntry(name, value);
+        }
+    }
+
     public removeParameter(name: string): boolean;
+
     public removeParameter(name: string, value: ToString): boolean;
+
     public removeParameter(name: string, value?: ToString): boolean {
         if (value == null) {
             return this._queryParameters.remove(name) != null;
@@ -158,7 +168,7 @@ export class UriBuilder implements UriComponents, Builder<Uri> {
     public setParameter(name: string, value: ToString): boolean {
         const values: ReadOnlyList<ToString> = this._queryParameters.get(name);
 
-        if (values.length === 1 && values.getAt(0) === value) {
+        if (values.length === 1 && values.getAt(0).toString() === value.toString()) {
             return false;
         }
 
@@ -179,9 +189,5 @@ export class UriBuilder implements UriComponents, Builder<Uri> {
         });
 
         return changed;
-    }
-
-    public clearParameters(): boolean {
-        return this._queryParameters.clear();
     }
 }

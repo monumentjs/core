@@ -5,7 +5,6 @@ import {
     IgnoreCaseEqualityComparator,
     ChainedEqualityComparator,
     PreserveCaseEqualityComparator,
-    ReadOnlyList,
     ToJSON,
     ToString
 } from '@monument/core';
@@ -77,19 +76,19 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
 
     /**
      * Creates URI pointing to root location ("/").
-     * @throws {UriFormatException}
+     * @throws UriFormatException
      */
     public constructor();
 
     /**
      * Creates URI by parsing source string.
-     * @throws {UriFormatException}
+     * @throws UriFormatException
      */
     public constructor(source: string);
 
     /**
      * Creates URI by copying components from source.
-     * @throws {UriIntegrityException}
+     * @throws UriIntegrityException
      */
     public constructor(source: UriComponents);
 
@@ -113,21 +112,31 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
         this.validateIntegrity();
     }
 
-    /**
-     * Determines whether URI contains query parameter with specified name.
-     */
-    public containsParameter(name: string): boolean;
+    public getParameter(name: string): ToString | undefined;
 
-    /**
-     * Determines whether URI contains query parameter with specified name and value.
-     */
-    public containsParameter(name: string, value: ToString): boolean;
+    public getParameter(name: string, defaultValue: ToString): ToString;
 
-    public containsParameter(name: string, value?: ToString): boolean {
+    public getParameter(name: string, defaultValue?: ToString): ToString | undefined {
+        const value: ToString | undefined = this._queryParameters.getFirst(name);
+
+        if (value != null) {
+            return value;
+        }
+
+        if (defaultValue != null) {
+            return defaultValue;
+        }
+    }
+
+    public hasParameter(name: string): boolean;
+
+    public hasParameter(name: string, value: ToString): boolean;
+
+    public hasParameter(name: string, value?: ToString): boolean {
         if (value == null) {
             return this._queryParameters.containsKey(name);
         } else {
-            return this._queryParameters.containsEntry(name, value.toString());
+            return this._queryParameters.containsEntry(name, value);
         }
     }
 
@@ -168,33 +177,6 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
         comparator.withField(this.queryParameters, (components.queryParameters || new QueryParameters()), new EquatableComparator());
 
         return comparator.result;
-    }
-
-    /**
-     * Returns first value of query parameter with specified name.
-     */
-    public getParameterValue(name: string): ToString | undefined;
-
-    /**
-     * Returns first value of query parameter with specified name.
-     * If no value(s) stored under specified name, default value will be returned.
-     */
-    public getParameterValue(name: string, defaultValue: ToString): ToString;
-
-    public getParameterValue(name: string, defaultValue?: ToString): ToString | undefined {
-        const value: ToString | undefined = this._queryParameters.getFirst(name);
-
-        if (value != null) {
-            return value;
-        }
-
-        if (defaultValue != null) {
-            return defaultValue;
-        }
-    }
-
-    public getParameterValues(name: string): ReadOnlyList<ToString> {
-        return this._queryParameters.get(name);
     }
 
     public toJSON(): string {

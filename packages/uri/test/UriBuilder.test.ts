@@ -95,4 +95,56 @@ describe('UriBuilder', function () {
             expect(builder.build().toString()).toBe('https://alex:password@localhost:1234/path/to/endpoint?id=123&limit=10#section-2');
         });
     });
+
+    describe('setParameter(string, ToString)', function () {
+        it('should set query parameter', function () {
+            builder.host = 'localhost';
+            expect(builder.setParameter('size', 10)).toBe(true);
+            expect(builder.setParameter('size', '10')).toBe(false);
+            expect(builder.build().toString()).toBe('localhost?size=10');
+        });
+    });
+
+    describe('removeParameter(string)', function () {
+        it('should remove parameter with specified name', function () {
+            builder.host = 'localhost';
+            builder.setParameters({
+                id: 123,
+                limit: '10'
+            });
+            expect(builder.removeParameter('limit')).toBe(true);
+            expect(builder.build().toString()).toBe('localhost?id=123');
+            expect(builder.removeParameter('id')).toBe(true);
+            expect(builder.build().toString()).toBe('localhost');
+        });
+
+        it('should remove parameter with specified name and value', function () {
+            builder.host = 'localhost';
+            builder.setParameters({
+                id: 123,
+                limit: '10'
+            });
+            expect(builder.removeParameter('limit', 10)).toBe(true);
+            expect(builder.removeParameter('limit', 10)).toBe(false);
+            expect(builder.build().toString()).toBe('localhost?id=123');
+            expect(builder.removeParameter('id', '123')).toBe(true);
+            expect(builder.removeParameter('id', '123')).toBe(false);
+            expect(builder.build().toString()).toBe('localhost');
+        });
+    });
+
+    describe('removeParameters(QueryParametersObject)', function () {
+        it('should remove parameter with specified name', function () {
+            builder.host = 'localhost';
+            builder.setParameters({
+                id: 123,
+                limit: '10'
+            });
+            expect(builder.removeParameters({
+                id: '123',
+                limit: 10
+            })).toBe(true);
+            expect(builder.build().toString()).toBe('localhost');
+        });
+    });
 });
