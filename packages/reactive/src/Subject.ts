@@ -1,5 +1,5 @@
+import {Disposable} from '@monument/core';
 import {Observer} from './Observer';
-import {Disposable} from '../base/Disposable';
 
 /**
  * @author Alex Chugaev

@@ -1,4 +1,4 @@
-import {Exception} from '../exceptions/Exception';
+import {Exception} from '@monument/core';
 
 /**
  * @author Alex Chugaev

@@ -1,9 +1,8 @@
-import {LinkedMap} from '../collections/map/mutable/LinkedMap';
+import {Disposable, EqualityComparator, LinkedMap} from '@monument/core';
 import {Value} from './Value';
 import {Observer} from './Observer';
 import {Subscription} from './Subscription';
-import {Disposable} from '../base/Disposable';
-import {EqualityComparator} from '../comparison/equality/EqualityComparator';
+
 
 /**
  * @author Alex Chugaev

@@ -1,4 +1,4 @@
-import {ObservableValue} from '../..';
+import {ObservableValue} from '..';
 
 describe('ObservableValue', function () {
 

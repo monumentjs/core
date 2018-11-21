@@ -133,9 +133,6 @@ export * from './src/comparison/equality/ObjectComparator';
 export * from './src/comparison/equality/ChainedEqualityComparator';
 export * from './src/comparison/equality/StrictEqualityComparator';
 
-export * from './src/observable/Subject';
-export * from './src/observable/ObservableValue';
-
 export * from './src/random/RandomValue';
 export * from './src/random/RandomInt';
 export * from './src/random/RandomString';

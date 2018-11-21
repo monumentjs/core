@@ -1,0 +1,10 @@
+{
+    "name": "@monument/reactive",
+    "version": "0.0.1",
+    "description": "Reactive programming support: observers, pipes, data streams",
+    "keywords": [
+    ],
+    "dependencies": {
+        "@monument/core": "^0.0.1"
+    }
+}
