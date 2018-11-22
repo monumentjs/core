@@ -115,7 +115,7 @@ export class TreeNode implements AttributeAccessor {
     }
 
     public hasAttribute<A>(token: Key<A>): boolean {
-        return this._attributes.containsKey(name);
+        return this._attributes.containsKey(token);
     }
 
     public hasChild(node: TreeNode): boolean {
