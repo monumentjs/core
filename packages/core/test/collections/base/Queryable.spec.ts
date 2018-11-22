@@ -1,9 +1,12 @@
 import {
-    Grouping, IgnoreCaseComparator,
+    Grouping,
+    IgnoreCaseComparator,
     IgnoreCaseEqualityComparator,
+    IndexIterator,
     IndexOutOfBoundsException,
     InvalidOperationException,
     NamedPool,
+    NoSuchItemException,
     Queryable,
     RangeException,
     Sequence,
@@ -90,6 +93,10 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
                 })).toBe(true);
 
                 expect(list.any((word: string): boolean => {
+                    return word.length === 4;
+                })).toBe(false);
+
+                expect(list.any((word: string): boolean => {
                     return word.length === 5;
                 })).toBe(true);
             });
@@ -149,6 +156,26 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
                 expect(source.contains('One', IgnoreCaseEqualityComparator.get())).toBe(true);
                 expect(source.contains('TWO', IgnoreCaseEqualityComparator.get())).toBe(true);
                 expect(source.contains('three', IgnoreCaseEqualityComparator.get())).toBe(true);
+            });
+        });
+
+        describe('containsAll()', function () {
+            it('should determine whether collection contains all specified items', function () {
+                const source: Queryable<string> = create(['one', 'two']);
+
+                expect(source.containsAll([])).toBe(false);
+                expect(source.containsAll(['one'])).toBe(true);
+                expect(source.containsAll(['two'])).toBe(true);
+                expect(source.containsAll(['three'])).toBe(false);
+            });
+
+            it('should determine whether collection contains all specified items using custom equality comparator', function () {
+                const source: Queryable<string> = create(['one', 'two', 'THREE']);
+
+                expect(source.containsAll([], IgnoreCaseEqualityComparator.get())).toBe(false);
+                expect(source.containsAll(['One'], IgnoreCaseEqualityComparator.get())).toBe(true);
+                expect(source.containsAll(['TWO'], IgnoreCaseEqualityComparator.get())).toBe(true);
+                expect(source.containsAll(['three'], IgnoreCaseEqualityComparator.get())).toBe(true);
             });
         });
 
@@ -219,6 +246,19 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
                 expect(filteredList2).not.toEqual(source);
                 expect(filteredList2.toArray()).toEqual(['two', 'ONE', 'one', 'Three', 'One', 'Five']);
+            });
+        });
+
+        describe('findAll()', function () {
+            it('should return list of items for whose predicate function returned `true`', function () {
+                const list: Queryable<string> = create(['one', 'two', 'three']);
+
+                const wordsOfThreeChars: Queryable<string> = list.findAll((word: string): boolean => {
+                    return word.length === 3;
+                });
+
+                expect(wordsOfThreeChars.length).toBe(2);
+                expect(wordsOfThreeChars.toArray()).toEqual(['one', 'two']);
             });
         });
 
@@ -373,6 +413,19 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
         });
 
+        describe('map()', function () {
+            it('should return list of selected values', function () {
+                const list: Queryable<string> = create(['one', 'two', 'three']);
+
+                const firstChars: Queryable<string> = list.map((word: string): string => {
+                    return word[0];
+                });
+
+                expect(firstChars.length).toBe(3);
+                expect(firstChars.toArray()).toEqual(['o', 't', 't']);
+            });
+        });
+
         describe('max()', function () {
             it('should return maximal value', function () {
                 const list: Queryable<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
@@ -449,25 +502,35 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
         });
 
+        describe('random()', function () {
+            it('should return random item', function () {
+                const list: Queryable<string> = create(['one', 'two', 'three']);
+                const random: string[] = [];
+
+                for (const i of new IndexIterator(10)) {
+                    random.push(list.random());
+                }
+
+                for (const item of random) {
+                    expect(list.contains(item));
+                }
+            });
+
+            it('should throw NoSuchItemException if list is empty', function () {
+                const list: Queryable<string> = create();
+
+                expect(() => {
+                    list.random();
+                }).toThrow(NoSuchItemException);
+            });
+        });
+
         describe('reverse()', function () {
             it('should return reversed list', function () {
                 const list: Queryable<string> = create(['one', 'two', 'three']);
                 const reversedList: Queryable<string> = list.reverse();
 
                 expect(reversedList.toArray()).toEqual(['three', 'two', 'one']);
-            });
-        });
-
-        describe('map()', function () {
-            it('should return list of selected values', function () {
-                const list: Queryable<string> = create(['one', 'two', 'three']);
-
-                const firstChars: Queryable<string> = list.map((word: string): string => {
-                    return word[0];
-                });
-
-                expect(firstChars.length).toBe(3);
-                expect(firstChars.toArray()).toEqual(['o', 't', 't']);
             });
         });
 
@@ -570,6 +633,33 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
         });
 
+        describe('sum()', function () {
+            it('should return sum of selected values', function () {
+                const list: Queryable<string> = create(['one']);
+
+                expect(list.sum((item: string): number => {
+                    return item.length;
+                })).toBe(3);
+            });
+
+            it('should return sum of selected values', function () {
+                const list: Queryable<string> = create(['one', 'two', 'three']);
+
+                expect(list.sum((item: string): number => {
+                    return item.length;
+                })).toBe(11);
+            });
+
+            it('should throw InvalidOperationException if list is empty', function () {
+                const list: Queryable<string> = create();
+                const mock = jest.fn();
+
+                expect(() => {
+                    list.sum(mock);
+                }).toThrow(InvalidOperationException);
+            });
+        });
+
         describe('take()', function () {
             it('should return slice of list', function () {
                 const list: Queryable<string> = create(['one', 'two', 'three']);
@@ -628,19 +718,6 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
         });
 
-        describe('findAll()', function () {
-            it('should return list of items for whose predicate function returned `true`', function () {
-                const list: Queryable<string> = create(['one', 'two', 'three']);
-
-                const wordsOfThreeChars: Queryable<string> = list.findAll((word: string): boolean => {
-                    return word.length === 3;
-                });
-
-                expect(wordsOfThreeChars.length).toBe(2);
-                expect(wordsOfThreeChars.toArray()).toEqual(['one', 'two']);
-            });
-        });
-
         describe('zip()', function () {
             it('should return list of combined items', function () {
                 const listA: Queryable<string> = create(['one', 'two', 'three']);
@@ -660,6 +737,20 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
                 expect(comboAC.toArray()).toEqual([
                     'one+four', 'two+five', 'three+six'
                 ]);
+            });
+
+            it('should return empty queryable if current list or other list is empty', function () {
+                const list: Queryable<string> = create(['one', 'two', 'three']);
+                const mock = jest.fn();
+
+                expect(list.zip([], mock).length).toBe(0);
+            });
+
+            it('should return empty queryable if current list or other list is empty', function () {
+                const list: Queryable<string> = create();
+                const mock = jest.fn();
+
+                expect(list.zip(['one', 'two', 'three'], mock).length).toBe(0);
             });
         });
 

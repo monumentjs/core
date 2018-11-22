@@ -279,6 +279,183 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
             });
         });
 
+        describe('insert()', function () {
+            it('should insert item into list', function () {
+                const list: List<string> = create();
+
+                list.insert(0, 'one');
+
+                expect(list.length).toBe(1);
+                expect(list.toArray()).toEqual(['one']);
+
+                list.insert(1, 'two');
+
+                expect(list.length).toBe(2);
+                expect(list.toArray()).toEqual(['one', 'two']);
+
+                list.insert(0, 'three');
+
+                expect(list.length).toBe(3);
+                expect(list.toArray()).toEqual(['three', 'one', 'two']);
+            });
+
+            it('should throw if index out of bounds', function () {
+                const list: List<string> = create();
+
+                expect(() => {
+                    list.insert(-1, 'one');
+                }).toThrow(IndexOutOfBoundsException);
+
+                expect(() => {
+                    list.insert(1, 'one');
+                }).toThrow(IndexOutOfBoundsException);
+            });
+
+            it('should trigger "change" event for inserted item', function () {
+                const list: List<string> = create();
+                const callback = jest.fn();
+
+                list.changed.subscribe(callback);
+
+                list.insert(0, 'one');
+
+                expect(callback).toHaveBeenCalledTimes(1);
+
+                {
+                    const args: ListChangedEventArgs<string> = callback.mock.calls[0][0];
+
+                    expect(args.changes.length).toBe(1);
+
+                    {
+                        const change: ItemInsertedListChange<string> = args.changes[0] as ItemInsertedListChange<string>;
+
+                        expect(change.index).toBe(0);
+                        expect(change.item).toBe('one');
+                        expect(change.type).toBe(ListChangeKind.ITEM_INSERTED);
+                    }
+                }
+
+                list.insert(1, 'two');
+
+                expect(callback).toHaveBeenCalledTimes(2);
+
+                {
+                    const args: ListChangedEventArgs<string> = callback.mock.calls[1][0];
+
+                    expect(args.changes.length).toBe(1);
+
+                    {
+                        const change: ItemInsertedListChange<string> = args.changes[0] as ItemInsertedListChange<string>;
+
+                        expect(change.index).toBe(1);
+                        expect(change.item).toBe('two');
+                        expect(change.type).toBe(ListChangeKind.ITEM_INSERTED);
+                    }
+                }
+
+                list.insert(0, 'zero');
+
+                expect(callback).toHaveBeenCalledTimes(3);
+
+                {
+                    const args: ListChangedEventArgs<string> = callback.mock.calls[2][0];
+
+                    expect(args.changes.length).toBe(1);
+
+                    {
+                        const change: ItemInsertedListChange<string> = args.changes[0] as ItemInsertedListChange<string>;
+
+                        expect(change.index).toBe(0);
+                        expect(change.item).toBe('zero');
+                        expect(change.type).toBe(ListChangeKind.ITEM_INSERTED);
+                    }
+                }
+            });
+        });
+
+        describe('insertAll()', function () {
+            it('should insert items at specified position', function () {
+                const list: List<string> = create(['one', 'four']);
+
+                expect(list.insertAll(1, ['two', 'three'])).toBe(true);
+                expect(list.insertAll(1, [])).toBe(false);
+
+                expect(list.length).toBe(4);
+                expect(list.toArray()).toEqual(['one', 'two', 'three', 'four']);
+            });
+
+            it('should throw if `index` is out of bounds', function () {
+                const list: List<string> = create();
+
+                expect(() => {
+                    list.insertAll(1, ['one', 'two']);
+                }).toThrow(IndexOutOfBoundsException);
+
+                expect(() => {
+                    list.insertAll(-1, ['one', 'two']);
+                }).toThrow(IndexOutOfBoundsException);
+            });
+
+            it('should trigger "change" event for all inserted items', function () {
+                const list: List<string> = create();
+                const callback = jest.fn();
+
+                list.changed.subscribe(callback);
+
+                list.insertAll(0, ['one', 'two']);
+
+                expect(callback).toHaveBeenCalledTimes(1);
+
+                {
+                    const args: ListChangedEventArgs<string> = callback.mock.calls[0][0];
+
+                    expect(args.changes.length).toBe(2);
+
+                    {
+                        const change: ItemInsertedListChange<string> = args.changes[0] as ItemInsertedListChange<string>;
+
+                        expect(change.index).toBe(0);
+                        expect(change.item).toBe('one');
+                        expect(change.type).toBe(ListChangeKind.ITEM_INSERTED);
+                    }
+
+                    {
+                        const change: ItemInsertedListChange<string> = args.changes[1] as ItemInsertedListChange<string>;
+
+                        expect(change.index).toBe(1);
+                        expect(change.item).toBe('two');
+                        expect(change.type).toBe(ListChangeKind.ITEM_INSERTED);
+                    }
+                }
+
+                list.insertAll(2, ['three', 'four']);
+
+                expect(callback).toHaveBeenCalledTimes(2);
+
+                {
+                    const args: ListChangedEventArgs<string> = callback.mock.calls[1][0];
+
+                    expect(args.changes.length).toBe(2);
+
+                    {
+                        const change: ItemInsertedListChange<string> = args.changes[0] as ItemInsertedListChange<string>;
+
+                        expect(change.index).toBe(2);
+                        expect(change.item).toBe('three');
+                        expect(change.type).toBe(ListChangeKind.ITEM_INSERTED);
+                    }
+
+                    {
+                        const change: ItemInsertedListChange<string> = args.changes[1] as ItemInsertedListChange<string>;
+
+                        expect(change.index).toBe(3);
+                        expect(change.item).toBe('four');
+                        expect(change.type).toBe(ListChangeKind.ITEM_INSERTED);
+                    }
+                }
+            });
+        });
+
         describe('remove()', function () {
             it('should return `false` if list does not contains the item', function () {
                 const list: List<string> = create();
@@ -358,7 +535,8 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                 assertLengthAndIsEmpty(list, 6);
 
-                list.removeAll(['a', 'b']);
+                expect(list.removeAll(['a', 'b'])).toBe(true);
+                expect(list.removeAll([])).toBe(false);
 
                 assertLengthAndIsEmpty(list, 2);
 
@@ -619,182 +797,6 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
                         expect(change.index).toBe(4);
                         expect(change.item).toBe('Two');
                         expect(change.type).toBe(ListChangeKind.ITEM_REMOVED);
-                    }
-                }
-            });
-        });
-
-        describe('insert()', function () {
-            it('should insert item into list', function () {
-                const list: List<string> = create();
-
-                list.insert(0, 'one');
-
-                expect(list.length).toBe(1);
-                expect(list.toArray()).toEqual(['one']);
-
-                list.insert(1, 'two');
-
-                expect(list.length).toBe(2);
-                expect(list.toArray()).toEqual(['one', 'two']);
-
-                list.insert(0, 'three');
-
-                expect(list.length).toBe(3);
-                expect(list.toArray()).toEqual(['three', 'one', 'two']);
-            });
-
-            it('should throw if index out of bounds', function () {
-                const list: List<string> = create();
-
-                expect(() => {
-                    list.insert(-1, 'one');
-                }).toThrow(IndexOutOfBoundsException);
-
-                expect(() => {
-                    list.insert(1, 'one');
-                }).toThrow(IndexOutOfBoundsException);
-            });
-
-            it('should trigger "change" event for inserted item', function () {
-                const list: List<string> = create();
-                const callback = jest.fn();
-
-                list.changed.subscribe(callback);
-
-                list.insert(0, 'one');
-
-                expect(callback).toHaveBeenCalledTimes(1);
-
-                {
-                    const args: ListChangedEventArgs<string> = callback.mock.calls[0][0];
-
-                    expect(args.changes.length).toBe(1);
-
-                    {
-                        const change: ItemInsertedListChange<string> = args.changes[0] as ItemInsertedListChange<string>;
-
-                        expect(change.index).toBe(0);
-                        expect(change.item).toBe('one');
-                        expect(change.type).toBe(ListChangeKind.ITEM_INSERTED);
-                    }
-                }
-
-                list.insert(1, 'two');
-
-                expect(callback).toHaveBeenCalledTimes(2);
-
-                {
-                    const args: ListChangedEventArgs<string> = callback.mock.calls[1][0];
-
-                    expect(args.changes.length).toBe(1);
-
-                    {
-                        const change: ItemInsertedListChange<string> = args.changes[0] as ItemInsertedListChange<string>;
-
-                        expect(change.index).toBe(1);
-                        expect(change.item).toBe('two');
-                        expect(change.type).toBe(ListChangeKind.ITEM_INSERTED);
-                    }
-                }
-
-                list.insert(0, 'zero');
-
-                expect(callback).toHaveBeenCalledTimes(3);
-
-                {
-                    const args: ListChangedEventArgs<string> = callback.mock.calls[2][0];
-
-                    expect(args.changes.length).toBe(1);
-
-                    {
-                        const change: ItemInsertedListChange<string> = args.changes[0] as ItemInsertedListChange<string>;
-
-                        expect(change.index).toBe(0);
-                        expect(change.item).toBe('zero');
-                        expect(change.type).toBe(ListChangeKind.ITEM_INSERTED);
-                    }
-                }
-            });
-        });
-
-        describe('insertAll()', function () {
-            it('should insert items at specified position', function () {
-                const list: List<string> = create(['one', 'four']);
-
-                list.insertAll(1, ['two', 'three']);
-
-                expect(list.length).toBe(4);
-                expect(list.toArray()).toEqual(['one', 'two', 'three', 'four']);
-            });
-
-            it('should throw if `index` is out of bounds', function () {
-                const list: List<string> = create();
-
-                expect(() => {
-                    list.insertAll(1, ['one', 'two']);
-                }).toThrow(IndexOutOfBoundsException);
-
-                expect(() => {
-                    list.insertAll(-1, ['one', 'two']);
-                }).toThrow(IndexOutOfBoundsException);
-            });
-
-            it('should trigger "change" event for all inserted items', function () {
-                const list: List<string> = create();
-                const callback = jest.fn();
-
-                list.changed.subscribe(callback);
-
-                list.insertAll(0, ['one', 'two']);
-
-                expect(callback).toHaveBeenCalledTimes(1);
-
-                {
-                    const args: ListChangedEventArgs<string> = callback.mock.calls[0][0];
-
-                    expect(args.changes.length).toBe(2);
-
-                    {
-                        const change: ItemInsertedListChange<string> = args.changes[0] as ItemInsertedListChange<string>;
-
-                        expect(change.index).toBe(0);
-                        expect(change.item).toBe('one');
-                        expect(change.type).toBe(ListChangeKind.ITEM_INSERTED);
-                    }
-
-                    {
-                        const change: ItemInsertedListChange<string> = args.changes[1] as ItemInsertedListChange<string>;
-
-                        expect(change.index).toBe(1);
-                        expect(change.item).toBe('two');
-                        expect(change.type).toBe(ListChangeKind.ITEM_INSERTED);
-                    }
-                }
-
-                list.insertAll(2, ['three', 'four']);
-
-                expect(callback).toHaveBeenCalledTimes(2);
-
-                {
-                    const args: ListChangedEventArgs<string> = callback.mock.calls[1][0];
-
-                    expect(args.changes.length).toBe(2);
-
-                    {
-                        const change: ItemInsertedListChange<string> = args.changes[0] as ItemInsertedListChange<string>;
-
-                        expect(change.index).toBe(2);
-                        expect(change.item).toBe('three');
-                        expect(change.type).toBe(ListChangeKind.ITEM_INSERTED);
-                    }
-
-                    {
-                        const change: ItemInsertedListChange<string> = args.changes[1] as ItemInsertedListChange<string>;
-
-                        expect(change.index).toBe(3);
-                        expect(change.item).toBe('four');
-                        expect(change.type).toBe(ListChangeKind.ITEM_INSERTED);
                     }
                 }
             });
