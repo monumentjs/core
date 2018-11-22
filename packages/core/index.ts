@@ -135,6 +135,7 @@ export * from './src/comparison/equality/StrictEqualityComparator';
 
 export * from './src/random/RandomValue';
 export * from './src/random/RandomInt';
+export * from './src/random/RandomFloat';
 export * from './src/random/RandomString';
 
 export * from './src/text/StringBuilder';

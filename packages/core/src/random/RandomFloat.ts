@@ -7,7 +7,7 @@ import {ToString} from '../base/ToString';
  * @author Alex Chugaev
  * @since 0.0.1
  */
-export class RandomInt implements RandomValue<number>, ToJSON<number>, ToString {
+export class RandomFloat implements RandomValue<number>, ToJSON<number>, ToString {
     private readonly _min: number;
     private readonly _max: number;
     private _value?: number;
@@ -17,7 +17,7 @@ export class RandomInt implements RandomValue<number>, ToJSON<number>, ToString 
             const random: number = Math.random();
             const rawValue: number = this._min + random * (this._max - this._min);
 
-            this._value = Math.floor(rawValue);
+            this._value = rawValue;
         }
 
         return this._value;

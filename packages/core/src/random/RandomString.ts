@@ -33,6 +33,8 @@ export class RandomString implements RandomValue<string>, ToJSON<string>, ToStri
         return this._value;
     }
 
+    public constructor(length: number);
+    public constructor(length: number, charset: string);
     public constructor(length: number, charset: string = RandomString.ALPHA_NUMERIC_CHARSET) {
         if (length < 0) {
             throw new InvalidArgumentException('Char sequence length cannot be negative.');
