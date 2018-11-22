@@ -2,7 +2,6 @@ import {
     Grouping,
     IgnoreCaseComparator,
     IgnoreCaseEqualityComparator,
-    IndexIterator,
     IndexOutOfBoundsException,
     InvalidOperationException,
     NamedPool,
@@ -10,7 +9,8 @@ import {
     Queryable,
     RangeException,
     Sequence,
-    SortOrder
+    SortOrder,
+    times
 } from '../../..';
 import {testSequence} from './Sequence.spec';
 
@@ -507,9 +507,9 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
                 const list: Queryable<string> = create(['one', 'two', 'three']);
                 const random: string[] = [];
 
-                for (const i of new IndexIterator(10)) {
+                times(10, () => {
                     random.push(list.random());
-                }
+                });
 
                 for (const item of random) {
                     expect(list.contains(item));

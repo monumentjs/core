@@ -10,6 +10,9 @@ export * from './src/base/Type';
 export * from './src/base/MemorySize';
 export * from './src/base/types';
 
+export * from './src/function/times';
+export * from './src/function/range';
+
 export * from './src/exceptions/Exception';
 export * from './src/exceptions/FormatException';
 export * from './src/exceptions/IndexOutOfBoundsException';
@@ -101,9 +104,6 @@ export * from './src/collections/multivaluemap/mutable/MultiValueMap';
 export * from './src/collections/multivaluemap/specialized/CaseInsensitiveMultiValueMap';
 
 export * from './src/collections/specialized/BitSet';
-
-export * from './src/collections/iterator/IndexIterator';
-export * from './src/collections/iterator/RangeIterator';
 
 export * from './src/collections/attributes/Key';
 export * from './src/collections/attributes/readonly/ReadOnlyAttributeAccessor';

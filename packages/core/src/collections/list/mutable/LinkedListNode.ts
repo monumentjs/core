@@ -9,14 +9,6 @@ export class LinkedListNode<T> implements ToJSON<T> {
     public nextNode: LinkedListNode<T> | undefined;
     public nodeValue: T;
 
-    public get hasNextNode(): boolean {
-        return this.nextNode != null;
-    }
-
-    public get hasPreviousNode(): boolean {
-        return this.previousNode != null;
-    }
-
     public constructor(value: T) {
         this.nodeValue = value;
     }

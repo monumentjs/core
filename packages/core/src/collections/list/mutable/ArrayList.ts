@@ -10,6 +10,7 @@ import {StrictEqualityComparator} from '../../../comparison/equality/StrictEqual
 /**
  * @author Alex Chugaev
  * @since 0.0.1
+ * @mutable
  */
 export class ArrayList<T> extends AbstractList<T> implements Cloneable<ArrayList<T>> {
     private _items: T[];

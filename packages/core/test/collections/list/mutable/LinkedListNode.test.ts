@@ -89,4 +89,12 @@ describe('LinkedListNode', function () {
             expect(nextNode.nextNode).toBe(lastNode);
         });
     });
+
+    describe('toJSON()', function () {
+        it('should return value stored in this node', function () {
+            expect(previousNode.toJSON()).toBe(previousNode.nodeValue);
+            expect(currentNode.toJSON()).toBe(currentNode.nodeValue);
+            expect(nextNode.toJSON()).toBe(nextNode.nodeValue);
+        });
+    });
 });

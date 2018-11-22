@@ -8,6 +8,7 @@ import {Cloneable} from '../../../base/Cloneable';
 /**
  * @author Alex Chugaev
  * @since 0.0.1
+ * @mutable
  */
 export interface List<T> extends ObservableList<T>, Cloneable<List<T>> {
     add(item: T): boolean;

@@ -14,6 +14,7 @@ type LinkedListIteratorFunction<TItem, TResult> = (node: LinkedListNode<TItem>, 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
+ * @mutable
  */
 export class LinkedList<T> extends AbstractList<T> implements Cloneable<LinkedList<T>> {
     private _length: number = 0;

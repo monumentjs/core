@@ -26,6 +26,7 @@ import {InvalidStateException} from '../../../exceptions/InvalidStateException';
 /**
  * @author Alex Chugaev
  * @since 0.0.1
+ * @mutable
  */
 export abstract class AbstractList<T> implements List<T> {
     private readonly _changed: EventDispatcher<ListChangedEventArgs<T>> = new EventDispatcher();
