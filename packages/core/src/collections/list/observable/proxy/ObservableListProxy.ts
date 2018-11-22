@@ -1,5 +1,5 @@
 import {ReadOnlyListProxy} from '../../readonly/proxy/ReadOnlyListProxy';
-import {Event} from '../../../../events/Event';
+import {EventSource} from '../../../../events/EventSource';
 import {ObservableList} from '../ObservableList';
 import {ListChangedEventArgs} from '../ListChangedEventArgs';
 import {Cloneable} from '../../../../base/Cloneable';
@@ -13,7 +13,7 @@ export abstract class ObservableListProxy<T, TItems extends ObservableList<T>>
     extends ReadOnlyListProxy<T, TItems>
     implements ObservableList<T>, Cloneable<ObservableList<T>> {
 
-    public get changed(): Event<ListChangedEventArgs<T>> {
+    public get changed(): EventSource<ListChangedEventArgs<T>> {
         return this._items.changed;
     }
 

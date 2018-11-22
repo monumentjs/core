@@ -22,9 +22,9 @@ export * from './src/exceptions/OperationNotSupportedException';
 export * from './src/exceptions/RangeException';
 export * from './src/exceptions/RuntimeException';
 
-export * from './src/events/ConfigurableEvent';
+export * from './src/events/EventDispatcher';
 export * from './src/events/ErrorEventArgs';
-export * from './src/events/Event';
+export * from './src/events/EventSource';
 export * from './src/events/EventArgs';
 export * from './src/events/EventHandler';
 

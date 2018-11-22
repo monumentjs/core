@@ -17,8 +17,8 @@ import {RangeException} from '../../../exceptions/RangeException';
 import {SortOrder} from '../../../comparison/order/SortOrder';
 import {Comparator} from '../../../comparison/order/Comparator';
 import {ListChangedEventArgs} from '../observable/ListChangedEventArgs';
-import {Event} from '../../../events/Event';
-import {ConfigurableEvent} from '../../../events/ConfigurableEvent';
+import {EventSource} from '../../../events/EventSource';
+import {EventDispatcher} from '../../../events/EventDispatcher';
 import {ListChangeTransaction} from '../observable/ListChangeTransaction';
 import {InvalidStateException} from '../../../exceptions/InvalidStateException';
 
@@ -28,10 +28,10 @@ import {InvalidStateException} from '../../../exceptions/InvalidStateException';
  * @since 0.0.1
  */
 export abstract class AbstractList<T> implements List<T> {
-    private readonly _changed: ConfigurableEvent<ListChangedEventArgs<T>> = new ConfigurableEvent();
+    private readonly _changed: EventDispatcher<ListChangedEventArgs<T>> = new EventDispatcher();
     private _changeTransaction: ListChangeTransaction<T> | undefined;
 
-    public get changed(): Event<ListChangedEventArgs<T>> {
+    public get changed(): EventSource<ListChangedEventArgs<T>> {
         return this._changed;
     }
 

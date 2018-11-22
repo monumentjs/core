@@ -1,7 +1,7 @@
 import {SetChange} from './SetChange';
 import {ObservableSet} from './ObservableSet';
 import {SetChangeKind} from './SetChangeKind';
-import {ConfigurableEvent} from '../../../events/ConfigurableEvent';
+import {EventDispatcher} from '../../../events/EventDispatcher';
 import {SetChangedEventArgs} from './SetChangedEventArgs';
 
 
@@ -11,10 +11,10 @@ import {SetChangedEventArgs} from './SetChangedEventArgs';
  */
 export class SetChangeTransaction<T> {
     private readonly _set: ObservableSet<T>;
-    private readonly _event: ConfigurableEvent<SetChangedEventArgs<T>>;
+    private readonly _event: EventDispatcher<SetChangedEventArgs<T>>;
     private _changes: Array<SetChange<T>> = [];
 
-    public constructor(set: ObservableSet<T>, event: ConfigurableEvent<SetChangedEventArgs<T>>) {
+    public constructor(set: ObservableSet<T>, event: EventDispatcher<SetChangedEventArgs<T>>) {
         this._set = set;
         this._event = event;
     }

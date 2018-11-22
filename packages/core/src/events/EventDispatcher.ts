@@ -1,13 +1,13 @@
 import {Disposable} from '../base/Disposable';
 import {EventHandler} from './EventHandler';
-import {Event} from './Event';
+import {EventSource} from './EventSource';
 import {EventArgs} from './EventArgs';
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
  */
-export class ConfigurableEvent<TArgs extends EventArgs> implements Event<TArgs>, Disposable {
+export class EventDispatcher<TArgs extends EventArgs> implements EventSource<TArgs>, Disposable {
     private readonly _handlers: Array<EventHandler<TArgs>> = [];
 
     public dispose(): void {

@@ -1,5 +1,5 @@
 import {ReadOnlySet} from '../readonly/ReadOnlySet';
-import {Event} from '../../../events/Event';
+import {EventSource} from '../../../events/EventSource';
 import {SetChangedEventArgs} from './SetChangedEventArgs';
 import {Cloneable} from '../../../base/Cloneable';
 
@@ -9,7 +9,7 @@ import {Cloneable} from '../../../base/Cloneable';
  * @since 0.0.1
  */
 export interface ObservableSet<T> extends ReadOnlySet<T>, Cloneable<ObservableSet<T>> {
-    readonly changed: Event<SetChangedEventArgs<T>>;
+    readonly changed: EventSource<SetChangedEventArgs<T>>;
 
     clone(): ObservableSet<T>;
 }

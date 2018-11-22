@@ -1,9 +1,9 @@
-import {ConfigurableEvent, EventArgs} from '../..';
+import {EventDispatcher, EventArgs} from '../..';
 
-describe('ConfigurableEvent', function () {
+describe('EventDispatcher', function () {
     describe('subscribe()', function () {
         it('should return `true` if new handler added, `false` otherwise', function () {
-            const event: ConfigurableEvent<EventArgs> = new ConfigurableEvent();
+            const event: EventDispatcher<EventArgs> = new EventDispatcher();
             const handler1 = jest.fn();
             const handler2 = jest.fn();
             expect(event.subscribe(handler1)).toBe(true);
@@ -17,7 +17,7 @@ describe('ConfigurableEvent', function () {
         it('event handler invoked with event args', function () {
             const mock = jest.fn();
             const target: object = {};
-            const event: ConfigurableEvent<EventArgs> = new ConfigurableEvent();
+            const event: EventDispatcher<EventArgs> = new EventDispatcher();
             const args: EventArgs<object> = new EventArgs(target);
 
             event.subscribe(mock);
@@ -33,7 +33,7 @@ describe('ConfigurableEvent', function () {
         it('event handler not invoked after being unsubscribed', function () {
             const mock = jest.fn();
             const target: object = {};
-            const event: ConfigurableEvent<EventArgs> = new ConfigurableEvent();
+            const event: EventDispatcher<EventArgs> = new EventDispatcher();
             const args1 = new EventArgs(target);
             const args2 = new EventArgs(target);
 
@@ -42,6 +42,7 @@ describe('ConfigurableEvent', function () {
             event.trigger(args1);
 
             expect(event.unsubscribe(mock)).toBe(true);
+            expect(event.unsubscribe(mock)).toBe(false);
 
             event.trigger(args2);
 
@@ -52,7 +53,7 @@ describe('ConfigurableEvent', function () {
         it('event handlers detached when event is disposed', function () {
             const mock = jest.fn();
             const target: object = {};
-            const event: ConfigurableEvent<EventArgs> = new ConfigurableEvent();
+            const event: EventDispatcher<EventArgs> = new EventDispatcher();
             const args1 = new EventArgs(target);
             const args2 = new EventArgs(target);
 

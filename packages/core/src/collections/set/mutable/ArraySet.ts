@@ -6,8 +6,8 @@ import {QueryableProxy} from '../../base/proxy/QueryableProxy';
 import {Cloneable} from '../../../base/Cloneable';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
 import {StrictEqualityComparator} from '../../../comparison/equality/StrictEqualityComparator';
-import {ConfigurableEvent} from '../../../events/ConfigurableEvent';
-import {Event} from '../../../events/Event';
+import {EventDispatcher} from '../../../events/EventDispatcher';
+import {EventSource} from '../../../events/EventSource';
 import {SetChangedEventArgs} from '../observable/SetChangedEventArgs';
 import {SetChangeTransaction} from '../observable/SetChangeTransaction';
 import {InvalidStateException} from '../../../exceptions/InvalidStateException';
@@ -25,10 +25,10 @@ import {SetChangeKind} from '../observable/SetChangeKind';
  */
 export class ArraySet<T> extends QueryableProxy<T, ArrayList<T>> implements Set<T>, Cloneable<ArraySet<T>> {
     private readonly _comparator: EqualityComparator<T>;
-    private readonly _changed: ConfigurableEvent<SetChangedEventArgs<T>> = new ConfigurableEvent();
+    private readonly _changed: EventDispatcher<SetChangedEventArgs<T>> = new EventDispatcher();
     private _changeTransaction: SetChangeTransaction<T> | undefined;
 
-    public get changed(): Event<SetChangedEventArgs<T>> {
+    public get changed(): EventSource<SetChangedEventArgs<T>> {
         return this._changed;
     }
 

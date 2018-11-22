@@ -1,7 +1,7 @@
 import {ListChange} from './ListChange';
 import {ObservableList} from './ObservableList';
 import {ListChangeKind} from './ListChangeKind';
-import {ConfigurableEvent} from '../../../events/ConfigurableEvent';
+import {EventDispatcher} from '../../../events/EventDispatcher';
 import {ListChangedEventArgs} from './ListChangedEventArgs';
 
 
@@ -11,10 +11,10 @@ import {ListChangedEventArgs} from './ListChangedEventArgs';
  */
 export class ListChangeTransaction<T> {
     private readonly _list: ObservableList<T>;
-    private readonly _event: ConfigurableEvent<ListChangedEventArgs<T>>;
+    private readonly _event: EventDispatcher<ListChangedEventArgs<T>>;
     private _changes: Array<ListChange<T>> = [];
 
-    public constructor(list: ObservableList<T>, event: ConfigurableEvent<ListChangedEventArgs<T>>) {
+    public constructor(list: ObservableList<T>, event: EventDispatcher<ListChangedEventArgs<T>>) {
         this._list = list;
         this._event = event;
     }
