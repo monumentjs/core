@@ -1,3 +1,5 @@
+// Export public API
+
 export * from './src/ReleaseStatus';
 export * from './src/Version';
 export * from './src/VersionBuilder';

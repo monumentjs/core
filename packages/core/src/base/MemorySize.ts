@@ -2,6 +2,7 @@
 /**
  * @author Alex Chugaev
  * @since 0.0.1
+ * @immutable
  */
 export class MemorySize {
     public static readonly KILOBYTE = 1024;
