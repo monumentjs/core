@@ -9,11 +9,13 @@
         "postinstall": "npm run bootstrap",
         "prepublishOnly": "npm run lint && npm run compile && npm install && npm test",
         "test": "jest",
-        "test:watch": "jest --watch"
+        "test:watch": "jest --watch",
+        "coveralls": "cat ./coverage/lcov.info | coveralls"
     },
     "dependencies": {},
     "devDependencies": {
         "@types/jest": "^23.3.9",
+        "coveralls": "^3.0.2",
         "gulp": "^4.0.0",
         "gulp-clean": "^0.4.0",
         "gulp-typedoc": "^2.2.0",
@@ -39,14 +41,6 @@
             "json",
             "node"
         ],
-        "collectCoverage": true,
-        "coverageThreshold": {
-            "./packages": {
-                "branches": 90,
-                "functions": 90,
-                "lines": 90,
-                "statements": 90
-            }
-        }
+        "collectCoverage": true
     }
 }

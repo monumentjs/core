@@ -13,6 +13,8 @@ script:
     - "npm install"
     - "npm test"
 after_success:
+    # Publish coverage
+    - "npm coveralls"
     # Publish docs
     - "npm run docs"
     - "git config user.email achugaev93@gmail.com"
