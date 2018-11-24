@@ -22,7 +22,7 @@ export abstract class ListProxy<T, TItems extends List<T>> extends ObservableLis
     public addIfAbsent(item: T): boolean;
     public addIfAbsent(item: T, comparator: EqualityComparator<T>): boolean;
     public addIfAbsent(item: T, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): boolean {
-        return this._items.addIfAbsent(item);
+        return this._items.addIfAbsent(item, comparator);
     }
 
     public clear(): boolean {

@@ -3,14 +3,14 @@
     "scripts": {
         "bootstrap": "lerna bootstrap",
         "compile": "tsc",
+        "coveralls": "cat ./coverage/lcov.info | coveralls",
         "docs": "gulp docs",
         "lint": "tslint --format stylish --project .",
         "lint:fix": "tslint --fix --format stylish --project .",
-        "postinstall": "npm run bootstrap",
         "prepublishOnly": "npm run lint && npm run compile && npm install && npm test",
+        "postinstall": "npm run bootstrap",
         "test": "jest",
-        "test:watch": "jest --watch",
-        "coveralls": "cat ./coverage/lcov.info | coveralls"
+        "test:watch": "jest --watch"
     },
     "dependencies": {},
     "devDependencies": {
