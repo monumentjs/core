@@ -1,11 +1,17 @@
-import {ListChangeKind} from './ListChangeKind';
+import {ListChangeType} from './ListChangeType';
+import {ListChange} from './ListChange';
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
  */
-export interface ItemRemovedListChange<T> {
-    readonly type: ListChangeKind.ITEM_REMOVED;
-    readonly item: T;
-    readonly index: number;
+export class ItemRemovedListChange<T> implements ListChange {
+    public readonly type: ListChangeType.ITEM_REMOVED = ListChangeType.ITEM_REMOVED;
+    public readonly index: number;
+    public readonly item: T;
+
+    public constructor(index: number, item: T) {
+        this.index = index;
+        this.item = item;
+    }
 }

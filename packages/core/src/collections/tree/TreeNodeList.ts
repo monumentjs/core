@@ -2,7 +2,7 @@ import {TreeNode} from './TreeNode';
 import {Sequence} from '../base/Sequence';
 import {ArrayList} from '../list/mutable/ArrayList';
 import {ListChangedEventArgs} from '../list/observable/ListChangedEventArgs';
-import {ListChangeKind} from '../list/observable/ListChangeKind';
+import {ListChangeType} from '../list/observable/ListChangeType';
 import {InvalidArgumentException} from '../../exceptions/InvalidArgumentException';
 
 /**
@@ -28,15 +28,15 @@ export class TreeNodeList extends ArrayList<TreeNode> {
         this.changed.subscribe((args: ListChangedEventArgs<TreeNode>) => {
             for (const change of args.changes) {
                 switch (change.type) {
-                    case ListChangeKind.ITEM_ADDED:
+                    case ListChangeType.ITEM_ADDED:
                         change.item.parentNode = this.parentNode;
                         break;
 
-                    case ListChangeKind.ITEM_REMOVED:
+                    case ListChangeType.ITEM_REMOVED:
                         change.item.parentNode = undefined;
                         break;
 
-                    case ListChangeKind.ITEM_REPLACED:
+                    case ListChangeType.ITEM_REPLACED:
                         change.oldValue.parentNode = undefined;
                         change.newValue.parentNode = this.parentNode;
                         break;

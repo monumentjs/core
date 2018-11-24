@@ -1,8 +1,12 @@
-import {ListChange} from './ListChange';
+import {ListChanges} from './ListChanges';
 import {ObservableList} from './ObservableList';
-import {ListChangeKind} from './ListChangeKind';
 import {EventDispatcher} from '../../../events/EventDispatcher';
 import {ListChangedEventArgs} from './ListChangedEventArgs';
+import {ItemAddedListChange} from './ItemAddedListChange';
+import {ItemInsertedListChange} from './ItemInsertedListChange';
+import {ItemRemovedListChange} from './ItemRemovedListChange';
+import {ItemReplacedListChange} from './ItemReplacedListChange';
+import {ListClearedListChange} from './ListClearedListChange';
 
 
 /**
@@ -12,7 +16,7 @@ import {ListChangedEventArgs} from './ListChangedEventArgs';
 export class ListChangeTransaction<T> {
     private readonly _list: ObservableList<T>;
     private readonly _event: EventDispatcher<ListChangedEventArgs<T>>;
-    private _changes: Array<ListChange<T>> = [];
+    private _changes: Array<ListChanges<T>> = [];
 
     public constructor(list: ObservableList<T>, event: EventDispatcher<ListChangedEventArgs<T>>) {
         this._list = list;
@@ -26,43 +30,23 @@ export class ListChangeTransaction<T> {
         }
     }
 
-    public onItemAdded(index: number, item: T) {
-        this._changes.push({
-            type: ListChangeKind.ITEM_ADDED,
-            index,
-            item
-        });
+    public onItemAdded(index: number, item: T): void {
+        this._changes.push(new ItemAddedListChange(index, item));
     }
 
     public onItemInserted(index: number, item: T) {
-        this._changes.push({
-            type: ListChangeKind.ITEM_INSERTED,
-            index,
-            item
-        });
+        this._changes.push(new ItemInsertedListChange(index, item));
     }
 
     public onItemRemoved(index: number, item: T) {
-        this._changes.push({
-            type: ListChangeKind.ITEM_REMOVED,
-            index,
-            item
-        });
+        this._changes.push(new ItemRemovedListChange(index, item));
     }
 
     public onItemReplaced(index: number, oldValue: T, newValue: T) {
-        this._changes.push({
-            type: ListChangeKind.ITEM_REPLACED,
-            index,
-            oldValue,
-            newValue
-        });
+        this._changes.push(new ItemReplacedListChange(index, oldValue, newValue));
     }
 
     public onListCleared(itemsRemoved: number) {
-        this._changes.push({
-            type: ListChangeKind.LIST_CLEARED,
-            itemsRemoved
-        });
+        this._changes.push(new ListClearedListChange(itemsRemoved));
     }
 }

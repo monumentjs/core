@@ -8,6 +8,7 @@ import {EqualityComparator} from '../../../comparison/equality/EqualityComparato
 /**
  * @author Alex Chugaev
  * @since 0.0.1
+ * @immutable
  */
 export interface ImmutableList<T> extends ReadOnlyList<T>, Cloneable<ImmutableList<T>> {
     add(item: T): ImmutableList<T>;

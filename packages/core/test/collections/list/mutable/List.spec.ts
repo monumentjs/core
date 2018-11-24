@@ -6,7 +6,7 @@ import {
     ItemRemovedListChange, ItemReplacedListChange,
     List,
     ListChangedEventArgs,
-    ListChangeKind,
+    ListChangeType,
     ListClearedListChange,
     Sequence
 } from '../../../..';
@@ -58,7 +58,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                     expect(change.index).toBe(0);
                     expect(change.item).toBe('one');
-                    expect(change.type).toBe(ListChangeKind.ITEM_ADDED);
+                    expect(change.type).toBe(ListChangeType.ITEM_ADDED);
                 }
 
                 list.add('two');
@@ -74,7 +74,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                     expect(change.index).toBe(1);
                     expect(change.item).toBe('two');
-                    expect(change.type).toBe(ListChangeKind.ITEM_ADDED);
+                    expect(change.type).toBe(ListChangeType.ITEM_ADDED);
                 }
             });
         });
@@ -124,7 +124,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                         expect(change.index).toBe(0);
                         expect(change.item).toBe('one');
-                        expect(change.type).toBe(ListChangeKind.ITEM_ADDED);
+                        expect(change.type).toBe(ListChangeType.ITEM_ADDED);
                     }
 
                     {
@@ -132,7 +132,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                         expect(change.index).toBe(1);
                         expect(change.item).toBe('two');
-                        expect(change.type).toBe(ListChangeKind.ITEM_ADDED);
+                        expect(change.type).toBe(ListChangeType.ITEM_ADDED);
                     }
                 }
 
@@ -150,7 +150,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                         expect(change.index).toBe(2);
                         expect(change.item).toBe('three');
-                        expect(change.type).toBe(ListChangeKind.ITEM_ADDED);
+                        expect(change.type).toBe(ListChangeType.ITEM_ADDED);
                     }
 
                     {
@@ -158,7 +158,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                         expect(change.index).toBe(3);
                         expect(change.item).toBe('four');
-                        expect(change.type).toBe(ListChangeKind.ITEM_ADDED);
+                        expect(change.type).toBe(ListChangeType.ITEM_ADDED);
                     }
 
                     {
@@ -166,7 +166,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                         expect(change.index).toBe(4);
                         expect(change.item).toBe('five');
-                        expect(change.type).toBe(ListChangeKind.ITEM_ADDED);
+                        expect(change.type).toBe(ListChangeType.ITEM_ADDED);
                     }
                 }
             });
@@ -210,7 +210,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                     expect(change.index).toBe(0);
                     expect(change.item).toBe('one');
-                    expect(change.type).toBe(ListChangeKind.ITEM_ADDED);
+                    expect(change.type).toBe(ListChangeType.ITEM_ADDED);
                 }
 
                 list.addIfAbsent('two');
@@ -226,7 +226,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                     expect(change.index).toBe(1);
                     expect(change.item).toBe('two');
-                    expect(change.type).toBe(ListChangeKind.ITEM_ADDED);
+                    expect(change.type).toBe(ListChangeType.ITEM_ADDED);
                 }
 
                 list.addIfAbsent('two');
@@ -242,7 +242,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                     expect(change.index).toBe(1);
                     expect(change.item).toBe('two');
-                    expect(change.type).toBe(ListChangeKind.ITEM_ADDED);
+                    expect(change.type).toBe(ListChangeType.ITEM_ADDED);
                 }
             });
         });
@@ -275,7 +275,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
                 const change: ListClearedListChange = args.changes[0] as ListClearedListChange;
 
                 expect(change.itemsRemoved).toBe(3);
-                expect(change.type).toBe(ListChangeKind.LIST_CLEARED);
+                expect(change.type).toBe(ListChangeType.LIST_CLEARED);
             });
         });
 
@@ -331,7 +331,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                         expect(change.index).toBe(0);
                         expect(change.item).toBe('one');
-                        expect(change.type).toBe(ListChangeKind.ITEM_INSERTED);
+                        expect(change.type).toBe(ListChangeType.ITEM_INSERTED);
                     }
                 }
 
@@ -349,7 +349,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                         expect(change.index).toBe(1);
                         expect(change.item).toBe('two');
-                        expect(change.type).toBe(ListChangeKind.ITEM_INSERTED);
+                        expect(change.type).toBe(ListChangeType.ITEM_INSERTED);
                     }
                 }
 
@@ -367,7 +367,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                         expect(change.index).toBe(0);
                         expect(change.item).toBe('zero');
-                        expect(change.type).toBe(ListChangeKind.ITEM_INSERTED);
+                        expect(change.type).toBe(ListChangeType.ITEM_INSERTED);
                     }
                 }
             });
@@ -416,7 +416,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                         expect(change.index).toBe(0);
                         expect(change.item).toBe('one');
-                        expect(change.type).toBe(ListChangeKind.ITEM_INSERTED);
+                        expect(change.type).toBe(ListChangeType.ITEM_INSERTED);
                     }
 
                     {
@@ -424,7 +424,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                         expect(change.index).toBe(1);
                         expect(change.item).toBe('two');
-                        expect(change.type).toBe(ListChangeKind.ITEM_INSERTED);
+                        expect(change.type).toBe(ListChangeType.ITEM_INSERTED);
                     }
                 }
 
@@ -442,7 +442,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                         expect(change.index).toBe(2);
                         expect(change.item).toBe('three');
-                        expect(change.type).toBe(ListChangeKind.ITEM_INSERTED);
+                        expect(change.type).toBe(ListChangeType.ITEM_INSERTED);
                     }
 
                     {
@@ -450,7 +450,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                         expect(change.index).toBe(3);
                         expect(change.item).toBe('four');
-                        expect(change.type).toBe(ListChangeKind.ITEM_INSERTED);
+                        expect(change.type).toBe(ListChangeType.ITEM_INSERTED);
                     }
                 }
             });
@@ -498,7 +498,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                     expect(change.index).toBe(1);
                     expect(change.item).toBe('two');
-                    expect(change.type).toBe(ListChangeKind.ITEM_REMOVED);
+                    expect(change.type).toBe(ListChangeType.ITEM_REMOVED);
                 }
 
                 list.remove('one');
@@ -515,7 +515,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                         expect(change.index).toBe(0);
                         expect(change.item).toBe('one');
-                        expect(change.type).toBe(ListChangeKind.ITEM_REMOVED);
+                        expect(change.type).toBe(ListChangeType.ITEM_REMOVED);
                     }
 
                     {
@@ -523,7 +523,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                         expect(change.index).toBe(2);
                         expect(change.item).toBe('one');
-                        expect(change.type).toBe(ListChangeKind.ITEM_REMOVED);
+                        expect(change.type).toBe(ListChangeType.ITEM_REMOVED);
                     }
                 }
             });
@@ -577,7 +577,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                         expect(change.index).toBe(0);
                         expect(change.item).toBe('a');
-                        expect(change.type).toBe(ListChangeKind.ITEM_REMOVED);
+                        expect(change.type).toBe(ListChangeType.ITEM_REMOVED);
                     }
 
                     {
@@ -585,7 +585,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                         expect(change.index).toBe(1);
                         expect(change.item).toBe('b');
-                        expect(change.type).toBe(ListChangeKind.ITEM_REMOVED);
+                        expect(change.type).toBe(ListChangeType.ITEM_REMOVED);
                     }
 
                     {
@@ -593,7 +593,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                         expect(change.index).toBe(2);
                         expect(change.item).toBe('a');
-                        expect(change.type).toBe(ListChangeKind.ITEM_REMOVED);
+                        expect(change.type).toBe(ListChangeType.ITEM_REMOVED);
                     }
 
                     {
@@ -601,7 +601,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                         expect(change.index).toBe(5);
                         expect(change.item).toBe('a');
-                        expect(change.type).toBe(ListChangeKind.ITEM_REMOVED);
+                        expect(change.type).toBe(ListChangeType.ITEM_REMOVED);
                     }
                 }
             });
@@ -641,7 +641,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                         expect(change.index).toBe(0);
                         expect(change.item).toBe('a');
-                        expect(change.type).toBe(ListChangeKind.ITEM_REMOVED);
+                        expect(change.type).toBe(ListChangeType.ITEM_REMOVED);
                     }
 
                     {
@@ -649,7 +649,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                         expect(change.index).toBe(1);
                         expect(change.item).toBe('b');
-                        expect(change.type).toBe(ListChangeKind.ITEM_REMOVED);
+                        expect(change.type).toBe(ListChangeType.ITEM_REMOVED);
                     }
 
                     {
@@ -657,7 +657,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                         expect(change.index).toBe(2);
                         expect(change.item).toBe('a');
-                        expect(change.type).toBe(ListChangeKind.ITEM_REMOVED);
+                        expect(change.type).toBe(ListChangeType.ITEM_REMOVED);
                     }
 
                     {
@@ -665,7 +665,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                         expect(change.index).toBe(5);
                         expect(change.item).toBe('a');
-                        expect(change.type).toBe(ListChangeKind.ITEM_REMOVED);
+                        expect(change.type).toBe(ListChangeType.ITEM_REMOVED);
                     }
                 }
             });
@@ -715,7 +715,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                         expect(change.index).toBe(1);
                         expect(change.item).toBe('two');
-                        expect(change.type).toBe(ListChangeKind.ITEM_REMOVED);
+                        expect(change.type).toBe(ListChangeType.ITEM_REMOVED);
                     }
                 }
 
@@ -731,7 +731,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                         expect(change.index).toBe(0);
                         expect(change.item).toBe('one');
-                        expect(change.type).toBe(ListChangeKind.ITEM_REMOVED);
+                        expect(change.type).toBe(ListChangeType.ITEM_REMOVED);
                     }
                 }
             });
@@ -788,7 +788,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                         expect(change.index).toBe(1);
                         expect(change.item).toBe('two');
-                        expect(change.type).toBe(ListChangeKind.ITEM_REMOVED);
+                        expect(change.type).toBe(ListChangeType.ITEM_REMOVED);
                     }
 
                     {
@@ -796,7 +796,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
                         expect(change.index).toBe(4);
                         expect(change.item).toBe('Two');
-                        expect(change.type).toBe(ListChangeKind.ITEM_REMOVED);
+                        expect(change.type).toBe(ListChangeType.ITEM_REMOVED);
                     }
                 }
             });
@@ -840,7 +840,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
                         expect(change.index).toBe(0);
                         expect(change.newValue).toBe('one');
                         expect(change.oldValue).toBe('a');
-                        expect(change.type).toBe(ListChangeKind.ITEM_REPLACED);
+                        expect(change.type).toBe(ListChangeType.ITEM_REPLACED);
                     }
                 }
 
@@ -855,7 +855,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
                         expect(change.index).toBe(1);
                         expect(change.newValue).toBe('two');
                         expect(change.oldValue).toBe('b');
-                        expect(change.type).toBe(ListChangeKind.ITEM_REPLACED);
+                        expect(change.type).toBe(ListChangeType.ITEM_REPLACED);
                     }
                 }
 
@@ -870,7 +870,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
                         expect(change.index).toBe(2);
                         expect(change.newValue).toBe('three');
                         expect(change.oldValue).toBe('c');
-                        expect(change.type).toBe(ListChangeKind.ITEM_REPLACED);
+                        expect(change.type).toBe(ListChangeType.ITEM_REPLACED);
                     }
                 }
 

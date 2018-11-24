@@ -7,6 +7,7 @@ import {ImmutableList} from './ImmutableList';
 /**
  * @author Alex Chugaev
  * @since 0.0.1
+ * @immutable
  */
 export class ImmutableArrayList<T> extends AbstractImmutableList<T> {
 

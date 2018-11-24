@@ -10,6 +10,7 @@ import {StrictEqualityComparator} from '../../../comparison/equality/StrictEqual
 /**
  * @author Alex Chugaev
  * @since 0.0.1
+ * @immutable
  */
 export abstract class AbstractImmutableList<T>
     extends ReadOnlyListProxy<T, List<T>>
@@ -120,10 +121,6 @@ export abstract class AbstractImmutableList<T>
     public retainAll(items: Sequence<T>): ImmutableList<T>;
     public retainAll(items: Sequence<T>, comparator: EqualityComparator<T>): ImmutableList<T>;
     public retainAll(items: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): ImmutableList<T> {
-        if (items.length === 0) {
-            return this;
-        }
-
         const list: List<T> = this._items.clone();
 
         if (list.retainAll(items, comparator)) {

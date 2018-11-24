@@ -31,12 +31,4 @@ export class KeyValuePair<K, V> implements Equatable<KeyValuePair<K, V>> {
     ): boolean {
         return keyComparator.equals(this.key, other.key) && valueComparator.equals(this.value, other.value);
     }
-
-    public setKey(newKey: K): KeyValuePair<K, V> {
-        return new KeyValuePair(newKey, this.value);
-    }
-
-    public setValue(newValue: V): KeyValuePair<K, V> {
-        return new KeyValuePair(this.key, newValue);
-    }
 }

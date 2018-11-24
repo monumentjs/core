@@ -6,6 +6,7 @@ import {LinkedList} from '../mutable/LinkedList';
 
 /**
  * @author Alex Chugaev
+ * @immutable
  * @since 0.0.1
  */
 export class ImmutableLinkedList<T> extends AbstractImmutableList<T> {

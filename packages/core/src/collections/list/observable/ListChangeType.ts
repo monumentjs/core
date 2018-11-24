@@ -3,7 +3,7 @@
  * @author Alex Chugaev
  * @since 0.0.1
  */
-export enum ListChangeKind {
+export enum ListChangeType {
     ITEM_ADDED,
     ITEM_INSERTED,
     ITEM_REPLACED,

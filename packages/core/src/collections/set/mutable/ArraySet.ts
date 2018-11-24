@@ -14,7 +14,7 @@ import {InvalidStateException} from '../../../exceptions/InvalidStateException';
 import {MethodNotImplementedException} from '../../../exceptions/MethodNotImplementedException';
 import {ListChangedEventArgs} from '../../list/observable/ListChangedEventArgs';
 import {InvalidArgumentException} from '../../../exceptions/InvalidArgumentException';
-import {ListChangeKind} from '../../list/observable/ListChangeKind';
+import {ListChangeType} from '../../list/observable/ListChangeType';
 import {SetChange} from '../observable/SetChange';
 import {SetChangeKind} from '../observable/SetChangeKind';
 
@@ -46,22 +46,22 @@ export class ArraySet<T> extends QueryableProxy<T, ArrayList<T>> implements Set<
 
         this._items.changed.subscribe((_: ListChangedEventArgs<T>) => {
             const args: SetChangedEventArgs<T> = new SetChangedEventArgs(this, _.changes.filter((change) => {
-                return change.type === ListChangeKind.ITEM_ADDED ||
-                    change.type === ListChangeKind.ITEM_REMOVED ||
-                    change.type === ListChangeKind.LIST_CLEARED;
+                return change.type === ListChangeType.ITEM_ADDED ||
+                    change.type === ListChangeType.ITEM_REMOVED ||
+                    change.type === ListChangeType.LIST_CLEARED;
             }).map<SetChange<T>>((change) => {
                 switch (change.type) {
-                    case ListChangeKind.ITEM_ADDED:
+                    case ListChangeType.ITEM_ADDED:
                         return {
                             type: SetChangeKind.ITEM_ADDED,
                             item: change.item
                         };
-                    case ListChangeKind.ITEM_REMOVED:
+                    case ListChangeType.ITEM_REMOVED:
                         return {
                             type: SetChangeKind.ITEM_REMOVED,
                             item: change.item
                         };
-                    case ListChangeKind.LIST_CLEARED:
+                    case ListChangeType.LIST_CLEARED:
                         return {
                             type: SetChangeKind.SET_CLEARED,
                             itemsRemoved: change.itemsRemoved
