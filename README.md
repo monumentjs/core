@@ -4,13 +4,14 @@
 [![Coverage](https://img.shields.io/coveralls/github/monumentjs/core/master.svg?logo=travis)](hhttps://coveralls.io/github/monumentjs/core)
 [![Slack Chat](https://img.shields.io/badge/slack-chat-brightgreen.svg?logo=slack)](https://join.slack.com/t/monumentjs/shared_invite/enQtNDY1ODA1MTExMzQ4LTI0MjllODEwOTk5MjM0NGIwY2YwNzVjNDU3YjEwYzYwYTNjMmI0NjFkNmNjMDFlMjA1NzgzODk0NjcxZTc4NjM)
 
-**Standard library** provides **high quality** and **reusable** codebase written in TypeScript. 
-It designed for development of **large applications** when **scalability** and **consistency** 
+Standard library provides high quality and reusable codebase written in TypeScript. 
+It designed for development of large applications when scalability and consistency
 are very important.
 
 ## Motivation
 
-It would be nice to have a consistent standard library with tons of solutions under one hood, to have possibility to easily pick necessary ones and combine them with less amount of "clue"?
+It would be nice to have a consistent standard library with tons of solutions under one hood, 
+to have possibility to easily pick necessary ones and combine them with less amount of "clue"?
 
 ## Development
 
