@@ -1,27 +1,33 @@
 # TypeScript Standard Library
 
-[![Travis CI Status](https://travis-ci.org/monumentjs/core.svg?branch=master)](https://travis-ci.org/monumentjs/core)
-[![Coverage](https://img.shields.io/coveralls/github/monumentjs/core/master.svg)](https://travis-ci.org/monumentjs/core)
-[![Slack Chat](https://img.shields.io/badge/slack-chat-brightgreen.svg)](https://join.slack.com/t/monumentjs/shared_invite/enQtNDY1ODA1MTExMzQ4LTI0MjllODEwOTk5MjM0NGIwY2YwNzVjNDU3YjEwYzYwYTNjMmI0NjFkNmNjMDFlMjA1NzgzODk0NjcxZTc4NjM)
+[![Travis CI Status](https://img.shields.io/travis/rust-lang/rust/master.svg?logo=travis)](https://travis-ci.org/monumentjs/core)
+[![Coverage](https://img.shields.io/coveralls/github/monumentjs/core/master.svg?logo=travis)](hhttps://coveralls.io/github/monumentjs/core)
+[![Slack Chat](https://img.shields.io/badge/slack-chat-brightgreen.svg?logo=slack)](https://join.slack.com/t/monumentjs/shared_invite/enQtNDY1ODA1MTExMzQ4LTI0MjllODEwOTk5MjM0NGIwY2YwNzVjNDU3YjEwYzYwYTNjMmI0NjFkNmNjMDFlMjA1NzgzODk0NjcxZTc4NjM)
 
 **Standard library** provides **high quality** and **reusable** codebase written in TypeScript. 
 It designed for development of **large applications** when **scalability** and **consistency** 
 are very important.
 
-
 ## Motivation
 
 It would be nice to have a consistent standard library with tons of solutions under one hood, to have possibility to easily pick necessary ones and combine them with less amount of "clue"?
 
+## Development
 
-## Join the Community
+- [Watch project roadmap](https://github.com/monumentjs/core/wiki/Roadmap) on GitHub
+- [Report issue](https://github.com/monumentjs/core/issues) on GitHub
+- [Read contribution document](https://github.com/monumentjs/core/blob/master/CONTRIBUTING.md) on GitHub
 
-Join [Slack channel](https://join.slack.com/t/monumentjs/shared_invite/enQtNDY1ODA1MTExMzQ4LTI0MjllODEwOTk5MjM0NGIwY2YwNzVjNDU3YjEwYzYwYTNjMmI0NjFkNmNjMDFlMjA1NzgzODk0NjcxZTc4NjM) to get help and ask questions, participante in discussions and polls and propose features.
+## Community
 
+- [Contact the team](https://join.slack.com/t/monumentjs/shared_invite/enQtNDY1ODA1MTExMzQ4LTI0MjllODEwOTk5MjM0NGIwY2YwNzVjNDU3YjEwYzYwYTNjMmI0NjFkNmNjMDFlMjA1NzgzODk0NjcxZTc4NjM) on Slack
+- [Propose features](https://join.slack.com/t/monumentjs/shared_invite/enQtNDY1ODA1MTExMzQ4LTI0MjllODEwOTk5MjM0NGIwY2YwNzVjNDU3YjEwYzYwYTNjMmI0NjFkNmNjMDFlMjA1NzgzODk0NjcxZTc4NjM) on Slack
+- [Get help and answers](https://join.slack.com/t/monumentjs/shared_invite/enQtNDY1ODA1MTExMzQ4LTI0MjllODEwOTk5MjM0NGIwY2YwNzVjNDU3YjEwYzYwYTNjMmI0NjFkNmNjMDFlMjA1NzgzODk0NjcxZTc4NjM) on Slack
 
-## Contribution
+## Code 
 
-Start with the [roadmap](https://github.com/monumentjs/core/wiki/Roadmap) and [contributing](https://github.com/monumentjs/core/blob/master/CONTRIBUTING.md) documents. Also you can [join Slack channel](https://join.slack.com/t/monumentjs/shared_invite/enQtNDY1ODA1MTExMzQ4LTI0MjllODEwOTk5MjM0NGIwY2YwNzVjNDU3YjEwYzYwYTNjMmI0NjFkNmNjMDFlMjA1NzgzODk0NjcxZTc4NjM) to keep in touch with team.
+- [Watch latest build details](https://travis-ci.org/monumentjs/core.svg?branch=master) on Travis CI
+- [Watch actual test coverage report](https://coveralls.io/github/monumentjs/core) on Coveralls
 
 
 ## License
