@@ -14,7 +14,7 @@ script:
     - "npm test"
 after_success:
     # Publish coverage
-    - "npm coveralls"
+    - "npm run coveralls"
     # Publish docs
     - "npm run docs"
     - "git config user.email achugaev93@gmail.com"
