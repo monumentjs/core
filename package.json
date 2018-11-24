@@ -3,6 +3,7 @@
     "scripts": {
         "bootstrap": "lerna bootstrap",
         "compile": "tsc",
+        "contributors": "git log --pretty=\"%an <%ae>\" | sort | uniq > CONTRIBUTORS",
         "coveralls": "cat ./coverage/lcov.info | coveralls",
         "docs": "gulp docs",
         "lint": "tslint --format stylish --project .",
