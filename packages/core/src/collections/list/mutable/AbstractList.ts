@@ -21,6 +21,7 @@ import {EventSource} from '../../../events/EventSource';
 import {EventDispatcher} from '../../../events/EventDispatcher';
 import {ListChangeTransaction} from '../observable/ListChangeTransaction';
 import {InvalidStateException} from '../../../exceptions/InvalidStateException';
+import {QueryableImpl} from '../../base/QueryableImpl';
 
 
 /**
@@ -102,57 +103,19 @@ export abstract class AbstractList<T> implements List<T> {
         iterator: AggregateFunction<T, TAggregate>,
         initialSeed: TAggregate
     ): TAggregate {
-        let lastSeed: TAggregate = initialSeed;
-
-        this.forEach((actualItem, index) => {
-            lastSeed = iterator(lastSeed, actualItem, index);
-        });
-
-        return lastSeed;
+        return new QueryableImpl(this).aggregate(iterator, initialSeed);
     }
 
     public all(predicate: IteratorFunction<T, boolean>): boolean {
-        if (this.isEmpty) {
-            throw new InvalidOperationException(`Operation is not allowed for empty lists.`);
-        }
-
-        let index: number = 0;
-
-        for (const item of this) {
-            if (!predicate(item, index)) {
-                return false;
-            }
-
-            index++;
-        }
-
-        return true;
+        return new QueryableImpl(this).all(predicate);
     }
 
     public any(predicate: IteratorFunction<T, boolean>): boolean {
-        if (this.isEmpty) {
-            throw new InvalidOperationException(`Operation is not allowed for empty lists.`);
-        }
-
-        let index: number = 0;
-
-        for (const item of this) {
-            if (predicate(item, index)) {
-                return true;
-            }
-
-            index++;
-        }
-
-        return false;
+        return new QueryableImpl(this).any(predicate);
     }
 
     public average(selector: IteratorFunction<T, number>): number {
-        if (this.isEmpty) {
-            throw new InvalidOperationException(`Operation is not allowed for empty lists.`);
-        }
-
-        return this.sum(selector) / this.length;
+        return new QueryableImpl(this).average(selector);
     }
 
     public clear(): boolean {
@@ -173,12 +136,7 @@ export abstract class AbstractList<T> implements List<T> {
     public abstract clone(): List<T>;
 
     public concat(otherList: Sequence<T>): Queryable<T> {
-        const result: List<T> = this.create();
-
-        result.addAll(this);
-        result.addAll(otherList);
-
-        return result;
+        return new QueryableImpl(this).concat(otherList);
     }
 
     public contains(otherItem: T): boolean;
@@ -186,13 +144,7 @@ export abstract class AbstractList<T> implements List<T> {
     public contains(otherItem: T, comparator: EqualityComparator<T>): boolean;
 
     public contains(otherItem: T, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): boolean {
-        for (const currentItem of this) {
-            if (comparator.equals(currentItem, otherItem)) {
-                return true;
-            }
-        }
-
-        return false;
+        return new QueryableImpl(this).contains(otherItem, comparator);
     }
 
     public containsAll(items: Sequence<T>): boolean;
@@ -200,29 +152,11 @@ export abstract class AbstractList<T> implements List<T> {
     public containsAll(items: Sequence<T>, comparator: EqualityComparator<T>): boolean;
 
     public containsAll(items: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): boolean {
-        if (items.length === 0) {
-            return false;
-        }
-
-        for (const item of items) {
-            if (!this.contains(item, comparator)) {
-                return false;
-            }
-        }
-
-        return true;
+        return new QueryableImpl(this).containsAll(items, comparator);
     }
 
     public count(predicate: IteratorFunction<T, boolean>): number {
-        return this.aggregate((count: number, item: T, index: number) => {
-            const itemMatchesPredicate: boolean = predicate(item, index);
-
-            if (itemMatchesPredicate) {
-                return count + 1;
-            }
-
-            return count;
-        }, 0);
+        return new QueryableImpl(this).count(predicate);
     }
 
     /**
@@ -233,15 +167,7 @@ export abstract class AbstractList<T> implements List<T> {
     public distinct(comparator: EqualityComparator<T>): Queryable<T>;
 
     public distinct(comparator: EqualityComparator<T> = StrictEqualityComparator.get()): Queryable<T> {
-        const distinctItems: List<T> = this.create();
-
-        this.forEach((actualItem: T): void => {
-            if (!distinctItems.contains(actualItem, comparator)) {
-                distinctItems.add(actualItem);
-            }
-        });
-
-        return distinctItems;
+        return new QueryableImpl(this).distinct(comparator);
     }
 
     public equals(otherList: Sequence<T>): boolean;
@@ -249,31 +175,7 @@ export abstract class AbstractList<T> implements List<T> {
     public equals(otherList: Sequence<T>, comparator: EqualityComparator<T>): boolean;
 
     public equals(otherList: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): boolean {
-        /*tslint:disable:cyclomatic-complexity*/
-        if (this.length !== otherList.length) {
-            return false;
-        }
-
-        if (this.isEmpty && otherList.length === 0) {
-            return true;
-        }
-
-        const thisIterator: Iterator<T> = this[Symbol.iterator]();
-        const otherIterator: Iterator<T> = otherList[Symbol.iterator]();
-
-        let thisIteratorResult: IteratorResult<T> = thisIterator.next();
-        let otherIteratorResult: IteratorResult<T> = otherIterator.next();
-
-        while (thisIteratorResult.done === false && otherIteratorResult.done === false) {
-            if (!comparator.equals(thisIteratorResult.value, otherIteratorResult.value)) {
-                return false;
-            }
-
-            thisIteratorResult = thisIterator.next();
-            otherIteratorResult = otherIterator.next();
-        }
-
-        return true;
+        return new QueryableImpl(this).equals(otherList, comparator);
     }
 
     public except(otherList: Sequence<T>): Queryable<T>;
@@ -313,27 +215,15 @@ export abstract class AbstractList<T> implements List<T> {
     public first(predicate: IteratorFunction<T, boolean>, defaultValue: T): T;
 
     public first(predicate: IteratorFunction<T, boolean>, defaultValue?: T): T | undefined {
-        let index: number = 0;
-
-        for (const actualItem of this) {
-            const actualItemMatchesPredicate: boolean = predicate(actualItem, index);
-
-            if (actualItemMatchesPredicate) {
-                return actualItem;
-            }
-
-            index++;
+        if (defaultValue === undefined) {
+            return new QueryableImpl(this).first(predicate);
         }
 
-        return defaultValue;
+        return new QueryableImpl(this).first(predicate, defaultValue);
     }
 
     public firstOrDefault(defaultValue: T): T {
-        if (this.isEmpty) {
-            return defaultValue;
-        } else {
-            return this.getAt(0);
-        }
+        return new QueryableImpl(this).firstOrDefault(defaultValue);
     }
 
     public forEach(iterator: IteratorFunction<T, boolean | void>): void;
@@ -524,16 +414,11 @@ export abstract class AbstractList<T> implements List<T> {
     public last(predicate: IteratorFunction<T, boolean>, defaultValue: T): T;
 
     public last(predicate: IteratorFunction<T, boolean>, defaultValue?: T): T | undefined {
-        for (let index = this.lastIndex; index >= 0; index--) {
-            const actualItem: T = this.getAt(index);
-            const actualItemMatchesPredicate: boolean = predicate(actualItem, index);
-
-            if (actualItemMatchesPredicate) {
-                return actualItem;
-            }
+        if (defaultValue === undefined) {
+            return new QueryableImpl(this).last(predicate);
         }
 
-        return defaultValue;
+        return new QueryableImpl(this).last(predicate, defaultValue);
     }
 
     public lastIndexOf(item: T): number;
@@ -585,45 +470,15 @@ export abstract class AbstractList<T> implements List<T> {
     }
 
     public map<TResult>(selector: IteratorFunction<T, TResult>): Queryable<TResult> {
-        const result: List<TResult> = this.create();
-
-        this.forEach((actualItem, index) => {
-            result.add(selector(actualItem, index));
-        });
-
-        return result;
+        return new QueryableImpl(this).map(selector);
     }
 
     public max(selector: IteratorFunction<T, number>): number {
-        if (this.isEmpty) {
-            throw new InvalidOperationException('Unable to perform operation on empty list.');
-        }
-
-        return this.aggregate((maxValue: number, actualItem: T, index: number): number => {
-            const itemValue: number = selector(actualItem, index);
-
-            if (index === 0) {
-                return itemValue;
-            }
-
-            return Math.max(maxValue, itemValue);
-        }, 0);
+        return new QueryableImpl(this).max(selector);
     }
 
     public min(selector: IteratorFunction<T, number>): number {
-        if (this.isEmpty) {
-            throw new InvalidOperationException('Unable to perform operation on empty list.');
-        }
-
-        return this.aggregate((minValue: number, actualItem: T, index: number): number => {
-            const itemValue: number = selector(actualItem, index);
-
-            if (index === 0) {
-                return itemValue;
-            }
-
-            return Math.min(minValue, itemValue);
-        }, 0);
+        return new QueryableImpl(this).min(selector);
     }
 
     public orderBy<TKey>(

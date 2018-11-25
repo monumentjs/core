@@ -44,6 +44,7 @@ export * from './src/collections/base/NoSuchItemException';
 export * from './src/collections/base/SelectorFunction';
 export * from './src/collections/base/Sequence';
 export * from './src/collections/base/Queryable';
+export * from './src/collections/base/QueryableImpl';
 export * from './src/collections/base/Grouping';
 export * from './src/collections/base/ToArray';
 
