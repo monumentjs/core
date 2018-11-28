@@ -26,8 +26,10 @@ export class CollectionUtils {
     }
 
     public static validateIndexBounds(sequence: Sequence<any>, index: number): void {
-        if (index < 0 || index >= sequence.length) {
-            throw new IndexOutOfBoundsException(index, sequence.length);
+        const length: number = sequence.length;
+
+        if (index < 0 || index >= length) {
+            throw new IndexOutOfBoundsException(index, length);
         }
     }
 

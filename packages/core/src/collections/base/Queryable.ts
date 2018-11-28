@@ -1,4 +1,3 @@
-import {Sequence} from './Sequence';
 import {Grouping} from './Grouping';
 import {IteratorFunction} from './IteratorFunction';
 import {CombineFunction} from './CombineFunction';
@@ -10,6 +9,7 @@ import {SortOrder} from '../../comparison/order/SortOrder';
 import {Equatable} from '../../comparison/equality/Equatable';
 import {ToJSON} from '../../base/ToJSON';
 import {ToArray} from './ToArray';
+import {Sequence} from './Sequence';
 
 
 /**
@@ -47,7 +47,7 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T>, Equa
     /**
      * Concatenates actual sequence with other one and returns new sequence containing elements of both of them.
      */
-    concat(otherList: Sequence<T>): Queryable<T>;
+    concat(otherItems: Sequence<T>): Queryable<T>;
 
     contains(item: T): boolean;
 
@@ -72,9 +72,9 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T>, Equa
      */
     distinct(comparator: EqualityComparator<T>): Queryable<T>;
 
-    equals(otherList: Sequence<T>): boolean;
+    equals(otherItems: Sequence<T>): boolean;
 
-    equals(otherList: Sequence<T>, comparator: EqualityComparator<T>): boolean;
+    equals(otherItems: Sequence<T>, comparator: EqualityComparator<T>): boolean;
 
     /**
      * Produces the set difference of two sequences.
@@ -88,27 +88,75 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T>, Equa
 
     /**
      * Calls predicate function on each item in sequence.
-     * Returns new list containing items for which predicate function returned `true`.
+     * Returns new collection containing items for which predicate function returned `true`.
      */
     findAll(predicate: IteratorFunction<T, boolean>): Queryable<T>;
 
     /**
-     * Returns first item of list. If list is empty, returns default payload.
+     * Returns first item of collection. If collection is empty, returns default payload.
      */
     first(predicate: IteratorFunction<T, boolean>): T | undefined;
 
     first(predicate: IteratorFunction<T, boolean>, defaultValue: T): T;
 
     /**
-     * Returns first item of list. If list is empty, returns default payload.
+     * Returns first item of collection. If collection is empty, returns default payload.
      */
     firstOrDefault(defaultValue: T): T;
 
-    forEach(iterator: IteratorFunction<T, boolean | void>): void;
+    /**
+     * Calls iterator function for each element of collection.
+     *
+     * Note: concrete collection implementation should provide more efficient implementation of iteration.
+     *
+     * @see QueryableImpl.forEach for default implementation.
+     */
+    forEach(iterator: IteratorFunction<T, false | void>): void;
 
-    forEach(iterator: IteratorFunction<T, boolean | void>, startIndex: number): void;
+    /**
+     * Calls iterator function for each element of collection starting with specified index.
+     *
+     * Note: concrete collection implementation should provide more efficient implementation of iteration.
+     *
+     * @see QueryableImpl.forEach for default implementation.
+     */
+    forEach(iterator: IteratorFunction<T, false | void>, startIndex: number): void;
 
-    forEach(iterator: IteratorFunction<T, boolean | void>, startIndex: number, count: number): void;
+    /**
+     * Calls iterator function for each element of collection inside specified range.
+     *
+     * Note: concrete collection implementation should provide more efficient implementation of iteration.
+     *
+     * @see QueryableImpl.forEach for default implementation.
+     */
+    forEach(iterator: IteratorFunction<T, false | void>, startIndex: number, count: number): void;
+
+    /**
+     * Calls iterator function for each element of collection in reverse order.
+     *
+     * Note: concrete collection implementation should provide more efficient implementation of iteration.
+     *
+     * @see QueryableImpl.forEachBack for default implementation.
+     */
+    forEachBack(iterator: IteratorFunction<T, false | void>): void;
+
+    /**
+     * Calls iterator function for each element of collection in reverse order starting with specified index.
+     *
+     * Note: concrete collection implementation should provide more efficient implementation of iteration.
+     *
+     * @see QueryableImpl.forEachBack for default implementation.
+     */
+    forEachBack(iterator: IteratorFunction<T, false | void>, startIndex: number): void;
+
+    /**
+     * Calls iterator function for each element of collection in reverse order inside specified range.
+     *
+     * Note: concrete collection implementation should provide more efficient implementation of iteration.
+     *
+     * @see QueryableImpl.forEachBack for default implementation.
+     */
+    forEachBack(iterator: IteratorFunction<T, false | void>, startIndex: number, count: number): void;
 
     /**
      * Groups the elements of a sequence according to a specified key selector function.
@@ -123,18 +171,18 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T>, Equa
     /**
      * Produces the set intersection of two sequences.
      */
-    intersect(otherList: Sequence<T>): Queryable<T>;
+    intersect(otherItems: Sequence<T>): Queryable<T>;
 
     /**
      * Produces the set intersection of two sequences by using the specified EqualityComparator<T> to compare values.
      */
-    intersect(otherList: Sequence<T>, comparator: EqualityComparator<T>): Queryable<T>;
+    intersect(otherItems: Sequence<T>, comparator: EqualityComparator<T>): Queryable<T>;
 
     /**
      * Correlates the elements of two sequences based on matching keys.
      */
     join<TOuter, TKey, TResult>(
-        outerList: Sequence<TOuter>,
+        outerItems: Sequence<TOuter>,
         outerKeySelector: IteratorFunction<TOuter, TKey>,
         innerKeySelector: IteratorFunction<T, TKey>,
         resultSelector: CombineFunction<T, TOuter, TResult>
@@ -145,7 +193,7 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T>, Equa
      * A specified EqualityComparator is used to compare keys.
      */
     join<TOuter, TKey, TResult>(
-        outerList: Sequence<TOuter>,
+        outerItems: Sequence<TOuter>,
         outerKeySelector: IteratorFunction<TOuter, TKey>,
         innerKeySelector: IteratorFunction<T, TKey>,
         resultSelector: CombineFunction<T, TOuter, TResult>,
@@ -153,14 +201,14 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T>, Equa
     ): Queryable<TResult>;
 
     /**
-     * Returns last item of list. If list is empty, returns default payload.
+     * Returns last item of collection. If collection is empty, returns default payload.
      */
     last(predicate: IteratorFunction<T, boolean>): T | undefined;
 
     last(predicate: IteratorFunction<T, boolean>, defaultValue: T): T;
 
     /**
-     * Returns last item of list. If list is empty, returns default payload.
+     * Returns last item of collection. If collection is empty, returns default payload.
      */
     lastOrDefault(defaultValue: T): T;
 
@@ -241,18 +289,20 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T>, Equa
     /**
      * Produces the set union of two sequences by using a specified IEqualityComparator<TItem>.
      */
-    union(otherList: Sequence<T>): Queryable<T>;
+    union(otherItems: Sequence<T>): Queryable<T>;
 
     /**
      * Produces the set union of two sequences by using a specified IEqualityComparator<TItem>.
      */
-    union(otherList: Sequence<T>, comparator: EqualityComparator<T>): Queryable<T>;
+    union(otherItems: Sequence<T>, comparator: EqualityComparator<T>): Queryable<T>;
 
     /**
      * Applies a specified function to the corresponding elements of two sequences, producing a sequence of the results.
      */
     zip<TOther, TResult>(
-        otherList: Sequence<TOther>,
+        otherItems: Sequence<TOther>,
         resultSelector: CombineFunction<T, TOther, TResult>
     ): Queryable<TResult>;
+
+    entries(): Iterable<[T, number]>;
 }

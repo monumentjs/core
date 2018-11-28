@@ -98,24 +98,6 @@ export class ArrayList<T> extends AbstractList<T> implements Cloneable<ArrayList
         this._items.length = 0;
     }
 
-    protected doForEach(
-        iterator: IteratorFunction<T, boolean | void>,
-        startIndex: number,
-        count: number
-    ): void {
-        for (let index = startIndex, itemsLeft = count; itemsLeft > 0; index++, itemsLeft--) {
-            const stop: boolean = iterator(this._items[index], index) === false;
-
-            if (stop) {
-                break;
-            }
-        }
-    }
-
-    protected doGetAt(index: number): T {
-        return this._items[index];
-    }
-
     protected doInsert(index: number, item: T): void {
         this._items.splice(index, 0, item);
     }

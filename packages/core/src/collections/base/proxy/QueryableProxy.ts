@@ -68,6 +68,10 @@ export class QueryableProxy<T, TItems extends Queryable<T>> extends SequenceProx
         return this._items.distinct(comparator);
     }
 
+    public entries(): Iterable<[T, number]> {
+        return this._items.entries();
+    }
+
     public except(otherList: Sequence<T>): Queryable<T>;
 
     public except(otherList: Sequence<T>, comparator: EqualityComparator<T>): Queryable<T>;
@@ -93,15 +97,26 @@ export class QueryableProxy<T, TItems extends Queryable<T>> extends SequenceProx
         return this._items.firstOrDefault(defaultValue);
     }
 
-    public forEach(iterator: IteratorFunction<T, boolean | void>): void;
-
-    public forEach(iterator: IteratorFunction<T, boolean | void>, startIndex: number): void;
-
-    public forEach(iterator: IteratorFunction<T, boolean | void>, startIndex: number, count: number): void;
-
-    public forEach(iterator: IteratorFunction<T, boolean | void>, startIndex?: number, count?: number): void {
-        // @ts-ignore
+    public forEach(iterator: IteratorFunction<T, false | void>): void;
+    public forEach(iterator: IteratorFunction<T, false | void>, startIndex: number): void;
+    public forEach(iterator: IteratorFunction<T, false | void>, startIndex: number, count: number): void;
+    public forEach(
+        iterator: IteratorFunction<T, false | void>,
+        startIndex: number = 0,
+        count: number = this.length - startIndex
+    ): void {
         this._items.forEach(iterator, startIndex, count);
+    }
+
+    public forEachBack(iterator: IteratorFunction<T, false | void>): void;
+    public forEachBack(iterator: IteratorFunction<T, false | void>, startIndex: number): void;
+    public forEachBack(iterator: IteratorFunction<T, false | void>, startIndex: number, count: number): void;
+    public forEachBack(
+        iterator: IteratorFunction<T, false | void>,
+        startIndex: number = Math.max(this.length - 1, 0),
+        count: number = startIndex
+    ): void {
+        this._items.forEachBack(iterator, startIndex, count);
     }
 
     public groupBy<TKey>(
@@ -259,5 +274,4 @@ export class QueryableProxy<T, TItems extends Queryable<T>> extends SequenceProx
     public zip<TOther, TResult>(otherList: Sequence<TOther>, resultSelector: CombineFunction<T, TOther, TResult>): Queryable<TResult> {
         return this._items.zip(otherList, resultSelector);
     }
-
 }

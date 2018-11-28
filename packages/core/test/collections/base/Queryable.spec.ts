@@ -3,6 +3,7 @@ import {
     IgnoreCaseComparator,
     IgnoreCaseEqualityComparator,
     IndexOutOfBoundsException,
+    InvalidArgumentException,
     InvalidOperationException,
     NamedPool,
     NoSuchItemException,
@@ -575,10 +576,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
                 const list: Queryable<string> = create();
 
                 list.skip(0);
-
-                expect(() => {
-                    list.skip(1);
-                }).toThrow(IndexOutOfBoundsException);
+                list.skip(10);
 
                 expect(() => {
                     list.skip(-10);
@@ -671,14 +669,11 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
                 const list: Queryable<string> = create();
 
                 list.take(0);
+                list.take(1);
 
                 expect(() => {
-                    list.take(1);
-                }).toThrow(RangeException);
-
-                expect(() => {
-                    list.take(-10);
-                }).toThrow(RangeException);
+                    list.take(-1);
+                }).toThrow(InvalidArgumentException);
             });
 
             it('should return slice of list', function () {
@@ -771,6 +766,5 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
                 expect(list.toArray()).toEqual(['one', 'two', 'three']);
             });
         });
-
     });
 }

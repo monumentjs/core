@@ -1,6 +1,4 @@
-import {RandomInt} from '../../../random/RandomInt';
 import {List} from './List';
-import {Sequence} from '../../base/Sequence';
 import {IteratorFunction} from '../../base/IteratorFunction';
 import {CollectionUtils} from '../../base/CollectionUtils';
 import {AggregateFunction} from '../../base/AggregateFunction';
@@ -8,10 +6,8 @@ import {Queryable} from '../../base/Queryable';
 import {Grouping} from '../../base/Grouping';
 import {CombineFunction} from '../../base/CombineFunction';
 import {SelectorFunction} from '../../base/SelectorFunction';
-import {NoSuchItemException} from '../../base/NoSuchItemException';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
 import {StrictEqualityComparator} from '../../../comparison/equality/StrictEqualityComparator';
-import {InvalidOperationException} from '../../../exceptions/InvalidOperationException';
 import {IndexOutOfBoundsException} from '../../../exceptions/IndexOutOfBoundsException';
 import {RangeException} from '../../../exceptions/RangeException';
 import {SortOrder} from '../../../comparison/order/SortOrder';
@@ -22,6 +18,7 @@ import {EventDispatcher} from '../../../events/EventDispatcher';
 import {ListChangeTransaction} from '../observable/ListChangeTransaction';
 import {InvalidStateException} from '../../../exceptions/InvalidStateException';
 import {QueryableImpl} from '../../base/QueryableImpl';
+import {Sequence} from '../../base/Sequence';
 
 
 /**
@@ -30,8 +27,6 @@ import {QueryableImpl} from '../../base/QueryableImpl';
  * @mutable
  */
 export abstract class AbstractList<T> implements List<T> {
-    private readonly _changed: EventDispatcher<ListChangedEventArgs<T>> = new EventDispatcher();
-    private _changeTransaction: ListChangeTransaction<T> | undefined;
 
     public get changed(): EventSource<ListChangedEventArgs<T>> {
         return this._changed;
@@ -50,6 +45,8 @@ export abstract class AbstractList<T> implements List<T> {
     }
 
     public abstract get length(): number;
+    private readonly _changed: EventDispatcher<ListChangedEventArgs<T>> = new EventDispatcher();
+    private _changeTransaction: ListChangeTransaction<T> | undefined;
 
     public abstract [Symbol.iterator](): Iterator<T>;
 
@@ -67,7 +64,9 @@ export abstract class AbstractList<T> implements List<T> {
     }
 
     public addAll(items: Sequence<T>): boolean {
-        if (items.length === 0) {
+        const items$: QueryableImpl<T> = new QueryableImpl(items);
+
+        if (items$.isEmpty) {
             return false;
         }
 
@@ -183,31 +182,11 @@ export abstract class AbstractList<T> implements List<T> {
     public except(otherList: Sequence<T>, comparator: EqualityComparator<T>): Queryable<T>;
 
     public except(otherList: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): Queryable<T> {
-        const difference: List<T> = this.create(this);
-
-        for (const otherItem of otherList) {
-            if (this.contains(otherItem, comparator)) {
-                difference.remove(otherItem, comparator);
-            } else {
-                difference.add(otherItem);
-            }
-        }
-
-        return difference;
+        return new QueryableImpl(this).except(otherList, comparator);
     }
 
     public findAll(predicate: IteratorFunction<T, boolean>): Queryable<T> {
-        const result: List<T> = this.create();
-
-        this.forEach((actualItem, index) => {
-            const itemMatchesPredicate: boolean = predicate(actualItem, index);
-
-            if (itemMatchesPredicate) {
-                result.add(actualItem);
-            }
-        });
-
-        return result;
+        return new QueryableImpl(this).findAll(predicate);
     }
 
     public first(predicate: IteratorFunction<T, boolean>): T | undefined;
@@ -226,24 +205,32 @@ export abstract class AbstractList<T> implements List<T> {
         return new QueryableImpl(this).firstOrDefault(defaultValue);
     }
 
-    public forEach(iterator: IteratorFunction<T, boolean | void>): void;
+    public forEach(iterator: IteratorFunction<T, false | void>): void;
 
-    public forEach(iterator: IteratorFunction<T, boolean | void>, startIndex: number): void;
+    public forEach(iterator: IteratorFunction<T, false | void>, startIndex: number): void;
 
-    public forEach(iterator: IteratorFunction<T, boolean | void>, startIndex: number, count: number): void;
+    public forEach(iterator: IteratorFunction<T, false | void>, startIndex: number, count: number): void;
 
-    public forEach(iterator: IteratorFunction<T, boolean | void>, startIndex: number = 0, count: number = this.length - startIndex): void {
-        CollectionUtils.validateSliceBounds(this, startIndex, count);
+    public forEach(iterator: IteratorFunction<T, false | void>, startIndex: number = 0, count: number = this.length - startIndex): void {
+        new QueryableImpl(this).forEach(iterator, startIndex, count);
+    }
 
-        if (count > 0) {
-            this.doForEach(iterator, startIndex, count);
-        }
+    public forEachBack(iterator: IteratorFunction<T, false | void>): void;
+
+    public forEachBack(iterator: IteratorFunction<T, false | void>, startIndex: number): void;
+
+    public forEachBack(iterator: IteratorFunction<T, false | void>, startIndex: number, count: number): void;
+
+    public forEachBack(
+        iterator: IteratorFunction<T, false | void>,
+        startIndex: number = Math.max(this.length - 1, 0),
+        count: number = this.length > 0 ? Math.min(startIndex, 1) : 0
+    ): void {
+        new QueryableImpl(this).forEachBack(iterator, startIndex, count);
     }
 
     public getAt(index: number): T {
-        CollectionUtils.validateIndexBounds(this, index);
-
-        return this.doGetAt(index);
+        return new QueryableImpl(this).getAt(index);
     }
 
     public groupBy<TKey>(
@@ -259,24 +246,7 @@ export abstract class AbstractList<T> implements List<T> {
         keySelector: IteratorFunction<T, TKey>,
         keyComparator: EqualityComparator<TKey> = StrictEqualityComparator.get()
     ): Queryable<Grouping<TKey, T>> {
-        const allKeys: Queryable<TKey> = this.map((item: T, index: number) => {
-            return keySelector(item, index);
-        });
-        const keys: Queryable<TKey> = allKeys.distinct(keyComparator);
-        const groups: List<Grouping<TKey, T>> = this.create();
-
-        for (const key of keys) {
-            const items: Queryable<T> = this.findAll((item: T, index: number): boolean => {
-                const otherKey: TKey = keySelector(item, index);
-
-                return keyComparator.equals(key, otherKey);
-            });
-            const group: Grouping<TKey, T> = new Grouping(key, items);
-
-            groups.add(group);
-        }
-
-        return groups;
+        return new QueryableImpl(this).groupBy(keySelector, keyComparator);
     }
 
     public indexOf(item: T): number;
@@ -329,7 +299,9 @@ export abstract class AbstractList<T> implements List<T> {
             throw new IndexOutOfBoundsException(`Index=${index}, length=${this.length}`);
         }
 
-        if (items.length === 0) {
+        const items$: QueryableImpl<T> = new QueryableImpl(items);
+
+        if (items$.isEmpty) {
             return false;
         }
 
@@ -354,17 +326,7 @@ export abstract class AbstractList<T> implements List<T> {
     public intersect(otherList: Sequence<T>, comparator: EqualityComparator<T>): Queryable<T>;
 
     public intersect(otherList: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): Queryable<T> {
-        const intersection: List<T> = this.create();
-
-        this.forEach((actualItem: T) => {
-            for (const otherItem of otherList) {
-                if (comparator.equals(actualItem, otherItem)) {
-                    intersection.add(actualItem);
-                }
-            }
-        });
-
-        return intersection;
+        return new QueryableImpl(this).intersect(otherList, comparator);
     }
 
     public join<TOuter, TKey, TResult>(
@@ -389,24 +351,7 @@ export abstract class AbstractList<T> implements List<T> {
         resultSelector: CombineFunction<T, TOuter, TResult>,
         keyComparator: EqualityComparator<TKey> = StrictEqualityComparator.get()
     ): Queryable<TResult> {
-        const listOfJoinedItems: List<TResult> = this.create();
-
-        this.forEach((innerItem: T, innerIndex: number): void => {
-            const innerKey: TKey = innerKeySelector(innerItem, innerIndex);
-            let outerIndex: number = 0;
-
-            for (const outerItem of outerList) {
-                const outerKey: TKey = outerKeySelector(outerItem, outerIndex);
-
-                if (keyComparator.equals(innerKey, outerKey)) {
-                    listOfJoinedItems.add(resultSelector(innerItem, outerItem));
-                }
-
-                outerIndex += 1;
-            }
-        });
-
-        return listOfJoinedItems;
+        return new QueryableImpl(this).join(outerList, outerKeySelector, innerKeySelector, resultSelector, keyComparator);
     }
 
     public last(predicate: IteratorFunction<T, boolean>): T | undefined;
@@ -433,7 +378,7 @@ export abstract class AbstractList<T> implements List<T> {
         item: T,
         comparator: EqualityComparator<T> = StrictEqualityComparator.get(),
         startIndex: number = Math.max(0, this.lastIndex),
-        count: number = startIndex + 1
+        count: number = this.length > 0 ? startIndex + 1 : 0
     ): number {
         if (startIndex !== 0) {
             CollectionUtils.validateIndexBounds(this, startIndex);
@@ -447,26 +392,21 @@ export abstract class AbstractList<T> implements List<T> {
             throw new RangeException(`Scan range length is not valid. Value=${count}`);
         }
 
-        let itemsLeft: number = count;
+        let result: number = -1;
 
-        for (let index = startIndex; itemsLeft > 0; index--, itemsLeft--) {
-            // TODO: optimize item access
-            const currentItem: T = this.getAt(index);
+        this.forEachBack((ownItem: T, index: number) => {
+            if (comparator.equals(item, ownItem)) {
+                result = index;
 
-            if (comparator.equals(currentItem, item)) {
-                return index;
+                return false;
             }
-        }
+        }, startIndex, count);
 
-        return -1;
+        return result;
     }
 
     public lastOrDefault(defaultValue: T): T {
-        if (this.isEmpty) {
-            return defaultValue;
-        } else {
-            return this.getAt(this.lastIndex);
-        }
+        return new QueryableImpl(this).lastOrDefault(defaultValue);
     }
 
     public map<TResult>(selector: IteratorFunction<T, TResult>): Queryable<TResult> {
@@ -497,22 +437,11 @@ export abstract class AbstractList<T> implements List<T> {
         comparator: Comparator<TKey>,
         sortOrder: SortOrder = SortOrder.ASCENDING
     ): Queryable<T> {
-        return this.create(this.toArray().sort((x: T, y: T): number => {
-            const xKey: TKey = keySelector(x);
-            const yKey: TKey = keySelector(y);
-
-            return comparator.compare(xKey, yKey) * sortOrder;
-        }));
+        return new QueryableImpl(this).orderBy(keySelector, comparator, sortOrder);
     }
 
     public random(): T {
-        if (this.isEmpty) {
-            throw new NoSuchItemException('Random item not found.');
-        }
-
-        const index: number = new RandomInt(0, this.length).value;
-
-        return this.getAt(index);
+        return new QueryableImpl(this).random();
     }
 
     public abstract remove(item: T): boolean;
@@ -524,18 +453,14 @@ export abstract class AbstractList<T> implements List<T> {
     public removeAll(items: Sequence<T>, comparator: EqualityComparator<T>): boolean;
 
     public removeAll(items: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): boolean {
-        if (items.length === 0) {
+        const items$: QueryableImpl<T> = new QueryableImpl(items);
+
+        if (items$.isEmpty) {
             return false;
         }
 
-        return this.removeBy((actualItem) => {
-            for (const item of items) {
-                if (comparator.equals(item, actualItem)) {
-                    return true;
-                }
-            }
-
-            return false;
+        return this.removeBy((ownItem: T): boolean => {
+            return items$.contains(ownItem, comparator);
         });
     }
 
@@ -570,34 +495,15 @@ export abstract class AbstractList<T> implements List<T> {
         });
     }
 
-    public abstract reverse(): Queryable<T>;
+    public reverse(): Queryable<T> {
+        return new QueryableImpl(this).reverse();
+    }
 
     public selectMany<TInnerItem, TResult>(
         sequenceSelector: IteratorFunction<T, Sequence<TInnerItem>>,
         resultSelector: CombineFunction<T, TInnerItem, TResult>
     ): Queryable<TResult> {
-        const resultList: List<TResult> = this.create();
-        const collections: Queryable<Sequence<TInnerItem>> = this.map<Sequence<TInnerItem>>((
-            actualItem: T,
-            actualItemIndex: number
-        ): Sequence<TInnerItem> => {
-            return sequenceSelector(actualItem, actualItemIndex);
-        });
-
-        let index: number = 0;
-
-        // TODO: use two iterators
-        for (const collection of collections) {
-            const actualItem: T = this.getAt(index);
-
-            for (const innerItem of collection) {
-                resultList.add(resultSelector(actualItem, innerItem));
-            }
-
-            index += 1;
-        }
-
-        return resultList;
+        return new QueryableImpl(this).selectMany(sequenceSelector, resultSelector);
     }
 
     public setAt(index: number, newValue: T): T {
@@ -614,38 +520,11 @@ export abstract class AbstractList<T> implements List<T> {
     }
 
     public skip(offset: number): Queryable<T> {
-        if (offset !== 0) {
-            CollectionUtils.validateIndexBounds(this, offset);
-        }
-
-        const result: List<T> = this.create();
-        let index: number = 0;
-
-        for (const item of this) {
-            if (index >= offset) {
-                result.add(item);
-            }
-
-            index++;
-        }
-
-        return result;
+        return new QueryableImpl(this).skip(offset);
     }
 
     public skipWhile(predicate: IteratorFunction<T, boolean>): Queryable<T> {
-        let offset: number = 0;
-
-        this.forEach((actualItem: T, index: number): boolean | void => {
-            const actualItemMatchesPredicate: boolean = predicate(actualItem, index);
-
-            if (actualItemMatchesPredicate) {
-                offset += 1;
-            } else {
-                return false;
-            }
-        });
-
-        return this.skip(offset);
+        return new QueryableImpl(this).skipWhile(predicate);
     }
 
     public slice(offset: number): Queryable<T>;
@@ -653,72 +532,19 @@ export abstract class AbstractList<T> implements List<T> {
     public slice(offset: number, length: number): Queryable<T>;
 
     public slice(offset: number, length: number = this.length - offset): Queryable<T> {
-        CollectionUtils.validateSliceBounds(this, offset, length);
-
-        const slice: List<T> = this.create();
-        const maxIndex: number = offset + length;
-        let index: number = 0;
-
-        for (const item of this) {
-            if (index >= maxIndex) {
-                break;
-            }
-
-            if (index >= offset) {
-                slice.add(item);
-            }
-
-            index++;
-        }
-
-        return slice;
+        return new QueryableImpl(this).slice(offset, length);
     }
 
     public sum(selector: IteratorFunction<T, number>): number {
-        if (this.isEmpty) {
-            throw new InvalidOperationException(`Operation is not allowed for empty lists.`);
-        }
-
-        return this.aggregate((total: number, actualItem: T, index: number): number => {
-            const selectedValue: number = selector(actualItem, index);
-
-            return total + selectedValue;
-        }, 0);
+        return new QueryableImpl(this).sum(selector);
     }
 
     public take(length: number): Queryable<T> {
-        CollectionUtils.validateSliceRange(this, 0, length);
-
-        const result: List<T> = this.create();
-        let index: number = 0;
-
-        for (const item of this) {
-            if (index >= length) {
-                break;
-            }
-
-            result.add(item);
-
-            index++;
-        }
-
-        return result;
+        return new QueryableImpl(this).take(length);
     }
 
     public takeWhile(predicate: IteratorFunction<T, boolean>): Queryable<T> {
-        let length: number = 0;
-
-        this.forEach((actualItem: T, index: number): boolean | void => {
-            const actualItemMatchesPredicate: boolean = predicate(actualItem, index);
-
-            if (actualItemMatchesPredicate) {
-                length += 1;
-            } else {
-                return false;
-            }
-        });
-
-        return this.take(length);
+        return new QueryableImpl(this).takeWhile(predicate);
     }
 
     public toArray(): T[] {
@@ -734,44 +560,18 @@ export abstract class AbstractList<T> implements List<T> {
     public union(otherList: Sequence<T>, comparator: EqualityComparator<T>): Queryable<T>;
 
     public union(otherList: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): Queryable<T> {
-        const union: List<T> = this.create(this);
-
-        for (const otherItem of otherList) {
-            if (!union.contains(otherItem, comparator)) {
-                union.add(otherItem);
-            }
-        }
-
-        return union;
+        return new QueryableImpl(this).union(otherList, comparator);
     }
 
     public zip<TOther, TResult>(
         otherList: Sequence<TOther>,
         resultSelector: CombineFunction<T, TOther, TResult>
     ): Queryable<TResult> {
-        const minLength: number = Math.min(this.length, otherList.length);
-        const resultList: List<TResult> = this.create();
+        return new QueryableImpl(this).zip(otherList, resultSelector);
+    }
 
-        if (minLength === 0) {
-            return resultList;
-        }
-
-        let index: number = 0;
-
-        for (const otherItem of otherList) {
-            const actualItem: T = this.getAt(index);
-            const result: TResult = resultSelector(actualItem, otherItem);
-
-            resultList.add(result);
-
-            index++;
-
-            if (index >= minLength) {
-                break;
-            }
-        }
-
-        return resultList;
+    public entries(): Iterable<[T, number]> {
+        return new QueryableImpl(this).entries();
     }
 
     protected beginTransaction() {
@@ -787,10 +587,6 @@ export abstract class AbstractList<T> implements List<T> {
     protected abstract doAddAll(items: Sequence<T>): void;
 
     protected abstract doClear(): void;
-
-    protected abstract doForEach(iterator: IteratorFunction<T, boolean | void>, startIndex: number, count: number): void;
-
-    protected abstract doGetAt(index: number): T;
 
     protected abstract doInsert(index: number, item: T): void;
 
