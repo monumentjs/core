@@ -10,7 +10,7 @@ export function testReadOnlySet(create: <T>(
         testQueryable(create);
 
         describe('constructor()', function () {
-            const set: ReadOnlySet<string> = create(['one', 'One', 'ONE', 'two'], IgnoreCaseEqualityComparator.get());
+            const set: ReadOnlySet<string> = create<string>(['one', 'One', 'ONE', 'two'], IgnoreCaseEqualityComparator.get());
 
             expect(set.length).toBe(2);
             expect(set.toArray()).toEqual(['one', 'two']);

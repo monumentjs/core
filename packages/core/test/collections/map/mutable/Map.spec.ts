@@ -9,7 +9,7 @@ export function testMap(
         let map!: Map<string, string>;
 
         beforeEach(() => {
-            map = create(
+            map = create<string, string>(
                 [
                     new KeyValuePair('One', 'ONE'),
                     new KeyValuePair('Two', 'TWO'),

@@ -468,7 +468,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
         describe('groupBy()', function () {
             it('should return list of grouped items using custom comparator', function () {
                 const list: Queryable<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
-                const groups: Array<Grouping<string, string>> = list.groupBy((word: string): string => {
+                const groups: Array<Grouping<string, string>> = list.groupBy<string>((word: string): string => {
                     return word[0].toLowerCase();
                 }, IgnoreCaseEqualityComparator.get()).toArray();
 
