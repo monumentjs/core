@@ -211,7 +211,8 @@ export abstract class AbstractList<T> implements List<T> {
 
     public forEach(iterator: IteratorFunction<T, false | void>, startIndex: number, count: number): void;
 
-    public forEach(iterator: IteratorFunction<T, false | void>, startIndex: number = 0, count: number = this.length - startIndex): void {
+    public forEach(iterator: IteratorFunction<T, false | void>, startIndex?: number, count?: number): void {
+        // @ts-ignore
         new QueryableImpl(this).forEach(iterator, startIndex, count);
     }
 
@@ -224,7 +225,7 @@ export abstract class AbstractList<T> implements List<T> {
     public forEachBack(
         iterator: IteratorFunction<T, false | void>,
         startIndex: number = Math.max(this.length - 1, 0),
-        count: number = this.length > 0 ? Math.min(startIndex, 1) : 0
+        count: number = startIndex + (this.length ? 1 : 0)
     ): void {
         new QueryableImpl(this).forEachBack(iterator, startIndex, count);
     }
@@ -265,16 +266,17 @@ export abstract class AbstractList<T> implements List<T> {
     ): number {
         CollectionUtils.validateSliceBounds(this, startIndex, count);
 
-        for (let index: number = startIndex; index < startIndex + count; index++) {
-            // TODO: optimize item access
-            const currentItem: T = this.getAt(index);
+        let result: number = -1;
 
-            if (comparator.equals(currentItem, item)) {
-                return index;
+        this.forEach((ownItem: T, index: number) => {
+            if (comparator.equals(ownItem, item)) {
+                result = index;
+
+                return false;
             }
-        }
+        }, startIndex, count);
 
-        return -1;
+        return result;
     }
 
     public insert(index: number, item: T): boolean {
@@ -377,15 +379,11 @@ export abstract class AbstractList<T> implements List<T> {
     public lastIndexOf(
         item: T,
         comparator: EqualityComparator<T> = StrictEqualityComparator.get(),
-        startIndex: number = Math.max(0, this.lastIndex),
-        count: number = this.length > 0 ? startIndex + 1 : 0
+        startIndex: number = Math.max(this.length - 1, 0),
+        count: number = startIndex + (this.length ? 1 : 0)
     ): number {
         if (startIndex !== 0) {
             CollectionUtils.validateIndexBounds(this, startIndex);
-        }
-
-        if (this.isEmpty) {
-            return -1;
         }
 
         if (count < 0 || count > this.length) {

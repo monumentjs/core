@@ -7,6 +7,7 @@ import {EqualityComparator} from '../../../comparison/equality/EqualityComparato
 import {StrictEqualityComparator} from '../../../comparison/equality/StrictEqualityComparator';
 import {AbstractList} from './AbstractList';
 import {LinkedListNode} from './LinkedListNode';
+import {InvalidArgumentException} from '../../../exceptions/InvalidArgumentException';
 
 type LinkedListIteratorFunction<TItem, TResult> = (node: LinkedListNode<TItem>, index: number) => TResult;
 
@@ -46,6 +47,70 @@ export class LinkedList<T> extends AbstractList<T> implements Cloneable<LinkedLi
     public clone(): LinkedList<T> {
         return new LinkedList(this);
     }
+    //
+    // public forEach(iterator: IteratorFunction<T, false | void>): void;
+    //
+    // public forEach(iterator: IteratorFunction<T, false | void>, startIndex: number): void;
+    //
+    // public forEach(iterator: IteratorFunction<T, false | void>, startIndex: number, count: number): void;
+    //
+    // public forEach(iterator: IteratorFunction<T, false | void>, startIndex: number = 0, count: number = this.length - startIndex): void {
+    //     CollectionUtils.validateSliceBounds(this, startIndex, count);
+    //
+    //     if (count === 0) {
+    //         return;
+    //     }
+    //
+    //     let itemsLeft: number = count;
+    //
+    //     this.forEachNode((node: LinkedListNode<T>, index: number) => {
+    //         if (itemsLeft === 0) {
+    //             return false;
+    //         }
+    //
+    //         if (index >= startIndex) {
+    //             iterator(node.nodeValue, index);
+    //             itemsLeft--;
+    //         }
+    //     });
+    // }
+    //
+    // public forEachBack(iterator: IteratorFunction<T, false | void>): void;
+    //
+    // public forEachBack(iterator: IteratorFunction<T, false | void>, startIndex: number): void;
+    //
+    // public forEachBack(iterator: IteratorFunction<T, false | void>, startIndex: number, count: number): void;
+    //
+    // public forEachBack(
+    //     iterator: IteratorFunction<T, false | void>,
+    //     startIndex: number = this.length - 1,
+    //     count: number = startIndex + 1
+    // ): void {
+    //     if (startIndex < 0) {
+    //         throw new InvalidArgumentException('Start index cannot be negative.');
+    //     }
+    //
+    //     if (count < 0) {
+    //         throw new InvalidArgumentException('Start index cannot be negative.');
+    //     }
+    //
+    //     if (count === 0) {
+    //         return;
+    //     }
+    //
+    //     let itemsLeft: number = count;
+    //
+    //     this.forEachNodeReversed((node: LinkedListNode<T>, index: number) => {
+    //         if (itemsLeft < 0) {
+    //             return false;
+    //         }
+    //
+    //         if (index <= startIndex) {
+    //             iterator(node.nodeValue, index);
+    //             itemsLeft--;
+    //         }
+    //     });
+    // }
 
     public remove(item: T): boolean;
 
@@ -145,28 +210,6 @@ export class LinkedList<T> extends AbstractList<T> implements Cloneable<LinkedLi
         this._length = 0;
     }
 
-    protected doForEach(iterator: IteratorFunction<T, boolean | void>, startIndex: number, count: number): void {
-        let itemsLeft: number = count;
-
-        for (
-            let index = startIndex, node = this.getNodeAt(startIndex);
-            itemsLeft > 0 && node != null;
-            itemsLeft--, index++, node = node.nextNode
-        ) {
-            const stop: boolean = iterator(node.nodeValue, index) === false;
-
-            if (stop) {
-                break;
-            }
-        }
-    }
-
-    protected doGetAt(index: number): T {
-        const node: LinkedListNode<T> = this.getNodeAt(index) as LinkedListNode<T>;
-
-        return node.nodeValue;
-    }
-
     protected doInsert(index: number, item: T): void {
         const newNode: LinkedListNode<T> = new LinkedListNode(item);
         const previousNode: LinkedListNode<T> | undefined = this.getNodeAt(index - 1);
@@ -230,7 +273,7 @@ export class LinkedList<T> extends AbstractList<T> implements Cloneable<LinkedLi
         return undefined;
     }
 
-    private forEachNode(iterator: LinkedListIteratorFunction<T, boolean | void>): void {
+    private forEachNode(iterator: LinkedListIteratorFunction<T, false | void>): void {
         let node: LinkedListNode<T> | undefined = this._firstNode;
         let index: number = 0;
 
@@ -247,20 +290,20 @@ export class LinkedList<T> extends AbstractList<T> implements Cloneable<LinkedLi
         }
     }
 
-    private forEachNodeReversed(iterator: LinkedListIteratorFunction<T, boolean | void>): void {
+    private forEachNodeReversed(iterator: LinkedListIteratorFunction<T, false | void>): void {
         let node: LinkedListNode<T> | undefined = this._lastNode;
         let index: number = this.lastIndex;
 
         while (node != null) {
-            const nextNode = node.previousNode;
-            const returnValue: boolean | void = iterator(node, index);
+            const prevNode: LinkedListNode<T> | undefined = node.previousNode;
+            const returnValue: false | void = iterator(node, index);
 
             if (returnValue === false) {
                 break;
             }
 
             index--;
-            node = nextNode;
+            node = prevNode;
         }
     }
 
@@ -285,7 +328,7 @@ export class LinkedList<T> extends AbstractList<T> implements Cloneable<LinkedLi
         // Optimize iteration by starting from start or end.
 
         if (searchIndex < midIndex) {
-            this.forEachNode((node: LinkedListNode<T>, nodeIndex: number): boolean | void => {
+            this.forEachNode((node: LinkedListNode<T>, nodeIndex: number) => {
                 if (searchIndex === nodeIndex) {
                     foundNode = node;
 
@@ -293,7 +336,7 @@ export class LinkedList<T> extends AbstractList<T> implements Cloneable<LinkedLi
                 }
             });
         } else {
-            this.forEachNodeReversed((node: LinkedListNode<T>, nodeIndex: number): boolean | void => {
+            this.forEachNodeReversed((node: LinkedListNode<T>, nodeIndex: number) => {
                 if (searchIndex === nodeIndex) {
                     foundNode = node;
 

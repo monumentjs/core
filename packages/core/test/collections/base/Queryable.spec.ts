@@ -295,14 +295,173 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
         });
 
-        describe('forEach()', function () {
+        describe('forEach(iterator)', function () {
+            it('should work for empty collections', function () {
+                const items: Queryable<string> = create();
+                const iterator: jest.Mock = jest.fn();
+
+                items.forEach(iterator);
+
+                expect(iterator).toHaveBeenCalledTimes(0);
+            });
+
+            it('should iterate over list with single item', function () {
+                const items: Queryable<string> = create(['one']);
+                const iterator: jest.Mock = jest.fn();
+
+                items.forEach(iterator);
+
+                expect(iterator).toHaveBeenCalledTimes(1);
+                expect(iterator).toHaveBeenNthCalledWith(1, 'one', 0);
+            });
+
             it('should iterate over list', function () {
-                const list: Queryable<string> = create(['one', 'two']);
-                const fn: jest.Mock = jest.fn();
+                const items: Queryable<string> = create(['one', 'two']);
+                const iterator: jest.Mock = jest.fn();
 
-                list.forEach(fn);
+                items.forEach(iterator);
 
-                expect(fn).toHaveBeenCalledTimes(2);
+                expect(iterator).toHaveBeenCalledTimes(2);
+                expect(iterator).toHaveBeenNthCalledWith(1, 'one', 0);
+                expect(iterator).toHaveBeenNthCalledWith(2, 'two', 1);
+            });
+        });
+
+        describe('forEach(iterator, startIndex)', function () {
+            it('should work for empty collection', function () {
+                const collection = create([]);
+                const iterator = jest.fn();
+
+                collection.forEach(iterator, 0);
+
+                expect(iterator).toHaveBeenCalledTimes(0);
+            });
+
+            it('should visit first element in single element collection', function () {
+                const collection = create(['one']);
+                const iterator = jest.fn();
+
+                collection.forEach(iterator, 0);
+
+                expect(iterator).toHaveBeenCalledTimes(1);
+                expect(iterator).toHaveBeenNthCalledWith(1, 'one', 0);
+            });
+
+            it('should visit each element with index greater or equal to start index', function () {
+                const collection = create(['one', 'two', 'three', 'four']);
+                const iterator = jest.fn();
+
+                collection.forEach(iterator, 1);
+
+                expect(iterator).toHaveBeenCalledTimes(3);
+                expect(iterator).toHaveBeenNthCalledWith(1, 'two', 1);
+                expect(iterator).toHaveBeenNthCalledWith(2, 'three', 2);
+                expect(iterator).toHaveBeenNthCalledWith(3, 'four', 3);
+            });
+
+            it('should visit the last element in collection', function () {
+                const collection = create(['one', 'two', 'three', 'four']);
+                const iterator = jest.fn();
+
+                collection.forEach(iterator, 3);
+
+                expect(iterator).toHaveBeenCalledTimes(1);
+                expect(iterator).toHaveBeenNthCalledWith(1, 'four', 3);
+            });
+
+            it('should throw IndexOutOfBoundsException if start index is less than zero and collection has elements', function () {
+                const collection = create(['one', 'two', 'three', 'four']);
+                const iterator = jest.fn();
+
+                expect(() => {
+                    collection.forEach(iterator, -1);
+                }).toThrow(IndexOutOfBoundsException);
+            });
+
+            it('should throw IndexOutOfBoundsException if start index is less than zero and collection has elements', function () {
+                const collection = create(['one', 'two', 'three', 'four']);
+                const iterator = jest.fn();
+
+                expect(() => {
+                    collection.forEach(iterator, -10);
+                }).toThrow(IndexOutOfBoundsException);
+            });
+
+            it('should throw IndexOutOfBoundsException if start index is less than zero and collection is empty', function () {
+                const collection = create();
+                const iterator = jest.fn();
+
+                expect(() => {
+                    collection.forEach(iterator, -1);
+                }).toThrow(IndexOutOfBoundsException);
+            });
+
+            it('should throw IndexOutOfBoundsException if start index is less than zero and collection is empty', function () {
+                const collection = create();
+                const iterator = jest.fn();
+
+                expect(() => {
+                    collection.forEach(iterator, -10);
+                }).toThrow(IndexOutOfBoundsException);
+            });
+
+            it('should throw IndexOutOfBoundsException if start index is equal to collection length', function () {
+                const collection = create(['one', 'two', 'three', 'four']);
+                const iterator = jest.fn();
+
+                expect(() => {
+                    collection.forEach(iterator, 4);
+                }).toThrow(IndexOutOfBoundsException);
+            });
+
+            it('should throw IndexOutOfBoundsException if start index is greater than collection length', function () {
+                const collection = create(['one', 'two', 'three', 'four']);
+                const iterator = jest.fn();
+
+                expect(() => {
+                    collection.forEach(iterator, 40);
+                }).toThrow(IndexOutOfBoundsException);
+            });
+
+            it('should not throw IndexOutOfBoundsException if start index is zero and collection is empty', function () {
+                const collection = create([]);
+                const iterator = jest.fn();
+
+                collection.forEach(iterator, 0);
+
+                expect(iterator).toHaveBeenCalledTimes(0);
+            });
+        });
+
+        describe('forEachBack(iterator)', function () {
+            it('should work for empty collections', function () {
+                const items: Queryable<string> = create();
+                const iterator: jest.Mock = jest.fn();
+
+                items.forEachBack(iterator);
+
+                expect(iterator).toHaveBeenCalledTimes(0);
+            });
+
+            it('should iterate over list with single item', function () {
+                const items: Queryable<string> = create(['one']);
+                const iterator: jest.Mock = jest.fn();
+
+                items.forEachBack(iterator);
+
+                expect(iterator).toHaveBeenCalledTimes(1);
+                expect(iterator).toHaveBeenNthCalledWith(1, 'one', 0);
+            });
+
+            it('should iterate over list', function () {
+                const items: Queryable<string> = create(['one', 'two']);
+                const iterator: jest.Mock = jest.fn();
+
+                items.forEachBack(iterator);
+
+                expect(iterator).toHaveBeenCalledTimes(2);
+                expect(iterator).toHaveBeenNthCalledWith(1, 'two', 1);
+                expect(iterator).toHaveBeenNthCalledWith(2, 'one', 0);
             });
         });
 

@@ -114,7 +114,7 @@ export class QueryableProxy<T, TItems extends Queryable<T>> extends SequenceProx
     public forEachBack(
         iterator: IteratorFunction<T, false | void>,
         startIndex: number = Math.max(this.length - 1, 0),
-        count: number = startIndex
+        count: number = startIndex + (this.length ? 1 : 0)
     ): void {
         this._items.forEachBack(iterator, startIndex, count);
     }

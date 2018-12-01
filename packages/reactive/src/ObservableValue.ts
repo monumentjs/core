@@ -37,7 +37,7 @@ export class ObservableValue<T> implements Value<T>, Disposable {
         }
     }
 
-    public subscribe(observer: Observer<T>): Disposable {
+    public subscribe(observer: Observer<T>): Subscription<T> {
         const existingSubscription: Subscription<T> | undefined = this._observers.get(observer);
 
         if (existingSubscription != null) {

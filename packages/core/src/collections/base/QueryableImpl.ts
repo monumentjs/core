@@ -49,8 +49,8 @@ export class QueryableImpl<T> implements Queryable<T> {
     public aggregate<TAggregate>(iterator: AggregateFunction<T, TAggregate>, initialSeed: TAggregate): TAggregate {
         let lastSeed: TAggregate = initialSeed;
 
-        this.forEach((actualItem, index) => {
-            lastSeed = iterator(lastSeed, actualItem, index);
+        this.forEach((ownItem, index) => {
+            lastSeed = iterator(lastSeed, ownItem, index);
         });
 
         return lastSeed;
@@ -318,22 +318,30 @@ export class QueryableImpl<T> implements Queryable<T> {
                 if (result === false) {
                     return;
                 }
+
+                itemsLeft--;
             }
 
             index++;
-            itemsLeft--;
         }
     }
 
     public forEachBack(iterator: IteratorFunction<T, false | void>): void;
     public forEachBack(iterator: IteratorFunction<T, false | void>, startIndex: number): void;
     public forEachBack(iterator: IteratorFunction<T, false | void>, startIndex: number, count: number): void;
+    // tslint:disable-next-line:cyclomatic-complexity
     public forEachBack(
         iterator: IteratorFunction<T, false | void>,
         startIndex: number = Math.max(this.length - 1, 0),
-        count: number = this.length > 0 ? startIndex + 1 : 0
+        count: number = startIndex + (this.length ? 1 : 0)
     ): void {
-        CollectionUtils.validateSliceBounds(this, startIndex - count + 1, count);
+        if (startIndex < 0) {
+            throw new InvalidArgumentException('Start index cannot be negative.');
+        }
+
+        if (count < 0) {
+            throw new InvalidArgumentException('Count cannot be negative.');
+        }
 
         let index: number = startIndex;
         let itemsLeft: number = count;
@@ -509,8 +517,8 @@ export class QueryableImpl<T> implements Queryable<T> {
             throw new InvalidOperationException('Unable to perform operation on empty list.');
         }
 
-        return this.aggregate((maxValue: number, actualItem: T, index: number): number => {
-            const itemValue: number = selector(actualItem, index);
+        return this.aggregate((maxValue: number, ownItem: T, index: number): number => {
+            const itemValue: number = selector(ownItem, index);
 
             if (index === 0) {
                 return itemValue;
@@ -525,8 +533,8 @@ export class QueryableImpl<T> implements Queryable<T> {
             throw new InvalidOperationException('Unable to perform operation on empty list.');
         }
 
-        return this.aggregate((minValue: number, actualItem: T, index: number): number => {
-            const itemValue: number = selector(actualItem, index);
+        return this.aggregate((minValue: number, ownItem: T, index: number): number => {
+            const itemValue: number = selector(ownItem, index);
 
             if (index === 0) {
                 return itemValue;
@@ -574,20 +582,20 @@ export class QueryableImpl<T> implements Queryable<T> {
         return new QueryableImpl({
             *[Symbol.iterator](): Iterator<TResult> {
                 const collections: Queryable<Iterable<TInnerItem>> = self.map<Iterable<TInnerItem>>((
-                    actualItem: T,
+                    ownItem: T,
                     actualItemIndex: number
                 ): Iterable<TInnerItem> => {
-                    return collectionSelector(actualItem, actualItemIndex);
+                    return collectionSelector(ownItem, actualItemIndex);
                 });
 
                 let index: number = 0;
 
                 // TODO: use two iterators
                 for (const collection of collections) {
-                    const actualItem: T = self.getAt(index);
+                    const ownItem: T = self.getAt(index);
 
                     for (const innerItem of collection) {
-                        yield resultSelector(actualItem, innerItem);
+                        yield resultSelector(ownItem, innerItem);
                     }
 
                     index += 1;
@@ -666,8 +674,8 @@ export class QueryableImpl<T> implements Queryable<T> {
             throw new InvalidOperationException(`Operation is not allowed for empty lists.`);
         }
 
-        return this.aggregate((total: number, actualItem: T, index: number): number => {
-            const selectedValue: number = selector(actualItem, index);
+        return this.aggregate((total: number, ownItem: T, index: number): number => {
+            const selectedValue: number = selector(ownItem, index);
 
             return total + selectedValue;
         }, 0);

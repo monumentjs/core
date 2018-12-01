@@ -10,6 +10,10 @@ export class Subscription<T> implements Disposable {
     private readonly _observers: Map<Observer<T>, Disposable>;
     private readonly _observer: Observer<T>;
 
+    public get isActive(): boolean {
+        return this._observers.containsEntry(this._observer, this);
+    }
+
     public constructor(observers: Map<Observer<T>, Disposable>, observer: Observer<T>) {
         this._observers = observers;
         this._observer = observer;
