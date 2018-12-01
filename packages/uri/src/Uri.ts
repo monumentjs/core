@@ -24,15 +24,27 @@ import {QueryParametersObject} from './QueryParametersObject';
 
 /**
  * Represents URI (Unified Resource Identifier).
+ * The implementation is immutable, any change produce a new Uri instance.
+ *
+ * Parse URI string:
  *
  * ```ts
- * // Parse URI string
- *
  * const uri = new Uri('https://my-blog.com/post/12312#cut');
- * uri.schema   // 'https'
- * uri.host     // 'my-blog.com'
- * uri.path     // '/post/12312'
- * uri.fragment // 'cut'
+ * uri.schema               // 'https'
+ * uri.host                 // 'my-blog.com'
+ * uri.path                 // '/post/12312'
+ * uri.fragment             // 'cut'
+ * ```
+ *
+ * Immutable operations:
+ *
+ * ```ts
+ * const baseUri = new Uri('https://my-blog.com');
+ * const articleUri = baseUri.withPath('/post/132');
+ * const cutArticleUri = articleUri.withFragment('cut');
+ * baseUri.toString()       // 'https://my-blog.com'
+ * articleUri.toString()    // 'https://my-blog.com/post/132'
+ * cutArticleUri.toString() // 'https://my-blog.com/post/132#cut'
  * ```
  *
  * @since 0.0.1
@@ -199,6 +211,21 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
         return new UriSerializer().serialize(this);
     }
 
+    /**
+     * Produces new URI based on current definition with overridden fragment component.
+     *
+     * Usage example:
+     *
+     * ```ts
+     * const baseUri = new Uri('https://my-blog.com/blog/article/14');
+     * const cutUri = baseUri.withFragment('cut');
+     *
+     * baseUri.toString()       // 'https://my-blog.com/blog/article/14'
+     * cutUri.toString()        // 'https://my-blog.com/blog/article/14#cut'
+     * ```
+     *
+     * @nosideeffects
+     */
     public withFragment(fragment: string): Uri {
         const builder: UriBuilder = new UriBuilder(this);
 
