@@ -25,7 +25,7 @@ import {QueryParametersObject} from './QueryParametersObject';
 /**
  * Represents URI (Unified Resource Identifier).
  *
- * @example
+ * ```ts
  * // Parse URI string
  *
  * const uri = new Uri('https://my-blog.com/post/12312#cut');
@@ -33,6 +33,7 @@ import {QueryParametersObject} from './QueryParametersObject';
  * uri.host     // 'my-blog.com'
  * uri.path     // '/post/12312'
  * uri.fragment // 'cut'
+ * ```
  *
  * @since 0.0.1
  * @author Alex Chugaev
