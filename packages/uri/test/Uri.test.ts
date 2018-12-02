@@ -1,6 +1,5 @@
 /* tslint:disable:max-file-line-count */
-import {Uri, UriComponents, UriFormatException} from '..';
-import {QueryParameters} from '../src/QueryParameters';
+import {QueryParameters, Uri, UriComponents, UriFormatException} from '..';
 
 describe('Uri', function () {
     function testComponents(source: string, components: UriComponents) {
@@ -22,7 +21,7 @@ describe('Uri', function () {
         }
     }
 
-    describe('constructor(string)', function () {
+    describe('constructor(uri: string)', function () {
         it('should parse absolute path', function () {
             testComponents('/path/to/resource', {
                 path: '/path/to/resource'
@@ -965,7 +964,7 @@ describe('Uri', function () {
         });
     });
 
-    describe('equals(string)', function () {
+    describe('equals(uri: string)', function () {
         it('should compare current URI with other specified as string', function () {
             expect(new Uri({
                 host: 'site.com'
@@ -1141,7 +1140,7 @@ describe('Uri', function () {
         });
     });
 
-    describe('equals(UriComponents)', function () {
+    describe('equals(components: UriComponents)', function () {
         it('should compare current URI with other specified as UriComponents', function () {
             const uri: Uri = new Uri({
                 host: 'site.com',
@@ -1152,7 +1151,7 @@ describe('Uri', function () {
         });
     });
 
-    describe('getParameter(string)', function () {
+    describe('getParameter(name: string)', function () {
         it('should return first query parameter value associated with given name', function () {
             const uri: Uri = new Uri('site.com?t=1&t=2&p=2');
 
@@ -1162,7 +1161,7 @@ describe('Uri', function () {
         });
     });
 
-    describe('getParameter(string, ToString)', function () {
+    describe('getParameter(name: string, fallback: ToString)', function () {
         it('should determine whether URI has query parameter with given name and value', function () {
             const uri: Uri = new Uri('site.com?t=123');
 
@@ -1172,7 +1171,7 @@ describe('Uri', function () {
         });
     });
 
-    describe('hasParameter(string)', function () {
+    describe('hasParameter(name: string)', function () {
         it('should determine whether URI has query parameter with given name', function () {
             const uri: Uri = new Uri('site.com?q=javascript&p=2');
 
@@ -1183,7 +1182,7 @@ describe('Uri', function () {
         });
     });
 
-    describe('hasParameter(string, ToString)', function () {
+    describe('hasParameter(name: string, value: ToValue)', function () {
         it('should determine whether URI has query parameter with given name and value', function () {
             const uri: Uri = new Uri('site.com?q=javascript&p=2');
 
@@ -1412,7 +1411,7 @@ describe('Uri', function () {
         });
     });
 
-    describe('withSchema(string)', function () {
+    describe('withSchema(schema: string)', function () {
         it('should return new URI with overridden schema component', function () {
             const originalUri: Uri = new Uri('site.com');
             const newUri: Uri = originalUri.withSchema('https');
@@ -1434,7 +1433,7 @@ describe('Uri', function () {
         });
     });
 
-    describe('withUserName(string)', function () {
+    describe('withUserName(userName: string)', function () {
         it('should return new URI with overridden user name component', function () {
             const originalUri: Uri = new Uri('site.com');
             const newUri: Uri = originalUri.withUserName('alex');
@@ -1456,7 +1455,7 @@ describe('Uri', function () {
         });
     });
 
-    describe('withPassword(string)', function () {
+    describe('withPassword(password: string)', function () {
         it('should return new URI with overridden password component', function () {
             const originalUri: Uri = new Uri('alex@site.com');
             const newUri: Uri = originalUri.withPassword('secret');
@@ -1478,7 +1477,7 @@ describe('Uri', function () {
         });
     });
 
-    describe('withHost(string)', function () {
+    describe('withHost(host: string)', function () {
         it('should return new URI with overridden host component', function () {
             const originalUri: Uri = new Uri('/path');
             const newUri: Uri = originalUri.withHost('site.com');
@@ -1500,7 +1499,7 @@ describe('Uri', function () {
         });
     });
 
-    describe('withPort(number)', function () {
+    describe('withPort(port: number)', function () {
         it('should return new URI with overridden port component', function () {
             const originalUri: Uri = new Uri('site.com');
             const newUri: Uri = originalUri.withPort(3000);
@@ -1522,7 +1521,7 @@ describe('Uri', function () {
         });
     });
 
-    describe('withPath(string)', function () {
+    describe('withPath(path: string)', function () {
         it('should return new URI with overridden path component', function () {
             const originalUri: Uri = new Uri('site.com');
             const newUri: Uri = originalUri.withPath('/path/to/resource');
@@ -1544,7 +1543,7 @@ describe('Uri', function () {
         });
     });
 
-    describe('withFragment(string)', function () {
+    describe('withFragment(fragment: string)', function () {
         it('should return new URI with overridden fragment component', function () {
             const originalUri: Uri = new Uri('site.com');
             const newUri: Uri = originalUri.withFragment('section-b');
@@ -1566,7 +1565,7 @@ describe('Uri', function () {
         });
     });
 
-    describe('withParameter(string, ToString)', function () {
+    describe('withParameter(name: string, value: ToString)', function () {
         it('should return new URI with overridden query parameter component', function () {
             const originalUri: Uri = new Uri('site.com');
             const newUri: Uri = originalUri.withParameter('q', 'javascript');
@@ -1588,7 +1587,7 @@ describe('Uri', function () {
         });
     });
 
-    describe('withoutParameter()', function () {
+    describe('withoutParameter(name: string)', function () {
         it('should return new URI without query parameter component', function () {
             const originalUri: Uri = new Uri('site.com?q=javascript&p=2');
             const newUri: Uri = originalUri.withoutParameter('p');
