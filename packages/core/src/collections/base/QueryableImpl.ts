@@ -14,10 +14,17 @@ import {IndexOutOfBoundsException} from '../../exceptions/IndexOutOfBoundsExcept
 import {NoSuchItemException} from './NoSuchItemException';
 import {RandomInt} from '../../random/RandomInt';
 import {InvalidArgumentException} from '../../exceptions/InvalidArgumentException';
+import {EventDispatcher} from '../../events/EventDispatcher';
+import {EventArgs} from '../../events/EventArgs';
 
 
 export class QueryableImpl<T> implements Queryable<T> {
     private readonly _source: Iterable<T>;
+    private readonly _changed: EventDispatcher<EventArgs> = new EventDispatcher();
+
+    public constructor(source: Iterable<T>) {
+        this._source = source;
+    }
 
     public get length(): number {
         let length: number = 0;
@@ -35,11 +42,6 @@ export class QueryableImpl<T> implements Queryable<T> {
         }
 
         return true;
-    }
-
-    public constructor(source: Iterable<T>) {
-        this._source = source;
-
     }
 
     public [Symbol.iterator](): Iterator<T> {
@@ -542,6 +544,10 @@ export class QueryableImpl<T> implements Queryable<T> {
 
             return Math.min(minValue, itemValue);
         }, 0);
+    }
+
+    public onChange(target: object): void {
+        this._changed.trigger(new EventArgs(target));
     }
 
     public orderBy<TKey>(keySelector: SelectorFunction<T, TKey>, comparator: Comparator<TKey>): Queryable<T>;

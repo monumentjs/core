@@ -39,19 +39,11 @@ export class ArrayList<T> extends AbstractList<T> implements Cloneable<ArrayList
     public remove(item: T, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): boolean {
         const oldLength: number = this.length;
 
-        this.beginTransaction();
-
-        this._items = this._items.filter((currentItem: T, index: number): boolean => {
+        this._items = this._items.filter((currentItem: T): boolean => {
             const matches: boolean = comparator.equals(currentItem, item);
-
-            if (matches) {
-                this.onRemove(index, item);
-            }
 
             return !matches;
         });
-
-        this.endTransaction();
 
         return this.length !== oldLength;
     }
@@ -59,21 +51,16 @@ export class ArrayList<T> extends AbstractList<T> implements Cloneable<ArrayList
     public removeBy(predicate: IteratorFunction<T, boolean>): boolean {
         const oldLength: number = this.length;
 
-        this.beginTransaction();
-
         for (let index = 0, actualIndex = 0; index < oldLength; index++, actualIndex++) {
             const item: T = this.getAt(actualIndex);
             const itemMatchesPredicate: boolean = predicate(item, index);
 
             if (itemMatchesPredicate) {
                 this._items.splice(actualIndex, 1);
-                this.onRemove(index, item);
 
                 actualIndex--;
             }
         }
-
-        this.endTransaction();
 
         return this.length !== oldLength;
     }

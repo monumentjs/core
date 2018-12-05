@@ -1,14 +1,14 @@
 import {Sequence} from '../../base/Sequence';
 import {IteratorFunction} from '../../base/IteratorFunction';
-import {ObservableSet} from '../observable/ObservableSet';
 import {Cloneable} from '../../../base/Cloneable';
+import {ReadOnlySet} from '../readonly/ReadOnlySet';
 
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
  */
-export interface Set<T> extends ObservableSet<T>, Cloneable<Set<T>> {
+export interface Set<T> extends ReadOnlySet<T>, Cloneable<Set<T>> {
     add(item: T): boolean;
 
     addAll(items: Sequence<T>): boolean;

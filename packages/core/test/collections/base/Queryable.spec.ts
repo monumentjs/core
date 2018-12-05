@@ -433,6 +433,37 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
         });
 
+        describe('forEach(iterator, startIndex, count)', function () {
+            it('should work for empty collection', function () {
+                const collection = create();
+                const iterator = jest.fn();
+
+                collection.forEach(iterator, 0, 0);
+
+                expect(iterator).toHaveBeenCalledTimes(0);
+            });
+
+            it('should iterate collection with single element', function () {
+                const collection = create(['one']);
+                const iterator = jest.fn();
+
+                collection.forEach(iterator, 0, 1);
+
+                expect(iterator).toHaveBeenCalledTimes(1);
+                expect(iterator).toHaveBeenNthCalledWith(1, 'one', 0);
+            });
+
+            it('should iterate collection with few element', function () {
+                const collection = create(['one']);
+                const iterator = jest.fn();
+
+                collection.forEach(iterator, 0, 1);
+
+                expect(iterator).toHaveBeenCalledTimes(1);
+                expect(iterator).toHaveBeenNthCalledWith(1, 'one', 0);
+            });
+        });
+
         describe('forEachBack(iterator)', function () {
             it('should work for empty collections', function () {
                 const items: Queryable<string> = create();
@@ -465,20 +496,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
         });
 
-        describe('groupBy()', function () {
-            it('should return list of grouped items using custom comparator', function () {
-                const list: Queryable<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
-                const groups: Array<Grouping<string, string>> = list.groupBy<string>((word: string): string => {
-                    return word[0].toLowerCase();
-                }, IgnoreCaseEqualityComparator.get()).toArray();
-
-                expect(groups.length).toBe(2);
-                expect(groups[0].key).toBe('t');
-                expect(groups[0].toArray()).toEqual(['two', 'Three']);
-                expect(groups[1].key).toBe('o');
-                expect(groups[1].toArray()).toEqual(['ONE', 'one', 'One']);
-            });
-
+        describe('groupBy<TKey>(keySelector: IteratorFunction<T, TKey>)', function () {
             it('should return list of grouped items using default comparator', function () {
                 const list: Queryable<string> = create(['one', 'two', 'three']);
 
@@ -491,6 +509,21 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
                 expect(groups[0].toArray()).toEqual(['one', 'two']);
                 expect(groups[1].key).toBe(5);
                 expect(groups[1].toArray()).toEqual(['three']);
+            });
+        });
+
+        describe('groupBy<TKey>(keySelector: IteratorFunction<T, TKey>, keyComparator: EqualityComparator<TKey>)', function () {
+            it('should return list of grouped items using custom comparator', function () {
+                const list: Queryable<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
+                const groups: Array<Grouping<string, string>> = list.groupBy<string>((word: string): string => {
+                    return word[0].toLowerCase();
+                }, IgnoreCaseEqualityComparator.get()).toArray();
+
+                expect(groups.length).toBe(2);
+                expect(groups[0].key).toBe('t');
+                expect(groups[0].toArray()).toEqual(['two', 'Three']);
+                expect(groups[1].key).toBe('o');
+                expect(groups[1].toArray()).toEqual(['ONE', 'one', 'One']);
             });
         });
 

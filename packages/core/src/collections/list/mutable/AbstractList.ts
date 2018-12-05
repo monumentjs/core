@@ -12,13 +12,9 @@ import {IndexOutOfBoundsException} from '../../../exceptions/IndexOutOfBoundsExc
 import {RangeException} from '../../../exceptions/RangeException';
 import {SortOrder} from '../../../comparison/order/SortOrder';
 import {Comparator} from '../../../comparison/order/Comparator';
-import {ListChangedEventArgs} from '../observable/ListChangedEventArgs';
-import {EventSource} from '../../../events/EventSource';
-import {EventDispatcher} from '../../../events/EventDispatcher';
-import {ListChangeTransaction} from '../observable/ListChangeTransaction';
-import {InvalidStateException} from '../../../exceptions/InvalidStateException';
 import {QueryableImpl} from '../../base/QueryableImpl';
 import {Sequence} from '../../base/Sequence';
+import {EventArgs} from '../../../events/EventArgs';
 
 
 /**
@@ -27,11 +23,6 @@ import {Sequence} from '../../base/Sequence';
  * @mutable
  */
 export abstract class AbstractList<T> implements List<T> {
-
-    public get changed(): EventSource<ListChangedEventArgs<T>> {
-        return this._changed;
-    }
-
     public get firstIndex(): number {
         return this.isEmpty ? -1 : 0;
     }
@@ -45,43 +36,21 @@ export abstract class AbstractList<T> implements List<T> {
     }
 
     public abstract get length(): number;
-    private readonly _changed: EventDispatcher<ListChangedEventArgs<T>> = new EventDispatcher();
-    private _changeTransaction: ListChangeTransaction<T> | undefined;
 
     public abstract [Symbol.iterator](): Iterator<T>;
 
     public add(item: T): boolean {
-        this.beginTransaction();
-
-        const index = this.length;
-
         this.doAdd(item);
-        this.onAdd(index, item);
-
-        this.endTransaction();
 
         return true;
     }
 
     public addAll(items: Sequence<T>): boolean {
-        const items$: QueryableImpl<T> = new QueryableImpl(items);
-
-        if (items$.isEmpty) {
+        if (items.length === 0) {
             return false;
         }
 
-        this.beginTransaction();
-
-        let index: number = this.length;
-
         this.doAddAll(items);
-
-        for (const item of items) {
-            this.onAdd(index, item);
-            index++;
-        }
-
-        this.endTransaction();
 
         return true;
     }
@@ -122,12 +91,7 @@ export abstract class AbstractList<T> implements List<T> {
             return false;
         }
 
-        const itemsCount: number = this.length;
-
-        this.beginTransaction();
         this.doClear();
-        this.onClear(itemsCount);
-        this.endTransaction();
 
         return true;
     }
@@ -211,8 +175,7 @@ export abstract class AbstractList<T> implements List<T> {
 
     public forEach(iterator: IteratorFunction<T, false | void>, startIndex: number, count: number): void;
 
-    public forEach(iterator: IteratorFunction<T, false | void>, startIndex?: number, count?: number): void {
-        // @ts-ignore
+    public forEach(iterator: IteratorFunction<T, false | void>, startIndex: number = 0, count: number = this.length - startIndex): void {
         new QueryableImpl(this).forEach(iterator, startIndex, count);
     }
 
@@ -286,10 +249,7 @@ export abstract class AbstractList<T> implements List<T> {
             throw new IndexOutOfBoundsException(`Index=${index}, length=${this.length}`);
         }
 
-        this.beginTransaction();
         this.doInsert(index, item);
-        this.onInsert(index, item);
-        this.endTransaction();
 
         return true;
     }
@@ -307,18 +267,7 @@ export abstract class AbstractList<T> implements List<T> {
             return false;
         }
 
-        this.beginTransaction();
         this.doInsertAll(index, items);
-
-        let offset = 0;
-
-        for (const item of items) {
-            this.onInsert(index + offset, item);
-
-            offset++;
-        }
-
-        this.endTransaction();
 
         return true;
     }
@@ -465,14 +414,7 @@ export abstract class AbstractList<T> implements List<T> {
     public removeAt(index: number): T {
         CollectionUtils.validateIndexBounds(this, index);
 
-        this.beginTransaction();
-
-        const removedItem: T = this.doRemoveAt(index);
-
-        this.onRemove(index, removedItem);
-        this.endTransaction();
-
-        return removedItem;
+        return this.doRemoveAt(index);
     }
 
     public abstract removeBy(predicate: IteratorFunction<T, boolean>): boolean;
@@ -507,14 +449,7 @@ export abstract class AbstractList<T> implements List<T> {
     public setAt(index: number, newValue: T): T {
         CollectionUtils.validateIndexBounds(this, index);
 
-        this.beginTransaction();
-
-        const oldValue: T = this.doSetAt(index, newValue);
-
-        this.onReplace(index, oldValue, newValue);
-        this.endTransaction();
-
-        return oldValue;
+        return this.doSetAt(index, newValue);
     }
 
     public skip(offset: number): Queryable<T> {
@@ -572,12 +507,6 @@ export abstract class AbstractList<T> implements List<T> {
         return new QueryableImpl(this).entries();
     }
 
-    protected beginTransaction() {
-        if (this._changeTransaction == null) {
-            this._changeTransaction = new ListChangeTransaction(this, this._changed);
-        }
-    }
-
     protected abstract create<I>(items?: Sequence<I>): AbstractList<I>;
 
     protected abstract doAdd(item: T): void;
@@ -593,52 +522,4 @@ export abstract class AbstractList<T> implements List<T> {
     protected abstract doRemoveAt(index: number): T;
 
     protected abstract doSetAt(index: number, newValue: T): T;
-
-    protected endTransaction() {
-        if (this._changeTransaction != null) {
-            this._changeTransaction.close();
-            this._changeTransaction = undefined;
-        }
-    }
-
-    protected onAdd(index: number, item: T) {
-        if (this._changeTransaction) {
-            this._changeTransaction.onItemAdded(index, item);
-        } else {
-            throw new InvalidStateException('Change transaction is not started.');
-        }
-    }
-
-    protected onClear(itemsRemoved: number) {
-        if (this._changeTransaction) {
-            this._changeTransaction.onListCleared(itemsRemoved);
-        } else {
-            throw new InvalidStateException('Change transaction is not started.');
-        }
-    }
-
-    protected onInsert(index: number, item: T) {
-        if (this._changeTransaction) {
-            this._changeTransaction.onItemInserted(index, item);
-        } else {
-            throw new InvalidStateException('Change transaction is not started.');
-        }
-    }
-
-    protected onRemove(index: number, item: T) {
-        if (this._changeTransaction) {
-            this._changeTransaction.onItemRemoved(index, item);
-        } else {
-            throw new InvalidStateException('Change transaction is not started.');
-        }
-    }
-
-    protected onReplace(index: number, oldValue: T, newValue: T) {
-        if (this._changeTransaction) {
-            this._changeTransaction.onItemReplaced(index, oldValue, newValue);
-        } else {
-            throw new InvalidStateException('Change transaction is not started.');
-        }
-    }
-
 }

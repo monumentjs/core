@@ -1,8 +1,8 @@
 import {IteratorFunction} from '../../base/IteratorFunction';
 import {Sequence} from '../../base/Sequence';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
-import {ObservableList} from '../observable/ObservableList';
 import {Cloneable} from '../../../base/Cloneable';
+import {ReadOnlyList} from '../readonly/ReadOnlyList';
 
 
 /**
@@ -10,7 +10,7 @@ import {Cloneable} from '../../../base/Cloneable';
  * @since 0.0.1
  * @mutable
  */
-export interface List<T> extends ObservableList<T>, Cloneable<List<T>> {
+export interface List<T> extends ReadOnlyList<T>, Cloneable<List<T>> {
     add(item: T): boolean;
 
     addAll(items: Sequence<T>): boolean;

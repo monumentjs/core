@@ -1,19 +1,19 @@
 import {InvalidArgumentException} from '../../exceptions/InvalidArgumentException';
 import {ReadOnlyList} from '../list/readonly/ReadOnlyList';
-import {TreeNodeList} from './TreeNodeList';
 import {Sequence} from '../base/Sequence';
 import {LinkedMap} from '../map/mutable/LinkedMap';
 import {Map} from '../map/mutable/Map';
 import {ReadOnlyMap} from '../map/readonly/ReadOnlyMap';
 import {Key} from '../attributes/Key';
 import {AttributeAccessor} from '../attributes/mutable/AttributeAccessor';
+import {ArrayList} from '../list/mutable/ArrayList';
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
  */
 export class TreeNode implements AttributeAccessor {
-    private readonly _childNodes: TreeNodeList;
+    private readonly _childNodes: ArrayList<TreeNode>;
     private readonly _attributes: Map<Key<any>, any> = new LinkedMap();
     private _parentNode: TreeNode | undefined;
 
@@ -103,11 +103,13 @@ export class TreeNode implements AttributeAccessor {
     }
 
     public constructor(childNodes?: Sequence<TreeNode>) {
-        this._childNodes = new TreeNodeList(this, childNodes);
+        this._childNodes = new ArrayList(childNodes);
     }
 
     public addChild(node: TreeNode): void {
-        this._childNodes.add(node);
+        node.parentNode = this;
+
+        this._childNodes.addIfAbsent(node);
     }
 
     public getAttribute<A>(token: Key<A>): A | undefined {
@@ -143,6 +145,8 @@ export class TreeNode implements AttributeAccessor {
             throw new InvalidArgumentException('Reference node is not a member of child nodes collection.');
         }
 
+        newNode.parentNode = this;
+
         this._childNodes.insert(insertPosition + 1, newNode);
     }
 
@@ -153,6 +157,8 @@ export class TreeNode implements AttributeAccessor {
             throw new InvalidArgumentException('Reference node is not a member of child nodes collection.');
         }
 
+        newNode.parentNode = this;
+
         this._childNodes.insert(insertPosition, newNode);
     }
 
@@ -161,6 +167,8 @@ export class TreeNode implements AttributeAccessor {
     }
 
     public removeChild(node: TreeNode): boolean {
+        node.parentNode = undefined;
+
         return this._childNodes.remove(node);
     }
 

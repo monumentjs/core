@@ -7,7 +7,6 @@ import {EqualityComparator} from '../../../comparison/equality/EqualityComparato
 import {StrictEqualityComparator} from '../../../comparison/equality/StrictEqualityComparator';
 import {AbstractList} from './AbstractList';
 import {LinkedListNode} from './LinkedListNode';
-import {InvalidArgumentException} from '../../../exceptions/InvalidArgumentException';
 
 type LinkedListIteratorFunction<TItem, TResult> = (node: LinkedListNode<TItem>, index: number) => TResult;
 
@@ -119,29 +118,22 @@ export class LinkedList<T> extends AbstractList<T> implements Cloneable<LinkedLi
     public remove(item: T, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): boolean {
         const oldLength: number = this.length;
 
-        this.beginTransaction();
-
         let result: [number, LinkedListNode<T>] | undefined = this.findNode(item, comparator);
         let itemsRemoved: number = 0;
 
         while (result != null) {
-            const [index, node] = result;
+            const [, node] = result;
             this.removeNode(node);
-            this.onRemove(index + itemsRemoved, node.nodeValue);
 
             result = this.findNode(item, comparator);
             itemsRemoved++;
         }
-
-        this.endTransaction();
 
         return oldLength !== this.length;
     }
 
     public removeBy(predicate: IteratorFunction<T, boolean>): boolean {
         const oldLength: number = this.length;
-
-        this.beginTransaction();
 
         let currentNode: LinkedListNode<T> | undefined = this._firstNode;
         let index: number = 0;
@@ -152,15 +144,12 @@ export class LinkedList<T> extends AbstractList<T> implements Cloneable<LinkedLi
 
             if (remove) {
                 this.removeNode(currentNode);
-                this.onRemove(index, currentNode.nodeValue);
             }
 
             index++;
 
             currentNode = nextNode;
         }
-
-        this.endTransaction();
 
         return this.length !== oldLength;
     }

@@ -3,14 +3,14 @@ import {Sequence} from '../../../base/Sequence';
 import {IteratorFunction} from '../../../base/IteratorFunction';
 import {EqualityComparator} from '../../../../comparison/equality/EqualityComparator';
 import {StrictEqualityComparator} from '../../../../comparison/equality/StrictEqualityComparator';
-import {ObservableListProxy} from '../../observable/proxy/ObservableListProxy';
+import {ReadOnlyListProxy} from '../../readonly/proxy/ReadOnlyListProxy';
 
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
  */
-export abstract class ListProxy<T, TItems extends List<T>> extends ObservableListProxy<T, TItems> implements List<T> {
+export abstract class ListProxy<T, TItems extends List<T>> extends ReadOnlyListProxy<T, TItems> implements List<T> {
     public add(item: T): boolean {
         return this._items.add(item);
     }
