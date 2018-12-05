@@ -2,31 +2,36 @@ import {Set} from './Set';
 import {ArrayList} from '../../list/mutable/ArrayList';
 import {IteratorFunction} from '../../base/IteratorFunction';
 import {Sequence} from '../../base/Sequence';
-import {QueryableProxy} from '../../base/proxy/QueryableProxy';
 import {Cloneable} from '../../../base/Cloneable';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
 import {StrictEqualityComparator} from '../../../comparison/equality/StrictEqualityComparator';
 import {MethodNotImplementedException} from '../../../exceptions/MethodNotImplementedException';
+import {QueryableBase} from '../../base/QueryableBase';
 
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
  */
-export class ArraySet<T> extends QueryableProxy<T, ArrayList<T>> implements Set<T>, Cloneable<ArraySet<T>> {
+export class ArraySet<T> extends QueryableBase<T> implements Set<T>, Cloneable<ArraySet<T>> {
     private readonly _comparator: EqualityComparator<T>;
-
-    public get comparator(): EqualityComparator<T> {
-        return this._comparator;
-    }
+    private _items: ArrayList<T> = new ArrayList();
 
     public constructor(items?: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()) {
-        super(new ArrayList());
+        super();
         this._comparator = comparator;
 
         if (items != null) {
             this.addAll(items);
         }
+    }
+
+    public get length(): number {
+        return this._items.length;
+    }
+
+    public get comparator(): EqualityComparator<T> {
+        return this._comparator;
     }
 
     public add(item: T): boolean {
@@ -224,6 +229,11 @@ export class ArraySet<T> extends QueryableProxy<T, ArrayList<T>> implements Set<
     }
 
     public unionWith(other: Sequence<T>): boolean {
+        // TODO: implement
         throw new MethodNotImplementedException('Method "unionWith" is not implemented yet');
+    }
+
+    public [Symbol.iterator](): Iterator<T> {
+        return this._items[Symbol.iterator]();
     }
 }
