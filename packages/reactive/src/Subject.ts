@@ -1,4 +1,3 @@
-import {Disposable} from '@monument/core';
 import {Observer} from './Observer';
 import {Subscription} from './Subscription';
 

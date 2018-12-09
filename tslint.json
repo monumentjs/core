@@ -10,6 +10,7 @@
         "eofline": true,
         "ordered-imports": false,
         "only-arrow-functions": false,
+        "no-duplicate-imports": true,
         "no-consecutive-blank-lines": [
             true,
             2

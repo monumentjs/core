@@ -15,7 +15,7 @@ import {QueryableBase} from '../../base/QueryableBase';
  */
 export class ArraySet<T> extends QueryableBase<T> implements Set<T>, Cloneable<ArraySet<T>> {
     private readonly _comparator: EqualityComparator<T>;
-    private _items: ArrayList<T> = new ArrayList();
+    private readonly _items: ArrayList<T> = new ArrayList();
 
     public constructor(items?: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()) {
         super();
