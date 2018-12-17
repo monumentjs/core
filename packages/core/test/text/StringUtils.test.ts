@@ -1,9 +1,9 @@
-import {ArrayList, RangeException, StringPool, StringUtils} from '../..';
+import {ArrayList, RangeException, EMPTY_STRING, StringUtils} from '../..';
 
 describe('StringUtils', function () {
 
     it('hasText()', function () {
-        expect(StringUtils.hasText(StringPool.BLANK)).toBe(false);
+        expect(StringUtils.hasText(EMPTY_STRING)).toBe(false);
         expect(StringUtils.hasText(' ')).toBe(false);
         expect(StringUtils.hasText('\t')).toBe(false);
         expect(StringUtils.hasText('\v')).toBe(false);
@@ -13,7 +13,7 @@ describe('StringUtils', function () {
     });
 
     it('getCharacters()', function () {
-        expect(StringUtils.getCharacters(StringPool.BLANK)).toEqual([]);
+        expect(StringUtils.getCharacters(EMPTY_STRING)).toEqual([]);
         expect(StringUtils.getCharacters('Hi')).toEqual(['H', 'i']);
     });
 

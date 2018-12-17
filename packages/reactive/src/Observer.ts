@@ -13,10 +13,10 @@ export interface Observer<T> {
     /**
      * Notifies the observer that the provider has finished sending push-based notifications.
      */
-    onCompleted(): void;
+    onComplete?(): void;
 
     /**
      * Notifies the observer that the provider has experienced an error condition.
      */
-    onError(ex: Exception): void;
+    onError?(ex: Exception): void;
 }

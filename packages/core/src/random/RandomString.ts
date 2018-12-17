@@ -1,4 +1,4 @@
-import {StringPool} from '../text/StringPool';
+import {EMPTY_STRING} from '../text/Strings';
 import {InvalidArgumentException} from '../exceptions/InvalidArgumentException';
 import {RandomInt} from './RandomInt';
 import {RandomValue} from './RandomValue';
@@ -21,7 +21,7 @@ export class RandomString implements RandomValue<string>, ToJSON<string>, ToStri
 
     public get value(): string {
         if (this._value == null) {
-            this._value = StringPool.BLANK;
+            this._value = EMPTY_STRING;
 
             for (let i = 0; i < this._length; i++) {
                 const characterIndex: number = new RandomInt(0, this._charset.length).value;

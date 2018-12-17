@@ -12,6 +12,7 @@ export * from './src/base/Type';
 export * from './src/base/MemorySize';
 export * from './src/base/types';
 
+export * from './src/function/noop';
 export * from './src/function/times';
 export * from './src/function/range';
 
@@ -122,7 +123,7 @@ export * from './src/random/RandomFloat';
 export * from './src/random/RandomString';
 
 export * from './src/text/StringBuilder';
-export * from './src/text/StringPool';
+export * from './src/text/Strings';
 export * from './src/text/StringUtils';
 export * from './src/text/TemplateString';
 export * from './src/text/parser/Parser';

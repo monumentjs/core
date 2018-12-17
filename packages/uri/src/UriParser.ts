@@ -1,4 +1,4 @@
-import {Parser, StringPool} from '@monument/core';
+import {Parser, EMPTY_STRING} from '@monument/core';
 import {UriComponents} from './UriComponents';
 import {QueryParameters} from './QueryParameters';
 import {UriFormatException} from './UriFormatException';
@@ -30,7 +30,7 @@ export class UriParser implements Parser<UriComponents> {
         const host: string | undefined = parts[UriConstants.HOST_COMPONENT_INDEX];
         const port: string | undefined = parts[UriConstants.PORT_COMPONENT_INDEX];
         const path: string | undefined = parts[UriConstants.PATH_COMPONENT_INDEX];
-        const search: string = parts[UriConstants.SEARCH_COMPONENT_INDEX] || StringPool.BLANK;
+        const search: string = parts[UriConstants.SEARCH_COMPONENT_INDEX] || EMPTY_STRING;
         const fragment: string | undefined = parts[UriConstants.FRAGMENT_COMPONENT_INDEX];
 
         return new UriComponentsNormalizer().normalize({

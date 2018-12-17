@@ -1,4 +1,4 @@
-import {StringPool} from './StringPool';
+import {EMPTY_STRING} from './Strings';
 
 /**
  * @author Alex Chugaev
@@ -24,7 +24,7 @@ export class CappedString {
     }
 
 
-    public constructor(maxLength: number, initialValue: string = StringPool.BLANK) {
+    public constructor(maxLength: number, initialValue: string = EMPTY_STRING) {
         this._maxLength = maxLength;
         this._value = this.cutText(initialValue);
     }
@@ -41,7 +41,7 @@ export class CappedString {
 
 
     public clear(): void {
-        this._value = StringPool.BLANK;
+        this._value = EMPTY_STRING;
     }
 
 

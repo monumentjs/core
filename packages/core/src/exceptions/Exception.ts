@@ -1,6 +1,6 @@
 import {ToJSON} from '../base/ToJSON';
 import {ToString} from '../base/ToString';
-import {StringPool} from '../text/StringPool';
+import {EOL_CRLF} from '../text/Strings';
 
 
 /**
@@ -51,7 +51,7 @@ export class Exception extends Error implements ToJSON<Error>, ToString {
         }
 
         if (this.cause != null) {
-            value += StringPool.EOL_CRLF + 'Caused by ';
+            value += EOL_CRLF + 'Caused by ';
             value += this.cause.toString();
         }
 

@@ -7,4 +7,5 @@ import {Subscription} from './Subscription';
  */
 export interface Subject<T> {
     subscribe(observer: Observer<T>): Subscription<T>;
+    unsubscribe(observer: Observer<T>): boolean;
 }

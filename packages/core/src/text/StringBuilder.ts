@@ -1,4 +1,4 @@
-import {StringPool} from './StringPool';
+import {EMPTY_STRING, EOL_CRLF} from './Strings';
 import {TemplateString} from './TemplateString';
 import {Builder} from '../base/Builder';
 import {ToString} from '../base/ToString';
@@ -11,7 +11,7 @@ import {ToString} from '../base/ToString';
 export class StringBuilder implements Builder<string>, ToString {
     private readonly _capacity: number;
     private _value: string;
-    private _linesSeparator: string = StringPool.EOL_CRLF;
+    private _linesSeparator: string = EOL_CRLF;
 
     public get capacity(): number {
         return this._capacity;
@@ -29,7 +29,7 @@ export class StringBuilder implements Builder<string>, ToString {
         this._linesSeparator = value;
     }
 
-    public constructor(initialValue: string = StringPool.BLANK, capacity: number = Infinity) {
+    public constructor(initialValue: string = EMPTY_STRING, capacity: number = Infinity) {
         this._value = initialValue;
         this._capacity = capacity;
     }
@@ -50,7 +50,7 @@ export class StringBuilder implements Builder<string>, ToString {
         return this;
     }
 
-    public appendLine(text: string = StringPool.BLANK): this {
+    public appendLine(text: string = EMPTY_STRING): this {
         this.append(text + this._linesSeparator);
 
         return this;
@@ -67,7 +67,7 @@ export class StringBuilder implements Builder<string>, ToString {
     }
 
     public clear(): this {
-        this._value = StringPool.BLANK;
+        this._value = EMPTY_STRING;
 
         return this;
     }
@@ -88,7 +88,7 @@ export class StringBuilder implements Builder<string>, ToString {
         return this;
     }
 
-    public prependLine(text: string = StringPool.BLANK): this {
+    public prependLine(text: string = EMPTY_STRING): this {
         this.prepend(text + this._linesSeparator);
 
         return this;
@@ -100,7 +100,7 @@ export class StringBuilder implements Builder<string>, ToString {
         return this;
     }
 
-    public surround(before: string = StringPool.BLANK, after: string = StringPool.BLANK): this {
+    public surround(before: string = EMPTY_STRING, after: string = EMPTY_STRING): this {
         this._value = before + this._value + after;
 
         return this;

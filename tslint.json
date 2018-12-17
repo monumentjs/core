@@ -19,7 +19,7 @@
         "object-literal-shorthand": false,
         "object-literal-sort-keys": false,
         "trailing-comma": false,
-        "switch-default": true,
+        "switch-default": false,
         "no-default-export": true,
         "no-string-literal": true,
         "prefer-const": true,

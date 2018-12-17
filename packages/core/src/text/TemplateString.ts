@@ -1,4 +1,4 @@
-import {StringPool} from './StringPool';
+import {EMPTY_STRING} from './Strings';
 import {MissingKeyException} from '../exceptions/MissingKeyException';
 import {LinkedMap} from '../collections/map/mutable/LinkedMap';
 import {ArrayList} from '../collections/list/mutable/ArrayList';
@@ -55,7 +55,7 @@ export class TemplateString {
     public fillByKeys(values: ReadOnlyMap<string, string>): string {
         return this.fillEntries((key: string): string => {
             if (values.containsKey(key)) {
-                return values.get(key) + StringPool.BLANK;
+                return values.get(key) + EMPTY_STRING;
             } else {
                 throw new MissingKeyException(`Entry "${key}" is not defined.`);
             }
@@ -68,7 +68,7 @@ export class TemplateString {
 
             CollectionUtils.validateIndexBounds(values, index);
 
-            return values[index] + StringPool.BLANK;
+            return values[index] + EMPTY_STRING;
         });
     }
 
@@ -89,10 +89,10 @@ export class TemplateString {
             const value = values.get(key);
 
             if (value == null) {
-                return StringPool.BLANK;
+                return EMPTY_STRING;
             }
 
-            return value + StringPool.BLANK;
+            return value + EMPTY_STRING;
         });
     }
 
@@ -101,9 +101,9 @@ export class TemplateString {
             const index: number = parseInt(key, 10);
 
             if (index >= 0 && index < values.length) {
-                return values[index] + StringPool.BLANK;
+                return values[index] + EMPTY_STRING;
             } else {
-                return StringPool.BLANK;
+                return EMPTY_STRING;
             }
         });
     }

@@ -20,7 +20,10 @@ export class ObservableValue<T> implements Value<T>, Disposable {
 
     public dispose(): void {
         for (const {key: observer, value: subscription} of this._observers) {
-            observer.onCompleted();
+            if (observer.onComplete) {
+                observer.onComplete();
+            }
+
             subscription.dispose();
         }
     }
@@ -44,13 +47,17 @@ export class ObservableValue<T> implements Value<T>, Disposable {
             return existingSubscription;
         }
 
-        const newSubscription: Subscription<T> = new Subscription(this._observers, observer);
+        const newSubscription: Subscription<T> = new Subscription(this, observer);
 
         this._observers.put(observer, newSubscription);
 
         observer.onNext(this._value);
 
         return newSubscription;
+    }
+
+    public unsubscribe(observer: Observer<T>): boolean {
+        return this._observers.remove(observer) != null;
     }
 
     protected isEqualValue(candidate: T): boolean {

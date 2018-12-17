@@ -1,25 +1,22 @@
-import {Disposable, Map} from '@monument/core';
+import {Disposable} from '@monument/core';
 import {Observer} from './Observer';
+import {Subject} from './Subject';
 
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
  */
-export class Subscription<T> implements Disposable {
-    private readonly _observers: Map<Observer<T>, Disposable>;
+export class Subscription<T> implements Disposable<boolean> {
+    private readonly _subject: Subject<T>;
     private readonly _observer: Observer<T>;
 
-    public get isActive(): boolean {
-        return this._observers.containsEntry(this._observer, this);
-    }
-
-    public constructor(observers: Map<Observer<T>, Disposable>, observer: Observer<T>) {
-        this._observers = observers;
+    public constructor(subject: Subject<T>, observer: Observer<T>) {
+        this._subject = subject;
         this._observer = observer;
     }
 
-    public dispose(): void {
-        this._observers.remove(this._observer);
+    public dispose(): boolean {
+        return this._subject.unsubscribe(this._observer);
     }
 }

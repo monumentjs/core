@@ -21,7 +21,7 @@ describe('ObservableValue', function () {
 
         value.subscribe({
             onNext: onNextMock,
-            onCompleted: onCompletedMock,
+            onComplete: onCompletedMock,
             onError: onErrorMock
         });
 
@@ -40,7 +40,7 @@ describe('ObservableValue', function () {
 
         value.subscribe({
             onNext: onNextMock,
-            onCompleted: onCompletedMock,
+            onComplete: onCompletedMock,
             onError: onErrorMock
         });
 
@@ -61,7 +61,7 @@ describe('ObservableValue', function () {
 
         value.subscribe({
             onNext: onNextMock,
-            onCompleted: onCompletedMock,
+            onComplete: onCompletedMock,
             onError: onErrorMock
         });
 

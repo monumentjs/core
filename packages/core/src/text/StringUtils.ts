@@ -1,4 +1,4 @@
-import {StringPool} from './StringPool';
+import {EMPTY_STRING, SPACE} from './Strings';
 import {RegExpUtils} from './RegExpUtils';
 import {CollectionUtils} from '../collections/base/CollectionUtils';
 import {Queryable} from '../collections/base/Queryable';
@@ -17,7 +17,7 @@ export class StringUtils {
     private static readonly SNAKE_CASE_DELIMITER: string = '_';
 
     public static isEmpty(value: string): boolean {
-        return value === StringPool.BLANK;
+        return value === EMPTY_STRING;
     }
 
     /**
@@ -31,7 +31,7 @@ export class StringUtils {
     }
 
     public static getCharacters(input: string): string[] {
-        return input.split(StringPool.BLANK);
+        return input.split(EMPTY_STRING);
     }
 
     public static split(
@@ -50,18 +50,18 @@ export class StringUtils {
         }
 
         if (ignoreEmptyTokens) {
-            tokens = tokens.filter((token) => token !== StringPool.BLANK);
+            tokens = tokens.filter((token) => token !== EMPTY_STRING);
         }
 
         return tokens;
     }
 
     public static trimLeft(value: string): string {
-        return value.replace(StringUtils.LEADING_WHITESPACE_PATTERN, StringPool.BLANK);
+        return value.replace(StringUtils.LEADING_WHITESPACE_PATTERN, EMPTY_STRING);
     }
 
     public static trimRight(value: string): string {
-        return value.replace(StringUtils.TRAILING_WHITESPACE_PATTERN, StringPool.BLANK);
+        return value.replace(StringUtils.TRAILING_WHITESPACE_PATTERN, EMPTY_STRING);
     }
 
     public static trim(value: string): string {
@@ -79,11 +79,11 @@ export class StringUtils {
     public static collectionToDelimitedString(
         values: Queryable<ToString>,
         delimiter: string,
-        prefix: string = StringPool.BLANK,
-        suffix: string = StringPool.BLANK
+        prefix: string = EMPTY_STRING,
+        suffix: string = EMPTY_STRING
     ): string {
         if (values.isEmpty) {
-            return StringPool.BLANK;
+            return EMPTY_STRING;
         }
 
         return values.toArray().map((item) => {
@@ -104,7 +104,7 @@ export class StringUtils {
             }
         });
 
-        return slices.join(StringPool.BLANK);
+        return slices.join(EMPTY_STRING);
     }
 
     public static toCapitalCase(input: string): string {
@@ -116,7 +116,7 @@ export class StringUtils {
             return firstChar.toUpperCase() + slice.slice(1).toLowerCase();
         });
 
-        return slices.join(StringPool.BLANK);
+        return slices.join(EMPTY_STRING);
     }
 
     public static toKebabCase(input: string): string {
@@ -131,7 +131,7 @@ export class StringUtils {
         return slices.join(this.SNAKE_CASE_DELIMITER).toLowerCase();
     }
 
-    public static padStart(input: string, length: number, padString: string = StringPool.SPACE): string {
+    public static padStart(input: string, length: number, padString: string = SPACE): string {
         CollectionUtils.validateLength(length);
 
         if (input.length > length) {
@@ -148,7 +148,7 @@ export class StringUtils {
         }
     }
 
-    public static padEnd(input: string, length: number, padString: string = StringPool.SPACE): string {
+    public static padEnd(input: string, length: number, padString: string = SPACE): string {
         CollectionUtils.validateLength(length);
 
         if (input.length > length) {
@@ -220,7 +220,7 @@ export class StringUtils {
     }
 
     private static getDelimitersPatternEntries(delimiters: string): string[] {
-        return delimiters.split(StringPool.BLANK).map((ch) => RegExpUtils.escape(ch));
+        return delimiters.split(EMPTY_STRING).map((ch) => RegExpUtils.escape(ch));
     }
 
     private static getDelimitersPatternString(delimiterPatternEntries: string[]): string {
