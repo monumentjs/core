@@ -15,7 +15,10 @@ import {StrictEqualityComparator} from '../../../../comparison/equality/StrictEq
  * @author Alex Chugaev
  * @since 0.0.1
  */
-export class ReadOnlyCollectionProxy<T, TItems extends ReadOnlyCollection<T>> extends SequenceProxy<T, TItems> implements ReadOnlyCollection<T> {
+export class ReadOnlyCollectionProxy<T, TItems extends ReadOnlyCollection<T>>
+    extends SequenceProxy<T, TItems>
+    implements ReadOnlyCollection<T> {
+
     public get isEmpty(): boolean {
         return this.length === 0;
     }
@@ -271,7 +274,10 @@ export class ReadOnlyCollectionProxy<T, TItems extends ReadOnlyCollection<T>> ex
         return this._items.union(otherList, comparator);
     }
 
-    public zip<TOther, TResult>(otherList: Sequence<TOther>, resultSelector: CombineFunction<T, TOther, TResult>): ReadOnlyCollection<TResult> {
+    public zip<TOther, TResult>(
+        otherList: Sequence<TOther>,
+        resultSelector: CombineFunction<T, TOther, TResult>
+    ): ReadOnlyCollection<TResult> {
         return this._items.zip(otherList, resultSelector);
     }
 }
