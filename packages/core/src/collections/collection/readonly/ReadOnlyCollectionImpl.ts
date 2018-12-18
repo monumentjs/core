@@ -190,6 +190,16 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
         });
     }
 
+    public *entries(): Iterable<[T, number]> {
+        let index: number = 0;
+
+        for (const item of this) {
+            yield [item, index];
+
+            index++;
+        }
+    }
+
     public equals(otherList: Iterable<T>): boolean;
 
     public equals(otherList: Iterable<T>, comparator: EqualityComparator<T>): boolean;
@@ -420,16 +430,6 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
                 }
             }
         });
-    }
-
-    public *entries(): Iterable<[T, number]> {
-        let index: number = 0;
-
-        for (const item of this) {
-            yield [item, index];
-
-            index++;
-        }
     }
 
     public join<TOuter, TKey, TResult>(
