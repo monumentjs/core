@@ -6,11 +6,11 @@ import {
     Sequence,
     StrictEqualityComparator
 } from '../../../..';
-import {testQueryable} from '../../base/Queryable.spec';
+import {testReadOnlyCollection} from '../../collection/readonly/ReadOnlyCollection.spec';
 
 export function testReadOnlyList(create: <I>(items?: Sequence<I>) => ReadOnlyList<I>) {
     describe('ReadOnlyList', function () {
-        testQueryable(create);
+        testReadOnlyCollection(create);
 
         describe('firstIndex', function () {
             it('should return -1 when list is empty', function () {

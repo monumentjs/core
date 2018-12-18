@@ -2,7 +2,7 @@ import {Cloneable} from '../../../base/Cloneable';
 import {EmptyQueueException} from '../EmptyQueueException';
 import {Queue} from './Queue';
 import {LinkedList} from '../../list/mutable/LinkedList';
-import {QueryableProxy} from '../../base/proxy/QueryableProxy';
+import {ReadOnlyCollectionProxy} from '../../collection/readonly/proxy/ReadOnlyCollectionProxy';
 
 
 /**
@@ -11,7 +11,7 @@ import {QueryableProxy} from '../../base/proxy/QueryableProxy';
  * @author Alex Chugaev
  * @since 0.0.1
  */
-export class LinkedQueue<T> extends QueryableProxy<T, LinkedList<T>> implements Queue<T>, Cloneable<LinkedQueue<T>> {
+export class LinkedQueue<T> extends ReadOnlyCollectionProxy<T, LinkedList<T>> implements Queue<T>, Cloneable<LinkedQueue<T>> {
 
     public constructor(items?: Iterable<T>) {
         super(new LinkedList());

@@ -44,8 +44,8 @@ export * from './src/collections/base/NamedPool';
 export * from './src/collections/base/NoSuchItemException';
 export * from './src/collections/base/SelectorFunction';
 export * from './src/collections/base/Sequence';
-export * from './src/collections/base/Queryable';
-export * from './src/collections/base/QueryableImpl';
+export * from './src/collections/collection/readonly/ReadOnlyCollection';
+export * from './src/collections/collection/readonly/ReadOnlyCollectionImpl';
 export * from './src/collections/base/Grouping';
 export * from './src/collections/base/ToArray';
 

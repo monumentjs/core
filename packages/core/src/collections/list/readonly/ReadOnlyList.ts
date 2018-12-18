@@ -1,4 +1,4 @@
-import {Queryable} from '../../base/Queryable';
+import {ReadOnlyCollection} from '../../collection/readonly/ReadOnlyCollection';
 import {Cloneable} from '../../../base/Cloneable';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
 
@@ -6,7 +6,7 @@ import {EqualityComparator} from '../../../comparison/equality/EqualityComparato
  * @author Alex Chugaev
  * @since 0.0.1
  */
-export interface ReadOnlyList<T> extends Queryable<T>, Cloneable<ReadOnlyList<T>> {
+export interface ReadOnlyList<T> extends ReadOnlyCollection<T>, Cloneable<ReadOnlyList<T>> {
     readonly firstIndex: number;
     readonly lastIndex: number;
 

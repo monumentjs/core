@@ -1,7 +1,7 @@
 import {EMPTY_STRING, SPACE} from './Strings';
 import {RegExpUtils} from './RegExpUtils';
 import {CollectionUtils} from '../collections/base/CollectionUtils';
-import {Queryable} from '../collections/base/Queryable';
+import {ReadOnlyCollection} from '../collections/collection/readonly/ReadOnlyCollection';
 import {ToString} from '../base/ToString';
 
 
@@ -77,7 +77,7 @@ export class StringUtils {
     }
 
     public static collectionToDelimitedString(
-        values: Queryable<ToString>,
+        values: ReadOnlyCollection<ToString>,
         delimiter: string,
         prefix: string = EMPTY_STRING,
         suffix: string = EMPTY_STRING

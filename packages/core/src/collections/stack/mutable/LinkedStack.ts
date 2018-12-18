@@ -3,13 +3,13 @@ import {Stack} from './Stack';
 import {EmptyStackException} from '../EmptyStackException';
 import {LinkedList} from '../../list/mutable/LinkedList';
 import {Sequence} from '../../base/Sequence';
-import {QueryableProxy} from '../../base/proxy/QueryableProxy';
+import {ReadOnlyCollectionProxy} from '../../collection/readonly/proxy/ReadOnlyCollectionProxy';
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
  */
-export class LinkedStack<T> extends QueryableProxy<T, LinkedList<T>> implements Stack<T>, Cloneable<LinkedStack<T>> {
+export class LinkedStack<T> extends ReadOnlyCollectionProxy<T, LinkedList<T>> implements Stack<T>, Cloneable<LinkedStack<T>> {
 
     public constructor(items?: Sequence<T>) {
         super(new LinkedList());

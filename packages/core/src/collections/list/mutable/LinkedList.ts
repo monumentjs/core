@@ -1,6 +1,6 @@
 import {Cloneable} from '../../../base/Cloneable';
 import {Sequence} from '../../base/Sequence';
-import {Queryable} from '../../base/Queryable';
+import {ReadOnlyCollection} from '../../collection/readonly/ReadOnlyCollection';
 import {CollectionUtils} from '../../base/CollectionUtils';
 import {IteratorFunction} from '../../base/IteratorFunction';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
@@ -154,7 +154,7 @@ export class LinkedList<T> extends AbstractList<T> implements Cloneable<LinkedLi
         return this.length !== oldLength;
     }
 
-    public reverse(): Queryable<T> {
+    public reverse(): ReadOnlyCollection<T> {
         const result: LinkedList<T> = new LinkedList();
 
         let node = this._lastNode;

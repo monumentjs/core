@@ -1,24 +1,24 @@
-import {Queryable} from './Queryable';
-import {AggregateFunction} from './AggregateFunction';
-import {IteratorFunction} from './IteratorFunction';
-import {EqualityComparator} from '../../comparison/equality/EqualityComparator';
-import {Grouping} from './Grouping';
-import {CombineFunction} from './CombineFunction';
-import {SelectorFunction} from './SelectorFunction';
-import {Comparator} from '../../comparison/order/Comparator';
-import {SortOrder} from '../../comparison/order/SortOrder';
-import {InvalidOperationException} from '../../exceptions/InvalidOperationException';
-import {StrictEqualityComparator} from '../../comparison/equality/StrictEqualityComparator';
-import {CollectionUtils} from './CollectionUtils';
-import {IndexOutOfBoundsException} from '../../exceptions/IndexOutOfBoundsException';
-import {NoSuchItemException} from './NoSuchItemException';
-import {RandomInt} from '../../random/RandomInt';
-import {InvalidArgumentException} from '../../exceptions/InvalidArgumentException';
-import {EventDispatcher} from '../../events/EventDispatcher';
-import {EventArgs} from '../../events/EventArgs';
+import {ReadOnlyCollection} from './ReadOnlyCollection';
+import {AggregateFunction} from '../../base/AggregateFunction';
+import {IteratorFunction} from '../../base/IteratorFunction';
+import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
+import {Grouping} from '../../base/Grouping';
+import {CombineFunction} from '../../base/CombineFunction';
+import {SelectorFunction} from '../../base/SelectorFunction';
+import {Comparator} from '../../../comparison/order/Comparator';
+import {SortOrder} from '../../../comparison/order/SortOrder';
+import {InvalidOperationException} from '../../../exceptions/InvalidOperationException';
+import {StrictEqualityComparator} from '../../../comparison/equality/StrictEqualityComparator';
+import {CollectionUtils} from '../../base/CollectionUtils';
+import {IndexOutOfBoundsException} from '../../../exceptions/IndexOutOfBoundsException';
+import {NoSuchItemException} from '../../base/NoSuchItemException';
+import {RandomInt} from '../../../random/RandomInt';
+import {InvalidArgumentException} from '../../../exceptions/InvalidArgumentException';
+import {EventDispatcher} from '../../../events/EventDispatcher';
+import {EventArgs} from '../../../events/EventArgs';
 
 
-export class QueryableImpl<T> implements Queryable<T> {
+export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
     private readonly _source: Iterable<T>;
     private readonly _changed: EventDispatcher<EventArgs> = new EventDispatcher();
 
@@ -102,10 +102,10 @@ export class QueryableImpl<T> implements Queryable<T> {
         return this.sum(selector) / this.length;
     }
 
-    public concat(otherList: Iterable<T>): Queryable<T> {
+    public concat(otherList: Iterable<T>): ReadOnlyCollection<T> {
         const self: this = this;
 
-        return new QueryableImpl({
+        return new ReadOnlyCollectionImpl({
             *[Symbol.iterator](): Iterator<T> {
                 for (const item of self) {
                     yield item;
@@ -137,7 +137,7 @@ export class QueryableImpl<T> implements Queryable<T> {
     public containsAll(items: Iterable<T>, comparator: EqualityComparator<T>): boolean;
 
     public containsAll(items: Iterable<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): boolean {
-        const _items: QueryableImpl<T> = new QueryableImpl(items);
+        const _items: ReadOnlyCollectionImpl<T> = new ReadOnlyCollectionImpl(items);
 
         if (_items.isEmpty) {
             return false;
@@ -167,17 +167,17 @@ export class QueryableImpl<T> implements Queryable<T> {
     /**
      * Returns distinct elements from a sequence by using a specified EqualityComparator to compare values.
      */
-    public distinct(): Queryable<T>;
+    public distinct(): ReadOnlyCollection<T>;
 
-    public distinct(comparator: EqualityComparator<T>): Queryable<T>;
+    public distinct(comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
 
-    public distinct(comparator: EqualityComparator<T> = StrictEqualityComparator.get()): Queryable<T> {
+    public distinct(comparator: EqualityComparator<T> = StrictEqualityComparator.get()): ReadOnlyCollection<T> {
         const self: this = this;
 
-        return new QueryableImpl({
+        return new ReadOnlyCollectionImpl({
             *[Symbol.iterator](): Iterator<T> {
                 const uniqueItems: T[] = [];
-                const uniqueItems$ = new QueryableImpl(uniqueItems);
+                const uniqueItems$ = new ReadOnlyCollectionImpl(uniqueItems);
 
                 for (const item of self) {
                     if (!uniqueItems$.contains(item, comparator)) {
@@ -196,7 +196,7 @@ export class QueryableImpl<T> implements Queryable<T> {
 
     // tslint:disable-next-line:cyclomatic-complexity
     public equals(otherList: Iterable<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): boolean {
-        const otherItems: QueryableImpl<T> = new QueryableImpl(otherList);
+        const otherItems: ReadOnlyCollectionImpl<T> = new ReadOnlyCollectionImpl(otherList);
 
         if (this.length !== otherItems.length) {
             return false;
@@ -227,21 +227,21 @@ export class QueryableImpl<T> implements Queryable<T> {
     /**
      * Produces the set difference of two sequences.
      */
-    public except(otherList: Iterable<T>): Queryable<T>;
+    public except(otherList: Iterable<T>): ReadOnlyCollection<T>;
 
     /**
      * Produces the set difference of two sequences.
      */
-    public except(otherList: Iterable<T>, comparator: EqualityComparator<T>): Queryable<T>;
+    public except(otherList: Iterable<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
 
     /**
      * Produces the set difference of two sequences.
      */
-    public except(otherList: Iterable<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): Queryable<T> {
+    public except(otherList: Iterable<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): ReadOnlyCollection<T> {
         const self: this = this;
-        const other: QueryableImpl<T> = new QueryableImpl(otherList);
+        const other: ReadOnlyCollectionImpl<T> = new ReadOnlyCollectionImpl(otherList);
 
-        return new QueryableImpl({
+        return new ReadOnlyCollectionImpl({
             *[Symbol.iterator](): Iterator<T> {
                 for (const item of self) {
                     if (!other.contains(item, comparator)) {
@@ -258,10 +258,10 @@ export class QueryableImpl<T> implements Queryable<T> {
         });
     }
 
-    public findAll(predicate: IteratorFunction<T, boolean>): Queryable<T> {
+    public findAll(predicate: IteratorFunction<T, boolean>): ReadOnlyCollection<T> {
         const self: this = this;
 
-        return new QueryableImpl({
+        return new ReadOnlyCollectionImpl({
             *[Symbol.iterator](): Iterator<T> {
                 let index: number = 0;
 
@@ -376,20 +376,23 @@ export class QueryableImpl<T> implements Queryable<T> {
         throw new IndexOutOfBoundsException(index, this.length);
     }
 
-    public groupBy<TKey>(keySelector: IteratorFunction<T, TKey>): Queryable<Grouping<TKey, T>>;
-    public groupBy<TKey>(keySelector: IteratorFunction<T, TKey>, keyComparator: EqualityComparator<TKey>): Queryable<Grouping<TKey, T>>;
+    public groupBy<TKey>(keySelector: IteratorFunction<T, TKey>): ReadOnlyCollection<Grouping<TKey, T>>;
+    public groupBy<TKey>(
+        keySelector: IteratorFunction<T, TKey>,
+        keyComparator: EqualityComparator<TKey>
+    ): ReadOnlyCollection<Grouping<TKey, T>>;
     public groupBy<TKey>(
         keySelector: IteratorFunction<T, TKey>,
         keyComparator: EqualityComparator<TKey> = StrictEqualityComparator.get()
-    ): Queryable<Grouping<TKey, T>> {
-        const allKeys: Queryable<TKey> = this.map((item: T, index: number) => {
+    ): ReadOnlyCollection<Grouping<TKey, T>> {
+        const allKeys: ReadOnlyCollection<TKey> = this.map((item: T, index: number) => {
             return keySelector(item, index);
         });
-        const keys: Queryable<TKey> = allKeys.distinct(keyComparator);
+        const keys: ReadOnlyCollection<TKey> = allKeys.distinct(keyComparator);
         const groups: Array<Grouping<TKey, T>> = [];
 
         for (const key of keys) {
-            const items: Queryable<T> = this.findAll((item: T, index: number): boolean => {
+            const items: ReadOnlyCollection<T> = this.findAll((item: T, index: number): boolean => {
                 const otherKey: TKey = keySelector(item, index);
 
                 return keyComparator.equals(key, otherKey);
@@ -399,16 +402,16 @@ export class QueryableImpl<T> implements Queryable<T> {
             groups.push(group);
         }
 
-        return new QueryableImpl(groups);
+        return new ReadOnlyCollectionImpl(groups);
     }
 
-    public intersect(otherList: Iterable<T>): Queryable<T>;
-    public intersect(otherList: Iterable<T>, comparator: EqualityComparator<T>): Queryable<T>;
-    public intersect(otherList: Iterable<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): Queryable<T> {
+    public intersect(otherList: Iterable<T>): ReadOnlyCollection<T>;
+    public intersect(otherList: Iterable<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
+    public intersect(otherList: Iterable<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): ReadOnlyCollection<T> {
         const self: this = this;
-        const other: QueryableImpl<T> = new QueryableImpl(otherList);
+        const other: ReadOnlyCollectionImpl<T> = new ReadOnlyCollectionImpl(otherList);
 
-        return new QueryableImpl({
+        return new ReadOnlyCollectionImpl({
             *[Symbol.iterator](): Iterator<T> {
                 for (const item of self) {
                     if (other.contains(item, comparator)) {
@@ -434,7 +437,7 @@ export class QueryableImpl<T> implements Queryable<T> {
         outerKeySelector: IteratorFunction<TOuter, TKey>,
         innerKeySelector: IteratorFunction<T, TKey>,
         resultSelector: CombineFunction<T, TOuter, TResult>
-    ): Queryable<TResult>;
+    ): ReadOnlyCollection<TResult>;
 
     public join<TOuter, TKey, TResult>(
         outerList: Iterable<TOuter>,
@@ -442,7 +445,7 @@ export class QueryableImpl<T> implements Queryable<T> {
         innerKeySelector: IteratorFunction<T, TKey>,
         resultSelector: CombineFunction<T, TOuter, TResult>,
         keyComparator: EqualityComparator<TKey>
-    ): Queryable<TResult>;
+    ): ReadOnlyCollection<TResult>;
 
     public join<TOuter, TKey, TResult>(
         outerList: Iterable<TOuter>,
@@ -450,11 +453,11 @@ export class QueryableImpl<T> implements Queryable<T> {
         innerKeySelector: IteratorFunction<T, TKey>,
         resultSelector: CombineFunction<T, TOuter, TResult>,
         keyComparator: EqualityComparator<TKey> = StrictEqualityComparator.get()
-    ): Queryable<TResult> {
+    ): ReadOnlyCollection<TResult> {
         const self = this;
-        const outer: QueryableImpl<TOuter> = new QueryableImpl(outerList);
+        const outer: ReadOnlyCollectionImpl<TOuter> = new ReadOnlyCollectionImpl(outerList);
 
-        return new QueryableImpl({
+        return new ReadOnlyCollectionImpl({
             *[Symbol.iterator](): Iterator<TResult> {
                 for (const [innerItem, innerIndex] of self.entries()) {
                     const innerKey: TKey = innerKeySelector(innerItem, innerIndex);
@@ -498,10 +501,10 @@ export class QueryableImpl<T> implements Queryable<T> {
         }
     }
 
-    public map<TResult>(selector: IteratorFunction<T, TResult>): Queryable<TResult> {
+    public map<TResult>(selector: IteratorFunction<T, TResult>): ReadOnlyCollection<TResult> {
         const self: this = this;
 
-        return new QueryableImpl({
+        return new ReadOnlyCollectionImpl({
             *[Symbol.iterator](): Iterator<TResult> {
                 let index: number = 0;
 
@@ -550,14 +553,14 @@ export class QueryableImpl<T> implements Queryable<T> {
         this._changed.trigger(new EventArgs(target));
     }
 
-    public orderBy<TKey>(keySelector: SelectorFunction<T, TKey>, comparator: Comparator<TKey>): Queryable<T>;
-    public orderBy<TKey>(keySelector: SelectorFunction<T, TKey>, comparator: Comparator<TKey>, sortOrder: SortOrder): Queryable<T>;
+    public orderBy<TKey>(keySelector: SelectorFunction<T, TKey>, comparator: Comparator<TKey>): ReadOnlyCollection<T>;
+    public orderBy<TKey>(keySelector: SelectorFunction<T, TKey>, comparator: Comparator<TKey>, sortOrder: SortOrder): ReadOnlyCollection<T>;
     public orderBy<TKey>(
         keySelector: SelectorFunction<T, TKey>,
         comparator: Comparator<TKey>,
         sortOrder: SortOrder = SortOrder.ASCENDING
-    ): Queryable<T> {
-        return new QueryableImpl(this.toArray().sort((x: T, y: T): number => {
+    ): ReadOnlyCollection<T> {
+        return new ReadOnlyCollectionImpl(this.toArray().sort((x: T, y: T): number => {
             const xKey: TKey = keySelector(x);
             const yKey: TKey = keySelector(y);
 
@@ -575,19 +578,19 @@ export class QueryableImpl<T> implements Queryable<T> {
         return this.getAt(index);
     }
 
-    public reverse(): Queryable<T> {
-        return new QueryableImpl(this.toArray().reverse());
+    public reverse(): ReadOnlyCollection<T> {
+        return new ReadOnlyCollectionImpl(this.toArray().reverse());
     }
 
     public selectMany<TInnerItem, TResult>(
         collectionSelector: IteratorFunction<T, Iterable<TInnerItem>>,
         resultSelector: CombineFunction<T, TInnerItem, TResult>
-    ): Queryable<TResult> {
+    ): ReadOnlyCollection<TResult> {
         const self: this = this;
 
-        return new QueryableImpl({
+        return new ReadOnlyCollectionImpl({
             *[Symbol.iterator](): Iterator<TResult> {
-                const collections: Queryable<Iterable<TInnerItem>> = self.map<Iterable<TInnerItem>>((
+                const collections: ReadOnlyCollection<Iterable<TInnerItem>> = self.map<Iterable<TInnerItem>>((
                     ownItem: T,
                     actualItemIndex: number
                 ): Iterable<TInnerItem> => {
@@ -610,14 +613,14 @@ export class QueryableImpl<T> implements Queryable<T> {
         });
     }
 
-    public skip(offset: number): Queryable<T> {
+    public skip(offset: number): ReadOnlyCollection<T> {
         const self: this = this;
 
         if (offset < 0) {
             throw new IndexOutOfBoundsException('Offset cannot be negative.');
         }
 
-        return new QueryableImpl({
+        return new ReadOnlyCollectionImpl({
             *[Symbol.iterator](): Iterator<T> {
                 let index: number = 0;
 
@@ -632,10 +635,10 @@ export class QueryableImpl<T> implements Queryable<T> {
         });
     }
 
-    public skipWhile(condition: IteratorFunction<T, boolean>): Queryable<T> {
+    public skipWhile(condition: IteratorFunction<T, boolean>): ReadOnlyCollection<T> {
         const self: this = this;
 
-        return new QueryableImpl({
+        return new ReadOnlyCollectionImpl({
             *[Symbol.iterator](): Iterator<T> {
                 let skip: boolean = true;
 
@@ -652,15 +655,15 @@ export class QueryableImpl<T> implements Queryable<T> {
         });
     }
 
-    public slice(offset: number): Queryable<T>;
-    public slice(offset: number, length: number): Queryable<T>;
-    public slice(offset: number, length: number = this.length - offset): Queryable<T> {
+    public slice(offset: number): ReadOnlyCollection<T>;
+    public slice(offset: number, length: number): ReadOnlyCollection<T>;
+    public slice(offset: number, length: number = this.length - offset): ReadOnlyCollection<T> {
         CollectionUtils.validateSliceBounds(this, offset, length);
 
         const self: this = this;
         const maxIndex: number = offset + length;
 
-        return new QueryableImpl({
+        return new ReadOnlyCollectionImpl({
             *[Symbol.iterator](): Iterator<T> {
                 for (const [item, index] of self.entries()) {
                     if (index >= maxIndex) {
@@ -687,14 +690,14 @@ export class QueryableImpl<T> implements Queryable<T> {
         }, 0);
     }
 
-    public take(length: number): Queryable<T> {
+    public take(length: number): ReadOnlyCollection<T> {
         if (length < 0) {
             throw new InvalidArgumentException('Slice length cannot be negative.');
         }
 
         const self: this = this;
 
-        return new QueryableImpl({
+        return new ReadOnlyCollectionImpl({
             *[Symbol.iterator](): Iterator<T> {
                 for (const [item, index] of self.entries()) {
                     if (index >= length) {
@@ -707,10 +710,10 @@ export class QueryableImpl<T> implements Queryable<T> {
         });
     }
 
-    public takeWhile(condition: IteratorFunction<T, boolean>): Queryable<T> {
+    public takeWhile(condition: IteratorFunction<T, boolean>): ReadOnlyCollection<T> {
         const self: this = this;
 
-        return new QueryableImpl({
+        return new ReadOnlyCollectionImpl({
             *[Symbol.iterator](): Iterator<T> {
                 for (const [item, index] of self.entries()) {
                     if (!condition(item, index)) {
@@ -731,15 +734,15 @@ export class QueryableImpl<T> implements Queryable<T> {
         return this.toArray();
     }
 
-    public union(otherList: Iterable<T>): Queryable<T>;
-    public union(otherList: Iterable<T>, comparator: EqualityComparator<T>): Queryable<T>;
-    public union(otherList: Iterable<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): Queryable<T> {
+    public union(otherList: Iterable<T>): ReadOnlyCollection<T>;
+    public union(otherList: Iterable<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
+    public union(otherList: Iterable<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): ReadOnlyCollection<T> {
         const self = this;
 
-        return new QueryableImpl({
+        return new ReadOnlyCollectionImpl({
             *[Symbol.iterator](): Iterator<T> {
                 const union: T[] = self.toArray();
-                const union$: QueryableImpl<T> = new QueryableImpl(union);
+                const union$: ReadOnlyCollectionImpl<T> = new ReadOnlyCollectionImpl(union);
 
                 for (const item of self) {
                     yield item;
@@ -758,12 +761,12 @@ export class QueryableImpl<T> implements Queryable<T> {
     public zip<TOther, TResult>(
         otherItems: Iterable<TOther>,
         resultSelector: CombineFunction<T, TOther, TResult>
-    ): Queryable<TResult> {
+    ): ReadOnlyCollection<TResult> {
         const self: this = this;
 
-        return new QueryableImpl({
+        return new ReadOnlyCollectionImpl({
             *[Symbol.iterator](): Iterator<TResult> {
-                const otherItems$ = new QueryableImpl(otherItems);
+                const otherItems$ = new ReadOnlyCollectionImpl(otherItems);
                 const minLength: number = Math.min(self.length, otherItems$.length);
 
                 for (const [otherItem, index] of otherItems$.entries()) {

@@ -1,9 +1,9 @@
 import {EmptyStackException, ReadOnlyStack, Sequence} from '../../../..';
-import {testQueryable} from '../../base/Queryable.spec';
+import {testReadOnlyCollection} from '../../collection/readonly/ReadOnlyCollection.spec';
 
 export function testReadOnlyStack(create: <I>(items?: Sequence<I>) => ReadOnlyStack<I>) {
     describe('ReadOnlyStack', function () {
-        testQueryable(create);
+        testReadOnlyCollection(create);
 
         describe('peek()', function () {
             it('should throw EmptyStackException if no elements in stack', function () {

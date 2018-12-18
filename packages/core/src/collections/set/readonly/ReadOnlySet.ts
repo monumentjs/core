@@ -1,12 +1,12 @@
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
 import {Sequence} from '../../base/Sequence';
-import {Queryable} from '../../base/Queryable';
+import {ReadOnlyCollection} from '../../collection/readonly/ReadOnlyCollection';
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
  */
-export interface ReadOnlySet<T> extends Queryable<T> {
+export interface ReadOnlySet<T> extends ReadOnlyCollection<T> {
     readonly comparator: EqualityComparator<T>;
 
     /**

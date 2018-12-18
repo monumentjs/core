@@ -6,14 +6,14 @@ import {Cloneable} from '../../../base/Cloneable';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
 import {StrictEqualityComparator} from '../../../comparison/equality/StrictEqualityComparator';
 import {MethodNotImplementedException} from '../../../exceptions/MethodNotImplementedException';
-import {QueryableBase} from '../../base/QueryableBase';
+import {ReadOnlyCollectionBase} from '../../collection/readonly/ReadOnlyCollectionBase';
 
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
  */
-export class ArraySet<T> extends QueryableBase<T> implements Set<T>, Cloneable<ArraySet<T>> {
+export class ArraySet<T> extends ReadOnlyCollectionBase<T> implements Set<T>, Cloneable<ArraySet<T>> {
     private readonly _comparator: EqualityComparator<T>;
     private readonly _items: ArrayList<T> = new ArrayList();
 

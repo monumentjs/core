@@ -1,5 +1,5 @@
 import {ReadOnlyList} from '../ReadOnlyList';
-import {QueryableProxy} from '../../../base/proxy/QueryableProxy';
+import {ReadOnlyCollectionProxy} from '../../../collection/readonly/proxy/ReadOnlyCollectionProxy';
 import {EqualityComparator} from '../../../../comparison/equality/EqualityComparator';
 
 
@@ -8,7 +8,7 @@ import {EqualityComparator} from '../../../../comparison/equality/EqualityCompar
  * @since 0.0.1
  */
 export abstract class ReadOnlyListProxy<TItem, TItems extends ReadOnlyList<TItem>>
-    extends QueryableProxy<TItem, TItems>
+    extends ReadOnlyCollectionProxy<TItem, TItems>
     implements ReadOnlyList<TItem> {
 
     public get firstIndex(): number {

@@ -5,9 +5,9 @@ import {EqualityComparator} from '../../../comparison/equality/EqualityComparato
 import {StrictEqualityComparator} from '../../../comparison/equality/StrictEqualityComparator';
 import {IndexOutOfBoundsException} from '../../../exceptions/IndexOutOfBoundsException';
 import {RangeException} from '../../../exceptions/RangeException';
-import {QueryableImpl} from '../../base/QueryableImpl';
+import {ReadOnlyCollectionImpl} from '../../collection/readonly/ReadOnlyCollectionImpl';
 import {Sequence} from '../../base/Sequence';
-import {QueryableBase} from '../../base/QueryableBase';
+import {ReadOnlyCollectionBase} from '../../collection/readonly/ReadOnlyCollectionBase';
 
 
 /**
@@ -15,7 +15,7 @@ import {QueryableBase} from '../../base/QueryableBase';
  * @since 0.0.1
  * @mutable
  */
-export abstract class AbstractList<T> extends QueryableBase<T> implements List<T> {
+export abstract class AbstractList<T> extends ReadOnlyCollectionBase<T> implements List<T> {
     public get firstIndex(): number {
         return this.isEmpty ? -1 : 0;
     }
@@ -69,7 +69,7 @@ export abstract class AbstractList<T> extends QueryableBase<T> implements List<T
     public abstract clone(): List<T>;
 
     public getAt(index: number): T {
-        return new QueryableImpl(this).getAt(index);
+        return new ReadOnlyCollectionImpl(this).getAt(index);
     }
 
     public indexOf(item: T): number;
@@ -120,7 +120,7 @@ export abstract class AbstractList<T> extends QueryableBase<T> implements List<T
             throw new IndexOutOfBoundsException(`Index=${index}, length=${this.length}`);
         }
 
-        const items$: QueryableImpl<T> = new QueryableImpl(items);
+        const items$: ReadOnlyCollectionImpl<T> = new ReadOnlyCollectionImpl(items);
 
         if (items$.isEmpty) {
             return false;
@@ -175,7 +175,7 @@ export abstract class AbstractList<T> extends QueryableBase<T> implements List<T
     public removeAll(items: Sequence<T>, comparator: EqualityComparator<T>): boolean;
 
     public removeAll(items: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): boolean {
-        const items$: QueryableImpl<T> = new QueryableImpl(items);
+        const items$: ReadOnlyCollectionImpl<T> = new ReadOnlyCollectionImpl(items);
 
         if (items$.isEmpty) {
             return false;

@@ -1,9 +1,9 @@
 import {EmptyQueueException, ReadOnlyQueue, Sequence} from '../../../..';
-import {testQueryable} from '../../base/Queryable.spec';
+import {testReadOnlyCollection} from '../../collection/readonly/ReadOnlyCollection.spec';
 
 export function testReadOnlyQueue(create: <I>(items?: Sequence<I>) => ReadOnlyQueue<I>) {
     describe('ReadOnlyQueue', function () {
-        testQueryable(create);
+        testReadOnlyCollection(create);
 
         describe('peek()', function () {
             it('should throw EmptyQueueException if no elements in queue', function () {

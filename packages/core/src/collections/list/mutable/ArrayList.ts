@@ -1,6 +1,6 @@
 import {AbstractList} from './AbstractList';
 import {Sequence} from '../../base/Sequence';
-import {Queryable} from '../../base/Queryable';
+import {ReadOnlyCollection} from '../../collection/readonly/ReadOnlyCollection';
 import {IteratorFunction} from '../../base/IteratorFunction';
 import {Cloneable} from '../../../base/Cloneable';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
@@ -65,7 +65,7 @@ export class ArrayList<T> extends AbstractList<T> implements Cloneable<ArrayList
         return this.length !== oldLength;
     }
 
-    public reverse(): Queryable<T> {
+    public reverse(): ReadOnlyCollection<T> {
         return this.create(this._items.reverse());
     }
 

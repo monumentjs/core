@@ -1,22 +1,22 @@
-import {Grouping} from './Grouping';
-import {IteratorFunction} from './IteratorFunction';
-import {CombineFunction} from './CombineFunction';
-import {SelectorFunction} from './SelectorFunction';
-import {AggregateFunction} from './AggregateFunction';
-import {EqualityComparator} from '../../comparison/equality/EqualityComparator';
-import {Comparator} from '../../comparison/order/Comparator';
-import {SortOrder} from '../../comparison/order/SortOrder';
-import {Equatable} from '../../comparison/equality/Equatable';
-import {ToJSON} from '../../base/ToJSON';
-import {ToArray} from './ToArray';
-import {Sequence} from './Sequence';
+import {ToArray} from '../../base/ToArray';
+import {Grouping} from '../../base/Grouping';
+import {Sequence} from '../../base/Sequence';
+import {CombineFunction} from '../../base/CombineFunction';
+import {IteratorFunction} from '../../base/IteratorFunction';
+import {SelectorFunction} from '../../base/SelectorFunction';
+import {AggregateFunction} from '../../base/AggregateFunction';
+import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
+import {Comparator} from '../../../comparison/order/Comparator';
+import {SortOrder} from '../../../comparison/order/SortOrder';
+import {Equatable} from '../../../comparison/equality/Equatable';
+import {ToJSON} from '../../../base/ToJSON';
 
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
  */
-export interface Queryable<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T>, Equatable<Sequence<T>> {
+export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T>, Equatable<Sequence<T>> {
     readonly isEmpty: boolean;
 
     /**
@@ -47,7 +47,7 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T>, Equa
     /**
      * Concatenates actual sequence with other one and returns new sequence containing elements of both of them.
      */
-    concat(otherItems: Sequence<T>): Queryable<T>;
+    concat(otherItems: Sequence<T>): ReadOnlyCollection<T>;
 
     contains(item: T): boolean;
 
@@ -65,12 +65,12 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T>, Equa
     /**
      * Returns distinct elements from a sequence.
      */
-    distinct(): Queryable<T>;
+    distinct(): ReadOnlyCollection<T>;
 
     /**
      * Returns distinct elements from a sequence by using a specified EqualityComparator<TItem> to compare values.
      */
-    distinct(comparator: EqualityComparator<T>): Queryable<T>;
+    distinct(comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
 
     equals(otherItems: Sequence<T>): boolean;
 
@@ -79,18 +79,18 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T>, Equa
     /**
      * Produces the set difference of two sequences.
      */
-    except(items: Sequence<T>): Queryable<T>;
+    except(items: Sequence<T>): ReadOnlyCollection<T>;
 
     /**
      * Produces the set difference of two sequences by using the specified EqualityComparator to compare values.
      */
-    except(items: Sequence<T>, comparator: EqualityComparator<T>): Queryable<T>;
+    except(items: Sequence<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
 
     /**
      * Calls predicate function on each item in sequence.
      * Returns new collection containing items for which predicate function returned `true`.
      */
-    findAll(predicate: IteratorFunction<T, boolean>): Queryable<T>;
+    findAll(predicate: IteratorFunction<T, boolean>): ReadOnlyCollection<T>;
 
     /**
      * Returns first item of collection. If collection is empty, returns default payload.
@@ -109,7 +109,7 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T>, Equa
      *
      * Note: concrete collection implementation should provide more efficient implementation of iteration.
      *
-     * @see QueryableImpl.forEach for default implementation.
+     * @see ReadOnlyCollectionImpl.forEach for default implementation.
      */
     forEach(iterator: IteratorFunction<T, false | void>): void;
 
@@ -118,7 +118,7 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T>, Equa
      *
      * Note: concrete collection implementation should provide more efficient implementation of iteration.
      *
-     * @see QueryableImpl.forEach for default implementation.
+     * @see ReadOnlyCollectionImpl.forEach for default implementation.
      */
     forEach(iterator: IteratorFunction<T, false | void>, startIndex: number): void;
 
@@ -127,7 +127,7 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T>, Equa
      *
      * Note: concrete collection implementation should provide more efficient implementation of iteration.
      *
-     * @see QueryableImpl.forEach for default implementation.
+     * @see ReadOnlyCollectionImpl.forEach for default implementation.
      */
     forEach(iterator: IteratorFunction<T, false | void>, startIndex: number, count: number): void;
 
@@ -136,7 +136,7 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T>, Equa
      *
      * Note: concrete collection implementation should provide more efficient implementation of iteration.
      *
-     * @see QueryableImpl.forEachBack for default implementation.
+     * @see ReadOnlyCollectionImpl.forEachBack for default implementation.
      */
     forEachBack(iterator: IteratorFunction<T, false | void>): void;
 
@@ -145,7 +145,7 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T>, Equa
      *
      * Note: concrete collection implementation should provide more efficient implementation of iteration.
      *
-     * @see QueryableImpl.forEachBack for default implementation.
+     * @see ReadOnlyCollectionImpl.forEachBack for default implementation.
      */
     forEachBack(iterator: IteratorFunction<T, false | void>, startIndex: number): void;
 
@@ -154,29 +154,29 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T>, Equa
      *
      * Note: concrete collection implementation should provide more efficient implementation of iteration.
      *
-     * @see QueryableImpl.forEachBack for default implementation.
+     * @see ReadOnlyCollectionImpl.forEachBack for default implementation.
      */
     forEachBack(iterator: IteratorFunction<T, false | void>, startIndex: number, count: number): void;
 
     /**
      * Groups the elements of a sequence according to a specified key selector function.
      */
-    groupBy<TKey>(keySelector: IteratorFunction<T, TKey>): Queryable<Grouping<TKey, T>>;
+    groupBy<TKey>(keySelector: IteratorFunction<T, TKey>): ReadOnlyCollection<Grouping<TKey, T>>;
 
     /**
      * Groups the elements of a sequence according to a specified key selector function and key equality comparator.
      */
-    groupBy<TKey>(keySelector: IteratorFunction<T, TKey>, keyComparator: EqualityComparator<TKey>): Queryable<Grouping<TKey, T>>;
+    groupBy<TKey>(keySelector: IteratorFunction<T, TKey>, keyComparator: EqualityComparator<TKey>): ReadOnlyCollection<Grouping<TKey, T>>;
 
     /**
      * Produces the set intersection of two sequences.
      */
-    intersect(otherItems: Sequence<T>): Queryable<T>;
+    intersect(otherItems: Sequence<T>): ReadOnlyCollection<T>;
 
     /**
      * Produces the set intersection of two sequences by using the specified EqualityComparator<T> to compare values.
      */
-    intersect(otherItems: Sequence<T>, comparator: EqualityComparator<T>): Queryable<T>;
+    intersect(otherItems: Sequence<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
 
     /**
      * Correlates the elements of two sequences based on matching keys.
@@ -186,7 +186,7 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T>, Equa
         outerKeySelector: IteratorFunction<TOuter, TKey>,
         innerKeySelector: IteratorFunction<T, TKey>,
         resultSelector: CombineFunction<T, TOuter, TResult>
-    ): Queryable<TResult>;
+    ): ReadOnlyCollection<TResult>;
 
     /**
      * Correlates the elements of two sequences based on matching keys.
@@ -198,7 +198,7 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T>, Equa
         innerKeySelector: IteratorFunction<T, TKey>,
         resultSelector: CombineFunction<T, TOuter, TResult>,
         keyComparator: EqualityComparator<TKey>
-    ): Queryable<TResult>;
+    ): ReadOnlyCollection<TResult>;
 
     /**
      * Returns last item of collection. If collection is empty, returns default payload.
@@ -215,7 +215,7 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T>, Equa
     /**
      * Projects each element of a sequence into a new form.
      */
-    map<TResult>(selector: IteratorFunction<T, TResult>): Queryable<TResult>;
+    map<TResult>(selector: IteratorFunction<T, TResult>): ReadOnlyCollection<TResult>;
 
     /**
      * Invokes a transform function on each element of a sequence and returns the maximum resulting payload.
@@ -233,7 +233,7 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T>, Equa
     orderBy<TKey>(
         keySelector: SelectorFunction<T, TKey>,
         comparator: Comparator<TKey>
-    ): Queryable<T>;
+    ): ReadOnlyCollection<T>;
 
     /**
      * Sorts the elements of a sequence in ascending order by using a specified comparator.
@@ -242,7 +242,7 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T>, Equa
         keySelector: SelectorFunction<T, TKey>,
         comparator: Comparator<TKey>,
         sortOrder: SortOrder
-    ): Queryable<T>;
+    ): ReadOnlyCollection<T>;
 
     /**
      * @throws {NoSuchItemException} if collection is empty
@@ -253,48 +253,48 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T>, Equa
      * Inverts the order of the elements in a sequence.
      * @returns A sequence whose elements correspond to those of the input sequence in reverse order.
      */
-    reverse(): Queryable<T>;
+    reverse(): ReadOnlyCollection<T>;
 
     selectMany<TInnerItem, TResult>(
         collectionSelector: IteratorFunction<T, Sequence<TInnerItem>>,
         resultSelector: CombineFunction<T, TInnerItem, TResult>
-    ): Queryable<TResult>;
+    ): ReadOnlyCollection<TResult>;
 
     /**
      * Bypasses a specified number of elements in a sequence and then returns the remaining elements.
      */
-    skip(offset: number): Queryable<T>;
+    skip(offset: number): ReadOnlyCollection<T>;
 
     /**
      * Bypasses elements in a sequence as long as a specified condition is true and then returns the remaining elements.
      */
-    skipWhile(condition: IteratorFunction<T, boolean>): Queryable<T>;
+    skipWhile(condition: IteratorFunction<T, boolean>): ReadOnlyCollection<T>;
 
-    slice(offset: number): Queryable<T>;
+    slice(offset: number): ReadOnlyCollection<T>;
 
-    slice(offset: number, length: number): Queryable<T>;
+    slice(offset: number, length: number): ReadOnlyCollection<T>;
 
     sum(selector: IteratorFunction<T, number>): number;
 
     /**
      * Returns a specified number of contiguous elements from the run of a sequence.
      */
-    take(length: number): Queryable<T>;
+    take(length: number): ReadOnlyCollection<T>;
 
     /**
      * Returns elements from a sequence as long as a specified condition is true, and then skips the remaining elements.
      */
-    takeWhile(condition: IteratorFunction<T, boolean>): Queryable<T>;
+    takeWhile(condition: IteratorFunction<T, boolean>): ReadOnlyCollection<T>;
 
     /**
      * Produces the set union of two sequences by using a specified IEqualityComparator<TItem>.
      */
-    union(otherItems: Sequence<T>): Queryable<T>;
+    union(otherItems: Sequence<T>): ReadOnlyCollection<T>;
 
     /**
      * Produces the set union of two sequences by using a specified IEqualityComparator<TItem>.
      */
-    union(otherItems: Sequence<T>, comparator: EqualityComparator<T>): Queryable<T>;
+    union(otherItems: Sequence<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
 
     /**
      * Applies a specified function to the corresponding elements of two sequences, producing a sequence of the results.
@@ -302,7 +302,7 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T>, Equa
     zip<TOther, TResult>(
         otherItems: Sequence<TOther>,
         resultSelector: CombineFunction<T, TOther, TResult>
-    ): Queryable<TResult>;
+    ): ReadOnlyCollection<TResult>;
 
     entries(): Iterable<[T, number]>;
 }

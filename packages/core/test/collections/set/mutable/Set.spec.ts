@@ -1,6 +1,6 @@
 import {EqualityComparator, Sequence, Set} from '../../../..';
 import {testReadOnlySet} from '../readonly/ReadOnlySet.spec';
-import {assertLengthAndIsEmpty} from '../../base/Queryable.spec';
+import {assertLengthAndIsEmpty} from '../../collection/readonly/ReadOnlyCollection.spec';
 
 
 export function testSet(create: <T>(items?: Sequence<T>, comparator?: EqualityComparator<T>) => Set<T>) {

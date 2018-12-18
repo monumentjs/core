@@ -5,7 +5,7 @@ import {
     LinkedMultiValueMap,
     List,
     PreserveCaseEqualityComparator,
-    Queryable,
+    ReadOnlyCollection,
     ReadOnlyList,
     ToString
 } from '@monument/core';
@@ -68,7 +68,7 @@ export class QueryParameters extends LinkedMultiValueMap<string, ToString> imple
         return defaultValue;
     }
 
-    public getFloats(key: string): Queryable<number> {
+    public getFloats(key: string): ReadOnlyCollection<number> {
         const slot: List<ToString> = this.obtainSlot(key);
 
         return slot.map((value: ToString): number => {
@@ -88,7 +88,7 @@ export class QueryParameters extends LinkedMultiValueMap<string, ToString> imple
         return defaultValue;
     }
 
-    public getIntegers(key: string): Queryable<number> {
+    public getIntegers(key: string): ReadOnlyCollection<number> {
         const slot: List<ToString> = this.obtainSlot(key);
 
         return slot.map((value: ToString): number => {
@@ -108,7 +108,7 @@ export class QueryParameters extends LinkedMultiValueMap<string, ToString> imple
         return defaultValue;
     }
 
-    public getStrings(key: string): Queryable<string> {
+    public getStrings(key: string): ReadOnlyCollection<string> {
         return this.get(key).map((item: ToString): string => {
             return item.toString();
         });

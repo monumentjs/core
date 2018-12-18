@@ -5,7 +5,7 @@ import {
     Sequence
 } from '../../../..';
 import {testReadOnlyList} from '../readonly/ReadOnlyList.spec';
-import {assertLengthAndIsEmpty} from '../../base/Queryable.spec';
+import {assertLengthAndIsEmpty} from '../../collection/readonly/ReadOnlyCollection.spec';
 
 export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
     describe('List', function () {

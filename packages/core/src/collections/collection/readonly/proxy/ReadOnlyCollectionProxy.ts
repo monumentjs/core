@@ -1,21 +1,21 @@
-import {SequenceProxy} from './SequenceProxy';
-import {Queryable} from '../Queryable';
-import {Sequence} from '../Sequence';
-import {Grouping} from '../Grouping';
-import {CombineFunction} from '../CombineFunction';
-import {IteratorFunction} from '../IteratorFunction';
-import {SelectorFunction} from '../SelectorFunction';
-import {AggregateFunction} from '../AggregateFunction';
-import {SortOrder} from '../../../comparison/order/SortOrder';
-import {Comparator} from '../../../comparison/order/Comparator';
-import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
-import {StrictEqualityComparator} from '../../../comparison/equality/StrictEqualityComparator';
+import {SequenceProxy} from '../../../base/proxy/SequenceProxy';
+import {ReadOnlyCollection} from '../ReadOnlyCollection';
+import {Sequence} from '../../../base/Sequence';
+import {Grouping} from '../../../base/Grouping';
+import {CombineFunction} from '../../../base/CombineFunction';
+import {IteratorFunction} from '../../../base/IteratorFunction';
+import {SelectorFunction} from '../../../base/SelectorFunction';
+import {AggregateFunction} from '../../../base/AggregateFunction';
+import {SortOrder} from '../../../../comparison/order/SortOrder';
+import {Comparator} from '../../../../comparison/order/Comparator';
+import {EqualityComparator} from '../../../../comparison/equality/EqualityComparator';
+import {StrictEqualityComparator} from '../../../../comparison/equality/StrictEqualityComparator';
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
  */
-export class QueryableProxy<T, TItems extends Queryable<T>> extends SequenceProxy<T, TItems> implements Queryable<T> {
+export class ReadOnlyCollectionProxy<T, TItems extends ReadOnlyCollection<T>> extends SequenceProxy<T, TItems> implements ReadOnlyCollection<T> {
     public get isEmpty(): boolean {
         return this.length === 0;
     }
@@ -36,7 +36,7 @@ export class QueryableProxy<T, TItems extends Queryable<T>> extends SequenceProx
         return this._items.average(selector);
     }
 
-    public concat(otherList: Sequence<T>): Queryable<T> {
+    public concat(otherList: Sequence<T>): ReadOnlyCollection<T> {
         return this._items.concat(otherList);
     }
 
@@ -60,11 +60,11 @@ export class QueryableProxy<T, TItems extends Queryable<T>> extends SequenceProx
         return this._items.count(predicate);
     }
 
-    public distinct(): Queryable<T>;
+    public distinct(): ReadOnlyCollection<T>;
 
-    public distinct(comparator: EqualityComparator<T>): Queryable<T>;
+    public distinct(comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
 
-    public distinct(comparator: EqualityComparator<T> = StrictEqualityComparator.get()): Queryable<T> {
+    public distinct(comparator: EqualityComparator<T> = StrictEqualityComparator.get()): ReadOnlyCollection<T> {
         return this._items.distinct(comparator);
     }
 
@@ -72,15 +72,15 @@ export class QueryableProxy<T, TItems extends Queryable<T>> extends SequenceProx
         return this._items.entries();
     }
 
-    public except(otherList: Sequence<T>): Queryable<T>;
+    public except(otherList: Sequence<T>): ReadOnlyCollection<T>;
 
-    public except(otherList: Sequence<T>, comparator: EqualityComparator<T>): Queryable<T>;
+    public except(otherList: Sequence<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
 
-    public except(otherList: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): Queryable<T> {
+    public except(otherList: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): ReadOnlyCollection<T> {
         return this._items.except(otherList, comparator);
     }
 
-    public findAll(predicate: IteratorFunction<T, boolean>): Queryable<T> {
+    public findAll(predicate: IteratorFunction<T, boolean>): ReadOnlyCollection<T> {
         return this._items.findAll(predicate);
     }
 
@@ -121,25 +121,25 @@ export class QueryableProxy<T, TItems extends Queryable<T>> extends SequenceProx
 
     public groupBy<TKey>(
         keySelector: IteratorFunction<T, TKey>
-    ): Queryable<Grouping<TKey, T>>;
+    ): ReadOnlyCollection<Grouping<TKey, T>>;
 
     public groupBy<TKey>(
         keySelector: IteratorFunction<T, TKey>,
         keyComparator: EqualityComparator<TKey>
-    ): Queryable<Grouping<TKey, T>>;
+    ): ReadOnlyCollection<Grouping<TKey, T>>;
 
     public groupBy<TKey>(
         keySelector: IteratorFunction<T, TKey>,
         keyComparator: EqualityComparator<TKey> = StrictEqualityComparator.get()
-    ): Queryable<Grouping<TKey, T>> {
+    ): ReadOnlyCollection<Grouping<TKey, T>> {
         return this._items.groupBy(keySelector, keyComparator);
     }
 
-    public intersect(otherList: Sequence<T>): Queryable<T>;
+    public intersect(otherList: Sequence<T>): ReadOnlyCollection<T>;
 
-    public intersect(otherList: Sequence<T>, comparator: EqualityComparator<T>): Queryable<T>;
+    public intersect(otherList: Sequence<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
 
-    public intersect(otherList: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): Queryable<T> {
+    public intersect(otherList: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): ReadOnlyCollection<T> {
         return this._items.intersect(otherList, comparator);
     }
 
@@ -148,7 +148,7 @@ export class QueryableProxy<T, TItems extends Queryable<T>> extends SequenceProx
         outerKeySelector: IteratorFunction<TOuter, TKey>,
         innerKeySelector: IteratorFunction<T, TKey>,
         resultSelector: CombineFunction<T, TOuter, TResult>
-    ): Queryable<TResult>;
+    ): ReadOnlyCollection<TResult>;
 
     public join<TOuter, TKey, TResult>(
         outerList: Sequence<TOuter>,
@@ -156,7 +156,7 @@ export class QueryableProxy<T, TItems extends Queryable<T>> extends SequenceProx
         innerKeySelector: IteratorFunction<T, TKey>,
         resultSelector: CombineFunction<T, TOuter, TResult>,
         keyComparator: EqualityComparator<TKey>
-    ): Queryable<TResult>;
+    ): ReadOnlyCollection<TResult>;
 
     public join<TOuter, TKey, TResult>(
         outerList: Sequence<TOuter>,
@@ -164,7 +164,7 @@ export class QueryableProxy<T, TItems extends Queryable<T>> extends SequenceProx
         innerKeySelector: IteratorFunction<T, TKey>,
         resultSelector: CombineFunction<T, TOuter, TResult>,
         keyComparator: EqualityComparator<TKey> = StrictEqualityComparator.get()
-    ): Queryable<TResult> {
+    ): ReadOnlyCollection<TResult> {
         return this._items.join(outerList, outerKeySelector, innerKeySelector, resultSelector, keyComparator);
     }
 
@@ -181,7 +181,7 @@ export class QueryableProxy<T, TItems extends Queryable<T>> extends SequenceProx
         return this._items.lastOrDefault(defaultValue);
     }
 
-    public map<TResult>(selector: IteratorFunction<T, TResult>): Queryable<TResult> {
+    public map<TResult>(selector: IteratorFunction<T, TResult>): ReadOnlyCollection<TResult> {
         return this._items.map(selector);
     }
 
@@ -196,19 +196,19 @@ export class QueryableProxy<T, TItems extends Queryable<T>> extends SequenceProx
     public orderBy<TKey>(
         keySelector: SelectorFunction<T, TKey>,
         comparator: Comparator<TKey>
-    ): Queryable<T>;
+    ): ReadOnlyCollection<T>;
 
     public orderBy<TKey>(
         keySelector: SelectorFunction<T, TKey>,
         comparator: Comparator<TKey>,
         sortOrder: SortOrder
-    ): Queryable<T>;
+    ): ReadOnlyCollection<T>;
 
     public orderBy<TKey>(
         keySelector: SelectorFunction<T, TKey>,
         comparator: Comparator<TKey>,
         sortOrder: SortOrder = SortOrder.ASCENDING
-    ): Queryable<T> {
+    ): ReadOnlyCollection<T> {
         return this._items.orderBy(keySelector, comparator, sortOrder);
     }
 
@@ -216,30 +216,30 @@ export class QueryableProxy<T, TItems extends Queryable<T>> extends SequenceProx
         return this._items.random();
     }
 
-    public reverse(): Queryable<T> {
+    public reverse(): ReadOnlyCollection<T> {
         return this._items.reverse();
     }
 
     public selectMany<TInnerItem, TResult>(
         collectionSelector: IteratorFunction<T, Sequence<TInnerItem>>,
         resultSelector: CombineFunction<T, TInnerItem, TResult>
-    ): Queryable<TResult> {
+    ): ReadOnlyCollection<TResult> {
         return this._items.selectMany(collectionSelector, resultSelector);
     }
 
-    public skip(offset: number): Queryable<T> {
+    public skip(offset: number): ReadOnlyCollection<T> {
         return this._items.skip(offset);
     }
 
-    public skipWhile(condition: IteratorFunction<T, boolean>): Queryable<T> {
+    public skipWhile(condition: IteratorFunction<T, boolean>): ReadOnlyCollection<T> {
         return this._items.skipWhile(condition);
     }
 
-    public slice(offset: number): Queryable<T>;
+    public slice(offset: number): ReadOnlyCollection<T>;
 
-    public slice(offset: number, length: number): Queryable<T>;
+    public slice(offset: number, length: number): ReadOnlyCollection<T>;
 
-    public slice(offset: number, length: number = this.length - offset): Queryable<T> {
+    public slice(offset: number, length: number = this.length - offset): ReadOnlyCollection<T> {
         return this._items.slice(offset, length);
     }
 
@@ -247,11 +247,11 @@ export class QueryableProxy<T, TItems extends Queryable<T>> extends SequenceProx
         return this._items.sum(selector);
     }
 
-    public take(length: number): Queryable<T> {
+    public take(length: number): ReadOnlyCollection<T> {
         return this._items.take(length);
     }
 
-    public takeWhile(condition: IteratorFunction<T, boolean>): Queryable<T> {
+    public takeWhile(condition: IteratorFunction<T, boolean>): ReadOnlyCollection<T> {
         return this._items.takeWhile(condition);
     }
 
@@ -263,15 +263,15 @@ export class QueryableProxy<T, TItems extends Queryable<T>> extends SequenceProx
         return this._items.toJSON();
     }
 
-    public union(otherList: Sequence<T>): Queryable<T>;
+    public union(otherList: Sequence<T>): ReadOnlyCollection<T>;
 
-    public union(otherList: Sequence<T>, comparator: EqualityComparator<T>): Queryable<T>;
+    public union(otherList: Sequence<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
 
-    public union(otherList: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): Queryable<T> {
+    public union(otherList: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): ReadOnlyCollection<T> {
         return this._items.union(otherList, comparator);
     }
 
-    public zip<TOther, TResult>(otherList: Sequence<TOther>, resultSelector: CombineFunction<T, TOther, TResult>): Queryable<TResult> {
+    public zip<TOther, TResult>(otherList: Sequence<TOther>, resultSelector: CombineFunction<T, TOther, TResult>): ReadOnlyCollection<TResult> {
         return this._items.zip(otherList, resultSelector);
     }
 }

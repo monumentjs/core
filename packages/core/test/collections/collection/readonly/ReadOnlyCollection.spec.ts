@@ -7,27 +7,27 @@ import {
     InvalidOperationException,
     NamedPool,
     NoSuchItemException,
-    Queryable,
+    ReadOnlyCollection,
     RangeException,
     Sequence,
     SortOrder,
     times
-} from '../../..';
-import {testSequence} from './Sequence.spec';
+} from '../../../..';
+import {testSequence} from '../../base/Sequence.spec';
 
 
 interface Book {
-    authors: Queryable<string>;
+    authors: ReadOnlyCollection<string>;
 }
 
 
-export function assertLengthAndIsEmpty<I>(items: Queryable<I>, expectedLength: number): void {
+export function assertLengthAndIsEmpty<I>(items: ReadOnlyCollection<I>, expectedLength: number): void {
     expect(items.length).toBe(expectedLength);
     expect(items.isEmpty).toBe(expectedLength === 0);
 }
 
-export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) {
-    describe('Queryable', function () {
+export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadOnlyCollection<T>) {
+    describe('ReadOnlyCollection', function () {
         testSequence(create);
 
         describe('isEmpty', function () {
@@ -42,7 +42,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('aggregate()', function () {
             it('should aggregate list data into new value', function () {
-                const list: Queryable<string> = create([
+                const list: ReadOnlyCollection<string> = create([
                     'one',
                     'two',
                     'three'
@@ -63,7 +63,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('all()', function () {
             it('should determine whether all elements of a sequence satisfy a condition', function () {
-                const list: Queryable<string> = create(['one', 'two', 'three']);
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
                 expect(list.all((word: string): boolean => {
                     return word.length >= 3;
@@ -75,7 +75,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
 
             it('should throw if list is empty', function () {
-                const list: Queryable<string> = create();
+                const list: ReadOnlyCollection<string> = create();
 
                 expect(() => {
                     list.all((): boolean => {
@@ -87,7 +87,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('any()', function () {
             it('should determine whether any of elements satisfy a condition', function () {
-                const list: Queryable<string> = create(['one', 'two', 'three']);
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
                 expect(list.any((word: string): boolean => {
                     return word.length === 3;
@@ -103,7 +103,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
 
             it('should throw if list is empty', function () {
-                const list: Queryable<string> = create();
+                const list: ReadOnlyCollection<string> = create();
 
                 expect(() => {
                     list.any((): boolean => {
@@ -115,7 +115,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('average()', function () {
             it('should calculate average value', function () {
-                const list: Queryable<string> = create(['one', 'two', 'six']);
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'six']);
 
                 expect(list.average((word: string): number => {
                     return word.length;
@@ -123,7 +123,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
 
             it('should throw if list is empty', function () {
-                const list: Queryable<string> = create();
+                const list: ReadOnlyCollection<string> = create();
 
                 expect(() => {
                     list.average((): number => {
@@ -135,7 +135,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('concat()', function () {
             it('should return concatenation of lists', function () {
-                const list: Queryable<string> = create(['one', 'two', 'three']);
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
                 expect(list.concat(create(['four', 'five'])).toArray()).toEqual(['one', 'two', 'three', 'four', 'five']);
                 expect(list.length).toBe(3);
@@ -144,7 +144,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('contains()', function () {
             it('should determine whether collection contains specified item', function () {
-                const source: Queryable<string> = create(['one', 'two']);
+                const source: ReadOnlyCollection<string> = create(['one', 'two']);
 
                 expect(source.contains('one')).toBe(true);
                 expect(source.contains('two')).toBe(true);
@@ -152,7 +152,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
 
             it('should determine whether collection contains specified item using custom equality comparator', function () {
-                const source: Queryable<string> = create(['one', 'two', 'THREE']);
+                const source: ReadOnlyCollection<string> = create(['one', 'two', 'THREE']);
 
                 expect(source.contains('One', IgnoreCaseEqualityComparator.get())).toBe(true);
                 expect(source.contains('TWO', IgnoreCaseEqualityComparator.get())).toBe(true);
@@ -162,7 +162,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('containsAll()', function () {
             it('should determine whether collection contains all specified items', function () {
-                const source: Queryable<string> = create(['one', 'two']);
+                const source: ReadOnlyCollection<string> = create(['one', 'two']);
 
                 expect(source.containsAll([])).toBe(false);
                 expect(source.containsAll(['one'])).toBe(true);
@@ -171,7 +171,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
 
             it('should determine whether collection contains all specified items using custom equality comparator', function () {
-                const source: Queryable<string> = create(['one', 'two', 'THREE']);
+                const source: ReadOnlyCollection<string> = create(['one', 'two', 'THREE']);
 
                 expect(source.containsAll([], IgnoreCaseEqualityComparator.get())).toBe(false);
                 expect(source.containsAll(['One'], IgnoreCaseEqualityComparator.get())).toBe(true);
@@ -182,7 +182,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('count()', function () {
             it('should calculates count of items matching predicate', function () {
-                const list: Queryable<string> = create(['one', 'two', 'three']);
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
                 expect(list.count((word: string): boolean => {
                     return word.length > 3;
@@ -192,8 +192,8 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('distinct()', function () {
             it('should return list of distinct items', function () {
-                const list: Queryable<string> = create(['one', 'two', 'One']);
-                const distinctItems: Queryable<string> = list.distinct(IgnoreCaseEqualityComparator.get());
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'One']);
+                const distinctItems: ReadOnlyCollection<string> = list.distinct(IgnoreCaseEqualityComparator.get());
 
                 expect(list.length).toBe(3);
                 expect(list.toArray()).toEqual(['one', 'two', 'One']);
@@ -205,13 +205,13 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('equals()', function () {
             it('should compare empty lists', function () {
-                const list: Queryable<string> = create();
+                const list: ReadOnlyCollection<string> = create();
 
                 expect(list.equals([])).toBe(true);
             });
 
             it('should compares lists using default equality comparator', function () {
-                const list: Queryable<string> = create(['one', 'two', 'three']);
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
                 expect(list.equals(['one', 'two', 'three'])).toBe(true);
                 expect(list.equals(['ONE', 'TWO'])).toBe(false);
@@ -219,7 +219,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
 
             it('should compare lists using custom equality comparator', function () {
-                const list: Queryable<string> = create(['one', 'two', 'three']);
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
                 expect(list.equals(['one', 'two', 'three'], IgnoreCaseEqualityComparator.get())).toBe(true);
                 expect(list.equals(['ONE', 'TWO'], IgnoreCaseEqualityComparator.get())).toBe(false);
@@ -229,21 +229,21 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('except()', function () {
             it('should return list without specified items using custom comparator', function () {
-                const list: Queryable<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
-                const filteredList: Queryable<string> = list.except(['one', 'Five'], IgnoreCaseEqualityComparator.get());
+                const list: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
+                const filteredList: ReadOnlyCollection<string> = list.except(['one', 'Five'], IgnoreCaseEqualityComparator.get());
 
                 expect(filteredList).not.toEqual(list);
                 expect(filteredList.toArray()).toEqual(['two', 'Three', 'Five']);
             });
 
             it('should return list without specified items using default comparator', function () {
-                const source: Queryable<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
-                const filteredList1: Queryable<string> = source.except(['Three']);
+                const source: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
+                const filteredList1: ReadOnlyCollection<string> = source.except(['Three']);
 
                 expect(filteredList1).not.toEqual(source);
                 expect(filteredList1.toArray()).toEqual(['two', 'ONE', 'one', 'One']);
 
-                const filteredList2: Queryable<string> = source.except(['Five']);
+                const filteredList2: ReadOnlyCollection<string> = source.except(['Five']);
 
                 expect(filteredList2).not.toEqual(source);
                 expect(filteredList2.toArray()).toEqual(['two', 'ONE', 'one', 'Three', 'One', 'Five']);
@@ -252,9 +252,9 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('findAll()', function () {
             it('should return list of items for whose predicate function returned `true`', function () {
-                const list: Queryable<string> = create(['one', 'two', 'three']);
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
-                const wordsOfThreeChars: Queryable<string> = list.findAll((word: string): boolean => {
+                const wordsOfThreeChars: ReadOnlyCollection<string> = list.findAll((word: string): boolean => {
                     return word.length === 3;
                 });
 
@@ -265,7 +265,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('first()', function () {
             it('should return first item matching predicate', function () {
-                const list: Queryable<string> = create(['one', 'two', 'three']);
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
                 expect(list.first((word: string): boolean => {
                     return word.length === 3;
@@ -283,13 +283,13 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('firstOrDefault()', function () {
             it('should return fallback value if list is empty', function () {
-                const list: Queryable<string> = create();
+                const list: ReadOnlyCollection<string> = create();
 
                 expect(list.firstOrDefault('fallback')).toBe('fallback');
             });
 
             it('should return first item of list', function () {
-                const list: Queryable<string> = create(['one', 'two', 'three']);
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
                 expect(list.firstOrDefault('fallback')).toBe('one');
             });
@@ -297,7 +297,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('forEach(iterator)', function () {
             it('should work for empty collections', function () {
-                const items: Queryable<string> = create();
+                const items: ReadOnlyCollection<string> = create();
                 const iterator: jest.Mock = jest.fn();
 
                 items.forEach(iterator);
@@ -306,7 +306,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
 
             it('should iterate over list with single item', function () {
-                const items: Queryable<string> = create(['one']);
+                const items: ReadOnlyCollection<string> = create(['one']);
                 const iterator: jest.Mock = jest.fn();
 
                 items.forEach(iterator);
@@ -316,7 +316,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
 
             it('should iterate over list', function () {
-                const items: Queryable<string> = create(['one', 'two']);
+                const items: ReadOnlyCollection<string> = create(['one', 'two']);
                 const iterator: jest.Mock = jest.fn();
 
                 items.forEach(iterator);
@@ -466,7 +466,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('forEachBack(iterator)', function () {
             it('should work for empty collections', function () {
-                const items: Queryable<string> = create();
+                const items: ReadOnlyCollection<string> = create();
                 const iterator: jest.Mock = jest.fn();
 
                 items.forEachBack(iterator);
@@ -475,7 +475,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
 
             it('should iterate over list with single item', function () {
-                const items: Queryable<string> = create(['one']);
+                const items: ReadOnlyCollection<string> = create(['one']);
                 const iterator: jest.Mock = jest.fn();
 
                 items.forEachBack(iterator);
@@ -485,7 +485,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
 
             it('should iterate over list', function () {
-                const items: Queryable<string> = create(['one', 'two']);
+                const items: ReadOnlyCollection<string> = create(['one', 'two']);
                 const iterator: jest.Mock = jest.fn();
 
                 items.forEachBack(iterator);
@@ -498,7 +498,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('groupBy<TKey>(keySelector: IteratorFunction<T, TKey>)', function () {
             it('should return list of grouped items using default comparator', function () {
-                const list: Queryable<string> = create(['one', 'two', 'three']);
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
                 const groups: Array<Grouping<number, string>> = list.groupBy((word: string): number => {
                     return word.length;
@@ -514,7 +514,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('groupBy<TKey>(keySelector: IteratorFunction<T, TKey>, keyComparator: EqualityComparator<TKey>)', function () {
             it('should return list of grouped items using custom comparator', function () {
-                const list: Queryable<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
+                const list: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
                 const groups: Array<Grouping<string, string>> = list.groupBy<string>((word: string): string => {
                     return word[0].toLowerCase();
                 }, IgnoreCaseEqualityComparator.get()).toArray();
@@ -529,16 +529,19 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('intersect()', function () {
             it('should return list without specified items using custom comparator', function () {
-                const list: Queryable<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
-                const filteredList: Queryable<string> = list.intersect(create(['one', 'Five']), IgnoreCaseEqualityComparator.get());
+                const list: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
+                const filteredList: ReadOnlyCollection<string> = list.intersect(
+                    create(['one', 'Five']),
+                    IgnoreCaseEqualityComparator.get()
+                );
 
                 expect(filteredList).not.toEqual(list);
                 expect(filteredList.toArray()).toEqual(['ONE', 'one', 'One']);
             });
 
             it('should return list without specified items using default comparator', function () {
-                const list: Queryable<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
-                let filteredList: Queryable<string> = list.intersect(create(['Three', 'Four']));
+                const list: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
+                let filteredList: ReadOnlyCollection<string> = list.intersect(create(['Three', 'Four']));
 
                 expect(filteredList).not.toEqual(list);
                 expect(filteredList.toArray()).toEqual(['Three']);
@@ -552,9 +555,9 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('join()', function () {
             it('should join lists using custom equality comparator', function () {
-                const listA: Queryable<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
-                const listB: Queryable<string> = create(['Ten', 'Once', 'Twelve']);
-                const combo: Queryable<string[]> = listA.join(listB, (word: string): string => {
+                const listA: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
+                const listB: ReadOnlyCollection<string> = create(['Ten', 'Once', 'Twelve']);
+                const combo: ReadOnlyCollection<string[]> = listA.join(listB, (word: string): string => {
                     return word[0];
                 }, (word: string): string => {
                     return word[0];
@@ -576,7 +579,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('last()', function () {
             it('should return last item matching predicate', function () {
-                const list: Queryable<string> = create(['one', 'two', 'three']);
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
                 expect(list.last((word: string): boolean => {
                     return word.length === 3;
@@ -594,13 +597,13 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('lastOrDefault()', function () {
             it('should return fallback value if list is empty', function () {
-                const list: Queryable<string> = create();
+                const list: ReadOnlyCollection<string> = create();
 
                 expect(list.lastOrDefault('fallback')).toBe('fallback');
             });
 
             it('should return last item of list', function () {
-                const list: Queryable<string> = create(['one', 'two', 'three']);
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
                 expect(list.lastOrDefault('fallback')).toBe('three');
             });
@@ -608,9 +611,9 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('map()', function () {
             it('should return list of selected values', function () {
-                const list: Queryable<string> = create(['one', 'two', 'three']);
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
-                const firstChars: Queryable<string> = list.map((word: string): string => {
+                const firstChars: ReadOnlyCollection<string> = list.map((word: string): string => {
                     return word[0];
                 });
 
@@ -621,7 +624,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('max()', function () {
             it('should return maximal value', function () {
-                const list: Queryable<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
+                const list: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
 
                 expect(list.max((word: string): number => {
                     return word.length;
@@ -630,7 +633,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
             it('should throw if list is empty', function () {
 
-                const list: Queryable<string> = create();
+                const list: ReadOnlyCollection<string> = create();
 
                 expect(() => {
                     list.max((word: string): number => {
@@ -642,7 +645,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('min()', function () {
             it('should return minimal value', function () {
-                const list: Queryable<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
+                const list: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
 
                 expect(list.min((word: string): number => {
                     return word.length;
@@ -650,7 +653,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
 
             it('should throw if list is empty', function () {
-                const list: Queryable<string> = create();
+                const list: ReadOnlyCollection<string> = create();
 
                 expect(() => {
                     list.min((word: string): number => {
@@ -662,8 +665,8 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('orderBy()', function () {
             it('should return sorted list using ascending sort order', function () {
-                const originalList: Queryable<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
-                const orderedList: Queryable<string> = originalList.orderBy((word: string): string => {
+                const originalList: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
+                const orderedList: ReadOnlyCollection<string> = originalList.orderBy((word: string): string => {
                     return word.slice(0, 2);
                 }, IgnoreCaseComparator.get(), SortOrder.ASCENDING);
 
@@ -673,8 +676,8 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
 
             it('should return sorted list using custom no sort order', function () {
-                const originalList: Queryable<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
-                const orderedList: Queryable<string> = originalList.orderBy((word: string): string => {
+                const originalList: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
+                const orderedList: ReadOnlyCollection<string> = originalList.orderBy((word: string): string => {
                     return word.slice(0, 2);
                 }, IgnoreCaseComparator.get(), SortOrder.NONE);
 
@@ -684,8 +687,8 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
 
             it('should return sorted list using descending sort order', function () {
-                const originalList: Queryable<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
-                const orderedList: Queryable<string> = originalList.orderBy((word: string): string => {
+                const originalList: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
+                const orderedList: ReadOnlyCollection<string> = originalList.orderBy((word: string): string => {
                     return word.slice(0, 2);
                 }, IgnoreCaseComparator.get(), SortOrder.DESCENDING);
 
@@ -697,7 +700,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('random()', function () {
             it('should return random item', function () {
-                const list: Queryable<string> = create(['one', 'two', 'three']);
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
                 const random: string[] = [];
 
                 times(10, () => {
@@ -710,7 +713,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
 
             it('should throw NoSuchItemException if list is empty', function () {
-                const list: Queryable<string> = create();
+                const list: ReadOnlyCollection<string> = create();
 
                 expect(() => {
                     list.random();
@@ -720,8 +723,8 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('reverse()', function () {
             it('should return reversed list', function () {
-                const list: Queryable<string> = create(['one', 'two', 'three']);
-                const reversedList: Queryable<string> = list.reverse();
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
+                const reversedList: ReadOnlyCollection<string> = list.reverse();
 
                 expect(reversedList.toArray()).toEqual(['three', 'two', 'one']);
             });
@@ -729,7 +732,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('selectMany()', function () {
             it('should return list of selected values', function () {
-                const books: Queryable<Book> = create([
+                const books: ReadOnlyCollection<Book> = create([
                     {
                         authors: create([
                             'Johan Rowling'
@@ -743,7 +746,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
                     }
                 ]);
 
-                const authorNames: Queryable<string> = books.selectMany<string, string>((book: Book): Queryable<string> => {
+                const authorNames: ReadOnlyCollection<string> = books.selectMany<string, string>((book: Book) => {
                     return book.authors;
                 }, (book: Book, authorFullName: string): string => {
                     return authorFullName.split(' ')[0];
@@ -759,13 +762,13 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('skip()', function () {
             it('should return slice of list', function () {
-                const list: Queryable<string> = create(['one', 'two', 'three']);
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
                 expect(list.skip(1).toArray()).toEqual(['two', 'three']);
             });
 
             it('should throw if offset is out of bounds', function () {
-                const list: Queryable<string> = create();
+                const list: ReadOnlyCollection<string> = create();
 
                 list.skip(0);
                 list.skip(10);
@@ -778,8 +781,8 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('skipWhile()', function () {
             it('should returns slice of list', function () {
-                const list: Queryable<string> = create(['one', 'two', 'three']);
-                const slice: Queryable<string> = list.skipWhile((word: string): boolean => {
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
+                const slice: ReadOnlyCollection<string> = list.skipWhile((word: string): boolean => {
                     return word[0] !== 't';
                 });
 
@@ -787,8 +790,8 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
 
             it('should works with empty lists', function () {
-                const list: Queryable<string> = create();
-                const slice: Queryable<string> = list.skipWhile((word: string): boolean => {
+                const list: ReadOnlyCollection<string> = create();
+                const slice: ReadOnlyCollection<string> = list.skipWhile((word: string): boolean => {
                     return word[0] !== 't';
                 });
 
@@ -798,7 +801,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('slice()', function () {
             it('should return slice of list', function () {
-                const list: Queryable<string> = create(['one', 'two', 'three']);
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
                 expect(list.slice(1, 1).toArray()).toEqual(['two']);
                 expect(list.slice(2, 1).toArray()).toEqual(['three']);
@@ -806,7 +809,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
 
             it('should throw if slice range is invalid', function () {
-                const list: Queryable<string> = create();
+                const list: ReadOnlyCollection<string> = create();
 
                 expect(() => {
                     list.slice(0, 1);
@@ -817,7 +820,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
 
             it('should works with empty lists', function () {
-                const list: Queryable<string> = create();
+                const list: ReadOnlyCollection<string> = create();
 
                 expect(list.slice(0, 0).toArray()).toEqual([]);
             });
@@ -825,7 +828,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('sum()', function () {
             it('should return sum of selected values', function () {
-                const list: Queryable<string> = create(['one']);
+                const list: ReadOnlyCollection<string> = create(['one']);
 
                 expect(list.sum((item: string): number => {
                     return item.length;
@@ -833,7 +836,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
 
             it('should return sum of selected values', function () {
-                const list: Queryable<string> = create(['one', 'two', 'three']);
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
                 expect(list.sum((item: string): number => {
                     return item.length;
@@ -841,7 +844,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
 
             it('should throw InvalidOperationException if list is empty', function () {
-                const list: Queryable<string> = create();
+                const list: ReadOnlyCollection<string> = create();
                 const mock = jest.fn();
 
                 expect(() => {
@@ -852,13 +855,13 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('take()', function () {
             it('should return slice of list', function () {
-                const list: Queryable<string> = create(['one', 'two', 'three']);
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
                 expect(list.take(2).toArray()).toEqual(['one', 'two']);
             });
 
             it('should throw if length is out of bounds', function () {
-                const list: Queryable<string> = create();
+                const list: ReadOnlyCollection<string> = create();
 
                 list.take(0);
                 list.take(1);
@@ -869,8 +872,8 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
 
             it('should return slice of list', function () {
-                const list: Queryable<string> = create(['one', 'two', 'three']);
-                const slice: Queryable<string> = list.takeWhile((word: string): boolean => {
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
+                const slice: ReadOnlyCollection<string> = list.takeWhile((word: string): boolean => {
                     return word[0] !== 't';
                 });
 
@@ -880,8 +883,8 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('takeWhile()', function () {
             it('should work with empty lists', function () {
-                const list: Queryable<string> = create();
-                const slice: Queryable<string> = list.takeWhile((word: string): boolean => {
+                const list: ReadOnlyCollection<string> = create();
+                const slice: ReadOnlyCollection<string> = list.takeWhile((word: string): boolean => {
                     return word[0] !== 't';
                 });
 
@@ -891,11 +894,11 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('union()', function () {
             it('should return union of lists', function () {
-                const listA: Queryable<string> = create(['one', 'two', 'three']);
-                const listB: Queryable<string> = create([
+                const listA: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
+                const listB: ReadOnlyCollection<string> = create([
                     'four', 'one', 'two', 'three', 'five'
                 ]);
-                const union: Queryable<string> = listA.union(listB);
+                const union: ReadOnlyCollection<string> = listA.union(listB);
 
                 expect(union.length).toBe(5);
                 expect(union.toArray()).toEqual([
@@ -907,13 +910,13 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('zip()', function () {
             it('should return list of combined items', function () {
-                const listA: Queryable<string> = create(['one', 'two', 'three']);
-                const listB: Queryable<string> = create(['four', 'five']);
-                const listC: Queryable<string> = create(['four', 'five', 'six', 'seven']);
-                const comboAB: Queryable<string> = listA.zip(listB, (x: string, y: string): string => {
+                const listA: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
+                const listB: ReadOnlyCollection<string> = create(['four', 'five']);
+                const listC: ReadOnlyCollection<string> = create(['four', 'five', 'six', 'seven']);
+                const comboAB: ReadOnlyCollection<string> = listA.zip(listB, (x: string, y: string): string => {
                     return `${x}+${y}`;
                 });
-                const comboAC: Queryable<string> = listA.zip(listC, (x: string, y: string): string => {
+                const comboAC: ReadOnlyCollection<string> = listA.zip(listC, (x: string, y: string): string => {
                     return `${x}+${y}`;
                 });
 
@@ -927,14 +930,14 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
             });
 
             it('should return empty queryable if current list or other list is empty', function () {
-                const list: Queryable<string> = create(['one', 'two', 'three']);
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
                 const mock = jest.fn();
 
                 expect(list.zip([], mock).length).toBe(0);
             });
 
             it('should return empty queryable if current list or other list is empty', function () {
-                const list: Queryable<string> = create();
+                const list: ReadOnlyCollection<string> = create();
                 const mock = jest.fn();
 
                 expect(list.zip(['one', 'two', 'three'], mock).length).toBe(0);
@@ -943,7 +946,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('toJSON()', function () {
             it('should serialize list to pure array', function () {
-                const list: Queryable<string> = create(['one', 'two', 'three']);
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
                 expect(list.toJSON() instanceof Array).toBe(true);
                 expect(list.toJSON()).toEqual(['one', 'two', 'three']);
@@ -952,7 +955,7 @@ export function testQueryable(create: <T>(items?: Sequence<T>) => Queryable<T>) 
 
         describe('toArray()', function () {
             it('should return pure array', function () {
-                const list: Queryable<string> = create(['one', 'two', 'three']);
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
                 expect(list.toArray() instanceof Array).toBe(true);
                 expect(list.toArray()).toEqual(['one', 'two', 'three']);

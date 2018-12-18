@@ -1,4 +1,4 @@
-import {Queryable, ReadOnlyMultiValueMap, ToString} from '@monument/core';
+import {ReadOnlyCollection, ReadOnlyMultiValueMap, ToString} from '@monument/core';
 
 
 /**
@@ -14,17 +14,17 @@ export interface ReadOnlyQueryParameters extends ReadOnlyMultiValueMap<string, T
 
     getFloat(key: string, defaultValue: number): number;
 
-    getFloats(key: string): Queryable<number>;
+    getFloats(key: string): ReadOnlyCollection<number>;
 
     getInteger(key: string): number | undefined;
 
     getInteger(key: string, defaultValue: number): number;
 
-    getIntegers(key: string): Queryable<number>;
+    getIntegers(key: string): ReadOnlyCollection<number>;
 
     getString(key: string): string | undefined;
 
     getString(key: string, defaultValue: string): string;
 
-    getStrings(key: string): Queryable<string>;
+    getStrings(key: string): ReadOnlyCollection<string>;
 }

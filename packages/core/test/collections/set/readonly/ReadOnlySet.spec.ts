@@ -1,5 +1,5 @@
 import {EqualityComparator, IgnoreCaseEqualityComparator, ReadOnlySet, Sequence} from '../../../..';
-import {testQueryable} from '../../base/Queryable.spec';
+import {testReadOnlyCollection} from '../../collection/readonly/ReadOnlyCollection.spec';
 
 
 export function testReadOnlySet(create: <T>(
@@ -7,7 +7,7 @@ export function testReadOnlySet(create: <T>(
     comparator?: EqualityComparator<T>
 ) => ReadOnlySet<T>) {
     describe('ReadOnlySet', function () {
-        testQueryable(create);
+        testReadOnlyCollection(create);
 
         describe('constructor()', function () {
             const set: ReadOnlySet<string> = create<string>(['one', 'One', 'ONE', 'two'], IgnoreCaseEqualityComparator.get());
