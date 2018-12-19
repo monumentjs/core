@@ -89,7 +89,7 @@ export class ArrayList<T> extends AbstractList<T> implements Cloneable<ArrayList
         this._items.splice(index, 0, item);
     }
 
-    protected doInsertAll(index: number, items: Iterable<T>): void {
+    protected doInsertAll(index: number, items: Sequence<T>): void {
         this._items.splice(index, 0, ...items);
     }
 
