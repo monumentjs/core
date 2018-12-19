@@ -47,7 +47,7 @@ export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray
     /**
      * Concatenates actual sequence with other one and returns new sequence containing elements of both of them.
      */
-    concat(otherItems: Sequence<T>): ReadOnlyCollection<T>;
+    concat(otherItems: Sequence<T>, ...others: Array<Sequence<T>>): ReadOnlyCollection<T>;
 
     contains(item: T): boolean;
 
@@ -91,6 +91,18 @@ export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray
      * Returns new collection containing items for which predicate function returned `true`.
      */
     findAll(predicate: IteratorFunction<T, boolean>): ReadOnlyCollection<T>;
+
+    /**
+     * Calls predicate function on each item in sequence.
+     * Returns new collection containing items for which predicate function returned `true`.
+     */
+    findAll(predicate: IteratorFunction<T, boolean>, limit: number): ReadOnlyCollection<T>;
+
+    /**
+     * Calls predicate function on each item in sequence.
+     * Returns new collection containing items for which predicate function returned `true`.
+     */
+    findAll(predicate: IteratorFunction<T, boolean>, limit: number, offset: number): ReadOnlyCollection<T>;
 
     /**
      * Returns first item of collection. If collection is empty, returns default payload.

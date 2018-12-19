@@ -39,8 +39,8 @@ export class ReadOnlyCollectionProxy<T, TItems extends ReadOnlyCollection<T>>
         return this._items.average(selector);
     }
 
-    public concat(otherList: Sequence<T>): ReadOnlyCollection<T> {
-        return this._items.concat(otherList);
+    public concat(otherList: Sequence<T>, ...others: Array<Sequence<T>>): ReadOnlyCollection<T> {
+        return this._items.concat(otherList, ...others);
     }
 
     public contains(item: T): boolean;
@@ -83,8 +83,31 @@ export class ReadOnlyCollectionProxy<T, TItems extends ReadOnlyCollection<T>>
         return this._items.except(otherList, comparator);
     }
 
-    public findAll(predicate: IteratorFunction<T, boolean>): ReadOnlyCollection<T> {
-        return this._items.findAll(predicate);
+
+    /**
+     * Calls predicate function on each item in sequence.
+     * Returns new collection containing items for which predicate function returned `true`.
+     */
+    public findAll(predicate: IteratorFunction<T, boolean>): ReadOnlyCollection<T>;
+
+    /**
+     * Calls predicate function on each item in sequence.
+     * Returns new collection containing items for which predicate function returned `true`.
+     */
+    public findAll(predicate: IteratorFunction<T, boolean>, limit: number): ReadOnlyCollection<T>;
+
+    /**
+     * Calls predicate function on each item in sequence.
+     * Returns new collection containing items for which predicate function returned `true`.
+     */
+    public findAll(predicate: IteratorFunction<T, boolean>, limit: number, offset: number): ReadOnlyCollection<T>;
+
+    public findAll(
+        predicate: IteratorFunction<T, boolean>,
+        limit: number = Number.POSITIVE_INFINITY,
+        offset: number = 0
+    ): ReadOnlyCollection<T> {
+        return this._items.findAll(predicate, limit, offset);
     }
 
     public first(predicate: IteratorFunction<T, boolean>): T | undefined;

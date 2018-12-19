@@ -1,12 +1,4 @@
-import {ReadOnlyCollection, ReadOnlyCollectionImpl} from '../../../..';
-
-function isEven(num: number): boolean {
-    return num % 2 === 0;
-}
-
-function isOdd(num: number): boolean {
-    return num % 2 === 1;
-}
+import {isEven, isOdd, ReadOnlyCollection, ReadOnlyCollectionImpl} from '../../../..';
 
 describe('ReadOnlyCollectionImpl', function () {
     describe('lazy calculations', function () {

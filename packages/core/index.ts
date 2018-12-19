@@ -12,6 +12,8 @@ export * from './src/base/Type';
 export * from './src/base/MemorySize';
 export * from './src/base/types';
 
+export * from './src/function/isEven';
+export * from './src/function/isOdd';
 export * from './src/function/noop';
 export * from './src/function/times';
 export * from './src/function/range';
@@ -48,7 +50,9 @@ export * from './src/collections/base/Grouping';
 export * from './src/collections/base/ToArray';
 
 export * from './src/collections/collection/readonly/ReadOnlyCollection';
+export * from './src/collections/collection/readonly/ReadOnlyCollectionBase';
 export * from './src/collections/collection/readonly/ReadOnlyCollectionImpl';
+export * from './src/collections/collection/readonly/proxy/ReadOnlyCollectionProxy';
 
 export * from './src/collections/list/readonly/ReadOnlyList';
 export * from './src/collections/list/readonly/proxy/ReadOnlyListProxy';

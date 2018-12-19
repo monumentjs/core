@@ -37,8 +37,8 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
         return new ReadOnlyCollectionImpl(this).average(selector);
     }
 
-    public concat(otherList: Sequence<T>): ReadOnlyCollection<T> {
-        return new ReadOnlyCollectionImpl(this).concat(otherList);
+    public concat(otherList: Sequence<T>, ...others: Array<Sequence<T>>): ReadOnlyCollection<T> {
+        return new ReadOnlyCollectionImpl(this).concat(otherList, ...others);
     }
 
     public contains(otherItem: T): boolean;
@@ -92,8 +92,30 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
         return new ReadOnlyCollectionImpl(this).except(otherList, comparator);
     }
 
-    public findAll(predicate: IteratorFunction<T, boolean>): ReadOnlyCollection<T> {
-        return new ReadOnlyCollectionImpl(this).findAll(predicate);
+    /**
+     * Calls predicate function on each item in sequence.
+     * Returns new collection containing items for which predicate function returned `true`.
+     */
+    public findAll(predicate: IteratorFunction<T, boolean>): ReadOnlyCollection<T>;
+
+    /**
+     * Calls predicate function on each item in sequence.
+     * Returns new collection containing items for which predicate function returned `true`.
+     */
+    public findAll(predicate: IteratorFunction<T, boolean>, limit: number): ReadOnlyCollection<T>;
+
+    /**
+     * Calls predicate function on each item in sequence.
+     * Returns new collection containing items for which predicate function returned `true`.
+     */
+    public findAll(predicate: IteratorFunction<T, boolean>, limit: number, offset: number): ReadOnlyCollection<T>;
+
+    public findAll(
+        predicate: IteratorFunction<T, boolean>,
+        limit: number = Number.POSITIVE_INFINITY,
+        offset: number = 0
+    ): ReadOnlyCollection<T> {
+        return new ReadOnlyCollectionImpl(this).findAll(predicate, limit, offset);
     }
 
     public first(predicate: IteratorFunction<T, boolean>): T | undefined;

@@ -5,10 +5,11 @@ import {
     IndexOutOfBoundsException,
     InvalidArgumentException,
     InvalidOperationException,
+    isEven,
     NamedPool,
     NoSuchItemException,
-    ReadOnlyCollection,
     RangeException,
+    ReadOnlyCollection,
     Sequence,
     SortOrder,
     times
@@ -137,7 +138,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             it('should return concatenation of lists', function () {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
-                expect(list.concat(create(['four', 'five'])).toArray()).toEqual(['one', 'two', 'three', 'four', 'five']);
+                expect(list.concat(['four'], ['five']).toArray()).toEqual(['one', 'two', 'three', 'four', 'five']);
                 expect(list.length).toBe(3);
             });
         });
@@ -250,20 +251,37 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('findAll()', function () {
+        describe('findAll(predicate)', function () {
             it('should return list of items for whose predicate function returned `true`', function () {
-                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
+                const list: ReadOnlyCollection<number> = create([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+                const result: ReadOnlyCollection<number> = list.findAll(isEven);
 
-                const wordsOfThreeChars: ReadOnlyCollection<string> = list.findAll((word: string): boolean => {
-                    return word.length === 3;
-                });
-
-                expect(wordsOfThreeChars.length).toBe(2);
-                expect(wordsOfThreeChars.toArray()).toEqual(['one', 'two']);
+                expect(result.length).toBe(5);
+                expect(result.toArray()).toEqual([2, 4, 6, 8, 10]);
             });
         });
 
-        describe('first()', function () {
+        describe('findAll(predicate, limit)', function () {
+            it('should return list of items for whose predicate function returned `true`', function () {
+                const list: ReadOnlyCollection<number> = create([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+                const result: ReadOnlyCollection<number> = list.findAll(isEven, 2);
+
+                expect(result.length).toBe(2);
+                expect(result.toArray()).toEqual([2, 4]);
+            });
+        });
+
+        describe('findAll(predicate, limit, offset)', function () {
+            it('should return list of items for whose predicate function returned `true`', function () {
+                const list: ReadOnlyCollection<number> = create([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+                const result: ReadOnlyCollection<number> = list.findAll(isEven, 2, 3);
+
+                expect(result.length).toBe(2);
+                expect(result.toArray()).toEqual([8, 10]);
+            });
+        });
+
+        describe('first(predicate)', function () {
             it('should return first item matching predicate', function () {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
@@ -274,6 +292,12 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
                 expect(list.first((word: string): boolean => {
                     return word.length === 4;
                 })).toBe(undefined);
+            });
+        });
+
+        describe('first(predicate, fallback)', function () {
+            it('should return first item matching predicate', function () {
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
                 expect(list.first((word: string): boolean => {
                     return word.length === 4;
@@ -281,7 +305,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('firstOrDefault()', function () {
+        describe('firstOrDefault(fallback)', function () {
             it('should return fallback value if list is empty', function () {
                 const list: ReadOnlyCollection<string> = create();
 
@@ -496,7 +520,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('groupBy<TKey>(keySelector: IteratorFunction<T, TKey>)', function () {
+        describe('groupBy(keySelector)', function () {
             it('should return list of grouped items using default comparator', function () {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
@@ -512,7 +536,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('groupBy<TKey>(keySelector: IteratorFunction<T, TKey>, keyComparator: EqualityComparator<TKey>)', function () {
+        describe('groupBy(keySelector, keyComparator)', function () {
             it('should return list of grouped items using custom comparator', function () {
                 const list: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
                 const groups: Array<Grouping<string, string>> = list.groupBy<string>((word: string): string => {
@@ -527,7 +551,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('intersect()', function () {
+        describe('intersect(items)', function () {
             it('should return list without specified items using custom comparator', function () {
                 const list: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
                 const filteredList: ReadOnlyCollection<string> = list.intersect(
