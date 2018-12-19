@@ -2,6 +2,7 @@
     "private": true,
     "scripts": {
         "bootstrap": "lerna bootstrap",
+        "build": "npm run lint:fix && npm run compile && npm run test",
         "compile": "tsc",
         "contributors": "git log --pretty=\"%an <%ae>\" | sort | uniq > CONTRIBUTORS",
         "coveralls": "cat ./coverage/lcov.info | coveralls",
