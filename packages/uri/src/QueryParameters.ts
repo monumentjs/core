@@ -14,7 +14,6 @@ import {QueryParameterValueEqualityComparator} from './QueryParameterValueEquali
 import {UriConstants} from './UriConstants';
 import {UriEncoder} from './UriEncoder';
 
-
 /**
  * @since 0.0.1
  * @author Alex Chugaev

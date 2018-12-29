@@ -7,7 +7,6 @@ export * from './src/base/Mergeable';
 export * from './src/base/ToJSON';
 export * from './src/base/ToString';
 export * from './src/base/Supplier';
-export * from './src/base/SupplierFunction';
 export * from './src/base/Type';
 export * from './src/base/MemorySize';
 export * from './src/base/types';
@@ -36,31 +35,23 @@ export * from './src/events/EventSource';
 export * from './src/events/EventArgs';
 export * from './src/events/EventHandler';
 
-export * from './src/collections/base/AggregateFunction';
 export * from './src/collections/base/CollectionUtils';
-export * from './src/collections/base/CombineFunction';
-export * from './src/collections/base/IteratorFunction';
 export * from './src/collections/base/KeyValuePair';
 export * from './src/collections/base/MapIteratorFunction';
 export * from './src/collections/base/NamedPool';
 export * from './src/collections/base/NoSuchItemException';
-export * from './src/collections/base/SelectorFunction';
 export * from './src/collections/base/Sequence';
-export * from './src/collections/base/Grouping';
 export * from './src/collections/base/ToArray';
 
 export * from './src/collections/collection/readonly/ReadOnlyCollection';
 export * from './src/collections/collection/readonly/ReadOnlyCollectionBase';
 export * from './src/collections/collection/readonly/ReadOnlyCollectionImpl';
-export * from './src/collections/collection/readonly/proxy/ReadOnlyCollectionProxy';
 
 export * from './src/collections/list/readonly/ReadOnlyList';
 export * from './src/collections/list/readonly/proxy/ReadOnlyListProxy';
 export * from './src/collections/list/mutable/List';
 export * from './src/collections/list/mutable/AbstractList';
 export * from './src/collections/list/mutable/ArrayList';
-export * from './src/collections/list/mutable/LinkedList';
-export * from './src/collections/list/mutable/LinkedListNode';
 export * from './src/collections/list/mutable/proxy/ListProxy';
 export * from './src/collections/list/immutable/ImmutableList';
 export * from './src/collections/list/immutable/ImmutableArrayList';
@@ -82,16 +73,12 @@ export * from './src/collections/set/mutable/Set';
 export * from './src/collections/set/mutable/ArraySet';
 
 export * from './src/collections/map/readonly/ReadOnlyMap';
-export * from './src/collections/map/readonly/AbstractReadOnlyMap';
 export * from './src/collections/map/mutable/Map';
-export * from './src/collections/map/mutable/AbstractMap';
 export * from './src/collections/map/mutable/LinkedMap';
-export * from './src/collections/map/specialized/CaseInsensitiveMap';
 
 export * from './src/collections/multivaluemap/readonly/ReadOnlyMultiValueMap';
 export * from './src/collections/multivaluemap/mutable/LinkedMultiValueMap';
 export * from './src/collections/multivaluemap/mutable/MultiValueMap';
-export * from './src/collections/multivaluemap/specialized/CaseInsensitiveMultiValueMap';
 
 export * from './src/collections/specialized/BitSet';
 

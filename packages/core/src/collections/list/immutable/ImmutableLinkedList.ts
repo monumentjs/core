@@ -3,7 +3,6 @@ import {AbstractImmutableList} from './AbstractImmutableList';
 import {ImmutableList} from './ImmutableList';
 import {LinkedList} from '../mutable/LinkedList';
 
-
 /**
  * @author Alex Chugaev
  * @immutable

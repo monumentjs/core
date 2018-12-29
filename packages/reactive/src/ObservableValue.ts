@@ -3,7 +3,6 @@ import {Value} from './Value';
 import {Observer} from './Observer';
 import {Subscription} from './Subscription';
 
-
 /**
  * @author Alex Chugaev
  * @since 0.0.1

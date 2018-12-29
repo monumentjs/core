@@ -1,8 +1,6 @@
 import {Sequence} from '../../base/Sequence';
-import {IteratorFunction} from '../../base/IteratorFunction';
 import {Cloneable} from '../../../base/Cloneable';
 import {ReadOnlySet} from '../readonly/ReadOnlySet';
-
 
 /**
  * @author Alex Chugaev
@@ -26,7 +24,7 @@ export interface Set<T> extends ReadOnlySet<T>, Cloneable<Set<T>> {
 
     removeAll(items: Sequence<T>): boolean;
 
-    removeBy(predicate: IteratorFunction<T, boolean>): boolean;
+    removeBy(predicate: (item: T) => boolean): boolean;
 
     retainAll(items: Sequence<T>): boolean;
 

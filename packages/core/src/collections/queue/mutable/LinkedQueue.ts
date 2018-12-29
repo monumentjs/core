@@ -4,7 +4,6 @@ import {Queue} from './Queue';
 import {LinkedList} from '../../list/mutable/LinkedList';
 import {ReadOnlyCollectionProxy} from '../../collection/readonly/proxy/ReadOnlyCollectionProxy';
 
-
 /**
  * Represents a first-in, first-out collection of objects.
  *

@@ -109,9 +109,9 @@ export function testReadOnlyMultiValueMap(create: <K, V>(items?: Sequence<KeyVal
         describe('containsKey()', function () {
             it('should determines whether map contains key', function () {
                 const map: ReadOnlyMultiValueMap<string, string> = create([
-                    new KeyValuePair('name', 'Alex'),
-                    new KeyValuePair('name', 'Dmitri'),
-                    new KeyValuePair('email', 'test@mail.com')
+                    ['name', 'Alex'],
+                    ['name', 'Dmitri'],
+                    ['email', 'test@mail.com']
                 ]);
 
                 expect(map.containsKey('name')).toBe(true);

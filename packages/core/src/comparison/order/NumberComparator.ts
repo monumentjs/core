@@ -16,7 +16,8 @@ export class NumberComparator implements Comparator<number> {
         return this._instance;
     }
 
-    private constructor() {}
+    private constructor() {
+    }
 
     public compare(x: number, y: number): ComparisonResult {
         if (x > y) {

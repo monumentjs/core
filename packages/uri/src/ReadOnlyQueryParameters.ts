@@ -1,6 +1,5 @@
 import {ReadOnlyCollection, ReadOnlyMultiValueMap, ToString} from '@monument/core';
 
-
 /**
  * @since 0.0.1
  * @author Alex Chugaev

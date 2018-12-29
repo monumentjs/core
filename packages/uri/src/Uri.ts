@@ -1,9 +1,9 @@
 import {
+    ChainedEqualityComparator,
     EqualityComparator,
     Equatable,
     EquatableComparator,
     IgnoreCaseEqualityComparator,
-    ChainedEqualityComparator,
     PreserveCaseEqualityComparator,
     ToJSON,
     ToString
@@ -20,7 +20,6 @@ import {UriConstants} from './UriConstants';
 import {UriParser} from './UriParser';
 import {UriBuilder} from './UriBuilder';
 import {QueryParametersObject} from './QueryParametersObject';
-
 
 /**
  * Represents URI (Unified Resource Identifier).
@@ -159,42 +158,6 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
         this.validateIntegrity();
     }
 
-    public getParameter(name: string): ToString | undefined;
-
-    public getParameter(name: string, fallback: ToString): ToString;
-
-    public getParameter(name: string, fallback?: ToString): ToString | undefined {
-        const value: ToString | undefined = this._queryParameters.getFirst(name);
-
-        if (value != null) {
-            return value;
-        }
-
-        if (fallback != null) {
-            return fallback;
-        }
-    }
-
-    /**
-     * Determines whether this URI has one or more query parameters associated with specified name.
-     * @nosideeffects
-     */
-    public hasParameter(name: string): boolean;
-
-    /**
-     * Determines whether this URI has query parameter associated with specified name and containing specified value.
-     * @nosideeffects
-     */
-    public hasParameter(name: string, value: ToString): boolean;
-
-    public hasParameter(name: string, value?: ToString): boolean {
-        if (value == null) {
-            return this._queryParameters.containsKey(name);
-        } else {
-            return this._queryParameters.containsEntry(name, value);
-        }
-    }
-
     /**
      * Determines whether current URI equals to other one represented as string.
      * @nosideeffects
@@ -235,6 +198,42 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
         comparator.withField(this.queryParameters, (components.queryParameters || new QueryParameters()), new EquatableComparator());
 
         return comparator.result;
+    }
+
+    public getParameter(name: string): ToString | undefined;
+
+    public getParameter(name: string, fallback: ToString): ToString;
+
+    public getParameter(name: string, fallback?: ToString): ToString | undefined {
+        const value: ToString | undefined = this._queryParameters.getFirst(name);
+
+        if (value != null) {
+            return value;
+        }
+
+        if (fallback != null) {
+            return fallback;
+        }
+    }
+
+    /**
+     * Determines whether this URI has one or more query parameters associated with specified name.
+     * @nosideeffects
+     */
+    public hasParameter(name: string): boolean;
+
+    /**
+     * Determines whether this URI has query parameter associated with specified name and containing specified value.
+     * @nosideeffects
+     */
+    public hasParameter(name: string, value: ToString): boolean;
+
+    public hasParameter(name: string, value?: ToString): boolean {
+        if (value == null) {
+            return this._queryParameters.containsKey(name);
+        } else {
+            return this._queryParameters.containsEntry(name, value);
+        }
     }
 
     /**

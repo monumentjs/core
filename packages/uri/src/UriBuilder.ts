@@ -5,7 +5,6 @@ import {ReadOnlyQueryParameters} from './ReadOnlyQueryParameters';
 import {QueryParameters} from './QueryParameters';
 import {QueryParametersObject} from './QueryParametersObject';
 
-
 /**
  * @since 0.0.1
  * @author Alex Chugaev

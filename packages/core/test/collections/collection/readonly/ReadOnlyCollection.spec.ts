@@ -16,11 +16,9 @@ import {
 } from '../../../..';
 import {testSequence} from '../../base/Sequence.spec';
 
-
 interface Book {
     authors: ReadOnlyCollection<string>;
 }
-
 
 export function assertLengthAndIsEmpty<I>(items: ReadOnlyCollection<I>, expectedLength: number): void {
     expect(items.length).toBe(expectedLength);

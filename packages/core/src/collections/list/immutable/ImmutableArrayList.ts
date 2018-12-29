@@ -3,7 +3,6 @@ import {ArrayList} from '../mutable/ArrayList';
 import {AbstractImmutableList} from './AbstractImmutableList';
 import {ImmutableList} from './ImmutableList';
 
-
 /**
  * @author Alex Chugaev
  * @since 0.0.1

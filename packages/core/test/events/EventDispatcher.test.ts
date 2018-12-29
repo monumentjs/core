@@ -1,4 +1,4 @@
-import {EventDispatcher, EventArgs} from '../..';
+import {EventArgs, EventDispatcher} from '../..';
 
 describe('EventDispatcher', function () {
     describe('subscribe()', function () {

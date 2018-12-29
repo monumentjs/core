@@ -2,7 +2,6 @@ import {ToJSON} from '../base/ToJSON';
 import {ToString} from '../base/ToString';
 import {EOL_CRLF} from '../text/Strings';
 
-
 /**
  * @author Alex Chugaev
  * @since 0.0.1

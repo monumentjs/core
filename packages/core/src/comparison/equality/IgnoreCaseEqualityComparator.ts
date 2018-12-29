@@ -1,6 +1,5 @@
 import {EqualityComparator} from './EqualityComparator';
 
-
 /**
  * @author Alex Chugaev
  * @since 0.0.1

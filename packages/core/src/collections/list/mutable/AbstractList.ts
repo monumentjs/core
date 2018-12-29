@@ -1,5 +1,4 @@
 import {List} from './List';
-import {IteratorFunction} from '../../base/IteratorFunction';
 import {CollectionUtils} from '../../base/CollectionUtils';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
 import {StrictEqualityComparator} from '../../../comparison/equality/StrictEqualityComparator';
@@ -8,7 +7,6 @@ import {RangeException} from '../../../exceptions/RangeException';
 import {ReadOnlyCollectionImpl} from '../../collection/readonly/ReadOnlyCollectionImpl';
 import {Sequence} from '../../base/Sequence';
 import {ReadOnlyCollectionBase} from '../../collection/readonly/ReadOnlyCollectionBase';
-
 
 /**
  * @author Alex Chugaev
@@ -28,21 +26,9 @@ export abstract class AbstractList<T> extends ReadOnlyCollectionBase<T> implemen
 
     public abstract [Symbol.iterator](): Iterator<T>;
 
-    public add(item: T): boolean {
-        this.doAdd(item);
+    public abstract add(item: T): boolean;
 
-        return true;
-    }
-
-    public addAll(items: Sequence<T>): boolean {
-        if (items.length === 0) {
-            return false;
-        }
-
-        this.doAddAll(items);
-
-        return true;
-    }
+    public abstract addAll(items: Iterable<T>): boolean;
 
     public addIfAbsent(item: T): boolean;
 
@@ -170,11 +156,11 @@ export abstract class AbstractList<T> extends ReadOnlyCollectionBase<T> implemen
 
     public abstract remove(item: T, comparator: EqualityComparator<T>): boolean;
 
-    public removeAll(items: Sequence<T>): boolean;
+    public removeAll(items: Iterable<T>): boolean;
 
-    public removeAll(items: Sequence<T>, comparator: EqualityComparator<T>): boolean;
+    public removeAll(items: Iterable<T>, comparator: EqualityComparator<T>): boolean;
 
-    public removeAll(items: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): boolean {
+    public removeAll(items: Iterable<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): boolean {
         const items$: ReadOnlyCollectionImpl<T> = new ReadOnlyCollectionImpl(items);
 
         if (items$.isEmpty) {
@@ -192,13 +178,13 @@ export abstract class AbstractList<T> extends ReadOnlyCollectionBase<T> implemen
         return this.doRemoveAt(index);
     }
 
-    public abstract removeBy(predicate: IteratorFunction<T, boolean>): boolean;
+    public abstract removeBy(predicate: (item: T, index: number) => boolean): boolean;
 
-    public retainAll(items: Sequence<T>): boolean;
+    public retainAll(items: Iterable<T>): boolean;
 
-    public retainAll(items: Sequence<T>, comparator: EqualityComparator<T>): boolean;
+    public retainAll(items: Iterable<T>, comparator: EqualityComparator<T>): boolean;
 
-    public retainAll(items: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): boolean {
+    public retainAll(items: Iterable<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): boolean {
         return this.removeBy((currentItem: T) => {
             for (const otherItem of items) {
                 if (comparator.equals(currentItem, otherItem)) {
@@ -217,10 +203,6 @@ export abstract class AbstractList<T> extends ReadOnlyCollectionBase<T> implemen
     }
 
     protected abstract create<I>(items?: Sequence<I>): AbstractList<I>;
-
-    protected abstract doAdd(item: T): void;
-
-    protected abstract doAddAll(items: Sequence<T>): void;
 
     protected abstract doClear(): void;
 

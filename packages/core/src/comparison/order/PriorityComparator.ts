@@ -17,7 +17,8 @@ export class PriorityComparator implements Comparator<Ordered> {
         return this._instance;
     }
 
-    private constructor() {}
+    private constructor() {
+    }
 
     public compare(x: Ordered, y: Ordered): ComparisonResult {
         if (x.order > y.order) {

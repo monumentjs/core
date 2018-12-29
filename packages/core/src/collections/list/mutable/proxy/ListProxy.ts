@@ -5,7 +5,6 @@ import {EqualityComparator} from '../../../../comparison/equality/EqualityCompar
 import {StrictEqualityComparator} from '../../../../comparison/equality/StrictEqualityComparator';
 import {ReadOnlyListProxy} from '../../readonly/proxy/ReadOnlyListProxy';
 
-
 /**
  * @author Alex Chugaev
  * @since 0.0.1

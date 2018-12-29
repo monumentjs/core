@@ -1,4 +1,4 @@
-import {ArrayList, RangeException, EMPTY_STRING, StringUtils} from '../..';
+import {ArrayList, EMPTY_STRING, RangeException, StringUtils} from '../..';
 
 describe('StringUtils', function () {
 

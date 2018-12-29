@@ -6,5 +6,6 @@ import {Subject} from './Subject';
  */
 export interface Value<T> extends Subject<T> {
     get(): T;
+
     set(value: T): void;
 }

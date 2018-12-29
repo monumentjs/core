@@ -1,16 +1,14 @@
 import {ReadOnlyCollection} from '../../collection/readonly/ReadOnlyCollection';
-import {Cloneable} from '../../../base/Cloneable';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
+ * @readonly
  */
-export interface ReadOnlyList<T> extends ReadOnlyCollection<T>, Cloneable<ReadOnlyList<T>> {
+export interface ReadOnlyList<T> extends ReadOnlyCollection<T> {
     readonly firstIndex: number;
     readonly lastIndex: number;
-
-    clone(): ReadOnlyList<T>;
 
     /**
      * @throws {IndexOutOfBoundsException} if index out of bounds

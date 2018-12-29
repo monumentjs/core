@@ -1,9 +1,6 @@
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
-import {ReadOnlySet} from '../../set/readonly/ReadOnlySet';
 import {KeyValuePair} from '../../base/KeyValuePair';
-import {ReadOnlyList} from '../../list/readonly/ReadOnlyList';
 import {Sequence} from '../../base/Sequence';
-
 
 /**
  * @author Alex Chugaev
@@ -11,22 +8,22 @@ import {Sequence} from '../../base/Sequence';
  */
 export interface ReadOnlyMap<K, V> extends Sequence<KeyValuePair<K, V>> {
     readonly isEmpty: boolean;
-    readonly keys: ReadOnlySet<K>;
-    readonly values: ReadOnlyList<V>;
+    readonly keys: Iterable<K>;
+    readonly values: Iterable<V>;
     readonly keyComparator: EqualityComparator<K>;
     readonly valueComparator: EqualityComparator<V>;
 
-    containsEntries(entries: Sequence<KeyValuePair<K, V>>): boolean;
+    containsEntries(entries: Iterable<KeyValuePair<K, V>>): boolean;
 
     containsEntry(key: K, value: V): boolean;
 
     containsKey(key: K): boolean;
 
-    containsKeys(keys: Sequence<K>): boolean;
+    containsKeys(keys: Iterable<K>): boolean;
 
     containsValue(value: V): boolean;
 
-    containsValues(values: Sequence<V>): boolean;
+    containsValues(values: Iterable<V>): boolean;
 
     get(key: K): V | undefined;
 
@@ -34,5 +31,5 @@ export interface ReadOnlyMap<K, V> extends Sequence<KeyValuePair<K, V>> {
 
     keyOf(value: V): K | undefined;
 
-    keysOf(value: V): ReadOnlyList<K>;
+    keysOf(value: V): Iterable<K>;
 }

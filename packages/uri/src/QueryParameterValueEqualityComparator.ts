@@ -1,6 +1,5 @@
 import {EqualityComparator, ToString} from '@monument/core';
 
-
 export class QueryParameterValueEqualityComparator implements EqualityComparator<ToString | undefined> {
     private static _instance: QueryParameterValueEqualityComparator | undefined;
 

@@ -2,7 +2,6 @@ import {ReadOnlyList} from '../ReadOnlyList';
 import {ReadOnlyCollectionProxy} from '../../../collection/readonly/proxy/ReadOnlyCollectionProxy';
 import {EqualityComparator} from '../../../../comparison/equality/EqualityComparator';
 
-
 /**
  * @author Alex Chugaev
  * @since 0.0.1

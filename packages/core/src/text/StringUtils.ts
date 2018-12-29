@@ -4,7 +4,6 @@ import {CollectionUtils} from '../collections/base/CollectionUtils';
 import {ReadOnlyCollection} from '../collections/collection/readonly/ReadOnlyCollection';
 import {ToString} from '../base/ToString';
 
-
 /**
  * @author Alex Chugaev
  * @since 0.0.1

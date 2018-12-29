@@ -1,11 +1,9 @@
 import {AbstractList} from './AbstractList';
 import {Sequence} from '../../base/Sequence';
 import {ReadOnlyCollection} from '../../collection/readonly/ReadOnlyCollection';
-import {IteratorFunction} from '../../base/IteratorFunction';
 import {Cloneable} from '../../../base/Cloneable';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
 import {StrictEqualityComparator} from '../../../comparison/equality/StrictEqualityComparator';
-
 
 /**
  * @author Alex Chugaev
@@ -28,6 +26,20 @@ export class ArrayList<T> extends AbstractList<T> implements Cloneable<ArrayList
         return this._items[Symbol.iterator]();
     }
 
+    public add(item: T): boolean {
+        this._items.push(item);
+
+        return true;
+    }
+
+    public addAll(items: Iterable<T>): boolean {
+        const oldLength: number = this.length;
+
+        this._items.push(...items);
+
+        return this.length !== oldLength;
+    }
+
     public clone(): ArrayList<T> {
         return new ArrayList(this._items);
     }
@@ -48,7 +60,7 @@ export class ArrayList<T> extends AbstractList<T> implements Cloneable<ArrayList
         return this.length !== oldLength;
     }
 
-    public removeBy(predicate: IteratorFunction<T, boolean>): boolean {
+    public removeBy(predicate: (item: T, index: number) => boolean): boolean {
         const oldLength: number = this.length;
 
         for (let index = 0, actualIndex = 0; index < oldLength; index++, actualIndex++) {
@@ -71,14 +83,6 @@ export class ArrayList<T> extends AbstractList<T> implements Cloneable<ArrayList
 
     protected create<I>(items?: Iterable<I>): ArrayList<I> {
         return new ArrayList(items);
-    }
-
-    protected doAdd(item: T): void {
-        this._items.push(item);
-    }
-
-    protected doAddAll(items: Sequence<T>): void {
-        this._items.push(...items);
     }
 
     protected doClear(): void {

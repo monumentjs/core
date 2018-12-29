@@ -8,8 +8,8 @@ export abstract class AbstractSubject<T> implements Subject<T> {
     private _subjectState: SubjectState = SubjectState.IDLE;
     private readonly _observers: LinkedMap<Observer<T>, Subscription<T>> = new LinkedMap();
 
-    public get subjectState(): SubjectState {
-        return this._subjectState;
+    public get isActive(): boolean {
+        return this.subjectState === SubjectState.ACTIVE;
     }
 
     public get isBroken(): boolean {
@@ -20,12 +20,12 @@ export abstract class AbstractSubject<T> implements Subject<T> {
         return this.subjectState === SubjectState.COMPLETE;
     }
 
-    public get isActive(): boolean {
-        return this.subjectState === SubjectState.ACTIVE;
-    }
-
     public get isIdle(): boolean {
         return this.subjectState === SubjectState.IDLE;
+    }
+
+    public get subjectState(): SubjectState {
+        return this._subjectState;
     }
 
     public subscribe(observer: Observer<T>): Subscription<T> {
@@ -62,14 +62,6 @@ export abstract class AbstractSubject<T> implements Subject<T> {
         return unsubscribed;
     }
 
-    protected next(payload: T): void {
-        if (!this.isComplete && !this.isBroken) {
-            for (const {key: observer} of this._observers) {
-                observer.onNext(payload);
-            }
-        }
-    }
-
     protected complete(): void {
         if (!this.isComplete && !this.isBroken) {
             for (const {key: observer} of this._observers) {
@@ -82,6 +74,16 @@ export abstract class AbstractSubject<T> implements Subject<T> {
         }
     }
 
+    protected next(payload: T): void {
+        if (!this.isComplete && !this.isBroken) {
+            for (const {key: observer} of this._observers) {
+                observer.onNext(payload);
+            }
+        }
+    }
+
+    protected abstract onNewSubscription?(observer: Observer<T>, subscription: Subscription<T>): void;
+
     protected throw(ex: Exception): void {
         if (!this.isComplete && !this.isBroken) {
             for (const {key: observer} of this._observers) {
@@ -93,8 +95,6 @@ export abstract class AbstractSubject<T> implements Subject<T> {
             this._subjectState = SubjectState.BROKEN;
         }
     }
-
-    protected abstract onNewSubscription?(observer: Observer<T>, subscription: Subscription<T>): void;
 
     private setSubjectState(state: SubjectState) {
         if (this._subjectState !== state) {

@@ -1,44 +1,42 @@
-import {Map} from '../../map/mutable/Map';
-import {LinkedMap} from '../../map/mutable/LinkedMap';
-import {Sequence} from '../../base/Sequence';
-import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
-import {ReadOnlySet} from '../../set/readonly/ReadOnlySet';
+import {Supplier} from '../../../base/Supplier';
 import {KeyValuePair} from '../../base/KeyValuePair';
-import {LinkedList} from '../../list/mutable/LinkedList';
+import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
 import {StrictEqualityComparator} from '../../../comparison/equality/StrictEqualityComparator';
-import {ReadOnlyList} from '../../list/readonly/ReadOnlyList';
-import {MultiValueMap} from './MultiValueMap';
-import {List} from '../../list/mutable/List';
+import {ReadOnlyMultiValueMap} from '../readonly/ReadOnlyMultiValueMap';
 import {ReadOnlyMap} from '../../map/readonly/ReadOnlyMap';
-import {MapIteratorFunction} from '../../base/MapIteratorFunction';
-import {ChainedEqualityComparator} from '../../../comparison/equality/ChainedEqualityComparator';
-
+import {LinkedMap} from '../../map/mutable/LinkedMap';
+import {MultiValueMap} from './MultiValueMap';
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
  */
 export class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V> {
-    private readonly _map: LinkedMap<K, LinkedList<V>>;
+    private readonly _map: Map<K, V[]> = new Map();
+    private readonly _keyComparator: EqualityComparator<K>;
     private readonly _valueComparator: EqualityComparator<V>;
 
     public get isEmpty(): boolean {
-        return this._map.isEmpty;
+        return this._map.size === 0;
     }
 
     public get keyComparator(): EqualityComparator<K> {
-        return this._map.keyComparator;
+        return this._keyComparator;
     }
 
-    public get keys(): ReadOnlySet<K> {
-        return this._map.keys;
+    public get keys(): Iterable<K> {
+        return this._map.keys();
     }
 
     public get length(): number {
+        return this._map.size;
+    }
+
+    public get valuesCount(): number {
         let length: number = 0;
 
-        for (const pair of this._map) {
-            length += pair.value.length;
+        for (const [, ownValues] of this._map) {
+            length += ownValues.length;
         }
 
         return length;
@@ -48,38 +46,46 @@ export class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V> {
         return this._valueComparator;
     }
 
-    public get values(): ReadOnlyList<V> {
-        const values: LinkedList<V> = new LinkedList();
+    public get values(): Iterable<V> {
+        const self = this;
 
-        for (const pair of this._map) {
-            values.addAll(pair.value);
-        }
-
-        return values;
+        return {
+            * [Symbol.iterator](): Iterator<V> {
+                for (const values of self._map.values()) {
+                    yield* values;
+                }
+            }
+        };
     }
 
     public constructor(
         keyComparator: EqualityComparator<K> = StrictEqualityComparator.get(),
         valueComparator: EqualityComparator<V> = StrictEqualityComparator.get()
     ) {
+        this._keyComparator = keyComparator;
         this._valueComparator = valueComparator;
-        this._map = new LinkedMap(undefined, keyComparator);
     }
 
     public* [Symbol.iterator](): Iterator<KeyValuePair<K, V>> {
-        for (const pair of this._map) {
-            for (const item of pair.value) {
-                yield new KeyValuePair(pair.key, item);
+        for (const [ownKey, ownValues] of this._map.entries()) {
+            for (const ownValue of ownValues) {
+                yield [ownKey, ownValue];
             }
         }
     }
 
     public clear(): boolean {
-        return this._map.clear();
+        if (this._map.size > 0) {
+            this._map.clear();
+
+            return true;
+        }
+
+        return false;
     }
 
-    public containsEntries(entries: Sequence<KeyValuePair<K, V>>): boolean {
-        for (const {key, value} of entries) {
+    public containsEntries(entries: Iterable<KeyValuePair<K, V>>): boolean {
+        for (const [key, value] of entries) {
             if (!this.containsEntry(key, value)) {
                 return false;
             }
@@ -89,20 +95,26 @@ export class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V> {
     }
 
     public containsEntry(key: K, value: V): boolean {
-        const list: LinkedList<V> | undefined = this._map.get(key);
-
-        if (list == null) {
-            return false;
+        for (const [ownKey, ownValue] of this) {
+            if (this.keyComparator.equals(ownKey, key) && this.valueComparator.equals(ownValue, value)) {
+                return true;
+            }
         }
 
-        return list.contains(value, this.valueComparator);
+        return false;
     }
 
     public containsKey(key: K): boolean {
-        return this._map.containsKey(key);
+        for (const ownKey of this.keys) {
+            if (this.keyComparator.equals(ownKey, key)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
-    public containsKeys(keys: Sequence<K>): boolean {
+    public containsKeys(keys: Iterable<K>): boolean {
         for (const key of keys) {
             if (!this.containsKey(key)) {
                 return false;
@@ -113,18 +125,16 @@ export class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V> {
     }
 
     public containsValue(value: V): boolean {
-        for (const pair of this._map) {
-            for (const item of pair.value) {
-                if (this.valueComparator.equals(item, value)) {
-                    return true;
-                }
+        for (const ownValue of this.values) {
+            if (this.valueComparator.equals(ownValue, value)) {
+                return true;
             }
         }
 
         return false;
     }
 
-    public containsValues(values: Sequence<V>): boolean {
+    public containsValues(values: Iterable<V>): boolean {
         for (const value of values) {
             if (!this.containsValue(value)) {
                 return false;
@@ -134,74 +144,74 @@ export class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V> {
         return true;
     }
 
-    public equals(other: Sequence<KeyValuePair<K, V>>): boolean {
-        if (this === other) {
-            return true;
-        }
-
-        const comparator: ChainedEqualityComparator = new ChainedEqualityComparator();
-
-        comparator.withField(this.length, other.length);
-
-        return comparator.result;
+    public equals(other: ReadOnlyMultiValueMap<K, V>): boolean {
+        // TODO: compare keys and values
+        return this === other;
     }
 
-    public get(key: K): ReadOnlyList<V> {
-        return this._map.get(key) || new LinkedList();
+    public* get(key: K): Iterable<V> {
+        const entry: KeyValuePair<K, V[]> | undefined = this.getEntry(key);
+
+        if (entry != null) {
+            yield* entry[1];
+        }
     }
 
     public getFirst(key: K): V | undefined;
-    public getFirst(key: K, defaultValue: V): V;
-    public getFirst(key: K, defaultValue?: V): V | undefined {
-        const slot = this.obtainSlot(key);
+    public getFirst(key: K, fallback: Supplier<V>): V;
+    public getFirst(key: K, fallback?: Supplier<V>): V | undefined {
+        const entry: KeyValuePair<K, V[]> | undefined = this.getEntry(key);
 
-        if (!slot.isEmpty) {
-            return slot.getAt(0);
+        if (entry != null) {
+            const ownValues: V[] = entry[1];
+
+            if (ownValues.length > 0) {
+                return ownValues[0];
+            }
         }
 
-        return defaultValue;
+        return fallback ? fallback() : undefined;
     }
 
     public keyOf(value: V): K | undefined {
-        for (const pair of this._map) {
-            for (const item of pair.value) {
-                if (this._valueComparator.equals(item, value)) {
-                    return pair.key;
+        for (const [ownKey, ownValues] of this._map) {
+            for (const ownValue of ownValues) {
+                if (this.valueComparator.equals(ownValue, value)) {
+                    return ownKey;
                 }
             }
         }
     }
 
-    public keysOf(value: V): ReadOnlyList<K> {
-        const result: LinkedList<K> = new LinkedList();
-
-        for (const pair of this._map) {
-            for (const item of pair.value) {
-                if (this._valueComparator.equals(item, value)) {
-                    result.add(pair.key);
+    public* keysOf(value: V): Iterable<K> {
+        for (const [ownKey, ownValues] of this._map) {
+            for (const ownValue of ownValues) {
+                if (this.valueComparator.equals(ownValue, value)) {
+                    yield ownKey;
+                    break;
                 }
             }
         }
-
-        return result;
     }
 
     public put(key: K, value: V): boolean {
-        const list: List<V> = this.obtainSlot(key);
+        const ownValues: V[] = this.obtainSlot(key);
 
-        return list.addIfAbsent(value, this.valueComparator);
+        ownValues.push(value);
+
+        return true;
     }
 
-    public putAll(values: Sequence<KeyValuePair<K, V>>): boolean {
-        let result: boolean = false;
+    public putAll(values: Iterable<KeyValuePair<K, V>>): boolean {
+        let modified: boolean = false;
 
-        for (const {key, value} of values) {
+        for (const [key, value] of values) {
             if (this.put(key, value)) {
-                result = true;
+                modified = true;
             }
         }
 
-        return result;
+        return modified;
     }
 
     public putIfAbsent(key: K, value: V): boolean {
@@ -214,11 +224,7 @@ export class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V> {
         return false;
     }
 
-    public putMap(map: ReadOnlyMap<K, V>): boolean {
-        return this.putAll(map);
-    }
-
-    public putValues(key: K, values: Sequence<V>): boolean {
+    public putValues(key: K, values: Iterable<V>): boolean {
         let result: boolean = false;
 
         for (const value of values) {
@@ -230,86 +236,100 @@ export class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V> {
         return result;
     }
 
-    public remove(key: K): ReadOnlyList<V> | undefined {
-        return this._map.remove(key);
+    public remove(key: K): Iterable<V> | undefined {
+        const entry: KeyValuePair<K, V[]> | undefined = this.getEntry(key);
+
+        if (entry) {
+            const [ownKey, ownValues] = entry;
+
+            this._map.delete(ownKey);
+
+            return ownValues;
+        }
     }
 
-    public removeBy(predicate: MapIteratorFunction<K, V, boolean>): boolean {
-        let result: boolean = false;
+    public removeBy(predicate: (key: K, value: V) => boolean): boolean {
+        let modified: boolean = false;
 
-        this._map.removeBy((key: K, list: List<V>): boolean => {
-            const removed: boolean = list.removeBy((item: V): boolean => {
-                return predicate(key, item);
+        for (const [ownKey, ownValues] of this._map) {
+            let removedCount: number = 0;
+
+            ownValues.forEach((ownValue: V, index: number): void => {
+                if (predicate(ownKey, ownValue)) {
+                    ownValues.splice(index - removedCount, 1);
+
+                    removedCount++;
+                    modified = true;
+                }
             });
 
-            if (removed) {
-                result = true;
+            if (ownValues.length === 0) {
+                this._map.delete(ownKey);
             }
+        }
 
-            return list.isEmpty;
-        });
-
-        return result;
+        return modified;
     }
 
     public removeIf(key: K, value: V): boolean {
-        for (const pair of this._map) {
-            if (pair.value.remove(value, this.valueComparator)) {
-                if (pair.value.isEmpty) {
-                    this._map.remove(pair.key);
-                }
-
-                return true;
-            }
-        }
-
-        return false;
+        return this.removeBy((ownKey: K, ownValue: V): boolean => {
+            return this.keyComparator.equals(key, ownKey) && this.valueComparator.equals(value, ownValue);
+        });
     }
 
     public replaceIf(key: K, oldValue: V, newValue: V): boolean {
-        const list = this._map.get(key);
-        let result = false;
+        const entry: KeyValuePair<K, V[]> | undefined = this.getEntry(key);
+        let modified = false;
 
-        if (list != null) {
-            list.forEach((value: V, index: number): void => {
-                if (this.valueComparator.equals(oldValue, value)) {
-                    list.setAt(index, newValue);
+        if (entry != null) {
+            const [, ownValues] = entry;
 
-                    result = true;
+            ownValues.forEach((ownValue: V, index: number): void => {
+                if (this.valueComparator.equals(oldValue, ownValue)) {
+                    ownValues[index] = newValue;
+
+                    modified = true;
                 }
             });
         }
 
-        return result;
+        return modified;
     }
 
     public toArray(): Array<KeyValuePair<K, V>> {
         return [...this];
     }
 
-    public toJSON(): Array<KeyValuePair<K, V>> {
-        return this.toArray();
-    }
+    public toSingleValueMap(): ReadOnlyMap<K, V> {
+        const map: LinkedMap<K, V> = new LinkedMap();
 
-    public toSingleValueMap(): Map<K, V> {
-        const map: Map<K, V> = new LinkedMap();
-
-        for (const entry of this._map) {
-            map.put(entry.key, entry.value.getAt(0));
+        for (const [ownKey, ownValues] of this._map) {
+            map.put(ownKey, ownValues[0]);
         }
 
         return map;
     }
 
-    protected obtainSlot(key: K): List<V> {
-        let list: LinkedList<V> | undefined = this._map.get(key);
+    protected obtainSlot(key: K): V[] {
+        const entry: KeyValuePair<K, V[]> | undefined = this.getEntry(key);
+        let ownValues: V[];
 
-        if (list == null) {
-            list = new LinkedList();
+        if (entry == null) {
+            ownValues = [];
 
-            this._map.put(key, list);
+            this._map.set(key, ownValues);
+        } else {
+            ownValues = entry[1];
         }
 
-        return list;
+        return ownValues;
+    }
+
+    private getEntry(key: K): KeyValuePair<K, V[]> | undefined {
+        for (const [ownKey, ownValues] of this._map) {
+            if (this.keyComparator.equals(ownKey, key)) {
+                return [ownKey, ownValues];
+            }
+        }
     }
 }

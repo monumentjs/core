@@ -1,7 +1,6 @@
 import {Comparator} from './Comparator';
 import {ComparisonResult} from './ComparisonResult';
 
-
 export class PreserveCaseComparator implements Comparator<string> {
     private static _instance: PreserveCaseComparator | undefined;
 

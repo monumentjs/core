@@ -2,7 +2,6 @@ import {Disposable} from '@monument/core';
 import {Observer} from './Observer';
 import {Subject} from './Subject';
 
-
 /**
  * @author Alex Chugaev
  * @since 0.0.1

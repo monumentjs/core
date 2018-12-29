@@ -1,6 +1,5 @@
 import {ReadOnlyQueryParameters} from './ReadOnlyQueryParameters';
 
-
 /**
  * @since 0.0.1
  * @author Alex Chugaev

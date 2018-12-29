@@ -4,7 +4,6 @@ import {IteratorFunction} from '../../base/IteratorFunction';
 import {Cloneable} from '../../../base/Cloneable';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
 
-
 /**
  * @author Alex Chugaev
  * @since 0.0.1

@@ -1,13 +1,12 @@
 import {Set} from './Set';
 import {ArrayList} from '../../list/mutable/ArrayList';
-import {IteratorFunction} from '../../base/IteratorFunction';
 import {Sequence} from '../../base/Sequence';
 import {Cloneable} from '../../../base/Cloneable';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
 import {StrictEqualityComparator} from '../../../comparison/equality/StrictEqualityComparator';
 import {MethodNotImplementedException} from '../../../exceptions/MethodNotImplementedException';
 import {ReadOnlyCollectionBase} from '../../collection/readonly/ReadOnlyCollectionBase';
-
+import {ReadOnlySet} from '../readonly/ReadOnlySet';
 
 /**
  * @author Alex Chugaev
@@ -150,7 +149,7 @@ export class ArraySet<T> extends ReadOnlyCollectionBase<T> implements Set<T>, Cl
         return isValidSuperset;
     }
 
-    public overlaps(other: Sequence<T>): boolean {
+    public overlaps(other: ReadOnlySet<T>): boolean {
         for (const currentItem of this) {
             for (const otherItem of other) {
                 if (this.comparator.equals(currentItem, otherItem)) {
@@ -166,19 +165,19 @@ export class ArraySet<T> extends ReadOnlyCollectionBase<T> implements Set<T>, Cl
         return this._items.remove(otherItem, this.comparator);
     }
 
-    public removeAll(items: Sequence<T>): boolean {
+    public removeAll(items: Iterable<T>): boolean {
         return this._items.removeAll(items, this.comparator);
     }
 
-    public removeBy(predicate: IteratorFunction<T, boolean>): boolean {
+    public removeBy(predicate: (item: T) => boolean): boolean {
         return this._items.removeBy(predicate);
     }
 
-    public retainAll(items: Sequence<T>): boolean {
+    public retainAll(items: Iterable<T>): boolean {
         return this._items.retainAll(items, this.comparator);
     }
 
-    public setEquals(other: Sequence<T>): boolean {
+    public setEquals(other: ReadOnlySet<T>): boolean {
         /* tslint:disable:cyclomatic-complexity */
 
         if (this.length !== other.length) {

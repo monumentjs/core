@@ -1,15 +1,11 @@
 import {Sequence} from '../../base/Sequence';
-import {ReadOnlyCollection} from './ReadOnlyCollection';
+import {AggregateFunction, CombineFunction, IteratorFunction, ReadOnlyCollection, SelectorFunction} from './ReadOnlyCollection';
 import {ReadOnlyCollectionImpl} from './ReadOnlyCollectionImpl';
-import {AggregateFunction} from '../../base/AggregateFunction';
-import {IteratorFunction} from '../../base/IteratorFunction';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
 import {StrictEqualityComparator} from '../../../comparison/equality/StrictEqualityComparator';
 import {SortOrder} from '../../../comparison/order/SortOrder';
 import {Comparator} from '../../../comparison/order/Comparator';
-import {Grouping} from '../../base/Grouping';
-import {CombineFunction} from '../../base/CombineFunction';
-import {SelectorFunction} from '../../base/SelectorFunction';
+import {ReadOnlyMultiValueMap} from '../../multivaluemap/readonly/ReadOnlyMultiValueMap';
 
 export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T> {
     public readonly abstract length: number;
@@ -17,6 +13,8 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
     public get isEmpty(): boolean {
         return this.length === 0;
     }
+
+    public abstract [Symbol.iterator](): Iterator<T>;
 
     public aggregate<TAggregate>(
         iterator: AggregateFunction<T, TAggregate>,
@@ -160,17 +158,17 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
 
     public groupBy<TKey>(
         keySelector: IteratorFunction<T, TKey>
-    ): ReadOnlyCollection<Grouping<TKey, T>>;
+    ): ReadOnlyMultiValueMap<TKey, T>;
 
     public groupBy<TKey>(
         keySelector: IteratorFunction<T, TKey>,
         keyComparator: EqualityComparator<TKey>
-    ): ReadOnlyCollection<Grouping<TKey, T>>;
+    ): ReadOnlyMultiValueMap<TKey, T>;
 
     public groupBy<TKey>(
         keySelector: IteratorFunction<T, TKey>,
         keyComparator: EqualityComparator<TKey> = StrictEqualityComparator.get()
-    ): ReadOnlyCollection<Grouping<TKey, T>> {
+    ): ReadOnlyMultiValueMap<TKey, T> {
         return new ReadOnlyCollectionImpl(this).groupBy(keySelector, keyComparator);
     }
 
@@ -319,7 +317,5 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
     ): ReadOnlyCollection<TResult> {
         return new ReadOnlyCollectionImpl(this).zip(otherList, resultSelector);
     }
-
-    public abstract [Symbol.iterator](): Iterator<T>;
 
 }
