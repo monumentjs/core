@@ -11,6 +11,8 @@ export * from './src/base/Type';
 export * from './src/base/MemorySize';
 export * from './src/base/types';
 
+export * from './src/benchmark/Benchmark';
+
 export * from './src/function/isEven';
 export * from './src/function/isOdd';
 export * from './src/function/noop';
