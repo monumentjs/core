@@ -1,4 +1,3 @@
-import {ReadOnlyCollection} from '@monument/core';
 import {QueryParameters} from '..';
 
 describe('QueryParameters', function () {
@@ -24,30 +23,30 @@ describe('QueryParameters', function () {
     describe('getFloats(string)', function () {
         it('should parse all associated values to float', function () {
             const parameters: QueryParameters = new QueryParameters('p=1.23&p=4.56&p=7.89');
-            const p: ReadOnlyCollection<number> = parameters.getFloats('p');
+            const p: number[] = [...parameters.getFloats('p')];
 
             expect(p.length).toBe(3);
-            expect(p.toArray()).toEqual([1.23, 4.56, 7.89]);
+            expect(p).toEqual([1.23, 4.56, 7.89]);
         });
     });
 
     describe('getIntegers(string)', function () {
         it('should parse all associated values to int', function () {
             const parameters: QueryParameters = new QueryParameters('p=1&p=4&p=7');
-            const p: ReadOnlyCollection<number> = parameters.getIntegers('p');
+            const p: number[] = [...parameters.getIntegers('p')];
 
             expect(p.length).toBe(3);
-            expect(p.toArray()).toEqual([1, 4, 7]);
+            expect(p).toEqual([1, 4, 7]);
         });
     });
 
     describe('getStrings(string)', function () {
         it('should get all associated values as strings', function () {
             const parameters: QueryParameters = new QueryParameters('p=1&p=4&p=7');
-            const p: ReadOnlyCollection<string> = parameters.getStrings('p');
+            const p: string[] = [...parameters.getStrings('p')];
 
             expect(p.length).toBe(3);
-            expect(p.toArray()).toEqual(['1', '4', '7']);
+            expect(p).toEqual(['1', '4', '7']);
         });
     });
 });

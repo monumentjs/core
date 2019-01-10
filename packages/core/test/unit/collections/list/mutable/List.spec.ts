@@ -119,7 +119,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
             });
         });
 
-        describe('insertAll()', function () {
+        describe('insertAll(index, items)', function () {
             it('should insert items at specified position', function () {
                 const list: List<string> = create(['one', 'four']);
 
@@ -278,11 +278,19 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
                 expect(list.setAt(2, 'three')).toBe('c');
             });
 
-            it('should throw IndexOutOfBoundsException', function () {
+            it('should not throw IndexOutOfBoundsException if index equals to list length', function () {
                 const list: List<string> = create();
 
                 expect(() => {
                     list.setAt(0, '');
+                }).not.toThrow(IndexOutOfBoundsException);
+            });
+
+            it('should throw IndexOutOfBoundsException', function () {
+                const list: List<string> = create();
+
+                expect(() => {
+                    list.setAt(1, '');
                 }).toThrow(IndexOutOfBoundsException);
             });
         });

@@ -105,7 +105,7 @@ export class UriSerializer {
 
             builder.append(UriConstants.SEARCH_STRING_PREFIX);
 
-            for (const {key, value} of queryParameters) {
+            for (const [key, value] of queryParameters) {
                 if (isFirst) {
                     isFirst = false;
                 } else {

@@ -1,5 +1,4 @@
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
-import {Cloneable} from '../../../base/Cloneable';
 import {ReadOnlyList} from '../readonly/ReadOnlyList';
 
 /**
@@ -7,7 +6,7 @@ import {ReadOnlyList} from '../readonly/ReadOnlyList';
  * @since 0.0.1
  * @mutable
  */
-export interface List<T> extends ReadOnlyList<T>, Cloneable<List<T>> {
+export interface List<T> extends ReadOnlyList<T> {
     add(item: T): boolean;
 
     addAll(items: Iterable<T>): boolean;
@@ -17,8 +16,6 @@ export interface List<T> extends ReadOnlyList<T>, Cloneable<List<T>> {
     addIfAbsent(item: T, comparator: EqualityComparator<T>): boolean;
 
     clear(): boolean;
-
-    clone(): List<T>;
 
     insert(index: number, item: T): boolean;
 

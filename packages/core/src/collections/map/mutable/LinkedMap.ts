@@ -1,14 +1,15 @@
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
 import {KeyValuePair} from '../../base/KeyValuePair';
-import {Sequence} from '../../base/Sequence';
 import {Cloneable} from '../../../base/Cloneable';
 import {MapIteratorFunction} from '../../base/MapIteratorFunction';
 import {Map as IMap} from './Map';
 import {StrictEqualityComparator} from '../../../comparison/equality/StrictEqualityComparator';
+import {Supplier} from '../../../base/Supplier';
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
+ * @mutable
  */
 export class LinkedMap<K, V> implements IMap<K, V>, Cloneable<LinkedMap<K, V>> {
     private readonly _map: Map<K, V> = new Map();
@@ -40,7 +41,7 @@ export class LinkedMap<K, V> implements IMap<K, V>, Cloneable<LinkedMap<K, V>> {
     }
 
     public constructor(
-        items?: Sequence<KeyValuePair<K, V>>,
+        items?: Iterable<KeyValuePair<K, V>>,
         keyComparator: EqualityComparator<K> = StrictEqualityComparator.get(),
         valueComparator: EqualityComparator<V> = StrictEqualityComparator.get()
     ) {
@@ -71,168 +72,198 @@ export class LinkedMap<K, V> implements IMap<K, V>, Cloneable<LinkedMap<K, V>> {
     }
 
     public containsEntries(entries: Iterable<KeyValuePair<K, V>>): boolean {
-        return false;
+        for (const [key, value] of entries) {
+            if (!this.containsEntry(key, value)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public containsEntry(key: K, value: V): boolean {
+        for (const [ownKey, ownValue] of this) {
+            if (this.keyComparator.equals(key, ownKey) && this.valueComparator.equals(value, ownValue)) {
+                return true;
+            }
+        }
+
         return false;
     }
 
     public containsKey(key: K): boolean {
+        for (const ownKey of this._map.keys()) {
+            if (this.keyComparator.equals(key, ownKey)) {
+                return true;
+            }
+        }
+
         return false;
     }
 
     public containsKeys(keys: Iterable<K>): boolean {
-        return false;
+        for (const key of keys) {
+            if (!this.containsKey(key)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public containsValue(value: V): boolean {
+        for (const ownValue of this._map.values()) {
+            if (this.valueComparator.equals(value, ownValue)) {
+                return true;
+            }
+        }
+
         return false;
     }
 
     public containsValues(values: Iterable<V>): boolean {
-        return false;
+        for (const value of values) {
+            if (!this.containsValue(value)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public get(key: K): V | undefined;
 
-    public get(key: K, defaultValue: V): V;
+    public get(key: K, fallback: Supplier<V>): V;
 
-    public get(key: K, defaultValue?: V): any {
+    public get(key: K, fallback?: Supplier<V>): V | undefined {
+        const entry = this.getEntry(key);
+
+        if (entry != null) {
+            return entry[1];
+        }
+
+        return fallback ? fallback() : undefined;
     }
 
     public keyOf(value: V): K | undefined {
-        return undefined;
+        for (const [ownKey, ownValue] of this) {
+            if (this.valueComparator.equals(value, ownValue)) {
+                return ownKey;
+            }
+        }
     }
 
-    public keysOf(value: V): Iterable<K> {
-        return undefined;
+    public* keysOf(value: V): Iterable<K> {
+        for (const [ownKey, ownValue] of this) {
+            if (this.valueComparator.equals(value, ownValue)) {
+                yield ownKey;
+            }
+        }
     }
 
     public put(key: K, value: V): V | undefined {
-        const newPair: KeyValuePair<K, V> = new KeyValuePair(key, value);
-        let index: number = 0;
+        const entry: KeyValuePair<K, V> | undefined = this.getEntry(key);
 
-        for (const pair of this._map) {
-            if (this.keyComparator.equals(pair.key, key)) {
-                this._map.setAt(index, newPair);
-
-                return pair.value;
-            }
-
-            index++;
+        if (entry) {
+            this._map.delete(entry[0]);
         }
 
-        this._map.add(newPair);
+        this._map.set(key, value);
 
-        return undefined;
+        return entry ? entry[1] : undefined;
     }
 
-    public putAll(values: Sequence<KeyValuePair<K, V>>): boolean {
-        let hasOverridden: boolean = false;
+    public putAll(entries: Iterable<KeyValuePair<K, V>>): boolean {
+        let modified: boolean | undefined;
 
-        for (const newPair of values) {
-            let index: number = 0;
-            let isReplaced: boolean = false;
+        for (const [key, value] of entries) {
+            const entry: KeyValuePair<K, V> | undefined = this.getEntry(key);
 
-            for (const pair of this._map) {
-                if (this.keyComparator.equals(pair.key, newPair.key)) {
-                    this._map.setAt(index, newPair);
-
-                    isReplaced = true;
-
-                    break;
-                }
-
-                index++;
+            if (entry) {
+                this._map.delete(entry[0]);
             }
 
-            if (!isReplaced) {
-                this._map.add(newPair);
-            }
+            this._map.set(key, value);
 
-            hasOverridden = true;
+            modified = true;
         }
 
-        return hasOverridden;
+        return !!modified;
     }
 
     public putIfAbsent(key: K, value: V): boolean {
-        return false;
-    }
+        if (!this.containsKey(key)) {
+            this.put(key, value);
 
-    public putMap(map: ReadOnlyMap<K, V>): boolean {
+            return true;
+        }
+
         return false;
     }
 
     public remove(key: K): V | undefined {
-        let index: number = 0;
+        const entry: KeyValuePair<K, V> | undefined = this.getEntry(key);
 
-        for (const pair of this._map) {
-            if (this.keyComparator.equals(pair.key, key)) {
-                this._map.removeAt(index);
+        if (entry) {
+            const [ownKey, ownValue] = entry;
+            this._map.delete(ownKey);
 
-                return pair.value;
-            }
-
-            index++;
+            return ownValue;
         }
-
-        return undefined;
     }
 
     public removeBy(predicate: MapIteratorFunction<K, V, boolean>): boolean {
-        return this._map.removeBy(({key, value}) => {
-            return predicate(key, value);
-        });
+        let modified: boolean | undefined;
+
+        for (const [ownKey, ownValue] of this) {
+            if (predicate(ownKey, ownValue)) {
+                this._map.delete(ownKey);
+
+                modified = true;
+            }
+        }
+
+        return !!modified;
     }
 
     public removeIf(key: K, value: V): boolean {
-        let index: number = 0;
-
-        for (const pair of this._map) {
-            if (this.keyComparator.equals(key, pair.key) &&
-                this.valueComparator.equals(value, pair.value)) {
-                this._map.removeAt(index);
+        for (const [ownKey, ownValue] of this) {
+            if (this.keyComparator.equals(key, ownKey) && this.valueComparator.equals(value, ownValue)) {
+                this._map.delete(ownKey);
 
                 return true;
             }
-
-            index++;
         }
 
         return false;
     }
 
     public replace(key: K, newValue: V): V | undefined {
-        let index: number = 0;
+        if (this.containsKey(key)) {
+            const oldValue: V | undefined = this.remove(key);
 
-        for (const pair of this._map) {
-            if (this.keyComparator.equals(key, pair.key)) {
-                this._map.setAt(index, new KeyValuePair(key, newValue));
+            this.put(key, newValue);
 
-                return pair.value;
-            }
-
-            index++;
+            return oldValue;
         }
-
-        return undefined;
     }
 
     public replaceIf(key: K, oldValue: V, newValue: V): boolean {
-        let index: number = 0;
+        if (this.containsEntry(key, oldValue)) {
+            this.remove(key);
+            this.put(key, newValue);
 
-        for (const pair of this._map) {
-            if (this.keyComparator.equals(key, pair.key) && this.valueComparator.equals(oldValue, pair.value)) {
-                this._map.setAt(index, new KeyValuePair(key, newValue));
-
-                return true;
-            }
-
-            index++;
+            return true;
         }
 
         return false;
+    }
+
+    private getEntry(key: K): KeyValuePair<K, V> | undefined {
+        for (const entry of this._map) {
+            if (this.keyComparator.equals(entry[0], key)) {
+                return entry;
+            }
+        }
     }
 }

@@ -15,8 +15,8 @@ describe('Uri', function () {
         expect(uri.queryParameters.equals((components.queryParameters || new QueryParameters()))).toBe(true);
 
         if (components.queryParameters) {
-            for (const {key, value} of components.queryParameters) {
-                expect(uri.hasParameter(key, value));
+            for (const [key, value] of components.queryParameters) {
+                expect(uri.hasParameter(key, value)).toBe(true);
             }
         }
     }
@@ -1165,9 +1165,9 @@ describe('Uri', function () {
         it('should determine whether URI has query parameter with given name and value', function () {
             const uri: Uri = new Uri('site.com?t=123');
 
-            expect(uri.getParameter('t', '456')).toBe('123');
-            expect(uri.getParameter('q', 'javascript')).toBe('javascript');
-            expect(uri.getParameter('p', 2)).toBe(2);
+            expect(uri.getParameter('t', () => '456')).toBe('123');
+            expect(uri.getParameter('q', () => 'javascript')).toBe('javascript');
+            expect(uri.getParameter('p', () => 2)).toBe(2);
         });
     });
 

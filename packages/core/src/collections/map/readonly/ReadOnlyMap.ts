@@ -1,6 +1,7 @@
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
 import {KeyValuePair} from '../../base/KeyValuePair';
 import {Sequence} from '../../base/Sequence';
+import {Supplier} from '../../../base/Supplier';
 
 /**
  * @author Alex Chugaev
@@ -27,7 +28,7 @@ export interface ReadOnlyMap<K, V> extends Sequence<KeyValuePair<K, V>> {
 
     get(key: K): V | undefined;
 
-    get(key: K, defaultValue: V): V;
+    get(key: K, fallback: Supplier<V>): V;
 
     keyOf(value: V): K | undefined;
 

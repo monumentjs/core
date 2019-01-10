@@ -144,9 +144,25 @@ export class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V> {
         return true;
     }
 
+    // tslint:disable-next-line:cyclomatic-complexity
     public equals(other: ReadOnlyMultiValueMap<K, V>): boolean {
-        // TODO: compare keys and values
-        return this === other;
+        if (this === other) {
+            return true;
+        }
+
+        for (const [key, value] of this) {
+            if (!other.containsEntry(key, value)) {
+                return false;
+            }
+        }
+
+        for (const [key, value] of other) {
+            if (!this.containsEntry(key, value)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public* get(key: K): Iterable<V> {

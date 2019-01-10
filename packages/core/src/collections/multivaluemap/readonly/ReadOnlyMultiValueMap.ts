@@ -2,24 +2,22 @@ import {ToArray} from '../../base/ToArray';
 import {Sequence} from '../../base/Sequence';
 import {KeyValuePair} from '../../base/KeyValuePair';
 import {ReadOnlyMap} from '../../map/readonly/ReadOnlyMap';
-import {Equatable} from '../../../comparison/equality/Equatable';
-import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
 import {Supplier} from '../../../base/Supplier';
+import {Equatable} from '../../../comparison/equality/Equatable';
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
  * @readonly
  */
-export interface ReadOnlyMultiValueMap<K, V> extends Sequence<KeyValuePair<K, V>>,
-    Equatable<ReadOnlyMultiValueMap<K, V>>,
-    ToArray<KeyValuePair<K, V>> {
+export interface ReadOnlyMultiValueMap<K, V> extends
+    Sequence<KeyValuePair<K, V>>,
+    ToArray<KeyValuePair<K, V>>,
+    Equatable<ReadOnlyMultiValueMap<K, V>> {
 
     readonly isEmpty: boolean;
     readonly keys: Iterable<K>;
     readonly values: Iterable<V>;
-    readonly keyComparator: EqualityComparator<K>;
-    readonly valueComparator: EqualityComparator<V>;
     readonly valuesCount: number;
 
     containsEntries(entries: Iterable<KeyValuePair<K, V>>): boolean;

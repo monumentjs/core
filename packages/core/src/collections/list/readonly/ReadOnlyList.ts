@@ -19,15 +19,23 @@ export interface ReadOnlyList<T> extends ReadOnlyCollection<T> {
 
     indexOf(item: T, comparator: EqualityComparator<T>): number;
 
-    indexOf(item: T, comparator: EqualityComparator<T>, startIndex: number): number;
+    indexOf(item: T, startIndex: number): number;
 
-    indexOf(item: T, comparator: EqualityComparator<T>, startIndex: number, count: number): number;
+    indexOf(item: T, startIndex: number, comparator: EqualityComparator<T>): number;
+
+    indexOf(item: T, startIndex: number, count: number): number;
+
+    indexOf(item: T, startIndex: number, count: number, comparator: EqualityComparator<T>): number;
 
     lastIndexOf(item: T): number;
 
     lastIndexOf(item: T, comparator: EqualityComparator<T>): number;
 
-    lastIndexOf(item: T, comparator: EqualityComparator<T>, startIndex: number): number;
+    lastIndexOf(item: T, startIndex: number): number;
 
-    lastIndexOf(item: T, comparator: EqualityComparator<T>, startIndex: number, count: number): number;
+    lastIndexOf(item: T, startIndex: number, comparator: EqualityComparator<T>): number;
+
+    lastIndexOf(item: T, startIndex: number, count: number): number;
+
+    lastIndexOf(item: T, startIndex: number, count: number, comparator: EqualityComparator<T>): number;
 }

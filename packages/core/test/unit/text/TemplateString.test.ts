@@ -7,22 +7,22 @@ describe('TemplateString', function () {
 
     const HELLO_TEMPLATE: TemplateString = new TemplateString(MESSAGE_TEMPLATE);
     const COMICS_VENDOR_TEMPLATE: TemplateString = new TemplateString('I like {comicsVendor} comics');
-    const FORMULATE_TEMPLATE: TemplateString = new TemplateString(`1 + (2 * [3 + 4]) = {result}`);
+    const FORMULA_TEMPLATE: TemplateString = new TemplateString(`1 + (2 * [3 + 4]) = {result}`);
 
     it('extractValues() extracts values from source string - source string does not contains RegExp symbols', function () {
         const values: ReadOnlyMap<string, string> = COMICS_VENDOR_TEMPLATE.extractValues(`I like Marvel comics`);
 
         expect(values.length).toBe(1);
-        expect(values.keys.toArray()).toEqual(['comicsVendor']);
-        expect(values.values.toArray()).toEqual(['Marvel']);
+        expect([...values.keys]).toEqual(['comicsVendor']);
+        expect([...values.values]).toEqual(['Marvel']);
     });
 
     it('extractValues() extracts values from source string - source string contains RegExp symbols', function () {
-        const values: ReadOnlyMap<string, string> = FORMULATE_TEMPLATE.extractValues(`1 + (2 * [3 + 4]) = 15`);
+        const values: ReadOnlyMap<string, string> = FORMULA_TEMPLATE.extractValues(`1 + (2 * [3 + 4]) = 15`);
 
         expect(values.length).toBe(1);
-        expect(values.keys.toArray()).toEqual(['result']);
-        expect(values.values.toArray()).toEqual(['15']);
+        expect([...values.keys]).toEqual(['result']);
+        expect([...values.values]).toEqual(['15']);
     });
 
     it('fillByPositions() fills template with real values', function () {

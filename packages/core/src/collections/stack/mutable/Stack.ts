@@ -3,6 +3,7 @@ import {ReadOnlyStack} from '../readonly/ReadOnlyStack';
 /**
  * @author Alex Chugaev
  * @since 0.0.1
+ * @mutable
  */
 export interface Stack<T> extends ReadOnlyStack<T> {
     clear(): boolean;

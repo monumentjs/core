@@ -3,9 +3,9 @@ import {Sequence} from '../../base/Sequence';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
 import {Comparator} from '../../../comparison/order/Comparator';
 import {SortOrder} from '../../../comparison/order/SortOrder';
-import {Equatable} from '../../../comparison/equality/Equatable';
 import {ToJSON} from '../../../base/ToJSON';
 import {ReadOnlyMultiValueMap} from '../../multivaluemap/readonly/ReadOnlyMultiValueMap';
+import {KeyValuePair} from '../../base/KeyValuePair';
 
 /**
  * @author Alex Chugaev
@@ -36,7 +36,7 @@ export type SelectorFunction<TIn, TOut> = (input: TIn) => TOut;
  * @since 0.0.1
  * @readonly
  */
-export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T>, Equatable<ReadOnlyCollection<T>> {
+export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T> {
     readonly isEmpty: boolean;
 
     /**
@@ -92,11 +92,7 @@ export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray
      */
     distinct(comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
 
-    entries(): Iterable<[T, number]>;
-
-    equals(other: ReadOnlyCollection<T>): boolean;
-
-    equals(other: ReadOnlyCollection<T>, comparator: EqualityComparator<T>): boolean;
+    entries(): Iterable<KeyValuePair<number, T>>;
 
     /**
      * Produces the set difference of two sequences.

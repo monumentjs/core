@@ -16,16 +16,16 @@
     },
     "dependencies": {},
     "devDependencies": {
-        "@types/jest": "^23.3.10",
+        "@types/jest": "^23.3.11",
         "coveralls": "^3.0.2",
         "gulp": "^3.9.1",
         "gulp-clean": "^0.4.0",
         "gulp-typedoc": "^2.2.1",
         "jest": "^23.6.0",
-        "lerna": "^3.8.0",
+        "lerna": "^3.8.4",
         "ts-jest": "^23.10.5",
         "tslint": "^5.12.0",
-        "typedoc": "^0.13.0",
+        "typedoc": "^0.14.0",
         "typescript": "^3.2.2"
     },
     "jest": {

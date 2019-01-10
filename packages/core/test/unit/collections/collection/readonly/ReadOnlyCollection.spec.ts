@@ -1,15 +1,14 @@
 import {
-    Grouping,
     IgnoreCaseComparator,
     IgnoreCaseEqualityComparator,
     IndexOutOfBoundsException,
     InvalidArgumentException,
     InvalidOperationException,
-    isEven,
+    isEven, IterableEqualityComparator,
     NamedPool,
     NoSuchItemException,
     RangeException,
-    ReadOnlyCollection,
+    ReadOnlyCollection, ReadOnlyMultiValueMap,
     Sequence,
     SortOrder,
     times
@@ -28,6 +27,8 @@ export function assertLengthAndIsEmpty<I>(items: ReadOnlyCollection<I>, expected
 export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadOnlyCollection<T>) {
     describe('ReadOnlyCollection', function () {
         testSequence(create);
+
+        const iterableEqualityComparator: IterableEqualityComparator<string> = new IterableEqualityComparator();
 
         describe('isEmpty', function () {
             it('should be true when collection is empty', function () {
@@ -199,30 +200,6 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
 
                 expect(distinctItems.length).toBe(2);
                 expect(distinctItems.toArray()).toEqual(['one', 'two']);
-            });
-        });
-
-        describe('equals()', function () {
-            it('should compare empty lists', function () {
-                const list: ReadOnlyCollection<string> = create();
-
-                expect(list.equals([])).toBe(true);
-            });
-
-            it('should compares lists using default equality comparator', function () {
-                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
-
-                expect(list.equals(['one', 'two', 'three'])).toBe(true);
-                expect(list.equals(['ONE', 'TWO'])).toBe(false);
-                expect(list.equals(['ONE', 'TWO', 'THREE'])).toBe(false);
-            });
-
-            it('should compare lists using custom equality comparator', function () {
-                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
-
-                expect(list.equals(['one', 'two', 'three'], IgnoreCaseEqualityComparator.get())).toBe(true);
-                expect(list.equals(['ONE', 'TWO'], IgnoreCaseEqualityComparator.get())).toBe(false);
-                expect(list.equals(['ONE', 'TWO', 'THREE'], IgnoreCaseEqualityComparator.get())).toBe(true);
             });
         });
 
@@ -522,30 +499,30 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             it('should return list of grouped items using default comparator', function () {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
-                const groups: Array<Grouping<number, string>> = list.groupBy((word: string): number => {
+                const groups: ReadOnlyMultiValueMap<number, string> = list.groupBy((word: string): number => {
                     return word.length;
-                }).toArray();
+                });
 
                 expect(groups.length).toBe(2);
-                expect(groups[0].key).toBe(3);
-                expect(groups[0].toArray()).toEqual(['one', 'two']);
-                expect(groups[1].key).toBe(5);
-                expect(groups[1].toArray()).toEqual(['three']);
+                expect(groups.keys).toContain(3);
+                expect(groups.keys).toContain(5);
+                expect(iterableEqualityComparator.equals(groups.get(3), ['one', 'two'])).toBe(true);
+                expect(iterableEqualityComparator.equals(groups.get(5), ['three'])).toBe(true);
             });
         });
 
         describe('groupBy(keySelector, keyComparator)', function () {
             it('should return list of grouped items using custom comparator', function () {
                 const list: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
-                const groups: Array<Grouping<string, string>> = list.groupBy<string>((word: string): string => {
+                const groups: ReadOnlyMultiValueMap<string, string> = list.groupBy<string>((word: string): string => {
                     return word[0].toLowerCase();
-                }, IgnoreCaseEqualityComparator.get()).toArray();
+                }, IgnoreCaseEqualityComparator.get());
 
                 expect(groups.length).toBe(2);
-                expect(groups[0].key).toBe('t');
-                expect(groups[0].toArray()).toEqual(['two', 'Three']);
-                expect(groups[1].key).toBe('o');
-                expect(groups[1].toArray()).toEqual(['ONE', 'one', 'One']);
+                expect(groups.containsKey('t')).toBe(true);
+                expect(groups.containsKey('o')).toBe(true);
+                expect(iterableEqualityComparator.equals(groups.get('t'), ['two', 'Three'])).toBe(true);
+                expect(iterableEqualityComparator.equals(groups.get('o'), ['ONE', 'one', 'One'])).toBe(true);
             });
         });
 

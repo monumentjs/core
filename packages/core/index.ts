@@ -45,29 +45,26 @@ export * from './src/collections/base/NoSuchItemException';
 export * from './src/collections/base/Sequence';
 export * from './src/collections/base/ToArray';
 
+export * from './src/collections/comparison/IterableEqualityComparator';
+
 export * from './src/collections/collection/readonly/ReadOnlyCollection';
 export * from './src/collections/collection/readonly/ReadOnlyCollectionBase';
 export * from './src/collections/collection/readonly/ReadOnlyCollectionImpl';
 
 export * from './src/collections/list/readonly/ReadOnlyList';
-export * from './src/collections/list/readonly/proxy/ReadOnlyListProxy';
 export * from './src/collections/list/mutable/List';
-export * from './src/collections/list/mutable/AbstractList';
 export * from './src/collections/list/mutable/ArrayList';
-export * from './src/collections/list/mutable/proxy/ListProxy';
 export * from './src/collections/list/immutable/ImmutableList';
 export * from './src/collections/list/immutable/ImmutableArrayList';
-export * from './src/collections/list/immutable/ImmutableLinkedList';
-export * from './src/collections/list/specialized/GeneratedList';
 
 export * from './src/collections/queue/EmptyQueueException';
 export * from './src/collections/queue/readonly/ReadOnlyQueue';
-export * from './src/collections/queue/mutable/LinkedQueue';
+export * from './src/collections/queue/mutable/ArrayQueue';
 export * from './src/collections/queue/mutable/Queue';
 
 export * from './src/collections/stack/EmptyStackException';
 export * from './src/collections/stack/readonly/ReadOnlyStack';
-export * from './src/collections/stack/mutable/LinkedStack';
+export * from './src/collections/stack/mutable/ArrayStack';
 export * from './src/collections/stack/mutable/Stack';
 
 export * from './src/collections/set/readonly/ReadOnlySet';

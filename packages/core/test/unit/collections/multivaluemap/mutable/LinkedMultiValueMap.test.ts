@@ -1,8 +1,8 @@
-import {KeyValuePair, LinkedMultiValueMap, Sequence} from '../../../../..';
+import {KeyValuePair, LinkedMultiValueMap} from '../../../../..';
 import {testMultiValueMap} from './MultiValueMap.spec';
 
 describe('LinkedMultiValueMap', function () {
-    function create<K, V>(items?: Sequence<KeyValuePair<K, V>>): LinkedMultiValueMap<K, V> {
+    function create<K, V>(items?: Iterable<KeyValuePair<K, V>>): LinkedMultiValueMap<K, V> {
         const map: LinkedMultiValueMap<K, V> = new LinkedMultiValueMap();
 
         if (items) {
@@ -13,4 +13,18 @@ describe('LinkedMultiValueMap', function () {
     }
 
     testMultiValueMap(create);
+
+    describe('equals()', function () {
+        it('should check equality of multi-value maps', function () {
+            const first = create([
+                ['name', 'Alex']
+            ]);
+            const second = create([
+                ['name', 'Dmitri']
+            ]);
+
+            expect(first.equals(second)).toBe(false);
+            expect(second.equals(first)).toBe(false);
+        });
+    });
 });

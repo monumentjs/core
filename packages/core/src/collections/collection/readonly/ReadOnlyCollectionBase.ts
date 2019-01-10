@@ -6,6 +6,7 @@ import {StrictEqualityComparator} from '../../../comparison/equality/StrictEqual
 import {SortOrder} from '../../../comparison/order/SortOrder';
 import {Comparator} from '../../../comparison/order/Comparator';
 import {ReadOnlyMultiValueMap} from '../../multivaluemap/readonly/ReadOnlyMultiValueMap';
+import {KeyValuePair} from '../../base/KeyValuePair';
 
 export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T> {
     public readonly abstract length: number;
@@ -59,9 +60,6 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
         return new ReadOnlyCollectionImpl(this).count(predicate);
     }
 
-    /**
-     * Returns distinct elements from a sequence by using a specified EqualityComparator to compare values.
-     */
     public distinct(): ReadOnlyCollection<T>;
 
     public distinct(comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
@@ -70,16 +68,8 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
         return new ReadOnlyCollectionImpl(this).distinct(comparator);
     }
 
-    public entries(): Iterable<[T, number]> {
+    public entries(): Iterable<KeyValuePair<number, T>> {
         return new ReadOnlyCollectionImpl(this).entries();
-    }
-
-    public equals(otherList: Sequence<T>): boolean;
-
-    public equals(otherList: Sequence<T>, comparator: EqualityComparator<T>): boolean;
-
-    public equals(otherList: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): boolean {
-        return new ReadOnlyCollectionImpl(this).equals(otherList, comparator);
     }
 
     public except(otherList: Sequence<T>): ReadOnlyCollection<T>;
@@ -90,22 +80,10 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
         return new ReadOnlyCollectionImpl(this).except(otherList, comparator);
     }
 
-    /**
-     * Calls predicate function on each item in sequence.
-     * Returns new collection containing items for which predicate function returned `true`.
-     */
     public findAll(predicate: IteratorFunction<T, boolean>): ReadOnlyCollection<T>;
 
-    /**
-     * Calls predicate function on each item in sequence.
-     * Returns new collection containing items for which predicate function returned `true`.
-     */
     public findAll(predicate: IteratorFunction<T, boolean>, limit: number): ReadOnlyCollection<T>;
 
-    /**
-     * Calls predicate function on each item in sequence.
-     * Returns new collection containing items for which predicate function returned `true`.
-     */
     public findAll(predicate: IteratorFunction<T, boolean>, limit: number, offset: number): ReadOnlyCollection<T>;
 
     public findAll(

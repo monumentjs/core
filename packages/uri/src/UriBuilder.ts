@@ -1,4 +1,4 @@
-import {Builder, ReadOnlyList, ToString} from '@monument/core';
+import {Builder, ToString} from '@monument/core';
 import {Uri} from './Uri';
 import {UriComponents} from './UriComponents';
 import {ReadOnlyQueryParameters} from './ReadOnlyQueryParameters';
@@ -164,16 +164,16 @@ export class UriBuilder implements UriComponents, Builder<Uri> {
         return changed;
     }
 
-    public setParameter(name: string, value: ToString): boolean {
-        const values: ReadOnlyList<ToString> = this._queryParameters.get(name);
+    public setParameter(name: string, newValue: ToString): boolean {
+        const oldValues: ToString[] = [...this._queryParameters.get(name)];
 
-        if (values.length === 1 && values.getAt(0).toString() === value.toString()) {
+        if (oldValues.length === 1 && oldValues[0].toString() === newValue.toString()) {
             return false;
         }
 
         this._queryParameters.remove(name);
 
-        return this._queryParameters.put(name, value);
+        return this._queryParameters.put(name, newValue);
     }
 
     public setParameters(values: QueryParametersObject): boolean {
