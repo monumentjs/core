@@ -1,25 +1,22 @@
-import {LinkedMap, ReadOnlyMap} from '@monument/core';
+import {LinkedMap} from '@monument/core';
 import {Observer} from './Observer';
 import {OnComplete, OnError, OnNext, Subscribable} from './Subscribable';
 import {Subscription} from './Subscription';
 import {ObserverImpl} from './ObserverImpl';
 
-export abstract class AbstractSubscribable<T> implements Subscribable<T> {
+export abstract class AbstractSubscribable<T> implements Subscribable<T>, Iterable<Observer<T>> {
     private readonly _observers: LinkedMap<Observer<T>, Subscription<T>> = new LinkedMap();
 
-    protected get observers(): ReadOnlyMap<Observer<T>, Subscription<T>> {
-        return this._observers;
+    public* [Symbol.iterator](): Iterator<Observer<T>> {
+        for (const observer of this._observers.keys) {
+            yield observer;
+        }
     }
 
     public subscribe(observer: Observer<T>): Subscription<T>;
-    public subscribe(next?: (value: T) => void, error?: (error: Error) => void, complete?: () => void): Subscription<T>;
-
-    public subscribe(
-        observerOrNext?: Observer<T> | OnNext<T>,
-        error?: OnError,
-        complete?: OnComplete
-    ): Subscription<T> {
-        const observer = typeof observerOrNext === 'object' ? observerOrNext : new ObserverImpl(observerOrNext, error, complete);
+    public subscribe(next?: OnNext<T>, error?: OnError, complete?: OnComplete): Subscription<T>;
+    public subscribe(next?: Observer<T> | OnNext<T>, error?: OnError, complete?: OnComplete): Subscription<T> {
+        const observer = typeof next === 'object' ? next : new ObserverImpl(next, error, complete);
         const existingSubscription: Subscription<T> | undefined = this._observers.get(observer);
 
         if (existingSubscription != null) {

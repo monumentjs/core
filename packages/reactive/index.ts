@@ -20,6 +20,7 @@ export * from './src/store/Actions';
 export * from './src/store/Effects';
 export * from './src/store/Store';
 
-export * from './src/subject/Constant';
+export * from './src/subject/ValuesObservable';
 export * from './src/subject/Future';
+export * from './src/subject/IterableObservable';
 export * from './src/subject/Variable';

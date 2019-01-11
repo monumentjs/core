@@ -1,12 +1,12 @@
 import {Observer} from '../base/Observer';
 import {Subscription} from '../base/Subscription';
-import {AbstractSubscribable} from '../base/AbstractSubscribable';
+import {AbstractObservable} from '../base/AbstractObservable';
 
 /**
  * @since 0.0.1
  * @author Alex Chugaev
  */
-export class Future<T> extends AbstractSubscribable<T> {
+export class Future<T> extends AbstractObservable<T> {
     private readonly _promise: Promise<T>;
 
     public constructor(promise: Promise<T>) {
@@ -14,16 +14,23 @@ export class Future<T> extends AbstractSubscribable<T> {
         this._promise = promise;
     }
 
-    protected async onSubscriptionAdded(observer: Observer<T>, subscription: Subscription<T>) {
-        try {
-            const value: T = await this._promise;
+    protected async onSubscriptionAdded(observer: Observer<T>, subscription: Subscription<T>): Promise<void> {
+        let value!: T;
+        let error: Error | undefined;
 
-            observer.next(value);
-            observer.complete();
+        try {
+            value = await this._promise;
         } catch (e) {
-            observer.error(e);
-            observer.complete();
+            error = e;
         }
+
+        if (error) {
+            observer.error(error);
+        } else {
+            observer.next(value);
+        }
+
+        observer.complete();
 
         subscription.dispose();
     }

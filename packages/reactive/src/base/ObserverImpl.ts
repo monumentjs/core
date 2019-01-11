@@ -1,15 +1,17 @@
 import {Observer} from './Observer';
+import {OnComplete, OnError, OnNext} from './Subscribable';
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
+ * @immutable
  */
 export class ObserverImpl<T> implements Observer<T> {
-    private readonly _next?: (value: T) => void;
-    private readonly _error?: (error: Error) => void;
-    private readonly _complete?: () => void;
+    private readonly _next?: OnNext<T>;
+    private readonly _error?: OnError;
+    private readonly _complete?: OnComplete;
 
-    public constructor(next?: (value: T) => void, error?: (error: Error) => void, complete?: () => void) {
+    public constructor(next?: OnNext<T>, error?: OnError, complete?: OnComplete) {
         this._next = next;
         this._error = error;
         this._complete = complete;
