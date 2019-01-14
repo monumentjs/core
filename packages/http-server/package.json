@@ -1,0 +1,14 @@
+{
+    "name": "@monument/http-server",
+    "version": "0.0.1",
+    "description": "HTTP server",
+    "keywords": [
+    ],
+    "dependencies": {
+        "@monument/core": "^0.0.1",
+        "@monument/reactive": "^0.0.1"
+    },
+    "devDependencies": {
+        "@types/node": "^10.12.18"
+    }
+}
