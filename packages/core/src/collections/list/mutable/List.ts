@@ -1,19 +1,15 @@
-import {IteratorFunction} from '../../base/IteratorFunction';
-import {Sequence} from '../../base/Sequence';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
-import {Cloneable} from '../../../base/Cloneable';
 import {ReadOnlyList} from '../readonly/ReadOnlyList';
-
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
  * @mutable
  */
-export interface List<T> extends ReadOnlyList<T>, Cloneable<List<T>> {
+export interface List<T> extends ReadOnlyList<T> {
     add(item: T): boolean;
 
-    addAll(items: Sequence<T>): boolean;
+    addAll(items: Iterable<T>): boolean;
 
     addIfAbsent(item: T): boolean;
 
@@ -21,27 +17,25 @@ export interface List<T> extends ReadOnlyList<T>, Cloneable<List<T>> {
 
     clear(): boolean;
 
-    clone(): List<T>;
-
     insert(index: number, item: T): boolean;
 
-    insertAll(index: number, items: Sequence<T>): boolean;
+    insertAll(index: number, items: Iterable<T>): boolean;
 
     remove(item: T): boolean;
 
     remove(item: T, comparator: EqualityComparator<T>): boolean;
 
-    removeAll(items: Sequence<T>): boolean;
+    removeAll(items: Iterable<T>): boolean;
 
-    removeAll(items: Sequence<T>, comparator: EqualityComparator<T>): boolean;
+    removeAll(items: Iterable<T>, comparator: EqualityComparator<T>): boolean;
 
     removeAt(index: number): T;
 
-    removeBy(predicate: IteratorFunction<T, boolean>): boolean;
+    removeBy(predicate: (item: T, index: number) => boolean): boolean;
 
-    retainAll(items: Sequence<T>): boolean;
+    retainAll(items: Iterable<T>): boolean;
 
-    retainAll(items: Sequence<T>, comparator: EqualityComparator<T>): boolean;
+    retainAll(items: Iterable<T>, comparator: EqualityComparator<T>): boolean;
 
     setAt(index: number, newValue: T): T;
 }

@@ -1,10 +1,6 @@
-import {ReadOnlyMultiValueMap} from '../readonly/ReadOnlyMultiValueMap';
-import {Sequence} from '../../base/Sequence';
-import {ReadOnlyMap} from '../../map/readonly/ReadOnlyMap';
 import {KeyValuePair} from '../../base/KeyValuePair';
-import {ReadOnlyList} from '../../list/readonly/ReadOnlyList';
 import {MapIteratorFunction} from '../../base/MapIteratorFunction';
-
+import {ReadOnlyMultiValueMap} from '../readonly/ReadOnlyMultiValueMap';
 
 /**
  * @author Alex Chugaev
@@ -15,15 +11,13 @@ export interface MultiValueMap<K, V> extends ReadOnlyMultiValueMap<K, V> {
 
     put(key: K, value: V): boolean;
 
-    putAll(entries: Sequence<KeyValuePair<K, V>>): boolean;
+    putAll(entries: Iterable<KeyValuePair<K, V>>): boolean;
 
     putIfAbsent(key: K, value: V): boolean;
 
-    putMap(map: ReadOnlyMap<K, V>): boolean;
+    putValues(key: K, values: Iterable<V>): boolean;
 
-    putValues(key: K, values: Sequence<V>): boolean;
-
-    remove(key: K): ReadOnlyList<V> | undefined;
+    remove(key: K): Iterable<V> | undefined;
 
     removeBy(predicate: MapIteratorFunction<K, V, boolean>): boolean;
 

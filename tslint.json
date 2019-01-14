@@ -79,10 +79,7 @@
         ],
         "unified-signatures": false,
         "no-arg": true,
-        "cyclomatic-complexity": [
-            true,
-            5
-        ],
+        "cyclomatic-complexity": false,
         "member-ordering": [
             true,
             {

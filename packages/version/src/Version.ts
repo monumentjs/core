@@ -1,11 +1,11 @@
 import {
+    ChainedEqualityComparator,
     Comparable,
     ComparisonResult,
     Equatable,
     InvalidArgumentException,
     NumberComparator,
     ObjectComparator,
-    ChainedEqualityComparator,
     StringBuilder,
     ToJSON,
     ToString
@@ -14,7 +14,6 @@ import {ReleaseStatus} from './ReleaseStatus';
 import {VersionComponents} from './VersionComponents';
 import {VersionFormatException} from './VersionFormatException';
 import {VersionBuilder} from './VersionBuilder';
-
 
 /**
  * @author Alex Chugaev

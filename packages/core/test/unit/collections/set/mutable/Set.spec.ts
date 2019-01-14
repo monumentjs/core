@@ -2,7 +2,6 @@ import {EqualityComparator, Sequence, Set} from '../../../../..';
 import {testReadOnlySet} from '../readonly/ReadOnlySet.spec';
 import {assertLengthAndIsEmpty} from '../../collection/readonly/ReadOnlyCollection.spec';
 
-
 export function testSet(create: <T>(items?: Sequence<T>, comparator?: EqualityComparator<T>) => Set<T>) {
     describe('Set', function () {
         testReadOnlySet(create);
@@ -144,77 +143,74 @@ export function testSet(create: <T>(items?: Sequence<T>, comparator?: EqualityCo
         });
 
         describe('intersectWith()', function () {
-            it(
-                'should modify the current set so that it contains only elements that are also in a specified collection',
-                function () {
-                    {
-                        const current: Set<string> = create(['one', 'two', 'three']);
-                        const empty: Set<string> = create([]);
+            it('should modify the current set so that it contains only elements that are also in a specified collection #1', function () {
+                const current: Set<string> = create(['one', 'two', 'three']);
+                const empty: Set<string> = create([]);
 
-                        expect(current.intersectWith(empty)).toBe(true);
-                        assertLengthAndIsEmpty(current, 0);
-                        assertLengthAndIsEmpty(empty, 0);
-                    }
-                    {
-                        const current: Set<string> = create(['one', 'two', 'three']);
-                        const other: Set<string> = create(['two', 'four', 'six']);
+                expect(current.intersectWith(empty)).toBe(true);
+                assertLengthAndIsEmpty(current, 0);
+                assertLengthAndIsEmpty(empty, 0);
+            });
 
-                        expect(current.intersectWith(other)).toBe(true);
-                        expect(current.toArray()).toEqual(['two']);
-                        expect(other.toArray()).toEqual(['two', 'four', 'six']);
-                        assertLengthAndIsEmpty(current, 1);
-                        assertLengthAndIsEmpty(other, 3);
-                    }
-                    {
-                        const current: Set<string> = create(['one', 'two', 'three']);
-                        const same: Set<string> = create(['one', 'two', 'three']);
+            it('should modify the current set so that it contains only elements that are also in a specified collection #2', function () {
+                const current: Set<string> = create(['one', 'two', 'three']);
+                const other: Set<string> = create(['two', 'four', 'six']);
 
-                        expect(current.intersectWith(same)).toBe(false);
-                        expect(current.toArray()).toEqual(['one', 'two', 'three']);
-                        expect(same.toArray()).toEqual(['one', 'two', 'three']);
-                        assertLengthAndIsEmpty(current, 3);
-                        assertLengthAndIsEmpty(same, 3);
-                    }
-                }
-            );
+                expect(current.intersectWith(other)).toBe(true);
+                expect(current.toArray()).toEqual(['two']);
+                expect(other.toArray()).toEqual(['two', 'four', 'six']);
+                assertLengthAndIsEmpty(current, 1);
+                assertLengthAndIsEmpty(other, 3);
+            });
+
+            it('should modify the current set so that it contains only elements that are also in a specified collection #3', function () {
+                const current: Set<string> = create(['one', 'two', 'three']);
+                const same: Set<string> = create(['one', 'two', 'three']);
+
+                expect(current.intersectWith(same)).toBe(false);
+                expect(current.toArray()).toEqual(['one', 'two', 'three']);
+                expect(same.toArray()).toEqual(['one', 'two', 'three']);
+                assertLengthAndIsEmpty(current, 3);
+                assertLengthAndIsEmpty(same, 3);
+            });
         });
+    });
 
-        describe('symmetricExceptWith()', function () {
-            it(
-                'should modify the current set so that it contains only elements that are present either in the current set or ' +
-                'in the specified collection, but not both',
-                function () {
-                    {
-                        const current: Set<string> = create(['one', 'two', 'three']);
-                        const empty: Set<string> = create([]);
+    describe('symmetricExceptWith()', function () {
+        it(
+            'should modify the current set so that it contains only elements that are present either in the current set or ' +
+            'in the specified collection, but not both',
+            function () {
+                {
+                    const current: Set<string> = create(['one', 'two', 'three']);
+                    const empty: Set<string> = create([]);
 
-                        expect(current.symmetricExceptWith(empty)).toBe(false);
-                        expect(current.toArray()).toEqual(['one', 'two', 'three']);
-                        assertLengthAndIsEmpty(current, 3);
-                        assertLengthAndIsEmpty(empty, 0);
-                    }
-                    {
-                        const current: Set<string> = create(['one', 'two', 'three']);
-                        const other: Set<string> = create(['two', 'four', 'six']);
-
-                        expect(current.symmetricExceptWith(other)).toBe(true);
-                        expect(current.toArray()).toEqual(['one', 'three', 'four', 'six']);
-                        expect(other.toArray()).toEqual(['two', 'four', 'six']);
-                        assertLengthAndIsEmpty(current, 4);
-                        assertLengthAndIsEmpty(other, 3);
-                    }
-                    {
-                        const current: Set<string> = create(['one', 'two', 'three']);
-                        const same: Set<string> = create(['one', 'two', 'three']);
-
-                        expect(current.symmetricExceptWith(same)).toBe(true);
-                        expect(current.toArray()).toEqual([]);
-                        expect(same.toArray()).toEqual(['one', 'two', 'three']);
-                        assertLengthAndIsEmpty(current, 0);
-                        assertLengthAndIsEmpty(same, 3);
-                    }
+                    expect(current.symmetricExceptWith(empty)).toBe(false);
+                    expect(current.toArray()).toEqual(['one', 'two', 'three']);
+                    assertLengthAndIsEmpty(current, 3);
+                    assertLengthAndIsEmpty(empty, 0);
                 }
-            );
-        });
+                {
+                    const current: Set<string> = create(['one', 'two', 'three']);
+                    const other: Set<string> = create(['two', 'four', 'six']);
+
+                    expect(current.symmetricExceptWith(other)).toBe(true);
+                    expect(current.toArray()).toEqual(['one', 'three', 'four', 'six']);
+                    expect(other.toArray()).toEqual(['two', 'four', 'six']);
+                    assertLengthAndIsEmpty(current, 4);
+                    assertLengthAndIsEmpty(other, 3);
+                }
+                {
+                    const current: Set<string> = create(['one', 'two', 'three']);
+                    const same: Set<string> = create(['one', 'two', 'three']);
+
+                    expect(current.symmetricExceptWith(same)).toBe(true);
+                    expect(current.toArray()).toEqual([]);
+                    expect(same.toArray()).toEqual(['one', 'two', 'three']);
+                    assertLengthAndIsEmpty(current, 0);
+                    assertLengthAndIsEmpty(same, 3);
+                }
+            }
+        );
     });
 }

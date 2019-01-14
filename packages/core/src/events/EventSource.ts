@@ -7,5 +7,6 @@ import {EventArgs} from './EventArgs';
  */
 export interface EventSource<TArgs extends EventArgs<object>> {
     subscribe(handler: EventHandler<TArgs>): boolean;
+
     unsubscribe(handler: EventHandler<TArgs>): boolean;
 }

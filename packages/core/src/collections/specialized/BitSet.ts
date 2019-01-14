@@ -1,10 +1,8 @@
 import {Cloneable} from '../../base/Cloneable';
 import {Equatable} from '../../comparison/equality/Equatable';
 import {ToJSON} from '../../base/ToJSON';
-import {ArrayList} from '../list/mutable/ArrayList';
 import {Sequence} from '../base/Sequence';
 import {CollectionUtils} from '../base/CollectionUtils';
-import {ReadOnlyList} from '../list/readonly/ReadOnlyList';
 
 /**
  * @author Alex Chugaev
@@ -135,16 +133,12 @@ export class BitSet implements Sequence<boolean>, Cloneable<BitSet>, Equatable<B
         return true;
     }
 
-    public findBits(bitValue: boolean): ReadOnlyList<number> {
-        const indexes: ArrayList<number> = new ArrayList();
-
-        for (let index = 0; index < this._bits.length; index++) {
-            if (this._bits[index] === bitValue) {
-                indexes.add(index);
+    public *findBits(bitValue: boolean): Iterable<number> {
+        for (const [index, bit] of this._bits.entries()) {
+            if (bit === bitValue) {
+                yield index;
             }
         }
-
-        return indexes;
     }
 
     public get(bitIndex: number): boolean {
@@ -282,9 +276,9 @@ export class BitSet implements Sequence<boolean>, Cloneable<BitSet>, Equatable<B
     }
 
     public toString(): string {
-        const setIndexes: ReadOnlyList<number> = this.findBits(true);
+        const setIndexes: number[] = [...this.findBits(true)];
 
-        return `{${setIndexes.toArray().join(', ')}}`;
+        return `{${setIndexes.join(', ')}}`;
     }
 
     public xor(set: BitSet): void {

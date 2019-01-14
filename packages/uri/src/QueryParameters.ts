@@ -3,10 +3,7 @@ import {
     FloatParser,
     IntParser,
     LinkedMultiValueMap,
-    List,
     PreserveCaseEqualityComparator,
-    ReadOnlyCollection,
-    ReadOnlyList,
     ToString
 } from '@monument/core';
 import {ReadOnlyQueryParameters} from './ReadOnlyQueryParameters';
@@ -14,11 +11,11 @@ import {QueryParameterValueEqualityComparator} from './QueryParameterValueEquali
 import {UriConstants} from './UriConstants';
 import {UriEncoder} from './UriEncoder';
 
-
 /**
  * @since 0.0.1
  * @author Alex Chugaev
  * @final
+ * @readonly
  */
 export class QueryParameters extends LinkedMultiValueMap<string, ToString> implements ReadOnlyQueryParameters {
     private readonly _encoder: UriEncoder = new UriEncoder();
@@ -68,12 +65,12 @@ export class QueryParameters extends LinkedMultiValueMap<string, ToString> imple
         return defaultValue;
     }
 
-    public getFloats(key: string): ReadOnlyCollection<number> {
-        const slot: List<ToString> = this.obtainSlot(key);
+    public* getFloats(key: string): Iterable<number> {
+        const values: Iterable<ToString> = this.get(key);
 
-        return slot.map((value: ToString): number => {
-            return FloatParser.WEAK.parse(value.toString());
-        });
+        for (const value of values) {
+            yield FloatParser.WEAK.parse(value.toString());
+        }
     }
 
     public getInteger(key: string): number | undefined;
@@ -88,29 +85,31 @@ export class QueryParameters extends LinkedMultiValueMap<string, ToString> imple
         return defaultValue;
     }
 
-    public getIntegers(key: string): ReadOnlyCollection<number> {
-        const slot: List<ToString> = this.obtainSlot(key);
+    public* getIntegers(key: string): Iterable<number> {
+        const values: Iterable<ToString> = this.get(key);
 
-        return slot.map((value: ToString): number => {
-            return FloatParser.WEAK.parse(value.toString());
-        });
+        for (const value of values) {
+            yield IntParser.WEAK.parse(value.toString());
+        }
     }
 
     public getString(key: string): string | undefined;
     public getString(key: string, defaultValue: string): string;
     public getString(key: string, defaultValue?: string): string | undefined {
-        const values: ReadOnlyList<ToString> = this.get(key);
+        const value: ToString | undefined = this.getFirst(key);
 
-        if (values.length > 0) {
-            return values.getAt(0).toString();
+        if (value != null) {
+            return value.toString();
         }
 
         return defaultValue;
     }
 
-    public getStrings(key: string): ReadOnlyCollection<string> {
-        return this.get(key).map((item: ToString): string => {
-            return item.toString();
-        });
+    public* getStrings(key: string): Iterable<string> {
+        const values: Iterable<ToString> = this.get(key);
+
+        for (const value of values) {
+            yield value.toString();
+        }
     }
 }

@@ -1,30 +1,21 @@
 import {Set} from './Set';
 import {ArrayList} from '../../list/mutable/ArrayList';
-import {IteratorFunction} from '../../base/IteratorFunction';
 import {Sequence} from '../../base/Sequence';
 import {Cloneable} from '../../../base/Cloneable';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
 import {StrictEqualityComparator} from '../../../comparison/equality/StrictEqualityComparator';
 import {MethodNotImplementedException} from '../../../exceptions/MethodNotImplementedException';
 import {ReadOnlyCollectionBase} from '../../collection/readonly/ReadOnlyCollectionBase';
-
+import {ReadOnlySet} from '../readonly/ReadOnlySet';
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
+ * @mutable
  */
 export class ArraySet<T> extends ReadOnlyCollectionBase<T> implements Set<T>, Cloneable<ArraySet<T>> {
     private readonly _comparator: EqualityComparator<T>;
     private readonly _items: ArrayList<T> = new ArrayList();
-
-    public constructor(items?: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()) {
-        super();
-        this._comparator = comparator;
-
-        if (items != null) {
-            this.addAll(items);
-        }
-    }
 
     public get length(): number {
         return this._items.length;
@@ -34,15 +25,24 @@ export class ArraySet<T> extends ReadOnlyCollectionBase<T> implements Set<T>, Cl
         return this._comparator;
     }
 
+    public constructor(items?: Iterable<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()) {
+        super();
+        this._comparator = comparator;
+
+        if (items != null) {
+            this.addAll(items);
+        }
+    }
+
+    public equals(other: ReadOnlySet<T>): boolean {
+        return this.length === other.length && this.containsAll(other);
+    }
+
     public add(item: T): boolean {
         return this._items.addIfAbsent(item, this.comparator);
     }
 
-    public addAll(items: Sequence<T>): boolean {
-        if (items.length === 0) {
-            return false;
-        }
-
+    public addAll(items: Iterable<T>): boolean {
         const oldLength: number = this.length;
 
         for (const item of items) {
@@ -60,30 +60,19 @@ export class ArraySet<T> extends ReadOnlyCollectionBase<T> implements Set<T>, Cl
         return new ArraySet(this, this.comparator);
     }
 
-    public intersectWith(other: Sequence<T>): boolean {
-        /* tslint:disable:cyclomatic-complexity */
-
-        let hasChanged: boolean = false;
-
-        for (const currentItem of this) {
-            let itemPresentInBothSets: boolean = false;
-
+    /**
+     * Modifies the current set so that it contains only elements that are also in a specified collection.
+     */
+    public intersectWith(other: Iterable<T>): boolean {
+        return this.removeBy((ownItem: T): boolean => {
             for (const otherItem of other) {
-                if (this.comparator.equals(currentItem, otherItem)) {
-                    itemPresentInBothSets = true;
-
-                    break;
+                if (this.comparator.equals(ownItem, otherItem)) {
+                    return false;
                 }
             }
 
-            if (!itemPresentInBothSets) {
-                if (this.remove(currentItem)) {
-                    hasChanged = true;
-                }
-            }
-        }
-
-        return hasChanged;
+            return true;
+        });
     }
 
     public isProperSubsetOf(other: Sequence<T>): boolean {
@@ -105,11 +94,11 @@ export class ArraySet<T> extends ReadOnlyCollectionBase<T> implements Set<T>, Cl
     public isSubsetOf(other: Sequence<T>): boolean {
         let isValidSubset: boolean = true;
 
-        for (const currentItem of this) {
+        for (const ownItem of this) {
             let isCurrentItemInOtherSet: boolean = false;
 
             for (const otherItem of other) {
-                if (this.comparator.equals(currentItem, otherItem)) {
+                if (this.comparator.equals(ownItem, otherItem)) {
                     isCurrentItemInOtherSet = true;
 
                     break;
@@ -129,11 +118,11 @@ export class ArraySet<T> extends ReadOnlyCollectionBase<T> implements Set<T>, Cl
     public isSupersetOf(other: Sequence<T>): boolean {
         let isValidSuperset: boolean = true;
 
-        for (const otherItem of other) {
+        for (const ownItem of other) {
             let isOtherItemInCurrentSet: boolean = false;
 
             for (const currentItem of this) {
-                if (this.comparator.equals(currentItem, otherItem)) {
+                if (this.comparator.equals(currentItem, ownItem)) {
                     isOtherItemInCurrentSet = true;
 
                     break;
@@ -150,10 +139,10 @@ export class ArraySet<T> extends ReadOnlyCollectionBase<T> implements Set<T>, Cl
         return isValidSuperset;
     }
 
-    public overlaps(other: Sequence<T>): boolean {
-        for (const currentItem of this) {
+    public overlaps(other: ReadOnlySet<T>): boolean {
+        for (const ownItem of this) {
             for (const otherItem of other) {
-                if (this.comparator.equals(currentItem, otherItem)) {
+                if (this.comparator.equals(ownItem, otherItem)) {
                     return true;
                 }
             }
@@ -166,21 +155,19 @@ export class ArraySet<T> extends ReadOnlyCollectionBase<T> implements Set<T>, Cl
         return this._items.remove(otherItem, this.comparator);
     }
 
-    public removeAll(items: Sequence<T>): boolean {
+    public removeAll(items: Iterable<T>): boolean {
         return this._items.removeAll(items, this.comparator);
     }
 
-    public removeBy(predicate: IteratorFunction<T, boolean>): boolean {
+    public removeBy(predicate: (item: T) => boolean): boolean {
         return this._items.removeBy(predicate);
     }
 
-    public retainAll(items: Sequence<T>): boolean {
+    public retainAll(items: Iterable<T>): boolean {
         return this._items.retainAll(items, this.comparator);
     }
 
-    public setEquals(other: Sequence<T>): boolean {
-        /* tslint:disable:cyclomatic-complexity */
-
+    public setEquals(other: ReadOnlySet<T>): boolean {
         if (this.length !== other.length) {
             return false;
         }

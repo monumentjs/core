@@ -1,6 +1,5 @@
 import {KeyValuePair} from '../../base/KeyValuePair';
 import {ReadOnlyMap} from '../readonly/ReadOnlyMap';
-import {Sequence} from '../../base/Sequence';
 import {MapIteratorFunction} from '../../base/MapIteratorFunction';
 
 /**
@@ -12,17 +11,15 @@ export interface Map<K, V> extends ReadOnlyMap<K, V> {
 
     put(key: K, value: V): V | undefined;
 
-    putAll(entries: Sequence<KeyValuePair<K, V>>): boolean;
-
-    putMap(map: ReadOnlyMap<K, V>): boolean;
+    putAll(entries: Iterable<KeyValuePair<K, V>>): boolean;
 
     putIfAbsent(key: K, value: V): boolean;
 
     remove(key: K): V | undefined;
 
-    removeIf(key: K, value: V): boolean;
-
     removeBy(predicate: MapIteratorFunction<K, V, boolean>): boolean;
+
+    removeIf(key: K, value: V): boolean;
 
     replace(key: K, newValue: V): V | undefined;
 

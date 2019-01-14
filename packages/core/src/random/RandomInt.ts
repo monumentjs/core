@@ -2,7 +2,6 @@ import {RandomValue} from './RandomValue';
 import {ToJSON} from '../base/ToJSON';
 import {ToString} from '../base/ToString';
 
-
 /**
  * @author Alex Chugaev
  * @since 0.0.1

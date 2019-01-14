@@ -1,10 +1,11 @@
-import {ReadOnlyCollection} from './ReadOnlyCollection';
-import {AggregateFunction} from '../../base/AggregateFunction';
-import {IteratorFunction} from '../../base/IteratorFunction';
+import {
+    AggregateFunction,
+    CombineFunction,
+    IteratorFunction,
+    ReadOnlyCollection,
+    SelectorFunction
+} from './ReadOnlyCollection';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
-import {Grouping} from '../../base/Grouping';
-import {CombineFunction} from '../../base/CombineFunction';
-import {SelectorFunction} from '../../base/SelectorFunction';
 import {Comparator} from '../../../comparison/order/Comparator';
 import {SortOrder} from '../../../comparison/order/SortOrder';
 import {InvalidOperationException} from '../../../exceptions/InvalidOperationException';
@@ -15,9 +16,15 @@ import {NoSuchItemException} from '../../base/NoSuchItemException';
 import {RandomInt} from '../../../random/RandomInt';
 import {InvalidArgumentException} from '../../../exceptions/InvalidArgumentException';
 import {Sequence} from '../../base/Sequence';
+import {ReadOnlyMultiValueMap} from '../../multivaluemap/readonly/ReadOnlyMultiValueMap';
+import {LinkedMultiValueMap} from '../../multivaluemap/mutable/LinkedMultiValueMap';
+import {KeyValuePair} from '../../base/KeyValuePair';
 
 /**
+ * @author Alex Chugaev
+ * @since 0.0.1
  * @final
+ * @readonly
  */
 export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
     private readonly _source: Iterable<T>;
@@ -51,7 +58,7 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
     public aggregate<TAggregate>(iterator: AggregateFunction<T, TAggregate>, initialSeed: TAggregate): TAggregate {
         let lastSeed: TAggregate = initialSeed;
 
-        for (const [ownItem, index] of this.entries()) {
+        for (const [index, ownItem] of this.entries()) {
             lastSeed = iterator(lastSeed, ownItem, index);
         }
 
@@ -63,7 +70,7 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
             throw new InvalidOperationException(`Operation is not allowed for empty lists.`);
         }
 
-        for (const [ownItem, index] of this.entries()) {
+        for (const [index, ownItem] of this.entries()) {
             if (!predicate(ownItem, index)) {
                 return false;
             }
@@ -77,7 +84,7 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
             throw new InvalidOperationException(`Operation is not allowed for empty lists.`);
         }
 
-        for (const [ownItem, index] of this.entries()) {
+        for (const [index, ownItem] of this.entries()) {
             if (predicate(ownItem, index)) {
                 return true;
             }
@@ -98,7 +105,7 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
         const self: this = this;
 
         return new ReadOnlyCollectionImpl({
-            *[Symbol.iterator](): Iterator<T> {
+            * [Symbol.iterator](): Iterator<T> {
                 for (const item of self) {
                     yield item;
                 }
@@ -171,7 +178,7 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
         const self: this = this;
 
         return new ReadOnlyCollectionImpl({
-            *[Symbol.iterator](): Iterator<T> {
+            * [Symbol.iterator](): Iterator<T> {
                 const uniqueItems: T[] = [];
                 const uniqueItems$ = new ReadOnlyCollectionImpl(uniqueItems);
 
@@ -186,11 +193,11 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
         });
     }
 
-    public *entries(): Iterable<[T, number]> {
+    public* entries(): Iterable<KeyValuePair<number, T>> {
         let index: number = 0;
 
         for (const ownItem of this) {
-            yield [ownItem, index];
+            yield [index, ownItem];
 
             index++;
         }
@@ -200,7 +207,6 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
 
     public equals(otherList: Sequence<T>, comparator: EqualityComparator<T>): boolean;
 
-    // tslint:disable-next-line:cyclomatic-complexity
     public equals(otherList: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): boolean {
         const otherList$: ReadOnlyCollectionImpl<T> = new ReadOnlyCollectionImpl(otherList);
 
@@ -248,7 +254,7 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
         const otherList$: ReadOnlyCollectionImpl<T> = new ReadOnlyCollectionImpl(otherList);
 
         return new ReadOnlyCollectionImpl({
-            *[Symbol.iterator](): Iterator<T> {
+            * [Symbol.iterator](): Iterator<T> {
                 for (const ownItem of self) {
                     if (!otherList$.contains(ownItem, comparator)) {
                         yield ownItem;
@@ -298,11 +304,11 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
         const self: this = this;
 
         return new ReadOnlyCollectionImpl({
-            *[Symbol.iterator](): Iterator<T> {
+            * [Symbol.iterator](): Iterator<T> {
                 let matchesCount: number = 0;
                 let itemsLeft: number = limit;
 
-                for (const [ownItem, index] of self.entries()) {
+                for (const [index, ownItem] of self.entries()) {
                     if (predicate(ownItem, index)) {
                         if (itemsLeft > 0 && matchesCount >= offset) {
                             yield ownItem;
@@ -320,7 +326,7 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
     public first(predicate: IteratorFunction<T, boolean>): T | undefined;
     public first(predicate: IteratorFunction<T, boolean>, defaultValue: T): T;
     public first(predicate: IteratorFunction<T, boolean>, defaultValue?: T): T | undefined {
-        for (const [ownItem, index] of this.entries()) {
+        for (const [index, ownItem] of this.entries()) {
             if (predicate(ownItem, index)) {
                 return ownItem;
             }
@@ -345,7 +351,7 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
 
         let itemsLeft: number = count;
 
-        for (const [ownItem, index] of this.entries()) {
+        for (const [index, ownItem] of this.entries()) {
             if (itemsLeft === 0) {
                 break;
             }
@@ -365,7 +371,6 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
     public forEachBack(iterator: IteratorFunction<T, false | void>): void;
     public forEachBack(iterator: IteratorFunction<T, false | void>, startIndex: number): void;
     public forEachBack(iterator: IteratorFunction<T, false | void>, startIndex: number, count: number): void;
-    // tslint:disable-next-line:cyclomatic-complexity
     public forEachBack(
         iterator: IteratorFunction<T, false | void>,
         startIndex: number = Math.max(this.length - 1, 0),
@@ -397,7 +402,7 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
             throw new IndexOutOfBoundsException(index, this.length);
         }
 
-        for (const [ownItem, position] of this.entries()) {
+        for (const [position, ownItem] of this.entries()) {
             if (index === position) {
                 return ownItem;
             }
@@ -406,33 +411,22 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
         throw new IndexOutOfBoundsException(index, this.length);
     }
 
-    public groupBy<TKey>(keySelector: IteratorFunction<T, TKey>): ReadOnlyCollection<Grouping<TKey, T>>;
+    public groupBy<TKey>(keySelector: IteratorFunction<T, TKey>): ReadOnlyMultiValueMap<TKey, T>;
     public groupBy<TKey>(
         keySelector: IteratorFunction<T, TKey>,
         keyComparator: EqualityComparator<TKey>
-    ): ReadOnlyCollection<Grouping<TKey, T>>;
+    ): ReadOnlyMultiValueMap<TKey, T>;
     public groupBy<TKey>(
         keySelector: IteratorFunction<T, TKey>,
         keyComparator: EqualityComparator<TKey> = StrictEqualityComparator.get()
-    ): ReadOnlyCollection<Grouping<TKey, T>> {
-        const allKeys: ReadOnlyCollection<TKey> = this.map((item: T, index: number) => {
-            return keySelector(item, index);
-        });
-        const keys: ReadOnlyCollection<TKey> = allKeys.distinct(keyComparator);
-        const groups: Array<Grouping<TKey, T>> = [];
+    ): ReadOnlyMultiValueMap<TKey, T> {
+        const groups: LinkedMultiValueMap<TKey, T> = new LinkedMultiValueMap(keyComparator);
 
-        for (const key of keys) {
-            const items: ReadOnlyCollection<T> = this.findAll((item: T, index: number): boolean => {
-                const otherKey: TKey = keySelector(item, index);
-
-                return keyComparator.equals(key, otherKey);
-            });
-            const group: Grouping<TKey, T> = new Grouping(key, items);
-
-            groups.push(group);
+        for (const [index, item] of this.entries()) {
+            groups.put(keySelector(item, index), item);
         }
 
-        return new ReadOnlyCollectionImpl(groups);
+        return groups;
     }
 
     public intersect(otherList: Sequence<T>): ReadOnlyCollection<T>;
@@ -442,7 +436,7 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
         const otherList$: ReadOnlyCollectionImpl<T> = new ReadOnlyCollectionImpl(otherList);
 
         return new ReadOnlyCollectionImpl({
-            *[Symbol.iterator](): Iterator<T> {
+            * [Symbol.iterator](): Iterator<T> {
                 for (const item of self) {
                     if (otherList$.contains(item, comparator)) {
                         yield item;
@@ -478,11 +472,11 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
         const outerList$: ReadOnlyCollectionImpl<TOuter> = new ReadOnlyCollectionImpl(outerList);
 
         return new ReadOnlyCollectionImpl({
-            *[Symbol.iterator](): Iterator<TResult> {
-                for (const [ownItem, index] of self.entries()) {
+            * [Symbol.iterator](): Iterator<TResult> {
+                for (const [index, ownItem] of self.entries()) {
                     const innerKey: TKey = innerKeySelector(ownItem, index);
 
-                    for (const [outerItem, outerIndex] of outerList$.entries()) {
+                    for (const [outerIndex, outerItem] of outerList$.entries()) {
                         const outerKey: TKey = outerKeySelector(outerItem, outerIndex);
 
                         if (keyComparator.equals(innerKey, outerKey)) {
@@ -501,7 +495,7 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
     public last(predicate: IteratorFunction<T, boolean>, defaultValue?: T): T | undefined {
         let lastItem: T | undefined = defaultValue;
 
-        for (const [ownItem, index] of this.entries()) {
+        for (const [index, ownItem] of this.entries()) {
             if (predicate(ownItem, index)) {
                 lastItem = ownItem;
             }
@@ -522,8 +516,8 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
         const self: this = this;
 
         return new ReadOnlyCollectionImpl({
-            *[Symbol.iterator](): Iterator<TResult> {
-                for (const [ownItem, index] of self.entries()) {
+            * [Symbol.iterator](): Iterator<TResult> {
+                for (const [index, ownItem] of self.entries()) {
                     yield selector(ownItem, index);
                 }
             }
@@ -598,7 +592,7 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
         const self: this = this;
 
         return new ReadOnlyCollectionImpl({
-            *[Symbol.iterator](): Iterator<TResult> {
+            * [Symbol.iterator](): Iterator<TResult> {
                 const collections: ReadOnlyCollection<Sequence<TInnerItem>> = self.map<Sequence<TInnerItem>>((
                     ownItem: T,
                     actualItemIndex: number
@@ -630,7 +624,7 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
         }
 
         return new ReadOnlyCollectionImpl({
-            *[Symbol.iterator](): Iterator<T> {
+            * [Symbol.iterator](): Iterator<T> {
                 let index: number = 0;
 
                 for (const item of self) {
@@ -648,10 +642,10 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
         const self: this = this;
 
         return new ReadOnlyCollectionImpl({
-            *[Symbol.iterator](): Iterator<T> {
+            * [Symbol.iterator](): Iterator<T> {
                 let skip: boolean = true;
 
-                for (const [item, index] of self.entries()) {
+                for (const [index, item] of self.entries()) {
                     if (skip) {
                         skip = condition(item, index);
                     }
@@ -673,8 +667,8 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
         const maxIndex: number = offset + length;
 
         return new ReadOnlyCollectionImpl({
-            *[Symbol.iterator](): Iterator<T> {
-                for (const [item, index] of self.entries()) {
+            * [Symbol.iterator](): Iterator<T> {
+                for (const [index, item] of self.entries()) {
                     if (index >= maxIndex) {
                         break;
                     }
@@ -707,8 +701,8 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
         const self: this = this;
 
         return new ReadOnlyCollectionImpl({
-            *[Symbol.iterator](): Iterator<T> {
-                for (const [item, index] of self.entries()) {
+            * [Symbol.iterator](): Iterator<T> {
+                for (const [index, item] of self.entries()) {
                     if (index >= length) {
                         break;
                     }
@@ -723,8 +717,8 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
         const self: this = this;
 
         return new ReadOnlyCollectionImpl({
-            *[Symbol.iterator](): Iterator<T> {
-                for (const [item, index] of self.entries()) {
+            * [Symbol.iterator](): Iterator<T> {
+                for (const [index, item] of self.entries()) {
                     if (!condition(item, index)) {
                         break;
                     }
@@ -749,7 +743,7 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
         const self = this;
 
         return new ReadOnlyCollectionImpl({
-            *[Symbol.iterator](): Iterator<T> {
+            * [Symbol.iterator](): Iterator<T> {
                 const union: T[] = self.toArray();
                 const union$: ReadOnlyCollectionImpl<T> = new ReadOnlyCollectionImpl(union);
 
@@ -774,11 +768,11 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
         const self: this = this;
 
         return new ReadOnlyCollectionImpl({
-            *[Symbol.iterator](): Iterator<TResult> {
+            * [Symbol.iterator](): Iterator<TResult> {
                 const otherItems$ = new ReadOnlyCollectionImpl(otherItems);
                 const minLength: number = Math.min(self.length, otherItems$.length);
 
-                for (const [otherItem, index] of otherItems$.entries()) {
+                for (const [index, otherItem] of otherItems$.entries()) {
                     if (index >= minLength) {
                         break;
                     }

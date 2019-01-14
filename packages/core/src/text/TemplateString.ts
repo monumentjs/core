@@ -11,7 +11,6 @@ import {ParsingException} from './parser/ParsingException';
 const NORMAL_ENTRY_PATTERN: RegExp = /{(\w+)}/g;
 const ESCAPED_ENTRY_PATTERN: RegExp = /\\{(\w+)\\}/g;
 
-
 /**
  * @author Alex Chugaev
  * @since 0.0.1

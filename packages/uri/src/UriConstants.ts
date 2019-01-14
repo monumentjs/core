@@ -1,4 +1,3 @@
-
 /**
  * @author Alex Chugaev
  * @since 0.0.1
@@ -30,7 +29,6 @@ export namespace UriConstants {
     export const SEARCH_STRING_PREFIX: string = '?';
     export const FRAGMENT_PREFIX: string = '#';
     export const PORT_RADIX: number = 10;
-
 
     export const PARAMETERS_DELIMITER: string = '&';
     export const KEY_VALUE_DELIMITER: string = '=';

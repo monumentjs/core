@@ -1,22 +1,42 @@
 import {ToArray} from '../../base/ToArray';
-import {Grouping} from '../../base/Grouping';
 import {Sequence} from '../../base/Sequence';
-import {CombineFunction} from '../../base/CombineFunction';
-import {IteratorFunction} from '../../base/IteratorFunction';
-import {SelectorFunction} from '../../base/SelectorFunction';
-import {AggregateFunction} from '../../base/AggregateFunction';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
 import {Comparator} from '../../../comparison/order/Comparator';
 import {SortOrder} from '../../../comparison/order/SortOrder';
-import {Equatable} from '../../../comparison/equality/Equatable';
 import {ToJSON} from '../../../base/ToJSON';
-
+import {ReadOnlyMultiValueMap} from '../../multivaluemap/readonly/ReadOnlyMultiValueMap';
+import {KeyValuePair} from '../../base/KeyValuePair';
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
  */
-export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T>, Equatable<Sequence<T>> {
+export type AggregateFunction<T, TAggregate> = (lastSeed: TAggregate, item: T, index: number) => TAggregate;
+
+/**
+ * @author Alex Chugaev
+ * @since 0.0.1
+ */
+export type IteratorFunction<TItem, TResult> = (item: TItem, index: number) => TResult;
+
+/**
+ * @author Alex Chugaev
+ * @since 0.0.1
+ */
+export type CombineFunction<A, B, TResult> = (a: A, b: B) => TResult;
+
+/**
+ * @author Alex Chugaev
+ * @since 0.0.1
+ */
+export type SelectorFunction<TIn, TOut> = (input: TIn) => TOut;
+
+/**
+ * @author Alex Chugaev
+ * @since 0.0.1
+ * @readonly
+ */
+export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray<T> {
     readonly isEmpty: boolean;
 
     /**
@@ -72,9 +92,7 @@ export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray
      */
     distinct(comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
 
-    equals(otherItems: Sequence<T>): boolean;
-
-    equals(otherItems: Sequence<T>, comparator: EqualityComparator<T>): boolean;
+    entries(): Iterable<KeyValuePair<number, T>>;
 
     /**
      * Produces the set difference of two sequences.
@@ -173,12 +191,12 @@ export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray
     /**
      * Groups the elements of a sequence according to a specified key selector function.
      */
-    groupBy<TKey>(keySelector: IteratorFunction<T, TKey>): ReadOnlyCollection<Grouping<TKey, T>>;
+    groupBy<TKey>(keySelector: IteratorFunction<T, TKey>): ReadOnlyMultiValueMap<TKey, T>;
 
     /**
      * Groups the elements of a sequence according to a specified key selector function and key equality comparator.
      */
-    groupBy<TKey>(keySelector: IteratorFunction<T, TKey>, keyComparator: EqualityComparator<TKey>): ReadOnlyCollection<Grouping<TKey, T>>;
+    groupBy<TKey>(keySelector: IteratorFunction<T, TKey>, keyComparator: EqualityComparator<TKey>): ReadOnlyMultiValueMap<TKey, T>;
 
     /**
      * Produces the set intersection of two sequences.
@@ -315,6 +333,4 @@ export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray
         otherItems: Sequence<TOther>,
         resultSelector: CombineFunction<T, TOther, TResult>
     ): ReadOnlyCollection<TResult>;
-
-    entries(): Iterable<[T, number]>;
 }

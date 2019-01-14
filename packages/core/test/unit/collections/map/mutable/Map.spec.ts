@@ -1,4 +1,11 @@
-import {EqualityComparator, IgnoreCaseEqualityComparator, KeyValuePair, Map, Sequence} from '../../../../..';
+import {
+    EqualityComparator,
+    IgnoreCaseEqualityComparator,
+    IterableEqualityComparator,
+    KeyValuePair,
+    Map,
+    Sequence
+} from '../../../../..';
 
 export function testMap(
     create: <K, V>(
@@ -6,15 +13,16 @@ export function testMap(
     ) => Map<K, V>) {
 
     describe('Map', function () {
+        const iterableEqualityComparator: IterableEqualityComparator<string> = new IterableEqualityComparator();
         let map!: Map<string, string>;
 
         beforeEach(() => {
             map = create<string, string>(
                 [
-                    new KeyValuePair('One', 'ONE'),
-                    new KeyValuePair('Two', 'TWO'),
-                    new KeyValuePair('three', 'Three'),
-                    new KeyValuePair('Three', 'THREE')
+                    ['One', 'ONE'],
+                    ['Two', 'TWO'],
+                    ['three', 'Three'],
+                    ['Three', 'THREE']
                 ],
                 IgnoreCaseEqualityComparator.get(),
                 IgnoreCaseEqualityComparator.get()
@@ -26,8 +34,8 @@ export function testMap(
                 expect(map.length).toBe(3);
                 expect(map.keyComparator).toBe(IgnoreCaseEqualityComparator.get());
                 expect(map.valueComparator).toBe(IgnoreCaseEqualityComparator.get());
-                expect(map.keys.toArray()).toEqual(['One', 'Two', 'Three']);
-                expect(map.values.toArray()).toEqual(['ONE', 'TWO', 'THREE']);
+                expect(iterableEqualityComparator.equals(map.keys, ['One', 'Two', 'Three'])).toBe(true);
+                expect(iterableEqualityComparator.equals(map.values, ['ONE', 'TWO', 'THREE'])).toBe(true);
             });
         });
 
@@ -53,7 +61,7 @@ export function testMap(
             });
 
             it('should return fallback value if did not found any', function () {
-                expect(map.get('FOUR', 'FOUR')).toBe('FOUR');
+                expect(map.get('FOUR', () => 'FOUR')).toBe('FOUR');
             });
         });
 

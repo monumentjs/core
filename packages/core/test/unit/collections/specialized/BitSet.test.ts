@@ -1,6 +1,8 @@
-import {BitSet, IndexOutOfBoundsException, RangeException, ReadOnlyList} from '../../../..';
+import {BitSet, IndexOutOfBoundsException, IterableEqualityComparator, RangeException} from '../../../..';
 
 describe('BitSet', function () {
+    const iterableEqualityComparator: IterableEqualityComparator<number | boolean> = new IterableEqualityComparator();
+
     it('constructor() create new instance of BitSet class', function () {
         const bitSet: BitSet = new BitSet();
 
@@ -337,22 +339,22 @@ describe('BitSet', function () {
         bitSet.set(2);
         bitSet.set(4);
 
-        const setBits: ReadOnlyList<number> = bitSet.findBits(true);
+        const setBits: number[] = [...bitSet.findBits(true)];
 
         expect(setBits.length).toBe(3);
-        expect(setBits.contains(0)).toBe(true);
-        expect(setBits.contains(2)).toBe(true);
-        expect(setBits.contains(4)).toBe(true);
+        expect(setBits).toContain(0);
+        expect(setBits).toContain(2);
+        expect(setBits).toContain(4);
     });
 
     it('findBits() returns read-only collection of clear bits indexes', function () {
         const bitSet: BitSet = BitSet.fromBits([true, false, true, false, true, false]);
-        const clearBits: ReadOnlyList<number> = bitSet.findBits(false);
+        const clearBits: number[] = [...bitSet.findBits(false)];
 
         expect(clearBits.length).toBe(3);
-        expect(clearBits.contains(1)).toBe(true);
-        expect(clearBits.contains(3)).toBe(true);
-        expect(clearBits.contains(5)).toBe(true);
+        expect(clearBits).toContain(1);
+        expect(clearBits).toContain(3);
+        expect(clearBits).toContain(5);
     });
 
     it('invert() throws if `bitIndex` argument has invalid range', function () {
@@ -522,15 +524,15 @@ describe('BitSet', function () {
 
         bits2.and(bits1);
 
-        expect(bits2.findBits(true).toArray()).toEqual([2, 4, 6, 8, 12, 14]);
+        expect(iterableEqualityComparator.equals(bits2.findBits(true), [2, 4, 6, 8, 12, 14])).toBe(true);
 
         bits2.or(bits1);
 
-        expect(bits2.findBits(true).toArray()).toEqual([0, 2, 4, 6, 8, 10, 12, 14]);
+        expect(iterableEqualityComparator.equals(bits2.findBits(true), [0, 2, 4, 6, 8, 10, 12, 14])).toBe(true);
 
         bits2.xor(bits1);
 
-        expect(bits2.findBits(true).toArray()).toEqual([]);
+        expect(iterableEqualityComparator.equals(bits2.findBits(true), [])).toBe(true);
     });
 
     it('intersects() determines whether sets intersects 1', function () {

@@ -3,7 +3,6 @@ import {TemplateString} from './TemplateString';
 import {Builder} from '../base/Builder';
 import {ToString} from '../base/ToString';
 
-
 /**
  * @author Alex Chugaev
  * @since 0.0.1

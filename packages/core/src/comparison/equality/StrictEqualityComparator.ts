@@ -15,7 +15,8 @@ export class StrictEqualityComparator implements EqualityComparator<any> {
         return this._instance;
     }
 
-    private constructor() {}
+    private constructor() {
+    }
 
     public equals(x: any, y: any): boolean {
         return x === y;

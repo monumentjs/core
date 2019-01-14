@@ -1,90 +1,89 @@
-import {KeyValuePair, ReadOnlyList, ReadOnlyMap, ReadOnlyMultiValueMap, ReadOnlySet, Sequence} from '../../../../..';
+import {KeyValuePair, ReadOnlyMap, ReadOnlyMultiValueMap} from '../../../../..';
 
-export function assertLengthAndIsEmpty(map: ReadOnlyMap<any, any>, expectedLength: number): void {
+export function assertLengthAndIsEmpty(map: ReadOnlyMultiValueMap<any, any>, expectedLength: number, expectedValuesCount: number): void {
     expect(map.length).toBe(expectedLength);
+    expect(map.valuesCount).toBe(expectedValuesCount);
     expect(map.isEmpty).toBe(expectedLength === 0);
 }
 
-export function testReadOnlyMultiValueMap(create: <K, V>(items?: Sequence<KeyValuePair<K, V>>) => ReadOnlyMultiValueMap<K, V>) {
+export function testReadOnlyMultiValueMap(create: <K, V>(items?: Iterable<KeyValuePair<K, V>>) => ReadOnlyMultiValueMap<K, V>) {
     describe('ReadOnlyMultiValueMap', function () {
 
         describe('constructor()', function () {
             it('should create empty map', function () {
                 const map = create();
 
-                assertLengthAndIsEmpty(map, 0);
+                assertLengthAndIsEmpty(map, 0, 0);
             });
         });
 
         describe('keys', function () {
             it('should return set of keys', function () {
                 const source: ReadOnlyMultiValueMap<string, string> = create([
-                    new KeyValuePair('name', 'Alex'),
-                    new KeyValuePair('name', 'Dmitri'),
-                    new KeyValuePair('email', 'test@mail.com')
+                    ['name', 'Alex'],
+                    ['name', 'Dmitri'],
+                    ['email', 'test@mail.com']
                 ]);
-                const keys: ReadOnlySet<string> = source.keys;
+                const keys: string[] = [...source.keys];
 
                 expect(keys.length).toBe(2);
-                expect(keys.isEmpty).toBe(false);
-                expect(keys.contains('name')).toBe(true);
-                expect(keys.contains('email')).toBe(true);
+                expect(keys).toContain('name');
+                expect(keys).toContain('email');
             });
         });
 
         describe('values', function () {
             it('should return list of values', function () {
                 const source: ReadOnlyMultiValueMap<string, string> = create([
-                    new KeyValuePair('name', 'Alex'),
-                    new KeyValuePair('name', 'Dmitri'),
-                    new KeyValuePair('email', 'test@mail.com')
+                    ['name', 'Alex'],
+                    ['name', 'Dmitri'],
+                    ['email', 'test@mail.com']
                 ]);
-                const values: ReadOnlyList<string> = source.values;
+                const values: string[] = [...source.values];
 
                 expect(values.length).toBe(3);
-                expect(values.isEmpty).toBe(false);
-                expect(values.contains('Alex')).toBe(true);
-                expect(values.contains('Dmitri')).toBe(true);
-                expect(values.contains('test@mail.com')).toBe(true);
+                expect(values).toContain('Alex');
+                expect(values).toContain('Dmitri');
+                expect(values).toContain('test@mail.com');
             });
         });
 
         describe('containsEntries()', function () {
             it('should determines whether map contains all key-value pairs', function () {
                 const map: ReadOnlyMultiValueMap<string, string> = create([
-                    new KeyValuePair('name', 'Alex'),
-                    new KeyValuePair('name', 'Dmitri'),
-                    new KeyValuePair('email', 'test@mail.com')
+                    ['name', 'Alex'],
+                    ['name', 'Dmitri'],
+                    ['email', 'test@mail.com']
                 ]);
 
                 expect(map.containsEntries([
-                    new KeyValuePair('name', 'Alex'),
-                    new KeyValuePair('name', 'Dmitri'),
-                    new KeyValuePair('email', 'test@mail.com')
+                    ['name', 'Alex'],
+                    ['name', 'Dmitri'],
+                    ['email', 'test@mail.com']
                 ])).toBe(true);
 
                 expect(map.containsEntries([
-                    new KeyValuePair('name', 'Alex'),
-                    new KeyValuePair('name', 'Dmitri')
+                    ['name', 'Alex'],
+                    ['name', 'Dmitri']
                 ])).toBe(true);
 
                 expect(map.containsEntries([
-                    new KeyValuePair('name', 'Alex')
+                    ['name', 'Alex']
                 ])).toBe(true);
 
                 expect(map.containsEntries([
-                    new KeyValuePair('name', 'XAlex'),
-                    new KeyValuePair('name', 'Dmitri'),
-                    new KeyValuePair('email', 'test@mail.com')
+                    ['name', 'XAlex'],
+                    ['name', 'Dmitri'],
+                    ['email', 'test@mail.com']
                 ])).toBe(false);
 
                 expect(map.containsEntries([
-                    new KeyValuePair('name', 'XAlex'),
-                    new KeyValuePair('name', 'Dmitri')
+                    ['name', 'XAlex'],
+                    ['name', 'Dmitri']
                 ])).toBe(false);
 
                 expect(map.containsEntries([
-                    new KeyValuePair('name', 'XAlex')
+                    ['name', 'XAlex']
                 ])).toBe(false);
             });
         });
@@ -92,9 +91,9 @@ export function testReadOnlyMultiValueMap(create: <K, V>(items?: Sequence<KeyVal
         describe('containsEntry()', function () {
             it('should determines whether map contains key-value pair', function () {
                 const map: ReadOnlyMultiValueMap<string, string> = create([
-                    new KeyValuePair('name', 'Alex'),
-                    new KeyValuePair('name', 'Dmitri'),
-                    new KeyValuePair('email', 'test@mail.com')
+                    ['name', 'Alex'],
+                    ['name', 'Dmitri'],
+                    ['email', 'test@mail.com']
                 ]);
 
                 expect(map.containsEntry('name', 'Alex')).toBe(true);
@@ -109,9 +108,9 @@ export function testReadOnlyMultiValueMap(create: <K, V>(items?: Sequence<KeyVal
         describe('containsKey()', function () {
             it('should determines whether map contains key', function () {
                 const map: ReadOnlyMultiValueMap<string, string> = create([
-                    new KeyValuePair('name', 'Alex'),
-                    new KeyValuePair('name', 'Dmitri'),
-                    new KeyValuePair('email', 'test@mail.com')
+                    ['name', 'Alex'],
+                    ['name', 'Dmitri'],
+                    ['email', 'test@mail.com']
                 ]);
 
                 expect(map.containsKey('name')).toBe(true);
@@ -123,9 +122,9 @@ export function testReadOnlyMultiValueMap(create: <K, V>(items?: Sequence<KeyVal
         describe('containsKeys()', function () {
             it('should determines whether map contains all keys', function () {
                 const map: ReadOnlyMultiValueMap<string, string> = create([
-                    new KeyValuePair('name', 'Alex'),
-                    new KeyValuePair('name', 'Dmitri'),
-                    new KeyValuePair('email', 'test@mail.com')
+                    ['name', 'Alex'],
+                    ['name', 'Dmitri'],
+                    ['email', 'test@mail.com']
                 ]);
 
                 expect(map.containsKeys(['name'])).toBe(true);
@@ -139,9 +138,9 @@ export function testReadOnlyMultiValueMap(create: <K, V>(items?: Sequence<KeyVal
         describe('containsValue()', function () {
             it('should determines whether map contains value', function () {
                 const map: ReadOnlyMultiValueMap<string, string> = create([
-                    new KeyValuePair('name', 'Alex'),
-                    new KeyValuePair('name', 'Dmitri'),
-                    new KeyValuePair('email', 'test@mail.com')
+                    ['name', 'Alex'],
+                    ['name', 'Dmitri'],
+                    ['email', 'test@mail.com']
                 ]);
 
                 expect(map.containsValue('Alex')).toBe(true);
@@ -154,9 +153,9 @@ export function testReadOnlyMultiValueMap(create: <K, V>(items?: Sequence<KeyVal
         describe('containsValues()', function () {
             it('should determines whether map contains all values', function () {
                 const map: ReadOnlyMultiValueMap<string, string> = create([
-                    new KeyValuePair('name', 'Alex'),
-                    new KeyValuePair('name', 'Dmitri'),
-                    new KeyValuePair('email', 'test@mail.com')
+                    ['name', 'Alex'],
+                    ['name', 'Dmitri'],
+                    ['email', 'test@mail.com']
                 ]);
 
                 expect(map.containsValues(['Alex'])).toBe(true);
@@ -172,26 +171,29 @@ export function testReadOnlyMultiValueMap(create: <K, V>(items?: Sequence<KeyVal
         describe('get()', function () {
             it('should return list of all items stored under specified key', function () {
                 const map: ReadOnlyMultiValueMap<string, string> = create([
-                    new KeyValuePair('name', 'Alex'),
-                    new KeyValuePair('name', 'Dmitri'),
-                    new KeyValuePair('email', 'test@mail.com')
+                    ['name', 'Alex'],
+                    ['name', 'Dmitri'],
+                    ['email', 'test@mail.com']
                 ]);
+                const names: string[] = [...map.get('name')];
+                const emails: string[] = [...map.get('email')];
+                const unknowns: string[] = [...map.get('unknown')];
 
-                expect(map.get('name').length).toBe(2);
-                expect(map.get('name').getAt(0)).toBe('Alex');
-                expect(map.get('name').getAt(1)).toBe('Dmitri');
-                expect(map.get('email').length).toBe(1);
-                expect(map.get('email').getAt(0)).toBe('test@mail.com');
-                expect(map.get('unknown').length).toBe(0);
+                expect(names.length).toBe(2);
+                expect(names).toContain('Alex');
+                expect(names).toContain('Dmitri');
+                expect(emails.length).toBe(1);
+                expect(emails).toContain('test@mail.com');
+                expect(unknowns.length).toBe(0);
             });
         });
 
         describe('getFirst()', function () {
             it('should return first item stored under specified key', function () {
                 const map: ReadOnlyMultiValueMap<string, string> = create([
-                    new KeyValuePair('name', 'Alex'),
-                    new KeyValuePair('name', 'Dmitri'),
-                    new KeyValuePair('email', 'test@mail.com')
+                    ['name', 'Alex'],
+                    ['name', 'Dmitri'],
+                    ['email', 'test@mail.com']
                 ]);
 
                 expect(map.getFirst('name')).toBe('Alex');
@@ -201,21 +203,21 @@ export function testReadOnlyMultiValueMap(create: <K, V>(items?: Sequence<KeyVal
 
             it('should return first item stored under specified key or fallback value', function () {
                 const map: ReadOnlyMultiValueMap<string, string> = create([
-                    new KeyValuePair('name', 'Alex'),
-                    new KeyValuePair('name', 'Dmitri'),
-                    new KeyValuePair('email', 'test@mail.com')
+                    ['name', 'Alex'],
+                    ['name', 'Dmitri'],
+                    ['email', 'test@mail.com']
                 ]);
 
-                expect(map.getFirst('unknown', 'default')).toBe('default');
+                expect(map.getFirst('unknown', () => 'default')).toBe('default');
             });
         });
 
         describe('keyOf()', function () {
             it('should return first key of specified value', function () {
                 const map: ReadOnlyMultiValueMap<string, string> = create([
-                    new KeyValuePair('name', 'Alex'),
-                    new KeyValuePair('name', 'Dmitri'),
-                    new KeyValuePair('email', 'test@mail.com')
+                    ['name', 'Alex'],
+                    ['name', 'Dmitri'],
+                    ['email', 'test@mail.com']
                 ]);
 
                 expect(map.keyOf('Alex')).toBe('name');
@@ -228,25 +230,25 @@ export function testReadOnlyMultiValueMap(create: <K, V>(items?: Sequence<KeyVal
         describe('keysOf()', function () {
             it('should return all keys under which stored specified value', function () {
                 const map: ReadOnlyMultiValueMap<string, string> = create([
-                    new KeyValuePair('name', 'Alex'),
-                    new KeyValuePair('name', 'Dmitri'),
-                    new KeyValuePair('bestFriend', 'Dmitri'),
-                    new KeyValuePair('email', 'test@mail.com')
+                    ['name', 'Alex'],
+                    ['name', 'Dmitri'],
+                    ['bestFriend', 'Dmitri'],
+                    ['email', 'test@mail.com']
                 ]);
 
-                expect(map.keysOf('Alex').toArray()).toEqual(['name']);
-                expect(map.keysOf('Dmitri').toArray()).toEqual(['name', 'bestFriend']);
-                expect(map.keysOf('test@mail.com').toArray()).toEqual(['email']);
-                expect(map.keysOf('unknown').toArray()).toEqual([]);
+                expect([...map.keysOf('Alex')]).toEqual(['name']);
+                expect([...map.keysOf('Dmitri')]).toEqual(['name', 'bestFriend']);
+                expect([...map.keysOf('test@mail.com')]).toEqual(['email']);
+                expect([...map.keysOf('unknown')]).toEqual([]);
             });
         });
 
         describe('toSingleValueMap()', function () {
             it('should return map containing only first elements', function () {
                 const source: ReadOnlyMultiValueMap<string, string> = create([
-                    new KeyValuePair('name', 'Alex'),
-                    new KeyValuePair('name', 'Dmitri'),
-                    new KeyValuePair('email', 'test@mail.com')
+                    ['name', 'Alex'],
+                    ['name', 'Dmitri'],
+                    ['email', 'test@mail.com']
                 ]);
                 const map: ReadOnlyMap<string, string> = source.toSingleValueMap();
 
@@ -260,69 +262,31 @@ export function testReadOnlyMultiValueMap(create: <K, V>(items?: Sequence<KeyVal
         describe('toArray()', function () {
             it('should return array of key-value pairs', function () {
                 const source = create([
-                    new KeyValuePair('name', 'Alex'),
-                    new KeyValuePair('name', 'Dmitri'),
-                    new KeyValuePair('email', 'test@mail.com')
+                    ['name', 'Alex'],
+                    ['name', 'Dmitri'],
+                    ['email', 'test@mail.com']
                 ]);
                 const array: Array<KeyValuePair<string, string>> = source.toArray();
 
                 expect(array.length).toBe(3);
                 expect(array).toEqual([
-                    new KeyValuePair('name', 'Alex'),
-                    new KeyValuePair('name', 'Dmitri'),
-                    new KeyValuePair('email', 'test@mail.com')
+                    ['name', 'Alex'],
+                    ['name', 'Dmitri'],
+                    ['email', 'test@mail.com']
                 ]);
-            });
-        });
-
-        describe('equals()', function () {
-            it('should compare key-value pairs #1', function () {
-                const map = create([
-                    new KeyValuePair('name', 'Alex'),
-                    new KeyValuePair('email', 'test@mail.com'),
-                    new KeyValuePair('name', 'Dmitri')
-                ]);
-
-                expect(map.equals([
-                    new KeyValuePair('name', 'Alex'),
-                    new KeyValuePair('name', 'Dmitri'),
-                    new KeyValuePair('email', 'test@mail.com')
-                ])).toBe(true);
-            });
-
-            it('should compare key-value pairs #2', function () {
-                const map1 = create();
-                const map2 = create();
-
-                expect(map1.equals(map2)).toBe(true);
-            });
-
-            it('should compare key-value pairs #3', function () {
-                const map1 = create([
-                    new KeyValuePair('name', 'Alex'),
-                    new KeyValuePair('name', 'Dmitri'),
-                    new KeyValuePair('email', 'test@mail.com')
-                ]);
-                const map2 = create([
-                    new KeyValuePair('name', 'Alex'),
-                    new KeyValuePair('name', 'Dmitri'),
-                    new KeyValuePair('email', 'test@mail.com')
-                ]);
-
-                expect(map1.equals(map2)).toBe(true);
             });
         });
 
         describe('for...of', function () {
             it('should iterate over all key-value pairs', function () {
                 const map = create([
-                    new KeyValuePair('name', 'Alex'),
-                    new KeyValuePair('email', 'test@mail.com'),
-                    new KeyValuePair('name', 'Dmitri')
+                    ['name', 'Alex'],
+                    ['email', 'test@mail.com'],
+                    ['name', 'Dmitri']
                 ]);
                 const mock = jest.fn();
 
-                for (const {key, value} of map) {
+                for (const [key, value] of map) {
                     mock(key, value);
                 }
 

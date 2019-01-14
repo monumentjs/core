@@ -1,7 +1,6 @@
 import {EqualityComparator, IgnoreCaseEqualityComparator, ReadOnlySet, Sequence} from '../../../../..';
 import {testReadOnlyCollection} from '../../collection/readonly/ReadOnlyCollection.spec';
 
-
 export function testReadOnlySet(create: <T>(
     items?: Sequence<T>,
     comparator?: EqualityComparator<T>
