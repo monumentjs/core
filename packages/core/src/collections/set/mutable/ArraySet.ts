@@ -3,7 +3,7 @@ import {ArrayList} from '../../list/mutable/ArrayList';
 import {Sequence} from '../../base/Sequence';
 import {Cloneable} from '../../../base/Cloneable';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
-import {StrictEqualityComparator} from '../../../comparison/equality/StrictEqualityComparator';
+import {ReferenceEqualityComparator} from '../../../comparison/equality/ReferenceEqualityComparator';
 import {MethodNotImplementedException} from '../../../exceptions/MethodNotImplementedException';
 import {ReadOnlyCollectionBase} from '../../collection/readonly/ReadOnlyCollectionBase';
 import {ReadOnlySet} from '../readonly/ReadOnlySet';
@@ -25,7 +25,7 @@ export class ArraySet<T> extends ReadOnlyCollectionBase<T> implements Set<T>, Cl
         return this._comparator;
     }
 
-    public constructor(items?: Iterable<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()) {
+    public constructor(items?: Iterable<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()) {
         super();
         this._comparator = comparator;
 

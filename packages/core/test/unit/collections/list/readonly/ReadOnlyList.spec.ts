@@ -4,7 +4,7 @@ import {
     RangeException,
     ReadOnlyList,
     Sequence,
-    StrictEqualityComparator
+    ReferenceEqualityComparator
 } from '../../../../..';
 import {testReadOnlyCollection} from '../../collection/readonly/ReadOnlyCollection.spec';
 
@@ -107,14 +107,14 @@ export function testReadOnlyList(create: <I>(items?: Sequence<I>) => ReadOnlyLis
             it('should not throw if start index equals to 0 and list length is 0', function () {
                 const list = create();
 
-                list.indexOf('one', 0, StrictEqualityComparator.get());
+                list.indexOf('one', 0, ReferenceEqualityComparator.get());
             });
 
             it('should find index of given item in specified range', function () {
                 const list = create(['one', 'two', 'three', 'four']);
 
-                expect(list.indexOf('four', 0, 2, StrictEqualityComparator.get())).toBe(-1);
-                expect(list.indexOf('four', 0, 4, StrictEqualityComparator.get())).toBe(3);
+                expect(list.indexOf('four', 0, 2, ReferenceEqualityComparator.get())).toBe(-1);
+                expect(list.indexOf('four', 0, 4, ReferenceEqualityComparator.get())).toBe(3);
             });
 
             it('should find index of given item starting from first element', function () {
@@ -128,8 +128,8 @@ export function testReadOnlyList(create: <I>(items?: Sequence<I>) => ReadOnlyLis
             it('should find index of given item starting from specified index', function () {
                 const list = create(['one', 'two']);
 
-                expect(list.indexOf('one', 1, StrictEqualityComparator.get())).toBe(-1);
-                expect(list.indexOf('two', 1, StrictEqualityComparator.get())).toBe(1);
+                expect(list.indexOf('one', 1, ReferenceEqualityComparator.get())).toBe(-1);
+                expect(list.indexOf('two', 1, ReferenceEqualityComparator.get())).toBe(1);
             });
 
             it('should find index of given item using custom equality comparator', function () {
@@ -145,7 +145,7 @@ export function testReadOnlyList(create: <I>(items?: Sequence<I>) => ReadOnlyLis
                 const list = create();
 
                 expect(() => {
-                    list.indexOf('one', 1, StrictEqualityComparator.get());
+                    list.indexOf('one', 1, ReferenceEqualityComparator.get());
                 }).toThrow(IndexOutOfBoundsException);
             });
 
@@ -153,11 +153,11 @@ export function testReadOnlyList(create: <I>(items?: Sequence<I>) => ReadOnlyLis
                 const list = create(['one', 'two', 'three', 'four']);
 
                 expect(() => {
-                    list.indexOf('one', 0, -1, StrictEqualityComparator.get());
+                    list.indexOf('one', 0, -1, ReferenceEqualityComparator.get());
                 }).toThrow(RangeException);
 
                 expect(() => {
-                    list.indexOf('one', 0, 5, StrictEqualityComparator.get());
+                    list.indexOf('one', 0, 5, ReferenceEqualityComparator.get());
                 }).toThrow(RangeException);
             });
         });
@@ -166,17 +166,17 @@ export function testReadOnlyList(create: <I>(items?: Sequence<I>) => ReadOnlyLis
             it('should throw RangeException if search range length specified as negative number', function () {
                 const list = create(['one', 'two', 'three', 'four']);
 
-                list.lastIndexOf('one', 0, 1, StrictEqualityComparator.get());
+                list.lastIndexOf('one', 0, 1, ReferenceEqualityComparator.get());
 
                 expect(() => {
-                    list.lastIndexOf('one', 0, 5, StrictEqualityComparator.get());
+                    list.lastIndexOf('one', 0, 5, ReferenceEqualityComparator.get());
                 }).toThrow(RangeException);
             });
 
             it('should not throw if `startIndex` argument is 0 and list length is 0', function () {
                 const list = create();
 
-                list.lastIndexOf('one', 0, StrictEqualityComparator.get());
+                list.lastIndexOf('one', 0, ReferenceEqualityComparator.get());
             });
 
             it('should not throw if `startIndex` argument is not defined', function () {
@@ -198,25 +198,25 @@ export function testReadOnlyList(create: <I>(items?: Sequence<I>) => ReadOnlyLis
             it('should find index of given item in specified range', function () {
                 const list = create(['one', 'two', 'three', 'four']);
 
-                expect(list.lastIndexOf('one', 3, 2, StrictEqualityComparator.get())).toBe(-1);
-                expect(list.lastIndexOf('one', 3, 4, StrictEqualityComparator.get())).toBe(0);
+                expect(list.lastIndexOf('one', 3, 2, ReferenceEqualityComparator.get())).toBe(-1);
+                expect(list.lastIndexOf('one', 3, 4, ReferenceEqualityComparator.get())).toBe(0);
             });
 
             it('should find index of given item starting with specified index', function () {
                 const source = create(['one', 'two', 'one', 'two', 'three', 'four']);
 
-                expect(source.lastIndexOf('five', 0, StrictEqualityComparator.get())).toBe(-1);
-                expect(source.lastIndexOf('one', 0, StrictEqualityComparator.get())).toBe(0);
-                expect(source.lastIndexOf('one', 1, StrictEqualityComparator.get())).toBe(0);
-                expect(source.lastIndexOf('one', 2, StrictEqualityComparator.get())).toBe(2);
-                expect(source.lastIndexOf('two', 2, StrictEqualityComparator.get())).toBe(1);
-                expect(source.lastIndexOf('two', 3, StrictEqualityComparator.get())).toBe(3);
-                expect(source.lastIndexOf('two', 4, StrictEqualityComparator.get())).toBe(3);
-                expect(source.lastIndexOf('three', 1, StrictEqualityComparator.get())).toBe(-1);
-                expect(source.lastIndexOf('three', 4, StrictEqualityComparator.get())).toBe(4);
-                expect(source.lastIndexOf('three', 5, StrictEqualityComparator.get())).toBe(4);
-                expect(source.lastIndexOf('four', 4, StrictEqualityComparator.get())).toBe(-1);
-                expect(source.lastIndexOf('four', 5, StrictEqualityComparator.get())).toBe(5);
+                expect(source.lastIndexOf('five', 0, ReferenceEqualityComparator.get())).toBe(-1);
+                expect(source.lastIndexOf('one', 0, ReferenceEqualityComparator.get())).toBe(0);
+                expect(source.lastIndexOf('one', 1, ReferenceEqualityComparator.get())).toBe(0);
+                expect(source.lastIndexOf('one', 2, ReferenceEqualityComparator.get())).toBe(2);
+                expect(source.lastIndexOf('two', 2, ReferenceEqualityComparator.get())).toBe(1);
+                expect(source.lastIndexOf('two', 3, ReferenceEqualityComparator.get())).toBe(3);
+                expect(source.lastIndexOf('two', 4, ReferenceEqualityComparator.get())).toBe(3);
+                expect(source.lastIndexOf('three', 1, ReferenceEqualityComparator.get())).toBe(-1);
+                expect(source.lastIndexOf('three', 4, ReferenceEqualityComparator.get())).toBe(4);
+                expect(source.lastIndexOf('three', 5, ReferenceEqualityComparator.get())).toBe(4);
+                expect(source.lastIndexOf('four', 4, ReferenceEqualityComparator.get())).toBe(-1);
+                expect(source.lastIndexOf('four', 5, ReferenceEqualityComparator.get())).toBe(5);
             });
 
             it('should find index of given item using custom equality comparator', function () {
@@ -232,7 +232,7 @@ export function testReadOnlyList(create: <I>(items?: Sequence<I>) => ReadOnlyLis
                 const list = create();
 
                 expect(() => {
-                    list.lastIndexOf('one', 1, StrictEqualityComparator.get());
+                    list.lastIndexOf('one', 1, ReferenceEqualityComparator.get());
                 }).toThrow(IndexOutOfBoundsException);
             });
 
@@ -240,7 +240,7 @@ export function testReadOnlyList(create: <I>(items?: Sequence<I>) => ReadOnlyLis
                 const list = create(['one', 'two', 'three', 'four']);
 
                 expect(() => {
-                    list.lastIndexOf('one', 0, -1, StrictEqualityComparator.get());
+                    list.lastIndexOf('one', 0, -1, ReferenceEqualityComparator.get());
                 }).toThrow(RangeException);
             });
         });

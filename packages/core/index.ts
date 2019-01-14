@@ -107,7 +107,7 @@ export * from './src/comparison/equality/IgnoreCaseEqualityComparator';
 export * from './src/comparison/equality/PreserveCaseEqualityComparator';
 export * from './src/comparison/equality/ObjectComparator';
 export * from './src/comparison/equality/ChainedEqualityComparator';
-export * from './src/comparison/equality/StrictEqualityComparator';
+export * from './src/comparison/equality/ReferenceEqualityComparator';
 
 export * from './src/random/RandomValue';
 export * from './src/random/RandomInt';

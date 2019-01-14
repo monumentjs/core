@@ -4,12 +4,12 @@ import {EqualityComparator} from './EqualityComparator';
  * @author Alex Chugaev
  * @since 0.0.1
  */
-export class StrictEqualityComparator implements EqualityComparator<any> {
-    private static _instance: StrictEqualityComparator | undefined;
+export class ReferenceEqualityComparator implements EqualityComparator<any> {
+    private static _instance: ReferenceEqualityComparator | undefined;
 
-    public static get(): StrictEqualityComparator {
+    public static get(): ReferenceEqualityComparator {
         if (this._instance == null) {
-            this._instance = new StrictEqualityComparator();
+            this._instance = new ReferenceEqualityComparator();
         }
 
         return this._instance;

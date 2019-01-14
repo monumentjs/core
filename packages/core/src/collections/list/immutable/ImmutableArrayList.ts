@@ -3,7 +3,7 @@ import {ImmutableList} from './ImmutableList';
 import {ReadOnlyCollectionBase} from '../../collection/readonly/ReadOnlyCollectionBase';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
 import {IteratorFunction} from '../../collection/readonly/ReadOnlyCollection';
-import {StrictEqualityComparator} from '../../../comparison/equality/StrictEqualityComparator';
+import {ReferenceEqualityComparator} from '../../../comparison/equality/ReferenceEqualityComparator';
 import {ArrayList} from '../mutable/ArrayList';
 
 /**
@@ -55,7 +55,7 @@ export class ImmutableArrayList<T> extends ReadOnlyCollectionBase<T> implements 
 
     public addIfAbsent(item: T): ImmutableList<T>;
     public addIfAbsent(item: T, comparator: EqualityComparator<T>): ImmutableList<T>;
-    public addIfAbsent(item: T, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): ImmutableList<T> {
+    public addIfAbsent(item: T, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ImmutableList<T> {
         const copy: ImmutableArrayList<T> = this.clone();
 
         if (copy._items.addIfAbsent(item, comparator)) {
@@ -145,7 +145,7 @@ export class ImmutableArrayList<T> extends ReadOnlyCollectionBase<T> implements 
 
     public remove(item: T): ImmutableList<T>;
     public remove(item: T, comparator: EqualityComparator<T>): ImmutableList<T>;
-    public remove(item: T, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): ImmutableList<T> {
+    public remove(item: T, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ImmutableList<T> {
         const copy: ImmutableArrayList<T> = this.clone();
 
         if (copy._items.remove(item, comparator)) {
@@ -157,7 +157,7 @@ export class ImmutableArrayList<T> extends ReadOnlyCollectionBase<T> implements 
 
     public removeAll(items: Iterable<T>): ImmutableList<T>;
     public removeAll(items: Iterable<T>, comparator: EqualityComparator<T>): ImmutableList<T>;
-    public removeAll(items: Iterable<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): ImmutableList<T> {
+    public removeAll(items: Iterable<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ImmutableList<T> {
         const copy: ImmutableArrayList<T> = this.clone();
 
         if (copy._items.removeAll(items, comparator)) {
@@ -187,7 +187,7 @@ export class ImmutableArrayList<T> extends ReadOnlyCollectionBase<T> implements 
 
     public retainAll(items: Iterable<T>): ImmutableList<T>;
     public retainAll(items: Iterable<T>, comparator: EqualityComparator<T>): ImmutableList<T>;
-    public retainAll(items: Iterable<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): ImmutableList<T> {
+    public retainAll(items: Iterable<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ImmutableList<T> {
         const copy: ImmutableArrayList<T> = this.clone();
 
         if (copy._items.retainAll(items, comparator)) {

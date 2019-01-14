@@ -1,7 +1,7 @@
 import {Supplier} from '../../../base/Supplier';
 import {KeyValuePair} from '../../base/KeyValuePair';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
-import {StrictEqualityComparator} from '../../../comparison/equality/StrictEqualityComparator';
+import {ReferenceEqualityComparator} from '../../../comparison/equality/ReferenceEqualityComparator';
 import {ReadOnlyMultiValueMap} from '../readonly/ReadOnlyMultiValueMap';
 import {ReadOnlyMap} from '../../map/readonly/ReadOnlyMap';
 import {LinkedMap} from '../../map/mutable/LinkedMap';
@@ -59,8 +59,8 @@ export class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V> {
     }
 
     public constructor(
-        keyComparator: EqualityComparator<K> = StrictEqualityComparator.get(),
-        valueComparator: EqualityComparator<V> = StrictEqualityComparator.get()
+        keyComparator: EqualityComparator<K> = ReferenceEqualityComparator.get(),
+        valueComparator: EqualityComparator<V> = ReferenceEqualityComparator.get()
     ) {
         this._keyComparator = keyComparator;
         this._valueComparator = valueComparator;

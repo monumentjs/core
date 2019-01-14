@@ -2,7 +2,7 @@ import {Sequence} from '../../base/Sequence';
 import {AggregateFunction, CombineFunction, IteratorFunction, ReadOnlyCollection, SelectorFunction} from './ReadOnlyCollection';
 import {ReadOnlyCollectionImpl} from './ReadOnlyCollectionImpl';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
-import {StrictEqualityComparator} from '../../../comparison/equality/StrictEqualityComparator';
+import {ReferenceEqualityComparator} from '../../../comparison/equality/ReferenceEqualityComparator';
 import {SortOrder} from '../../../comparison/order/SortOrder';
 import {Comparator} from '../../../comparison/order/Comparator';
 import {ReadOnlyMultiValueMap} from '../../multivaluemap/readonly/ReadOnlyMultiValueMap';
@@ -44,7 +44,7 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
 
     public contains(otherItem: T, comparator: EqualityComparator<T>): boolean;
 
-    public contains(otherItem: T, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): boolean {
+    public contains(otherItem: T, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): boolean {
         return new ReadOnlyCollectionImpl(this).contains(otherItem, comparator);
     }
 
@@ -52,7 +52,7 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
 
     public containsAll(items: Sequence<T>, comparator: EqualityComparator<T>): boolean;
 
-    public containsAll(items: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): boolean {
+    public containsAll(items: Sequence<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): boolean {
         return new ReadOnlyCollectionImpl(this).containsAll(items, comparator);
     }
 
@@ -64,7 +64,7 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
 
     public distinct(comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
 
-    public distinct(comparator: EqualityComparator<T> = StrictEqualityComparator.get()): ReadOnlyCollection<T> {
+    public distinct(comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ReadOnlyCollection<T> {
         return new ReadOnlyCollectionImpl(this).distinct(comparator);
     }
 
@@ -76,7 +76,7 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
 
     public except(otherList: Sequence<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
 
-    public except(otherList: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): ReadOnlyCollection<T> {
+    public except(otherList: Sequence<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ReadOnlyCollection<T> {
         return new ReadOnlyCollectionImpl(this).except(otherList, comparator);
     }
 
@@ -145,7 +145,7 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
 
     public groupBy<TKey>(
         keySelector: IteratorFunction<T, TKey>,
-        keyComparator: EqualityComparator<TKey> = StrictEqualityComparator.get()
+        keyComparator: EqualityComparator<TKey> = ReferenceEqualityComparator.get()
     ): ReadOnlyMultiValueMap<TKey, T> {
         return new ReadOnlyCollectionImpl(this).groupBy(keySelector, keyComparator);
     }
@@ -154,7 +154,7 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
 
     public intersect(otherList: Sequence<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
 
-    public intersect(otherList: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): ReadOnlyCollection<T> {
+    public intersect(otherList: Sequence<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ReadOnlyCollection<T> {
         return new ReadOnlyCollectionImpl(this).intersect(otherList, comparator);
     }
 
@@ -178,7 +178,7 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
         outerKeySelector: IteratorFunction<TOuter, TKey>,
         innerKeySelector: IteratorFunction<T, TKey>,
         resultSelector: CombineFunction<T, TOuter, TResult>,
-        keyComparator: EqualityComparator<TKey> = StrictEqualityComparator.get()
+        keyComparator: EqualityComparator<TKey> = ReferenceEqualityComparator.get()
     ): ReadOnlyCollection<TResult> {
         return new ReadOnlyCollectionImpl(this).join(outerList, outerKeySelector, innerKeySelector, resultSelector, keyComparator);
     }
@@ -285,7 +285,7 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
 
     public union(otherList: Sequence<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
 
-    public union(otherList: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): ReadOnlyCollection<T> {
+    public union(otherList: Sequence<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ReadOnlyCollection<T> {
         return new ReadOnlyCollectionImpl(this).union(otherList, comparator);
     }
 

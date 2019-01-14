@@ -1,5 +1,5 @@
 import {EqualityComparator} from './EqualityComparator';
-import {StrictEqualityComparator} from './StrictEqualityComparator';
+import {ReferenceEqualityComparator} from './ReferenceEqualityComparator';
 
 /**
  * @author Alex Chugaev
@@ -16,7 +16,7 @@ export class ChainedEqualityComparator {
 
     public withField<F>(x: F, y: F): this;
     public withField<F>(x: F, y: F, comparator: EqualityComparator<F>): this;
-    public withField<F>(x: F, y: F, comparator: EqualityComparator<F> = StrictEqualityComparator.get()): this {
+    public withField<F>(x: F, y: F, comparator: EqualityComparator<F> = ReferenceEqualityComparator.get()): this {
         this._comparisons.push([x, y, comparator]);
 
         return this;

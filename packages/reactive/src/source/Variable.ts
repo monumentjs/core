@@ -1,4 +1,4 @@
-import {EqualityComparator, StrictEqualityComparator} from '@monument/core';
+import {EqualityComparator, ReferenceEqualityComparator} from '@monument/core';
 import {BehaviorSubject} from '../base/BehaviorSubject';
 
 /**
@@ -8,7 +8,7 @@ import {BehaviorSubject} from '../base/BehaviorSubject';
 export class Variable<T> extends BehaviorSubject<T> {
     private readonly _valueComparator: EqualityComparator<T>;
 
-    public constructor(initialValue: T, valueComparator: EqualityComparator<T> = StrictEqualityComparator.get()) {
+    public constructor(initialValue: T, valueComparator: EqualityComparator<T> = ReferenceEqualityComparator.get()) {
         super(initialValue);
         this._valueComparator = valueComparator;
     }

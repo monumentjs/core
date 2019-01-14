@@ -3,7 +3,7 @@ import {KeyValuePair} from '../../base/KeyValuePair';
 import {Cloneable} from '../../../base/Cloneable';
 import {MapIteratorFunction} from '../../base/MapIteratorFunction';
 import {Map as IMap} from './Map';
-import {StrictEqualityComparator} from '../../../comparison/equality/StrictEqualityComparator';
+import {ReferenceEqualityComparator} from '../../../comparison/equality/ReferenceEqualityComparator';
 import {Supplier} from '../../../base/Supplier';
 
 /**
@@ -42,8 +42,8 @@ export class LinkedMap<K, V> implements IMap<K, V>, Cloneable<LinkedMap<K, V>> {
 
     public constructor(
         items?: Iterable<KeyValuePair<K, V>>,
-        keyComparator: EqualityComparator<K> = StrictEqualityComparator.get(),
-        valueComparator: EqualityComparator<V> = StrictEqualityComparator.get()
+        keyComparator: EqualityComparator<K> = ReferenceEqualityComparator.get(),
+        valueComparator: EqualityComparator<V> = ReferenceEqualityComparator.get()
     ) {
         this._keyComparator = keyComparator;
         this._valueComparator = valueComparator;

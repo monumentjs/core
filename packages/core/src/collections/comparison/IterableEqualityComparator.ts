@@ -1,10 +1,10 @@
 import {EqualityComparator} from '../../comparison/equality/EqualityComparator';
-import {StrictEqualityComparator} from '../../comparison/equality/StrictEqualityComparator';
+import {ReferenceEqualityComparator} from '../../comparison/equality/ReferenceEqualityComparator';
 
 export class IterableEqualityComparator<T> implements EqualityComparator<Iterable<T>> {
     private readonly _itemComparator: EqualityComparator<T>;
 
-    public constructor(itemComparator: EqualityComparator<T> = StrictEqualityComparator.get()) {
+    public constructor(itemComparator: EqualityComparator<T> = ReferenceEqualityComparator.get()) {
         this._itemComparator = itemComparator;
     }
 

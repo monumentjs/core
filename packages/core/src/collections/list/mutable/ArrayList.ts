@@ -1,7 +1,7 @@
 import {ReadOnlyCollection} from '../../collection/readonly/ReadOnlyCollection';
 import {Cloneable} from '../../../base/Cloneable';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
-import {StrictEqualityComparator} from '../../../comparison/equality/StrictEqualityComparator';
+import {ReferenceEqualityComparator} from '../../../comparison/equality/ReferenceEqualityComparator';
 import {ReadOnlyCollectionBase} from '../../collection/readonly/ReadOnlyCollectionBase';
 import {List} from './List';
 import {CollectionUtils} from '../../base/CollectionUtils';
@@ -56,7 +56,7 @@ export class ArrayList<T> extends ReadOnlyCollectionBase<T> implements List<T>, 
 
     public addIfAbsent(item: T, comparator: EqualityComparator<T>): boolean;
 
-    public addIfAbsent(item: T, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): boolean {
+    public addIfAbsent(item: T, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): boolean {
         if (this.contains(item, comparator)) {
             return false;
         }
@@ -193,7 +193,7 @@ export class ArrayList<T> extends ReadOnlyCollectionBase<T> implements List<T>, 
 
     public remove(item: T, comparator: EqualityComparator<T>): boolean;
 
-    public remove(item: T, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): boolean {
+    public remove(item: T, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): boolean {
         return this.removeBy((ownItem: T): boolean => {
             return comparator.equals(item, ownItem);
         });
@@ -203,7 +203,7 @@ export class ArrayList<T> extends ReadOnlyCollectionBase<T> implements List<T>, 
 
     public removeAll(items: Iterable<T>, comparator: EqualityComparator<T>): boolean;
 
-    public removeAll(items: Iterable<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): boolean {
+    public removeAll(items: Iterable<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): boolean {
         let modified: boolean = false;
 
         for (const item of items) {
@@ -244,7 +244,7 @@ export class ArrayList<T> extends ReadOnlyCollectionBase<T> implements List<T>, 
 
     public retainAll(items: Iterable<T>, comparator: EqualityComparator<T>): boolean;
 
-    public retainAll(items: Iterable<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): boolean {
+    public retainAll(items: Iterable<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): boolean {
         return this.removeBy((ownItem: T): boolean => {
             for (const item of items) {
                 if (comparator.equals(ownItem, item)) {
@@ -271,7 +271,7 @@ export class ArrayList<T> extends ReadOnlyCollectionBase<T> implements List<T>, 
     private getLastIndexOfArgs(
         startIndex?: number | EqualityComparator<T>,
         count?: number | EqualityComparator<T>,
-        comparator: EqualityComparator<T> = StrictEqualityComparator.get()
+        comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()
     ): [number, number, EqualityComparator<T>] {
         let _startIndex: number;
         let _count: number;
@@ -309,7 +309,7 @@ export class ArrayList<T> extends ReadOnlyCollectionBase<T> implements List<T>, 
     private getIndexOfArgs(
         startIndex?: number | EqualityComparator<T>,
         count?: number | EqualityComparator<T>,
-        comparator: EqualityComparator<T> = StrictEqualityComparator.get()
+        comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()
     ): [number, number, EqualityComparator<T>] {
         let _startIndex: number;
         let _count: number;
