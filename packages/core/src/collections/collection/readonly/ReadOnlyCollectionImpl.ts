@@ -207,7 +207,6 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
 
     public equals(otherList: Sequence<T>, comparator: EqualityComparator<T>): boolean;
 
-    // tslint:disable-next-line:cyclomatic-complexity
     public equals(otherList: Sequence<T>, comparator: EqualityComparator<T> = StrictEqualityComparator.get()): boolean {
         const otherList$: ReadOnlyCollectionImpl<T> = new ReadOnlyCollectionImpl(otherList);
 
@@ -372,7 +371,6 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
     public forEachBack(iterator: IteratorFunction<T, false | void>): void;
     public forEachBack(iterator: IteratorFunction<T, false | void>, startIndex: number): void;
     public forEachBack(iterator: IteratorFunction<T, false | void>, startIndex: number, count: number): void;
-    // tslint:disable-next-line:cyclomatic-complexity
     public forEachBack(
         iterator: IteratorFunction<T, false | void>,
         startIndex: number = Math.max(this.length - 1, 0),

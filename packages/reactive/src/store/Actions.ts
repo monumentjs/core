@@ -1,5 +1,5 @@
-import {SimpleSubject} from '../base/SimpleSubject';
+import {Subject} from '../base/Subject';
 import {Action} from './Action';
 
-export class Actions<TAction extends Action> extends SimpleSubject<TAction> {
+export class Actions<TAction extends Action> extends Subject<TAction> {
 }

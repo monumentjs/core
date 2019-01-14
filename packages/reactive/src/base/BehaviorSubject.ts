@@ -1,12 +1,11 @@
-import {Subscription} from './Subscription';
+import {Subject} from './Subject';
 import {Observer} from './Observer';
-import {SimpleSubject} from './SimpleSubject';
 
 /**
  * @since 0.0.1
  * @author Alex Chugaev
  */
-export class BehaviorSubject<T> extends SimpleSubject<T> {
+export class BehaviorSubject<T> extends Subject<T> {
     private _value: T;
 
     public get value(): T {
@@ -14,7 +13,10 @@ export class BehaviorSubject<T> extends SimpleSubject<T> {
     }
 
     public constructor(value: T) {
-        super();
+        super((observer: Observer<T>) => {
+            observer.next(this.value);
+        });
+
         this._value = value;
     }
 
@@ -22,13 +24,5 @@ export class BehaviorSubject<T> extends SimpleSubject<T> {
         this._value = value;
 
         super.next(value);
-    }
-
-    protected onSubscriptionAdded(observer: Observer<T>, subscription: Subscription<T>): void {
-        super.onSubscriptionAdded(observer, subscription);
-
-        if (observer.next) {
-            observer.next(this.value);
-        }
     }
 }

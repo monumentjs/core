@@ -1,21 +1,93 @@
-import {Disposable} from '@monument/core';
-import {Observer} from './Observer';
-import {Subscribable} from './Subscribable';
+import {ArraySet} from '@monument/core';
+import {SubscriptionTeardownLogic} from './SubscriptionTeardownLogic';
+import {Unsubscribable} from './Unsubscribable';
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
  */
-export class Subscription<T> implements Disposable<boolean> {
-    private readonly _subscribable: Subscribable<T>;
-    private readonly _observer: Observer<T>;
+export class Subscription implements Unsubscribable {
+    public static CLOSED: Subscription = ((subscription: Subscription) => {
+        subscription._isClosed = true;
 
-    public constructor(subscribable: Subscribable<T>, observer: Observer<T>) {
-        this._subscribable = subscribable;
-        this._observer = observer;
+        return subscription;
+    })(new Subscription());
+
+    private _isClosed: boolean = false;
+    private readonly _parents: ArraySet<Subscription> = new ArraySet();
+    private readonly _children: ArraySet<Subscription> = new ArraySet();
+    private readonly _unsubscribe?: () => void;
+
+    public get isClosed(): boolean {
+        return this._isClosed;
     }
 
-    public dispose(): boolean {
-        return this._subscribable.unsubscribe(this._observer);
+    public constructor(unsubscribe?: () => void) {
+        this._unsubscribe = unsubscribe;
+    }
+
+    public add(teardownLogic: SubscriptionTeardownLogic): Subscription {
+        if (this.isClosed) {
+            this.teardown(teardownLogic);
+
+            return Subscription.CLOSED;
+        }
+
+        if (teardownLogic === this) {
+            return this;
+        }
+
+        const subscription: Subscription = new Subscription(() => {
+            this.teardown(teardownLogic);
+        });
+
+        subscription._parents.add(this);
+
+        this._children.add(subscription);
+
+        return subscription;
+    }
+
+    public unsubscribe(): void {
+        if (this.isClosed) {
+            return;
+        }
+
+        this.detachFromParents();
+        this.doUnsubscribe();
+        this.unsubscribeChildren();
+
+        this._children.clear();
+
+        this._isClosed = true;
+    }
+
+    private detachFromParents() {
+        for (const parent of this._parents) {
+            parent._children.remove(this);
+        }
+    }
+
+    private doUnsubscribe() {
+        if (this._unsubscribe) {
+            this._unsubscribe();
+        }
+    }
+
+    private unsubscribeChildren() {
+        for (const subscription of this._children) {
+            subscription.unsubscribe();
+        }
+    }
+
+    private teardown(teardownLogic: SubscriptionTeardownLogic): void {
+        switch (typeof teardownLogic) {
+            case 'function':
+                teardownLogic();
+                break;
+            case 'object':
+                teardownLogic.unsubscribe();
+                break;
+        }
     }
 }

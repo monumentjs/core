@@ -19,8 +19,6 @@ export class DeepEqualityComparator implements EqualityComparator<object> {
     }
 
     public equals(actual: object, expected: object): boolean {
-        // tslint:disable:cyclomatic-complexity
-
         // 7.1. All identical values are equivalent, as determined by ===.
         if (actual === expected) {
             return true;
@@ -49,7 +47,6 @@ export class DeepEqualityComparator implements EqualityComparator<object> {
     }
 
     private isBuffer(x: any): boolean {
-        // tslint:disable:cyclomatic-complexity
         if (!x || typeof x !== 'object' || typeof x.length !== 'number') {
             return false;
         }
@@ -62,7 +59,6 @@ export class DeepEqualityComparator implements EqualityComparator<object> {
     }
 
     private objEquiv(a: any, b: any): boolean {
-        // tslint:disable:cyclomatic-complexity
         let kb: any;
         let ka: any;
         let i;

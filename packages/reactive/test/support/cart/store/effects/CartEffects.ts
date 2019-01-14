@@ -1,4 +1,4 @@
-import {Actions, Effects, Observable, Observer, SimpleSubject} from '../../../../..';
+import {Actions, Effects, Observable, Observer, Subject} from '../../../../..';
 import {CartAction} from '../actions/CartAction';
 import {CartActionType} from '../actions/CartActionType';
 import {AddProductAction} from '../actions/AddProductAction';
@@ -6,7 +6,7 @@ import {AddProductSuccessAction} from '../actions/AddProductSuccessAction';
 
 export class CartEffects implements Effects<CartAction> {
     public use(actions: Actions<CartAction>): Observable<CartAction> {
-        const subject: SimpleSubject<CartAction> = new SimpleSubject();
+        const subject: Subject<CartAction> = new Subject();
 
         actions.subscribe((action: CartAction) => {
             switch (action.type) {

@@ -168,8 +168,6 @@ export class ArraySet<T> extends ReadOnlyCollectionBase<T> implements Set<T>, Cl
     }
 
     public setEquals(other: ReadOnlySet<T>): boolean {
-        /* tslint:disable:cyclomatic-complexity */
-
         if (this.length !== other.length) {
             return false;
         }

@@ -268,7 +268,6 @@ export class ArrayList<T> extends ReadOnlyCollectionBase<T> implements List<T>, 
         return oldValue;
     }
 
-    // tslint:disable-next-line:cyclomatic-complexity
     private getLastIndexOfArgs(
         startIndex?: number | EqualityComparator<T>,
         count?: number | EqualityComparator<T>,

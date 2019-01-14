@@ -1,11 +1,11 @@
 import {isEven} from '@monument/core';
-import {filter, Observer, SimpleSubject} from '../../../..';
-import {TestObserver} from '../../../support/TestObserver';
+import {filter, Subject} from '../../../../..';
+import {TestObserver} from '../../../../support/TestObserver';
 
 describe('filter()', function () {
     it('should emit values which pass predicate', function () {
-        const observer: Observer<number> = new TestObserver();
-        const source: SimpleSubject<number> = new SimpleSubject();
+        const source: Subject<number> = new Subject();
+        const observer: TestObserver<number> = new TestObserver();
 
         source.pipe(filter(isEven)).subscribe(observer);
 

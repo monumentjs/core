@@ -693,7 +693,6 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
         return builder.build();
     }
 
-    // tslint:disable-next-line:cyclomatic-complexity
     private validateIntegrity(): void {
         if (!this.host) {
             if (!UriSchema.FILE.equals(this.schema)) {

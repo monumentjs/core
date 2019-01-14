@@ -1,22 +1,16 @@
-import {Key, TreeNode} from '../../../..';
+import {TreeNode} from '../../../..';
 
 describe('TreeNode', function () {
-    const VALUE: Key<string> = new Key('Node value');
-    let html!: TreeNode;
-    let head!: TreeNode;
-    let body!: TreeNode;
-    let main!: TreeNode;
+    let html!: TreeNode<string>;
+    let head!: TreeNode<string>;
+    let body!: TreeNode<string>;
+    let main!: TreeNode<string>;
 
     beforeEach(() => {
-        html = new TreeNode();
-        head = new TreeNode();
-        body = new TreeNode();
-        main = new TreeNode();
-
-        html.setAttribute(VALUE, 'html');
-        head.setAttribute(VALUE, 'head');
-        body.setAttribute(VALUE, 'body');
-        main.setAttribute(VALUE, 'main');
+        html = new TreeNode('html');
+        head = new TreeNode('head');
+        body = new TreeNode('body');
+        main = new TreeNode('main');
 
         html.addChild(head);
         html.addChild(body);
@@ -24,8 +18,8 @@ describe('TreeNode', function () {
     });
 
     it('parent/child relation', function () {
-        const parent: TreeNode = new TreeNode();
-        const child: TreeNode = new TreeNode();
+        const parent: TreeNode<string> = new TreeNode('parent');
+        const child: TreeNode<string> = new TreeNode('child');
 
         expect(parent.parentNode).toBe(undefined);
         expect(parent.childNodes.length).toBe(0);
@@ -61,18 +55,4 @@ describe('TreeNode', function () {
         expect(main.parentNode).toBe(body);
         expect(main.childNodes.length).toBe(0);
     });
-
-    // TODO: implement tree iterators
-    // it('iteration over the tree children', function () {
-    //     const mock = jest.fn();
-    //
-    //     for (const node of html.childNodes) {
-    //         mock(node.getAttribute(VALUE));
-    //     }
-    //
-    //     expect(mock).toHaveBeenCalledTimes(3);
-    //     expect(mock).toHaveBeenNthCalledWith(1, ['head']);
-    //     expect(mock).toHaveBeenNthCalledWith(2, ['body']);
-    //     expect(mock).toHaveBeenNthCalledWith(3, ['main']);
-    // });
 });

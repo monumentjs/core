@@ -144,7 +144,6 @@ export class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V> {
         return true;
     }
 
-    // tslint:disable-next-line:cyclomatic-complexity
     public equals(other: ReadOnlyMultiValueMap<K, V>): boolean {
         if (this === other) {
             return true;

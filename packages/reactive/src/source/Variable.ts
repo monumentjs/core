@@ -1,6 +1,4 @@
 import {EqualityComparator, StrictEqualityComparator} from '@monument/core';
-import {Observer} from '../base/Observer';
-import {Subscription} from '../base/Subscription';
 import {BehaviorSubject} from '../base/BehaviorSubject';
 
 /**
@@ -19,9 +17,5 @@ export class Variable<T> extends BehaviorSubject<T> {
         if (!this._valueComparator.equals(this.value, value)) {
             super.next(value);
         }
-    }
-
-    protected onSubscriptionAdded(observer: Observer<T>, subscription: Subscription<T>): void {
-        observer.next(this.value);
     }
 }

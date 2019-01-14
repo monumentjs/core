@@ -19,7 +19,6 @@ export class IgnoreCaseEqualityComparator implements EqualityComparator<string |
     }
 
     public equals(current: string | null | undefined, other: string | null | undefined): boolean {
-        // tslint:disable-next-line:cyclomatic-complexity
         if (current == null && other == null) {
             return true;
         }

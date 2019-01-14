@@ -16,6 +16,7 @@ export * from './src/benchmark/Benchmark';
 export * from './src/function/isEven';
 export * from './src/function/isOdd';
 export * from './src/function/noop';
+export * from './src/function/sleep';
 export * from './src/function/times';
 export * from './src/function/range';
 
