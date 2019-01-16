@@ -1,15 +1,15 @@
 // Export public API
 
 export * from './src/base/Builder';
+export * from './src/base/Callable';
 export * from './src/base/Cloneable';
 export * from './src/base/Disposable';
+export * from './src/base/MemorySize';
 export * from './src/base/Mergeable';
+export * from './src/base/Supplier';
 export * from './src/base/ToJSON';
 export * from './src/base/ToString';
-export * from './src/base/Supplier';
 export * from './src/base/Type';
-export * from './src/base/MemorySize';
-export * from './src/base/types';
 
 export * from './src/benchmark/Benchmark';
 
@@ -38,6 +38,10 @@ export * from './src/events/EventSource';
 export * from './src/events/EventArgs';
 export * from './src/events/EventHandler';
 
+export * from './src/collections/attributes/Key';
+export * from './src/collections/attributes/readonly/ReadOnlyAttributeAccessor';
+export * from './src/collections/attributes/mutable/AttributeAccessor';
+
 export * from './src/collections/base/CollectionUtils';
 export * from './src/collections/base/KeyValuePair';
 export * from './src/collections/base/MapIteratorFunction';
@@ -46,11 +50,11 @@ export * from './src/collections/base/NoSuchItemException';
 export * from './src/collections/base/Sequence';
 export * from './src/collections/base/ToArray';
 
-export * from './src/collections/comparison/IterableEqualityComparator';
-
 export * from './src/collections/collection/readonly/ReadOnlyCollection';
 export * from './src/collections/collection/readonly/ReadOnlyCollectionBase';
 export * from './src/collections/collection/readonly/ReadOnlyCollectionImpl';
+
+export * from './src/collections/comparison/IterableEqualityComparator';
 
 export * from './src/collections/list/readonly/ReadOnlyList';
 export * from './src/collections/list/mutable/List';
@@ -81,10 +85,6 @@ export * from './src/collections/multivaluemap/mutable/LinkedMultiValueMap';
 export * from './src/collections/multivaluemap/mutable/MultiValueMap';
 
 export * from './src/collections/specialized/BitSet';
-
-export * from './src/collections/attributes/Key';
-export * from './src/collections/attributes/readonly/ReadOnlyAttributeAccessor';
-export * from './src/collections/attributes/mutable/AttributeAccessor';
 
 export * from './src/collections/tree/TreeNode';
 

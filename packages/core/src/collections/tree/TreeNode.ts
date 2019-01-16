@@ -5,8 +5,9 @@ import {ArrayList} from '../list/mutable/ArrayList';
 /**
  * @author Alex Chugaev
  * @since 0.0.1
+ * @mutable
  */
-export class TreeNode<T> {
+export class TreeNode<T> implements Iterable<T> {
     private readonly _childNodes: ArrayList<TreeNode<T>> = new ArrayList();
     private _parentNode: TreeNode<T> | undefined;
     private _value: T;
@@ -103,10 +104,26 @@ export class TreeNode<T> {
         this._value = value;
     }
 
+    public* [Symbol.iterator](): Iterator<T> {
+        yield this.value;
+
+        for (const node of this.childNodes) {
+            yield* node;
+        }
+    }
+
     public addChild(node: TreeNode<T>): void {
         node.parentNode = this;
 
         this._childNodes.addIfAbsent(node);
+    }
+
+    public* findAll(predicate: (value: T) => boolean): Iterable<T> {
+        for (const value of this) {
+            if (predicate(value)) {
+                yield value;
+            }
+        }
     }
 
     public hasChild(node: TreeNode<T>): boolean {
