@@ -11,6 +11,6 @@ export * from './store/actions/UpdateQuantityAction';
 export * from './store/state/CartItem';
 export * from './store/state/CartState';
 
-export * from './store/effects/CartEffects';
+export * from './store/effects/CartEffect';
 
 export * from './store/CartStore';

@@ -1,22 +1,23 @@
 import {Store} from '../../..';
-import {CartActions, CartEffects, CartState, CartStore} from '../../support/cart';
+import {AddProductAction, AddProductSuccessAction, CartActions, CartEffect, CartState, CartStore} from '../../support/cart';
 import {TestObserver} from '../../support/TestObserver';
-
 
 describe('Store', function () {
     test('state update', function () {
-        const actions: CartActions = new CartActions();
-        const effects: CartEffects = new CartEffects();
-        const store: CartStore = new CartStore(actions, effects);
-        const stateA: CartState = store.value;
-        const observer = new TestObserver();
+        const cartActions: CartActions = new CartActions();
+        const cartEffect: CartEffect = new CartEffect();
+        const cartStore: CartStore = new CartStore(cartActions, cartEffect);
+        const stateA: CartState = cartStore.value;
+        const cartObserver = new TestObserver();
+        const actionsObserver = new TestObserver();
 
-        store.subscribe(observer);
+        cartActions.subscribe(actionsObserver);
+        cartStore.subscribe(cartObserver);
 
-        expect(store.value.items.length).toBe(0);
-        expect(store.value.totalPrice).toBe(0);
+        expect(cartStore.value.items.length).toBe(0);
+        expect(cartStore.value.totalPrice).toBe(0);
 
-        actions.addProduct({
+        cartActions.addProduct({
             itemId: 1,
             productId: 1,
             productName: 'Product One',
@@ -24,17 +25,19 @@ describe('Store', function () {
             quantity: 1
         });
 
-        const stateB: CartState = store.value;
+        const stateB: CartState = cartStore.value;
 
-        expect(store.value.items.length).toEqual(1);
-        expect(store.value.totalPrice).toEqual(1.23);
+        expect(cartStore.value.items.length).toEqual(1);
+        expect(cartStore.value.totalPrice).toEqual(1.23);
+        expect(actionsObserver.next.mock.calls[0][0]).toBeInstanceOf(AddProductSuccessAction);
+        expect(actionsObserver.next.mock.calls[1][0]).toBeInstanceOf(AddProductAction);
 
-        actions.updateQuantity(1, 2);
+        cartActions.updateQuantity(1, 2);
 
-        const stateC: CartState = store.value;
+        const stateC: CartState = cartStore.value;
 
-        expect(store.value.items.length).toEqual(1);
-        expect(store.value.totalPrice).toEqual(2.46);
+        expect(cartStore.value.items.length).toEqual(1);
+        expect(cartStore.value.totalPrice).toEqual(2.46);
 
         expect(stateA).not.toBe(stateB);
         expect(stateB).not.toBe(stateC);

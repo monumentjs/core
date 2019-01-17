@@ -1,6 +1,6 @@
 import {Action} from './Action';
 import {BehaviorSubject} from '../base/BehaviorSubject';
-import {Effects} from './Effects';
+import {Effect} from './Effect';
 import {Actions} from './Actions';
 
 /**
@@ -8,23 +8,22 @@ import {Actions} from './Actions';
  * @author Alex Chugaev
  */
 export abstract class Store<TState, TAction extends Action> extends BehaviorSubject<TState> {
+    private readonly _actions: Actions<TAction>;
+    private readonly _effects: Array<Effect<TAction>>;
 
     protected constructor(
         initialState: TState,
         actions: Actions<TAction>,
-        effects?: Effects<TAction>
+        ...effects: Array<Effect<TAction>>
     ) {
         super(initialState);
+        this._actions = actions;
+        this._effects = effects;
 
         actions.subscribe((action: TAction): void => {
-            this.next(this.reduce(action));
+            this.processState(action);
+            this.processEffects(action);
         });
-
-        if (effects) {
-            // Creates vicious circle for each effect:
-            // Each effect can react on actions and push back new ones through mediator.
-            effects.use(actions).subscribe(actions);
-        }
     }
 
     public next(value: TState) {
@@ -34,4 +33,32 @@ export abstract class Store<TState, TAction extends Action> extends BehaviorSubj
     }
 
     protected abstract reduce(action: TAction): TState;
+
+    private processEffects(action: TAction) {
+        for (const effect of this._effects) {
+            const result = effect.onAction(action);
+
+            if (result) {
+                if (result instanceof Array) {
+                    for (const newAction of result) {
+                        this._actions.next(newAction);
+                    }
+                } else {
+                    const subscription = result.subscribe(
+                        (newAction: TAction) => {
+                            this._actions.next(newAction);
+                        },
+                        undefined,
+                        () => {
+                            subscription.unsubscribe();
+                        }
+                    );
+                }
+            }
+        }
+    }
+
+    private processState(action: TAction) {
+        this.next(this.reduce(action));
+    }
 }

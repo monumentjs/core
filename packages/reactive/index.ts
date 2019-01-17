@@ -26,7 +26,7 @@ export * from './src/operators/transformation/mapTo';
 
 export * from './src/store/Action';
 export * from './src/store/Actions';
-export * from './src/store/Effects';
+export * from './src/store/Effect';
 export * from './src/store/Store';
 
 export * from './src/source/ValuesObservable';
