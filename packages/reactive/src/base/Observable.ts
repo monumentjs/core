@@ -2,10 +2,10 @@ import {ArrayList} from '@monument/core';
 import {OnComplete, OnError, OnNext, Subscribable} from './Subscribable';
 import {Observer} from './Observer';
 import {Subscription} from './Subscription';
-import {SubscriptionProducer} from './SubscriptionProducer';
+import {SubscribeFunction} from './SubscribeFunction';
 import {ProtectedObserver} from './ProtectedObserver';
 import {PartialObserver} from './PartialObserver';
-import {SubscriptionTeardownLogic} from './SubscriptionTeardownLogic';
+import {TeardownLogic} from './TeardownLogic';
 
 export type OperatorFunction<T, R> = (input: Observable<T>) => Observable<R>;
 
@@ -14,8 +14,29 @@ export type OperatorFunction<T, R> = (input: Observable<T>) => Observable<R>;
  * @since 0.0.1
  */
 export class Observable<T> implements Subscribable<T> {
+    public static of<T>(...values: T[]): Observable<T> {
+        return this.from(values);
+    }
+
+    public static from<T>(values: Iterable<T>): Observable<T> {
+        return new Observable((observer: Observer<T>) => {
+            for (const value of values) {
+                observer.next(value);
+            }
+
+            observer.complete();
+        });
+    }
+
+    public static just<T>(value: T): Observable<T> {
+        return new Observable((observer: Observer<T>) => {
+            observer.next(value);
+            observer.complete();
+        });
+    }
+
     private readonly _observers: ArrayList<Observer<T>> = new ArrayList();
-    private readonly _subscribe: SubscriptionProducer<T>;
+    private readonly _subscribe: SubscribeFunction<T>;
 
     public get observers(): Iterable<Observer<T>> {
         return this._observers;
@@ -25,7 +46,7 @@ export class Observable<T> implements Subscribable<T> {
         return this._observers.length;
     }
 
-    public constructor(subscribe: SubscriptionProducer<T>) {
+    public constructor(subscribe: SubscribeFunction<T>) {
         this._subscribe = subscribe;
     }
 
@@ -33,7 +54,7 @@ export class Observable<T> implements Subscribable<T> {
     public subscribe(next?: OnNext<T>, error?: OnError, complete?: OnComplete): Subscription;
     public subscribe(next?: Partial<Observer<T>> | OnNext<T>, error?: OnError, complete?: OnComplete): Subscription {
         const observer: Observer<T> = new ProtectedObserver(new PartialObserver(next as any, error, complete));
-        const teardownLogic: SubscriptionTeardownLogic | void = this._subscribe(observer);
+        const teardownLogic: TeardownLogic = this._subscribe(observer);
         const subscription: Subscription = new Subscription(() => {
             this._observers.remove(observer);
         });

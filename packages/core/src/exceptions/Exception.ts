@@ -1,12 +1,9 @@
-import {ToJSON} from '../base/ToJSON';
-import {ToString} from '../base/ToString';
-import {EOL_CRLF} from '../text/Strings';
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
  */
-export class Exception extends Error implements ToJSON<Error>, ToString {
+export class Exception extends Error {
     public static cast(error: Error): Exception {
         if (error instanceof Exception) {
             return error;
@@ -31,15 +28,6 @@ export class Exception extends Error implements ToJSON<Error>, ToString {
         }
     }
 
-    public toJSON() {
-        return {
-            message: this.message,
-            name: this.name,
-            stack: this.stack,
-            cause: this.cause
-        };
-    }
-
     public toString(): string {
         let value: string = '';
 
@@ -50,7 +38,7 @@ export class Exception extends Error implements ToJSON<Error>, ToString {
         }
 
         if (this.cause != null) {
-            value += EOL_CRLF + 'Caused by ';
+            value += '\r\nCaused by ';
             value += this.cause.toString();
         }
 

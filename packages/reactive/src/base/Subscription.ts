@@ -1,5 +1,5 @@
 import {ArraySet} from '@monument/core';
-import {SubscriptionTeardownLogic} from './SubscriptionTeardownLogic';
+import {TeardownLogic} from './TeardownLogic';
 import {Unsubscribable} from './Unsubscribable';
 
 /**
@@ -26,7 +26,7 @@ export class Subscription implements Unsubscribable {
         this._unsubscribe = unsubscribe;
     }
 
-    public add(teardownLogic: SubscriptionTeardownLogic): Subscription {
+    public add(teardownLogic: TeardownLogic): Subscription {
         if (this.isClosed) {
             this.teardown(teardownLogic);
 
@@ -53,13 +53,13 @@ export class Subscription implements Unsubscribable {
             return;
         }
 
+        this._isClosed = true;
+
         this.detachFromParents();
         this.doUnsubscribe();
-        this.unsubscribeChildren();
+        this.cancelChildrenSubscriptions();
 
         this._children.clear();
-
-        this._isClosed = true;
     }
 
     private detachFromParents() {
@@ -74,13 +74,13 @@ export class Subscription implements Unsubscribable {
         }
     }
 
-    private unsubscribeChildren() {
-        for (const subscription of this._children) {
-            subscription.unsubscribe();
+    private cancelChildrenSubscriptions() {
+        for (const childSubscription of this._children) {
+            childSubscription.unsubscribe();
         }
     }
 
-    private teardown(teardownLogic: SubscriptionTeardownLogic): void {
+    private teardown(teardownLogic: TeardownLogic): void {
         switch (typeof teardownLogic) {
             case 'function':
                 teardownLogic();

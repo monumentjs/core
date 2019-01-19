@@ -2,7 +2,7 @@ import {ToArray} from '../../base/ToArray';
 import {Sequence} from '../../base/Sequence';
 import {KeyValuePair} from '../../base/KeyValuePair';
 import {ReadOnlyMap} from '../../map/readonly/ReadOnlyMap';
-import {Supplier} from '../../../base/Supplier';
+import {SupplyFunction} from '../../../function/SupplyFunction';
 import {Equatable} from '../../../comparison/equality/Equatable';
 
 /**
@@ -36,7 +36,7 @@ export interface ReadOnlyMultiValueMap<K, V> extends
 
     getFirst(key: K): V | undefined;
 
-    getFirst(key: K, fallback: Supplier<V>): V;
+    getFirst(key: K, fallback: SupplyFunction<V>): V;
 
     keyOf(value: V): K | undefined;
 

@@ -4,7 +4,7 @@ import {Cloneable} from '../../../base/Cloneable';
 import {MapIteratorFunction} from '../../base/MapIteratorFunction';
 import {Map as IMap} from './Map';
 import {ReferenceEqualityComparator} from '../../../comparison/equality/ReferenceEqualityComparator';
-import {Supplier} from '../../../base/Supplier';
+import {SupplyFunction} from '../../../function/SupplyFunction';
 
 /**
  * @author Alex Chugaev
@@ -133,9 +133,9 @@ export class LinkedMap<K, V> implements IMap<K, V>, Cloneable<LinkedMap<K, V>> {
 
     public get(key: K): V | undefined;
 
-    public get(key: K, fallback: Supplier<V>): V;
+    public get(key: K, fallback: SupplyFunction<V>): V;
 
-    public get(key: K, fallback?: Supplier<V>): V | undefined {
+    public get(key: K, fallback?: SupplyFunction<V>): V | undefined {
         const entry = this.getEntry(key);
 
         if (entry != null) {

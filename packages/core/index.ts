@@ -6,7 +6,6 @@ export * from './src/base/Cloneable';
 export * from './src/base/Disposable';
 export * from './src/base/MemorySize';
 export * from './src/base/Mergeable';
-export * from './src/base/Supplier';
 export * from './src/base/ToJSON';
 export * from './src/base/ToString';
 export * from './src/base/Type';
@@ -20,6 +19,9 @@ export * from './src/function/sleep';
 export * from './src/function/times';
 export * from './src/function/range';
 
+export * from './src/function/SupplyFunction';
+export * from './src/function/ProjectFunction';
+
 export * from './src/exceptions/Exception';
 export * from './src/exceptions/FormatException';
 export * from './src/exceptions/IndexOutOfBoundsException';
@@ -31,12 +33,6 @@ export * from './src/exceptions/MissingKeyException';
 export * from './src/exceptions/OperationNotSupportedException';
 export * from './src/exceptions/RangeException';
 export * from './src/exceptions/RuntimeException';
-
-export * from './src/events/EventDispatcher';
-export * from './src/events/ErrorEventArgs';
-export * from './src/events/EventSource';
-export * from './src/events/EventArgs';
-export * from './src/events/EventHandler';
 
 export * from './src/collections/attributes/Key';
 export * from './src/collections/attributes/readonly/ReadOnlyAttributeAccessor';

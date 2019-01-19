@@ -1,11 +1,11 @@
 import {noop} from '@monument/core';
 import {Observer} from './Observer';
 import {Observable} from './Observable';
-import {SubscriptionProducer} from './SubscriptionProducer';
+import {SubscribeFunction} from './SubscribeFunction';
 
 export class Subject<T> extends Observable<T> implements Observer<T> {
 
-    public constructor(subscribe: SubscriptionProducer<T> = noop) {
+    public constructor(subscribe: SubscribeFunction<T> = noop) {
         super(subscribe);
     }
 

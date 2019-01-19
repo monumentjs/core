@@ -1,11 +1,11 @@
-import {Supplier} from '@monument/core';
+import {SupplyFunction} from '@monument/core';
 import {Observable, OperatorFunction} from '../../base/Observable';
 import {Subject} from '../../base/Subject';
 import {Observer} from '../../base/Observer';
 import {Subscription} from '../../base/Subscription';
 
-export function fallback<T>(supplier: Supplier<T>): OperatorFunction<T, T> {
-    return (input: Observable<T>): Observable<T> => {
+export function fallback<T>(supplier: SupplyFunction<T>): OperatorFunction<T, T> {
+    return (source: Observable<T>): Observable<T> => {
         let lastValue!: T;
         let lastValueInitialized: boolean = false;
 
@@ -19,10 +19,10 @@ export function fallback<T>(supplier: Supplier<T>): OperatorFunction<T, T> {
             return subscription;
         });
 
-        const subscription: Subscription = input.subscribe((value: T) => {
+        const subscription: Subscription = source.subscribe((input: T) => {
             lastValueInitialized = true;
-            lastValue = value;
-            subject.next(value);
+            lastValue = input;
+            subject.next(input);
         });
 
         return subject;

@@ -4,6 +4,14 @@ export class ProtectedObserver<T> extends ObserverDecorator<T> {
     private _isComplete: boolean = false;
     private _isBroken: boolean = false;
 
+    public get isBroken(): boolean {
+        return this._isBroken;
+    }
+
+    public get isComplete(): boolean {
+        return this._isComplete;
+    }
+
     public complete(): void {
         if (this._isComplete === false) {
             this._isComplete = true;

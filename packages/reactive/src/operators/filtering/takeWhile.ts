@@ -4,11 +4,11 @@ import {Observer} from '../../base/Observer';
 import {Subscription} from '../../base/Subscription';
 
 export function takeWhile<T>(predicate: (value: T) => boolean): OperatorFunction<T, T> {
-    return (input: Observable<T>): Observable<T> => {
+    return (source: Observable<T>): Observable<T> => {
         return new Subject((observer: Observer<T>) => {
-            const subscription: Subscription = input.subscribe((value: T) => {
-                if (predicate(value)) {
-                    observer.next(value);
+            const subscription: Subscription = source.subscribe((input: T) => {
+                if (predicate(input)) {
+                    observer.next(input);
                 } else {
                     observer.complete();
 

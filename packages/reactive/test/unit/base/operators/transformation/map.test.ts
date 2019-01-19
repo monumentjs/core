@@ -25,5 +25,9 @@ describe('map()', function () {
         expect(observer.next).toHaveBeenNthCalledWith(4, false);
         expect(observer.error).toHaveBeenCalledTimes(0);
         expect(observer.complete).toHaveBeenCalledTimes(0);
+
+        source.complete();
+
+        expect(observer.complete).toHaveBeenCalledTimes(1);
     });
 });

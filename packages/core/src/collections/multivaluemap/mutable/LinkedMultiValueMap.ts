@@ -1,4 +1,4 @@
-import {Supplier} from '../../../base/Supplier';
+import {SupplyFunction} from '../../../function/SupplyFunction';
 import {KeyValuePair} from '../../base/KeyValuePair';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
 import {ReferenceEqualityComparator} from '../../../comparison/equality/ReferenceEqualityComparator';
@@ -173,8 +173,8 @@ export class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V> {
     }
 
     public getFirst(key: K): V | undefined;
-    public getFirst(key: K, fallback: Supplier<V>): V;
-    public getFirst(key: K, fallback?: Supplier<V>): V | undefined {
+    public getFirst(key: K, fallback: SupplyFunction<V>): V;
+    public getFirst(key: K, fallback?: SupplyFunction<V>): V | undefined {
         const entry: KeyValuePair<K, V[]> | undefined = this.getEntry(key);
 
         if (entry != null) {

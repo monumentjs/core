@@ -4,7 +4,7 @@ import {
     Equatable,
     EquatableComparator,
     IgnoreCaseEqualityComparator,
-    PreserveCaseEqualityComparator, Supplier,
+    PreserveCaseEqualityComparator, SupplyFunction,
     ToJSON,
     ToString
 } from '@monument/core';
@@ -202,9 +202,9 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
 
     public getParameter(name: string): ToString | undefined;
 
-    public getParameter(name: string, fallback: Supplier<ToString>): ToString;
+    public getParameter(name: string, fallback: SupplyFunction<ToString>): ToString;
 
-    public getParameter(name: string, fallback?: Supplier<ToString>): ToString | undefined {
+    public getParameter(name: string, fallback?: SupplyFunction<ToString>): ToString | undefined {
         const value: ToString | undefined = this._queryParameters.getFirst(name);
 
         if (value != null) {
