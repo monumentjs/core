@@ -2,7 +2,7 @@ import {Cloneable} from '../../../base/Cloneable';
 import {ImmutableList} from './ImmutableList';
 import {ReadOnlyCollectionBase} from '../../collection/readonly/ReadOnlyCollectionBase';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
-import {IteratorFunction} from '../../collection/readonly/ReadOnlyCollection';
+import {IteratorFunction} from '../../function/IteratorFunction';
 import {ReferenceEqualityComparator} from '../../../comparison/equality/ReferenceEqualityComparator';
 import {ArrayList} from '../mutable/ArrayList';
 

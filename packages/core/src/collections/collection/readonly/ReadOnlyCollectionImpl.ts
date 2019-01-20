@@ -1,10 +1,4 @@
-import {
-    AggregateFunction,
-    CombineFunction,
-    IteratorFunction,
-    ReadOnlyCollection,
-    SelectorFunction
-} from './ReadOnlyCollection';
+import {ReadOnlyCollection} from './ReadOnlyCollection';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
 import {Comparator} from '../../../comparison/order/Comparator';
 import {SortOrder} from '../../../comparison/order/SortOrder';
@@ -19,6 +13,11 @@ import {Sequence} from '../../base/Sequence';
 import {ReadOnlyMultiValueMap} from '../../multivaluemap/readonly/ReadOnlyMultiValueMap';
 import {LinkedMultiValueMap} from '../../multivaluemap/mutable/LinkedMultiValueMap';
 import {KeyValuePair} from '../../base/KeyValuePair';
+import {AggregateFunction} from '../../function/AggregateFunction';
+import {IteratorFunction} from '../../function/IteratorFunction';
+import {CombineFunction} from '../../../function/CombineFunction';
+import {ProjectFunction} from '../../../function/ProjectFunction';
+import {SupplyFunction} from '../../../function/SupplyFunction';
 
 /**
  * @author Alex Chugaev
@@ -29,8 +28,12 @@ import {KeyValuePair} from '../../base/KeyValuePair';
 export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
     private readonly _source: Iterable<T>;
 
-    public constructor(source: Iterable<T>, isStatic: boolean = false) {
-        this._source = isStatic ? [...source] : source;
+    public get isEmpty(): boolean {
+        for (const _ of this) {
+            return false;
+        }
+
+        return true;
     }
 
     public get length(): number {
@@ -43,12 +46,8 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
         return length;
     }
 
-    public get isEmpty(): boolean {
-        for (const _ of this) {
-            return false;
-        }
-
-        return true;
+    public constructor(source: Iterable<T>, isStatic: boolean = false) {
+        this._source = isStatic ? [...source] : source;
     }
 
     public [Symbol.iterator](): Iterator<T> {
@@ -58,8 +57,8 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
     public aggregate<TAggregate>(iterator: AggregateFunction<T, TAggregate>, initialSeed: TAggregate): TAggregate {
         let lastSeed: TAggregate = initialSeed;
 
-        for (const [index, ownItem] of this.entries()) {
-            lastSeed = iterator(lastSeed, ownItem, index);
+        for (const [ownIndex, ownItem] of this.entries()) {
+            lastSeed = iterator(lastSeed, ownItem, ownIndex);
         }
 
         return lastSeed;
@@ -70,8 +69,8 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
             throw new InvalidOperationException(`Operation is not allowed for empty lists.`);
         }
 
-        for (const [index, ownItem] of this.entries()) {
-            if (!predicate(ownItem, index)) {
+        for (const [ownIndex, ownItem] of this.entries()) {
+            if (!predicate(ownItem, ownIndex)) {
                 return false;
             }
         }
@@ -84,8 +83,8 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
             throw new InvalidOperationException(`Operation is not allowed for empty lists.`);
         }
 
-        for (const [index, ownItem] of this.entries()) {
-            if (predicate(ownItem, index)) {
+        for (const [ownIndex, ownItem] of this.entries()) {
+            if (predicate(ownItem, ownIndex)) {
                 return true;
             }
         }
@@ -99,6 +98,32 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
         }
 
         return this.sum(selector) / this.length;
+    }
+
+    public chunk(size: number = 1): ReadOnlyCollection<Iterable<T>> {
+        const self: this = this;
+
+        return new ReadOnlyCollectionImpl({
+            * [Symbol.iterator](): Iterator<Iterable<T>> {
+                let itemsLeft: number = size;
+                let chunk: T[] = [];
+
+                for (const ownItem of self) {
+                    chunk.push(ownItem);
+                    itemsLeft--;
+
+                    if (itemsLeft === 0) {
+                        yield chunk;
+                        itemsLeft = size;
+                        chunk = [];
+                    }
+                }
+
+                if (chunk.length > 0) {
+                    yield chunk;
+                }
+            }
+        });
     }
 
     public concat(otherList: Sequence<T>, ...others: Array<Sequence<T>>): ReadOnlyCollection<T> {
@@ -239,17 +264,17 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
     /**
      * Produces the set difference of two sequences.
      */
-    public except(otherList: Sequence<T>): ReadOnlyCollection<T>;
+    public except(otherList: Iterable<T>): ReadOnlyCollection<T>;
 
     /**
      * Produces the set difference of two sequences.
      */
-    public except(otherList: Sequence<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
+    public except(otherList: Iterable<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
 
     /**
      * Produces the set difference of two sequences.
      */
-    public except(otherList: Sequence<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ReadOnlyCollection<T> {
+    public except(otherList: Iterable<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ReadOnlyCollection<T> {
         const self: this = this;
         const otherList$: ReadOnlyCollectionImpl<T> = new ReadOnlyCollectionImpl(otherList);
 
@@ -324,20 +349,20 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
     }
 
     public first(predicate: IteratorFunction<T, boolean>): T | undefined;
-    public first(predicate: IteratorFunction<T, boolean>, defaultValue: T): T;
-    public first(predicate: IteratorFunction<T, boolean>, defaultValue?: T): T | undefined {
+    public first(predicate: IteratorFunction<T, boolean>, fallback: SupplyFunction<T>): T;
+    public first(predicate: IteratorFunction<T, boolean>, fallback?: SupplyFunction<T>): T | undefined {
         for (const [index, ownItem] of this.entries()) {
             if (predicate(ownItem, index)) {
                 return ownItem;
             }
         }
 
-        return defaultValue;
+        return fallback ? fallback() : undefined;
     }
 
-    public firstOrDefault(defaultValue: T): T {
+    public firstOrDefault(fallback: SupplyFunction<T>): T {
         if (this.isEmpty) {
-            return defaultValue;
+            return fallback();
         } else {
             return this.getAt(0);
         }
@@ -490,23 +515,25 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
 
     public last(predicate: IteratorFunction<T, boolean>): T | undefined;
 
-    public last(predicate: IteratorFunction<T, boolean>, defaultValue: T): T;
+    public last(predicate: IteratorFunction<T, boolean>, fallback: SupplyFunction<T>): T;
 
-    public last(predicate: IteratorFunction<T, boolean>, defaultValue?: T): T | undefined {
-        let lastItem: T | undefined = defaultValue;
+    public last(predicate: IteratorFunction<T, boolean>, fallback?: SupplyFunction<T>): T | undefined {
+        let lastItem: T | undefined;
+        let itemFound: boolean = false;
 
         for (const [index, ownItem] of this.entries()) {
             if (predicate(ownItem, index)) {
                 lastItem = ownItem;
+                itemFound = true;
             }
         }
 
-        return lastItem;
+        return itemFound ? lastItem : fallback ? fallback() : undefined;
     }
 
-    public lastOrDefault(defaultValue: T): T {
+    public lastOrDefault(fallback: SupplyFunction<T>): T {
         if (this.isEmpty) {
-            return defaultValue;
+            return fallback();
         } else {
             return this.getAt(this.length - 1);
         }
@@ -556,10 +583,10 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
         }, 0);
     }
 
-    public orderBy<TKey>(keySelector: SelectorFunction<T, TKey>, comparator: Comparator<TKey>): ReadOnlyCollection<T>;
-    public orderBy<TKey>(keySelector: SelectorFunction<T, TKey>, comparator: Comparator<TKey>, sortOrder: SortOrder): ReadOnlyCollection<T>;
+    public orderBy<TKey>(keySelector: ProjectFunction<T, TKey>, comparator: Comparator<TKey>): ReadOnlyCollection<T>;
+    public orderBy<TKey>(keySelector: ProjectFunction<T, TKey>, comparator: Comparator<TKey>, sortOrder: SortOrder): ReadOnlyCollection<T>;
     public orderBy<TKey>(
-        keySelector: SelectorFunction<T, TKey>,
+        keySelector: ProjectFunction<T, TKey>,
         comparator: Comparator<TKey>,
         sortOrder: SortOrder = SortOrder.ASCENDING
     ): ReadOnlyCollection<T> {
@@ -586,31 +613,19 @@ export class ReadOnlyCollectionImpl<T> implements ReadOnlyCollection<T> {
     }
 
     public selectMany<TInnerItem, TResult>(
-        collectionSelector: IteratorFunction<T, Sequence<TInnerItem>>,
+        collectionSelector: IteratorFunction<T, Iterable<TInnerItem>>,
         resultSelector: CombineFunction<T, TInnerItem, TResult>
     ): ReadOnlyCollection<TResult> {
         const self: this = this;
 
         return new ReadOnlyCollectionImpl({
             * [Symbol.iterator](): Iterator<TResult> {
-                const collections: ReadOnlyCollection<Sequence<TInnerItem>> = self.map<Sequence<TInnerItem>>((
-                    ownItem: T,
-                    actualItemIndex: number
-                ): Sequence<TInnerItem> => {
-                    return collectionSelector(ownItem, actualItemIndex);
-                });
-
-                let index: number = 0;
-
-                // TODO: use two iterators
-                for (const collection of collections) {
-                    const ownItem: T = self.getAt(index);
+                for (const [ownIndex, ownItem] of self.entries()) {
+                    const collection: Iterable<TInnerItem> = collectionSelector(ownItem, ownIndex);
 
                     for (const innerItem of collection) {
                         yield resultSelector(ownItem, innerItem);
                     }
-
-                    index += 1;
                 }
             }
         });

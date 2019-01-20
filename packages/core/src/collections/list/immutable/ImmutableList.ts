@@ -1,6 +1,6 @@
 import {ReadOnlyList} from '../readonly/ReadOnlyList';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
-import {IteratorFunction} from '../../collection/readonly/ReadOnlyCollection';
+import {IteratorFunction} from '../../function/IteratorFunction';
 
 /**
  * @author Alex Chugaev

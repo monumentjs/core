@@ -12,15 +12,17 @@ export * from './src/base/Type';
 
 export * from './src/benchmark/Benchmark';
 
+export * from './src/function/identity';
 export * from './src/function/isEven';
+export * from './src/function/isFalsy';
 export * from './src/function/isOdd';
 export * from './src/function/noop';
 export * from './src/function/sleep';
 export * from './src/function/times';
-export * from './src/function/range';
 
-export * from './src/function/SupplyFunction';
+export * from './src/function/CombineFunction';
 export * from './src/function/ProjectFunction';
+export * from './src/function/SupplyFunction';
 
 export * from './src/exceptions/Exception';
 export * from './src/exceptions/FormatException';
@@ -33,6 +35,9 @@ export * from './src/exceptions/MissingKeyException';
 export * from './src/exceptions/OperationNotSupportedException';
 export * from './src/exceptions/RangeException';
 export * from './src/exceptions/RuntimeException';
+
+export * from './src/collections/function/IteratorFunction';
+export * from './src/collections/function/AggregateFunction';
 
 export * from './src/collections/attributes/Key';
 export * from './src/collections/attributes/readonly/ReadOnlyAttributeAccessor';
@@ -51,6 +56,8 @@ export * from './src/collections/collection/readonly/ReadOnlyCollectionBase';
 export * from './src/collections/collection/readonly/ReadOnlyCollectionImpl';
 
 export * from './src/collections/comparison/IterableEqualityComparator';
+
+export * from './src/collections/iterable/RangeIterable';
 
 export * from './src/collections/list/readonly/ReadOnlyList';
 export * from './src/collections/list/mutable/List';

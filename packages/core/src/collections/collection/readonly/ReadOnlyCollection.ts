@@ -6,30 +6,11 @@ import {SortOrder} from '../../../comparison/order/SortOrder';
 import {ToJSON} from '../../../base/ToJSON';
 import {ReadOnlyMultiValueMap} from '../../multivaluemap/readonly/ReadOnlyMultiValueMap';
 import {KeyValuePair} from '../../base/KeyValuePair';
-
-/**
- * @author Alex Chugaev
- * @since 0.0.1
- */
-export type AggregateFunction<T, TAggregate> = (lastSeed: TAggregate, item: T, index: number) => TAggregate;
-
-/**
- * @author Alex Chugaev
- * @since 0.0.1
- */
-export type IteratorFunction<TItem, TResult> = (item: TItem, index: number) => TResult;
-
-/**
- * @author Alex Chugaev
- * @since 0.0.1
- */
-export type CombineFunction<A, B, TResult> = (a: A, b: B) => TResult;
-
-/**
- * @author Alex Chugaev
- * @since 0.0.1
- */
-export type SelectorFunction<TIn, TOut> = (input: TIn) => TOut;
+import {AggregateFunction} from '../../function/AggregateFunction';
+import {IteratorFunction} from '../../function/IteratorFunction';
+import {CombineFunction} from '../../../function/CombineFunction';
+import {ProjectFunction} from '../../../function/ProjectFunction';
+import {SupplyFunction} from '../../../function/SupplyFunction';
 
 /**
  * @author Alex Chugaev
@@ -64,6 +45,10 @@ export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray
      */
     average(selector: IteratorFunction<T, number>): number;
 
+    chunk(): ReadOnlyCollection<Iterable<T>>;
+
+    chunk(size: number): ReadOnlyCollection<Iterable<T>>;
+
     /**
      * Concatenates actual sequence with other one and returns new sequence containing elements of both of them.
      */
@@ -97,12 +82,12 @@ export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray
     /**
      * Produces the set difference of two sequences.
      */
-    except(items: Sequence<T>): ReadOnlyCollection<T>;
+    except(items: Iterable<T>): ReadOnlyCollection<T>;
 
     /**
      * Produces the set difference of two sequences by using the specified EqualityComparator to compare values.
      */
-    except(items: Sequence<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
+    except(items: Iterable<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
 
     /**
      * Calls predicate function on each item in sequence.
@@ -127,12 +112,12 @@ export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray
      */
     first(predicate: IteratorFunction<T, boolean>): T | undefined;
 
-    first(predicate: IteratorFunction<T, boolean>, defaultValue: T): T;
+    first(predicate: IteratorFunction<T, boolean>, fallback: SupplyFunction<T>): T;
 
     /**
      * Returns first item of collection. If collection is empty, returns default payload.
      */
-    firstOrDefault(defaultValue: T): T;
+    firstOrDefault(fallback: SupplyFunction<T>): T;
 
     /**
      * Calls iterator function for each element of collection.
@@ -235,12 +220,12 @@ export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray
      */
     last(predicate: IteratorFunction<T, boolean>): T | undefined;
 
-    last(predicate: IteratorFunction<T, boolean>, defaultValue: T): T;
+    last(predicate: IteratorFunction<T, boolean>, fallback: SupplyFunction<T>): T;
 
     /**
      * Returns last item of collection. If collection is empty, returns default payload.
      */
-    lastOrDefault(defaultValue: T): T;
+    lastOrDefault(fallback: SupplyFunction<T>): T;
 
     /**
      * Projects each element of a sequence into a new form.
@@ -261,7 +246,7 @@ export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray
      * Sorts the elements of a sequence in ascending order by using a specified comparator.
      */
     orderBy<TKey>(
-        keySelector: SelectorFunction<T, TKey>,
+        keySelector: ProjectFunction<T, TKey>,
         comparator: Comparator<TKey>
     ): ReadOnlyCollection<T>;
 
@@ -269,7 +254,7 @@ export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray
      * Sorts the elements of a sequence in ascending order by using a specified comparator.
      */
     orderBy<TKey>(
-        keySelector: SelectorFunction<T, TKey>,
+        keySelector: ProjectFunction<T, TKey>,
         comparator: Comparator<TKey>,
         sortOrder: SortOrder
     ): ReadOnlyCollection<T>;
@@ -286,7 +271,7 @@ export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray
     reverse(): ReadOnlyCollection<T>;
 
     selectMany<TInnerItem, TResult>(
-        collectionSelector: IteratorFunction<T, Sequence<TInnerItem>>,
+        collectionSelector: IteratorFunction<T, Iterable<TInnerItem>>,
         resultSelector: CombineFunction<T, TInnerItem, TResult>
     ): ReadOnlyCollection<TResult>;
 

@@ -1,5 +1,5 @@
 import {Sequence} from '../../base/Sequence';
-import {AggregateFunction, CombineFunction, IteratorFunction, ReadOnlyCollection, SelectorFunction} from './ReadOnlyCollection';
+import {ReadOnlyCollection} from './ReadOnlyCollection';
 import {ReadOnlyCollectionImpl} from './ReadOnlyCollectionImpl';
 import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
 import {ReferenceEqualityComparator} from '../../../comparison/equality/ReferenceEqualityComparator';
@@ -7,6 +7,11 @@ import {SortOrder} from '../../../comparison/order/SortOrder';
 import {Comparator} from '../../../comparison/order/Comparator';
 import {ReadOnlyMultiValueMap} from '../../multivaluemap/readonly/ReadOnlyMultiValueMap';
 import {KeyValuePair} from '../../base/KeyValuePair';
+import {AggregateFunction} from '../../function/AggregateFunction';
+import {IteratorFunction} from '../../function/IteratorFunction';
+import {CombineFunction} from '../../../function/CombineFunction';
+import {ProjectFunction} from '../../../function/ProjectFunction';
+import {SupplyFunction} from '../../../function/SupplyFunction';
 
 export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T> {
     public readonly abstract length: number;
@@ -34,6 +39,10 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
 
     public average(selector: IteratorFunction<T, number>): number {
         return new ReadOnlyCollectionImpl(this).average(selector);
+    }
+
+    public chunk(size: number = 1): ReadOnlyCollection<Iterable<T>> {
+        return new ReadOnlyCollectionImpl(this).chunk(size);
     }
 
     public concat(otherList: Sequence<T>, ...others: Array<Sequence<T>>): ReadOnlyCollection<T> {
@@ -72,11 +81,11 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
         return new ReadOnlyCollectionImpl(this).entries();
     }
 
-    public except(otherList: Sequence<T>): ReadOnlyCollection<T>;
+    public except(otherList: Iterable<T>): ReadOnlyCollection<T>;
 
-    public except(otherList: Sequence<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
+    public except(otherList: Iterable<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
 
-    public except(otherList: Sequence<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ReadOnlyCollection<T> {
+    public except(otherList: Iterable<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ReadOnlyCollection<T> {
         return new ReadOnlyCollectionImpl(this).except(otherList, comparator);
     }
 
@@ -96,18 +105,18 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
 
     public first(predicate: IteratorFunction<T, boolean>): T | undefined;
 
-    public first(predicate: IteratorFunction<T, boolean>, defaultValue: T): T;
+    public first(predicate: IteratorFunction<T, boolean>, fallback: SupplyFunction<T>): T;
 
-    public first(predicate: IteratorFunction<T, boolean>, defaultValue?: T): T | undefined {
-        if (defaultValue === undefined) {
+    public first(predicate: IteratorFunction<T, boolean>, fallback?: SupplyFunction<T>): T | undefined {
+        if (fallback === undefined) {
             return new ReadOnlyCollectionImpl(this).first(predicate);
         }
 
-        return new ReadOnlyCollectionImpl(this).first(predicate, defaultValue);
+        return new ReadOnlyCollectionImpl(this).first(predicate, fallback);
     }
 
-    public firstOrDefault(defaultValue: T): T {
-        return new ReadOnlyCollectionImpl(this).firstOrDefault(defaultValue);
+    public firstOrDefault(fallback: SupplyFunction<T>): T {
+        return new ReadOnlyCollectionImpl(this).firstOrDefault(fallback);
     }
 
     public forEach(iterator: IteratorFunction<T, false | void>): void;
@@ -185,18 +194,18 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
 
     public last(predicate: IteratorFunction<T, boolean>): T | undefined;
 
-    public last(predicate: IteratorFunction<T, boolean>, defaultValue: T): T;
+    public last(predicate: IteratorFunction<T, boolean>, fallback: SupplyFunction<T>): T;
 
-    public last(predicate: IteratorFunction<T, boolean>, defaultValue?: T): T | undefined {
-        if (defaultValue === undefined) {
+    public last(predicate: IteratorFunction<T, boolean>, fallback?: SupplyFunction<T>): T | undefined {
+        if (fallback === undefined) {
             return new ReadOnlyCollectionImpl(this).last(predicate);
         }
 
-        return new ReadOnlyCollectionImpl(this).last(predicate, defaultValue);
+        return new ReadOnlyCollectionImpl(this).last(predicate, fallback);
     }
 
-    public lastOrDefault(defaultValue: T): T {
-        return new ReadOnlyCollectionImpl(this).lastOrDefault(defaultValue);
+    public lastOrDefault(fallback: SupplyFunction<T>): T {
+        return new ReadOnlyCollectionImpl(this).lastOrDefault(fallback);
     }
 
     public map<TResult>(selector: IteratorFunction<T, TResult>): ReadOnlyCollection<TResult> {
@@ -212,18 +221,18 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
     }
 
     public orderBy<TKey>(
-        keySelector: SelectorFunction<T, TKey>,
+        keySelector: ProjectFunction<T, TKey>,
         comparator: Comparator<TKey>
     ): ReadOnlyCollection<T>;
 
     public orderBy<TKey>(
-        keySelector: SelectorFunction<T, TKey>,
+        keySelector: ProjectFunction<T, TKey>,
         comparator: Comparator<TKey>,
         sortOrder: SortOrder
     ): ReadOnlyCollection<T>;
 
     public orderBy<TKey>(
-        keySelector: SelectorFunction<T, TKey>,
+        keySelector: ProjectFunction<T, TKey>,
         comparator: Comparator<TKey>,
         sortOrder: SortOrder = SortOrder.ASCENDING
     ): ReadOnlyCollection<T> {
@@ -239,7 +248,7 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
     }
 
     public selectMany<TInnerItem, TResult>(
-        sequenceSelector: IteratorFunction<T, Sequence<TInnerItem>>,
+        sequenceSelector: IteratorFunction<T, Iterable<TInnerItem>>,
         resultSelector: CombineFunction<T, TInnerItem, TResult>
     ): ReadOnlyCollection<TResult> {
         return new ReadOnlyCollectionImpl(this).selectMany(sequenceSelector, resultSelector);

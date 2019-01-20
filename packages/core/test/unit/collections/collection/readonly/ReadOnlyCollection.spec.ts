@@ -133,6 +133,23 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
+        describe('chunk', function () {
+            it('should split collection into few collections of specified size', function () {
+                const list: ReadOnlyCollection<number> = create([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+                const collections: ReadOnlyCollection<Iterable<number>> = list.chunk(3);
+
+                expect(collections.length).toBe(4);
+                expect([...collections.toArray()[0]].length).toBe(3);
+                expect([...collections.toArray()[0]]).toEqual([1, 2, 3]);
+                expect([...collections.toArray()[1]].length).toBe(3);
+                expect([...collections.toArray()[1]]).toEqual([4, 5, 6]);
+                expect([...collections.toArray()[2]].length).toBe(3);
+                expect([...collections.toArray()[2]]).toEqual([7, 8, 9]);
+                expect([...collections.toArray()[3]].length).toBe(1);
+                expect([...collections.toArray()[3]]).toEqual([10]);
+            });
+        });
+
         describe('concat()', function () {
             it('should return concatenation of lists', function () {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
@@ -276,7 +293,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
 
                 expect(list.first((word: string): boolean => {
                     return word.length === 4;
-                }, 'fallback')).toBe('fallback');
+                }, () => 'fallback')).toBe('fallback');
             });
         });
 
@@ -284,13 +301,13 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             it('should return fallback value if list is empty', function () {
                 const list: ReadOnlyCollection<string> = create();
 
-                expect(list.firstOrDefault('fallback')).toBe('fallback');
+                expect(list.firstOrDefault(() => 'fallback')).toBe('fallback');
             });
 
             it('should return first item of list', function () {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
-                expect(list.firstOrDefault('fallback')).toBe('one');
+                expect(list.firstOrDefault(() => 'fallback')).toBe('one');
             });
         });
 
@@ -590,7 +607,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
 
                 expect(list.last((word: string): boolean => {
                     return word.length === 4;
-                }, 'fallback')).toBe('fallback');
+                }, () => 'fallback')).toBe('fallback');
             });
         });
 
@@ -598,13 +615,13 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             it('should return fallback value if list is empty', function () {
                 const list: ReadOnlyCollection<string> = create();
 
-                expect(list.lastOrDefault('fallback')).toBe('fallback');
+                expect(list.lastOrDefault(() => 'fallback')).toBe('fallback');
             });
 
             it('should return last item of list', function () {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
-                expect(list.lastOrDefault('fallback')).toBe('three');
+                expect(list.lastOrDefault(() => 'fallback')).toBe('three');
             });
         });
 
@@ -631,7 +648,6 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
 
             it('should throw if list is empty', function () {
-
                 const list: ReadOnlyCollection<string> = create();
 
                 expect(() => {
