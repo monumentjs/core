@@ -9,4 +9,3 @@ node_modules
 *.d.ts
 
 !gulpfile.js
-!public-api.d.ts
