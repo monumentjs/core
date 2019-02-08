@@ -12,7 +12,7 @@ export function filter<T>(predicate: ProjectFunction<T, boolean>): OperatorFunct
                         observer.next(input);
                     }
                 },
-                (error) => {
+                error => {
                     observer.error(error);
                 },
                 () => {

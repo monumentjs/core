@@ -10,7 +10,7 @@ export function mapTo<I, O>(supply: SupplyFunction<O>): OperatorFunction<I, O> {
                 () => {
                     observer.next(supply());
                 },
-                (error) => {
+                error => {
                     observer.error(error);
                 },
                 () => {

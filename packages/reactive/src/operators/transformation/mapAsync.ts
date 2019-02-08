@@ -17,7 +17,7 @@ export function mapAsync<I, O>(project: ProjectFunction<I, Promise<O>>): Operato
                         }
                     );
                 },
-                (error) => {
+                error => {
                     observer.error(error);
                 },
                 () => {

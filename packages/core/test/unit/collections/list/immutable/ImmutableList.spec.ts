@@ -268,7 +268,7 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
         describe('removeBy()', function() {
             it('should return original list if no items removed', function() {
                 const list: ImmutableList<string> = create(['one', 'One', 'ONE', 'two']);
-                const newList: ImmutableList<string> = list.removeBy((item) => {
+                const newList: ImmutableList<string> = list.removeBy(item => {
                     return item.toLowerCase() === 'three';
                 });
 
@@ -283,7 +283,7 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
 
             it('should return new list if items were removed', function() {
                 const list: ImmutableList<string> = create(['one', 'One', 'ONE', 'two']);
-                const newList: ImmutableList<string> = list.removeBy((item) => {
+                const newList: ImmutableList<string> = list.removeBy(item => {
                     return item.toLowerCase() === 'one';
                 });
 

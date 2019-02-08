@@ -40,11 +40,11 @@ export class StringUtils {
         let tokens: string[] = value.split(delimiterPattern);
 
         if (trimTokens) {
-            tokens = tokens.map((token) => token.trim());
+            tokens = tokens.map(token => token.trim());
         }
 
         if (ignoreEmptyTokens) {
-            tokens = tokens.filter((token) => token !== EMPTY_STRING);
+            tokens = tokens.filter(token => token !== EMPTY_STRING);
         }
 
         return tokens;
@@ -82,7 +82,7 @@ export class StringUtils {
 
         return values
             .toArray()
-            .map((item) => {
+            .map(item => {
                 return `${prefix}${item.toString()}${suffix}`;
             })
             .join(delimiter);
@@ -221,7 +221,7 @@ export class StringUtils {
     }
 
     private static getDelimitersPatternEntries(delimiters: string): string[] {
-        return delimiters.split(EMPTY_STRING).map((ch) => RegExpUtils.escape(ch));
+        return delimiters.split(EMPTY_STRING).map(ch => RegExpUtils.escape(ch));
     }
 
     private static getDelimitersPatternString(delimiterPatternEntries: string[]): string {

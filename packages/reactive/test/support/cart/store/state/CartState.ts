@@ -21,14 +21,14 @@ export class CartState {
     }
 
     public addProduct(newItem: CartItem): CartState {
-        const existingItem: CartItem | undefined = this.items.first((item) => {
+        const existingItem: CartItem | undefined = this.items.first(item => {
             return item.productId === newItem.productId;
         });
 
         if (existingItem) {
             return new CartState(
                 new ImmutableArrayList(
-                    this.items.map((item) => {
+                    this.items.map(item => {
                         if (item.productId === newItem.productId) {
                             return new CartItem({
                                 ...item,
@@ -48,7 +48,7 @@ export class CartState {
     public updateQuantity(itemId: number, newQuantity: number): CartState {
         return new CartState(
             new ImmutableArrayList(
-                this.items.map((item) => {
+                this.items.map(item => {
                     if (item.itemId === itemId) {
                         return new CartItem({
                             ...item,

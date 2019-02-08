@@ -10,7 +10,7 @@ export function map<I, O>(adapt: ProjectFunction<I, O>): OperatorFunction<I, O> 
                 (input: I) => {
                     observer.next(adapt(input));
                 },
-                (error) => {
+                error => {
                     observer.error(error);
                 },
                 () => {

@@ -10,6 +10,9 @@
         "eofline": true,
         "ordered-imports": false,
         "only-arrow-functions": false,
+        "arrow-parens": {
+            "options": ["ban-single-arg-parens"]
+        },
         "no-duplicate-imports": true,
         "no-consecutive-blank-lines": [
             true,
@@ -61,10 +64,6 @@
         "no-submodule-imports": false,
         "max-line-length": false,
         "no-parameter-reassignment": true,
-        "max-file-line-count": [
-            true,
-            1000
-        ],
         "newline-before-return": true,
         "prefer-conditional-expression": false,
         "no-this-assignment": false,

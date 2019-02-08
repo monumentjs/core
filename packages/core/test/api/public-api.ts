@@ -2,8 +2,8 @@
 import { Builder, Cloneable, Disposable } from '../..';
 
 {
-     let builder!: Builder<string>;
-     let build: () => string = builder.build;
+    let builder!: Builder<string>;
+    let build: () => string = builder.build;
 }
 
 {

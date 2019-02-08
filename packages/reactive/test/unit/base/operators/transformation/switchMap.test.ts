@@ -6,7 +6,7 @@ describe('switchMap()', function() {
         const source: Subject<number> = new Subject();
         const observer: TestObserver<number> = new TestObserver();
 
-        source.pipe(switchMap((num) => Observable.of(-num, -num - 1))).subscribe(observer);
+        source.pipe(switchMap(num => Observable.of(-num, -num - 1))).subscribe(observer);
 
         expect(observer.next).toHaveBeenCalledTimes(0);
         expect(observer.error).toHaveBeenCalledTimes(0);

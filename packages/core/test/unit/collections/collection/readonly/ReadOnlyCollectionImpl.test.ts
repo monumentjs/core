@@ -81,7 +81,7 @@ describe('ReadOnlyCollectionImpl', function() {
             const result: ReadOnlyCollection<string> = source
                 .findAll(isEven)
                 .take(3)
-                .map((num) => {
+                .map(num => {
                     return num.toString();
                 });
 
