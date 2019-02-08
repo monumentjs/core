@@ -1,4 +1,4 @@
-import {ReadOnlySet} from '../readonly/ReadOnlySet';
+import { ReadOnlySet } from '../readonly/ReadOnlySet';
 
 /**
  * @author Alex Chugaev

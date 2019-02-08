@@ -1,5 +1,5 @@
-import {Parser} from './Parser';
-import {FormatException} from '../../exceptions/FormatException';
+import { Parser } from './Parser';
+import { FormatException } from '../../exceptions/FormatException';
 
 /**
  * @author Alex Chugaev
@@ -35,5 +35,4 @@ export class FloatParser implements Parser<number> {
 
         return parseFloat(source);
     }
-
 }

@@ -1,5 +1,5 @@
-import {Parser} from './Parser';
-import {FormatException} from '../../exceptions/FormatException';
+import { Parser } from './Parser';
+import { FormatException } from '../../exceptions/FormatException';
 
 /**
  * @author Alex Chugaev
@@ -41,5 +41,4 @@ export class IntParser implements Parser<number> {
 
         return parseInt(source, this.radix);
     }
-
 }

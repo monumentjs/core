@@ -1,4 +1,4 @@
-import {IterableObservable} from './IterableObservable';
+import { IterableObservable } from './IterableObservable';
 
 /**
  * @since 0.0.1

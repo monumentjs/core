@@ -1,7 +1,7 @@
-import {EMPTY_STRING, EOL_CRLF} from './Strings';
-import {TemplateString} from './TemplateString';
-import {Builder} from '../base/Builder';
-import {ToString} from '../base/ToString';
+import { EMPTY_STRING, EOL_CRLF } from './Strings';
+import { TemplateString } from './TemplateString';
+import { Builder } from '../base/Builder';
+import { ToString } from '../base/ToString';
 
 /**
  * @author Alex Chugaev

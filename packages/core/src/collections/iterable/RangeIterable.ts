@@ -1,5 +1,3 @@
-
-
 export class RangeIterable implements Iterable<number> {
     public readonly from: number;
     public readonly to: number;
@@ -12,11 +10,10 @@ export class RangeIterable implements Iterable<number> {
     }
 
     public *[Symbol.iterator](): Iterator<number> {
-        const {from, to, step} = this;
+        const { from, to, step } = this;
 
         for (let value = from; value < to; value += step) {
             yield value;
         }
     }
-
 }

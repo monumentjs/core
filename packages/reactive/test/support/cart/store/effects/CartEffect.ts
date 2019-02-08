@@ -1,10 +1,9 @@
-import {Effect, Subject} from '../../../../..';
-import {CartAction} from '../actions/CartAction';
-import {CartActionType} from '../actions/CartActionType';
-import {AddProductSuccessAction} from '../actions/AddProductSuccessAction';
+import { Effect, Subject } from '../../../../..';
+import { CartAction } from '../actions/CartAction';
+import { CartActionType } from '../actions/CartActionType';
+import { AddProductSuccessAction } from '../actions/AddProductSuccessAction';
 
 export class CartEffect implements Effect<CartAction> {
-
     public onAction(action: CartAction) {
         const subject: Subject<CartAction> = new Subject();
 

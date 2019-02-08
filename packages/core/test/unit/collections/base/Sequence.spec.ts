@@ -1,25 +1,25 @@
-import {Sequence} from '../../../..';
+import { Sequence } from '../../../..';
 
 const TEST_ITEMS: string[] = ['one', 'two', 'three'];
 
 export function testSequence(create: <T>(items?: Sequence<T>) => Sequence<T>) {
-    describe('Sequence', function () {
-        describe('constructor()', function () {
-            it('should create empty sequence', function () {
+    describe('Sequence', function() {
+        describe('constructor()', function() {
+            it('should create empty sequence', function() {
                 const list = create();
 
                 expect(list.length).toBe(0);
             });
 
-            it('should create sequence with given items', function () {
+            it('should create sequence with given items', function() {
                 const list = create(['a', 'b', 'c', 'd']);
 
                 expect(list.length).toBe(4);
             });
         });
 
-        describe('for...of', function () {
-            it('should accept empty sequence', function () {
+        describe('for...of', function() {
+            it('should accept empty sequence', function() {
                 const instance: Sequence<string> = create();
                 const mock = jest.fn();
 
@@ -30,7 +30,7 @@ export function testSequence(create: <T>(items?: Sequence<T>) => Sequence<T>) {
                 expect(mock).toHaveBeenCalledTimes(0);
             });
 
-            it('should iterate sequence', function () {
+            it('should iterate sequence', function() {
                 const instance: Sequence<string> = create(TEST_ITEMS);
                 const mock = jest.fn();
 
@@ -44,7 +44,7 @@ export function testSequence(create: <T>(items?: Sequence<T>) => Sequence<T>) {
                 expect(mock).toHaveBeenNthCalledWith(3, 'three');
             });
 
-            it('should allow interruption of iteration', function () {
+            it('should allow interruption of iteration', function() {
                 const instance: Sequence<string> = create(TEST_ITEMS);
                 let index: number = 0;
 

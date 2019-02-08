@@ -1,36 +1,36 @@
-import {UriBuilder} from '..';
+import { UriBuilder } from '..';
 
-describe('UriBuilder', function () {
+describe('UriBuilder', function() {
     let builder!: UriBuilder;
 
     beforeEach(() => {
         builder = new UriBuilder();
     });
 
-    describe('build()', function () {
-        it('should create URI pointing to the root ("/")', function () {
+    describe('build()', function() {
+        it('should create URI pointing to the root ("/")', function() {
             expect(builder.build().toString()).toBe('/');
         });
 
-        it('should create URI with host', function () {
+        it('should create URI with host', function() {
             builder.host = 'localhost';
             expect(builder.build().toString()).toBe('localhost');
         });
 
-        it('should create URI with host, port', function () {
+        it('should create URI with host, port', function() {
             builder.host = 'localhost';
             builder.port = 1234;
             expect(builder.build().toString()).toBe('localhost:1234');
         });
 
-        it('should create URI with schema, host, port', function () {
+        it('should create URI with schema, host, port', function() {
             builder.schema = 'https';
             builder.host = 'localhost';
             builder.port = 1234;
             expect(builder.build().toString()).toBe('https://localhost:1234');
         });
 
-        it('should create URI with schema, host, port, path', function () {
+        it('should create URI with schema, host, port, path', function() {
             builder.schema = 'https';
             builder.host = 'localhost';
             builder.port = 1234;
@@ -38,7 +38,7 @@ describe('UriBuilder', function () {
             expect(builder.build().toString()).toBe('https://localhost:1234/path/to/endpoint');
         });
 
-        it('should create URI with schema, user name, host, port, path', function () {
+        it('should create URI with schema, user name, host, port, path', function() {
             builder.schema = 'https';
             builder.userName = 'alex';
             builder.host = 'localhost';
@@ -47,7 +47,7 @@ describe('UriBuilder', function () {
             expect(builder.build().toString()).toBe('https://alex@localhost:1234/path/to/endpoint');
         });
 
-        it('should create URI with schema, user name, password, host, port, path', function () {
+        it('should create URI with schema, user name, password, host, port, path', function() {
             builder.schema = 'https';
             builder.userName = 'alex';
             builder.password = 'password';
@@ -57,7 +57,7 @@ describe('UriBuilder', function () {
             expect(builder.build().toString()).toBe('https://alex:password@localhost:1234/path/to/endpoint');
         });
 
-        it('should create URI with schema, user name, password, host, port, path, fragment', function () {
+        it('should create URI with schema, user name, password, host, port, path, fragment', function() {
             builder.schema = 'https';
             builder.userName = 'alex';
             builder.password = 'password';
@@ -68,7 +68,7 @@ describe('UriBuilder', function () {
             expect(builder.build().toString()).toBe('https://alex:password@localhost:1234/path/to/endpoint#section-2');
         });
 
-        it('should create URI with schema, user name, password, host, port, path, query parameter, fragment', function () {
+        it('should create URI with schema, user name, password, host, port, path, query parameter, fragment', function() {
             builder.schema = 'https';
             builder.userName = 'alex';
             builder.password = 'password';
@@ -80,7 +80,7 @@ describe('UriBuilder', function () {
             expect(builder.build().toString()).toBe('https://alex:password@localhost:1234/path/to/endpoint?id=123#section-2');
         });
 
-        it('should create URI with schema, user name, password, host, port, path, query parameters, fragment', function () {
+        it('should create URI with schema, user name, password, host, port, path, query parameters, fragment', function() {
             builder.schema = 'https';
             builder.userName = 'alex';
             builder.password = 'password';
@@ -96,8 +96,8 @@ describe('UriBuilder', function () {
         });
     });
 
-    describe('getParameter(string)', function () {
-        it('should return first query parameter value associated with specified name', function () {
+    describe('getParameter(string)', function() {
+        it('should return first query parameter value associated with specified name', function() {
             builder.host = 'localhost';
             builder.setParameters({
                 id: 123,
@@ -109,8 +109,8 @@ describe('UriBuilder', function () {
         });
     });
 
-    describe('getParameter(string, ToString)', function () {
-        it('should return first query parameter value associated with specified name and fallback', function () {
+    describe('getParameter(string, ToString)', function() {
+        it('should return first query parameter value associated with specified name and fallback', function() {
             builder.host = 'localhost';
             builder.setParameters({
                 id: 123,
@@ -123,8 +123,8 @@ describe('UriBuilder', function () {
         });
     });
 
-    describe('hasParameter(string)', function () {
-        it('should determine whether URI contains query parameter associated with specified name', function () {
+    describe('hasParameter(string)', function() {
+        it('should determine whether URI contains query parameter associated with specified name', function() {
             builder.host = 'localhost';
             builder.setParameters({
                 id: 123,
@@ -136,8 +136,8 @@ describe('UriBuilder', function () {
         });
     });
 
-    describe('hasParameter(string, ToString)', function () {
-        it('should determine whether URI contains query parameter associated with specified name and value', function () {
+    describe('hasParameter(string, ToString)', function() {
+        it('should determine whether URI contains query parameter associated with specified name and value', function() {
             builder.host = 'localhost';
             builder.setParameters({
                 id: 123,
@@ -153,8 +153,8 @@ describe('UriBuilder', function () {
         });
     });
 
-    describe('setParameter(string, ToString)', function () {
-        it('should set query parameter', function () {
+    describe('setParameter(string, ToString)', function() {
+        it('should set query parameter', function() {
             builder.host = 'localhost';
             expect(builder.setParameter('size', 10)).toBe(true);
             expect(builder.setParameter('size', '10')).toBe(false);
@@ -162,8 +162,8 @@ describe('UriBuilder', function () {
         });
     });
 
-    describe('removeParameter(string)', function () {
-        it('should remove parameter with specified name', function () {
+    describe('removeParameter(string)', function() {
+        it('should remove parameter with specified name', function() {
             builder.host = 'localhost';
             builder.setParameters({
                 id: 123,
@@ -175,7 +175,7 @@ describe('UriBuilder', function () {
             expect(builder.build().toString()).toBe('localhost');
         });
 
-        it('should remove parameter with specified name and value', function () {
+        it('should remove parameter with specified name and value', function() {
             builder.host = 'localhost';
             builder.setParameters({
                 id: 123,
@@ -190,17 +190,19 @@ describe('UriBuilder', function () {
         });
     });
 
-    describe('removeParameters(QueryParametersObject)', function () {
-        it('should remove parameter with specified name', function () {
+    describe('removeParameters(QueryParametersObject)', function() {
+        it('should remove parameter with specified name', function() {
             builder.host = 'localhost';
             builder.setParameters({
                 id: 123,
                 limit: '10'
             });
-            expect(builder.removeParameters({
-                id: '123',
-                limit: 10
-            })).toBe(true);
+            expect(
+                builder.removeParameters({
+                    id: '123',
+                    limit: 10
+                })
+            ).toBe(true);
             expect(builder.build().toString()).toBe('localhost');
         });
     });

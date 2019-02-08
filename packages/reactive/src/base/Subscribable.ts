@@ -1,5 +1,5 @@
-import {Observer} from './Observer';
-import {Unsubscribable} from './Unsubscribable';
+import { Observer } from './Observer';
+import { Unsubscribable } from './Unsubscribable';
 
 export type OnNext<T> = (value: T) => void;
 

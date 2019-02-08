@@ -4,16 +4,18 @@ import {
     IndexOutOfBoundsException,
     InvalidArgumentException,
     InvalidOperationException,
-    isEven, IterableEqualityComparator,
+    isEven,
+    IterableEqualityComparator,
     NamedPool,
     NoSuchItemException,
     RangeException,
-    ReadOnlyCollection, ReadOnlyMultiValueMap,
+    ReadOnlyCollection,
+    ReadOnlyMultiValueMap,
     Sequence,
     SortOrder,
     times
 } from '../../../../..';
-import {testSequence} from '../../base/Sequence.spec';
+import { testSequence } from '../../base/Sequence.spec';
 
 interface Book {
     authors: ReadOnlyCollection<string>;
@@ -25,13 +27,13 @@ export function assertLengthAndIsEmpty<I>(items: ReadOnlyCollection<I>, expected
 }
 
 export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadOnlyCollection<T>) {
-    describe('ReadOnlyCollection', function () {
+    describe('ReadOnlyCollection', function() {
         testSequence(create);
 
         const iterableEqualityComparator: IterableEqualityComparator<string> = new IterableEqualityComparator();
 
-        describe('isEmpty', function () {
-            it('should be true when collection is empty', function () {
+        describe('isEmpty', function() {
+            it('should be true when collection is empty', function() {
                 const empty = create([]);
                 const notEmpty = create(['a', 'b']);
 
@@ -40,13 +42,9 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('aggregate()', function () {
-            it('should aggregate list data into new value', function () {
-                const list: ReadOnlyCollection<string> = create([
-                    'one',
-                    'two',
-                    'three'
-                ]);
+        describe('aggregate()', function() {
+            it('should aggregate list data into new value', function() {
+                const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
                 const map: NamedPool<boolean> = list.aggregate((obj: NamedPool<boolean>, item: string): NamedPool<boolean> => {
                     obj[item] = true;
 
@@ -61,80 +59,110 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('all()', function () {
-            it('should determine whether all elements of a sequence satisfy a condition', function () {
+        describe('all()', function() {
+            it('should determine whether all elements of a sequence satisfy a condition', function() {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
-                expect(list.all((word: string): boolean => {
-                    return word.length >= 3;
-                })).toBe(true);
+                expect(
+                    list.all(
+                        (word: string): boolean => {
+                            return word.length >= 3;
+                        }
+                    )
+                ).toBe(true);
 
-                expect(list.all((word: string): boolean => {
-                    return word.length < 5;
-                })).toBe(false);
+                expect(
+                    list.all(
+                        (word: string): boolean => {
+                            return word.length < 5;
+                        }
+                    )
+                ).toBe(false);
             });
 
-            it('should throw if list is empty', function () {
+            it('should throw if list is empty', function() {
                 const list: ReadOnlyCollection<string> = create();
 
                 expect(() => {
-                    list.all((): boolean => {
-                        return true;
-                    });
+                    list.all(
+                        (): boolean => {
+                            return true;
+                        }
+                    );
                 }).toThrow(InvalidOperationException);
             });
         });
 
-        describe('any()', function () {
-            it('should determine whether any of elements satisfy a condition', function () {
+        describe('any()', function() {
+            it('should determine whether any of elements satisfy a condition', function() {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
-                expect(list.any((word: string): boolean => {
-                    return word.length === 3;
-                })).toBe(true);
+                expect(
+                    list.any(
+                        (word: string): boolean => {
+                            return word.length === 3;
+                        }
+                    )
+                ).toBe(true);
 
-                expect(list.any((word: string): boolean => {
-                    return word.length === 4;
-                })).toBe(false);
+                expect(
+                    list.any(
+                        (word: string): boolean => {
+                            return word.length === 4;
+                        }
+                    )
+                ).toBe(false);
 
-                expect(list.any((word: string): boolean => {
-                    return word.length === 5;
-                })).toBe(true);
+                expect(
+                    list.any(
+                        (word: string): boolean => {
+                            return word.length === 5;
+                        }
+                    )
+                ).toBe(true);
             });
 
-            it('should throw if list is empty', function () {
+            it('should throw if list is empty', function() {
                 const list: ReadOnlyCollection<string> = create();
 
                 expect(() => {
-                    list.any((): boolean => {
-                        return true;
-                    });
+                    list.any(
+                        (): boolean => {
+                            return true;
+                        }
+                    );
                 }).toThrow(InvalidOperationException);
             });
         });
 
-        describe('average()', function () {
-            it('should calculate average value', function () {
+        describe('average()', function() {
+            it('should calculate average value', function() {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'six']);
 
-                expect(list.average((word: string): number => {
-                    return word.length;
-                })).toBe(3);
+                expect(
+                    list.average(
+                        (word: string): number => {
+                            return word.length;
+                        }
+                    )
+                ).toBe(3);
             });
 
-            it('should throw if list is empty', function () {
+            it('should throw if list is empty', function() {
                 const list: ReadOnlyCollection<string> = create();
 
                 expect(() => {
-                    list.average((): number => {
-                        return 0;
-                    });
+                    list.average(
+                        (): number => {
+                            return 0;
+                        }
+                    );
                 }).toThrow(InvalidOperationException);
             });
         });
 
-        describe('chunk', function () {
-            it('should split collection into few collections of specified size', function () {
+        describe('chunk', function() {
+            it('should split collection into few collections of specified size', function() {
                 const list: ReadOnlyCollection<number> = create([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
                 const collections: ReadOnlyCollection<Iterable<number>> = list.chunk(3);
 
@@ -150,8 +178,8 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('concat()', function () {
-            it('should return concatenation of lists', function () {
+        describe('concat()', function() {
+            it('should return concatenation of lists', function() {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
                 expect(list.concat(['four'], ['five']).toArray()).toEqual(['one', 'two', 'three', 'four', 'five']);
@@ -159,8 +187,8 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('contains()', function () {
-            it('should determine whether collection contains specified item', function () {
+        describe('contains()', function() {
+            it('should determine whether collection contains specified item', function() {
                 const source: ReadOnlyCollection<string> = create(['one', 'two']);
 
                 expect(source.contains('one')).toBe(true);
@@ -168,7 +196,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
                 expect(source.contains('three')).toBe(false);
             });
 
-            it('should determine whether collection contains specified item using custom equality comparator', function () {
+            it('should determine whether collection contains specified item using custom equality comparator', function() {
                 const source: ReadOnlyCollection<string> = create(['one', 'two', 'THREE']);
 
                 expect(source.contains('One', IgnoreCaseEqualityComparator.get())).toBe(true);
@@ -177,8 +205,8 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('containsAll()', function () {
-            it('should determine whether collection contains all specified items', function () {
+        describe('containsAll()', function() {
+            it('should determine whether collection contains all specified items', function() {
                 const source: ReadOnlyCollection<string> = create(['one', 'two']);
 
                 expect(source.containsAll([])).toBe(false);
@@ -187,7 +215,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
                 expect(source.containsAll(['three'])).toBe(false);
             });
 
-            it('should determine whether collection contains all specified items using custom equality comparator', function () {
+            it('should determine whether collection contains all specified items using custom equality comparator', function() {
                 const source: ReadOnlyCollection<string> = create(['one', 'two', 'THREE']);
 
                 expect(source.containsAll([], IgnoreCaseEqualityComparator.get())).toBe(false);
@@ -197,18 +225,22 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('count()', function () {
-            it('should calculates count of items matching predicate', function () {
+        describe('count()', function() {
+            it('should calculates count of items matching predicate', function() {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
-                expect(list.count((word: string): boolean => {
-                    return word.length > 3;
-                })).toBe(1);
+                expect(
+                    list.count(
+                        (word: string): boolean => {
+                            return word.length > 3;
+                        }
+                    )
+                ).toBe(1);
             });
         });
 
-        describe('distinct()', function () {
-            it('should return list of distinct items', function () {
+        describe('distinct()', function() {
+            it('should return list of distinct items', function() {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'One']);
                 const distinctItems: ReadOnlyCollection<string> = list.distinct(IgnoreCaseEqualityComparator.get());
 
@@ -220,8 +252,8 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('except()', function () {
-            it('should return list without specified items using custom comparator', function () {
+        describe('except()', function() {
+            it('should return list without specified items using custom comparator', function() {
                 const list: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
                 const filteredList: ReadOnlyCollection<string> = list.except(['one', 'Five'], IgnoreCaseEqualityComparator.get());
 
@@ -229,7 +261,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
                 expect(filteredList.toArray()).toEqual(['two', 'Three', 'Five']);
             });
 
-            it('should return list without specified items using default comparator', function () {
+            it('should return list without specified items using default comparator', function() {
                 const source: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
                 const filteredList1: ReadOnlyCollection<string> = source.except(['Three']);
 
@@ -243,8 +275,8 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('findAll(predicate)', function () {
-            it('should return list of items for whose predicate function returned `true`', function () {
+        describe('findAll(predicate)', function() {
+            it('should return list of items for whose predicate function returned `true`', function() {
                 const list: ReadOnlyCollection<number> = create([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
                 const result: ReadOnlyCollection<number> = list.findAll(isEven);
 
@@ -253,8 +285,8 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('findAll(predicate, limit)', function () {
-            it('should return list of items for whose predicate function returned `true`', function () {
+        describe('findAll(predicate, limit)', function() {
+            it('should return list of items for whose predicate function returned `true`', function() {
                 const list: ReadOnlyCollection<number> = create([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
                 const result: ReadOnlyCollection<number> = list.findAll(isEven, 2);
 
@@ -263,8 +295,8 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('findAll(predicate, limit, offset)', function () {
-            it('should return list of items for whose predicate function returned `true`', function () {
+        describe('findAll(predicate, limit, offset)', function() {
+            it('should return list of items for whose predicate function returned `true`', function() {
                 const list: ReadOnlyCollection<number> = create([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
                 const result: ReadOnlyCollection<number> = list.findAll(isEven, 2, 3);
 
@@ -273,46 +305,59 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('first(predicate)', function () {
-            it('should return first item matching predicate', function () {
+        describe('first(predicate)', function() {
+            it('should return first item matching predicate', function() {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
-                expect(list.first((word: string): boolean => {
-                    return word.length === 3;
-                })).toBe('one');
+                expect(
+                    list.first(
+                        (word: string): boolean => {
+                            return word.length === 3;
+                        }
+                    )
+                ).toBe('one');
 
-                expect(list.first((word: string): boolean => {
-                    return word.length === 4;
-                })).toBe(undefined);
+                expect(
+                    list.first(
+                        (word: string): boolean => {
+                            return word.length === 4;
+                        }
+                    )
+                ).toBe(undefined);
             });
         });
 
-        describe('first(predicate, fallback)', function () {
-            it('should return first item matching predicate', function () {
+        describe('first(predicate, fallback)', function() {
+            it('should return first item matching predicate', function() {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
-                expect(list.first((word: string): boolean => {
-                    return word.length === 4;
-                }, () => 'fallback')).toBe('fallback');
+                expect(
+                    list.first(
+                        (word: string): boolean => {
+                            return word.length === 4;
+                        },
+                        () => 'fallback'
+                    )
+                ).toBe('fallback');
             });
         });
 
-        describe('firstOrDefault(fallback)', function () {
-            it('should return fallback value if list is empty', function () {
+        describe('firstOrDefault(fallback)', function() {
+            it('should return fallback value if list is empty', function() {
                 const list: ReadOnlyCollection<string> = create();
 
                 expect(list.firstOrDefault(() => 'fallback')).toBe('fallback');
             });
 
-            it('should return first item of list', function () {
+            it('should return first item of list', function() {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
                 expect(list.firstOrDefault(() => 'fallback')).toBe('one');
             });
         });
 
-        describe('forEach(iterator)', function () {
-            it('should work for empty collections', function () {
+        describe('forEach(iterator)', function() {
+            it('should work for empty collections', function() {
                 const items: ReadOnlyCollection<string> = create();
                 const iterator: jest.Mock = jest.fn();
 
@@ -321,7 +366,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
                 expect(iterator).toHaveBeenCalledTimes(0);
             });
 
-            it('should iterate over list with single item', function () {
+            it('should iterate over list with single item', function() {
                 const items: ReadOnlyCollection<string> = create(['one']);
                 const iterator: jest.Mock = jest.fn();
 
@@ -331,7 +376,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
                 expect(iterator).toHaveBeenNthCalledWith(1, 'one', 0);
             });
 
-            it('should iterate over list', function () {
+            it('should iterate over list', function() {
                 const items: ReadOnlyCollection<string> = create(['one', 'two']);
                 const iterator: jest.Mock = jest.fn();
 
@@ -343,8 +388,8 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('forEach(iterator, startIndex)', function () {
-            it('should work for empty collection', function () {
+        describe('forEach(iterator, startIndex)', function() {
+            it('should work for empty collection', function() {
                 const collection = create([]);
                 const iterator = jest.fn();
 
@@ -353,7 +398,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
                 expect(iterator).toHaveBeenCalledTimes(0);
             });
 
-            it('should visit first element in single element collection', function () {
+            it('should visit first element in single element collection', function() {
                 const collection = create(['one']);
                 const iterator = jest.fn();
 
@@ -363,7 +408,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
                 expect(iterator).toHaveBeenNthCalledWith(1, 'one', 0);
             });
 
-            it('should visit each element with index greater or equal to start index', function () {
+            it('should visit each element with index greater or equal to start index', function() {
                 const collection = create(['one', 'two', 'three', 'four']);
                 const iterator = jest.fn();
 
@@ -375,7 +420,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
                 expect(iterator).toHaveBeenNthCalledWith(3, 'four', 3);
             });
 
-            it('should visit the last element in collection', function () {
+            it('should visit the last element in collection', function() {
                 const collection = create(['one', 'two', 'three', 'four']);
                 const iterator = jest.fn();
 
@@ -385,7 +430,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
                 expect(iterator).toHaveBeenNthCalledWith(1, 'four', 3);
             });
 
-            it('should throw IndexOutOfBoundsException if start index is less than zero and collection has elements', function () {
+            it('should throw IndexOutOfBoundsException if start index is less than zero and collection has elements', function() {
                 const collection = create(['one', 'two', 'three', 'four']);
                 const iterator = jest.fn();
 
@@ -394,7 +439,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
                 }).toThrow(IndexOutOfBoundsException);
             });
 
-            it('should throw IndexOutOfBoundsException if start index is less than zero and collection has elements', function () {
+            it('should throw IndexOutOfBoundsException if start index is less than zero and collection has elements', function() {
                 const collection = create(['one', 'two', 'three', 'four']);
                 const iterator = jest.fn();
 
@@ -403,7 +448,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
                 }).toThrow(IndexOutOfBoundsException);
             });
 
-            it('should throw IndexOutOfBoundsException if start index is less than zero and collection is empty', function () {
+            it('should throw IndexOutOfBoundsException if start index is less than zero and collection is empty', function() {
                 const collection = create();
                 const iterator = jest.fn();
 
@@ -412,7 +457,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
                 }).toThrow(IndexOutOfBoundsException);
             });
 
-            it('should throw IndexOutOfBoundsException if start index is less than zero and collection is empty', function () {
+            it('should throw IndexOutOfBoundsException if start index is less than zero and collection is empty', function() {
                 const collection = create();
                 const iterator = jest.fn();
 
@@ -421,7 +466,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
                 }).toThrow(IndexOutOfBoundsException);
             });
 
-            it('should throw IndexOutOfBoundsException if start index is equal to collection length', function () {
+            it('should throw IndexOutOfBoundsException if start index is equal to collection length', function() {
                 const collection = create(['one', 'two', 'three', 'four']);
                 const iterator = jest.fn();
 
@@ -430,7 +475,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
                 }).toThrow(IndexOutOfBoundsException);
             });
 
-            it('should throw IndexOutOfBoundsException if start index is greater than collection length', function () {
+            it('should throw IndexOutOfBoundsException if start index is greater than collection length', function() {
                 const collection = create(['one', 'two', 'three', 'four']);
                 const iterator = jest.fn();
 
@@ -439,7 +484,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
                 }).toThrow(IndexOutOfBoundsException);
             });
 
-            it('should not throw IndexOutOfBoundsException if start index is zero and collection is empty', function () {
+            it('should not throw IndexOutOfBoundsException if start index is zero and collection is empty', function() {
                 const collection = create([]);
                 const iterator = jest.fn();
 
@@ -449,8 +494,8 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('forEach(iterator, startIndex, count)', function () {
-            it('should work for empty collection', function () {
+        describe('forEach(iterator, startIndex, count)', function() {
+            it('should work for empty collection', function() {
                 const collection = create();
                 const iterator = jest.fn();
 
@@ -459,7 +504,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
                 expect(iterator).toHaveBeenCalledTimes(0);
             });
 
-            it('should iterate collection with single element', function () {
+            it('should iterate collection with single element', function() {
                 const collection = create(['one']);
                 const iterator = jest.fn();
 
@@ -469,7 +514,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
                 expect(iterator).toHaveBeenNthCalledWith(1, 'one', 0);
             });
 
-            it('should iterate collection with few element', function () {
+            it('should iterate collection with few element', function() {
                 const collection = create(['one']);
                 const iterator = jest.fn();
 
@@ -480,8 +525,8 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('forEachBack(iterator)', function () {
-            it('should work for empty collections', function () {
+        describe('forEachBack(iterator)', function() {
+            it('should work for empty collections', function() {
                 const items: ReadOnlyCollection<string> = create();
                 const iterator: jest.Mock = jest.fn();
 
@@ -490,7 +535,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
                 expect(iterator).toHaveBeenCalledTimes(0);
             });
 
-            it('should iterate over list with single item', function () {
+            it('should iterate over list with single item', function() {
                 const items: ReadOnlyCollection<string> = create(['one']);
                 const iterator: jest.Mock = jest.fn();
 
@@ -500,7 +545,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
                 expect(iterator).toHaveBeenNthCalledWith(1, 'one', 0);
             });
 
-            it('should iterate over list', function () {
+            it('should iterate over list', function() {
                 const items: ReadOnlyCollection<string> = create(['one', 'two']);
                 const iterator: jest.Mock = jest.fn();
 
@@ -512,13 +557,15 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('groupBy(keySelector)', function () {
-            it('should return list of grouped items using default comparator', function () {
+        describe('groupBy(keySelector)', function() {
+            it('should return list of grouped items using default comparator', function() {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
-                const groups: ReadOnlyMultiValueMap<number, string> = list.groupBy((word: string): number => {
-                    return word.length;
-                });
+                const groups: ReadOnlyMultiValueMap<number, string> = list.groupBy(
+                    (word: string): number => {
+                        return word.length;
+                    }
+                );
 
                 expect(groups.length).toBe(2);
                 expect(groups.keys).toContain(3);
@@ -528,8 +575,8 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('groupBy(keySelector, keyComparator)', function () {
-            it('should return list of grouped items using custom comparator', function () {
+        describe('groupBy(keySelector, keyComparator)', function() {
+            it('should return list of grouped items using custom comparator', function() {
                 const list: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
                 const groups: ReadOnlyMultiValueMap<string, string> = list.groupBy<string>((word: string): string => {
                     return word[0].toLowerCase();
@@ -543,8 +590,8 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('intersect(items)', function () {
-            it('should return list without specified items using custom comparator', function () {
+        describe('intersect(items)', function() {
+            it('should return list without specified items using custom comparator', function() {
                 const list: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
                 const filteredList: ReadOnlyCollection<string> = list.intersect(
                     create(['one', 'Five']),
@@ -555,7 +602,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
                 expect(filteredList.toArray()).toEqual(['ONE', 'one', 'One']);
             });
 
-            it('should return list without specified items using default comparator', function () {
+            it('should return list without specified items using default comparator', function() {
                 const list: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
                 let filteredList: ReadOnlyCollection<string> = list.intersect(create(['Three', 'Four']));
 
@@ -569,17 +616,23 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('join()', function () {
-            it('should join lists using custom equality comparator', function () {
+        describe('join()', function() {
+            it('should join lists using custom equality comparator', function() {
                 const listA: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
                 const listB: ReadOnlyCollection<string> = create(['Ten', 'Once', 'Twelve']);
-                const combo: ReadOnlyCollection<string[]> = listA.join(listB, (word: string): string => {
-                    return word[0];
-                }, (word: string): string => {
-                    return word[0];
-                }, function (x: string, y: string): string[] {
-                    return [x, y];
-                }, IgnoreCaseEqualityComparator.get());
+                const combo: ReadOnlyCollection<string[]> = listA.join(
+                    listB,
+                    (word: string): string => {
+                        return word[0];
+                    },
+                    (word: string): string => {
+                        return word[0];
+                    },
+                    function(x: string, y: string): string[] {
+                        return [x, y];
+                    },
+                    IgnoreCaseEqualityComparator.get()
+                );
 
                 expect(combo.toArray()).toEqual([
                     ['two', 'Ten'],
@@ -593,128 +646,161 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('last()', function () {
-            it('should return last item matching predicate', function () {
+        describe('last()', function() {
+            it('should return last item matching predicate', function() {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
-                expect(list.last((word: string): boolean => {
-                    return word.length === 3;
-                })).toBe('two');
+                expect(
+                    list.last(
+                        (word: string): boolean => {
+                            return word.length === 3;
+                        }
+                    )
+                ).toBe('two');
 
-                expect(list.last((word: string): boolean => {
-                    return word.length === 4;
-                })).toBe(undefined);
+                expect(
+                    list.last(
+                        (word: string): boolean => {
+                            return word.length === 4;
+                        }
+                    )
+                ).toBe(undefined);
 
-                expect(list.last((word: string): boolean => {
-                    return word.length === 4;
-                }, () => 'fallback')).toBe('fallback');
+                expect(
+                    list.last(
+                        (word: string): boolean => {
+                            return word.length === 4;
+                        },
+                        () => 'fallback'
+                    )
+                ).toBe('fallback');
             });
         });
 
-        describe('lastOrDefault()', function () {
-            it('should return fallback value if list is empty', function () {
+        describe('lastOrDefault()', function() {
+            it('should return fallback value if list is empty', function() {
                 const list: ReadOnlyCollection<string> = create();
 
                 expect(list.lastOrDefault(() => 'fallback')).toBe('fallback');
             });
 
-            it('should return last item of list', function () {
+            it('should return last item of list', function() {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
                 expect(list.lastOrDefault(() => 'fallback')).toBe('three');
             });
         });
 
-        describe('map()', function () {
-            it('should return list of selected values', function () {
+        describe('map()', function() {
+            it('should return list of selected values', function() {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
-                const firstChars: ReadOnlyCollection<string> = list.map((word: string): string => {
-                    return word[0];
-                });
+                const firstChars: ReadOnlyCollection<string> = list.map(
+                    (word: string): string => {
+                        return word[0];
+                    }
+                );
 
                 expect(firstChars.length).toBe(3);
                 expect(firstChars.toArray()).toEqual(['o', 't', 't']);
             });
         });
 
-        describe('max()', function () {
-            it('should return maximal value', function () {
+        describe('max()', function() {
+            it('should return maximal value', function() {
                 const list: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
 
-                expect(list.max((word: string): number => {
-                    return word.length;
-                })).toBe(5);
+                expect(
+                    list.max(
+                        (word: string): number => {
+                            return word.length;
+                        }
+                    )
+                ).toBe(5);
             });
 
-            it('should throw if list is empty', function () {
+            it('should throw if list is empty', function() {
                 const list: ReadOnlyCollection<string> = create();
 
                 expect(() => {
-                    list.max((word: string): number => {
-                        return word.length;
-                    });
+                    list.max(
+                        (word: string): number => {
+                            return word.length;
+                        }
+                    );
                 }).toThrow(InvalidOperationException);
             });
         });
 
-        describe('min()', function () {
-            it('should return minimal value', function () {
+        describe('min()', function() {
+            it('should return minimal value', function() {
                 const list: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
 
-                expect(list.min((word: string): number => {
-                    return word.length;
-                })).toBe(3);
+                expect(
+                    list.min(
+                        (word: string): number => {
+                            return word.length;
+                        }
+                    )
+                ).toBe(3);
             });
 
-            it('should throw if list is empty', function () {
+            it('should throw if list is empty', function() {
                 const list: ReadOnlyCollection<string> = create();
 
                 expect(() => {
-                    list.min((word: string): number => {
-                        return word.length;
-                    });
+                    list.min(
+                        (word: string): number => {
+                            return word.length;
+                        }
+                    );
                 }).toThrow(InvalidOperationException);
             });
         });
 
-        describe('orderBy()', function () {
-            it('should return sorted list using ascending sort order', function () {
+        describe('orderBy()', function() {
+            it('should return sorted list using ascending sort order', function() {
                 const originalList: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
-                const orderedList: ReadOnlyCollection<string> = originalList.orderBy((word: string): string => {
-                    return word.slice(0, 2);
-                }, IgnoreCaseComparator.get(), SortOrder.ASCENDING);
+                const orderedList: ReadOnlyCollection<string> = originalList.orderBy(
+                    (word: string): string => {
+                        return word.slice(0, 2);
+                    },
+                    IgnoreCaseComparator.get(),
+                    SortOrder.ASCENDING
+                );
 
-                expect(orderedList.toArray()).toEqual([
-                    'ONE', 'one', 'One', 'Three', 'two'
-                ]);
+                expect(orderedList.toArray()).toEqual(['ONE', 'one', 'One', 'Three', 'two']);
             });
 
-            it('should return sorted list using custom no sort order', function () {
+            it('should return sorted list using custom no sort order', function() {
                 const originalList: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
-                const orderedList: ReadOnlyCollection<string> = originalList.orderBy((word: string): string => {
-                    return word.slice(0, 2);
-                }, IgnoreCaseComparator.get(), SortOrder.NONE);
+                const orderedList: ReadOnlyCollection<string> = originalList.orderBy(
+                    (word: string): string => {
+                        return word.slice(0, 2);
+                    },
+                    IgnoreCaseComparator.get(),
+                    SortOrder.NONE
+                );
 
-                expect(orderedList.toArray()).toEqual([
-                    'two', 'ONE', 'one', 'Three', 'One'
-                ]);
+                expect(orderedList.toArray()).toEqual(['two', 'ONE', 'one', 'Three', 'One']);
             });
 
-            it('should return sorted list using descending sort order', function () {
+            it('should return sorted list using descending sort order', function() {
                 const originalList: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
-                const orderedList: ReadOnlyCollection<string> = originalList.orderBy((word: string): string => {
-                    return word.slice(0, 2);
-                }, IgnoreCaseComparator.get(), SortOrder.DESCENDING);
+                const orderedList: ReadOnlyCollection<string> = originalList.orderBy(
+                    (word: string): string => {
+                        return word.slice(0, 2);
+                    },
+                    IgnoreCaseComparator.get(),
+                    SortOrder.DESCENDING
+                );
 
-                expect(orderedList.toArray()).toEqual([
-                    'two', 'Three', 'ONE', 'one', 'One'
-                ]);
+                expect(orderedList.toArray()).toEqual(['two', 'Three', 'ONE', 'one', 'One']);
             });
         });
 
-        describe('random()', function () {
-            it('should return random item', function () {
+        describe('random()', function() {
+            it('should return random item', function() {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
                 const random: string[] = [];
 
@@ -727,7 +813,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
                 }
             });
 
-            it('should throw NoSuchItemException if list is empty', function () {
+            it('should throw NoSuchItemException if list is empty', function() {
                 const list: ReadOnlyCollection<string> = create();
 
                 expect(() => {
@@ -736,8 +822,8 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('reverse()', function () {
-            it('should return reversed list', function () {
+        describe('reverse()', function() {
+            it('should return reversed list', function() {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
                 const reversedList: ReadOnlyCollection<string> = list.reverse();
 
@@ -745,44 +831,40 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('selectMany()', function () {
-            it('should return list of selected values', function () {
+        describe('selectMany()', function() {
+            it('should return list of selected values', function() {
                 const books: ReadOnlyCollection<Book> = create([
                     {
-                        authors: create([
-                            'Johan Rowling'
-                        ])
+                        authors: create(['Johan Rowling'])
                     },
                     {
-                        authors: create([
-                            'Steve MacConnell',
-                            'Kent Beck'
-                        ])
+                        authors: create(['Steve MacConnell', 'Kent Beck'])
                     }
                 ]);
 
-                const authorNames: ReadOnlyCollection<string> = books.selectMany<string, string>((book: Book) => {
-                    return book.authors;
-                }, (book: Book, authorFullName: string): string => {
-                    return authorFullName.split(' ')[0];
-                });
+                const authorNames: ReadOnlyCollection<string> = books.selectMany<string, string>(
+                    (book: Book) => {
+                        return book.authors;
+                    },
+                    (book: Book, authorFullName: string): string => {
+                        return authorFullName.split(' ')[0];
+                    }
+                );
 
                 expect(authorNames.length).toBe(3);
 
-                expect(authorNames.toArray()).toEqual([
-                    'Johan', 'Steve', 'Kent'
-                ]);
+                expect(authorNames.toArray()).toEqual(['Johan', 'Steve', 'Kent']);
             });
         });
 
-        describe('skip()', function () {
-            it('should return slice of list', function () {
+        describe('skip()', function() {
+            it('should return slice of list', function() {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
                 expect(list.skip(1).toArray()).toEqual(['two', 'three']);
             });
 
-            it('should throw if offset is out of bounds', function () {
+            it('should throw if offset is out of bounds', function() {
                 const list: ReadOnlyCollection<string> = create();
 
                 list.skip(0);
@@ -794,28 +876,32 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('skipWhile()', function () {
-            it('should returns slice of list', function () {
+        describe('skipWhile()', function() {
+            it('should returns slice of list', function() {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
-                const slice: ReadOnlyCollection<string> = list.skipWhile((word: string): boolean => {
-                    return word[0] !== 't';
-                });
+                const slice: ReadOnlyCollection<string> = list.skipWhile(
+                    (word: string): boolean => {
+                        return word[0] !== 't';
+                    }
+                );
 
                 expect(slice.toArray()).toEqual(['two', 'three']);
             });
 
-            it('should works with empty lists', function () {
+            it('should works with empty lists', function() {
                 const list: ReadOnlyCollection<string> = create();
-                const slice: ReadOnlyCollection<string> = list.skipWhile((word: string): boolean => {
-                    return word[0] !== 't';
-                });
+                const slice: ReadOnlyCollection<string> = list.skipWhile(
+                    (word: string): boolean => {
+                        return word[0] !== 't';
+                    }
+                );
 
                 expect(slice.toArray()).toEqual([]);
             });
         });
 
-        describe('slice()', function () {
-            it('should return slice of list', function () {
+        describe('slice()', function() {
+            it('should return slice of list', function() {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
                 expect(list.slice(1, 1).toArray()).toEqual(['two']);
@@ -823,7 +909,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
                 expect(list.slice(1, 2).toArray()).toEqual(['two', 'three']);
             });
 
-            it('should throw if slice range is invalid', function () {
+            it('should throw if slice range is invalid', function() {
                 const list: ReadOnlyCollection<string> = create();
 
                 expect(() => {
@@ -834,31 +920,39 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
                 }).toThrow(IndexOutOfBoundsException);
             });
 
-            it('should works with empty lists', function () {
+            it('should works with empty lists', function() {
                 const list: ReadOnlyCollection<string> = create();
 
                 expect(list.slice(0, 0).toArray()).toEqual([]);
             });
         });
 
-        describe('sum()', function () {
-            it('should return sum of selected values', function () {
+        describe('sum()', function() {
+            it('should return sum of selected values', function() {
                 const list: ReadOnlyCollection<string> = create(['one']);
 
-                expect(list.sum((item: string): number => {
-                    return item.length;
-                })).toBe(3);
+                expect(
+                    list.sum(
+                        (item: string): number => {
+                            return item.length;
+                        }
+                    )
+                ).toBe(3);
             });
 
-            it('should return sum of selected values', function () {
+            it('should return sum of selected values', function() {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
-                expect(list.sum((item: string): number => {
-                    return item.length;
-                })).toBe(11);
+                expect(
+                    list.sum(
+                        (item: string): number => {
+                            return item.length;
+                        }
+                    )
+                ).toBe(11);
             });
 
-            it('should throw InvalidOperationException if list is empty', function () {
+            it('should throw InvalidOperationException if list is empty', function() {
                 const list: ReadOnlyCollection<string> = create();
                 const mock = jest.fn();
 
@@ -868,14 +962,14 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('take()', function () {
-            it('should return slice of list', function () {
+        describe('take()', function() {
+            it('should return slice of list', function() {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
                 expect(list.take(2).toArray()).toEqual(['one', 'two']);
             });
 
-            it('should throw if length is out of bounds', function () {
+            it('should throw if length is out of bounds', function() {
                 const list: ReadOnlyCollection<string> = create();
 
                 list.take(0);
@@ -886,72 +980,74 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
                 }).toThrow(InvalidArgumentException);
             });
 
-            it('should return slice of list', function () {
+            it('should return slice of list', function() {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
-                const slice: ReadOnlyCollection<string> = list.takeWhile((word: string): boolean => {
-                    return word[0] !== 't';
-                });
+                const slice: ReadOnlyCollection<string> = list.takeWhile(
+                    (word: string): boolean => {
+                        return word[0] !== 't';
+                    }
+                );
 
                 expect(slice.toArray()).toEqual(['one']);
             });
         });
 
-        describe('takeWhile()', function () {
-            it('should work with empty lists', function () {
+        describe('takeWhile()', function() {
+            it('should work with empty lists', function() {
                 const list: ReadOnlyCollection<string> = create();
-                const slice: ReadOnlyCollection<string> = list.takeWhile((word: string): boolean => {
-                    return word[0] !== 't';
-                });
+                const slice: ReadOnlyCollection<string> = list.takeWhile(
+                    (word: string): boolean => {
+                        return word[0] !== 't';
+                    }
+                );
 
                 expect(slice.toArray()).toEqual([]);
             });
         });
 
-        describe('union()', function () {
-            it('should return union of lists', function () {
+        describe('union()', function() {
+            it('should return union of lists', function() {
                 const listA: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
-                const listB: ReadOnlyCollection<string> = create([
-                    'four', 'one', 'two', 'three', 'five'
-                ]);
+                const listB: ReadOnlyCollection<string> = create(['four', 'one', 'two', 'three', 'five']);
                 const union: ReadOnlyCollection<string> = listA.union(listB);
 
                 expect(union.length).toBe(5);
-                expect(union.toArray()).toEqual([
-                    'one', 'two', 'three', 'four', 'five'
-                ]);
+                expect(union.toArray()).toEqual(['one', 'two', 'three', 'four', 'five']);
                 expect(listA.length).toBe(3);
             });
         });
 
-        describe('zip()', function () {
-            it('should return list of combined items', function () {
+        describe('zip()', function() {
+            it('should return list of combined items', function() {
                 const listA: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
                 const listB: ReadOnlyCollection<string> = create(['four', 'five']);
                 const listC: ReadOnlyCollection<string> = create(['four', 'five', 'six', 'seven']);
-                const comboAB: ReadOnlyCollection<string> = listA.zip(listB, (x: string, y: string): string => {
-                    return `${x}+${y}`;
-                });
-                const comboAC: ReadOnlyCollection<string> = listA.zip(listC, (x: string, y: string): string => {
-                    return `${x}+${y}`;
-                });
+                const comboAB: ReadOnlyCollection<string> = listA.zip(
+                    listB,
+                    (x: string, y: string): string => {
+                        return `${x}+${y}`;
+                    }
+                );
+                const comboAC: ReadOnlyCollection<string> = listA.zip(
+                    listC,
+                    (x: string, y: string): string => {
+                        return `${x}+${y}`;
+                    }
+                );
 
-                expect(comboAB.toArray()).toEqual([
-                    'one+four', 'two+five'
-                ]);
+                expect(comboAB.toArray()).toEqual(['one+four', 'two+five']);
 
-                expect(comboAC.toArray()).toEqual([
-                    'one+four', 'two+five', 'three+six'
-                ]);
+                expect(comboAC.toArray()).toEqual(['one+four', 'two+five', 'three+six']);
             });
 
-            it('should return empty queryable if current list or other list is empty', function () {
+            it('should return empty queryable if current list or other list is empty', function() {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
                 const mock = jest.fn();
 
                 expect(list.zip([], mock).length).toBe(0);
             });
 
-            it('should return empty queryable if current list or other list is empty', function () {
+            it('should return empty queryable if current list or other list is empty', function() {
                 const list: ReadOnlyCollection<string> = create();
                 const mock = jest.fn();
 
@@ -959,8 +1055,8 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('toJSON()', function () {
-            it('should serialize list to pure array', function () {
+        describe('toJSON()', function() {
+            it('should serialize list to pure array', function() {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
                 expect(list.toJSON() instanceof Array).toBe(true);
@@ -968,8 +1064,8 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
             });
         });
 
-        describe('toArray()', function () {
-            it('should return pure array', function () {
+        describe('toArray()', function() {
+            it('should return pure array', function() {
                 const list: ReadOnlyCollection<string> = create(['one', 'two', 'three']);
 
                 expect(list.toArray() instanceof Array).toBe(true);

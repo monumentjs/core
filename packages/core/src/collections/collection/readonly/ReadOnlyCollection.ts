@@ -1,16 +1,16 @@
-import {ToArray} from '../../base/ToArray';
-import {Sequence} from '../../base/Sequence';
-import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
-import {Comparator} from '../../../comparison/order/Comparator';
-import {SortOrder} from '../../../comparison/order/SortOrder';
-import {ToJSON} from '../../../base/ToJSON';
-import {ReadOnlyMultiValueMap} from '../../multivaluemap/readonly/ReadOnlyMultiValueMap';
-import {KeyValuePair} from '../../base/KeyValuePair';
-import {AggregateFunction} from '../../function/AggregateFunction';
-import {IteratorFunction} from '../../function/IteratorFunction';
-import {CombineFunction} from '../../../function/CombineFunction';
-import {ProjectFunction} from '../../../function/ProjectFunction';
-import {SupplyFunction} from '../../../function/SupplyFunction';
+import { ToArray } from '../../base/ToArray';
+import { Sequence } from '../../base/Sequence';
+import { EqualityComparator } from '../../../comparison/equality/EqualityComparator';
+import { Comparator } from '../../../comparison/order/Comparator';
+import { SortOrder } from '../../../comparison/order/SortOrder';
+import { ToJSON } from '../../../base/ToJSON';
+import { ReadOnlyMultiValueMap } from '../../multivaluemap/readonly/ReadOnlyMultiValueMap';
+import { KeyValuePair } from '../../base/KeyValuePair';
+import { AggregateFunction } from '../../function/AggregateFunction';
+import { IteratorFunction } from '../../function/IteratorFunction';
+import { CombineFunction } from '../../../function/CombineFunction';
+import { ProjectFunction } from '../../../function/ProjectFunction';
+import { SupplyFunction } from '../../../function/SupplyFunction';
 
 /**
  * @author Alex Chugaev
@@ -24,10 +24,7 @@ export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray
      * Applies an accumulator function over a sequence.
      * The specified seed payload is used as the initial accumulator payload.
      */
-    aggregate<TAggregate>(
-        iterator: AggregateFunction<T, TAggregate>,
-        initialSeed: TAggregate
-    ): TAggregate;
+    aggregate<TAggregate>(iterator: AggregateFunction<T, TAggregate>, initialSeed: TAggregate): TAggregate;
 
     /**
      * Determines whether all elements of a sequence satisfy a condition.
@@ -245,19 +242,12 @@ export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray
     /**
      * Sorts the elements of a sequence in ascending order by using a specified comparator.
      */
-    orderBy<TKey>(
-        keySelector: ProjectFunction<T, TKey>,
-        comparator: Comparator<TKey>
-    ): ReadOnlyCollection<T>;
+    orderBy<TKey>(keySelector: ProjectFunction<T, TKey>, comparator: Comparator<TKey>): ReadOnlyCollection<T>;
 
     /**
      * Sorts the elements of a sequence in ascending order by using a specified comparator.
      */
-    orderBy<TKey>(
-        keySelector: ProjectFunction<T, TKey>,
-        comparator: Comparator<TKey>,
-        sortOrder: SortOrder
-    ): ReadOnlyCollection<T>;
+    orderBy<TKey>(keySelector: ProjectFunction<T, TKey>, comparator: Comparator<TKey>, sortOrder: SortOrder): ReadOnlyCollection<T>;
 
     /**
      * @throws {NoSuchItemException} if collection is empty
@@ -314,8 +304,5 @@ export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray
     /**
      * Applies a specified function to the corresponding elements of two sequences, producing a sequence of the results.
      */
-    zip<TOther, TResult>(
-        otherItems: Sequence<TOther>,
-        resultSelector: CombineFunction<T, TOther, TResult>
-    ): ReadOnlyCollection<TResult>;
+    zip<TOther, TResult>(otherItems: Sequence<TOther>, resultSelector: CombineFunction<T, TOther, TResult>): ReadOnlyCollection<TResult>;
 }

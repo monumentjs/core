@@ -1,6 +1,6 @@
-import {ArraySet} from '@monument/core';
-import {TeardownLogic} from './TeardownLogic';
-import {Unsubscribable} from './Unsubscribable';
+import { ArraySet } from '@monument/core';
+import { TeardownLogic } from './TeardownLogic';
+import { Unsubscribable } from './Unsubscribable';
 
 /**
  * @author Alex Chugaev

@@ -1,8 +1,8 @@
-import {switchMap, Subject, Observable} from '../../../../..';
-import {TestObserver} from '../../../../support/TestObserver';
+import { switchMap, Subject, Observable } from '../../../../..';
+import { TestObserver } from '../../../../support/TestObserver';
 
-describe('switchMap()', function () {
-    it('should emit mapped values', function () {
+describe('switchMap()', function() {
+    it('should emit mapped values', function() {
         const source: Subject<number> = new Subject();
         const observer: TestObserver<number> = new TestObserver();
 

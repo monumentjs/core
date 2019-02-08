@@ -1,7 +1,7 @@
-import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
-import {KeyValuePair} from '../../base/KeyValuePair';
-import {Sequence} from '../../base/Sequence';
-import {SupplyFunction} from '../../../function/SupplyFunction';
+import { EqualityComparator } from '../../../comparison/equality/EqualityComparator';
+import { KeyValuePair } from '../../base/KeyValuePair';
+import { Sequence } from '../../base/Sequence';
+import { SupplyFunction } from '../../../function/SupplyFunction';
 
 /**
  * @author Alex Chugaev

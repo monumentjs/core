@@ -1,12 +1,12 @@
-import {KeyValuePair, MultiValueMap} from '../../../../..';
-import {assertLengthAndIsEmpty, testReadOnlyMultiValueMap} from '../readonly/ReadOnlyMultiValueMap.spec';
+import { KeyValuePair, MultiValueMap } from '../../../../..';
+import { assertLengthAndIsEmpty, testReadOnlyMultiValueMap } from '../readonly/ReadOnlyMultiValueMap.spec';
 
 export function testMultiValueMap(create: <K, V>(items?: Iterable<KeyValuePair<K, V>>) => MultiValueMap<K, V>) {
-    describe('MultiValueMap', function () {
+    describe('MultiValueMap', function() {
         testReadOnlyMultiValueMap(create);
 
-        describe('put()', function () {
-            it('should add new pair', function () {
+        describe('put()', function() {
+            it('should add new pair', function() {
                 let emails: string[];
                 let names: string[];
                 const map: MultiValueMap<string, string> = create();
@@ -24,9 +24,7 @@ export function testMultiValueMap(create: <K, V>(items?: Iterable<KeyValuePair<K
                 expect(map.containsValue('Alex')).toBe(true);
                 expect(map.containsValues(['Alex'])).toBe(true);
                 expect(map.containsEntry('name', 'Alex')).toBe(true);
-                expect(map.containsEntries([
-                    ['name', 'Alex']
-                ])).toBe(true);
+                expect(map.containsEntries([['name', 'Alex']])).toBe(true);
 
                 map.put('email', 'test@mail.com');
 
@@ -47,10 +45,7 @@ export function testMultiValueMap(create: <K, V>(items?: Iterable<KeyValuePair<K
                 expect(map.containsValues(['Alex', 'test@mail.com'])).toBe(true);
                 expect(map.containsEntry('name', 'Alex')).toBe(true);
                 expect(map.containsEntry('email', 'test@mail.com')).toBe(true);
-                expect(map.containsEntries([
-                    ['name', 'Alex'],
-                    ['email', 'test@mail.com']
-                ])).toBe(true);
+                expect(map.containsEntries([['name', 'Alex'], ['email', 'test@mail.com']])).toBe(true);
 
                 map.put('name', 'Dmitri');
 
@@ -75,23 +70,15 @@ export function testMultiValueMap(create: <K, V>(items?: Iterable<KeyValuePair<K
                 expect(map.containsEntry('name', 'Alex')).toBe(true);
                 expect(map.containsEntry('name', 'Dmitri')).toBe(true);
                 expect(map.containsEntry('email', 'test@mail.com')).toBe(true);
-                expect(map.containsEntries([
-                    ['name', 'Alex'],
-                    ['name', 'Dmitri'],
-                    ['email', 'test@mail.com']
-                ])).toBe(true);
+                expect(map.containsEntries([['name', 'Alex'], ['name', 'Dmitri'], ['email', 'test@mail.com']])).toBe(true);
             });
         });
 
-        describe('putAll()', function () {
-            it('should add all pairs from given sequence', function () {
+        describe('putAll()', function() {
+            it('should add all pairs from given sequence', function() {
                 const map: MultiValueMap<string, string> = create();
 
-                map.putAll([
-                    ['name', 'Alex'],
-                    ['name', 'Dmitri'],
-                    ['email', 'test@mail.com']
-                ]);
+                map.putAll([['name', 'Alex'], ['name', 'Dmitri'], ['email', 'test@mail.com']]);
 
                 assertLengthAndIsEmpty(map, 2, 3);
 
@@ -107,8 +94,8 @@ export function testMultiValueMap(create: <K, V>(items?: Iterable<KeyValuePair<K
             });
         });
 
-        describe('putValues()', function () {
-            it('should add all pairs from given map', function () {
+        describe('putValues()', function() {
+            it('should add all pairs from given map', function() {
                 const map: MultiValueMap<string, string> = create();
 
                 map.putValues('name', ['Alex', 'Dmitri']);
@@ -131,8 +118,8 @@ export function testMultiValueMap(create: <K, V>(items?: Iterable<KeyValuePair<K
             });
         });
 
-        describe('putIfAbsent()', function () {
-            it('should add pair if such key-value combination is not defined', function () {
+        describe('putIfAbsent()', function() {
+            it('should add pair if such key-value combination is not defined', function() {
                 let names: string[];
                 let emails: string[];
                 const map: MultiValueMap<string, string> = create();
@@ -186,17 +173,13 @@ export function testMultiValueMap(create: <K, V>(items?: Iterable<KeyValuePair<K
             });
         });
 
-        describe('remove()', function () {
-            it('should remove all values stored under specified key', function () {
-                const map = create([
-                    ['name', 'Alex'],
-                    ['name', 'Dmitri'],
-                    ['email', 'test@mail.com']
-                ]);
+        describe('remove()', function() {
+            it('should remove all values stored under specified key', function() {
+                const map = create([['name', 'Alex'], ['name', 'Dmitri'], ['email', 'test@mail.com']]);
 
                 assertLengthAndIsEmpty(map, 2, 3);
 
-                const names: string[] = [...map.remove('name') as Iterable<string>];
+                const names: string[] = [...(map.remove('name') as Iterable<string>)];
 
                 assertLengthAndIsEmpty(map, 1, 1);
 
@@ -209,7 +192,7 @@ export function testMultiValueMap(create: <K, V>(items?: Iterable<KeyValuePair<K
                 expect(map.containsKey('email')).toBe(true);
                 expect(map.containsKeys(['email'])).toBe(true);
 
-                const emails: string[] = [...map.remove('email') as Iterable<string>];
+                const emails: string[] = [...(map.remove('email') as Iterable<string>)];
 
                 assertLengthAndIsEmpty(map, 0, 0);
 
@@ -223,19 +206,17 @@ export function testMultiValueMap(create: <K, V>(items?: Iterable<KeyValuePair<K
             });
         });
 
-        describe('removeBy()', function () {
-            it('should remove all pairs matching predicate', function () {
+        describe('removeBy()', function() {
+            it('should remove all pairs matching predicate', function() {
                 let emails: string[];
                 let names: string[];
-                const map = create([
-                    ['name', 'Alex'],
-                    ['name', 'Dmitri'],
-                    ['email', 'test@mail.com']
-                ]);
+                const map = create([['name', 'Alex'], ['name', 'Dmitri'], ['email', 'test@mail.com']]);
 
-                expect(map.removeBy((key, value) => {
-                    return key === 'name' && value === 'Dmitri';
-                })).toBe(true);
+                expect(
+                    map.removeBy((key, value) => {
+                        return key === 'name' && value === 'Dmitri';
+                    })
+                ).toBe(true);
 
                 assertLengthAndIsEmpty(map, 2, 2);
 
@@ -251,9 +232,11 @@ export function testMultiValueMap(create: <K, V>(items?: Iterable<KeyValuePair<K
                 expect(map.containsKey('email')).toBe(true);
                 expect(map.containsKeys(['email'])).toBe(true);
 
-                expect(map.removeBy((key, value) => {
-                    return key === 'name' && value === 'Alex';
-                })).toBe(true);
+                expect(
+                    map.removeBy((key, value) => {
+                        return key === 'name' && value === 'Alex';
+                    })
+                ).toBe(true);
 
                 assertLengthAndIsEmpty(map, 1, 1);
 
@@ -268,9 +251,11 @@ export function testMultiValueMap(create: <K, V>(items?: Iterable<KeyValuePair<K
                 expect(map.containsKey('email')).toBe(true);
                 expect(map.containsKeys(['email'])).toBe(true);
 
-                expect(map.removeBy((key, value) => {
-                    return key === 'email' && value === 'test@mail.com';
-                })).toBe(true);
+                expect(
+                    map.removeBy((key, value) => {
+                        return key === 'email' && value === 'test@mail.com';
+                    })
+                ).toBe(true);
 
                 assertLengthAndIsEmpty(map, 0, 0);
 
@@ -286,15 +271,11 @@ export function testMultiValueMap(create: <K, V>(items?: Iterable<KeyValuePair<K
             });
         });
 
-        describe('removeIf()', function () {
-            it('should remove pair with specified key and value', function () {
+        describe('removeIf()', function() {
+            it('should remove pair with specified key and value', function() {
                 let emails: string[];
                 let names: string[];
-                const map = create([
-                    ['name', 'Alex'],
-                    ['name', 'Dmitri'],
-                    ['email', 'test@mail.com']
-                ]);
+                const map = create([['name', 'Alex'], ['name', 'Dmitri'], ['email', 'test@mail.com']]);
 
                 expect(map.removeIf('name', 'Dmitri')).toBe(true);
 
@@ -331,15 +312,11 @@ export function testMultiValueMap(create: <K, V>(items?: Iterable<KeyValuePair<K
             });
         });
 
-        describe('replaceIf()', function () {
-            it('should replace pair with specified key and value', function () {
+        describe('replaceIf()', function() {
+            it('should replace pair with specified key and value', function() {
                 let emails: string[];
                 let names: string[];
-                const map = create([
-                    ['name', 'Alex'],
-                    ['name', 'Dmitri'],
-                    ['email', 'test@mail.com']
-                ]);
+                const map = create([['name', 'Alex'], ['name', 'Dmitri'], ['email', 'test@mail.com']]);
 
                 expect(map.replaceIf('name', 'Dmitri', 'DMITRI')).toBe(true);
 
@@ -382,20 +359,16 @@ export function testMultiValueMap(create: <K, V>(items?: Iterable<KeyValuePair<K
             });
         });
 
-        describe('clear()', function () {
-            it('should remove all pairs', function () {
-                const map = create([
-                    ['name', 'Alex'],
-                    ['name', 'Dmitri'],
-                    ['email', 'test@mail.com']
-                ]);
+        describe('clear()', function() {
+            it('should remove all pairs', function() {
+                const map = create([['name', 'Alex'], ['name', 'Dmitri'], ['email', 'test@mail.com']]);
 
                 expect(map.clear()).toBe(true);
 
                 assertLengthAndIsEmpty(map, 0, 0);
             });
 
-            it('should work for empty map', function () {
+            it('should work for empty map', function() {
                 const map = create();
 
                 expect(map.clear()).toBe(false);

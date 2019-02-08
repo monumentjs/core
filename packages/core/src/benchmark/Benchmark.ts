@@ -1,4 +1,4 @@
-import {times} from '../function/times';
+import { times } from '../function/times';
 
 export class Benchmark {
     public static once(fn: () => void): number {
@@ -8,7 +8,7 @@ export class Benchmark {
 
         const endTime = Date.now();
 
-        return (endTime - startTime);
+        return endTime - startTime;
     }
 
     public static repeat(count: number, fn: (num: number) => void): number {
@@ -18,6 +18,6 @@ export class Benchmark {
 
         const endTime = Date.now();
 
-        return (endTime - startTime);
+        return endTime - startTime;
     }
 }

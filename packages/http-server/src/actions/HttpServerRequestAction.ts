@@ -1,7 +1,7 @@
-import {Action} from '@monument/reactive';
-import {HttpRequest} from '../HttpRequest';
-import {HttpResponse} from '../HttpResponse';
-import {HttpServerActionType} from './HttpServerActionType';
+import { Action } from '@monument/reactive';
+import { HttpRequest } from '../HttpRequest';
+import { HttpResponse } from '../HttpResponse';
+import { HttpServerActionType } from './HttpServerActionType';
 
 export class HttpServerRequestAction implements Action {
     public readonly type = HttpServerActionType.REQUEST;

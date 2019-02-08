@@ -1,9 +1,9 @@
-import {isEven} from '@monument/core';
-import {filter, Subject} from '../../../../..';
-import {TestObserver} from '../../../../support/TestObserver';
+import { isEven } from '@monument/core';
+import { filter, Subject } from '../../../../..';
+import { TestObserver } from '../../../../support/TestObserver';
 
-describe('filter()', function () {
-    it('should emit values which pass predicate', function () {
+describe('filter()', function() {
+    it('should emit values which pass predicate', function() {
         const source: Subject<number> = new Subject();
         const observer: TestObserver<number> = new TestObserver();
 

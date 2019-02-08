@@ -1,22 +1,19 @@
-import {EqualityComparator, IgnoreCaseEqualityComparator, ReadOnlySet, Sequence} from '../../../../..';
-import {testReadOnlyCollection} from '../../collection/readonly/ReadOnlyCollection.spec';
+import { EqualityComparator, IgnoreCaseEqualityComparator, ReadOnlySet, Sequence } from '../../../../..';
+import { testReadOnlyCollection } from '../../collection/readonly/ReadOnlyCollection.spec';
 
-export function testReadOnlySet(create: <T>(
-    items?: Sequence<T>,
-    comparator?: EqualityComparator<T>
-) => ReadOnlySet<T>) {
-    describe('ReadOnlySet', function () {
+export function testReadOnlySet(create: <T>(items?: Sequence<T>, comparator?: EqualityComparator<T>) => ReadOnlySet<T>) {
+    describe('ReadOnlySet', function() {
         testReadOnlyCollection(create);
 
-        describe('constructor()', function () {
+        describe('constructor()', function() {
             const set: ReadOnlySet<string> = create<string>(['one', 'One', 'ONE', 'two'], IgnoreCaseEqualityComparator.get());
 
             expect(set.length).toBe(2);
             expect(set.toArray()).toEqual(['one', 'two']);
         });
 
-        describe('isProperSubsetOf()', function () {
-            it('should determine whether current set is proper subset of given set', function () {
+        describe('isProperSubsetOf()', function() {
+            it('should determine whether current set is proper subset of given set', function() {
                 const empty: ReadOnlySet<string> = create([]);
                 const subSet: ReadOnlySet<string> = create(['one', 'two', 'three']);
                 const sameSet: ReadOnlySet<string> = create(['one', 'two', 'three']);
@@ -32,8 +29,8 @@ export function testReadOnlySet(create: <T>(
             });
         });
 
-        describe('isProperSupersetOf()', function () {
-            it('should determine whether current set is proper superset of given set', function () {
+        describe('isProperSupersetOf()', function() {
+            it('should determine whether current set is proper superset of given set', function() {
                 const empty: ReadOnlySet<string> = create([]);
                 const subSet: ReadOnlySet<string> = create(['one', 'two', 'three']);
                 const sameSet: ReadOnlySet<string> = create(['one', 'two', 'three']);
@@ -49,8 +46,8 @@ export function testReadOnlySet(create: <T>(
             });
         });
 
-        describe('isSubsetOf()', function () {
-            it('should determine whether current set is subset of given set', function () {
+        describe('isSubsetOf()', function() {
+            it('should determine whether current set is subset of given set', function() {
                 const empty: ReadOnlySet<string> = create([]);
                 const subSet: ReadOnlySet<string> = create(['one', 'two', 'three']);
                 const sameSet: ReadOnlySet<string> = create(['one', 'two', 'three']);
@@ -66,8 +63,8 @@ export function testReadOnlySet(create: <T>(
             });
         });
 
-        describe('isSupersetOf()', function () {
-            it('should determine whether current set is superset of given set', function () {
+        describe('isSupersetOf()', function() {
+            it('should determine whether current set is superset of given set', function() {
                 const empty: ReadOnlySet<string> = create([]);
                 const subSet: ReadOnlySet<string> = create(['one', 'two', 'three']);
                 const sameSet: ReadOnlySet<string> = create(['one', 'two', 'three']);
@@ -83,8 +80,8 @@ export function testReadOnlySet(create: <T>(
             });
         });
 
-        describe('overlaps()', function () {
-            it('should determine whether current set overlaps with other collection', function () {
+        describe('overlaps()', function() {
+            it('should determine whether current set overlaps with other collection', function() {
                 const empty: ReadOnlySet<string> = create([]);
                 const singleSet: ReadOnlySet<string> = create(['one']);
                 const subSet: ReadOnlySet<string> = create(['one', 'two', 'three']);
@@ -102,8 +99,8 @@ export function testReadOnlySet(create: <T>(
             });
         });
 
-        describe('setEquals()', function () {
-            it('should determine whether set contains same elements as given collection', function () {
+        describe('setEquals()', function() {
+            it('should determine whether set contains same elements as given collection', function() {
                 const firstSet = create(['one', 'two', 'three']);
                 const sameSet = create(['one', 'two', 'three']);
                 const shuffledSet = create(['two', 'one', 'three']);

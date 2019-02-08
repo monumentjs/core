@@ -1,4 +1,4 @@
-import {ToString} from '@monument/core';
+import { ToString } from '@monument/core';
 
 /**
  * @since 0.0.1

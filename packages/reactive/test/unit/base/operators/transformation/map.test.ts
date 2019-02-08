@@ -1,9 +1,9 @@
-import {isEven} from '@monument/core';
-import {map, Subject} from '../../../../..';
-import {TestObserver} from '../../../../support/TestObserver';
+import { isEven } from '@monument/core';
+import { map, Subject } from '../../../../..';
+import { TestObserver } from '../../../../support/TestObserver';
 
-describe('map()', function () {
-    it('should emit mapped values', function () {
+describe('map()', function() {
+    it('should emit mapped values', function() {
         const source: Subject<number> = new Subject();
         const observer: TestObserver<number> = new TestObserver();
 

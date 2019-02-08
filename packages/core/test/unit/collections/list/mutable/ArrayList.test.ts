@@ -1,7 +1,7 @@
-import {testList} from './List.spec';
-import {ArrayList, Sequence} from '../../../../..';
+import { testList } from './List.spec';
+import { ArrayList, Sequence } from '../../../../..';
 
-describe('ArrayList', function () {
+describe('ArrayList', function() {
     function create<T>(items?: Sequence<T>): ArrayList<T> {
         return new ArrayList(items);
     }

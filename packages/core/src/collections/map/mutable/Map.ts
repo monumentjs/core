@@ -1,6 +1,6 @@
-import {KeyValuePair} from '../../base/KeyValuePair';
-import {ReadOnlyMap} from '../readonly/ReadOnlyMap';
-import {MapIteratorFunction} from '../../base/MapIteratorFunction';
+import { KeyValuePair } from '../../base/KeyValuePair';
+import { ReadOnlyMap } from '../readonly/ReadOnlyMap';
+import { MapIteratorFunction } from '../../base/MapIteratorFunction';
 
 /**
  * @author Alex Chugaev

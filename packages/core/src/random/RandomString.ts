@@ -1,9 +1,9 @@
-import {EMPTY_STRING} from '../text/Strings';
-import {InvalidArgumentException} from '../exceptions/InvalidArgumentException';
-import {RandomInt} from './RandomInt';
-import {RandomValue} from './RandomValue';
-import {ToJSON} from '../base/ToJSON';
-import {ToString} from '../base/ToString';
+import { EMPTY_STRING } from '../text/Strings';
+import { InvalidArgumentException } from '../exceptions/InvalidArgumentException';
+import { RandomInt } from './RandomInt';
+import { RandomValue } from './RandomValue';
+import { ToJSON } from '../base/ToJSON';
+import { ToString } from '../base/ToString';
 
 /**
  * @author Alex Chugaev

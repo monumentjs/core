@@ -1,12 +1,12 @@
-import {EmptyStackException, Sequence, Stack} from '../../../../..';
-import {testReadOnlyStack} from '../readonly/ReadOnlyStack.spec';
+import { EmptyStackException, Sequence, Stack } from '../../../../..';
+import { testReadOnlyStack } from '../readonly/ReadOnlyStack.spec';
 
 export function testStack(create: <I>(items?: Sequence<I>) => Stack<I>) {
-    describe('Stack', function () {
+    describe('Stack', function() {
         testReadOnlyStack(create);
 
-        describe('push()', function () {
-            it('should add item to the stack', function () {
+        describe('push()', function() {
+            it('should add item to the stack', function() {
                 const stack: Stack<string> = create();
 
                 expect(stack.push('a')).toBe(true);
@@ -19,8 +19,8 @@ export function testStack(create: <I>(items?: Sequence<I>) => Stack<I>) {
             });
         });
 
-        describe('pop()', function () {
-            it('should throw EmptyStackException if stack is empty', function () {
+        describe('pop()', function() {
+            it('should throw EmptyStackException if stack is empty', function() {
                 const stack: Stack<string> = create();
 
                 expect(() => {
@@ -28,7 +28,7 @@ export function testStack(create: <I>(items?: Sequence<I>) => Stack<I>) {
                 }).toThrow(EmptyStackException);
             });
 
-            it('should return next element and removes it from stack', function () {
+            it('should return next element and removes it from stack', function() {
                 const stack: Stack<string> = create(['a', 'b', 'c']);
 
                 expect(stack.pop()).toBe('c');
@@ -42,8 +42,8 @@ export function testStack(create: <I>(items?: Sequence<I>) => Stack<I>) {
             });
         });
 
-        describe('peek()', function () {
-            it('should throw EmptyStackException is stack is empty', function () {
+        describe('peek()', function() {
+            it('should throw EmptyStackException is stack is empty', function() {
                 const stack: Stack<string> = create();
 
                 expect(() => {
@@ -51,7 +51,7 @@ export function testStack(create: <I>(items?: Sequence<I>) => Stack<I>) {
                 }).toThrow(EmptyStackException);
             });
 
-            it('should return next element of stack', function () {
+            it('should return next element of stack', function() {
                 const stack: Stack<string> = create(['a', 'b', 'c']);
 
                 expect(stack.peek()).toBe('c');

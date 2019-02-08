@@ -1,4 +1,4 @@
-import {ReleaseStatus} from './ReleaseStatus';
+import { ReleaseStatus } from './ReleaseStatus';
 
 /**
  * @author Alex Chugaev

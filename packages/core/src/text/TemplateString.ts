@@ -1,12 +1,12 @@
-import {EMPTY_STRING} from './Strings';
-import {MissingKeyException} from '../exceptions/MissingKeyException';
-import {LinkedMap} from '../collections/map/mutable/LinkedMap';
-import {ArrayList} from '../collections/list/mutable/ArrayList';
-import {ReadOnlyMap} from '../collections/map/readonly/ReadOnlyMap';
-import {ReadOnlyList} from '../collections/list/readonly/ReadOnlyList';
-import {CollectionUtils} from '../collections/base/CollectionUtils';
-import {RegExpUtils} from './RegExpUtils';
-import {ParsingException} from './parser/ParsingException';
+import { EMPTY_STRING } from './Strings';
+import { MissingKeyException } from '../exceptions/MissingKeyException';
+import { LinkedMap } from '../collections/map/mutable/LinkedMap';
+import { ArrayList } from '../collections/list/mutable/ArrayList';
+import { ReadOnlyMap } from '../collections/map/readonly/ReadOnlyMap';
+import { ReadOnlyList } from '../collections/list/readonly/ReadOnlyList';
+import { CollectionUtils } from '../collections/base/CollectionUtils';
+import { RegExpUtils } from './RegExpUtils';
+import { ParsingException } from './parser/ParsingException';
 
 const NORMAL_ENTRY_PATTERN: RegExp = /{(\w+)}/g;
 const ESCAPED_ENTRY_PATTERN: RegExp = /\\{(\w+)\\}/g;
@@ -52,23 +52,27 @@ export class TemplateString {
     }
 
     public fillByKeys(values: ReadOnlyMap<string, string>): string {
-        return this.fillEntries((key: string): string => {
-            if (values.containsKey(key)) {
-                return values.get(key) + EMPTY_STRING;
-            } else {
-                throw new MissingKeyException(`Entry "${key}" is not defined.`);
+        return this.fillEntries(
+            (key: string): string => {
+                if (values.containsKey(key)) {
+                    return values.get(key) + EMPTY_STRING;
+                } else {
+                    throw new MissingKeyException(`Entry "${key}" is not defined.`);
+                }
             }
-        });
+        );
     }
 
     public fillByPositions(values: any[]): string {
-        return this.fillEntries((key: string): string => {
-            const index: number = parseInt(key, 10);
+        return this.fillEntries(
+            (key: string): string => {
+                const index: number = parseInt(key, 10);
 
-            CollectionUtils.validateIndexBounds(values, index);
+                CollectionUtils.validateIndexBounds(values, index);
 
-            return values[index] + EMPTY_STRING;
-        });
+                return values[index] + EMPTY_STRING;
+            }
+        );
     }
 
     public toString(): string {
@@ -84,43 +88,53 @@ export class TemplateString {
     }
 
     public tryFillByKeys(values: ReadOnlyMap<string, string>): string {
-        return this.fillEntries((key: string): string => {
-            const value = values.get(key);
+        return this.fillEntries(
+            (key: string): string => {
+                const value = values.get(key);
 
-            if (value == null) {
-                return EMPTY_STRING;
+                if (value == null) {
+                    return EMPTY_STRING;
+                }
+
+                return value + EMPTY_STRING;
             }
-
-            return value + EMPTY_STRING;
-        });
+        );
     }
 
     public tryFillByPositions(values: any[]): string {
-        return this.fillEntries((key: string): string => {
-            const index: number = parseInt(key, 10);
+        return this.fillEntries(
+            (key: string): string => {
+                const index: number = parseInt(key, 10);
 
-            if (index >= 0 && index < values.length) {
-                return values[index] + EMPTY_STRING;
-            } else {
-                return EMPTY_STRING;
+                if (index >= 0 && index < values.length) {
+                    return values[index] + EMPTY_STRING;
+                } else {
+                    return EMPTY_STRING;
+                }
             }
-        });
+        );
     }
 
     private createExtractingPattern(): RegExp {
         let pattern: string = RegExpUtils.escape(this._template);
 
-        pattern = pattern.replace(ESCAPED_ENTRY_PATTERN, (): string => {
-            return `(.+)`;
-        });
+        pattern = pattern.replace(
+            ESCAPED_ENTRY_PATTERN,
+            (): string => {
+                return `(.+)`;
+            }
+        );
 
         return new RegExp(`^${pattern}$`);
     }
 
     private fillEntries(selector: (key: string) => string): string {
-        return this._template.replace(NORMAL_ENTRY_PATTERN, (substring: string, ...groups: string[]): string => {
-            return selector(groups[0]);
-        });
+        return this._template.replace(
+            NORMAL_ENTRY_PATTERN,
+            (substring: string, ...groups: string[]): string => {
+                return selector(groups[0]);
+            }
+        );
     }
 
     private getAllEntries(): ReadOnlyList<string> {

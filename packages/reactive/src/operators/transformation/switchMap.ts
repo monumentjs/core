@@ -1,8 +1,8 @@
-import {ProjectFunction} from '@monument/core';
-import {Observable, OperatorFunction} from '../../base/Observable';
-import {Subject} from '../../base/Subject';
-import {Observer} from '../../base/Observer';
-import {Subscription} from '../../base/Subscription';
+import { ProjectFunction } from '@monument/core';
+import { Observable, OperatorFunction } from '../../base/Observable';
+import { Subject } from '../../base/Subject';
+import { Observer } from '../../base/Observer';
+import { Subscription } from '../../base/Subscription';
 
 export function switchMap<I, O>(project: ProjectFunction<I, Observable<O>>): OperatorFunction<I, O> {
     return (source: Observable<I>): Observable<O> => {

@@ -1,5 +1,5 @@
-import {Observable, Observer} from '@monument/reactive';
-import {IncomingMessage} from 'http';
+import { Observable, Observer } from '@monument/reactive';
+import { IncomingMessage } from 'http';
 
 export class HttpRequest extends Observable<Buffer | string> {
     private readonly _incomingMessage: IncomingMessage;

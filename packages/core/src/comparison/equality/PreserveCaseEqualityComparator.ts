@@ -1,4 +1,4 @@
-import {EqualityComparator} from './EqualityComparator';
+import { EqualityComparator } from './EqualityComparator';
 
 /**
  * @author Alex Chugaev
@@ -15,8 +15,7 @@ export class PreserveCaseEqualityComparator implements EqualityComparator<string
         return this._instance;
     }
 
-    private constructor() {
-    }
+    private constructor() {}
 
     public equals(current: string | null | undefined, other: string | null | undefined): boolean {
         if (current == null && other == null) {

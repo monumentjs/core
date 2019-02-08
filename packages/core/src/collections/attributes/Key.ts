@@ -1,4 +1,4 @@
-import {ToString} from '../../base/ToString';
+import { ToString } from '../../base/ToString';
 
 /**
  * @author Alex Chugaev

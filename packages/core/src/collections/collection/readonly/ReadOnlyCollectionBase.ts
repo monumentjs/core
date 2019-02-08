@@ -1,20 +1,20 @@
-import {Sequence} from '../../base/Sequence';
-import {ReadOnlyCollection} from './ReadOnlyCollection';
-import {ReadOnlyCollectionImpl} from './ReadOnlyCollectionImpl';
-import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
-import {ReferenceEqualityComparator} from '../../../comparison/equality/ReferenceEqualityComparator';
-import {SortOrder} from '../../../comparison/order/SortOrder';
-import {Comparator} from '../../../comparison/order/Comparator';
-import {ReadOnlyMultiValueMap} from '../../multivaluemap/readonly/ReadOnlyMultiValueMap';
-import {KeyValuePair} from '../../base/KeyValuePair';
-import {AggregateFunction} from '../../function/AggregateFunction';
-import {IteratorFunction} from '../../function/IteratorFunction';
-import {CombineFunction} from '../../../function/CombineFunction';
-import {ProjectFunction} from '../../../function/ProjectFunction';
-import {SupplyFunction} from '../../../function/SupplyFunction';
+import { Sequence } from '../../base/Sequence';
+import { ReadOnlyCollection } from './ReadOnlyCollection';
+import { ReadOnlyCollectionImpl } from './ReadOnlyCollectionImpl';
+import { EqualityComparator } from '../../../comparison/equality/EqualityComparator';
+import { ReferenceEqualityComparator } from '../../../comparison/equality/ReferenceEqualityComparator';
+import { SortOrder } from '../../../comparison/order/SortOrder';
+import { Comparator } from '../../../comparison/order/Comparator';
+import { ReadOnlyMultiValueMap } from '../../multivaluemap/readonly/ReadOnlyMultiValueMap';
+import { KeyValuePair } from '../../base/KeyValuePair';
+import { AggregateFunction } from '../../function/AggregateFunction';
+import { IteratorFunction } from '../../function/IteratorFunction';
+import { CombineFunction } from '../../../function/CombineFunction';
+import { ProjectFunction } from '../../../function/ProjectFunction';
+import { SupplyFunction } from '../../../function/SupplyFunction';
 
 export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T> {
-    public readonly abstract length: number;
+    public abstract readonly length: number;
 
     public get isEmpty(): boolean {
         return this.length === 0;
@@ -22,10 +22,7 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
 
     public abstract [Symbol.iterator](): Iterator<T>;
 
-    public aggregate<TAggregate>(
-        iterator: AggregateFunction<T, TAggregate>,
-        initialSeed: TAggregate
-    ): TAggregate {
+    public aggregate<TAggregate>(iterator: AggregateFunction<T, TAggregate>, initialSeed: TAggregate): TAggregate {
         return new ReadOnlyCollectionImpl(this).aggregate(iterator, initialSeed);
     }
 
@@ -143,14 +140,9 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
         new ReadOnlyCollectionImpl(this).forEachBack(iterator, startIndex, count);
     }
 
-    public groupBy<TKey>(
-        keySelector: IteratorFunction<T, TKey>
-    ): ReadOnlyMultiValueMap<TKey, T>;
+    public groupBy<TKey>(keySelector: IteratorFunction<T, TKey>): ReadOnlyMultiValueMap<TKey, T>;
 
-    public groupBy<TKey>(
-        keySelector: IteratorFunction<T, TKey>,
-        keyComparator: EqualityComparator<TKey>
-    ): ReadOnlyMultiValueMap<TKey, T>;
+    public groupBy<TKey>(keySelector: IteratorFunction<T, TKey>, keyComparator: EqualityComparator<TKey>): ReadOnlyMultiValueMap<TKey, T>;
 
     public groupBy<TKey>(
         keySelector: IteratorFunction<T, TKey>,
@@ -220,16 +212,9 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
         return new ReadOnlyCollectionImpl(this).min(selector);
     }
 
-    public orderBy<TKey>(
-        keySelector: ProjectFunction<T, TKey>,
-        comparator: Comparator<TKey>
-    ): ReadOnlyCollection<T>;
+    public orderBy<TKey>(keySelector: ProjectFunction<T, TKey>, comparator: Comparator<TKey>): ReadOnlyCollection<T>;
 
-    public orderBy<TKey>(
-        keySelector: ProjectFunction<T, TKey>,
-        comparator: Comparator<TKey>,
-        sortOrder: SortOrder
-    ): ReadOnlyCollection<T>;
+    public orderBy<TKey>(keySelector: ProjectFunction<T, TKey>, comparator: Comparator<TKey>, sortOrder: SortOrder): ReadOnlyCollection<T>;
 
     public orderBy<TKey>(
         keySelector: ProjectFunction<T, TKey>,
@@ -304,5 +289,4 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
     ): ReadOnlyCollection<TResult> {
         return new ReadOnlyCollectionImpl(this).zip(otherList, resultSelector);
     }
-
 }

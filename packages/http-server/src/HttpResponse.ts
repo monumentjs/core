@@ -1,6 +1,6 @@
-import {Observer} from '@monument/reactive';
-import {ServerResponse} from 'http';
-import {HttpException} from './HttpException';
+import { Observer } from '@monument/reactive';
+import { ServerResponse } from 'http';
+import { HttpException } from './HttpException';
 
 export class HttpResponse implements Observer<Buffer | string> {
     private readonly _response: ServerResponse;

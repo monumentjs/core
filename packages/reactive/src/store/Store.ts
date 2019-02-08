@@ -1,7 +1,7 @@
-import {Action} from './Action';
-import {BehaviorSubject} from '../base/BehaviorSubject';
-import {Effect} from './Effect';
-import {Actions} from './Actions';
+import { Action } from './Action';
+import { BehaviorSubject } from '../base/BehaviorSubject';
+import { Effect } from './Effect';
+import { Actions } from './Actions';
 
 /**
  * @since 0.0.1
@@ -11,19 +11,17 @@ export abstract class Store<TState, TAction extends Action> extends BehaviorSubj
     private readonly _actions: Actions<TAction>;
     private readonly _effects: Array<Effect<TAction>>;
 
-    protected constructor(
-        initialState: TState,
-        actions: Actions<TAction>,
-        ...effects: Array<Effect<TAction>>
-    ) {
+    protected constructor(initialState: TState, actions: Actions<TAction>, ...effects: Array<Effect<TAction>>) {
         super(initialState);
         this._actions = actions;
         this._effects = effects;
 
-        actions.subscribe((action: TAction): void => {
-            this.processState(action);
-            this.processEffects(action);
-        });
+        actions.subscribe(
+            (action: TAction): void => {
+                this.processState(action);
+                this.processEffects(action);
+            }
+        );
     }
 
     public next(value: TState) {

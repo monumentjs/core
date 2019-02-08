@@ -1,4 +1,4 @@
-import {EqualityComparator} from './EqualityComparator';
+import { EqualityComparator } from './EqualityComparator';
 
 /**
  * @author Alex Chugaev
@@ -15,20 +15,18 @@ export class DeepEqualityComparator implements EqualityComparator<object> {
         return this._instance;
     }
 
-    private constructor() {
-    }
+    private constructor() {}
 
     public equals(actual: object, expected: object): boolean {
         // 7.1. All identical values are equivalent, as determined by ===.
         if (actual === expected) {
             return true;
-
         } else if (actual instanceof Date && expected instanceof Date) {
             return actual.getTime() === expected.getTime();
 
             // 7.3. Other pairs that do not both pass typeof value == 'object',
             // equivalence is determined by ==.
-        } else if (!actual || !expected || typeof actual !== 'object' && typeof expected !== 'object') {
+        } else if (!actual || !expected || (typeof actual !== 'object' && typeof expected !== 'object')) {
             return actual === expected;
 
             // 7.4. For all other Object pairs, including Array objects, equivalence is
@@ -147,5 +145,4 @@ export class DeepEqualityComparator implements EqualityComparator<object> {
 
         return typeof a === typeof b;
     }
-
 }

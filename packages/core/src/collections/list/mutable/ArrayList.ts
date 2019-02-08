@@ -1,13 +1,13 @@
-import {ReadOnlyCollection} from '../../collection/readonly/ReadOnlyCollection';
-import {Cloneable} from '../../../base/Cloneable';
-import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
-import {ReferenceEqualityComparator} from '../../../comparison/equality/ReferenceEqualityComparator';
-import {ReadOnlyCollectionBase} from '../../collection/readonly/ReadOnlyCollectionBase';
-import {List} from './List';
-import {CollectionUtils} from '../../base/CollectionUtils';
-import {IndexOutOfBoundsException} from '../../../exceptions/IndexOutOfBoundsException';
-import {RangeException} from '../../../exceptions/RangeException';
-import {ReadOnlyCollectionImpl} from '../../collection/readonly/ReadOnlyCollectionImpl';
+import { ReadOnlyCollection } from '../../collection/readonly/ReadOnlyCollection';
+import { Cloneable } from '../../../base/Cloneable';
+import { EqualityComparator } from '../../../comparison/equality/EqualityComparator';
+import { ReferenceEqualityComparator } from '../../../comparison/equality/ReferenceEqualityComparator';
+import { ReadOnlyCollectionBase } from '../../collection/readonly/ReadOnlyCollectionBase';
+import { List } from './List';
+import { CollectionUtils } from '../../base/CollectionUtils';
+import { IndexOutOfBoundsException } from '../../../exceptions/IndexOutOfBoundsException';
+import { RangeException } from '../../../exceptions/RangeException';
+import { ReadOnlyCollectionImpl } from '../../collection/readonly/ReadOnlyCollectionImpl';
 
 /**
  * @author Alex Chugaev
@@ -114,13 +114,17 @@ export class ArrayList<T> extends ReadOnlyCollectionBase<T> implements List<T>, 
 
         let result: number = -1;
 
-        this.forEach((ownItem: T, ownIndex: number) => {
-            if (_comparator.equals(ownItem, item)) {
-                result = ownIndex;
+        this.forEach(
+            (ownItem: T, ownIndex: number) => {
+                if (_comparator.equals(ownItem, item)) {
+                    result = ownIndex;
 
-                return false;
-            }
-        }, _startIndex, _count);
+                    return false;
+                }
+            },
+            _startIndex,
+            _count
+        );
 
         return result;
     }
@@ -146,7 +150,6 @@ export class ArrayList<T> extends ReadOnlyCollectionBase<T> implements List<T>, 
 
         return this.length !== oldLength;
     }
-
 
     public lastIndexOf(item: T): number;
 
@@ -178,13 +181,17 @@ export class ArrayList<T> extends ReadOnlyCollectionBase<T> implements List<T>, 
 
         let result: number = -1;
 
-        this.forEachBack((ownItem: T, ownIndex: number) => {
-            if (_comparator.equals(item, ownItem)) {
-                result = ownIndex;
+        this.forEachBack(
+            (ownItem: T, ownIndex: number) => {
+                if (_comparator.equals(item, ownItem)) {
+                    result = ownIndex;
 
-                return false;
-            }
-        }, _startIndex, _count);
+                    return false;
+                }
+            },
+            _startIndex,
+            _count
+        );
 
         return result;
     }
@@ -194,9 +201,11 @@ export class ArrayList<T> extends ReadOnlyCollectionBase<T> implements List<T>, 
     public remove(item: T, comparator: EqualityComparator<T>): boolean;
 
     public remove(item: T, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): boolean {
-        return this.removeBy((ownItem: T): boolean => {
-            return comparator.equals(item, ownItem);
-        });
+        return this.removeBy(
+            (ownItem: T): boolean => {
+                return comparator.equals(item, ownItem);
+            }
+        );
     }
 
     public removeAll(items: Iterable<T>): boolean;
@@ -245,15 +254,17 @@ export class ArrayList<T> extends ReadOnlyCollectionBase<T> implements List<T>, 
     public retainAll(items: Iterable<T>, comparator: EqualityComparator<T>): boolean;
 
     public retainAll(items: Iterable<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): boolean {
-        return this.removeBy((ownItem: T): boolean => {
-            for (const item of items) {
-                if (comparator.equals(ownItem, item)) {
-                    return false;
+        return this.removeBy(
+            (ownItem: T): boolean => {
+                for (const item of items) {
+                    if (comparator.equals(ownItem, item)) {
+                        return false;
+                    }
                 }
-            }
 
-            return true;
-        });
+                return true;
+            }
+        );
     }
 
     public setAt(index: number, newValue: T): T {

@@ -1,4 +1,4 @@
-import {InvalidArgumentException} from '../exceptions/InvalidArgumentException';
+import { InvalidArgumentException } from '../exceptions/InvalidArgumentException';
 
 export function times(count: number, fn: (index: number) => void) {
     if (count < 0) {

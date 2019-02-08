@@ -1,7 +1,7 @@
-import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
-import {Sequence} from '../../base/Sequence';
-import {ReadOnlyCollection} from '../../collection/readonly/ReadOnlyCollection';
-import {Equatable} from '../../../comparison/equality/Equatable';
+import { EqualityComparator } from '../../../comparison/equality/EqualityComparator';
+import { Sequence } from '../../base/Sequence';
+import { ReadOnlyCollection } from '../../collection/readonly/ReadOnlyCollection';
+import { Equatable } from '../../../comparison/equality/Equatable';
 
 /**
  * @author Alex Chugaev

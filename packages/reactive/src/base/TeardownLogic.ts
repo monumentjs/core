@@ -1,4 +1,4 @@
-import {TeardownFunction} from './TeardownFunction';
-import {Unsubscribable} from './Unsubscribable';
+import { TeardownFunction } from './TeardownFunction';
+import { Unsubscribable } from './Unsubscribable';
 
 export type TeardownLogic = TeardownFunction | Unsubscribable | void;

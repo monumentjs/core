@@ -1,8 +1,8 @@
-import {QueryParameters} from '..';
+import { QueryParameters } from '..';
 
-describe('QueryParameters', function () {
-    describe('constructor(string)', function () {
-        it('should parse query string', function () {
+describe('QueryParameters', function() {
+    describe('constructor(string)', function() {
+        it('should parse query string', function() {
             const parameters: QueryParameters = new QueryParameters('q=javascript%20tutorials&p=10&safe=true&lat=1.203&lon=3.402');
 
             expect(parameters.getString('q')).toBe('javascript tutorials');
@@ -20,8 +20,8 @@ describe('QueryParameters', function () {
         });
     });
 
-    describe('getFloats(string)', function () {
-        it('should parse all associated values to float', function () {
+    describe('getFloats(string)', function() {
+        it('should parse all associated values to float', function() {
             const parameters: QueryParameters = new QueryParameters('p=1.23&p=4.56&p=7.89');
             const p: number[] = [...parameters.getFloats('p')];
 
@@ -30,8 +30,8 @@ describe('QueryParameters', function () {
         });
     });
 
-    describe('getIntegers(string)', function () {
-        it('should parse all associated values to int', function () {
+    describe('getIntegers(string)', function() {
+        it('should parse all associated values to int', function() {
             const parameters: QueryParameters = new QueryParameters('p=1&p=4&p=7');
             const p: number[] = [...parameters.getIntegers('p')];
 
@@ -40,8 +40,8 @@ describe('QueryParameters', function () {
         });
     });
 
-    describe('getStrings(string)', function () {
-        it('should get all associated values as strings', function () {
+    describe('getStrings(string)', function() {
+        it('should get all associated values as strings', function() {
             const parameters: QueryParameters = new QueryParameters('p=1&p=4&p=7');
             const p: string[] = [...parameters.getStrings('p')];
 

@@ -4,22 +4,23 @@ import {
     Equatable,
     EquatableComparator,
     IgnoreCaseEqualityComparator,
-    PreserveCaseEqualityComparator, SupplyFunction,
+    PreserveCaseEqualityComparator,
+    SupplyFunction,
     ToJSON,
     ToString
 } from '@monument/core';
-import {UriComponents} from './UriComponents';
-import {UriComponentsNormalizer} from './UriComponentsNormalizer';
-import {ReadOnlyQueryParameters} from './ReadOnlyQueryParameters';
-import {QueryParameters} from './QueryParameters';
-import {UriFormatException} from './UriFormatException';
-import {UriIntegrityException} from './UriIntegrityException';
-import {UriSchema} from './UriSchema';
-import {UriSerializer} from './UriSerializer';
-import {UriConstants} from './UriConstants';
-import {UriParser} from './UriParser';
-import {UriBuilder} from './UriBuilder';
-import {QueryParametersObject} from './QueryParametersObject';
+import { UriComponents } from './UriComponents';
+import { UriComponentsNormalizer } from './UriComponentsNormalizer';
+import { ReadOnlyQueryParameters } from './ReadOnlyQueryParameters';
+import { QueryParameters } from './QueryParameters';
+import { UriFormatException } from './UriFormatException';
+import { UriIntegrityException } from './UriIntegrityException';
+import { UriSchema } from './UriSchema';
+import { UriSerializer } from './UriSerializer';
+import { UriConstants } from './UriConstants';
+import { UriParser } from './UriParser';
+import { UriBuilder } from './UriBuilder';
+import { QueryParametersObject } from './QueryParametersObject';
 
 /**
  * Represents URI (Unified Resource Identifier).
@@ -182,9 +183,9 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
             return true;
         }
 
-        const textComparator: EqualityComparator<string> = ignoreCase ?
-            IgnoreCaseEqualityComparator.get() :
-            PreserveCaseEqualityComparator.get();
+        const textComparator: EqualityComparator<string> = ignoreCase
+            ? IgnoreCaseEqualityComparator.get()
+            : PreserveCaseEqualityComparator.get();
         const comparator = new ChainedEqualityComparator();
         const components: UriComponents = typeof other === 'object' ? other : new Uri(other);
 
@@ -195,7 +196,7 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
         comparator.withField(this.port, components.port);
         comparator.withField(this.path, components.path, textComparator);
         comparator.withField(this.fragment, components.fragment, textComparator);
-        comparator.withField(this.queryParameters, (components.queryParameters || new QueryParameters()), new EquatableComparator());
+        comparator.withField(this.queryParameters, components.queryParameters || new QueryParameters(), new EquatableComparator());
 
         return comparator.result;
     }

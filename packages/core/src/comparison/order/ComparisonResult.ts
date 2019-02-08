@@ -7,4 +7,3 @@ export enum ComparisonResult {
     GREATER = 1,
     LESS = -1
 }
-

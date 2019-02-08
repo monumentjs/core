@@ -1,4 +1,4 @@
-import {InvalidStateException} from '@monument/core';
+import { InvalidStateException } from '@monument/core';
 
 /**
  * @since 0.0.1
@@ -6,5 +6,4 @@ import {InvalidStateException} from '@monument/core';
  * @immutable
  * @final
  */
-export class UriIntegrityException extends InvalidStateException {
-}
+export class UriIntegrityException extends InvalidStateException {}

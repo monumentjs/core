@@ -1,5 +1,5 @@
-import {ReadOnlyCollection} from '../../collection/readonly/ReadOnlyCollection';
-import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
+import { ReadOnlyCollection } from '../../collection/readonly/ReadOnlyCollection';
+import { EqualityComparator } from '../../../comparison/equality/EqualityComparator';
 
 /**
  * @author Alex Chugaev

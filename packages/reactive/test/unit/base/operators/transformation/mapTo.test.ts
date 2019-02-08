@@ -1,8 +1,8 @@
-import {mapTo, Subject} from '../../../../..';
-import {TestObserver} from '../../../../support/TestObserver';
+import { mapTo, Subject } from '../../../../..';
+import { TestObserver } from '../../../../support/TestObserver';
 
-describe('mapTo()', function () {
-    it('should emit mapped values', function () {
+describe('mapTo()', function() {
+    it('should emit mapped values', function() {
         const source: Subject<number> = new Subject();
         const observer: TestObserver<number> = new TestObserver();
 

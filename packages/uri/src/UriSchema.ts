@@ -1,4 +1,4 @@
-import {Equatable, IgnoreCaseEqualityComparator, ToJSON, ToString} from '@monument/core';
+import { Equatable, IgnoreCaseEqualityComparator, ToJSON, ToString } from '@monument/core';
 
 const FILE_DEFAULT_HOST = 'localhost';
 
@@ -37,16 +37,7 @@ export class UriSchema implements Equatable<UriSchema>, Equatable<string | undef
 
     private static get knownSchemes() {
         if (this._knownSchemes == null) {
-            this._knownSchemes = [
-                this.UNKNOWN,
-                this.FILE,
-                this.FTP,
-                this.HTTP,
-                this.HTTPS,
-                this.SSH,
-                this.TELNET,
-                this.SMTP
-            ];
+            this._knownSchemes = [this.UNKNOWN, this.FILE, this.FTP, this.HTTP, this.HTTPS, this.SSH, this.TELNET, this.SMTP];
         }
 
         return this._knownSchemes;

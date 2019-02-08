@@ -1,7 +1,7 @@
-import {Queue} from './Queue';
-import {EmptyQueueException} from '../EmptyQueueException';
-import {ReadOnlyCollectionBase} from '../../collection/readonly/ReadOnlyCollectionBase';
-import {Cloneable} from '../../../base/Cloneable';
+import { Queue } from './Queue';
+import { EmptyQueueException } from '../EmptyQueueException';
+import { ReadOnlyCollectionBase } from '../../collection/readonly/ReadOnlyCollectionBase';
+import { Cloneable } from '../../../base/Cloneable';
 
 /**
  * Represents a first-in, first-out collection of objects.

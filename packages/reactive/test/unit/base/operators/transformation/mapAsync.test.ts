@@ -1,15 +1,19 @@
-import {sleep} from '@monument/core';
-import {mapAsync, Subject} from '../../../../..';
-import {TestObserver} from '../../../../support/TestObserver';
+import { sleep } from '@monument/core';
+import { mapAsync, Subject } from '../../../../..';
+import { TestObserver } from '../../../../support/TestObserver';
 
-describe('mapAsync()', function () {
-    it('should emit promise values', async function () {
+describe('mapAsync()', function() {
+    it('should emit promise values', async function() {
         const source: Subject<number> = new Subject();
         const observer: TestObserver<number> = new TestObserver();
 
-        source.pipe(mapAsync(async (n: number) => {
-            return -n;
-        })).subscribe(observer);
+        source
+            .pipe(
+                mapAsync(async (n: number) => {
+                    return -n;
+                })
+            )
+            .subscribe(observer);
 
         expect(observer.next).toHaveBeenCalledTimes(0);
         expect(observer.error).toHaveBeenCalledTimes(0);

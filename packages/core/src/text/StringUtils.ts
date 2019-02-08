@@ -1,8 +1,8 @@
-import {EMPTY_STRING, SPACE} from './Strings';
-import {RegExpUtils} from './RegExpUtils';
-import {CollectionUtils} from '../collections/base/CollectionUtils';
-import {ReadOnlyCollection} from '../collections/collection/readonly/ReadOnlyCollection';
-import {ToString} from '../base/ToString';
+import { EMPTY_STRING, SPACE } from './Strings';
+import { RegExpUtils } from './RegExpUtils';
+import { CollectionUtils } from '../collections/base/CollectionUtils';
+import { ReadOnlyCollection } from '../collections/collection/readonly/ReadOnlyCollection';
+import { ToString } from '../base/ToString';
 
 /**
  * @author Alex Chugaev
@@ -33,12 +33,7 @@ export class StringUtils {
         return input.split(EMPTY_STRING);
     }
 
-    public static split(
-        value: string,
-        delimiters: string,
-        trimTokens: boolean = true,
-        ignoreEmptyTokens: boolean = true
-    ): string[] {
+    public static split(value: string, delimiters: string, trimTokens: boolean = true, ignoreEmptyTokens: boolean = true): string[] {
         const delimiterPatternEntries: string[] = this.getDelimitersPatternEntries(delimiters);
         const delimiterPatternString: string = this.getDelimitersPatternString(delimiterPatternEntries);
         const delimiterPattern: RegExp = this.getDelimitersPattern(delimiterPatternString);
@@ -85,23 +80,28 @@ export class StringUtils {
             return EMPTY_STRING;
         }
 
-        return values.toArray().map((item) => {
-            return `${prefix}${item.toString()}${suffix}`;
-        }).join(delimiter);
+        return values
+            .toArray()
+            .map((item) => {
+                return `${prefix}${item.toString()}${suffix}`;
+            })
+            .join(delimiter);
     }
 
     public static toCamelCase(input: string): string {
         let slices: string[] = this.getWords(input);
 
-        slices = slices.map((slice: string, index: number): string => {
-            const firstChar: string = slice[0];
+        slices = slices.map(
+            (slice: string, index: number): string => {
+                const firstChar: string = slice[0];
 
-            if (index === 0) {
-                return firstChar.toLowerCase() + slice.slice(1).toLowerCase();
-            } else {
-                return firstChar.toUpperCase() + slice.slice(1).toLowerCase();
+                if (index === 0) {
+                    return firstChar.toLowerCase() + slice.slice(1).toLowerCase();
+                } else {
+                    return firstChar.toUpperCase() + slice.slice(1).toLowerCase();
+                }
             }
-        });
+        );
 
         return slices.join(EMPTY_STRING);
     }
@@ -109,11 +109,13 @@ export class StringUtils {
     public static toCapitalCase(input: string): string {
         let slices: string[] = this.getWords(input);
 
-        slices = slices.map((slice: string): string => {
-            const firstChar: string = slice[0];
+        slices = slices.map(
+            (slice: string): string => {
+                const firstChar: string = slice[0];
 
-            return firstChar.toUpperCase() + slice.slice(1).toLowerCase();
-        });
+                return firstChar.toUpperCase() + slice.slice(1).toLowerCase();
+            }
+        );
 
         return slices.join(EMPTY_STRING);
     }

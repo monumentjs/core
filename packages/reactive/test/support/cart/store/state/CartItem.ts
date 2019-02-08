@@ -1,4 +1,4 @@
-import {CartItemDto} from '../../dto/CartItemDto';
+import { CartItemDto } from '../../dto/CartItemDto';
 
 export class CartItem implements CartItemDto {
     public readonly itemId: number;
@@ -11,12 +11,11 @@ export class CartItem implements CartItemDto {
         return this.quantity * this.productPrice;
     }
 
-    public constructor({itemId, productId, productName, productPrice, quantity}: CartItemDto) {
+    public constructor({ itemId, productId, productName, productPrice, quantity }: CartItemDto) {
         this.itemId = itemId;
         this.productId = productId;
         this.productName = productName;
         this.productPrice = productPrice;
         this.quantity = quantity;
     }
-
 }

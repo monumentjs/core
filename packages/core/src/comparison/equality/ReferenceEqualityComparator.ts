@@ -1,4 +1,4 @@
-import {EqualityComparator} from './EqualityComparator';
+import { EqualityComparator } from './EqualityComparator';
 
 /**
  * @author Alex Chugaev
@@ -15,8 +15,7 @@ export class ReferenceEqualityComparator implements EqualityComparator<any> {
         return this._instance;
     }
 
-    private constructor() {
-    }
+    private constructor() {}
 
     public equals(x: any, y: any): boolean {
         return x === y;

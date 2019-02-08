@@ -1,4 +1,4 @@
-import {Exception} from '@monument/core';
+import { Exception } from '@monument/core';
 
 export class HttpException extends Exception {
     public readonly statusCode: number;

@@ -8,4 +8,3 @@ export enum ReleaseStatus {
     RELEASE_CANDIDATE,
     STABLE
 }
-

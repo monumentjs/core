@@ -1,6 +1,6 @@
-import {InvalidArgumentException} from '../../exceptions/InvalidArgumentException';
-import {ReadOnlyList} from '../list/readonly/ReadOnlyList';
-import {ArrayList} from '../list/mutable/ArrayList';
+import { InvalidArgumentException } from '../../exceptions/InvalidArgumentException';
+import { ReadOnlyList } from '../list/readonly/ReadOnlyList';
+import { ArrayList } from '../list/mutable/ArrayList';
 
 /**
  * @author Alex Chugaev
@@ -104,7 +104,7 @@ export class TreeNode<T> implements Iterable<T> {
         this._value = value;
     }
 
-    public* [Symbol.iterator](): Iterator<T> {
+    public *[Symbol.iterator](): Iterator<T> {
         yield this.value;
 
         for (const node of this.childNodes) {
@@ -118,7 +118,7 @@ export class TreeNode<T> implements Iterable<T> {
         this._childNodes.addIfAbsent(node);
     }
 
-    public* findAll(predicate: (value: T) => boolean): Iterable<T> {
+    public *findAll(predicate: (value: T) => boolean): Iterable<T> {
         for (const value of this) {
             if (predicate(value)) {
                 yield value;

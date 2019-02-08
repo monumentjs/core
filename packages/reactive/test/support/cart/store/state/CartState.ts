@@ -1,5 +1,5 @@
-import {ImmutableArrayList, ImmutableList} from '@monument/core';
-import {CartItem} from './CartItem';
+import { ImmutableArrayList, ImmutableList } from '@monument/core';
+import { CartItem } from './CartItem';
 
 export class CartState {
     public readonly items: ImmutableList<CartItem>;
@@ -9,9 +9,11 @@ export class CartState {
             return 0;
         }
 
-        return this.items.sum((item: CartItem): number => {
-            return item.totalPrice;
-        });
+        return this.items.sum(
+            (item: CartItem): number => {
+                return item.totalPrice;
+            }
+        );
     }
 
     public constructor(items: ImmutableList<CartItem> = new ImmutableArrayList()) {
@@ -24,31 +26,39 @@ export class CartState {
         });
 
         if (existingItem) {
-            return new CartState(new ImmutableArrayList(this.items.map((item) => {
-                if (item.productId === newItem.productId) {
-                    return new CartItem({
-                        ...item,
-                        quantity: item.quantity + newItem.quantity
-                    });
-                }
+            return new CartState(
+                new ImmutableArrayList(
+                    this.items.map((item) => {
+                        if (item.productId === newItem.productId) {
+                            return new CartItem({
+                                ...item,
+                                quantity: item.quantity + newItem.quantity
+                            });
+                        }
 
-                return item;
-            })));
+                        return item;
+                    })
+                )
+            );
         } else {
             return new CartState(this.items.add(newItem));
         }
     }
 
     public updateQuantity(itemId: number, newQuantity: number): CartState {
-        return new CartState(new ImmutableArrayList(this.items.map((item) => {
-            if (item.itemId === itemId) {
-                return new CartItem({
-                    ...item,
-                    quantity: newQuantity
-                });
-            }
+        return new CartState(
+            new ImmutableArrayList(
+                this.items.map((item) => {
+                    if (item.itemId === itemId) {
+                        return new CartItem({
+                            ...item,
+                            quantity: newQuantity
+                        });
+                    }
 
-            return item;
-        })));
+                    return item;
+                })
+            )
+        );
     }
 }

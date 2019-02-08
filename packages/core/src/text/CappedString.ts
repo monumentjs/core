@@ -1,4 +1,4 @@
-import {EMPTY_STRING} from './Strings';
+import { EMPTY_STRING } from './Strings';
 
 /**
  * @author Alex Chugaev
@@ -64,4 +64,3 @@ export class CappedString {
         return newValue.slice(startPosition, endPosition);
     }
 }
-

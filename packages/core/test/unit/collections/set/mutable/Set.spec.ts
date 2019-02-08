@@ -1,13 +1,13 @@
-import {EqualityComparator, Sequence, Set} from '../../../../..';
-import {testReadOnlySet} from '../readonly/ReadOnlySet.spec';
-import {assertLengthAndIsEmpty} from '../../collection/readonly/ReadOnlyCollection.spec';
+import { EqualityComparator, Sequence, Set } from '../../../../..';
+import { testReadOnlySet } from '../readonly/ReadOnlySet.spec';
+import { assertLengthAndIsEmpty } from '../../collection/readonly/ReadOnlyCollection.spec';
 
 export function testSet(create: <T>(items?: Sequence<T>, comparator?: EqualityComparator<T>) => Set<T>) {
-    describe('Set', function () {
+    describe('Set', function() {
         testReadOnlySet(create);
 
-        describe('add()', function () {
-            it('should add unique item into set', function () {
+        describe('add()', function() {
+            it('should add unique item into set', function() {
                 const set: Set<string> = create();
 
                 expect(set.add('one')).toBe(true);
@@ -24,8 +24,8 @@ export function testSet(create: <T>(items?: Sequence<T>, comparator?: EqualityCo
             });
         });
 
-        describe('addAll()', function () {
-            it('should add all unique items into set', function () {
+        describe('addAll()', function() {
+            it('should add all unique items into set', function() {
                 const set: Set<string> = create();
 
                 expect(set.addAll([])).toBe(false);
@@ -46,8 +46,8 @@ export function testSet(create: <T>(items?: Sequence<T>, comparator?: EqualityCo
             });
         });
 
-        describe('clear()', function () {
-            it('should remove all items from set', function () {
+        describe('clear()', function() {
+            it('should remove all items from set', function() {
                 const set: Set<string> = create();
 
                 expect(set.addAll([])).toBe(false);
@@ -68,14 +68,14 @@ export function testSet(create: <T>(items?: Sequence<T>, comparator?: EqualityCo
             });
         });
 
-        describe('remove()', function () {
-            it('should return `false` if set does not contains the item', function () {
+        describe('remove()', function() {
+            it('should return `false` if set does not contains the item', function() {
                 const set: Set<string> = create();
 
                 expect(set.remove('itemThatIsNotInCollection')).toBe(false);
             });
 
-            it('should return `true` if item was removed from set', function () {
+            it('should return `true` if item was removed from set', function() {
                 const set: Set<string> = create(['one', 'two', 'three', 'four']);
 
                 expect(set.remove('two')).toBe(true);
@@ -92,8 +92,8 @@ export function testSet(create: <T>(items?: Sequence<T>, comparator?: EqualityCo
             });
         });
 
-        describe('removeAll()', function () {
-            it('should remove items containing in both lists', function () {
+        describe('removeAll()', function() {
+            it('should remove items containing in both lists', function() {
                 const set: Set<string> = create(['a', 'b', 'c', 'd', 'e', 'f']);
 
                 assertLengthAndIsEmpty(set, 6);
@@ -106,13 +106,15 @@ export function testSet(create: <T>(items?: Sequence<T>, comparator?: EqualityCo
             });
         });
 
-        describe('removeBy()', function () {
-            it('should remove items for whose predicate function returns `true`', function () {
+        describe('removeBy()', function() {
+            it('should remove items for whose predicate function returns `true`', function() {
                 const set: Set<string> = create(['a', 'b', 'a', 'c', 'd', 'a']);
 
-                set.removeBy((character: string): boolean => {
-                    return character === 'a';
-                });
+                set.removeBy(
+                    (character: string): boolean => {
+                        return character === 'a';
+                    }
+                );
 
                 assertLengthAndIsEmpty(set, 3);
 
@@ -120,8 +122,8 @@ export function testSet(create: <T>(items?: Sequence<T>, comparator?: EqualityCo
             });
         });
 
-        describe('retainAll()', function () {
-            it('should accept empty lists', function () {
+        describe('retainAll()', function() {
+            it('should accept empty lists', function() {
                 const set: Set<string> = create(['one', 'two', 'three', 'four', 'five']);
 
                 expect(set.retainAll([])).toBe(true);
@@ -131,7 +133,7 @@ export function testSet(create: <T>(items?: Sequence<T>, comparator?: EqualityCo
                 expect(set.toArray()).toEqual([]);
             });
 
-            it('should remove all items except those in specified set', function () {
+            it('should remove all items except those in specified set', function() {
                 const set: Set<string> = create(['one', 'two', 'three', 'One', 'Two', 'Three']);
 
                 expect(set.retainAll(['one', 'Three'])).toBe(true);
@@ -142,8 +144,8 @@ export function testSet(create: <T>(items?: Sequence<T>, comparator?: EqualityCo
             });
         });
 
-        describe('intersectWith()', function () {
-            it('should modify the current set so that it contains only elements that are also in a specified collection #1', function () {
+        describe('intersectWith()', function() {
+            it('should modify the current set so that it contains only elements that are also in a specified collection #1', function() {
                 const current: Set<string> = create(['one', 'two', 'three']);
                 const empty: Set<string> = create([]);
 
@@ -152,7 +154,7 @@ export function testSet(create: <T>(items?: Sequence<T>, comparator?: EqualityCo
                 assertLengthAndIsEmpty(empty, 0);
             });
 
-            it('should modify the current set so that it contains only elements that are also in a specified collection #2', function () {
+            it('should modify the current set so that it contains only elements that are also in a specified collection #2', function() {
                 const current: Set<string> = create(['one', 'two', 'three']);
                 const other: Set<string> = create(['two', 'four', 'six']);
 
@@ -163,7 +165,7 @@ export function testSet(create: <T>(items?: Sequence<T>, comparator?: EqualityCo
                 assertLengthAndIsEmpty(other, 3);
             });
 
-            it('should modify the current set so that it contains only elements that are also in a specified collection #3', function () {
+            it('should modify the current set so that it contains only elements that are also in a specified collection #3', function() {
                 const current: Set<string> = create(['one', 'two', 'three']);
                 const same: Set<string> = create(['one', 'two', 'three']);
 
@@ -176,11 +178,11 @@ export function testSet(create: <T>(items?: Sequence<T>, comparator?: EqualityCo
         });
     });
 
-    describe('symmetricExceptWith()', function () {
+    describe('symmetricExceptWith()', function() {
         it(
             'should modify the current set so that it contains only elements that are present either in the current set or ' +
-            'in the specified collection, but not both',
-            function () {
+                'in the specified collection, but not both',
+            function() {
                 {
                     const current: Set<string> = create(['one', 'two', 'three']);
                     const empty: Set<string> = create([]);

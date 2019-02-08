@@ -1,8 +1,8 @@
-import {Cloneable} from '../../../base/Cloneable';
-import {Stack} from './Stack';
-import {EmptyStackException} from '../EmptyStackException';
-import {ReadOnlyCollectionBase} from '../../collection/readonly/ReadOnlyCollectionBase';
-import {ReadOnlyStack} from '../readonly/ReadOnlyStack';
+import { Cloneable } from '../../../base/Cloneable';
+import { Stack } from './Stack';
+import { EmptyStackException } from '../EmptyStackException';
+import { ReadOnlyCollectionBase } from '../../collection/readonly/ReadOnlyCollectionBase';
+import { ReadOnlyStack } from '../readonly/ReadOnlyStack';
 
 /**
  * @author Alex Chugaev

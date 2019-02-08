@@ -1,5 +1,5 @@
-import {Comparator} from './Comparator';
-import {ComparisonResult} from './ComparisonResult';
+import { Comparator } from './Comparator';
+import { ComparisonResult } from './ComparisonResult';
 
 export class PreserveCaseComparator implements Comparator<string> {
     private static _instance: PreserveCaseComparator | undefined;
@@ -12,8 +12,7 @@ export class PreserveCaseComparator implements Comparator<string> {
         return this._instance;
     }
 
-    private constructor() {
-    }
+    private constructor() {}
 
     public compare(current: string, other: string): ComparisonResult {
         if (current > other) {

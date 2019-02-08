@@ -1,4 +1,4 @@
-import {Observer} from './Observer';
+import { Observer } from './Observer';
 
 export abstract class ObserverDecorator<T> implements Observer<T> {
     private readonly _ref: Observer<T>;

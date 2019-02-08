@@ -1,4 +1,3 @@
-
 export interface CartItemDto {
     readonly itemId: number;
     readonly productId: number;

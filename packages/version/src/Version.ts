@@ -10,10 +10,10 @@ import {
     ToJSON,
     ToString
 } from '@monument/core';
-import {ReleaseStatus} from './ReleaseStatus';
-import {VersionComponents} from './VersionComponents';
-import {VersionFormatException} from './VersionFormatException';
-import {VersionBuilder} from './VersionBuilder';
+import { ReleaseStatus } from './ReleaseStatus';
+import { VersionComponents } from './VersionComponents';
+import { VersionFormatException } from './VersionFormatException';
+import { VersionBuilder } from './VersionBuilder';
 
 /**
  * @author Alex Chugaev
@@ -22,13 +22,13 @@ import {VersionBuilder} from './VersionBuilder';
  * @final
  */
 export class Version
-    implements Equatable<VersionComponents>,
+    implements
+        Equatable<VersionComponents>,
         Equatable<string>,
         Comparable<VersionComponents>,
         Comparable<string>,
         ToJSON<string>,
         ToString {
-
     private static readonly VERSION_PRE_RELEASE_STAGES = {
         [ReleaseStatus.ALPHA]: 'alpha',
         [ReleaseStatus.BETA]: 'beta',
@@ -107,25 +107,14 @@ export class Version
 
     public get nextReleaseStatus(): Version {
         if (this.releaseStatus < ReleaseStatus.STABLE) {
-            return new Version(
-                this.major,
-                this.minor,
-                this.patch,
-                this.releaseStatus + 1
-            );
+            return new Version(this.major, this.minor, this.patch, this.releaseStatus + 1);
         }
 
         return this;
     }
 
     public get nextRevision(): Version {
-        return new Version(
-            this.major,
-            this.minor,
-            this.patch,
-            this.releaseStatus,
-            this.revision + 1
-        );
+        return new Version(this.major, this.minor, this.patch, this.releaseStatus, this.revision + 1);
     }
 
     public get patch(): number {
@@ -245,7 +234,7 @@ export class Version
     public toString(): string {
         if (this._serialized == null) {
             const result: StringBuilder = new StringBuilder();
-            const {minor, major, patch, revision, releaseStatus} = this;
+            const { minor, major, patch, revision, releaseStatus } = this;
 
             result.append(`${major}.${minor}.${patch}`);
 

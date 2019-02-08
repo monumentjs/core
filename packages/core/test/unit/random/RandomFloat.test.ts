@@ -1,8 +1,8 @@
-import {RandomFloat} from '../../..';
+import { RandomFloat } from '../../..';
 
-describe('RandomFloat', function () {
-    describe('constructor()', function () {
-        it('should initialize with randomly generated value', function () {
+describe('RandomFloat', function() {
+    describe('constructor()', function() {
+        it('should initialize with randomly generated value', function() {
             const a = new RandomFloat();
             const b = new RandomFloat();
 
@@ -13,8 +13,8 @@ describe('RandomFloat', function () {
         });
     });
 
-    describe('constructor()', function () {
-        it('should initialize with randomly generated value with specified lower bound', function () {
+    describe('constructor()', function() {
+        it('should initialize with randomly generated value with specified lower bound', function() {
             const a = new RandomFloat(0);
             const b = new RandomFloat(0);
 
@@ -27,8 +27,8 @@ describe('RandomFloat', function () {
         });
     });
 
-    describe('constructor()', function () {
-        it('should initialize with randomly generated value with specified lower and upper bound', function () {
+    describe('constructor()', function() {
+        it('should initialize with randomly generated value with specified lower and upper bound', function() {
             const a = new RandomFloat(0, 2);
             const b = new RandomFloat(0, 2);
 

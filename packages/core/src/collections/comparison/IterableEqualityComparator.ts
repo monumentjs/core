@@ -1,5 +1,5 @@
-import {EqualityComparator} from '../../comparison/equality/EqualityComparator';
-import {ReferenceEqualityComparator} from '../../comparison/equality/ReferenceEqualityComparator';
+import { EqualityComparator } from '../../comparison/equality/EqualityComparator';
+import { ReferenceEqualityComparator } from '../../comparison/equality/ReferenceEqualityComparator';
 
 export class IterableEqualityComparator<T> implements EqualityComparator<Iterable<T>> {
     private readonly _itemComparator: EqualityComparator<T>;

@@ -1,7 +1,7 @@
-import {isEven, isOdd, ReadOnlyCollection, ReadOnlyCollectionImpl} from '../../../../..';
+import { isEven, isOdd, ReadOnlyCollection, ReadOnlyCollectionImpl } from '../../../../..';
 
-describe('ReadOnlyCollectionImpl', function () {
-    describe('lazy calculations', function () {
+describe('ReadOnlyCollectionImpl', function() {
+    describe('lazy calculations', function() {
         test('concat()', () => {
             const a: number[] = [1, 2, 3];
             const b: number[] = [5, 6, 7];
@@ -38,17 +38,19 @@ describe('ReadOnlyCollectionImpl', function () {
         test('map()', () => {
             const numbers: number[] = [1, 2, 3];
             const source: ReadOnlyCollectionImpl<number> = new ReadOnlyCollectionImpl(numbers);
-            const result: ReadOnlyCollection<number> = source.map((num: number): number => {
-                return num ** 2;
-            });
+            const result: ReadOnlyCollection<number> = source.map(
+                (num: number): number => {
+                    return num ** 2;
+                }
+            );
 
             expect(result.length).toBe(3);
             expect(result.containsAll([1, 4, 9])).toBe(true);
         });
     });
 
-    describe('chaining', function () {
-        test('findAll() then map()', function () {
+    describe('chaining', function() {
+        test('findAll() then map()', function() {
             const numbers: number[] = [1, 2, 3];
             const source: ReadOnlyCollectionImpl<number> = new ReadOnlyCollectionImpl(numbers);
             const evenNumbers: ReadOnlyCollection<string> = source.findAll(isEven).map((n: number) => {
@@ -76,9 +78,12 @@ describe('ReadOnlyCollectionImpl', function () {
         test('findAll() then take() then map()', () => {
             const numbers: number[] = [1, 2, 3];
             const source: ReadOnlyCollectionImpl<number> = new ReadOnlyCollectionImpl(numbers);
-            const result: ReadOnlyCollection<string> = source.findAll(isEven).take(3).map((num) => {
-                return num.toString();
-            });
+            const result: ReadOnlyCollection<string> = source
+                .findAll(isEven)
+                .take(3)
+                .map((num) => {
+                    return num.toString();
+                });
 
             expect(result.length).toBe(1);
             expect(result.containsAll(['2'])).toBe(true);

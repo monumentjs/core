@@ -1,20 +1,19 @@
-import {ToArray} from '../../base/ToArray';
-import {Sequence} from '../../base/Sequence';
-import {KeyValuePair} from '../../base/KeyValuePair';
-import {ReadOnlyMap} from '../../map/readonly/ReadOnlyMap';
-import {SupplyFunction} from '../../../function/SupplyFunction';
-import {Equatable} from '../../../comparison/equality/Equatable';
+import { ToArray } from '../../base/ToArray';
+import { Sequence } from '../../base/Sequence';
+import { KeyValuePair } from '../../base/KeyValuePair';
+import { ReadOnlyMap } from '../../map/readonly/ReadOnlyMap';
+import { SupplyFunction } from '../../../function/SupplyFunction';
+import { Equatable } from '../../../comparison/equality/Equatable';
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
  * @readonly
  */
-export interface ReadOnlyMultiValueMap<K, V> extends
-    Sequence<KeyValuePair<K, V>>,
-    ToArray<KeyValuePair<K, V>>,
-    Equatable<ReadOnlyMultiValueMap<K, V>> {
-
+export interface ReadOnlyMultiValueMap<K, V>
+    extends Sequence<KeyValuePair<K, V>>,
+        ToArray<KeyValuePair<K, V>>,
+        Equatable<ReadOnlyMultiValueMap<K, V>> {
     readonly isEmpty: boolean;
     readonly keys: Iterable<K>;
     readonly values: Iterable<V>;

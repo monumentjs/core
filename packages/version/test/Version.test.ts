@@ -1,9 +1,9 @@
-import {ReleaseStatus, Version, VersionFormatException} from '..';
-import {ComparisonResult, InvalidArgumentException} from '@monument/core';
+import { ReleaseStatus, Version, VersionFormatException } from '..';
+import { ComparisonResult, InvalidArgumentException } from '@monument/core';
 
-describe('Version', function () {
-    describe('ZERO', function () {
-        it('should have all properties set to zero', function () {
+describe('Version', function() {
+    describe('ZERO', function() {
+        it('should have all properties set to zero', function() {
             const version: Version = Version.ZERO;
 
             expect(version.major).toBe(0);
@@ -14,8 +14,8 @@ describe('Version', function () {
         });
     });
 
-    describe('constructor()', function () {
-        it('should create new instance of Version class w/ 0 arguments', function () {
+    describe('constructor()', function() {
+        it('should create new instance of Version class w/ 0 arguments', function() {
             const version: Version = new Version();
 
             expect(version.major).toBe(0);
@@ -26,8 +26,8 @@ describe('Version', function () {
         });
     });
 
-    describe('constructor(string)', function () {
-        it('should parse string version', function () {
+    describe('constructor(string)', function() {
+        it('should parse string version', function() {
             {
                 const version: Version = new Version('1.2.3');
 
@@ -79,15 +79,15 @@ describe('Version', function () {
             }
         });
 
-        it('should throw VersionFormatException if string cannot be parsed', function () {
+        it('should throw VersionFormatException if string cannot be parsed', function() {
             expect(() => {
                 return new Version('a.b.c');
             }).toThrow(VersionFormatException);
         });
     });
 
-    describe('constructor(major)', function () {
-        it('should create new instance of Version class w/ 1 argument', function () {
+    describe('constructor(major)', function() {
+        it('should create new instance of Version class w/ 1 argument', function() {
             const version: Version = new Version(1);
 
             expect(version.major).toBe(1);
@@ -97,15 +97,15 @@ describe('Version', function () {
             expect(version.revision).toBe(0);
         });
 
-        it('should throw InvalidArgumentException if major component is not valid', function () {
+        it('should throw InvalidArgumentException if major component is not valid', function() {
             expect(() => {
                 return new Version(NaN);
             }).toThrow(InvalidArgumentException);
         });
     });
 
-    describe('constructor(major, minor)', function () {
-        it('should create new instance of Version class w/ 2 arguments', function () {
+    describe('constructor(major, minor)', function() {
+        it('should create new instance of Version class w/ 2 arguments', function() {
             const version: Version = new Version(1, 1);
 
             expect(version.major).toBe(1);
@@ -115,27 +115,27 @@ describe('Version', function () {
             expect(version.revision).toBe(0);
         });
 
-        it('should throw InvalidArgumentException if major component is not valid', function () {
+        it('should throw InvalidArgumentException if major component is not valid', function() {
             expect(() => {
                 return new Version(NaN);
             }).toThrow(InvalidArgumentException);
         });
 
-        it('should throw InvalidArgumentException if minor component is not valid', function () {
+        it('should throw InvalidArgumentException if minor component is not valid', function() {
             expect(() => {
                 return new Version(0, NaN);
             }).toThrow(InvalidArgumentException);
         });
 
-        it('should throw InvalidArgumentException if major and minor components are not valid', function () {
+        it('should throw InvalidArgumentException if major and minor components are not valid', function() {
             expect(() => {
                 return new Version(NaN, NaN);
             }).toThrow(InvalidArgumentException);
         });
     });
 
-    describe('constructor(major, minor, patch)', function () {
-        it('should create new instance of Version class w/ 3 arguments', function () {
+    describe('constructor(major, minor, patch)', function() {
+        it('should create new instance of Version class w/ 3 arguments', function() {
             const version: Version = new Version(1, 1, 1);
 
             expect(version.major).toBe(1);
@@ -145,33 +145,33 @@ describe('Version', function () {
             expect(version.revision).toBe(0);
         });
 
-        it('should throw InvalidArgumentException if major component is not valid', function () {
+        it('should throw InvalidArgumentException if major component is not valid', function() {
             expect(() => {
                 return new Version(NaN);
             }).toThrow(InvalidArgumentException);
         });
 
-        it('should throw InvalidArgumentException if minor component is not valid', function () {
+        it('should throw InvalidArgumentException if minor component is not valid', function() {
             expect(() => {
                 return new Version(0, NaN);
             }).toThrow(InvalidArgumentException);
         });
 
-        it('should throw InvalidArgumentException if patch component is not valid', function () {
+        it('should throw InvalidArgumentException if patch component is not valid', function() {
             expect(() => {
                 return new Version(0, 0, NaN);
             }).toThrow(InvalidArgumentException);
         });
 
-        it('should throw InvalidArgumentException if major, minor and patch components are not valid', function () {
+        it('should throw InvalidArgumentException if major, minor and patch components are not valid', function() {
             expect(() => {
                 return new Version(NaN, NaN, NaN);
             }).toThrow(InvalidArgumentException);
         });
     });
 
-    describe('constructor(major, minor, patch, releaseStatus)', function () {
-        it('should create new instance of Version class w/ 4 arguments', function () {
+    describe('constructor(major, minor, patch, releaseStatus)', function() {
+        it('should create new instance of Version class w/ 4 arguments', function() {
             const version: Version = new Version(1, 1, 1, ReleaseStatus.BETA);
 
             expect(version.major).toBe(1);
@@ -181,39 +181,39 @@ describe('Version', function () {
             expect(version.revision).toBe(0);
         });
 
-        it('should throw InvalidArgumentException if major component is not valid', function () {
+        it('should throw InvalidArgumentException if major component is not valid', function() {
             expect(() => {
                 return new Version(NaN);
             }).toThrow(InvalidArgumentException);
         });
 
-        it('should throw InvalidArgumentException if minor component is not valid', function () {
+        it('should throw InvalidArgumentException if minor component is not valid', function() {
             expect(() => {
                 return new Version(0, NaN);
             }).toThrow(InvalidArgumentException);
         });
 
-        it('should throw InvalidArgumentException if patch component is not valid', function () {
+        it('should throw InvalidArgumentException if patch component is not valid', function() {
             expect(() => {
                 return new Version(0, 0, NaN);
             }).toThrow(InvalidArgumentException);
         });
 
-        it('should throw InvalidArgumentException if release status component is not valid', function () {
+        it('should throw InvalidArgumentException if release status component is not valid', function() {
             expect(() => {
                 return new Version(0, 0, 0, NaN);
             }).toThrow(InvalidArgumentException);
         });
 
-        it('should throw InvalidArgumentException if major, minor, patch and release status components are not valid', function () {
+        it('should throw InvalidArgumentException if major, minor, patch and release status components are not valid', function() {
             expect(() => {
                 return new Version(NaN, NaN, NaN, NaN);
             }).toThrow(InvalidArgumentException);
         });
     });
 
-    describe('constructor(major, minor, patch, releaseStatus, revision)', function () {
-        it('should create new instance of Version class w/ 5 arguments', function () {
+    describe('constructor(major, minor, patch, releaseStatus, revision)', function() {
+        it('should create new instance of Version class w/ 5 arguments', function() {
             const version: Version = new Version(1, 1, 1, ReleaseStatus.BETA, 1);
 
             expect(version.major).toBe(1);
@@ -223,46 +223,48 @@ describe('Version', function () {
             expect(version.revision).toBe(1);
         });
 
-        it('should throw InvalidArgumentException if major component is not valid', function () {
+        it('should throw InvalidArgumentException if major component is not valid', function() {
             expect(() => {
                 return new Version(NaN);
             }).toThrow(InvalidArgumentException);
         });
 
-        it('should throw InvalidArgumentException if minor component is not valid', function () {
+        it('should throw InvalidArgumentException if minor component is not valid', function() {
             expect(() => {
                 return new Version(0, NaN);
             }).toThrow(InvalidArgumentException);
         });
 
-        it('should throw InvalidArgumentException if patch component is not valid', function () {
+        it('should throw InvalidArgumentException if patch component is not valid', function() {
             expect(() => {
                 return new Version(0, 0, NaN);
             }).toThrow(InvalidArgumentException);
         });
 
-        it('should throw InvalidArgumentException if release status component is not valid', function () {
+        it('should throw InvalidArgumentException if release status component is not valid', function() {
             expect(() => {
                 return new Version(0, 0, 0, NaN);
             }).toThrow(InvalidArgumentException);
         });
 
-        it('should throw InvalidArgumentException if revision component is not valid', function () {
+        it('should throw InvalidArgumentException if revision component is not valid', function() {
             expect(() => {
                 return new Version(0, 0, 0, ReleaseStatus.STABLE, NaN);
             }).toThrow(InvalidArgumentException);
         });
 
-        it('should throw InvalidArgumentException if major, minor, patch, release status and ' +
-            'revision components are not valid', function () {
-            expect(() => {
-                return new Version(NaN, NaN, NaN, NaN, NaN);
-            }).toThrow(InvalidArgumentException);
-        });
+        it(
+            'should throw InvalidArgumentException if major, minor, patch, release status and ' + 'revision components are not valid',
+            function() {
+                expect(() => {
+                    return new Version(NaN, NaN, NaN, NaN, NaN);
+                }).toThrow(InvalidArgumentException);
+            }
+        );
     });
 
-    describe('nextMajor', function () {
-        it('should return version with incremented major component', function () {
+    describe('nextMajor', function() {
+        it('should return version with incremented major component', function() {
             const originalVersion: Version = new Version(1, 2, 3, ReleaseStatus.BETA);
             const nextVersion: Version = originalVersion.nextMajor;
 
@@ -274,8 +276,8 @@ describe('Version', function () {
         });
     });
 
-    describe('nextMinor', function () {
-        it('should return version with incremented minor component', function () {
+    describe('nextMinor', function() {
+        it('should return version with incremented minor component', function() {
             const originalVersion: Version = new Version(1, 2, 3, ReleaseStatus.BETA);
             const nextVersion: Version = originalVersion.nextMinor;
 
@@ -287,8 +289,8 @@ describe('Version', function () {
         });
     });
 
-    describe('nextPatch', function () {
-        it('should return version with incremented minor component', function () {
+    describe('nextPatch', function() {
+        it('should return version with incremented minor component', function() {
             const originalVersion: Version = new Version(1, 2, 3, ReleaseStatus.BETA);
             const nextVersion: Version = originalVersion.nextPatch;
 
@@ -300,8 +302,8 @@ describe('Version', function () {
         });
     });
 
-    describe('nextReleaseStatus', function () {
-        it('should return version with next release status', function () {
+    describe('nextReleaseStatus', function() {
+        it('should return version with next release status', function() {
             let originalVersion: Version;
             let nextVersion: Version;
 
@@ -325,8 +327,8 @@ describe('Version', function () {
         });
     });
 
-    describe('nextRevision', function () {
-        it('should return version with incremented revision', function () {
+    describe('nextRevision', function() {
+        it('should return version with incremented revision', function() {
             const originalVersion: Version = new Version(1, 2, 3, ReleaseStatus.BETA);
             const nextVersion: Version = originalVersion.nextRevision;
 
@@ -338,8 +340,8 @@ describe('Version', function () {
         });
     });
 
-    describe('toString()', function () {
-        it('should serialize version to string', function () {
+    describe('toString()', function() {
+        it('should serialize version to string', function() {
             expect(new Version().toString()).toBe('0.0.0-alpha');
             expect(new Version(1).toString()).toBe('1.0.0-alpha');
             expect(new Version(1, 1).toString()).toBe('1.1.0-alpha');
@@ -357,8 +359,8 @@ describe('Version', function () {
         });
     });
 
-    describe('toJSON()', function () {
-        it('should serialize version to string', function () {
+    describe('toJSON()', function() {
+        it('should serialize version to string', function() {
             expect(JSON.stringify(new Version())).toBe('"0.0.0-alpha"');
             expect(JSON.stringify(new Version(1))).toBe('"1.0.0-alpha"');
             expect(JSON.stringify(new Version(1, 1))).toBe('"1.1.0-alpha"');
@@ -376,8 +378,8 @@ describe('Version', function () {
         });
     });
 
-    describe('compareTo(string)', function () {
-        it('should compare current version with other specified as string', function () {
+    describe('compareTo(string)', function() {
+        it('should compare current version with other specified as string', function() {
             {
                 const version: Version = new Version(1, 2, 3, ReleaseStatus.STABLE);
 
@@ -395,13 +397,13 @@ describe('Version', function () {
             }
         });
 
-        it('should compare current version with other specified as components', function () {
+        it('should compare current version with other specified as components', function() {
             // TODO: test with components
         });
     });
 
-    describe('equals(string)', function () {
-        it('should compare current version with other specified as string', function () {
+    describe('equals(string)', function() {
+        it('should compare current version with other specified as string', function() {
             {
                 const version: Version = new Version(1, 2, 3, ReleaseStatus.STABLE);
 
@@ -417,13 +419,13 @@ describe('Version', function () {
             }
         });
 
-        it('should compare current version with other specified as components', function () {
+        it('should compare current version with other specified as components', function() {
             // TODO: test with components
         });
     });
 
-    describe('withMajor()', function () {
-        it('should return a copy of current version with specified major component', function () {
+    describe('withMajor()', function() {
+        it('should return a copy of current version with specified major component', function() {
             const version: Version = new Version(1, 2, 3, ReleaseStatus.BETA, 3);
             const next: Version = version.withMajor(2);
 
@@ -436,8 +438,8 @@ describe('Version', function () {
         });
     });
 
-    describe('withMinor()', function () {
-        it('should return a copy of current version with specified minor component', function () {
+    describe('withMinor()', function() {
+        it('should return a copy of current version with specified minor component', function() {
             const version: Version = new Version(1, 2, 3, ReleaseStatus.BETA, 3);
             const next: Version = version.withMinor(4);
 
@@ -450,8 +452,8 @@ describe('Version', function () {
         });
     });
 
-    describe('withPatch()', function () {
-        it('should return a copy of current version with specified patch component', function () {
+    describe('withPatch()', function() {
+        it('should return a copy of current version with specified patch component', function() {
             const version: Version = new Version(1, 2, 3, ReleaseStatus.BETA, 3);
             const next: Version = version.withPatch(4);
 
@@ -464,8 +466,8 @@ describe('Version', function () {
         });
     });
 
-    describe('withReleaseStatus()', function () {
-        it('should return a copy of current version with specified release status component', function () {
+    describe('withReleaseStatus()', function() {
+        it('should return a copy of current version with specified release status component', function() {
             const version: Version = new Version(1, 2, 3, ReleaseStatus.BETA, 3);
             const next: Version = version.withReleaseStatus(ReleaseStatus.STABLE);
 
@@ -478,8 +480,8 @@ describe('Version', function () {
         });
     });
 
-    describe('withRevision()', function () {
-        it('should return a copy of current version with specified revision component', function () {
+    describe('withRevision()', function() {
+        it('should return a copy of current version with specified revision component', function() {
             const version: Version = new Version(1, 2, 3, ReleaseStatus.BETA, 3);
             const next: Version = version.withRevision(4);
 

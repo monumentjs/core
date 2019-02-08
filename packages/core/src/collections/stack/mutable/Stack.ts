@@ -1,4 +1,4 @@
-import {ReadOnlyStack} from '../readonly/ReadOnlyStack';
+import { ReadOnlyStack } from '../readonly/ReadOnlyStack';
 
 /**
  * @author Alex Chugaev

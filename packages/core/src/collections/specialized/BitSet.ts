@@ -1,8 +1,8 @@
-import {Cloneable} from '../../base/Cloneable';
-import {Equatable} from '../../comparison/equality/Equatable';
-import {ToJSON} from '../../base/ToJSON';
-import {Sequence} from '../base/Sequence';
-import {CollectionUtils} from '../base/CollectionUtils';
+import { Cloneable } from '../../base/Cloneable';
+import { Equatable } from '../../comparison/equality/Equatable';
+import { ToJSON } from '../../base/ToJSON';
+import { Sequence } from '../base/Sequence';
+import { CollectionUtils } from '../base/CollectionUtils';
 
 /**
  * @author Alex Chugaev
@@ -264,7 +264,7 @@ export class BitSet implements Sequence<boolean>, Cloneable<BitSet>, Equatable<B
             }
 
             if (this._bits[i]) {
-                bytes[bytes.length - 1] |= (1 << (i % 8));
+                bytes[bytes.length - 1] |= 1 << i % 8;
             }
         }
 

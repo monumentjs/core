@@ -1,4 +1,4 @@
-import {InvalidOperationException} from '../../exceptions/InvalidOperationException';
+import { InvalidOperationException } from '../../exceptions/InvalidOperationException';
 
 /**
  * @author Alex Chugaev

@@ -1,5 +1,5 @@
-import {Observable} from '../base/Observable';
-import {Observer} from '../base/Observer';
+import { Observable } from '../base/Observable';
+import { Observer } from '../base/Observer';
 
 export class IterableObservable<T> extends Observable<T> {
     public constructor(items: Iterable<T>) {

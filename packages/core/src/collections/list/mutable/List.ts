@@ -1,5 +1,5 @@
-import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
-import {ReadOnlyList} from '../readonly/ReadOnlyList';
+import { EqualityComparator } from '../../../comparison/equality/EqualityComparator';
+import { ReadOnlyList } from '../readonly/ReadOnlyList';
 
 /**
  * @author Alex Chugaev

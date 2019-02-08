@@ -1,12 +1,12 @@
-import {EmptyQueueException, ReadOnlyQueue, Sequence} from '../../../../..';
-import {testReadOnlyCollection} from '../../collection/readonly/ReadOnlyCollection.spec';
+import { EmptyQueueException, ReadOnlyQueue, Sequence } from '../../../../..';
+import { testReadOnlyCollection } from '../../collection/readonly/ReadOnlyCollection.spec';
 
 export function testReadOnlyQueue(create: <I>(items?: Sequence<I>) => ReadOnlyQueue<I>) {
-    describe('ReadOnlyQueue', function () {
+    describe('ReadOnlyQueue', function() {
         testReadOnlyCollection(create);
 
-        describe('peek()', function () {
-            it('should throw EmptyQueueException if no elements in queue', function () {
+        describe('peek()', function() {
+            it('should throw EmptyQueueException if no elements in queue', function() {
                 const queue = create();
 
                 expect(() => {
@@ -14,7 +14,7 @@ export function testReadOnlyQueue(create: <I>(items?: Sequence<I>) => ReadOnlyQu
                 }).toThrow(EmptyQueueException);
             });
 
-            it('should return head element of queue', function () {
+            it('should return head element of queue', function() {
                 const queue = create(['a', 'b']);
 
                 expect(queue.peek()).toBe('a');

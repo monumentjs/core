@@ -1,15 +1,8 @@
-import {
-    BooleanParser,
-    FloatParser,
-    IntParser,
-    LinkedMultiValueMap,
-    PreserveCaseEqualityComparator,
-    ToString
-} from '@monument/core';
-import {ReadOnlyQueryParameters} from './ReadOnlyQueryParameters';
-import {QueryParameterValueEqualityComparator} from './QueryParameterValueEqualityComparator';
-import {UriConstants} from './UriConstants';
-import {UriEncoder} from './UriEncoder';
+import { BooleanParser, FloatParser, IntParser, LinkedMultiValueMap, PreserveCaseEqualityComparator, ToString } from '@monument/core';
+import { ReadOnlyQueryParameters } from './ReadOnlyQueryParameters';
+import { QueryParameterValueEqualityComparator } from './QueryParameterValueEqualityComparator';
+import { UriConstants } from './UriConstants';
+import { UriEncoder } from './UriEncoder';
 
 /**
  * @since 0.0.1
@@ -65,7 +58,7 @@ export class QueryParameters extends LinkedMultiValueMap<string, ToString> imple
         return defaultValue;
     }
 
-    public* getFloats(key: string): Iterable<number> {
+    public *getFloats(key: string): Iterable<number> {
         const values: Iterable<ToString> = this.get(key);
 
         for (const value of values) {
@@ -85,7 +78,7 @@ export class QueryParameters extends LinkedMultiValueMap<string, ToString> imple
         return defaultValue;
     }
 
-    public* getIntegers(key: string): Iterable<number> {
+    public *getIntegers(key: string): Iterable<number> {
         const values: Iterable<ToString> = this.get(key);
 
         for (const value of values) {
@@ -105,7 +98,7 @@ export class QueryParameters extends LinkedMultiValueMap<string, ToString> imple
         return defaultValue;
     }
 
-    public* getStrings(key: string): Iterable<string> {
+    public *getStrings(key: string): Iterable<string> {
         const values: Iterable<ToString> = this.get(key);
 
         for (const value of values) {

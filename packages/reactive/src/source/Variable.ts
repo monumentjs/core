@@ -1,5 +1,5 @@
-import {EqualityComparator, ReferenceEqualityComparator} from '@monument/core';
-import {BehaviorSubject} from '../base/BehaviorSubject';
+import { EqualityComparator, ReferenceEqualityComparator } from '@monument/core';
+import { BehaviorSubject } from '../base/BehaviorSubject';
 
 /**
  * @author Alex Chugaev

@@ -1,6 +1,6 @@
-import {Comparator} from './Comparator';
-import {Ordered} from './Ordered';
-import {ComparisonResult} from './ComparisonResult';
+import { Comparator } from './Comparator';
+import { Ordered } from './Ordered';
+import { ComparisonResult } from './ComparisonResult';
 
 /**
  * @author Alex Chugaev
@@ -17,8 +17,7 @@ export class PriorityComparator implements Comparator<Ordered> {
         return this._instance;
     }
 
-    private constructor() {
-    }
+    private constructor() {}
 
     public compare(x: Ordered, y: Ordered): ComparisonResult {
         if (x.order > y.order) {

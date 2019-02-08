@@ -1,4 +1,4 @@
-import {ReadOnlyQueryParameters} from './ReadOnlyQueryParameters';
+import { ReadOnlyQueryParameters } from './ReadOnlyQueryParameters';
 
 /**
  * @since 0.0.1

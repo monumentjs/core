@@ -1,9 +1,9 @@
-import {StringBuilder, ToString} from '@monument/core';
-import {UriSchema} from './UriSchema';
-import {UriComponents} from './UriComponents';
-import {UriComponentsNormalizer} from './UriComponentsNormalizer';
-import {UriConstants} from './UriConstants';
-import {UriEncoder} from './UriEncoder';
+import { StringBuilder, ToString } from '@monument/core';
+import { UriSchema } from './UriSchema';
+import { UriComponents } from './UriComponents';
+import { UriComponentsNormalizer } from './UriComponentsNormalizer';
+import { UriConstants } from './UriConstants';
+import { UriEncoder } from './UriEncoder';
 
 /**
  * @author Alex Chugaev
@@ -29,7 +29,7 @@ export class UriSerializer {
     }
 
     private writeCredentials(builder: StringBuilder, components: UriComponents) {
-        const {userName, password} = components;
+        const { userName, password } = components;
 
         if (userName) {
             builder.append(this._encoder.encodeComponent(userName));
@@ -44,7 +44,7 @@ export class UriSerializer {
     }
 
     private writeFragment(builder: StringBuilder, components: UriComponents) {
-        const {fragment} = components;
+        const { fragment } = components;
 
         if (fragment) {
             builder.append(UriConstants.FRAGMENT_PREFIX);
@@ -53,7 +53,7 @@ export class UriSerializer {
     }
 
     private writeHost(builder: StringBuilder, components: UriComponents) {
-        const {schema, host, port} = components;
+        const { schema, host, port } = components;
 
         if (host) {
             if (UriSchema.FILE.equals(schema)) {
@@ -67,7 +67,7 @@ export class UriSerializer {
     }
 
     private writePath(builder: StringBuilder, components: UriComponents) {
-        const {schema, host, path} = components;
+        const { schema, host, path } = components;
 
         if (path) {
             const encodedPath: string = this._encoder.encodeUri(path);
@@ -83,7 +83,7 @@ export class UriSerializer {
     }
 
     private writePort(builder: StringBuilder, components: UriComponents) {
-        const {host, port} = components;
+        const { host, port } = components;
 
         if (host && port) {
             builder.append(UriConstants.PORT_PREFIX);
@@ -98,7 +98,7 @@ export class UriSerializer {
     }
 
     private writeQueryParameters(builder: StringBuilder, components: UriComponents) {
-        const {queryParameters} = components;
+        const { queryParameters } = components;
 
         if (queryParameters && !queryParameters.isEmpty) {
             let isFirst: boolean = true;
@@ -118,7 +118,7 @@ export class UriSerializer {
     }
 
     private writeSchema(builder: StringBuilder, components: UriComponents) {
-        const {schema} = components;
+        const { schema } = components;
 
         if (schema) {
             builder.append(schema);

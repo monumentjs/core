@@ -1,12 +1,11 @@
-import {Type} from '@monument/core';
-import {ClassLoaderException} from './ClassLoaderException';
+import { Type } from '@monument/core';
+import { ClassLoaderException } from './ClassLoaderException';
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
  */
 export class ClassLoader {
-
     public async load<T>(filePath: string, className: string): Promise<Type<T>> {
         let exports: any;
 

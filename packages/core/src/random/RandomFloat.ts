@@ -1,6 +1,6 @@
-import {RandomValue} from './RandomValue';
-import {ToJSON} from '../base/ToJSON';
-import {ToString} from '../base/ToString';
+import { RandomValue } from './RandomValue';
+import { ToJSON } from '../base/ToJSON';
+import { ToString } from '../base/ToString';
 
 /**
  * @author Alex Chugaev
@@ -28,7 +28,6 @@ export class RandomFloat implements RandomValue<number>, ToJSON<number>, ToStrin
     public constructor(min: number = Number.MIN_SAFE_INTEGER, max: number = Number.MAX_SAFE_INTEGER) {
         this._min = min;
         this._max = max;
-
     }
 
     public toJSON(): number {

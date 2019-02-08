@@ -1,8 +1,8 @@
-import {Variable} from '../..';
-import {TestObserver} from '../support/TestObserver';
+import { Variable } from '../..';
+import { TestObserver } from '../support/TestObserver';
 
-describe('Variable', function () {
-    it('updates value', function () {
+describe('Variable', function() {
+    it('updates value', function() {
         const variable: Variable<number> = new Variable(0);
 
         expect(variable.value).toBe(0);
@@ -12,7 +12,7 @@ describe('Variable', function () {
         expect(variable.value).toBe(1);
     });
 
-    it('populates new subscriber with current value', function () {
+    it('populates new subscriber with current value', function() {
         const observer = new TestObserver();
         const variable: Variable<number> = new Variable(0);
 
@@ -24,7 +24,7 @@ describe('Variable', function () {
         expect(observer.error).toHaveBeenCalledTimes(0);
     });
 
-    it('notifies subscribers only when value changed', function () {
+    it('notifies subscribers only when value changed', function() {
         const observer = new TestObserver();
         const variable: Variable<number> = new Variable(0);
 

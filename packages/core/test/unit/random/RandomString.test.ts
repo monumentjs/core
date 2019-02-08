@@ -1,8 +1,8 @@
-import {RandomString} from '../../..';
+import { RandomString } from '../../..';
 
-describe('RandomString', function () {
-    describe('constructor(number)', function () {
-        it('should initialize random string with given length', function () {
+describe('RandomString', function() {
+    describe('constructor(number)', function() {
+        it('should initialize random string with given length', function() {
             const a = new RandomString(10);
             const b = new RandomString(10);
 
@@ -16,8 +16,8 @@ describe('RandomString', function () {
         });
     });
 
-    describe('constructor()', function () {
-        it('should initialize random string with given length and charset', function () {
+    describe('constructor()', function() {
+        it('should initialize random string with given length and charset', function() {
             const a = new RandomString(10, 'a');
             const b = new RandomString(10, 'b');
 

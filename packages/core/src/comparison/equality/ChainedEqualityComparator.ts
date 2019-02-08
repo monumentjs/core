@@ -1,5 +1,5 @@
-import {EqualityComparator} from './EqualityComparator';
-import {ReferenceEqualityComparator} from './ReferenceEqualityComparator';
+import { EqualityComparator } from './EqualityComparator';
+import { ReferenceEqualityComparator } from './ReferenceEqualityComparator';
 
 /**
  * @author Alex Chugaev

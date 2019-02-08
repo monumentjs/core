@@ -1,5 +1,5 @@
-import {Observer} from './Observer';
-import {OnComplete, OnError, OnNext} from './Subscribable';
+import { Observer } from './Observer';
+import { OnComplete, OnError, OnNext } from './Subscribable';
 
 /**
  * @author Alex Chugaev
@@ -12,7 +12,7 @@ export class PartialObserver<T> implements Observer<T> {
     public constructor(observer: Partial<Observer<T>>);
     public constructor(next?: OnNext<T>, error?: OnError, complete?: OnComplete);
     public constructor(next?: Partial<Observer<T>> | OnNext<T>, error?: OnError, complete?: OnComplete) {
-        this._observer = typeof next === 'object' ? next : {next, error, complete};
+        this._observer = typeof next === 'object' ? next : { next, error, complete };
     }
 
     public complete(): void {

@@ -1,5 +1,5 @@
-import {Parser} from './Parser';
-import {FormatException} from '../../exceptions/FormatException';
+import { Parser } from './Parser';
+import { FormatException } from '../../exceptions/FormatException';
 
 /**
  * @author Alex Chugaev
@@ -41,5 +41,4 @@ export class BooleanParser implements Parser<boolean> {
             return BooleanParser.WEAK_TRUE_VALUE_PATTERN.test(source);
         }
     }
-
 }

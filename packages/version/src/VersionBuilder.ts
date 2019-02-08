@@ -1,7 +1,7 @@
-import {Builder, InvalidArgumentException} from '@monument/core';
-import {Version} from './Version';
-import {ReleaseStatus} from './ReleaseStatus';
-import {VersionComponents} from './VersionComponents';
+import { Builder, InvalidArgumentException } from '@monument/core';
+import { Version } from './Version';
+import { ReleaseStatus } from './ReleaseStatus';
+import { VersionComponents } from './VersionComponents';
 
 /**
  * @author Alex Chugaev

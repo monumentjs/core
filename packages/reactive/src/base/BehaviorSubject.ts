@@ -1,5 +1,5 @@
-import {Subject} from './Subject';
-import {Observer} from './Observer';
+import { Subject } from './Subject';
+import { Observer } from './Observer';
 
 /**
  * @since 0.0.1

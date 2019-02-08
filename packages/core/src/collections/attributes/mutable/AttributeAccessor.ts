@@ -1,5 +1,5 @@
-import {Key} from '../Key';
-import {ReadOnlyAttributeAccessor} from '../readonly/ReadOnlyAttributeAccessor';
+import { Key } from '../Key';
+import { ReadOnlyAttributeAccessor } from '../readonly/ReadOnlyAttributeAccessor';
 
 /**
  * @author Alex Chugaev

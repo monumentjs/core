@@ -1,8 +1,7 @@
-import {ArrayList, RangeException, EMPTY_STRING, StringUtils} from '../../..';
+import { ArrayList, RangeException, EMPTY_STRING, StringUtils } from '../../..';
 
-describe('StringUtils', function () {
-
-    it('hasText()', function () {
+describe('StringUtils', function() {
+    it('hasText()', function() {
         expect(StringUtils.hasText(EMPTY_STRING)).toBe(false);
         expect(StringUtils.hasText(' ')).toBe(false);
         expect(StringUtils.hasText('\t')).toBe(false);
@@ -12,12 +11,12 @@ describe('StringUtils', function () {
         expect(StringUtils.hasText('Line')).toBe(true);
     });
 
-    it('getCharacters()', function () {
+    it('getCharacters()', function() {
         expect(StringUtils.getCharacters(EMPTY_STRING)).toEqual([]);
         expect(StringUtils.getCharacters('Hi')).toEqual(['H', 'i']);
     });
 
-    it('getWords()', function () {
+    it('getWords()', function() {
         expect(StringUtils.getWords('')).toEqual([]);
         expect(StringUtils.getWords(' ')).toEqual([]);
         expect(StringUtils.getWords('\n')).toEqual([]);
@@ -33,14 +32,11 @@ describe('StringUtils', function () {
         expect(StringUtils.getWords('TooToughToDie')).toEqual(['Too', 'Tough', 'To', 'Die']);
         expect(StringUtils.getWords('person.name.length')).toEqual(['person', 'name', 'length']);
         expect(StringUtils.getWords('.page-container')).toEqual(['page', 'container']);
-        expect(
-            StringUtils.getWords('/api/contacts/list/{offset}/{limit}')).toEqual(
-            ['api', 'contacts', 'list', 'offset', 'limit']
-        );
+        expect(StringUtils.getWords('/api/contacts/list/{offset}/{limit}')).toEqual(['api', 'contacts', 'list', 'offset', 'limit']);
         expect(StringUtils.getWords('MAX_NUMBER_VALUE')).toEqual(['MAX', 'NUMBER', 'VALUE']);
     });
 
-    it('toSnakeCase()', function () {
+    it('toSnakeCase()', function() {
         expect(StringUtils.toSnakeCase('')).toBe('');
         expect(StringUtils.toSnakeCase(' ')).toBe('');
         expect(StringUtils.toSnakeCase('\n')).toBe('');
@@ -60,7 +56,7 @@ describe('StringUtils', function () {
         expect(StringUtils.toSnakeCase('MAX_NUMBER_VALUE')).toBe('max_number_value');
     });
 
-    it('toKebabCase()', function () {
+    it('toKebabCase()', function() {
         expect(StringUtils.toKebabCase('')).toBe('');
         expect(StringUtils.toKebabCase(' ')).toBe('');
         expect(StringUtils.toKebabCase('\n')).toBe('');
@@ -80,7 +76,7 @@ describe('StringUtils', function () {
         expect(StringUtils.toKebabCase('MAX_NUMBER_VALUE')).toBe('max-number-value');
     });
 
-    it('toCamelCase()', function () {
+    it('toCamelCase()', function() {
         expect(StringUtils.toCamelCase('')).toBe('');
         expect(StringUtils.toCamelCase(' ')).toBe('');
         expect(StringUtils.toCamelCase('\n')).toBe('');
@@ -100,7 +96,7 @@ describe('StringUtils', function () {
         expect(StringUtils.toCamelCase('MAX_NUMBER_VALUE')).toBe('maxNumberValue');
     });
 
-    it('toCapitalCase()', function () {
+    it('toCapitalCase()', function() {
         expect(StringUtils.toCapitalCase('')).toBe('');
         expect(StringUtils.toCapitalCase(' ')).toBe('');
         expect(StringUtils.toCapitalCase('\n')).toBe('');
@@ -120,7 +116,7 @@ describe('StringUtils', function () {
         expect(StringUtils.toCapitalCase('MAX_NUMBER_VALUE')).toBe('MaxNumberValue');
     });
 
-    it('split()', function () {
+    it('split()', function() {
         expect(StringUtils.split('', '')).toEqual([]);
         expect(StringUtils.split('12', '')).toEqual(['1', '2']);
         expect(StringUtils.split('1 2', ' ')).toEqual(['1', '2']);
@@ -131,25 +127,25 @@ describe('StringUtils', function () {
         expect(StringUtils.split('a ++ b', '+', false, false)).toEqual(['a ', '', ' b']);
     });
 
-    it('trimLeft()', function () {
+    it('trimLeft()', function() {
         expect(StringUtils.trimLeft('\ntext')).toBe('text');
         expect(StringUtils.trimLeft('\n')).toBe('');
         expect(StringUtils.trimLeft('')).toBe('');
     });
 
-    it('trimRight()', function () {
+    it('trimRight()', function() {
         expect(StringUtils.trimRight('text\n')).toBe('text');
         expect(StringUtils.trimRight('\n')).toBe('');
         expect(StringUtils.trimRight('')).toBe('');
     });
 
-    it('trim()', function () {
+    it('trim()', function() {
         expect(StringUtils.trim('text\n')).toBe('text');
         expect(StringUtils.trim('\n')).toBe('');
         expect(StringUtils.trim('')).toBe('');
     });
 
-    it('isUpperCase()', function () {
+    it('isUpperCase()', function() {
         expect(StringUtils.isUpperCase('TEXT')).toBe(true);
         expect(StringUtils.isUpperCase('Text')).toBe(false);
         expect(StringUtils.isUpperCase('text')).toBe(false);
@@ -159,7 +155,7 @@ describe('StringUtils', function () {
         expect(StringUtils.isUpperCase('')).toBe(true);
     });
 
-    it('isLowerCase()', function () {
+    it('isLowerCase()', function() {
         expect(StringUtils.isLowerCase('TEXT')).toBe(false);
         expect(StringUtils.isLowerCase('Text')).toBe(false);
         expect(StringUtils.isLowerCase('text')).toBe(true);
@@ -169,27 +165,19 @@ describe('StringUtils', function () {
         expect(StringUtils.isLowerCase('')).toBe(true);
     });
 
-    it('collectionToDelimitedString()', function () {
+    it('collectionToDelimitedString()', function() {
         expect(StringUtils.collectionToDelimitedString(new ArrayList([]), ' ')).toBe('');
 
-        expect(StringUtils.collectionToDelimitedString(new ArrayList([
-            'text'
-        ]), ' ')).toBe('text');
+        expect(StringUtils.collectionToDelimitedString(new ArrayList(['text']), ' ')).toBe('text');
 
-        expect(StringUtils.collectionToDelimitedString(new ArrayList([
-            'text', 'value'
-        ]), ' ')).toBe('text value');
+        expect(StringUtils.collectionToDelimitedString(new ArrayList(['text', 'value']), ' ')).toBe('text value');
 
-        expect(StringUtils.collectionToDelimitedString(new ArrayList([
-            'text', 'value'
-        ]), ' ', '<')).toBe('<text <value');
+        expect(StringUtils.collectionToDelimitedString(new ArrayList(['text', 'value']), ' ', '<')).toBe('<text <value');
 
-        expect(StringUtils.collectionToDelimitedString(new ArrayList([
-            'text', 'value'
-        ]), ' ', '<', '>')).toBe('<text> <value>');
+        expect(StringUtils.collectionToDelimitedString(new ArrayList(['text', 'value']), ' ', '<', '>')).toBe('<text> <value>');
     });
 
-    it('padStart()', function () {
+    it('padStart()', function() {
         expect(() => {
             StringUtils.padStart('text', -1);
         }).toThrow(RangeException);
@@ -199,7 +187,7 @@ describe('StringUtils', function () {
         expect(StringUtils.padStart('text', 6, ' ')).toBe('  text');
     });
 
-    it('padEnd()', function () {
+    it('padEnd()', function() {
         expect(() => {
             StringUtils.padEnd('text', -1);
         }).toThrow(RangeException);
@@ -209,7 +197,7 @@ describe('StringUtils', function () {
         expect(StringUtils.padEnd('text', 6, ' ')).toBe('text  ');
     });
 
-    it('clipStart()', function () {
+    it('clipStart()', function() {
         expect(() => {
             StringUtils.clipStart('text', -1);
         }).toThrow(RangeException);
@@ -218,7 +206,7 @@ describe('StringUtils', function () {
         expect(StringUtils.clipStart('text', 6)).toBe('text');
     });
 
-    it('clipEnd()', function () {
+    it('clipEnd()', function() {
         expect(() => {
             StringUtils.clipEnd('text', -1);
         }).toThrow(RangeException);

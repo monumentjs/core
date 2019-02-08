@@ -1,4 +1,4 @@
-import {ComparisonResult} from './ComparisonResult';
+import { ComparisonResult } from './ComparisonResult';
 
 /**
  * @author Alex Chugaev

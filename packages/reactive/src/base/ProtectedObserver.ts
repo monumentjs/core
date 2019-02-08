@@ -1,4 +1,4 @@
-import {ObserverDecorator} from './ObserverDecorator';
+import { ObserverDecorator } from './ObserverDecorator';
 
 export class ProtectedObserver<T> extends ObserverDecorator<T> {
     private _isComplete: boolean = false;

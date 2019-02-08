@@ -1,11 +1,11 @@
-import {ArrayList} from '@monument/core';
-import {OnComplete, OnError, OnNext, Subscribable} from './Subscribable';
-import {Observer} from './Observer';
-import {Subscription} from './Subscription';
-import {SubscribeFunction} from './SubscribeFunction';
-import {ProtectedObserver} from './ProtectedObserver';
-import {PartialObserver} from './PartialObserver';
-import {TeardownLogic} from './TeardownLogic';
+import { ArrayList } from '@monument/core';
+import { OnComplete, OnError, OnNext, Subscribable } from './Subscribable';
+import { Observer } from './Observer';
+import { Subscription } from './Subscription';
+import { SubscribeFunction } from './SubscribeFunction';
+import { ProtectedObserver } from './ProtectedObserver';
+import { PartialObserver } from './PartialObserver';
+import { TeardownLogic } from './TeardownLogic';
 
 export type OperatorFunction<T, R> = (input: Observable<T>) => Observable<R>;
 

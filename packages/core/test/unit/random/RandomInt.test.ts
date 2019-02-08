@@ -1,8 +1,8 @@
-import {RandomInt} from '../../..';
+import { RandomInt } from '../../..';
 
-describe('RandomInt', function () {
-    describe('constructor()', function () {
-        it('should initialize with randomly generated value', function () {
+describe('RandomInt', function() {
+    describe('constructor()', function() {
+        it('should initialize with randomly generated value', function() {
             const a = new RandomInt();
             const b = new RandomInt();
 
@@ -13,8 +13,8 @@ describe('RandomInt', function () {
         });
     });
 
-    describe('constructor()', function () {
-        it('should initialize with randomly generated value with specified lower bound', function () {
+    describe('constructor()', function() {
+        it('should initialize with randomly generated value with specified lower bound', function() {
             const a = new RandomInt(0);
             const b = new RandomInt(0);
 
@@ -27,8 +27,8 @@ describe('RandomInt', function () {
         });
     });
 
-    describe('constructor()', function () {
-        it('should initialize with randomly generated value with specified lower anf upper bound', function () {
+    describe('constructor()', function() {
+        it('should initialize with randomly generated value with specified lower anf upper bound', function() {
             const a = new RandomInt(0, 2);
             const b = new RandomInt(0, 2);
 

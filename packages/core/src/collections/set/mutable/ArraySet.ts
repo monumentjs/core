@@ -1,12 +1,12 @@
-import {Set} from './Set';
-import {ArrayList} from '../../list/mutable/ArrayList';
-import {Sequence} from '../../base/Sequence';
-import {Cloneable} from '../../../base/Cloneable';
-import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
-import {ReferenceEqualityComparator} from '../../../comparison/equality/ReferenceEqualityComparator';
-import {MethodNotImplementedException} from '../../../exceptions/MethodNotImplementedException';
-import {ReadOnlyCollectionBase} from '../../collection/readonly/ReadOnlyCollectionBase';
-import {ReadOnlySet} from '../readonly/ReadOnlySet';
+import { Set } from './Set';
+import { ArrayList } from '../../list/mutable/ArrayList';
+import { Sequence } from '../../base/Sequence';
+import { Cloneable } from '../../../base/Cloneable';
+import { EqualityComparator } from '../../../comparison/equality/EqualityComparator';
+import { ReferenceEqualityComparator } from '../../../comparison/equality/ReferenceEqualityComparator';
+import { MethodNotImplementedException } from '../../../exceptions/MethodNotImplementedException';
+import { ReadOnlyCollectionBase } from '../../collection/readonly/ReadOnlyCollectionBase';
+import { ReadOnlySet } from '../readonly/ReadOnlySet';
 
 /**
  * @author Alex Chugaev
@@ -64,15 +64,17 @@ export class ArraySet<T> extends ReadOnlyCollectionBase<T> implements Set<T>, Cl
      * Modifies the current set so that it contains only elements that are also in a specified collection.
      */
     public intersectWith(other: Iterable<T>): boolean {
-        return this.removeBy((ownItem: T): boolean => {
-            for (const otherItem of other) {
-                if (this.comparator.equals(ownItem, otherItem)) {
-                    return false;
+        return this.removeBy(
+            (ownItem: T): boolean => {
+                for (const otherItem of other) {
+                    if (this.comparator.equals(ownItem, otherItem)) {
+                        return false;
+                    }
                 }
-            }
 
-            return true;
-        });
+                return true;
+            }
+        );
     }
 
     public isProperSubsetOf(other: Sequence<T>): boolean {

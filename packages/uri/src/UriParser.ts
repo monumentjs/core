@@ -1,10 +1,10 @@
-import {EMPTY_STRING, Parser} from '@monument/core';
-import {UriComponents} from './UriComponents';
-import {QueryParameters} from './QueryParameters';
-import {UriFormatException} from './UriFormatException';
-import {UriConstants} from './UriConstants';
-import {UriComponentsNormalizer} from './UriComponentsNormalizer';
-import {UriEncoder} from './UriEncoder';
+import { EMPTY_STRING, Parser } from '@monument/core';
+import { UriComponents } from './UriComponents';
+import { QueryParameters } from './QueryParameters';
+import { UriFormatException } from './UriFormatException';
+import { UriConstants } from './UriConstants';
+import { UriComponentsNormalizer } from './UriComponentsNormalizer';
+import { UriEncoder } from './UriEncoder';
 
 /**
  * @author Alex Chugaev

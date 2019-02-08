@@ -1,10 +1,10 @@
-import {EqualityComparator} from '../../../comparison/equality/EqualityComparator';
-import {KeyValuePair} from '../../base/KeyValuePair';
-import {Cloneable} from '../../../base/Cloneable';
-import {MapIteratorFunction} from '../../base/MapIteratorFunction';
-import {Map as IMap} from './Map';
-import {ReferenceEqualityComparator} from '../../../comparison/equality/ReferenceEqualityComparator';
-import {SupplyFunction} from '../../../function/SupplyFunction';
+import { EqualityComparator } from '../../../comparison/equality/EqualityComparator';
+import { KeyValuePair } from '../../base/KeyValuePair';
+import { Cloneable } from '../../../base/Cloneable';
+import { MapIteratorFunction } from '../../base/MapIteratorFunction';
+import { Map as IMap } from './Map';
+import { ReferenceEqualityComparator } from '../../../comparison/equality/ReferenceEqualityComparator';
+import { SupplyFunction } from '../../../function/SupplyFunction';
 
 /**
  * @author Alex Chugaev
@@ -153,7 +153,7 @@ export class LinkedMap<K, V> implements IMap<K, V>, Cloneable<LinkedMap<K, V>> {
         }
     }
 
-    public* keysOf(value: V): Iterable<K> {
+    public *keysOf(value: V): Iterable<K> {
         for (const [ownKey, ownValue] of this) {
             if (this.valueComparator.equals(value, ownValue)) {
                 yield ownKey;

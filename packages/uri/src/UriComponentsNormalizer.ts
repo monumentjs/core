@@ -1,6 +1,6 @@
-import {UriComponents} from './UriComponents';
-import {UriConstants} from './UriConstants';
-import {UriSchema} from './UriSchema';
+import { UriComponents } from './UriComponents';
+import { UriConstants } from './UriConstants';
+import { UriSchema } from './UriSchema';
 
 /**
  * @author Alex Chugaev
@@ -21,7 +21,7 @@ export class UriComponentsNormalizer {
     }
 
     private getNormalizedHost(components: UriComponents): string | undefined {
-        const {schema, host} = components;
+        const { schema, host } = components;
 
         if (UriSchema.FILE.equals(schema)) {
             if (!host) {
@@ -33,7 +33,7 @@ export class UriComponentsNormalizer {
     }
 
     private getNormalizedPath(components: UriComponents): string | undefined {
-        const {path} = components;
+        const { path } = components;
 
         if (path) {
             const isWindowsAbsolutePath = UriConstants.WINDOWS_ABSOLUTE_PATH_PATTERN.test(path);
@@ -53,7 +53,7 @@ export class UriComponentsNormalizer {
     }
 
     private getNormalizedSchema(components: UriComponents): string | undefined {
-        const {schema} = components;
+        const { schema } = components;
 
         if (schema == null) {
             return schema;

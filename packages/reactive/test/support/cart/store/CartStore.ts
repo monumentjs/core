@@ -1,7 +1,7 @@
-import {Actions, Effect, Store} from '../../../..';
-import {CartState} from './state/CartState';
-import {CartAction} from './actions/CartAction';
-import {CartActionType} from './actions/CartActionType';
+import { Actions, Effect, Store } from '../../../..';
+import { CartState } from './state/CartState';
+import { CartAction } from './actions/CartAction';
+import { CartActionType } from './actions/CartActionType';
 
 export class CartStore extends Store<CartState, CartAction> {
     public constructor(actions: Actions<CartAction>, effects: Effect<CartAction>) {

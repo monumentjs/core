@@ -1,6 +1,6 @@
-import {Sequence} from './Sequence';
-import {RangeException} from '../../exceptions/RangeException';
-import {IndexOutOfBoundsException} from '../../exceptions/IndexOutOfBoundsException';
+import { Sequence } from './Sequence';
+import { RangeException } from '../../exceptions/RangeException';
+import { IndexOutOfBoundsException } from '../../exceptions/IndexOutOfBoundsException';
 
 /**
  * @author Alex Chugaev
@@ -67,7 +67,7 @@ export class CollectionUtils {
         if (sliceOffset + sliceLength > sequence.length) {
             throw new RangeException(
                 `Invalid bounds (${sliceOffset}...${sliceOffset + sliceLength}) of slice range, ` +
-                `original range is (0...${sequence.length}).`
+                    `original range is (0...${sequence.length}).`
             );
         }
     }

@@ -1,7 +1,7 @@
-import {Observable, Observer} from '@monument/reactive';
-import {createServer, IncomingMessage, Server, ServerResponse} from 'http';
-import {HttpRequest} from './HttpRequest';
-import {HttpResponse} from './HttpResponse';
+import { Observable, Observer } from '@monument/reactive';
+import { createServer, IncomingMessage, Server, ServerResponse } from 'http';
+import { HttpRequest } from './HttpRequest';
+import { HttpResponse } from './HttpResponse';
 
 export interface HttpServerOptions {
     readonly port: number;
@@ -16,13 +16,13 @@ export class HttpServer extends Observable<[HttpRequest, HttpResponse]> {
     private _server?: Server;
 
     public constructor({
-                           host = 'localhost',
-                           port = 3_000,
-                           backlog = 10_000,
-                           requestTimeout = 120_000,
-                           keepAliveTimeout = 5_000,
-                           maxHeadersCount = 2_000
-                       }: HttpServerOptions) {
+        host = 'localhost',
+        port = 3_000,
+        backlog = 10_000,
+        requestTimeout = 120_000,
+        keepAliveTimeout = 5_000,
+        maxHeadersCount = 2_000
+    }: HttpServerOptions) {
         super((observer: Observer<[HttpRequest, HttpResponse]>) => {
             if (this._server == null) {
                 this._server = createServer();

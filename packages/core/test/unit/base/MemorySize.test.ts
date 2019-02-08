@@ -1,8 +1,8 @@
-import {MemorySize} from '../../..';
+import { MemorySize } from '../../..';
 
-describe('MemorySize', function () {
-    describe('constructor(number)', function () {
-        it('should create instance with bytes count', function () {
+describe('MemorySize', function() {
+    describe('constructor(number)', function() {
+        it('should create instance with bytes count', function() {
             const size: MemorySize = new MemorySize(0);
 
             expect(size.bytes).toBe(0);
@@ -16,7 +16,7 @@ describe('MemorySize', function () {
             expect(size.yottabytes).toBe(0);
         });
 
-        it('should create instance with bytes count', function () {
+        it('should create instance with bytes count', function() {
             const size: MemorySize = new MemorySize(MemorySize.KILOBYTE);
 
             expect(size.bytes).toBe(MemorySize.KILOBYTE);
@@ -30,7 +30,7 @@ describe('MemorySize', function () {
             expect(size.yottabytes).toBeLessThan(1);
         });
 
-        it('should create instance with bytes count', function () {
+        it('should create instance with bytes count', function() {
             const size: MemorySize = new MemorySize(MemorySize.MEGABYTE);
 
             expect(size.bytes).toBe(MemorySize.MEGABYTE);

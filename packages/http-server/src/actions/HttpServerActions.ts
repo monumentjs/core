@@ -1,14 +1,13 @@
-import {Observable, Observer} from '@monument/reactive';
-import {HttpServerActionTypes} from './HttpServerActionTypes';
-import {HttpServer} from '../HttpServer';
-import {HttpRequest} from '../HttpRequest';
-import {HttpResponse} from '../HttpResponse';
-import {HttpServerRequestAction} from './HttpServerRequestAction';
-import {HttpServerErrorAction} from './HttpServerErrorAction';
-import {HttpServerCloseAction} from './HttpServerCloseAction';
+import { Observable, Observer } from '@monument/reactive';
+import { HttpServerActionTypes } from './HttpServerActionTypes';
+import { HttpServer } from '../HttpServer';
+import { HttpRequest } from '../HttpRequest';
+import { HttpResponse } from '../HttpResponse';
+import { HttpServerRequestAction } from './HttpServerRequestAction';
+import { HttpServerErrorAction } from './HttpServerErrorAction';
+import { HttpServerCloseAction } from './HttpServerCloseAction';
 
 export class HttpServerActions extends Observable<HttpServerActionTypes> {
-
     public constructor(server: HttpServer) {
         super((observer: Observer<HttpServerActionTypes>) => {
             return server.subscribe({

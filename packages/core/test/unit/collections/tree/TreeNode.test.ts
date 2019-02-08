@@ -1,6 +1,6 @@
-import {TreeNode} from '../../../..';
+import { TreeNode } from '../../../..';
 
-describe('TreeNode', function () {
+describe('TreeNode', function() {
     let html!: TreeNode<string>;
     let head!: TreeNode<string>;
     let body!: TreeNode<string>;
@@ -17,7 +17,7 @@ describe('TreeNode', function () {
         body.addChild(main);
     });
 
-    it('parent/child relation', function () {
+    it('parent/child relation', function() {
         const parent: TreeNode<string> = new TreeNode('parent');
         const child: TreeNode<string> = new TreeNode('child');
 
@@ -42,7 +42,7 @@ describe('TreeNode', function () {
         expect(child.childNodes.length).toBe(0);
     });
 
-    it('tree structure with child nodes', function () {
+    it('tree structure with child nodes', function() {
         expect(html.parentNode).toBe(undefined);
         expect(html.childNodes.length).toBe(2);
         expect(html.childNodes.getAt(0)).toBe(head);

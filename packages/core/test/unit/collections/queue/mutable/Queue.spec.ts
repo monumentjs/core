@@ -1,12 +1,12 @@
-import {EmptyQueueException, Queue, Sequence} from '../../../../..';
-import {testReadOnlyQueue} from '../readonly/ReadOnlyQueue.spec';
+import { EmptyQueueException, Queue, Sequence } from '../../../../..';
+import { testReadOnlyQueue } from '../readonly/ReadOnlyQueue.spec';
 
 export function testQueue(create: <I>(items?: Sequence<I>) => Queue<I>) {
-    describe('Queue', function () {
+    describe('Queue', function() {
         testReadOnlyQueue(create);
 
-        describe('enqueue()', function () {
-            it('should add item to the queue', function () {
+        describe('enqueue()', function() {
+            it('should add item to the queue', function() {
                 const queue = create();
 
                 queue.enqueue('a');
@@ -25,8 +25,8 @@ export function testQueue(create: <I>(items?: Sequence<I>) => Queue<I>) {
             });
         });
 
-        describe('dequeue()', function () {
-            it('should throw EmptyQueueException if queue is empty', function () {
+        describe('dequeue()', function() {
+            it('should throw EmptyQueueException if queue is empty', function() {
                 const queue = create();
 
                 expect(() => {
@@ -34,7 +34,7 @@ export function testQueue(create: <I>(items?: Sequence<I>) => Queue<I>) {
                 }).toThrow(EmptyQueueException);
             });
 
-            it('should return next element and removes it from queue', function () {
+            it('should return next element and removes it from queue', function() {
                 const queue = create();
 
                 queue.enqueue('a');

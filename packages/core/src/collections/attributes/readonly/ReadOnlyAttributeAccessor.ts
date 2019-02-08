@@ -1,5 +1,5 @@
-import {ReadOnlyMap} from '../../map/readonly/ReadOnlyMap';
-import {Key} from '../Key';
+import { ReadOnlyMap } from '../../map/readonly/ReadOnlyMap';
+import { Key } from '../Key';
 
 /**
  * @author Alex Chugaev

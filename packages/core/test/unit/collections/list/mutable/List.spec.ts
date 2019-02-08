@@ -1,18 +1,13 @@
-import {
-    IgnoreCaseEqualityComparator,
-    IndexOutOfBoundsException,
-    List,
-    Sequence
-} from '../../../../..';
-import {testReadOnlyList} from '../readonly/ReadOnlyList.spec';
-import {assertLengthAndIsEmpty} from '../../collection/readonly/ReadOnlyCollection.spec';
+import { IgnoreCaseEqualityComparator, IndexOutOfBoundsException, List, Sequence } from '../../../../..';
+import { testReadOnlyList } from '../readonly/ReadOnlyList.spec';
+import { assertLengthAndIsEmpty } from '../../collection/readonly/ReadOnlyCollection.spec';
 
 export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
-    describe('List', function () {
+    describe('List', function() {
         testReadOnlyList(create);
 
-        describe('add()', function () {
-            it('should add item into list', function () {
+        describe('add()', function() {
+            it('should add item into list', function() {
                 const list: List<string> = create();
 
                 expect(list.add('a')).toBe(true);
@@ -32,8 +27,8 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
             });
         });
 
-        describe('addAll()', function () {
-            it('should accept empty sequence', function () {
+        describe('addAll()', function() {
+            it('should accept empty sequence', function() {
                 const list: List<string> = create();
 
                 expect(list.addAll([])).toBe(false);
@@ -41,7 +36,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
                 assertLengthAndIsEmpty(list, 0);
             });
 
-            it('should add all items', function () {
+            it('should add all items', function() {
                 const list: List<string> = create();
 
                 expect(list.addAll(['a'])).toBe(true);
@@ -56,8 +51,8 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
             });
         });
 
-        describe('addIfAbsent()', function () {
-            it('should add item if it is absent', function () {
+        describe('addIfAbsent()', function() {
+            it('should add item if it is absent', function() {
                 const list: List<string> = create();
 
                 expect(list.addIfAbsent('a')).toBe(true);
@@ -74,8 +69,8 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
             });
         });
 
-        describe('clear()', function () {
-            it('should clear list', function () {
+        describe('clear()', function() {
+            it('should clear list', function() {
                 const list: List<string> = create(['one', 'two']);
 
                 expect(list.clear()).toBe(true);
@@ -86,8 +81,8 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
             });
         });
 
-        describe('insert()', function () {
-            it('should insert item into list', function () {
+        describe('insert()', function() {
+            it('should insert item into list', function() {
                 const list: List<string> = create();
 
                 list.insert(0, 'one');
@@ -106,7 +101,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
                 expect(list.toArray()).toEqual(['three', 'one', 'two']);
             });
 
-            it('should throw if index out of bounds', function () {
+            it('should throw if index out of bounds', function() {
                 const list: List<string> = create();
 
                 expect(() => {
@@ -119,8 +114,8 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
             });
         });
 
-        describe('insertAll(index, items)', function () {
-            it('should insert items at specified position', function () {
+        describe('insertAll(index, items)', function() {
+            it('should insert items at specified position', function() {
                 const list: List<string> = create(['one', 'four']);
 
                 expect(list.insertAll(1, ['two', 'three'])).toBe(true);
@@ -130,7 +125,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
                 expect(list.toArray()).toEqual(['one', 'two', 'three', 'four']);
             });
 
-            it('should throw if `index` is out of bounds', function () {
+            it('should throw if `index` is out of bounds', function() {
                 const list: List<string> = create();
 
                 expect(() => {
@@ -143,14 +138,14 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
             });
         });
 
-        describe('remove()', function () {
-            it('should return `false` if list does not contains the item', function () {
+        describe('remove()', function() {
+            it('should return `false` if list does not contains the item', function() {
                 const list: List<string> = create();
 
                 expect(list.remove('itemThatIsNotInCollection')).toBe(false);
             });
 
-            it('should return `true` if item was removed from list', function () {
+            it('should return `true` if item was removed from list', function() {
                 const list: List<string> = create(['one', 'two', 'three', 'four']);
 
                 expect(list.remove('two')).toBe(true);
@@ -167,8 +162,8 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
             });
         });
 
-        describe('removeAll()', function () {
-            it('should remove items containing in both lists', function () {
+        describe('removeAll()', function() {
+            it('should remove items containing in both lists', function() {
                 const list: List<string> = create(['a', 'b', 'a', 'c', 'd', 'a']);
 
                 assertLengthAndIsEmpty(list, 6);
@@ -181,7 +176,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
                 expect(list.toArray()).toEqual(['c', 'd']);
             });
 
-            it('should remove items containing in both lists using custom equality comparator', function () {
+            it('should remove items containing in both lists using custom equality comparator', function() {
                 const list: List<string> = create(['a', 'b', 'a', 'c', 'd', 'a']);
 
                 list.removeAll(['A', 'B']);
@@ -196,13 +191,15 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
             });
         });
 
-        describe('removeBy()', function () {
-            it('should remove items for whose predicate function returns `true`', function () {
+        describe('removeBy()', function() {
+            it('should remove items for whose predicate function returns `true`', function() {
                 const list: List<string> = create(['a', 'b', 'a', 'c', 'd', 'a']);
 
-                list.removeBy((character: string): boolean => {
-                    return character === 'a';
-                });
+                list.removeBy(
+                    (character: string): boolean => {
+                        return character === 'a';
+                    }
+                );
 
                 assertLengthAndIsEmpty(list, 3);
 
@@ -210,8 +207,8 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
             });
         });
 
-        describe('removeAt()', function () {
-            it('should remove item with specified index from list', function () {
+        describe('removeAt()', function() {
+            it('should remove item with specified index from list', function() {
                 const list: List<string> = create(['one', 'two']);
 
                 expect(list.removeAt(1)).toBe('two');
@@ -224,7 +221,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
                 expect(list.length).toBe(0);
             });
 
-            it('should throw if `index` argument is out of bounds', function () {
+            it('should throw if `index` argument is out of bounds', function() {
                 const list: List<string> = create();
 
                 expect(() => {
@@ -237,8 +234,8 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
             });
         });
 
-        describe('retainAll()', function () {
-            it('should accept empty lists', function () {
+        describe('retainAll()', function() {
+            it('should accept empty lists', function() {
                 const list: List<string> = create(['one', 'two', 'three', 'four', 'five']);
 
                 expect(list.retainAll([])).toBe(true);
@@ -248,7 +245,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
                 expect(list.toArray()).toEqual([]);
             });
 
-            it('should remove all items except those in specified list', function () {
+            it('should remove all items except those in specified list', function() {
                 const list: List<string> = create(['one', 'two', 'three', 'One', 'Two', 'Three']);
 
                 expect(list.retainAll(['one', 'Three'])).toBe(true);
@@ -258,7 +255,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
                 expect(list.toArray()).toEqual(['one', 'Three']);
             });
 
-            it('should use custom equality comparator', function () {
+            it('should use custom equality comparator', function() {
                 const list: List<string> = create(['one', 'two', 'three', 'One', 'Two', 'Three']);
 
                 expect(list.retainAll(['one', 'Three'], IgnoreCaseEqualityComparator.get())).toBe(true);
@@ -269,8 +266,8 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
             });
         });
 
-        describe('setAt()', function () {
-            it('should set value of element at specified index', function () {
+        describe('setAt()', function() {
+            it('should set value of element at specified index', function() {
                 const list: List<string> = create(['a', 'b', 'c']);
 
                 expect(list.setAt(0, 'one')).toBe('a');
@@ -278,7 +275,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
                 expect(list.setAt(2, 'three')).toBe('c');
             });
 
-            it('should not throw IndexOutOfBoundsException if index equals to list length', function () {
+            it('should not throw IndexOutOfBoundsException if index equals to list length', function() {
                 const list: List<string> = create();
 
                 expect(() => {
@@ -286,7 +283,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
                 }).not.toThrow(IndexOutOfBoundsException);
             });
 
-            it('should throw IndexOutOfBoundsException', function () {
+            it('should throw IndexOutOfBoundsException', function() {
                 const list: List<string> = create();
 
                 expect(() => {

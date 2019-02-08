@@ -1,12 +1,12 @@
-import {IgnoreCaseEqualityComparator, ImmutableList, IndexOutOfBoundsException, Sequence} from '../../../../..';
-import {testReadOnlyList} from '../readonly/ReadOnlyList.spec';
+import { IgnoreCaseEqualityComparator, ImmutableList, IndexOutOfBoundsException, Sequence } from '../../../../..';
+import { testReadOnlyList } from '../readonly/ReadOnlyList.spec';
 
 export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableList<T>) {
-    describe('ImmutableList', function () {
+    describe('ImmutableList', function() {
         testReadOnlyList(create);
 
-        describe('add()', function () {
-            it('should return new list with added item', function () {
+        describe('add()', function() {
+            it('should return new list with added item', function() {
                 const list: ImmutableList<string> = create();
                 const newList: ImmutableList<string> = list.add('one');
 
@@ -20,8 +20,8 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
             });
         });
 
-        describe('addAll()', function () {
-            it('should return original list if no items to add', function () {
+        describe('addAll()', function() {
+            it('should return original list if no items to add', function() {
                 const list: ImmutableList<string> = create();
                 const newList: ImmutableList<string> = list.addAll([]);
 
@@ -34,7 +34,7 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
                 expect(newList.toArray()).toEqual([]);
             });
 
-            it('should return new list with added items', function () {
+            it('should return new list with added items', function() {
                 const list: ImmutableList<string> = create();
                 const newList: ImmutableList<string> = list.addAll(['one', 'two']);
 
@@ -48,8 +48,8 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
             });
         });
 
-        describe('addIfAbsent()', function () {
-            it('should return original list if item was present in list', function () {
+        describe('addIfAbsent()', function() {
+            it('should return original list if item was present in list', function() {
                 const list: ImmutableList<string> = create(['one']);
                 const newList: ImmutableList<string> = list.addIfAbsent('one');
 
@@ -62,7 +62,7 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
                 expect(newList.toArray()).toEqual(['one']);
             });
 
-            it('should return new list with added items', function () {
+            it('should return new list with added items', function() {
                 const list: ImmutableList<string> = create(['one']);
                 const newList: ImmutableList<string> = list.addIfAbsent('two');
 
@@ -76,8 +76,8 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
             });
         });
 
-        describe('clear()', function () {
-            it('should return original list if it was empty', function () {
+        describe('clear()', function() {
+            it('should return original list if it was empty', function() {
                 const list: ImmutableList<string> = create();
                 const emptyList: ImmutableList<string> = list.clear();
 
@@ -90,7 +90,7 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
                 expect(emptyList.toArray()).toEqual([]);
             });
 
-            it('should return new list if list was not empty', function () {
+            it('should return new list if list was not empty', function() {
                 const list: ImmutableList<string> = create(['one']);
                 const emptyList: ImmutableList<string> = list.clear();
 
@@ -104,8 +104,8 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
             });
         });
 
-        describe('insert()', function () {
-            it('should return new list with item inserted', function () {
+        describe('insert()', function() {
+            it('should return new list with item inserted', function() {
                 const list: ImmutableList<string> = create();
                 const newList: ImmutableList<string> = list.insert(0, 'one');
 
@@ -119,8 +119,8 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
             });
         });
 
-        describe('insertAll()', function () {
-            it('should return original list if no items to insert', function () {
+        describe('insertAll()', function() {
+            it('should return original list if no items to insert', function() {
                 const list: ImmutableList<string> = create();
                 const newList: ImmutableList<string> = list.insertAll(0, []);
 
@@ -133,7 +133,7 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
                 expect(newList.toArray()).toEqual([]);
             });
 
-            it('should return new list with added items', function () {
+            it('should return new list with added items', function() {
                 const list: ImmutableList<string> = create();
                 const newList: ImmutableList<string> = list.insertAll(0, ['one', 'two']);
 
@@ -147,8 +147,8 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
             });
         });
 
-        describe('remove()', function () {
-            it('should return original list if no items removed', function () {
+        describe('remove()', function() {
+            it('should return original list if no items removed', function() {
                 const list: ImmutableList<string> = create(['one']);
                 const newList: ImmutableList<string> = list.remove('two');
 
@@ -161,7 +161,7 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
                 expect(newList.toArray()).toEqual(['one']);
             });
 
-            it('should return new list if item was removed', function () {
+            it('should return new list if item was removed', function() {
                 const list: ImmutableList<string> = create(['one']);
                 const newList: ImmutableList<string> = list.remove('one');
 
@@ -174,7 +174,7 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
                 expect(newList.toArray()).toEqual([]);
             });
 
-            it('should return new list if item was removed with custom equality comparator', function () {
+            it('should return new list if item was removed with custom equality comparator', function() {
                 const list: ImmutableList<string> = create(['One']);
                 const newList: ImmutableList<string> = list.remove('one', IgnoreCaseEqualityComparator.get());
 
@@ -188,8 +188,8 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
             });
         });
 
-        describe('removeAll()', function () {
-            it('should return original list if no items removed', function () {
+        describe('removeAll()', function() {
+            it('should return original list if no items removed', function() {
                 const list: ImmutableList<string> = create(['one']);
                 const newList: ImmutableList<string> = list.removeAll(['two']);
 
@@ -202,7 +202,7 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
                 expect(newList.toArray()).toEqual(['one']);
             });
 
-            it('should return original list if no items removed', function () {
+            it('should return original list if no items removed', function() {
                 const list: ImmutableList<string> = create(['one']);
                 const newList: ImmutableList<string> = list.removeAll([]);
 
@@ -215,7 +215,7 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
                 expect(newList.toArray()).toEqual(['one']);
             });
 
-            it('should return new list if item was removed', function () {
+            it('should return new list if item was removed', function() {
                 const list: ImmutableList<string> = create(['one']);
                 const newList: ImmutableList<string> = list.removeAll(['one']);
 
@@ -228,7 +228,7 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
                 expect(newList.toArray()).toEqual([]);
             });
 
-            it('should return new list if item was removed with custom equality comparator', function () {
+            it('should return new list if item was removed with custom equality comparator', function() {
                 const list: ImmutableList<string> = create(['One']);
                 const newList: ImmutableList<string> = list.removeAll(['one'], IgnoreCaseEqualityComparator.get());
 
@@ -242,8 +242,8 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
             });
         });
 
-        describe('removeAt()', function () {
-            it('should return new list', function () {
+        describe('removeAt()', function() {
+            it('should return new list', function() {
                 const list: ImmutableList<string> = create(['one']);
                 const newList: ImmutableList<string> = list.removeAt(0);
 
@@ -256,7 +256,7 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
                 expect(newList.toArray()).toEqual([]);
             });
 
-            it('should throw IndexOutOfBoundsException', function () {
+            it('should throw IndexOutOfBoundsException', function() {
                 const list: ImmutableList<string> = create(['one']);
 
                 expect(() => {
@@ -265,8 +265,8 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
             });
         });
 
-        describe('removeBy()', function () {
-            it('should return original list if no items removed', function () {
+        describe('removeBy()', function() {
+            it('should return original list if no items removed', function() {
                 const list: ImmutableList<string> = create(['one', 'One', 'ONE', 'two']);
                 const newList: ImmutableList<string> = list.removeBy((item) => {
                     return item.toLowerCase() === 'three';
@@ -281,7 +281,7 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
                 expect(newList.toArray()).toEqual(['one', 'One', 'ONE', 'two']);
             });
 
-            it('should return new list if items were removed', function () {
+            it('should return new list if items were removed', function() {
                 const list: ImmutableList<string> = create(['one', 'One', 'ONE', 'two']);
                 const newList: ImmutableList<string> = list.removeBy((item) => {
                     return item.toLowerCase() === 'one';
@@ -297,8 +297,8 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
             });
         });
 
-        describe('retainAll()', function () {
-            it('should return new list if item was removed', function () {
+        describe('retainAll()', function() {
+            it('should return new list if item was removed', function() {
                 const list: ImmutableList<string> = create(['one', 'One', 'ONE', 'two']);
                 const newList: ImmutableList<string> = list.retainAll(['two']);
 
@@ -311,7 +311,7 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
                 expect(newList.toArray()).toEqual(['two']);
             });
 
-            it('should return new list if item was removed', function () {
+            it('should return new list if item was removed', function() {
                 const list: ImmutableList<string> = create(['one', 'One', 'ONE', 'two']);
                 const newList: ImmutableList<string> = list.retainAll([]);
 
@@ -324,7 +324,7 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
                 expect(newList.toArray()).toEqual([]);
             });
 
-            it('should return new list if item was removed', function () {
+            it('should return new list if item was removed', function() {
                 const list: ImmutableList<string> = create(['one', 'One', 'ONE', 'two']);
                 const newList: ImmutableList<string> = list.retainAll(['one', 'two']);
 
@@ -337,7 +337,7 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
                 expect(newList.toArray()).toEqual(['one', 'two']);
             });
 
-            it('should return original list if no items removed', function () {
+            it('should return original list if no items removed', function() {
                 const list: ImmutableList<string> = create(['one', 'One', 'ONE', 'two']);
                 const newList: ImmutableList<string> = list.retainAll(['one', 'two'], IgnoreCaseEqualityComparator.get());
 
@@ -351,8 +351,8 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
             });
         });
 
-        describe('setAt()', function () {
-            it('should return new list with overridden item', function () {
+        describe('setAt()', function() {
+            it('should return new list with overridden item', function() {
                 const list: ImmutableList<string> = create(['one', 'three']);
                 const newList: ImmutableList<string> = list.setAt(1, 'two');
 

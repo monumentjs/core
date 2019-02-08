@@ -1,4 +1,4 @@
-import {ReadOnlyQueue} from '../readonly/ReadOnlyQueue';
+import { ReadOnlyQueue } from '../readonly/ReadOnlyQueue';
 
 /**
  * @author Alex Chugaev

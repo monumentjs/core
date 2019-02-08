@@ -1,12 +1,12 @@
-import {EmptyStackException, ReadOnlyStack, Sequence} from '../../../../..';
-import {testReadOnlyCollection} from '../../collection/readonly/ReadOnlyCollection.spec';
+import { EmptyStackException, ReadOnlyStack, Sequence } from '../../../../..';
+import { testReadOnlyCollection } from '../../collection/readonly/ReadOnlyCollection.spec';
 
 export function testReadOnlyStack(create: <I>(items?: Sequence<I>) => ReadOnlyStack<I>) {
-    describe('ReadOnlyStack', function () {
+    describe('ReadOnlyStack', function() {
         testReadOnlyCollection(create);
 
-        describe('peek()', function () {
-            it('should throw EmptyStackException if no elements in stack', function () {
+        describe('peek()', function() {
+            it('should throw EmptyStackException if no elements in stack', function() {
                 const queue = create();
 
                 expect(() => {
@@ -14,7 +14,7 @@ export function testReadOnlyStack(create: <I>(items?: Sequence<I>) => ReadOnlySt
                 }).toThrow(EmptyStackException);
             });
 
-            it('should return head element of stack', function () {
+            it('should return head element of stack', function() {
                 const queue = create(['a', 'b']);
 
                 expect(queue.peek()).toBe('b');

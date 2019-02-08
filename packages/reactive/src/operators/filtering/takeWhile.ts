@@ -1,7 +1,7 @@
-import {Observable, OperatorFunction} from '../../base/Observable';
-import {Subject} from '../../base/Subject';
-import {Observer} from '../../base/Observer';
-import {Subscription} from '../../base/Subscription';
+import { Observable, OperatorFunction } from '../../base/Observable';
+import { Subject } from '../../base/Subject';
+import { Observer } from '../../base/Observer';
+import { Subscription } from '../../base/Subscription';
 
 export function takeWhile<T>(predicate: (value: T) => boolean): OperatorFunction<T, T> {
     return (source: Observable<T>): Observable<T> => {

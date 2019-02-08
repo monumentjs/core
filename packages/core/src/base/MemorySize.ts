@@ -55,4 +55,3 @@ export class MemorySize {
         this._length = length;
     }
 }
-

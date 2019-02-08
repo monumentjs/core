@@ -1,4 +1,4 @@
-import {EqualityComparator, ToString} from '@monument/core';
+import { EqualityComparator, ToString } from '@monument/core';
 
 export class QueryParameterValueEqualityComparator implements EqualityComparator<ToString | undefined> {
     private static _instance: QueryParameterValueEqualityComparator | undefined;
@@ -11,8 +11,7 @@ export class QueryParameterValueEqualityComparator implements EqualityComparator
         return this._instance;
     }
 
-    private constructor() {
-    }
+    private constructor() {}
 
     public equals(x: ToString | undefined, y: ToString | undefined): boolean {
         if (x == null && y == null) {

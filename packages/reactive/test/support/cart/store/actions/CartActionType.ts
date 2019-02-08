@@ -1,4 +1,3 @@
-
 export enum CartActionType {
     ADD_PRODUCT = 'ADD_PRODUCT',
     ADD_PRODUCT_SUCCESS = 'ADD_PRODUCT_SUCCESS',

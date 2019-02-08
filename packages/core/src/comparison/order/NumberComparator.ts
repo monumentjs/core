@@ -1,5 +1,5 @@
-import {Comparator} from './Comparator';
-import {ComparisonResult} from './ComparisonResult';
+import { Comparator } from './Comparator';
+import { ComparisonResult } from './ComparisonResult';
 
 /**
  * @author Alex Chugaev
@@ -16,8 +16,7 @@ export class NumberComparator implements Comparator<number> {
         return this._instance;
     }
 
-    private constructor() {
-    }
+    private constructor() {}
 
     public compare(x: number, y: number): ComparisonResult {
         if (x > y) {

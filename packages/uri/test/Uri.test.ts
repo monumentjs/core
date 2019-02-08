@@ -1,7 +1,7 @@
 /* tslint:disable:max-file-line-count */
-import {QueryParameters, Uri, UriComponents, UriFormatException} from '..';
+import { QueryParameters, Uri, UriComponents, UriFormatException } from '..';
 
-describe('Uri', function () {
+describe('Uri', function() {
     function testComponents(source: string, components: UriComponents) {
         const uri: Uri = new Uri(source);
 
@@ -12,7 +12,7 @@ describe('Uri', function () {
         expect(uri.port).toBe(components.port);
         expect(uri.path).toBe(components.path);
         expect(uri.fragment).toBe(components.fragment);
-        expect(uri.queryParameters.equals((components.queryParameters || new QueryParameters()))).toBe(true);
+        expect(uri.queryParameters.equals(components.queryParameters || new QueryParameters())).toBe(true);
 
         if (components.queryParameters) {
             for (const [key, value] of components.queryParameters) {
@@ -21,81 +21,81 @@ describe('Uri', function () {
         }
     }
 
-    describe('constructor(uri: string)', function () {
-        it('should parse absolute path', function () {
+    describe('constructor(uri: string)', function() {
+        it('should parse absolute path', function() {
             testComponents('/path/to/resource', {
                 path: '/path/to/resource'
             });
         });
 
-        it('should parse absolute path with escaped characters', function () {
+        it('should parse absolute path with escaped characters', function() {
             testComponents('/path/to/this%20file.txt', {
                 path: '/path/to/this file.txt'
             });
         });
 
-        it('should parse absolute path', function () {
+        it('should parse absolute path', function() {
             testComponents('//path/to/resource', {
                 host: 'path',
                 path: '/to/resource'
             });
         });
 
-        it('should parse relative path', function () {
+        it('should parse relative path', function() {
             testComponents('./path/to/resource', {
                 path: './path/to/resource'
             });
         });
 
-        it('should parse relative path', function () {
+        it('should parse relative path', function() {
             testComponents('../path/to/resource', {
                 path: '../path/to/resource'
             });
         });
 
-        it('should parse host', function () {
+        it('should parse host', function() {
             testComponents('t', {
                 host: 't',
                 path: '/'
             });
         });
 
-        it('should parse host', function () {
+        it('should parse host', function() {
             testComponents('//t', {
                 host: 't',
                 path: '/'
             });
         });
 
-        it('should parse host', function () {
+        it('should parse host', function() {
             testComponents('localhost', {
                 host: 'localhost',
                 path: '/'
             });
         });
 
-        it('should parse host', function () {
+        it('should parse host', function() {
             testComponents('//localhost', {
                 host: 'localhost',
                 path: '/'
             });
         });
 
-        it('should parse host', function () {
+        it('should parse host', function() {
             testComponents('site.com', {
                 host: 'site.com',
                 path: '/'
             });
         });
 
-        it('should parse host', function () {
+        it('should parse host', function() {
             testComponents('//site.com', {
                 host: 'site.com',
                 path: '/'
             });
         });
 
-        it('should parse host and port', function () {
+        it('should parse host and port', function() {
             testComponents('t:3000', {
                 host: 't',
                 port: 3000,
@@ -103,7 +103,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host and port', function () {
+        it('should parse host and port', function() {
             testComponents('//t:3000', {
                 host: 't',
                 port: 3000,
@@ -111,7 +111,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host and port', function () {
+        it('should parse host and port', function() {
             testComponents('localhost:3000', {
                 host: 'localhost',
                 port: 3000,
@@ -119,7 +119,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host and port', function () {
+        it('should parse host and port', function() {
             testComponents('//localhost:3000', {
                 host: 'localhost',
                 port: 3000,
@@ -127,7 +127,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host and port', function () {
+        it('should parse host and port', function() {
             testComponents('site.com:3000', {
                 host: 'site.com',
                 port: 3000,
@@ -135,7 +135,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host and port', function () {
+        it('should parse host and port', function() {
             testComponents('//site.com:3000', {
                 host: 'site.com',
                 port: 3000,
@@ -143,7 +143,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host and fragment', function () {
+        it('should parse host and fragment', function() {
             testComponents('t#id-3', {
                 host: 't',
                 fragment: 'id-3',
@@ -151,7 +151,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host and fragment', function () {
+        it('should parse host and fragment', function() {
             testComponents('//t#id-3', {
                 host: 't',
                 fragment: 'id-3',
@@ -159,7 +159,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host and fragment', function () {
+        it('should parse host and fragment', function() {
             testComponents('localhost#id-3', {
                 host: 'localhost',
                 fragment: 'id-3',
@@ -167,7 +167,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host and fragment', function () {
+        it('should parse host and fragment', function() {
             testComponents('//localhost#id-3', {
                 host: 'localhost',
                 fragment: 'id-3',
@@ -175,7 +175,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host and fragment', function () {
+        it('should parse host and fragment', function() {
             testComponents('site.com#id-3', {
                 host: 'site.com',
                 fragment: 'id-3',
@@ -183,7 +183,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host and fragment', function () {
+        it('should parse host and fragment', function() {
             testComponents('//site.com#id-3', {
                 host: 'site.com',
                 fragment: 'id-3',
@@ -191,7 +191,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host, port and fragment', function () {
+        it('should parse host, port and fragment', function() {
             testComponents('t:3000#id-3', {
                 host: 't',
                 port: 3000,
@@ -200,7 +200,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host, port and fragment', function () {
+        it('should parse host, port and fragment', function() {
             testComponents('//t:3000#id-3', {
                 host: 't',
                 port: 3000,
@@ -209,7 +209,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host, port and fragment', function () {
+        it('should parse host, port and fragment', function() {
             testComponents('localhost:3000#id-3', {
                 host: 'localhost',
                 port: 3000,
@@ -218,7 +218,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host, port and fragment', function () {
+        it('should parse host, port and fragment', function() {
             testComponents('//localhost:3000#id-3', {
                 host: 'localhost',
                 port: 3000,
@@ -227,7 +227,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host, port and fragment', function () {
+        it('should parse host, port and fragment', function() {
             testComponents('site.com:3000#id-3', {
                 host: 'site.com',
                 port: 3000,
@@ -236,7 +236,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host, port and fragment', function () {
+        it('should parse host, port and fragment', function() {
             testComponents('//site.com:3000#id-3', {
                 host: 'site.com',
                 port: 3000,
@@ -245,7 +245,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse schema, host and port', function () {
+        it('should parse schema, host and port', function() {
             testComponents('https://t:3000', {
                 schema: 'https',
                 host: 't',
@@ -254,7 +254,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse schema, host and port', function () {
+        it('should parse schema, host and port', function() {
             testComponents('https://localhost:3000', {
                 schema: 'https',
                 host: 'localhost',
@@ -263,7 +263,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse schema, host and port', function () {
+        it('should parse schema, host and port', function() {
             testComponents('https://site.com:3000', {
                 schema: 'https',
                 host: 'site.com',
@@ -272,64 +272,67 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host and path', function () {
+        it('should parse host and path', function() {
             testComponents('t/path/to/resource', {
                 host: 't',
                 path: '/path/to/resource'
             });
         });
 
-        it('should parse host and path', function () {
+        it('should parse host and path', function() {
             testComponents('//t/path/to/resource', {
                 host: 't',
                 path: '/path/to/resource'
             });
         });
 
-        it('should parse encoded host and encoded path', function () {
+        it('should parse encoded host and encoded path', function() {
             // tslint:disable-next-line:max-line-length
-            testComponents('%D1%81%D0%B0%D0%B9%D1%82.%D1%80%D1%84/%D0%BF%D1%83%D1%82%D1%8C/%D0%BA/%D1%80%D0%B5%D1%81%D1%83%D1%80%D1%81%D1%83', {
-                host: 'сайт.рф',
-                path: '/путь/к/ресурсу'
-            });
+            testComponents(
+                '%D1%81%D0%B0%D0%B9%D1%82.%D1%80%D1%84/%D0%BF%D1%83%D1%82%D1%8C/%D0%BA/%D1%80%D0%B5%D1%81%D1%83%D1%80%D1%81%D1%83',
+                {
+                    host: 'сайт.рф',
+                    path: '/путь/к/ресурсу'
+                }
+            );
         });
 
-        it('should parse host and path', function () {
+        it('should parse host and path', function() {
             testComponents('localhost/path/to/resource', {
                 host: 'localhost',
                 path: '/path/to/resource'
             });
         });
 
-        it('should parse host and encoded path', function () {
+        it('should parse host and encoded path', function() {
             testComponents('localhost/path/to/%D0%BC%D0%BE%D1%8F%20%D0%BF%D0%B0%D0%BF%D0%BA%D0%B0', {
                 host: 'localhost',
                 path: '/path/to/моя папка'
             });
         });
 
-        it('should parse host and path', function () {
+        it('should parse host and path', function() {
             testComponents('//localhost/path/to/resource', {
                 host: 'localhost',
                 path: '/path/to/resource'
             });
         });
 
-        it('should parse host and path', function () {
+        it('should parse host and path', function() {
             testComponents('site.com/path/to/resource', {
                 host: 'site.com',
                 path: '/path/to/resource'
             });
         });
 
-        it('should parse host and path', function () {
+        it('should parse host and path', function() {
             testComponents('//site.com/path/to/resource', {
                 host: 'site.com',
                 path: '/path/to/resource'
             });
         });
 
-        it('should parse schema, host and path', function () {
+        it('should parse schema, host and path', function() {
             testComponents('https://t/path/to/resource', {
                 schema: 'https',
                 host: 't',
@@ -337,7 +340,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse schema, host and path', function () {
+        it('should parse schema, host and path', function() {
             testComponents('https://localhost/path/to/resource', {
                 schema: 'https',
                 host: 'localhost',
@@ -345,16 +348,19 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse schema, encoded host and encoded path', function () {
+        it('should parse schema, encoded host and encoded path', function() {
             // tslint:disable-next-line:max-line-length
-            testComponents('https://%D1%81%D0%B0%D0%B9%D1%82.%D1%80%D1%84/%D0%BF%D1%83%D1%82%D1%8C/%D0%BA/%D1%80%D0%B5%D1%81%D1%83%D1%80%D1%81%D1%83', {
-                schema: 'https',
-                host: 'сайт.рф',
-                path: '/путь/к/ресурсу'
-            });
+            testComponents(
+                'https://%D1%81%D0%B0%D0%B9%D1%82.%D1%80%D1%84/%D0%BF%D1%83%D1%82%D1%8C/%D0%BA/%D1%80%D0%B5%D1%81%D1%83%D1%80%D1%81%D1%83',
+                {
+                    schema: 'https',
+                    host: 'сайт.рф',
+                    path: '/путь/к/ресурсу'
+                }
+            );
         });
 
-        it('should parse schema, host and path', function () {
+        it('should parse schema, host and path', function() {
             testComponents('https://site.com/path/to/resource', {
                 schema: 'https',
                 host: 'site.com',
@@ -362,7 +368,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host, port and path', function () {
+        it('should parse host, port and path', function() {
             testComponents('t:3000/path/to/resource', {
                 host: 't',
                 port: 3000,
@@ -370,7 +376,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host, port and path', function () {
+        it('should parse host, port and path', function() {
             testComponents('//t:3000/path/to/resource', {
                 host: 't',
                 port: 3000,
@@ -378,7 +384,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host, port and path', function () {
+        it('should parse host, port and path', function() {
             testComponents('localhost:3000/path/to/resource', {
                 host: 'localhost',
                 port: 3000,
@@ -386,7 +392,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host, port and path', function () {
+        it('should parse host, port and path', function() {
             testComponents('//localhost:3000/path/to/resource', {
                 host: 'localhost',
                 port: 3000,
@@ -394,7 +400,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host, port and path', function () {
+        it('should parse host, port and path', function() {
             testComponents('site.com:3000/path/to/resource', {
                 host: 'site.com',
                 port: 3000,
@@ -402,7 +408,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host, port and path', function () {
+        it('should parse host, port and path', function() {
             testComponents('//site.com:3000/path/to/resource', {
                 host: 'site.com',
                 port: 3000,
@@ -410,7 +416,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse schema, host, port and path', function () {
+        it('should parse schema, host, port and path', function() {
             testComponents('http://t:3000/path/to/resource', {
                 schema: 'http',
                 host: 't',
@@ -419,7 +425,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse schema, host, port and path', function () {
+        it('should parse schema, host, port and path', function() {
             testComponents('http://localhost:3000/path/to/resource', {
                 schema: 'http',
                 host: 'localhost',
@@ -428,7 +434,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse schema, host, port and path', function () {
+        it('should parse schema, host, port and path', function() {
             testComponents('http://site.com:3000/path/to/resource', {
                 schema: 'http',
                 host: 'site.com',
@@ -437,7 +443,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse schema, user name, host, port and path', function () {
+        it('should parse schema, user name, host, port and path', function() {
             testComponents('http://alex@t:3000/path/to/resource', {
                 schema: 'http',
                 userName: 'alex',
@@ -447,7 +453,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse schema, user name, host, port and path', function () {
+        it('should parse schema, user name, host, port and path', function() {
             testComponents('http://alex@localhost:3000/path/to/resource', {
                 schema: 'http',
                 userName: 'alex',
@@ -457,7 +463,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse schema, user name, host, port and path', function () {
+        it('should parse schema, user name, host, port and path', function() {
             expect(() => {
                 testComponents('http://@localhost:3000/path/to/resource', {
                     schema: 'http',
@@ -469,7 +475,7 @@ describe('Uri', function () {
             }).toThrow(UriFormatException);
         });
 
-        it('should parse schema, user name, host, port and path', function () {
+        it('should parse schema, user name, host, port and path', function() {
             testComponents('http://alex@site.com:3000/path/to/resource', {
                 schema: 'http',
                 userName: 'alex',
@@ -479,7 +485,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse schema, user name, password host, port and path', function () {
+        it('should parse schema, user name, password host, port and path', function() {
             testComponents('http://alex:pass123@t:3000/path/to/resource', {
                 schema: 'http',
                 userName: 'alex',
@@ -490,7 +496,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse schema, user name, password host, port and path', function () {
+        it('should parse schema, user name, password host, port and path', function() {
             testComponents('http://alex:pass123@localhost:3000/path/to/resource', {
                 schema: 'http',
                 userName: 'alex',
@@ -501,7 +507,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse schema, user name, password host, port and path', function () {
+        it('should parse schema, user name, password host, port and path', function() {
             expect(() => {
                 testComponents('http://alex:@localhost:3000/path/to/resource', {
                     schema: 'http',
@@ -514,7 +520,7 @@ describe('Uri', function () {
             }).toThrow(UriFormatException);
         });
 
-        it('should parse schema, user name, password host, port and path', function () {
+        it('should parse schema, user name, password host, port and path', function() {
             testComponents('http://alex:pass123@site.com:3000/path/to/resource', {
                 schema: 'http',
                 userName: 'alex',
@@ -525,7 +531,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse URI with double slash in the beginning', function () {
+        it('should parse URI with double slash in the beginning', function() {
             testComponents('//alex:pass123@site.com:3000/path/to/resource', {
                 userName: 'alex',
                 password: 'pass123',
@@ -535,7 +541,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse schema, user name, password host and port', function () {
+        it('should parse schema, user name, password host and port', function() {
             testComponents('http://alex:pass123@localhost:3000', {
                 schema: 'http',
                 userName: 'alex',
@@ -546,7 +552,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse schema, user name, password host and port', function () {
+        it('should parse schema, user name, password host and port', function() {
             testComponents('http://alex:pass123@site.com:3000', {
                 schema: 'http',
                 userName: 'alex',
@@ -557,7 +563,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host and query parameters', function () {
+        it('should parse host and query parameters', function() {
             testComponents('localhost?name=Alex&age=25&position=Senior%20Developer&q=', {
                 host: 'localhost',
                 path: '/',
@@ -574,7 +580,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host and query parameters', function () {
+        it('should parse host and query parameters', function() {
             testComponents('//localhost?name=Alex&age=25&position=Senior%20Developer&q=', {
                 host: 'localhost',
                 path: '/',
@@ -591,7 +597,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host and query parameters', function () {
+        it('should parse host and query parameters', function() {
             testComponents('site.com?name=Alex&age=25&position=Senior%20Developer&q=', {
                 host: 'site.com',
                 path: '/',
@@ -608,7 +614,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host and query parameters', function () {
+        it('should parse host and query parameters', function() {
             testComponents('//site.com?name=Alex&age=25&position=Senior%20Developer&q=', {
                 host: 'site.com',
                 path: '/',
@@ -625,7 +631,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host, port and query parameters', function () {
+        it('should parse host, port and query parameters', function() {
             testComponents('localhost:3000?name=Alex&age=25&position=Senior%20Developer&q=', {
                 host: 'localhost',
                 path: '/',
@@ -643,7 +649,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host, port and query parameters', function () {
+        it('should parse host, port and query parameters', function() {
             testComponents('//localhost:3000?name=Alex&age=25&position=Senior%20Developer&q=', {
                 host: 'localhost',
                 path: '/',
@@ -661,7 +667,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host, port and query parameters', function () {
+        it('should parse host, port and query parameters', function() {
             testComponents('site.com:3000?name=Alex&age=25&position=Senior%20Developer&q=', {
                 host: 'site.com',
                 path: '/',
@@ -679,7 +685,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse host, port and query parameters', function () {
+        it('should parse host, port and query parameters', function() {
             testComponents('//site.com:3000?name=Alex&age=25&position=Senior%20Developer&q=', {
                 host: 'site.com',
                 path: '/',
@@ -697,7 +703,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse user name, host, port and query parameters', function () {
+        it('should parse user name, host, port and query parameters', function() {
             testComponents('alex@localhost:3000?name=Alex&age=25&position=Senior%20Developer&q=', {
                 userName: 'alex',
                 host: 'localhost',
@@ -716,7 +722,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse user name, host, port and query parameters', function () {
+        it('should parse user name, host, port and query parameters', function() {
             testComponents('//alex@localhost:3000?name=Alex&age=25&position=Senior%20Developer&q=', {
                 userName: 'alex',
                 host: 'localhost',
@@ -735,7 +741,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse user name, host, port and query parameters', function () {
+        it('should parse user name, host, port and query parameters', function() {
             testComponents('alex@site.com:3000?name=Alex&age=25&position=Senior%20Developer&q=', {
                 userName: 'alex',
                 host: 'site.com',
@@ -754,7 +760,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse user name, host, port and query parameters', function () {
+        it('should parse user name, host, port and query parameters', function() {
             testComponents('//alex@site.com:3000?name=Alex&age=25&position=Senior%20Developer&q=', {
                 userName: 'alex',
                 host: 'site.com',
@@ -773,7 +779,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse user name, password, host, port and query parameters', function () {
+        it('should parse user name, password, host, port and query parameters', function() {
             testComponents('alex:PaSsWoRd@localhost:3000?name=Alex&age=25&position=Senior%20Developer&q=', {
                 userName: 'alex',
                 password: 'PaSsWoRd',
@@ -793,7 +799,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse user name, password, host, port and query parameters', function () {
+        it('should parse user name, password, host, port and query parameters', function() {
             testComponents('//alex:PaSsWoRd@localhost:3000?name=Alex&age=25&position=Senior%20Developer&q=', {
                 userName: 'alex',
                 password: 'PaSsWoRd',
@@ -813,7 +819,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse user name, password, host, port and query parameters', function () {
+        it('should parse user name, password, host, port and query parameters', function() {
             testComponents('alex:PaSsWoRd@site.com:3000?name=Alex&age=25&position=Senior%20Developer&q=', {
                 userName: 'alex',
                 password: 'PaSsWoRd',
@@ -833,7 +839,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse user name, password, host, port and query parameters', function () {
+        it('should parse user name, password, host, port and query parameters', function() {
             testComponents('//alex:PaSsWoRd@site.com:3000?name=Alex&age=25&position=Senior%20Developer&q=', {
                 userName: 'alex',
                 password: 'PaSsWoRd',
@@ -853,7 +859,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse schema, user name, password, host, port and query parameters', function () {
+        it('should parse schema, user name, password, host, port and query parameters', function() {
             testComponents('https://alex:PaSsWoRd@localhost:3000?name=Alex&age=25&position=Senior%20Developer&q=', {
                 schema: 'https',
                 userName: 'alex',
@@ -874,7 +880,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse schema, user name, password, host, port and query parameters', function () {
+        it('should parse schema, user name, password, host, port and query parameters', function() {
             testComponents('https://alex:PaSsWoRd@site.com:3000?name=Alex&age=25&position=Senior%20Developer&q=', {
                 schema: 'https',
                 userName: 'alex',
@@ -895,7 +901,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse schema, user name, password, host, port, query parameters and hash', function () {
+        it('should parse schema, user name, password, host, port, query parameters and hash', function() {
             testComponents('https://alex:PaSsWoRd@localhost:3000?name=Alex&age=25&position=Senior%20Developer&q=#id-3', {
                 schema: 'https',
                 userName: 'alex',
@@ -917,7 +923,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse schema, user name, password, host, port, query parameters and hash', function () {
+        it('should parse schema, user name, password, host, port, query parameters and hash', function() {
             testComponents('https://alex:PaSsWoRd@site.com:3000?name=Alex&age=25&position=Senior%20Developer&q=#id-3', {
                 schema: 'https',
                 userName: 'alex',
@@ -939,7 +945,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse file URI', function () {
+        it('should parse file URI', function() {
             testComponents('file:///', {
                 schema: 'file',
                 host: 'localhost',
@@ -947,7 +953,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse file URI', function () {
+        it('should parse file URI', function() {
             testComponents('file:///path/to/file.txt', {
                 schema: 'file',
                 host: 'localhost',
@@ -955,7 +961,7 @@ describe('Uri', function () {
             });
         });
 
-        it('should parse file URI', function () {
+        it('should parse file URI', function() {
             testComponents('file:///c:/path/to/file.txt', {
                 schema: 'file',
                 host: 'localhost',
@@ -964,184 +970,224 @@ describe('Uri', function () {
         });
     });
 
-    describe('equals(uri: string)', function () {
-        it('should compare current URI with other specified as string', function () {
-            expect(new Uri({
-                host: 'site.com'
-            }).equals('site.com')).toBe(true);
+    describe('equals(uri: string)', function() {
+        it('should compare current URI with other specified as string', function() {
+            expect(
+                new Uri({
+                    host: 'site.com'
+                }).equals('site.com')
+            ).toBe(true);
         });
 
-        it('should compare current URI with other specified as string', function () {
-            expect(new Uri({
-                userName: 'alex',
-                host: 'site.com'
-            }).equals('alex@site.com')).toBe(true);
+        it('should compare current URI with other specified as string', function() {
+            expect(
+                new Uri({
+                    userName: 'alex',
+                    host: 'site.com'
+                }).equals('alex@site.com')
+            ).toBe(true);
         });
 
-        it('should compare current URI with other specified as string', function () {
-            expect(new Uri({
-                userName: 'alex',
-                password: 'secret',
-                host: 'site.com'
-            }).equals('alex:secret@site.com')).toBe(true);
+        it('should compare current URI with other specified as string', function() {
+            expect(
+                new Uri({
+                    userName: 'alex',
+                    password: 'secret',
+                    host: 'site.com'
+                }).equals('alex:secret@site.com')
+            ).toBe(true);
         });
 
-        it('should compare current URI with other specified as string', function () {
-            expect(new Uri({
-                schema: 'https',
-                host: 'site.com'
-            }).equals('https://site.com')).toBe(true);
+        it('should compare current URI with other specified as string', function() {
+            expect(
+                new Uri({
+                    schema: 'https',
+                    host: 'site.com'
+                }).equals('https://site.com')
+            ).toBe(true);
         });
 
-        it('should compare current URI with other specified as string', function () {
-            expect(new Uri({
-                schema: 'https',
-                userName: 'alex',
-                host: 'site.com'
-            }).equals('https://alex@site.com')).toBe(true);
+        it('should compare current URI with other specified as string', function() {
+            expect(
+                new Uri({
+                    schema: 'https',
+                    userName: 'alex',
+                    host: 'site.com'
+                }).equals('https://alex@site.com')
+            ).toBe(true);
         });
 
-        it('should compare current URI with other specified as string', function () {
-            expect(new Uri({
-                schema: 'https',
-                userName: 'alex',
-                password: 'secret',
-                host: 'site.com'
-            }).equals('https://alex:secret@site.com')).toBe(true);
+        it('should compare current URI with other specified as string', function() {
+            expect(
+                new Uri({
+                    schema: 'https',
+                    userName: 'alex',
+                    password: 'secret',
+                    host: 'site.com'
+                }).equals('https://alex:secret@site.com')
+            ).toBe(true);
         });
 
-        it('should compare current URI with other specified as string', function () {
-            expect(new Uri({
-                host: 'site.com',
-                port: 3000
-            }).equals('site.com:3000')).toBe(true);
+        it('should compare current URI with other specified as string', function() {
+            expect(
+                new Uri({
+                    host: 'site.com',
+                    port: 3000
+                }).equals('site.com:3000')
+            ).toBe(true);
         });
 
-        it('should compare current URI with other specified as string', function () {
-            expect(new Uri({
-                userName: 'alex',
-                host: 'site.com',
-                port: 3000
-            }).equals('alex@site.com:3000')).toBe(true);
+        it('should compare current URI with other specified as string', function() {
+            expect(
+                new Uri({
+                    userName: 'alex',
+                    host: 'site.com',
+                    port: 3000
+                }).equals('alex@site.com:3000')
+            ).toBe(true);
         });
 
-        it('should compare current URI with other specified as string', function () {
-            expect(new Uri({
-                userName: 'alex',
-                password: 'secret',
-                host: 'site.com',
-                port: 3000
-            }).equals('alex:secret@site.com:3000')).toBe(true);
+        it('should compare current URI with other specified as string', function() {
+            expect(
+                new Uri({
+                    userName: 'alex',
+                    password: 'secret',
+                    host: 'site.com',
+                    port: 3000
+                }).equals('alex:secret@site.com:3000')
+            ).toBe(true);
         });
 
-        it('should compare current URI with other specified as string', function () {
-            expect(new Uri({
-                host: 'site.com',
-                path: '/path/to/resource'
-            }).equals('site.com/path/to/resource')).toBe(true);
+        it('should compare current URI with other specified as string', function() {
+            expect(
+                new Uri({
+                    host: 'site.com',
+                    path: '/path/to/resource'
+                }).equals('site.com/path/to/resource')
+            ).toBe(true);
         });
 
-        it('should compare current URI with other specified as string', function () {
-            expect(new Uri({
-                userName: 'alex',
-                host: 'site.com',
-                path: '/path/to/resource'
-            }).equals('alex@site.com/path/to/resource')).toBe(true);
+        it('should compare current URI with other specified as string', function() {
+            expect(
+                new Uri({
+                    userName: 'alex',
+                    host: 'site.com',
+                    path: '/path/to/resource'
+                }).equals('alex@site.com/path/to/resource')
+            ).toBe(true);
         });
 
-        it('should compare current URI with other specified as string', function () {
-            expect(new Uri({
-                userName: 'alex',
-                password: 'secret',
-                host: 'site.com',
-                path: '/path/to/resource'
-            }).equals('alex:secret@site.com/path/to/resource')).toBe(true);
+        it('should compare current URI with other specified as string', function() {
+            expect(
+                new Uri({
+                    userName: 'alex',
+                    password: 'secret',
+                    host: 'site.com',
+                    path: '/path/to/resource'
+                }).equals('alex:secret@site.com/path/to/resource')
+            ).toBe(true);
         });
 
-        it('should compare current URI with other specified as string', function () {
-            expect(new Uri({
-                host: 'site.com',
-                port: 3000,
-                path: '/path/to/resource'
-            }).equals('site.com:3000/path/to/resource')).toBe(true);
+        it('should compare current URI with other specified as string', function() {
+            expect(
+                new Uri({
+                    host: 'site.com',
+                    port: 3000,
+                    path: '/path/to/resource'
+                }).equals('site.com:3000/path/to/resource')
+            ).toBe(true);
         });
 
-        it('should compare current URI with other specified as string', function () {
-            expect(new Uri({
-                userName: 'alex',
-                host: 'site.com',
-                port: 3000,
-                path: '/path/to/resource'
-            }).equals('alex@site.com:3000/path/to/resource')).toBe(true);
+        it('should compare current URI with other specified as string', function() {
+            expect(
+                new Uri({
+                    userName: 'alex',
+                    host: 'site.com',
+                    port: 3000,
+                    path: '/path/to/resource'
+                }).equals('alex@site.com:3000/path/to/resource')
+            ).toBe(true);
         });
 
-        it('should compare current URI with other specified as string', function () {
-            expect(new Uri({
-                userName: 'alex',
-                password: 'secret',
-                host: 'site.com',
-                port: 3000,
-                path: '/path/to/resource'
-            }).equals('alex:secret@site.com:3000/path/to/resource')).toBe(true);
+        it('should compare current URI with other specified as string', function() {
+            expect(
+                new Uri({
+                    userName: 'alex',
+                    password: 'secret',
+                    host: 'site.com',
+                    port: 3000,
+                    path: '/path/to/resource'
+                }).equals('alex:secret@site.com:3000/path/to/resource')
+            ).toBe(true);
         });
 
-        it('should compare current URI with other specified as string', function () {
-            expect(new Uri({
-                schema: 'https',
-                host: 'site.com',
-                path: '/path/to/resource'
-            }).equals('https://site.com/path/to/resource')).toBe(true);
+        it('should compare current URI with other specified as string', function() {
+            expect(
+                new Uri({
+                    schema: 'https',
+                    host: 'site.com',
+                    path: '/path/to/resource'
+                }).equals('https://site.com/path/to/resource')
+            ).toBe(true);
         });
 
-        it('should compare current URI with other specified as string', function () {
-            expect(new Uri({
-                schema: 'https',
-                host: 'site.com',
-                port: 3000,
-                path: '/path/to/resource'
-            }).equals('https://site.com:3000/path/to/resource')).toBe(true);
+        it('should compare current URI with other specified as string', function() {
+            expect(
+                new Uri({
+                    schema: 'https',
+                    host: 'site.com',
+                    port: 3000,
+                    path: '/path/to/resource'
+                }).equals('https://site.com:3000/path/to/resource')
+            ).toBe(true);
         });
 
-        it('should compare current URI with other specified as string', function () {
-            expect(new Uri({
-                schema: 'https',
-                host: 'site.com',
-                path: '/path/to/resource',
-                fragment: 'footer'
-            }).equals('https://site.com/path/to/resource#footer')).toBe(true);
+        it('should compare current URI with other specified as string', function() {
+            expect(
+                new Uri({
+                    schema: 'https',
+                    host: 'site.com',
+                    path: '/path/to/resource',
+                    fragment: 'footer'
+                }).equals('https://site.com/path/to/resource#footer')
+            ).toBe(true);
         });
 
-        it('should compare current URI with other specified as string', function () {
-            expect(new Uri({
-                schema: 'https',
-                host: 'site.com',
-                port: 3000,
-                path: '/path/to/resource',
-                fragment: 'footer'
-            }).equals('https://site.com:3000/path/to/resource#footer')).toBe(true);
+        it('should compare current URI with other specified as string', function() {
+            expect(
+                new Uri({
+                    schema: 'https',
+                    host: 'site.com',
+                    port: 3000,
+                    path: '/path/to/resource',
+                    fragment: 'footer'
+                }).equals('https://site.com:3000/path/to/resource#footer')
+            ).toBe(true);
         });
 
-        it('should compare current URI with other specified as string', function () {
-            expect(new Uri({
-                schema: 'https',
-                host: 'site.com',
-                port: 3000,
-                path: '/path/to/resource',
-                fragment: 'footer',
-                queryParameters: (() => {
-                    const parameters: QueryParameters = new QueryParameters();
+        it('should compare current URI with other specified as string', function() {
+            expect(
+                new Uri({
+                    schema: 'https',
+                    host: 'site.com',
+                    port: 3000,
+                    path: '/path/to/resource',
+                    fragment: 'footer',
+                    queryParameters: (() => {
+                        const parameters: QueryParameters = new QueryParameters();
 
-                    parameters.put('q', 'javascript');
-                    parameters.put('p', 2);
+                        parameters.put('q', 'javascript');
+                        parameters.put('p', 2);
 
-                    return parameters;
-                })()
-            }).equals('https://site.com:3000/path/to/resource?q=javascript&p=2#footer')).toBe(true);
+                        return parameters;
+                    })()
+                }).equals('https://site.com:3000/path/to/resource?q=javascript&p=2#footer')
+            ).toBe(true);
         });
     });
 
-    describe('equals(components: UriComponents)', function () {
-        it('should compare current URI with other specified as UriComponents', function () {
+    describe('equals(components: UriComponents)', function() {
+        it('should compare current URI with other specified as UriComponents', function() {
             const uri: Uri = new Uri({
                 host: 'site.com',
                 port: 3000
@@ -1151,8 +1197,8 @@ describe('Uri', function () {
         });
     });
 
-    describe('getParameter(name: string)', function () {
-        it('should return first query parameter value associated with given name', function () {
+    describe('getParameter(name: string)', function() {
+        it('should return first query parameter value associated with given name', function() {
             const uri: Uri = new Uri('site.com?t=1&t=2&p=2');
 
             expect(uri.getParameter('t')).toBe('1');
@@ -1161,8 +1207,8 @@ describe('Uri', function () {
         });
     });
 
-    describe('getParameter(name: string, fallback: ToString)', function () {
-        it('should determine whether URI has query parameter with given name and value', function () {
+    describe('getParameter(name: string, fallback: ToString)', function() {
+        it('should determine whether URI has query parameter with given name and value', function() {
             const uri: Uri = new Uri('site.com?t=123');
 
             expect(uri.getParameter('t', () => '456')).toBe('123');
@@ -1171,8 +1217,8 @@ describe('Uri', function () {
         });
     });
 
-    describe('hasParameter(name: string)', function () {
-        it('should determine whether URI has query parameter with given name', function () {
+    describe('hasParameter(name: string)', function() {
+        it('should determine whether URI has query parameter with given name', function() {
             const uri: Uri = new Uri('site.com?q=javascript&p=2');
 
             expect(uri.hasParameter('q')).toBe(true);
@@ -1182,8 +1228,8 @@ describe('Uri', function () {
         });
     });
 
-    describe('hasParameter(name: string, value: ToValue)', function () {
-        it('should determine whether URI has query parameter with given name and value', function () {
+    describe('hasParameter(name: string, value: ToValue)', function() {
+        it('should determine whether URI has query parameter with given name and value', function() {
             const uri: Uri = new Uri('site.com?q=javascript&p=2');
 
             expect(uri.hasParameter('q', 'javascript')).toBe(true);
@@ -1191,228 +1237,270 @@ describe('Uri', function () {
         });
     });
 
-    describe('toString()', function () {
-        it('should serialize schema, user name, password, host, port, path, query parameters and fragment', function () {
-            expect(new Uri({
-                schema: 'https',
-                userName: 'alex',
-                password: 'PaSsWoRd',
-                host: 'site.com',
-                path: '/',
-                port: 3000,
-                fragment: 'id-3',
-                queryParameters: (() => {
-                    const parameters: QueryParameters = new QueryParameters();
+    describe('toString()', function() {
+        it('should serialize schema, user name, password, host, port, path, query parameters and fragment', function() {
+            expect(
+                new Uri({
+                    schema: 'https',
+                    userName: 'alex',
+                    password: 'PaSsWoRd',
+                    host: 'site.com',
+                    path: '/',
+                    port: 3000,
+                    fragment: 'id-3',
+                    queryParameters: (() => {
+                        const parameters: QueryParameters = new QueryParameters();
 
-                    parameters.put('age', '25');
-                    parameters.put('name', 'Alex');
-                    parameters.put('position', 'Senior Developer');
-                    parameters.put('q', '');
+                        parameters.put('age', '25');
+                        parameters.put('name', 'Alex');
+                        parameters.put('position', 'Senior Developer');
+                        parameters.put('q', '');
 
-                    return parameters;
-                })()
-            }).toString()).toBe('https://alex:PaSsWoRd@site.com:3000?age=25&name=Alex&position=Senior%20Developer&q=#id-3');
+                        return parameters;
+                    })()
+                }).toString()
+            ).toBe('https://alex:PaSsWoRd@site.com:3000?age=25&name=Alex&position=Senior%20Developer&q=#id-3');
         });
 
-        it('should serialize schema, user name, password, host, port, path, query parameters and fragment', function () {
-            expect(new Uri({
-                schema: 'https',
-                userName: 'alex',
-                password: 'PaSsWoRd',
-                host: 'site.com',
-                path: '/search',
-                port: 3000,
-                fragment: 'id-3',
-                queryParameters: (() => {
-                    const parameters: QueryParameters = new QueryParameters();
+        it('should serialize schema, user name, password, host, port, path, query parameters and fragment', function() {
+            expect(
+                new Uri({
+                    schema: 'https',
+                    userName: 'alex',
+                    password: 'PaSsWoRd',
+                    host: 'site.com',
+                    path: '/search',
+                    port: 3000,
+                    fragment: 'id-3',
+                    queryParameters: (() => {
+                        const parameters: QueryParameters = new QueryParameters();
 
-                    parameters.put('age', '25');
-                    parameters.put('name', 'Alex');
-                    parameters.put('position', 'Senior Developer');
-                    parameters.put('q', '');
+                        parameters.put('age', '25');
+                        parameters.put('name', 'Alex');
+                        parameters.put('position', 'Senior Developer');
+                        parameters.put('q', '');
 
-                    return parameters;
-                })()
-            }).toString()).toBe('https://alex:PaSsWoRd@site.com:3000/search?age=25&name=Alex&position=Senior%20Developer&q=#id-3');
+                        return parameters;
+                    })()
+                }).toString()
+            ).toBe('https://alex:PaSsWoRd@site.com:3000/search?age=25&name=Alex&position=Senior%20Developer&q=#id-3');
         });
 
-        it('should serialize host', function () {
-            expect(new Uri({
-                host: 'site.com'
-            }).toString()).toBe('site.com');
+        it('should serialize host', function() {
+            expect(
+                new Uri({
+                    host: 'site.com'
+                }).toString()
+            ).toBe('site.com');
         });
 
-        it('should serialize host and port', function () {
-            expect(new Uri({
-                host: 'site.com',
-                port: 3000
-            }).toString()).toBe('site.com:3000');
+        it('should serialize host and port', function() {
+            expect(
+                new Uri({
+                    host: 'site.com',
+                    port: 3000
+                }).toString()
+            ).toBe('site.com:3000');
         });
 
-        it('should serialize host, port and query parameters', function () {
-            expect(new Uri({
-                host: 'site.com',
-                port: 3000,
-                queryParameters: (() => {
-                    const parameters: QueryParameters = new QueryParameters();
+        it('should serialize host, port and query parameters', function() {
+            expect(
+                new Uri({
+                    host: 'site.com',
+                    port: 3000,
+                    queryParameters: (() => {
+                        const parameters: QueryParameters = new QueryParameters();
 
-                    parameters.put('age', '25');
-                    parameters.put('name', 'Alex');
-                    parameters.put('position', 'Senior Developer');
-                    parameters.put('q', '');
+                        parameters.put('age', '25');
+                        parameters.put('name', 'Alex');
+                        parameters.put('position', 'Senior Developer');
+                        parameters.put('q', '');
 
-                    return parameters;
-                })()
-            }).toString()).toBe('site.com:3000?age=25&name=Alex&position=Senior%20Developer&q=');
+                        return parameters;
+                    })()
+                }).toString()
+            ).toBe('site.com:3000?age=25&name=Alex&position=Senior%20Developer&q=');
         });
 
-        it('should serialize host, port and fragment', function () {
-            expect(new Uri({
-                host: 'site.com',
-                port: 3000,
-                fragment: 'id-3'
-            }).toString()).toBe('site.com:3000#id-3');
+        it('should serialize host, port and fragment', function() {
+            expect(
+                new Uri({
+                    host: 'site.com',
+                    port: 3000,
+                    fragment: 'id-3'
+                }).toString()
+            ).toBe('site.com:3000#id-3');
         });
 
-        it('should serialize host, port and path', function () {
-            expect(new Uri({
-                host: 'site.com',
-                port: 3000,
-                path: '/'
-            }).toString()).toBe('site.com:3000');
+        it('should serialize host, port and path', function() {
+            expect(
+                new Uri({
+                    host: 'site.com',
+                    port: 3000,
+                    path: '/'
+                }).toString()
+            ).toBe('site.com:3000');
         });
 
-        it('should serialize host, port and path', function () {
-            expect(new Uri({
-                host: 'site.com',
-                port: 3000,
-                path: '/search'
-            }).toString()).toBe('site.com:3000/search');
+        it('should serialize host, port and path', function() {
+            expect(
+                new Uri({
+                    host: 'site.com',
+                    port: 3000,
+                    path: '/search'
+                }).toString()
+            ).toBe('site.com:3000/search');
         });
 
-        it('should serialize host, port, path and fragment', function () {
-            expect(new Uri({
-                host: 'site.com',
-                port: 3000,
-                path: '/',
-                fragment: 'id-3'
-            }).toString()).toBe('site.com:3000#id-3');
+        it('should serialize host, port, path and fragment', function() {
+            expect(
+                new Uri({
+                    host: 'site.com',
+                    port: 3000,
+                    path: '/',
+                    fragment: 'id-3'
+                }).toString()
+            ).toBe('site.com:3000#id-3');
         });
 
-        it('should serialize host, port, path and fragment', function () {
-            expect(new Uri({
-                host: 'site.com',
-                port: 3000,
-                path: '/search',
-                fragment: 'id-3'
-            }).toString()).toBe('site.com:3000/search#id-3');
+        it('should serialize host, port, path and fragment', function() {
+            expect(
+                new Uri({
+                    host: 'site.com',
+                    port: 3000,
+                    path: '/search',
+                    fragment: 'id-3'
+                }).toString()
+            ).toBe('site.com:3000/search#id-3');
         });
 
-        it('should serialize host and path', function () {
-            expect(new Uri({
-                host: 'site.com',
-                path: '/'
-            }).toString()).toBe('site.com');
+        it('should serialize host and path', function() {
+            expect(
+                new Uri({
+                    host: 'site.com',
+                    path: '/'
+                }).toString()
+            ).toBe('site.com');
         });
 
-        it('should serialize host and path', function () {
-            expect(new Uri({
-                host: 'site.com',
-                path: '/search'
-            }).toString()).toBe('site.com/search');
+        it('should serialize host and path', function() {
+            expect(
+                new Uri({
+                    host: 'site.com',
+                    path: '/search'
+                }).toString()
+            ).toBe('site.com/search');
         });
 
-        it('should serialize host', function () {
-            expect(new Uri({
-                schema: 'https',
-                userName: 'alex',
-                password: 'PaSsWoRd',
-                host: 'site.com',
-                path: '/',
-                port: 3000,
-                fragment: 'id-3',
-                queryParameters: (() => {
-                    const parameters: QueryParameters = new QueryParameters();
+        it('should serialize host', function() {
+            expect(
+                new Uri({
+                    schema: 'https',
+                    userName: 'alex',
+                    password: 'PaSsWoRd',
+                    host: 'site.com',
+                    path: '/',
+                    port: 3000,
+                    fragment: 'id-3',
+                    queryParameters: (() => {
+                        const parameters: QueryParameters = new QueryParameters();
 
-                    parameters.put('age', '25');
-                    parameters.put('name', 'Alex');
-                    parameters.put('position', 'Senior Developer');
-                    parameters.put('q', '');
+                        parameters.put('age', '25');
+                        parameters.put('name', 'Alex');
+                        parameters.put('position', 'Senior Developer');
+                        parameters.put('q', '');
 
-                    return parameters;
-                })()
-            }).toString()).toBe('https://alex:PaSsWoRd@site.com:3000?age=25&name=Alex&position=Senior%20Developer&q=#id-3');
+                        return parameters;
+                    })()
+                }).toString()
+            ).toBe('https://alex:PaSsWoRd@site.com:3000?age=25&name=Alex&position=Senior%20Developer&q=#id-3');
         });
 
-        it('should serialize file URI with default path', function () {
-            expect(new Uri({
-                schema: 'file'
-            }).toString()).toBe('file:///');
+        it('should serialize file URI with default path', function() {
+            expect(
+                new Uri({
+                    schema: 'file'
+                }).toString()
+            ).toBe('file:///');
         });
 
-        it('should serialize file URI with default path', function () {
-            expect(new Uri({
-                schema: 'file',
-                path: '/'
-            }).toString()).toBe('file:///');
+        it('should serialize file URI with default path', function() {
+            expect(
+                new Uri({
+                    schema: 'file',
+                    path: '/'
+                }).toString()
+            ).toBe('file:///');
         });
 
-        it('should serialize file URI with UNIX absolute path', function () {
-            expect(new Uri({
-                schema: 'file',
-                path: '/path/to/file.txt'
-            }).toString()).toBe('file:///path/to/file.txt');
+        it('should serialize file URI with UNIX absolute path', function() {
+            expect(
+                new Uri({
+                    schema: 'file',
+                    path: '/path/to/file.txt'
+                }).toString()
+            ).toBe('file:///path/to/file.txt');
         });
 
-        it('should serialize file URI with absolute path in Windows format with UNIX-way path fragments delimiters', function () {
-            expect(new Uri({
-                schema: 'file',
-                path: 'c:/path/to/file.txt'
-            }).toString()).toBe('file:///c:/path/to/file.txt');
+        it('should serialize file URI with absolute path in Windows format with UNIX-way path fragments delimiters', function() {
+            expect(
+                new Uri({
+                    schema: 'file',
+                    path: 'c:/path/to/file.txt'
+                }).toString()
+            ).toBe('file:///c:/path/to/file.txt');
         });
 
-        it('should serialize file URI with absolute path in Windows format', function () {
-            expect(new Uri({
-                schema: 'file',
-                path: 'c:\\path\\to\\file.txt'
-            }).toString()).toBe('file:///c:/path/to/file.txt');
+        it('should serialize file URI with absolute path in Windows format', function() {
+            expect(
+                new Uri({
+                    schema: 'file',
+                    path: 'c:\\path\\to\\file.txt'
+                }).toString()
+            ).toBe('file:///c:/path/to/file.txt');
         });
 
-        it('should serialize file URI with absolute path in Windows format with custom port', function () {
-            expect(new Uri({
-                schema: 'file',
-                port: 3000,
-                path: 'c:\\path\\to\\file.txt'
-            }).toString()).toBe('file://localhost:3000/c:/path/to/file.txt');
+        it('should serialize file URI with absolute path in Windows format with custom port', function() {
+            expect(
+                new Uri({
+                    schema: 'file',
+                    port: 3000,
+                    path: 'c:\\path\\to\\file.txt'
+                }).toString()
+            ).toBe('file://localhost:3000/c:/path/to/file.txt');
         });
     });
 
-    describe('toJSON()', function () {
-        it('should serialize to string', function () {
-            expect(JSON.stringify(new Uri({
-                schema: 'https',
-                userName: 'alex',
-                password: 'PaSsWoRd',
-                host: 'site.com',
-                path: '/',
-                port: 3000,
-                fragment: 'id-3',
-                queryParameters: (() => {
-                    const parameters: QueryParameters = new QueryParameters();
+    describe('toJSON()', function() {
+        it('should serialize to string', function() {
+            expect(
+                JSON.stringify(
+                    new Uri({
+                        schema: 'https',
+                        userName: 'alex',
+                        password: 'PaSsWoRd',
+                        host: 'site.com',
+                        path: '/',
+                        port: 3000,
+                        fragment: 'id-3',
+                        queryParameters: (() => {
+                            const parameters: QueryParameters = new QueryParameters();
 
-                    parameters.put('age', '25');
-                    parameters.put('name', 'Alex');
-                    parameters.put('position', 'Senior Developer');
-                    parameters.put('q', '');
+                            parameters.put('age', '25');
+                            parameters.put('name', 'Alex');
+                            parameters.put('position', 'Senior Developer');
+                            parameters.put('q', '');
 
-                    return parameters;
-                })()
-            }))).toBe('"https://alex:PaSsWoRd@site.com:3000?age=25&name=Alex&position=Senior%20Developer&q=#id-3"');
+                            return parameters;
+                        })()
+                    })
+                )
+            ).toBe('"https://alex:PaSsWoRd@site.com:3000?age=25&name=Alex&position=Senior%20Developer&q=#id-3"');
         });
     });
 
-    describe('withSchema(schema: string)', function () {
-        it('should return new URI with overridden schema component', function () {
+    describe('withSchema(schema: string)', function() {
+        it('should return new URI with overridden schema component', function() {
             const originalUri: Uri = new Uri('site.com');
             const newUri: Uri = originalUri.withSchema('https');
 
@@ -1422,8 +1510,8 @@ describe('Uri', function () {
         });
     });
 
-    describe('withoutSchema()', function () {
-        it('should return new URI without schema component', function () {
+    describe('withoutSchema()', function() {
+        it('should return new URI without schema component', function() {
             const originalUri: Uri = new Uri('https://site.com');
             const newUri: Uri = originalUri.withoutSchema();
 
@@ -1433,8 +1521,8 @@ describe('Uri', function () {
         });
     });
 
-    describe('withUserName(userName: string)', function () {
-        it('should return new URI with overridden user name component', function () {
+    describe('withUserName(userName: string)', function() {
+        it('should return new URI with overridden user name component', function() {
             const originalUri: Uri = new Uri('site.com');
             const newUri: Uri = originalUri.withUserName('alex');
 
@@ -1444,8 +1532,8 @@ describe('Uri', function () {
         });
     });
 
-    describe('withoutUserName()', function () {
-        it('should return new URI without user name component', function () {
+    describe('withoutUserName()', function() {
+        it('should return new URI without user name component', function() {
             const originalUri: Uri = new Uri('alex@site.com');
             const newUri: Uri = originalUri.withoutUserName();
 
@@ -1455,8 +1543,8 @@ describe('Uri', function () {
         });
     });
 
-    describe('withPassword(password: string)', function () {
-        it('should return new URI with overridden password component', function () {
+    describe('withPassword(password: string)', function() {
+        it('should return new URI with overridden password component', function() {
             const originalUri: Uri = new Uri('alex@site.com');
             const newUri: Uri = originalUri.withPassword('secret');
 
@@ -1466,8 +1554,8 @@ describe('Uri', function () {
         });
     });
 
-    describe('withoutPassword()', function () {
-        it('should return new URI without password component', function () {
+    describe('withoutPassword()', function() {
+        it('should return new URI without password component', function() {
             const originalUri: Uri = new Uri('alex:secret@site.com');
             const newUri: Uri = originalUri.withoutPassword();
 
@@ -1477,8 +1565,8 @@ describe('Uri', function () {
         });
     });
 
-    describe('withHost(host: string)', function () {
-        it('should return new URI with overridden host component', function () {
+    describe('withHost(host: string)', function() {
+        it('should return new URI with overridden host component', function() {
             const originalUri: Uri = new Uri('/path');
             const newUri: Uri = originalUri.withHost('site.com');
 
@@ -1488,8 +1576,8 @@ describe('Uri', function () {
         });
     });
 
-    describe('withoutHost()', function () {
-        it('should return new URI without host component', function () {
+    describe('withoutHost()', function() {
+        it('should return new URI without host component', function() {
             const originalUri: Uri = new Uri('site.com');
             const newUri: Uri = originalUri.withoutHost();
 
@@ -1499,8 +1587,8 @@ describe('Uri', function () {
         });
     });
 
-    describe('withPort(port: number)', function () {
-        it('should return new URI with overridden port component', function () {
+    describe('withPort(port: number)', function() {
+        it('should return new URI with overridden port component', function() {
             const originalUri: Uri = new Uri('site.com');
             const newUri: Uri = originalUri.withPort(3000);
 
@@ -1510,8 +1598,8 @@ describe('Uri', function () {
         });
     });
 
-    describe('withoutPort()', function () {
-        it('should return new URI without port component', function () {
+    describe('withoutPort()', function() {
+        it('should return new URI without port component', function() {
             const originalUri: Uri = new Uri('site.com:3000');
             const newUri: Uri = originalUri.withoutPort();
 
@@ -1521,8 +1609,8 @@ describe('Uri', function () {
         });
     });
 
-    describe('withPath(path: string)', function () {
-        it('should return new URI with overridden path component', function () {
+    describe('withPath(path: string)', function() {
+        it('should return new URI with overridden path component', function() {
             const originalUri: Uri = new Uri('site.com');
             const newUri: Uri = originalUri.withPath('/path/to/resource');
 
@@ -1532,8 +1620,8 @@ describe('Uri', function () {
         });
     });
 
-    describe('withoutPath()', function () {
-        it('should return new URI without path component', function () {
+    describe('withoutPath()', function() {
+        it('should return new URI without path component', function() {
             const originalUri: Uri = new Uri('site.com/path/to/resource');
             const newUri: Uri = originalUri.withoutPath();
 
@@ -1543,8 +1631,8 @@ describe('Uri', function () {
         });
     });
 
-    describe('withFragment(fragment: string)', function () {
-        it('should return new URI with overridden fragment component', function () {
+    describe('withFragment(fragment: string)', function() {
+        it('should return new URI with overridden fragment component', function() {
             const originalUri: Uri = new Uri('site.com');
             const newUri: Uri = originalUri.withFragment('section-b');
 
@@ -1554,8 +1642,8 @@ describe('Uri', function () {
         });
     });
 
-    describe('withoutFragment()', function () {
-        it('should return new URI without fragment component', function () {
+    describe('withoutFragment()', function() {
+        it('should return new URI without fragment component', function() {
             const originalUri: Uri = new Uri('site.com#section-b');
             const newUri: Uri = originalUri.withoutFragment();
 
@@ -1565,8 +1653,8 @@ describe('Uri', function () {
         });
     });
 
-    describe('withParameter(name: string, value: ToString)', function () {
-        it('should return new URI with overridden query parameter component', function () {
+    describe('withParameter(name: string, value: ToString)', function() {
+        it('should return new URI with overridden query parameter component', function() {
             const originalUri: Uri = new Uri('site.com');
             const newUri: Uri = originalUri.withParameter('q', 'javascript');
 
@@ -1575,11 +1663,9 @@ describe('Uri', function () {
             expect(newUri.toString()).toBe('site.com?q=javascript');
         });
 
-        it('should return new URI with overridden query parameter component', function () {
+        it('should return new URI with overridden query parameter component', function() {
             const originalUri: Uri = new Uri('site.com');
-            const newUri: Uri = originalUri
-                .withParameter('q', 'javascript')
-                .withParameter('p', 2);
+            const newUri: Uri = originalUri.withParameter('q', 'javascript').withParameter('p', 2);
 
             expect(originalUri).not.toBe(newUri);
             expect(originalUri.toString()).toBe('site.com');
@@ -1587,8 +1673,8 @@ describe('Uri', function () {
         });
     });
 
-    describe('withoutParameter(name: string)', function () {
-        it('should return new URI without query parameter component', function () {
+    describe('withoutParameter(name: string)', function() {
+        it('should return new URI without query parameter component', function() {
             const originalUri: Uri = new Uri('site.com?q=javascript&p=2');
             const newUri: Uri = originalUri.withoutParameter('p');
 
@@ -1597,7 +1683,7 @@ describe('Uri', function () {
             expect(newUri.toString()).toBe('site.com?q=javascript');
         });
 
-        it('should return new URI without query parameter component', function () {
+        it('should return new URI without query parameter component', function() {
             const originalUri: Uri = new Uri('site.com?q=javascript&p=2');
             const newUri: Uri = originalUri.withoutParameter('p', 2);
 
@@ -1606,11 +1692,9 @@ describe('Uri', function () {
             expect(newUri.toString()).toBe('site.com?q=javascript');
         });
 
-        it('should return new URI without query parameter component', function () {
+        it('should return new URI without query parameter component', function() {
             const originalUri: Uri = new Uri('site.com?q=javascript&p=2');
-            const newUri: Uri = originalUri
-                .withoutParameter('p', 2)
-                .withoutParameter('q', 'javascript');
+            const newUri: Uri = originalUri.withoutParameter('p', 2).withoutParameter('q', 'javascript');
 
             expect(originalUri).not.toBe(newUri);
             expect(originalUri.toString()).toBe('site.com?q=javascript&p=2');
@@ -1618,8 +1702,8 @@ describe('Uri', function () {
         });
     });
 
-    describe('withoutParameters()', function () {
-        it('should return new URI without query parameters', function () {
+    describe('withoutParameters()', function() {
+        it('should return new URI without query parameters', function() {
             const originalUri: Uri = new Uri('site.com?q=javascript&p=2');
             const newUri: Uri = originalUri.withoutParameters();
 
@@ -1629,8 +1713,8 @@ describe('Uri', function () {
         });
     });
 
-    describe('static isValid()', function () {
-        it('should check URI has valid format', function () {
+    describe('static isValid()', function() {
+        it('should check URI has valid format', function() {
             expect(Uri.isValid('/')).toBe(true);
             expect(Uri.isValid('/search')).toBe(true);
             expect(Uri.isValid('/search?a=1&b=2&c=3')).toBe(true);
@@ -1668,7 +1752,7 @@ describe('Uri', function () {
         });
     });
 
-    test('immutability of with* and without* methods', function () {
+    test('immutability of with* and without* methods', function() {
         const uri: Uri = new Uri();
         const withHost: Uri = uri.withHost('site.com');
         const withSchema: Uri = withHost.withSchema('https');

@@ -1,5 +1,5 @@
-import {Comparator} from '../order/Comparator';
-import {ComparisonResult} from '../order/ComparisonResult';
+import { Comparator } from '../order/Comparator';
+import { ComparisonResult } from '../order/ComparisonResult';
 
 /**
  * @author Alex Chugaev

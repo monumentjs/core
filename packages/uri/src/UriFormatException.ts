@@ -1,4 +1,4 @@
-import {FormatException} from '@monument/core';
+import { FormatException } from '@monument/core';
 
 /**
  * @since 0.0.1
@@ -6,5 +6,4 @@ import {FormatException} from '@monument/core';
  * @immutable
  * @final
  */
-export class UriFormatException extends FormatException {
-}
+export class UriFormatException extends FormatException {}

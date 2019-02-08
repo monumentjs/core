@@ -1,9 +1,9 @@
-import {Store} from '../../..';
-import {AddProductAction, AddProductSuccessAction, CartActions, CartEffect, CartState, CartStore} from '../../support/cart';
-import {TestObserver} from '../../support/TestObserver';
+import { Store } from '../../..';
+import { AddProductAction, AddProductSuccessAction, CartActions, CartEffect, CartState, CartStore } from '../../support/cart';
+import { TestObserver } from '../../support/TestObserver';
 
-describe('Store', function () {
-    test('state update', function () {
+describe('Store', function() {
+    test('state update', function() {
         const cartActions: CartActions = new CartActions();
         const cartEffect: CartEffect = new CartEffect();
         const cartStore: CartStore = new CartStore(cartActions, cartEffect);

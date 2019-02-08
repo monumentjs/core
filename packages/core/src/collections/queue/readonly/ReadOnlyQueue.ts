@@ -1,4 +1,4 @@
-import {ReadOnlyCollection} from '../../collection/readonly/ReadOnlyCollection';
+import { ReadOnlyCollection } from '../../collection/readonly/ReadOnlyCollection';
 
 /**
  * @author Alex Chugaev
