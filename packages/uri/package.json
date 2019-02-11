@@ -1,6 +1,6 @@
 {
     "name": "@monument/uri",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "description": "URI manipulation",
     "keywords": [
         "uri",
@@ -22,6 +22,6 @@
         }
     ],
     "dependencies": {
-        "@monument/core": "^0.0.1"
+        "@monument/core": "^0.1.0"
     }
 }
