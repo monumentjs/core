@@ -1,4 +1,4 @@
-import { times } from '../function/times';
+import { times } from '@monument/core';
 
 export class Benchmark {
     public static once(fn: () => void): number {

@@ -1,0 +1,11 @@
+{
+    "private": true,
+    "name": "@monument/benchmark",
+    "version": "0.0.1",
+    "description": "Benchmark utils",
+    "keywords": [
+    ],
+    "dependencies": {
+        "@monument/core": "^0.0.1"
+    }
+}
