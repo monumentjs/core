@@ -13,10 +13,10 @@ import { Builder, Cloneable, Disposable } from '../..';
 
 {
     let disposable!: Disposable;
-    let clone: () => void = disposable.dispose;
+    let dispose: () => void = disposable.dispose;
 }
 
 {
     let disposable!: Disposable<boolean>;
-    let clone: () => boolean = disposable.dispose;
+    let dispose: () => boolean = disposable.dispose;
 }

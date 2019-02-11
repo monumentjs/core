@@ -14,6 +14,23 @@ export class RandomString implements RandomValue<string>, ToJSON<string>, ToStri
     public static readonly ALPHABETIC_CHARSET: string = 'QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm';
     public static readonly ALPHA_NUMERIC_CHARSET: string = '1234567890QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm';
     public static readonly HEX_CHARSET: string = '1234567890ABCDEF';
+
+    public static numeric(length: number): RandomString {
+        return new RandomString(length, this.NUMERIC_CHARSET);
+    }
+
+    public static alphabetic(length: number): RandomString {
+        return new RandomString(length, this.ALPHABETIC_CHARSET);
+    }
+
+    public static alphanumeric(length: number): RandomString {
+        return new RandomString(length, this.ALPHA_NUMERIC_CHARSET);
+    }
+
+    public static hex(length: number): RandomString {
+        return new RandomString(length, this.HEX_CHARSET);
+    }
+
     private _value?: string;
     private readonly _length: number;
     private readonly _charset: string;

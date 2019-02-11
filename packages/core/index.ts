@@ -1,11 +1,11 @@
 // Export public API
 
 export * from './src/base/Builder';
-export * from './src/base/Callable';
+export * from './src/base/CastSupport';
+export * from './src/base/CastException';
 export * from './src/base/Cloneable';
 export * from './src/base/Disposable';
 export * from './src/base/MemorySize';
-export * from './src/base/Mergeable';
 export * from './src/base/ToJSON';
 export * from './src/base/ToString';
 export * from './src/base/Type';

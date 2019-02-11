@@ -1,18 +1,22 @@
 # Version
 
-TLDR
+Related links:
 
-| Service | Status |
-| :------ | :----- |
-| NPM Downloads | ![NPM Downloads](https://img.shields.io/npm/dm/@monument/core.svg) |
-| NPM Dependencies | ![Dependencies Status](https://david-dm.org/monument/core.svg) |
-| Monorepo | ![lerna](https://img.shields.io/badge/maintained%20with-lerna-44cc44.svg) |
+- [API reference](https://monumentjs.github.io/package/version)
 
+# Install
 
-# Description
+Install with NPM:
 
-Long description
+```
+npm i @monument/version
+```
 
+Install with Yarn:
+
+```
+yarn add @monument/version
+```
 
 ## Contribution
 
