@@ -1,5 +1,7 @@
 # URI
 
+Provides URI manipulation functionality: building, parsing, serializing and validating
+
 Related links:
 
 - [API reference](https://monumentjs.github.io/package/uri)

@@ -1,5 +1,7 @@
 # Core
 
+Provides core functionality: collections, exceptions, comparison, random and text utils
+
 Related links:
 
 - [API reference](https://monumentjs.github.io/package/core)
