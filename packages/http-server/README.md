@@ -1,17 +1,12 @@
-# Title
+# EXPERIMENTAL reactive HTTP server
 
-TLDR
-
-| Service | Status |
-| :------ | :----- |
-| NPM Downloads | ![NPM Downloads](https://img.shields.io/npm/dm/@monument/core.svg) |
-| NPM Dependencies | ![Dependencies Status](https://david-dm.org/monument/core.svg) |
-| Monorepo | ![lerna](https://img.shields.io/badge/maintained%20with-lerna-44cc44.svg) |
-
+![NPM Downloads](https://img.shields.io/npm/dm/@monument/http-server.svg)
+![Dependencies Status](https://david-dm.org/monument/http-server.svg)
+![lerna](https://img.shields.io/badge/maintained%20with-lerna-44cc44.svg)
 
 # Description
 
-Long description
+Experimental implementation of reactive HTTP server
 
 
 ## Contribution
