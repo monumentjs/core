@@ -64,6 +64,34 @@ export function testReadOnlyList(create: <I>(items?: Sequence<I>) => ReadOnlyLis
             });
         });
 
+        describe('equals()', function() {
+            it('should be equal to self', function() {
+                const example1: ReadOnlyList<string> = create();
+                const example2: ReadOnlyList<string> = create(['a', 'b']);
+
+                expect(example1.equals(example1)).toBe(true);
+                expect(example2.equals(example2)).toBe(true);
+            });
+
+            it('should preserve order', function() {
+                const example1: ReadOnlyList<string> = create(['b', 'a']);
+                const example2: ReadOnlyList<string> = create(['a', 'b']);
+                const example3: ReadOnlyList<string> = create(['a', 'b']);
+
+                expect(example1.equals(example2)).toBe(false);
+                expect(example2.equals(example3)).toBe(true);
+                expect(example3.equals(example2)).toBe(true);
+            });
+
+            it('should use custom equality comparator', function() {
+                const example1: ReadOnlyList<string> = create(['a', 'b']);
+                const example2: ReadOnlyList<string> = create(['A', 'B']);
+
+                expect(example1.equals(example2)).toBe(false);
+                expect(example1.equals(example2, IgnoreCaseEqualityComparator.get())).toBe(true);
+            });
+        });
+
         describe('getAt()', function() {
             it('should throw IndexOutOfBoundsException if index out of bounds', function() {
                 const list = create();

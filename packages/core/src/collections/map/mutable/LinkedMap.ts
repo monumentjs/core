@@ -170,7 +170,7 @@ export class LinkedMap<K, V> implements IMap<K, V>, Cloneable<LinkedMap<K, V>> {
         }
     }
 
-    public* keysOf(value: V): Iterable<K> {
+    public *keysOf(value: V): Iterable<K> {
         for (const [ownKey, ownValue] of this) {
             if (this.valueComparator.equals(value, ownValue)) {
                 yield ownKey;

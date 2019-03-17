@@ -63,10 +63,7 @@ export function testMap(
 
         describe('equals()', function() {
             it('should be equal to self', function() {
-                const one = create([
-                    ['name', 'Alex'],
-                    ['age', '25']
-                ]);
+                const one = create([['name', 'Alex'], ['age', '25']]);
 
                 expect(one.equals(one)).toBe(true);
             });
@@ -80,43 +77,25 @@ export function testMap(
             });
 
             it('should be equal not considering keys order', function() {
-                const example11 = create([
-                    ['name', 'Alex'],
-                    ['age', '25']
-                ]);
+                const example11 = create([['name', 'Alex'], ['age', '25']]);
 
-                const example12 = create([
-                    ['age', '25'],
-                    ['name', 'Alex']
-                ]);
+                const example12 = create([['age', '25'], ['name', 'Alex']]);
 
                 expect(example11.equals(example12)).toBe(true);
                 expect(example12.equals(example11)).toBe(true);
 
-                const example21 = create([
-                    ['name', 'Alex'],
-                    ['age', '25']
-                ]);
+                const example21 = create([['name', 'Alex'], ['age', '25']]);
 
-                const example22 = create([
-                    ['name', 'Alex'],
-                    ['age', '25']
-                ]);
+                const example22 = create([['name', 'Alex'], ['age', '25']]);
 
                 expect(example21.equals(example22)).toBe(true);
                 expect(example22.equals(example21)).toBe(true);
             });
 
             it('should not equal if key or value comparators are different', function() {
-                const one = create<string, string>([
-                    ['name', 'Alex'],
-                    ['age', '25']
-                ]);
+                const one = create<string, string>([['name', 'Alex'], ['age', '25']]);
 
-                const other = create<string, string>([
-                    ['name', 'Alex'],
-                    ['age', '25']
-                ], PreserveCaseEqualityComparator.get());
+                const other = create<string, string>([['name', 'Alex'], ['age', '25']], PreserveCaseEqualityComparator.get());
 
                 expect(one.equals(other)).toBe(false);
                 expect(other.equals(one)).toBe(false);
@@ -159,6 +138,5 @@ export function testMap(
                 expect(map.length).toBe(0);
             });
         });
-
     });
 }

@@ -34,10 +34,6 @@ export class ArraySet<T> extends ReadOnlyCollectionBase<T> implements Set<T>, Cl
         }
     }
 
-    public equals(other: ReadOnlySet<T>): boolean {
-        return this.length === other.length && this.containsAll(other);
-    }
-
     public add(item: T): boolean {
         return this._items.addIfAbsent(item, this.comparator);
     }
@@ -58,6 +54,10 @@ export class ArraySet<T> extends ReadOnlyCollectionBase<T> implements Set<T>, Cl
 
     public clone(): ArraySet<T> {
         return new ArraySet(this, this.comparator);
+    }
+
+    public equals(other: ReadOnlySet<T>): boolean {
+        return this.comparator === other.comparator && this.length === other.length && this.containsAll(other);
     }
 
     /**

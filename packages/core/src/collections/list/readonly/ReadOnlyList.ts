@@ -1,14 +1,19 @@
 import { ReadOnlyCollection } from '../../collection/readonly/ReadOnlyCollection';
 import { EqualityComparator } from '../../../comparison/equality/EqualityComparator';
+import { Equatable } from '../../../comparison/equality/Equatable';
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
  * @readonly
  */
-export interface ReadOnlyList<T> extends ReadOnlyCollection<T> {
+export interface ReadOnlyList<T> extends ReadOnlyCollection<T>, Equatable<ReadOnlyList<T>> {
     readonly firstIndex: number;
     readonly lastIndex: number;
+
+    equals(other: ReadOnlyList<T>): boolean;
+
+    equals(other: ReadOnlyList<T>, comparator: EqualityComparator<T>): boolean;
 
     /**
      * @throws {IndexOutOfBoundsException} if index out of bounds

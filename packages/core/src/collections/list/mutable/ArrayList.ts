@@ -8,6 +8,7 @@ import { CollectionUtils } from '../../base/CollectionUtils';
 import { IndexOutOfBoundsException } from '../../../exceptions/IndexOutOfBoundsException';
 import { RangeException } from '../../../exceptions/RangeException';
 import { ReadOnlyCollectionImpl } from '../../collection/readonly/ReadOnlyCollectionImpl';
+import { ReadOnlyList } from '../readonly/ReadOnlyList';
 
 /**
  * @author Alex Chugaev
@@ -76,6 +77,32 @@ export class ArrayList<T> extends ReadOnlyCollectionBase<T> implements List<T>, 
 
     public clone(): ArrayList<T> {
         return new ArrayList(this._items);
+    }
+
+    public equals(other: ReadOnlyList<T>): boolean;
+
+    public equals(other: ReadOnlyList<T>, comparator: EqualityComparator<T>): boolean;
+
+    public equals(other: ReadOnlyList<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): boolean {
+        if (this === other) {
+            return true;
+        }
+
+        if (this.length !== other.length) {
+            return false;
+        }
+
+        const otherIterator: Iterator<T> = other[Symbol.iterator]();
+
+        for (const ownItem of this) {
+            const otherItem: T = otherIterator.next().value;
+
+            if (!comparator.equals(ownItem, otherItem)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public getAt(index: number): T {

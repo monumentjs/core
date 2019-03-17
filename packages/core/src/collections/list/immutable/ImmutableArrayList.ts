@@ -5,6 +5,7 @@ import { EqualityComparator } from '../../../comparison/equality/EqualityCompara
 import { IteratorFunction } from '../../function/IteratorFunction';
 import { ReferenceEqualityComparator } from '../../../comparison/equality/ReferenceEqualityComparator';
 import { ArrayList } from '../mutable/ArrayList';
+import { ReadOnlyList } from '../readonly/ReadOnlyList';
 
 /**
  * @author Alex Chugaev
@@ -75,6 +76,32 @@ export class ImmutableArrayList<T> extends ReadOnlyCollectionBase<T> implements 
 
     public clone(): ImmutableArrayList<T> {
         return new ImmutableArrayList<T>(this._items);
+    }
+
+    public equals(other: ReadOnlyList<T>): boolean;
+
+    public equals(other: ReadOnlyList<T>, comparator: EqualityComparator<T>): boolean;
+
+    public equals(other: ReadOnlyList<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): boolean {
+        if (this === other) {
+            return true;
+        }
+
+        if (this.length !== other.length) {
+            return false;
+        }
+
+        const otherIterator: Iterator<T> = other[Symbol.iterator]();
+
+        for (const ownItem of this) {
+            const otherItem: T = otherIterator.next().value;
+
+            if (!comparator.equals(ownItem, otherItem)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public getAt(index: number): T {
