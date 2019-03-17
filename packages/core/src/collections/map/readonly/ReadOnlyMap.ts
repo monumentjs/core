@@ -2,12 +2,13 @@ import { EqualityComparator } from '../../../comparison/equality/EqualityCompara
 import { KeyValuePair } from '../../base/KeyValuePair';
 import { Sequence } from '../../base/Sequence';
 import { SupplyFunction } from '../../../function/SupplyFunction';
+import { Equatable } from '../../../comparison/equality/Equatable';
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
  */
-export interface ReadOnlyMap<K, V> extends Sequence<KeyValuePair<K, V>> {
+export interface ReadOnlyMap<K, V> extends Sequence<KeyValuePair<K, V>>, Equatable<ReadOnlyMap<K, V>> {
     readonly isEmpty: boolean;
     readonly keys: Iterable<K>;
     readonly values: Iterable<V>;

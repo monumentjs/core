@@ -5,6 +5,7 @@ import { MapIteratorFunction } from '../../base/MapIteratorFunction';
 import { Map as IMap } from './Map';
 import { ReferenceEqualityComparator } from '../../../comparison/equality/ReferenceEqualityComparator';
 import { SupplyFunction } from '../../../function/SupplyFunction';
+import { ReadOnlyMap } from '../readonly/ReadOnlyMap';
 
 /**
  * @author Alex Chugaev
@@ -131,6 +132,22 @@ export class LinkedMap<K, V> implements IMap<K, V>, Cloneable<LinkedMap<K, V>> {
         return true;
     }
 
+    public equals(other: ReadOnlyMap<K, V>): boolean {
+        if (this === other) {
+            return true;
+        }
+
+        if (this.keyComparator !== other.keyComparator || this.valueComparator !== other.valueComparator) {
+            return false;
+        }
+
+        if (this.length === other.length) {
+            return this.containsEntries(other) && other.containsEntries(this);
+        }
+
+        return false;
+    }
+
     public get(key: K): V | undefined;
 
     public get(key: K, fallback: SupplyFunction<V>): V;
@@ -153,7 +170,7 @@ export class LinkedMap<K, V> implements IMap<K, V>, Cloneable<LinkedMap<K, V>> {
         }
     }
 
-    public *keysOf(value: V): Iterable<K> {
+    public* keysOf(value: V): Iterable<K> {
         for (const [ownKey, ownValue] of this) {
             if (this.valueComparator.equals(value, ownValue)) {
                 yield ownKey;

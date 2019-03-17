@@ -1,4 +1,12 @@
-import { EqualityComparator, IgnoreCaseEqualityComparator, IterableEqualityComparator, KeyValuePair, Map, Sequence } from '../../../../..';
+import {
+    EqualityComparator,
+    IgnoreCaseEqualityComparator,
+    IterableEqualityComparator,
+    KeyValuePair,
+    Map,
+    PreserveCaseEqualityComparator,
+    Sequence
+} from '../../../../..';
 
 export function testMap(
     create: <K, V>(
@@ -29,17 +37,89 @@ export function testMap(
             });
         });
 
-        describe('put()', function() {
-            it('should create new key-value pair', function() {
-                map.put('four', 'FOUR');
+        describe('containsKey()', function() {
+            it('should determine whether map contains pair with specified key', function() {
+                expect(map.containsKey('ONE')).toBe(true);
+                expect(map.containsKey('Four')).toBe(false);
+            });
+        });
 
-                expect(map.length).toBe(4);
+        describe('containsValue()', function() {
+            it('should determine whether map contains pair with specified value', function() {
+                expect(map.containsValue('ONE')).toBe(true);
+                expect(map.containsValue('Four')).toBe(false);
+            });
+        });
+
+        describe('clear()', function() {
+            it('should remove all key-value pairs from map', function() {
+                expect(map.length).toBe(3);
+
+                map.clear();
+
+                expect(map.length).toBe(0);
+            });
+        });
+
+        describe('equals()', function() {
+            it('should be equal to self', function() {
+                const one = create([
+                    ['name', 'Alex'],
+                    ['age', '25']
+                ]);
+
+                expect(one.equals(one)).toBe(true);
             });
 
-            it('should overwrite key-value pair with same key', function() {
-                map.put('TWO', 'two');
+            it('should be equal to also empty map', function() {
+                const example1 = create();
+                const example2 = create();
 
-                expect(map.length).toBe(3);
+                expect(example1.equals(example2)).toBe(true);
+                expect(example2.equals(example1)).toBe(true);
+            });
+
+            it('should be equal not considering keys order', function() {
+                const example11 = create([
+                    ['name', 'Alex'],
+                    ['age', '25']
+                ]);
+
+                const example12 = create([
+                    ['age', '25'],
+                    ['name', 'Alex']
+                ]);
+
+                expect(example11.equals(example12)).toBe(true);
+                expect(example12.equals(example11)).toBe(true);
+
+                const example21 = create([
+                    ['name', 'Alex'],
+                    ['age', '25']
+                ]);
+
+                const example22 = create([
+                    ['name', 'Alex'],
+                    ['age', '25']
+                ]);
+
+                expect(example21.equals(example22)).toBe(true);
+                expect(example22.equals(example21)).toBe(true);
+            });
+
+            it('should not equal if key or value comparators are different', function() {
+                const one = create<string, string>([
+                    ['name', 'Alex'],
+                    ['age', '25']
+                ]);
+
+                const other = create<string, string>([
+                    ['name', 'Alex'],
+                    ['age', '25']
+                ], PreserveCaseEqualityComparator.get());
+
+                expect(one.equals(other)).toBe(false);
+                expect(other.equals(one)).toBe(false);
             });
         });
 
@@ -55,17 +135,17 @@ export function testMap(
             });
         });
 
-        describe('containsKey()', function() {
-            it('should determine whether map contains pair with specified key', function() {
-                expect(map.containsKey('ONE')).toBe(true);
-                expect(map.containsKey('Four')).toBe(false);
-            });
-        });
+        describe('put()', function() {
+            it('should create new key-value pair', function() {
+                map.put('four', 'FOUR');
 
-        describe('containsValue()', function() {
-            it('should determine whether map contains pair with specified value', function() {
-                expect(map.containsValue('ONE')).toBe(true);
-                expect(map.containsValue('Four')).toBe(false);
+                expect(map.length).toBe(4);
+            });
+
+            it('should overwrite key-value pair with same key', function() {
+                map.put('TWO', 'two');
+
+                expect(map.length).toBe(3);
             });
         });
 
@@ -80,14 +160,5 @@ export function testMap(
             });
         });
 
-        describe('clear()', function() {
-            it('should remove all key-value pairs from map', function() {
-                expect(map.length).toBe(3);
-
-                map.clear();
-
-                expect(map.length).toBe(0);
-            });
-        });
     });
 }
