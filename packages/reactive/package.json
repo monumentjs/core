@@ -1,10 +1,10 @@
 {
     "private": true,
     "name": "@monument/reactive",
-    "version": "0.1.4",
+    "version": "0.2.0",
     "description": "Reactive programming support: observers, pipes, data streams",
     "keywords": [],
     "dependencies": {
-        "@monument/core": "^0.1.4"
+        "@monument/core": "^0.2.0"
     }
 }
