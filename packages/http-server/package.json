@@ -1,12 +1,12 @@
 {
     "private": true,
     "name": "@monument/http-server",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "description": "HTTP server",
     "keywords": [],
     "dependencies": {
-        "@monument/core": "^0.2.0",
-        "@monument/reactive": "^0.2.0"
+        "@monument/core": "^0.3.0",
+        "@monument/reactive": "^0.3.0"
     },
     "devDependencies": {
         "@types/node": "^10.12.18"
