@@ -42,7 +42,7 @@ export class Store<TState, TAction extends Action> extends BehaviorSubject<TStat
         });
     }
 
-    dispatchAll(actions: TAction[]): void {
+    public dispatchAll(actions: TAction[]): void {
         actions.forEach((action: TAction) => {
             this.dispatch(action);
         });
