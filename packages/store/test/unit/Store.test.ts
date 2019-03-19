@@ -115,12 +115,14 @@ describe('Store', () => {
             store.dispatch(new LoadAction());
 
             expect(store.dispatch).toHaveBeenCalledTimes(2);
-            expect(store.dispatch).toHaveBeenLastCalledWith(new LoadedAction([
-                {
-                    name: 'test',
-                    details: 'test'
-                }
-            ]));
+            expect(store.dispatch).toHaveBeenLastCalledWith(
+                new LoadedAction([
+                    {
+                        name: 'test',
+                        details: 'test'
+                    }
+                ])
+            );
             expect(onNext).toHaveBeenCalledTimes(3);
             expect(onNext).toHaveBeenNthCalledWith(2, {
                 loading: true,
