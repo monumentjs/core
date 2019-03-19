@@ -1,0 +1,10 @@
+{
+    "name": "@monument/store",
+    "version": "0.0.1",
+    "description": "Reactive state store",
+    "keywords": [
+    ],
+    "dependencies": {
+        "rxjs": "^6.4.0"
+    }
+}

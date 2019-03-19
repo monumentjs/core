@@ -50,10 +50,7 @@
             "dev"
         ],
         "prefer-readonly": true,
-        "max-classes-per-file": [
-            true,
-            1
-        ],
+        "max-classes-per-file": false,
         "interface-name": [
             true,
             "never-prefix"
