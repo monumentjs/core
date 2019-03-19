@@ -2,8 +2,25 @@
     "name": "@monument/store",
     "version": "0.4.0",
     "description": "Reactive state store",
-    "keywords": [],
+    "keywords": [
+        "reactive",
+        "store",
+        "rx"
+    ],
     "dependencies": {
         "rxjs": "^6.4.0"
-    }
+    },
+    "license": "MIT",
+    "homepage": "https://monumentjs.github.io/package/store",
+    "repository": "https://github.com/monumentjs/store.git",
+    "contributors": [
+        {
+            "name": "Alex Chugaev",
+            "email": "achugaev93@gmail.com"
+        }
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
+    "gitHead": "c5d4d4226b99d4f336b2215bbe2ae6e889362376"
 }
