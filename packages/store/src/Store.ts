@@ -19,27 +19,32 @@ export class Store<TState, TAction extends Action> extends BehaviorSubject<TStat
     }
 
     public dispatch(action: TAction): void {
-        this.next(this._reducer(this.getValue(), action));
+        const oldState: TState = this.getValue();
+        const newState: TState = this._reducer(oldState, action);
 
-        this._effects.forEach((effect: EffectHandlerFunction<TAction>) => {
-            const effectResult: EffectResult<TAction> = effect(action);
+        if (oldState !== newState) {
+            this.next(newState);
 
-            if (effectResult) {
-                if (effectResult instanceof Array) {
-                    this.dispatchAll(effectResult);
-                } else if (effectResult instanceof Promise) {
-                    effectResult.then((result: void | TAction[]) => {
-                        if (result) {
-                            this.dispatchAll(result);
-                        }
-                    });
-                } else {
-                    effectResult.subscribe((nextAction: TAction) => {
-                        this.dispatch(nextAction);
-                    });
+            this._effects.forEach((effect: EffectHandlerFunction<TAction>) => {
+                const effectResult: EffectResult<TAction> = effect(action);
+
+                if (effectResult) {
+                    if (effectResult instanceof Array) {
+                        this.dispatchAll(effectResult);
+                    } else if (effectResult instanceof Promise) {
+                        effectResult.then((result: void | TAction[]) => {
+                            if (result) {
+                                this.dispatchAll(result);
+                            }
+                        });
+                    } else {
+                        effectResult.subscribe((nextAction: TAction) => {
+                            this.dispatch(nextAction);
+                        });
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     public dispatchAll(actions: TAction[]): void {
