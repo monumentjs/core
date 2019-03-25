@@ -95,10 +95,22 @@ export class TreeNode {
         return this.parentNode.childNodes.getAt(indexOfCurrentNode - 1);
     }
 
-    public addChild(node: TreeNode): void {
+    public addChild(node: TreeNode): boolean {
         node.parentNode = this;
 
-        this._childNodes.addIfAbsent(node);
+        return this._childNodes.addIfAbsent(node);
+    }
+
+    public addChildren(nodes: Iterable<TreeNode>): boolean {
+        let modified = false;
+
+        for (const node of nodes) {
+            if (this.addChild(node)) {
+                modified = true;
+            }
+        }
+
+        return modified;
     }
 
     public hasChild(node: TreeNode): boolean {
@@ -147,6 +159,18 @@ export class TreeNode {
         node.parentNode = undefined;
 
         return this._childNodes.remove(node);
+    }
+
+    public removeChildren(nodes: Iterable<TreeNode>): boolean {
+        let modified = false;
+
+        for (const node of nodes) {
+            if (this.removeChild(node)) {
+                modified = true;
+            }
+        }
+
+        return modified;
     }
 
     public replaceChild(newNode: TreeNode, refNode: TreeNode): void {
