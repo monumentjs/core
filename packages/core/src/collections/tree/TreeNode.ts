@@ -7,18 +7,17 @@ import { ArrayList } from '../list/mutable/ArrayList';
  * @since 0.0.1
  * @mutable
  */
-export class TreeNode<T> implements Iterable<T> {
-    private readonly _childNodes: ArrayList<TreeNode<T>> = new ArrayList();
-    private _parentNode: TreeNode<T> | undefined;
-    private _value: T;
+export class TreeNode {
+    private readonly _childNodes: ArrayList<TreeNode> = new ArrayList();
+    private _parentNode: TreeNode | undefined;
 
-    public get childNodes(): ReadOnlyList<TreeNode<T>> {
+    public get childNodes(): ReadOnlyList<TreeNode> {
         return this._childNodes;
     }
 
     public get depth(): number {
         let depth = 0;
-        let parentNode: TreeNode<T> | undefined = this.parentNode;
+        let parentNode: TreeNode | undefined = this.parentNode;
 
         while (parentNode != null) {
             depth += 1;
@@ -28,7 +27,7 @@ export class TreeNode<T> implements Iterable<T> {
         return depth;
     }
 
-    public get firstChild(): TreeNode<T> | undefined {
+    public get firstChild(): TreeNode | undefined {
         if (this.hasChildNodes) {
             return this.childNodes.getAt(0);
         } else {
@@ -40,7 +39,7 @@ export class TreeNode<T> implements Iterable<T> {
         return this.childNodes.isEmpty === false;
     }
 
-    public get lastChild(): TreeNode<T> | undefined {
+    public get lastChild(): TreeNode | undefined {
         if (this.hasChildNodes) {
             return this.childNodes.getAt(this.childNodes.lastIndex);
         } else {
@@ -48,7 +47,7 @@ export class TreeNode<T> implements Iterable<T> {
         }
     }
 
-    public get nextSibling(): TreeNode<T> | undefined {
+    public get nextSibling(): TreeNode | undefined {
         let indexOfCurrentNode: number;
 
         if (!this.parentNode) {
@@ -60,12 +59,12 @@ export class TreeNode<T> implements Iterable<T> {
         return this.parentNode.childNodes.getAt(indexOfCurrentNode + 1);
     }
 
-    public get parentNode(): TreeNode<T> | undefined {
+    public get parentNode(): TreeNode | undefined {
         return this._parentNode;
     }
 
-    public set parentNode(parentNode: TreeNode<T> | undefined) {
-        const previousParent: TreeNode<T> | undefined = this._parentNode;
+    public set parentNode(parentNode: TreeNode | undefined) {
+        const previousParent: TreeNode | undefined = this._parentNode;
 
         if (this._parentNode !== parentNode) {
             this._parentNode = parentNode;
@@ -80,7 +79,11 @@ export class TreeNode<T> implements Iterable<T> {
         }
     }
 
-    public get previousSibling(): TreeNode<T> | undefined {
+    public get path(): Iterable<TreeNode> {
+        return this.getPath();
+    }
+
+    public get previousSibling(): TreeNode | undefined {
         let indexOfCurrentNode: number;
 
         if (!this.parentNode) {
@@ -92,46 +95,18 @@ export class TreeNode<T> implements Iterable<T> {
         return this.parentNode.childNodes.getAt(indexOfCurrentNode - 1);
     }
 
-    public get value(): T {
-        return this._value;
-    }
-
-    public set value(value: T) {
-        this._value = value;
-    }
-
-    public constructor(value: T) {
-        this._value = value;
-    }
-
-    public *[Symbol.iterator](): Iterator<T> {
-        yield this.value;
-
-        for (const node of this.childNodes) {
-            yield* node;
-        }
-    }
-
-    public addChild(node: TreeNode<T>): void {
+    public addChild(node: TreeNode): void {
         node.parentNode = this;
 
         this._childNodes.addIfAbsent(node);
     }
 
-    public *findAll(predicate: (value: T) => boolean): Iterable<T> {
-        for (const value of this) {
-            if (predicate(value)) {
-                yield value;
-            }
-        }
-    }
-
-    public hasChild(node: TreeNode<T>): boolean {
+    public hasChild(node: TreeNode): boolean {
         if (node === this) {
             return false;
         }
 
-        let parentNode: TreeNode<T> | undefined = node.parentNode;
+        let parentNode: TreeNode | undefined = node.parentNode;
 
         while (parentNode) {
             if (parentNode === this) {
@@ -144,7 +119,7 @@ export class TreeNode<T> implements Iterable<T> {
         return false;
     }
 
-    public insertAfter(newNode: TreeNode<T>, refNode: TreeNode<T>): void {
+    public insertAfter(newNode: TreeNode, refNode: TreeNode): void {
         const insertPosition: number = this.childNodes.indexOf(refNode);
 
         if (insertPosition < -1) {
@@ -156,7 +131,7 @@ export class TreeNode<T> implements Iterable<T> {
         this._childNodes.insert(insertPosition + 1, newNode);
     }
 
-    public insertBefore(newNode: TreeNode<T>, refNode: TreeNode<T>): void {
+    public insertBefore(newNode: TreeNode, refNode: TreeNode): void {
         const insertPosition: number = this.childNodes.indexOf(refNode);
 
         if (insertPosition < -1) {
@@ -168,13 +143,13 @@ export class TreeNode<T> implements Iterable<T> {
         this._childNodes.insert(insertPosition, newNode);
     }
 
-    public removeChild(node: TreeNode<T>): boolean {
+    public removeChild(node: TreeNode): boolean {
         node.parentNode = undefined;
 
         return this._childNodes.remove(node);
     }
 
-    public replaceChild(newNode: TreeNode<T>, refNode: TreeNode<T>): void {
+    public replaceChild(newNode: TreeNode, refNode: TreeNode): void {
         const indexOfOldNode: number = this.childNodes.indexOf(refNode);
 
         if (indexOfOldNode < -1) {
@@ -182,5 +157,15 @@ export class TreeNode<T> implements Iterable<T> {
         }
 
         this._childNodes.insert(indexOfOldNode, newNode);
+    }
+
+    private *getPath(): Iterable<TreeNode> {
+        let node: TreeNode | undefined = this;
+
+        while (node) {
+            yield node;
+
+            node = node.parentNode;
+        }
     }
 }

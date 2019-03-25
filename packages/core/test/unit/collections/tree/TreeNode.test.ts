@@ -1,16 +1,16 @@
 import { TreeNode } from '../../../..';
 
 describe('TreeNode', function() {
-    let html!: TreeNode<string>;
-    let head!: TreeNode<string>;
-    let body!: TreeNode<string>;
-    let main!: TreeNode<string>;
+    let html!: TreeNode;
+    let head!: TreeNode;
+    let body!: TreeNode;
+    let main!: TreeNode;
 
     beforeEach(() => {
-        html = new TreeNode('html');
-        head = new TreeNode('head');
-        body = new TreeNode('body');
-        main = new TreeNode('main');
+        html = new TreeNode();
+        head = new TreeNode();
+        body = new TreeNode();
+        main = new TreeNode();
 
         html.addChild(head);
         html.addChild(body);
@@ -18,8 +18,8 @@ describe('TreeNode', function() {
     });
 
     it('parent/child relation', function() {
-        const parent: TreeNode<string> = new TreeNode('parent');
-        const child: TreeNode<string> = new TreeNode('child');
+        const parent: TreeNode = new TreeNode();
+        const child: TreeNode = new TreeNode();
 
         expect(parent.parentNode).toBe(undefined);
         expect(parent.childNodes.length).toBe(0);
@@ -54,5 +54,14 @@ describe('TreeNode', function() {
         expect(body.childNodes.getAt(0)).toBe(main);
         expect(main.parentNode).toBe(body);
         expect(main.childNodes.length).toBe(0);
+    });
+
+    describe('path', function() {
+        it('should return path to root node', function() {
+            const path = [...main.path];
+
+            expect(path.length).toBe(3);
+            expect(path).toEqual([main, body, html]);
+        });
     });
 });
