@@ -1,4 +1,4 @@
-import { TreeNode } from '../../../..';
+import { InvalidArgumentException, TreeNode } from '../../../..';
 
 describe('TreeNode', function() {
     let html!: TreeNode;
@@ -20,21 +20,6 @@ describe('TreeNode', function() {
     it('parent/child relation', function() {
         const parent: TreeNode = new TreeNode();
         const child: TreeNode = new TreeNode();
-
-        expect(parent.parentNode).toBe(undefined);
-        expect(parent.childNodes.length).toBe(0);
-        expect(child.parentNode).toBe(undefined);
-        expect(child.childNodes.length).toBe(0);
-
-        child.parentNode = parent;
-
-        expect(parent.parentNode).toBe(undefined);
-        expect(parent.childNodes.length).toBe(1);
-        expect(parent.childNodes.getAt(0)).toBe(child);
-        expect(child.parentNode).toBe(parent);
-        expect(child.childNodes.length).toBe(0);
-
-        child.parentNode = undefined;
 
         expect(parent.parentNode).toBe(undefined);
         expect(parent.childNodes.length).toBe(0);
@@ -62,6 +47,80 @@ describe('TreeNode', function() {
 
             expect(path.length).toBe(3);
             expect(path).toEqual([main, body, html]);
+        });
+    });
+
+    describe('addChild()', function() {
+        it('should replace existing child with another one', function() {
+            const newChild = new TreeNode();
+
+            expect(body.childNodes.length).toBe(1);
+            expect(body.childNodes.toArray()).toEqual([main]);
+            expect(main.parentNode).toBe(body);
+
+            expect(body.addChild(newChild)).toBe(true);
+
+            expect(body.childNodes.length).toBe(2);
+            expect(body.childNodes.toArray()).toEqual([main, newChild]);
+            expect(newChild.parentNode).toBe(body);
+
+            expect(body.addChild(main)).toBe(false);
+
+            expect(body.childNodes.length).toBe(2);
+            expect(body.childNodes.toArray()).toEqual([main, newChild]);
+            expect(main.parentNode).toBe(body);
+            expect(newChild.parentNode).toBe(body);
+        });
+    });
+
+    describe('removeChild()', function() {
+        it('should replace existing child with another one', function() {
+            const newChild = new TreeNode();
+
+            expect(body.childNodes.length).toBe(1);
+            expect(body.childNodes.toArray()).toEqual([main]);
+            expect(main.parentNode).toBe(body);
+
+            expect(() => {
+                body.removeChild(newChild);
+            }).toThrow(InvalidArgumentException);
+
+            expect(body.childNodes.length).toBe(1);
+            expect(body.childNodes.toArray()).toEqual([main]);
+            expect(main.parentNode).toBe(body);
+
+            expect(body.removeChild(main)).toBe(true);
+
+            expect(body.childNodes.length).toBe(0);
+            expect(body.childNodes.toArray()).toEqual([]);
+            expect(main.parentNode).toBeUndefined();
+
+            expect(() => {
+                body.removeChild(main);
+            }).toThrow(InvalidArgumentException);
+
+            expect(body.childNodes.length).toBe(0);
+            expect(body.childNodes.toArray()).toEqual([]);
+            expect(main.parentNode).toBeUndefined();
+        });
+    });
+
+    describe('replaceChild()', function() {
+        it('should replace existing child with another one', function() {
+            const newChild = new TreeNode();
+
+            expect(body.childNodes.length).toBe(1);
+            expect(body.childNodes.toArray()).toEqual([main]);
+            expect(main.parentNode).toBe(body);
+
+            expect(() => {
+                body.replaceChild(newChild, main);
+            }).not.toThrow(InvalidArgumentException);
+
+            expect(body.childNodes.length).toBe(1);
+            expect(body.childNodes.toArray()).toEqual([newChild]);
+            expect(main.parentNode).toBeUndefined();
+            expect(newChild.parentNode).toBe(body);
         });
     });
 });

@@ -15,6 +15,10 @@ export class TreeNode {
         return this._childNodes;
     }
 
+    public get childNodesCount(): number {
+        return this._childNodes.length;
+    }
+
     public get depth(): number {
         let depth = 0;
         let parentNode: TreeNode | undefined = this.parentNode;
@@ -37,6 +41,10 @@ export class TreeNode {
 
     public get hasChildNodes(): boolean {
         return this.childNodes.isEmpty === false;
+    }
+
+    public get isDetached(): boolean {
+        return this._parentNode == null;
     }
 
     public get lastChild(): TreeNode | undefined {
@@ -63,22 +71,6 @@ export class TreeNode {
         return this._parentNode;
     }
 
-    public set parentNode(parentNode: TreeNode | undefined) {
-        const previousParent: TreeNode | undefined = this._parentNode;
-
-        if (this._parentNode !== parentNode) {
-            this._parentNode = parentNode;
-
-            if (parentNode && !parentNode._childNodes.contains(this)) {
-                parentNode._childNodes.add(this);
-            }
-
-            if (!parentNode && previousParent && previousParent._childNodes.contains(this)) {
-                previousParent._childNodes.remove(this);
-            }
-        }
-    }
-
     public get path(): Iterable<TreeNode> {
         return this.getPath();
     }
@@ -96,9 +88,14 @@ export class TreeNode {
     }
 
     public addChild(node: TreeNode): boolean {
-        node.parentNode = this;
+        if (this.hasChild(node)) {
+            return false;
+        }
 
-        return this._childNodes.addIfAbsent(node);
+        node.detach();
+        node._parentNode = this;
+
+        return this._childNodes.add(node);
     }
 
     public addChildren(nodes: Iterable<TreeNode>): boolean {
@@ -113,22 +110,15 @@ export class TreeNode {
         return modified;
     }
 
+    public detach(): void {
+        if (this._parentNode) {
+            this._parentNode._childNodes.remove(this);
+            this._parentNode = undefined;
+        }
+    }
+
     public hasChild(node: TreeNode): boolean {
-        if (node === this) {
-            return false;
-        }
-
-        let parentNode: TreeNode | undefined = node.parentNode;
-
-        while (parentNode) {
-            if (parentNode === this) {
-                return true;
-            }
-
-            parentNode = parentNode.parentNode;
-        }
-
-        return false;
+        return this._childNodes.contains(node);
     }
 
     public insertAfter(newNode: TreeNode, refNode: TreeNode): void {
@@ -138,7 +128,8 @@ export class TreeNode {
             throw new InvalidArgumentException('Reference node is not a member of child nodes collection.');
         }
 
-        newNode.parentNode = this;
+        newNode.detach();
+        newNode._parentNode = this;
 
         this._childNodes.insert(insertPosition + 1, newNode);
     }
@@ -150,15 +141,20 @@ export class TreeNode {
             throw new InvalidArgumentException('Reference node is not a member of child nodes collection.');
         }
 
-        newNode.parentNode = this;
+        newNode.detach();
+        newNode._parentNode = this;
 
         this._childNodes.insert(insertPosition, newNode);
     }
 
     public removeChild(node: TreeNode): boolean {
-        node.parentNode = undefined;
+        if (!this.hasChild(node)) {
+            throw new InvalidArgumentException('Reference node is not a member of child nodes collection.');
+        }
 
-        return this._childNodes.remove(node);
+        node.detach();
+
+        return true;
     }
 
     public removeChildren(nodes: Iterable<TreeNode>): boolean {
@@ -180,7 +176,9 @@ export class TreeNode {
             throw new InvalidArgumentException('Reference node is not a member of child nodes collection.');
         }
 
-        this._childNodes.insert(indexOfOldNode, newNode);
+        this.insertAfter(newNode, refNode);
+
+        refNode.detach();
     }
 
     private *getPath(): Iterable<TreeNode> {
