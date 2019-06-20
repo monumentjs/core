@@ -1,51 +1,51 @@
 {
-    "private": true,
-    "scripts": {
-        "bootstrap": "lerna bootstrap",
-        "build": "npm run lint:fix && npm run compile && npm run test",
-        "compile": "tsc",
-        "contributors": "git log --pretty=\"%an <%ae>\" | sort | uniq > CONTRIBUTORS",
-        "coveralls": "cat ./coverage/lcov.info | coveralls",
-        "docs": "gulp docs",
-        "lint": "tslint --format stylish --project .",
-        "lint:fix": "tslint --fix --format stylish --project .",
-        "format": "prettier --check \"**/*.ts\"",
-        "format:fix": "prettier --write \"**/*.ts\"",
-        "prepublishOnly": "npm run lint && npm run compile && npm install && npm test",
-        "postinstall": "npm run bootstrap",
-        "test": "jest",
-        "test:watch": "jest --watch"
+  "private": true,
+  "name": "core",
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "build": "npm run lint:fix && npm run compile && npm run test",
+    "compile": "tsc",
+    "contributors": "git log --pretty=\"%an <%ae>\" | sort | uniq > CONTRIBUTORS",
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "docs": "gulp docs",
+    "lint": "tslint --format stylish --project .",
+    "lint:fix": "tslint --fix --format stylish --project .",
+    "format": "prettier --check \"**/*.ts\"",
+    "format:fix": "prettier --write \"**/*.{ts,js,json}\"",
+    "prepublishOnly": "npm run lint && npm run compile && npm install && npm test",
+    "postinstall": "npm run bootstrap",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.15",
+    "coveralls": "^3.0.4",
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-typedoc": "^2.2.2",
+    "jest": "^24.8.0",
+    "lerna": "^3.15.0",
+    "prettier": "^1.18.2",
+    "ts-jest": "^24.0.2",
+    "tslint": "^5.17.0",
+    "typedoc": "^0.14.2",
+    "typescript": "^3.5.2"
+  },
+  "jest": {
+    "clearMocks": true,
+    "automock": false,
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
     },
-    "dependencies": {},
-    "devDependencies": {
-        "@types/jest": "^24.0.11",
-        "coveralls": "^3.0.3",
-        "gulp": "^4.0.0",
-        "gulp-clean": "^0.4.0",
-        "gulp-typedoc": "^2.2.2",
-        "jest": "^24.5.0",
-        "lerna": "^3.13.1",
-        "prettier": "^1.16.4",
-        "ts-jest": "^24.0.0",
-        "tslint": "^5.14.0",
-        "typedoc": "^0.14.2",
-        "typescript": "^3.3.3"
-    },
-    "jest": {
-        "clearMocks": true,
-        "automock": false,
-        "transform": {
-            "^.+\\.tsx?$": "ts-jest"
-        },
-        "testRegex": "\\.test\\.tsx?$",
-        "moduleFileExtensions": [
-            "ts",
-            "tsx",
-            "js",
-            "jsx",
-            "json",
-            "node"
-        ],
-        "collectCoverage": true
-    }
+    "testRegex": "\\.test\\.tsx?$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "collectCoverage": true
+  }
 }

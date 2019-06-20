@@ -5,5 +5,5 @@ import { ComparisonResult } from './ComparisonResult';
  * @since 0.0.1
  */
 export interface Comparator<T> {
-    compare(x: T, y: T): ComparisonResult;
+  compare(x: T, y: T): ComparisonResult;
 }

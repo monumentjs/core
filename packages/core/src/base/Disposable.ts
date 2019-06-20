@@ -4,5 +4,5 @@
  * @param TResult type of result
  */
 export interface Disposable<TResult = void> {
-    dispose(): TResult;
+  dispose(): TResult;
 }

@@ -3,7 +3,7 @@
  * @since 0.0.1
  */
 export enum SortOrder {
-    NONE = 0,
-    ASCENDING = 1,
-    DESCENDING = -1
+  NONE = 0,
+  ASCENDING = 1,
+  DESCENDING = -1
 }

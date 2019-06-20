@@ -6,12 +6,12 @@ import { ReadOnlyStack } from '../readonly/ReadOnlyStack';
  * @mutable
  */
 export interface Stack<T> extends ReadOnlyStack<T> {
-    clear(): boolean;
+  clear(): boolean;
 
-    /**
-     * @throws {EmptyStackException}
-     */
-    pop(): T;
+  /**
+   * @throws {EmptyStackException}
+   */
+  pop(): T;
 
-    push(item: T): boolean;
+  push(item: T): boolean;
 }

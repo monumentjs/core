@@ -14,279 +14,272 @@ import { ProjectFunction } from '../../../function/ProjectFunction';
 import { SupplyFunction } from '../../../function/SupplyFunction';
 
 export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T> {
-    public abstract readonly length: number;
+  abstract readonly length: number;
 
-    public get isEmpty(): boolean {
-        return this.length === 0;
+  get isEmpty(): boolean {
+    return this.length === 0;
+  }
+
+  abstract [Symbol.iterator](): Iterator<T>;
+
+  aggregate<TAggregate>(iterator: AggregateFunction<T, TAggregate>, initialSeed: TAggregate): TAggregate {
+    return new ReadOnlyCollectionImpl(this).aggregate(iterator, initialSeed);
+  }
+
+  all(predicate: IteratorFunction<T, boolean>): boolean {
+    return new ReadOnlyCollectionImpl(this).all(predicate);
+  }
+
+  any(predicate: IteratorFunction<T, boolean>): boolean {
+    return new ReadOnlyCollectionImpl(this).any(predicate);
+  }
+
+  average(selector: IteratorFunction<T, number>): number {
+    return new ReadOnlyCollectionImpl(this).average(selector);
+  }
+
+  chunk(size: number = 1): ReadOnlyCollection<Iterable<T>> {
+    return new ReadOnlyCollectionImpl(this).chunk(size);
+  }
+
+  concat(otherList: Sequence<T>, ...others: Array<Sequence<T>>): ReadOnlyCollection<T> {
+    return new ReadOnlyCollectionImpl(this).concat(otherList, ...others);
+  }
+
+  contains(otherItem: T): boolean;
+
+  contains(otherItem: T, comparator: EqualityComparator<T>): boolean;
+
+  contains(otherItem: T, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): boolean {
+    return new ReadOnlyCollectionImpl(this).contains(otherItem, comparator);
+  }
+
+  containsAll(items: Sequence<T>): boolean;
+
+  containsAll(items: Sequence<T>, comparator: EqualityComparator<T>): boolean;
+
+  containsAll(items: Sequence<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): boolean {
+    return new ReadOnlyCollectionImpl(this).containsAll(items, comparator);
+  }
+
+  count(predicate: IteratorFunction<T, boolean>): number {
+    return new ReadOnlyCollectionImpl(this).count(predicate);
+  }
+
+  distinct(): ReadOnlyCollection<T>;
+
+  distinct(comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
+
+  distinct(comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ReadOnlyCollection<T> {
+    return new ReadOnlyCollectionImpl(this).distinct(comparator);
+  }
+
+  entries(): Iterable<KeyValuePair<number, T>> {
+    return new ReadOnlyCollectionImpl(this).entries();
+  }
+
+  except(otherList: Iterable<T>): ReadOnlyCollection<T>;
+
+  except(otherList: Iterable<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
+
+  except(otherList: Iterable<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ReadOnlyCollection<T> {
+    return new ReadOnlyCollectionImpl(this).except(otherList, comparator);
+  }
+
+  findAll(predicate: IteratorFunction<T, boolean>): ReadOnlyCollection<T>;
+
+  findAll(predicate: IteratorFunction<T, boolean>, limit: number): ReadOnlyCollection<T>;
+
+  findAll(predicate: IteratorFunction<T, boolean>, limit: number, offset: number): ReadOnlyCollection<T>;
+
+  findAll(predicate: IteratorFunction<T, boolean>, limit: number = Number.POSITIVE_INFINITY, offset: number = 0): ReadOnlyCollection<T> {
+    return new ReadOnlyCollectionImpl(this).findAll(predicate, limit, offset);
+  }
+
+  first(predicate: IteratorFunction<T, boolean>): T | undefined;
+
+  first(predicate: IteratorFunction<T, boolean>, fallback: SupplyFunction<T>): T;
+
+  first(predicate: IteratorFunction<T, boolean>, fallback?: SupplyFunction<T>): T | undefined {
+    if (fallback === undefined) {
+      return new ReadOnlyCollectionImpl(this).first(predicate);
     }
 
-    public abstract [Symbol.iterator](): Iterator<T>;
+    return new ReadOnlyCollectionImpl(this).first(predicate, fallback);
+  }
 
-    public aggregate<TAggregate>(iterator: AggregateFunction<T, TAggregate>, initialSeed: TAggregate): TAggregate {
-        return new ReadOnlyCollectionImpl(this).aggregate(iterator, initialSeed);
+  firstOrDefault(fallback: SupplyFunction<T>): T {
+    return new ReadOnlyCollectionImpl(this).firstOrDefault(fallback);
+  }
+
+  forEach(iterator: IteratorFunction<T, false | void>): void;
+
+  forEach(iterator: IteratorFunction<T, false | void>, startIndex: number): void;
+
+  forEach(iterator: IteratorFunction<T, false | void>, startIndex: number, count: number): void;
+
+  forEach(iterator: IteratorFunction<T, false | void>, startIndex: number = 0, count: number = this.length - startIndex): void {
+    new ReadOnlyCollectionImpl(this).forEach(iterator, startIndex, count);
+  }
+
+  forEachBack(iterator: IteratorFunction<T, false | void>): void;
+
+  forEachBack(iterator: IteratorFunction<T, false | void>, startIndex: number): void;
+
+  forEachBack(iterator: IteratorFunction<T, false | void>, startIndex: number, count: number): void;
+
+  forEachBack(
+    iterator: IteratorFunction<T, false | void>,
+    startIndex: number = Math.max(this.length - 1, 0),
+    count: number = startIndex + (this.length ? 1 : 0)
+  ): void {
+    new ReadOnlyCollectionImpl(this).forEachBack(iterator, startIndex, count);
+  }
+
+  groupBy<TKey>(keySelector: IteratorFunction<T, TKey>): ReadOnlyMultiValueMap<TKey, T>;
+
+  groupBy<TKey>(keySelector: IteratorFunction<T, TKey>, keyComparator: EqualityComparator<TKey>): ReadOnlyMultiValueMap<TKey, T>;
+
+  groupBy<TKey>(
+    keySelector: IteratorFunction<T, TKey>,
+    keyComparator: EqualityComparator<TKey> = ReferenceEqualityComparator.get()
+  ): ReadOnlyMultiValueMap<TKey, T> {
+    return new ReadOnlyCollectionImpl(this).groupBy(keySelector, keyComparator);
+  }
+
+  intersect(otherList: Sequence<T>): ReadOnlyCollection<T>;
+
+  intersect(otherList: Sequence<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
+
+  intersect(otherList: Sequence<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ReadOnlyCollection<T> {
+    return new ReadOnlyCollectionImpl(this).intersect(otherList, comparator);
+  }
+
+  join<TOuter, TKey, TResult>(
+    outerList: Sequence<TOuter>,
+    outerKeySelector: IteratorFunction<TOuter, TKey>,
+    innerKeySelector: IteratorFunction<T, TKey>,
+    resultSelector: CombineFunction<T, TOuter, TResult>
+  ): ReadOnlyCollection<TResult>;
+
+  join<TOuter, TKey, TResult>(
+    outerList: Sequence<TOuter>,
+    outerKeySelector: IteratorFunction<TOuter, TKey>,
+    innerKeySelector: IteratorFunction<T, TKey>,
+    resultSelector: CombineFunction<T, TOuter, TResult>,
+    keyComparator: EqualityComparator<TKey>
+  ): ReadOnlyCollection<TResult>;
+
+  join<TOuter, TKey, TResult>(
+    outerList: Sequence<TOuter>,
+    outerKeySelector: IteratorFunction<TOuter, TKey>,
+    innerKeySelector: IteratorFunction<T, TKey>,
+    resultSelector: CombineFunction<T, TOuter, TResult>,
+    keyComparator: EqualityComparator<TKey> = ReferenceEqualityComparator.get()
+  ): ReadOnlyCollection<TResult> {
+    return new ReadOnlyCollectionImpl(this).join(outerList, outerKeySelector, innerKeySelector, resultSelector, keyComparator);
+  }
+
+  last(predicate: IteratorFunction<T, boolean>): T | undefined;
+
+  last(predicate: IteratorFunction<T, boolean>, fallback: SupplyFunction<T>): T;
+
+  last(predicate: IteratorFunction<T, boolean>, fallback?: SupplyFunction<T>): T | undefined {
+    if (fallback === undefined) {
+      return new ReadOnlyCollectionImpl(this).last(predicate);
     }
 
-    public all(predicate: IteratorFunction<T, boolean>): boolean {
-        return new ReadOnlyCollectionImpl(this).all(predicate);
-    }
+    return new ReadOnlyCollectionImpl(this).last(predicate, fallback);
+  }
 
-    public any(predicate: IteratorFunction<T, boolean>): boolean {
-        return new ReadOnlyCollectionImpl(this).any(predicate);
-    }
+  lastOrDefault(fallback: SupplyFunction<T>): T {
+    return new ReadOnlyCollectionImpl(this).lastOrDefault(fallback);
+  }
 
-    public average(selector: IteratorFunction<T, number>): number {
-        return new ReadOnlyCollectionImpl(this).average(selector);
-    }
+  map<TResult>(selector: IteratorFunction<T, TResult>): ReadOnlyCollection<TResult> {
+    return new ReadOnlyCollectionImpl(this).map(selector);
+  }
 
-    public chunk(size: number = 1): ReadOnlyCollection<Iterable<T>> {
-        return new ReadOnlyCollectionImpl(this).chunk(size);
-    }
+  max(selector: IteratorFunction<T, number>): number {
+    return new ReadOnlyCollectionImpl(this).max(selector);
+  }
 
-    public concat(otherList: Sequence<T>, ...others: Array<Sequence<T>>): ReadOnlyCollection<T> {
-        return new ReadOnlyCollectionImpl(this).concat(otherList, ...others);
-    }
+  min(selector: IteratorFunction<T, number>): number {
+    return new ReadOnlyCollectionImpl(this).min(selector);
+  }
 
-    public contains(otherItem: T): boolean;
+  orderBy<TKey>(keySelector: ProjectFunction<T, TKey>, comparator: Comparator<TKey>): ReadOnlyCollection<T>;
 
-    public contains(otherItem: T, comparator: EqualityComparator<T>): boolean;
+  orderBy<TKey>(keySelector: ProjectFunction<T, TKey>, comparator: Comparator<TKey>, sortOrder: SortOrder): ReadOnlyCollection<T>;
 
-    public contains(otherItem: T, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): boolean {
-        return new ReadOnlyCollectionImpl(this).contains(otherItem, comparator);
-    }
+  orderBy<TKey>(
+    keySelector: ProjectFunction<T, TKey>,
+    comparator: Comparator<TKey>,
+    sortOrder: SortOrder = SortOrder.ASCENDING
+  ): ReadOnlyCollection<T> {
+    return new ReadOnlyCollectionImpl(this).orderBy(keySelector, comparator, sortOrder);
+  }
 
-    public containsAll(items: Sequence<T>): boolean;
+  random(): T {
+    return new ReadOnlyCollectionImpl(this).random();
+  }
 
-    public containsAll(items: Sequence<T>, comparator: EqualityComparator<T>): boolean;
+  reverse(): ReadOnlyCollection<T> {
+    return new ReadOnlyCollectionImpl(this).reverse();
+  }
 
-    public containsAll(items: Sequence<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): boolean {
-        return new ReadOnlyCollectionImpl(this).containsAll(items, comparator);
-    }
+  selectMany<TInnerItem, TResult>(
+    sequenceSelector: IteratorFunction<T, Iterable<TInnerItem>>,
+    resultSelector: CombineFunction<T, TInnerItem, TResult>
+  ): ReadOnlyCollection<TResult> {
+    return new ReadOnlyCollectionImpl(this).selectMany(sequenceSelector, resultSelector);
+  }
 
-    public count(predicate: IteratorFunction<T, boolean>): number {
-        return new ReadOnlyCollectionImpl(this).count(predicate);
-    }
+  skip(offset: number): ReadOnlyCollection<T> {
+    return new ReadOnlyCollectionImpl(this).skip(offset);
+  }
 
-    public distinct(): ReadOnlyCollection<T>;
+  skipWhile(predicate: IteratorFunction<T, boolean>): ReadOnlyCollection<T> {
+    return new ReadOnlyCollectionImpl(this).skipWhile(predicate);
+  }
 
-    public distinct(comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
+  slice(offset: number): ReadOnlyCollection<T>;
 
-    public distinct(comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ReadOnlyCollection<T> {
-        return new ReadOnlyCollectionImpl(this).distinct(comparator);
-    }
+  slice(offset: number, length: number): ReadOnlyCollection<T>;
 
-    public entries(): Iterable<KeyValuePair<number, T>> {
-        return new ReadOnlyCollectionImpl(this).entries();
-    }
+  slice(offset: number, length: number = this.length - offset): ReadOnlyCollection<T> {
+    return new ReadOnlyCollectionImpl(this).slice(offset, length);
+  }
 
-    public except(otherList: Iterable<T>): ReadOnlyCollection<T>;
+  sum(selector: IteratorFunction<T, number>): number {
+    return new ReadOnlyCollectionImpl(this).sum(selector);
+  }
 
-    public except(otherList: Iterable<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
+  take(length: number): ReadOnlyCollection<T> {
+    return new ReadOnlyCollectionImpl(this).take(length);
+  }
 
-    public except(otherList: Iterable<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ReadOnlyCollection<T> {
-        return new ReadOnlyCollectionImpl(this).except(otherList, comparator);
-    }
+  takeWhile(predicate: IteratorFunction<T, boolean>): ReadOnlyCollection<T> {
+    return new ReadOnlyCollectionImpl(this).takeWhile(predicate);
+  }
 
-    public findAll(predicate: IteratorFunction<T, boolean>): ReadOnlyCollection<T>;
+  toArray(): T[] {
+    return [...this];
+  }
 
-    public findAll(predicate: IteratorFunction<T, boolean>, limit: number): ReadOnlyCollection<T>;
+  toJSON(): T[] {
+    return this.toArray();
+  }
 
-    public findAll(predicate: IteratorFunction<T, boolean>, limit: number, offset: number): ReadOnlyCollection<T>;
+  union(otherList: Sequence<T>): ReadOnlyCollection<T>;
 
-    public findAll(
-        predicate: IteratorFunction<T, boolean>,
-        limit: number = Number.POSITIVE_INFINITY,
-        offset: number = 0
-    ): ReadOnlyCollection<T> {
-        return new ReadOnlyCollectionImpl(this).findAll(predicate, limit, offset);
-    }
+  union(otherList: Sequence<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
 
-    public first(predicate: IteratorFunction<T, boolean>): T | undefined;
+  union(otherList: Sequence<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ReadOnlyCollection<T> {
+    return new ReadOnlyCollectionImpl(this).union(otherList, comparator);
+  }
 
-    public first(predicate: IteratorFunction<T, boolean>, fallback: SupplyFunction<T>): T;
-
-    public first(predicate: IteratorFunction<T, boolean>, fallback?: SupplyFunction<T>): T | undefined {
-        if (fallback === undefined) {
-            return new ReadOnlyCollectionImpl(this).first(predicate);
-        }
-
-        return new ReadOnlyCollectionImpl(this).first(predicate, fallback);
-    }
-
-    public firstOrDefault(fallback: SupplyFunction<T>): T {
-        return new ReadOnlyCollectionImpl(this).firstOrDefault(fallback);
-    }
-
-    public forEach(iterator: IteratorFunction<T, false | void>): void;
-
-    public forEach(iterator: IteratorFunction<T, false | void>, startIndex: number): void;
-
-    public forEach(iterator: IteratorFunction<T, false | void>, startIndex: number, count: number): void;
-
-    public forEach(iterator: IteratorFunction<T, false | void>, startIndex: number = 0, count: number = this.length - startIndex): void {
-        new ReadOnlyCollectionImpl(this).forEach(iterator, startIndex, count);
-    }
-
-    public forEachBack(iterator: IteratorFunction<T, false | void>): void;
-
-    public forEachBack(iterator: IteratorFunction<T, false | void>, startIndex: number): void;
-
-    public forEachBack(iterator: IteratorFunction<T, false | void>, startIndex: number, count: number): void;
-
-    public forEachBack(
-        iterator: IteratorFunction<T, false | void>,
-        startIndex: number = Math.max(this.length - 1, 0),
-        count: number = startIndex + (this.length ? 1 : 0)
-    ): void {
-        new ReadOnlyCollectionImpl(this).forEachBack(iterator, startIndex, count);
-    }
-
-    public groupBy<TKey>(keySelector: IteratorFunction<T, TKey>): ReadOnlyMultiValueMap<TKey, T>;
-
-    public groupBy<TKey>(keySelector: IteratorFunction<T, TKey>, keyComparator: EqualityComparator<TKey>): ReadOnlyMultiValueMap<TKey, T>;
-
-    public groupBy<TKey>(
-        keySelector: IteratorFunction<T, TKey>,
-        keyComparator: EqualityComparator<TKey> = ReferenceEqualityComparator.get()
-    ): ReadOnlyMultiValueMap<TKey, T> {
-        return new ReadOnlyCollectionImpl(this).groupBy(keySelector, keyComparator);
-    }
-
-    public intersect(otherList: Sequence<T>): ReadOnlyCollection<T>;
-
-    public intersect(otherList: Sequence<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
-
-    public intersect(otherList: Sequence<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ReadOnlyCollection<T> {
-        return new ReadOnlyCollectionImpl(this).intersect(otherList, comparator);
-    }
-
-    public join<TOuter, TKey, TResult>(
-        outerList: Sequence<TOuter>,
-        outerKeySelector: IteratorFunction<TOuter, TKey>,
-        innerKeySelector: IteratorFunction<T, TKey>,
-        resultSelector: CombineFunction<T, TOuter, TResult>
-    ): ReadOnlyCollection<TResult>;
-
-    public join<TOuter, TKey, TResult>(
-        outerList: Sequence<TOuter>,
-        outerKeySelector: IteratorFunction<TOuter, TKey>,
-        innerKeySelector: IteratorFunction<T, TKey>,
-        resultSelector: CombineFunction<T, TOuter, TResult>,
-        keyComparator: EqualityComparator<TKey>
-    ): ReadOnlyCollection<TResult>;
-
-    public join<TOuter, TKey, TResult>(
-        outerList: Sequence<TOuter>,
-        outerKeySelector: IteratorFunction<TOuter, TKey>,
-        innerKeySelector: IteratorFunction<T, TKey>,
-        resultSelector: CombineFunction<T, TOuter, TResult>,
-        keyComparator: EqualityComparator<TKey> = ReferenceEqualityComparator.get()
-    ): ReadOnlyCollection<TResult> {
-        return new ReadOnlyCollectionImpl(this).join(outerList, outerKeySelector, innerKeySelector, resultSelector, keyComparator);
-    }
-
-    public last(predicate: IteratorFunction<T, boolean>): T | undefined;
-
-    public last(predicate: IteratorFunction<T, boolean>, fallback: SupplyFunction<T>): T;
-
-    public last(predicate: IteratorFunction<T, boolean>, fallback?: SupplyFunction<T>): T | undefined {
-        if (fallback === undefined) {
-            return new ReadOnlyCollectionImpl(this).last(predicate);
-        }
-
-        return new ReadOnlyCollectionImpl(this).last(predicate, fallback);
-    }
-
-    public lastOrDefault(fallback: SupplyFunction<T>): T {
-        return new ReadOnlyCollectionImpl(this).lastOrDefault(fallback);
-    }
-
-    public map<TResult>(selector: IteratorFunction<T, TResult>): ReadOnlyCollection<TResult> {
-        return new ReadOnlyCollectionImpl(this).map(selector);
-    }
-
-    public max(selector: IteratorFunction<T, number>): number {
-        return new ReadOnlyCollectionImpl(this).max(selector);
-    }
-
-    public min(selector: IteratorFunction<T, number>): number {
-        return new ReadOnlyCollectionImpl(this).min(selector);
-    }
-
-    public orderBy<TKey>(keySelector: ProjectFunction<T, TKey>, comparator: Comparator<TKey>): ReadOnlyCollection<T>;
-
-    public orderBy<TKey>(keySelector: ProjectFunction<T, TKey>, comparator: Comparator<TKey>, sortOrder: SortOrder): ReadOnlyCollection<T>;
-
-    public orderBy<TKey>(
-        keySelector: ProjectFunction<T, TKey>,
-        comparator: Comparator<TKey>,
-        sortOrder: SortOrder = SortOrder.ASCENDING
-    ): ReadOnlyCollection<T> {
-        return new ReadOnlyCollectionImpl(this).orderBy(keySelector, comparator, sortOrder);
-    }
-
-    public random(): T {
-        return new ReadOnlyCollectionImpl(this).random();
-    }
-
-    public reverse(): ReadOnlyCollection<T> {
-        return new ReadOnlyCollectionImpl(this).reverse();
-    }
-
-    public selectMany<TInnerItem, TResult>(
-        sequenceSelector: IteratorFunction<T, Iterable<TInnerItem>>,
-        resultSelector: CombineFunction<T, TInnerItem, TResult>
-    ): ReadOnlyCollection<TResult> {
-        return new ReadOnlyCollectionImpl(this).selectMany(sequenceSelector, resultSelector);
-    }
-
-    public skip(offset: number): ReadOnlyCollection<T> {
-        return new ReadOnlyCollectionImpl(this).skip(offset);
-    }
-
-    public skipWhile(predicate: IteratorFunction<T, boolean>): ReadOnlyCollection<T> {
-        return new ReadOnlyCollectionImpl(this).skipWhile(predicate);
-    }
-
-    public slice(offset: number): ReadOnlyCollection<T>;
-
-    public slice(offset: number, length: number): ReadOnlyCollection<T>;
-
-    public slice(offset: number, length: number = this.length - offset): ReadOnlyCollection<T> {
-        return new ReadOnlyCollectionImpl(this).slice(offset, length);
-    }
-
-    public sum(selector: IteratorFunction<T, number>): number {
-        return new ReadOnlyCollectionImpl(this).sum(selector);
-    }
-
-    public take(length: number): ReadOnlyCollection<T> {
-        return new ReadOnlyCollectionImpl(this).take(length);
-    }
-
-    public takeWhile(predicate: IteratorFunction<T, boolean>): ReadOnlyCollection<T> {
-        return new ReadOnlyCollectionImpl(this).takeWhile(predicate);
-    }
-
-    public toArray(): T[] {
-        return [...this];
-    }
-
-    public toJSON(): T[] {
-        return this.toArray();
-    }
-
-    public union(otherList: Sequence<T>): ReadOnlyCollection<T>;
-
-    public union(otherList: Sequence<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
-
-    public union(otherList: Sequence<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ReadOnlyCollection<T> {
-        return new ReadOnlyCollectionImpl(this).union(otherList, comparator);
-    }
-
-    public zip<TOther, TResult>(
-        otherList: Sequence<TOther>,
-        resultSelector: CombineFunction<T, TOther, TResult>
-    ): ReadOnlyCollection<TResult> {
-        return new ReadOnlyCollectionImpl(this).zip(otherList, resultSelector);
-    }
+  zip<TOther, TResult>(otherList: Sequence<TOther>, resultSelector: CombineFunction<T, TOther, TResult>): ReadOnlyCollection<TResult> {
+    return new ReadOnlyCollectionImpl(this).zip(otherList, resultSelector);
+  }
 }

@@ -7,27 +7,27 @@ import { ComparisonResult } from './ComparisonResult';
  * @since 0.0.1
  */
 export class PriorityComparator implements Comparator<Ordered> {
-    private static _instance: PriorityComparator | undefined;
+  private static _instance: PriorityComparator | undefined;
 
-    public static get(): PriorityComparator {
-        if (this._instance == null) {
-            this._instance = new PriorityComparator();
-        }
-
-        return this._instance;
+  static get(): PriorityComparator {
+    if (this._instance == null) {
+      this._instance = new PriorityComparator();
     }
 
-    private constructor() {}
+    return this._instance;
+  }
 
-    public compare(x: Ordered, y: Ordered): ComparisonResult {
-        if (x.order > y.order) {
-            return ComparisonResult.GREATER;
-        }
+  private constructor() {}
 
-        if (x.order < y.order) {
-            return ComparisonResult.LESS;
-        }
-
-        return ComparisonResult.EQUALS;
+  compare(x: Ordered, y: Ordered): ComparisonResult {
+    if (x.order > y.order) {
+      return ComparisonResult.GREATER;
     }
+
+    if (x.order < y.order) {
+      return ComparisonResult.LESS;
+    }
+
+    return ComparisonResult.EQUALS;
+  }
 }

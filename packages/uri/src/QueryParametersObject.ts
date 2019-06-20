@@ -5,5 +5,5 @@ import { ToString } from '@monument/core';
  * @author Alex Chugaev
  */
 export interface QueryParametersObject {
-    readonly [name: string]: ToString | undefined | null;
+  readonly [name: string]: ToString | undefined | null;
 }

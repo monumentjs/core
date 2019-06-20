@@ -5,9 +5,9 @@ import { ReleaseStatus } from './ReleaseStatus';
  * @since 0.0.1
  */
 export interface VersionComponents {
-    readonly major: number;
-    readonly minor: number;
-    readonly patch: number;
-    readonly releaseStatus: ReleaseStatus;
-    readonly revision: number;
+  readonly major: number;
+  readonly minor: number;
+  readonly patch: number;
+  readonly releaseStatus: ReleaseStatus;
+  readonly revision: number;
 }

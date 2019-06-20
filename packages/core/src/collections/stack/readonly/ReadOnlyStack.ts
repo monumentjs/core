@@ -7,8 +7,8 @@ import { Equatable } from '../../../comparison/equality/Equatable';
  * @readonly
  */
 export interface ReadOnlyStack<T> extends ReadOnlyCollection<T>, Equatable<ReadOnlyStack<T>> {
-    /**
-     * @throws {EmptyStackException}
-     */
-    peek(): T;
+  /**
+   * @throws {EmptyStackException}
+   */
+  peek(): T;
 }

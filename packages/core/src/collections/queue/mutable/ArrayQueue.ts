@@ -11,57 +11,57 @@ import { Cloneable } from '../../../base/Cloneable';
  * @mutable
  */
 export class ArrayQueue<T> extends ReadOnlyCollectionBase<T> implements Queue<T>, Cloneable<ArrayQueue<T>> {
-    private readonly _items: T[];
+  private readonly _items: T[];
 
-    public get length(): number {
-        return this._items.length;
+  get length(): number {
+    return this._items.length;
+  }
+
+  constructor();
+  constructor(items: Iterable<T>);
+  constructor(items?: Iterable<T>) {
+    super();
+
+    this._items = items ? [...items] : [];
+  }
+
+  [Symbol.iterator](): Iterator<T> {
+    return this._items[Symbol.iterator]();
+  }
+
+  clear(): boolean {
+    if (this._items.length > 0) {
+      this._items.length = 0;
+
+      return true;
     }
 
-    public constructor();
-    public constructor(items: Iterable<T>);
-    public constructor(items?: Iterable<T>) {
-        super();
+    return false;
+  }
 
-        this._items = items ? [...items] : [];
+  dequeue(): T {
+    if (this.isEmpty) {
+      throw new EmptyQueueException();
     }
 
-    public [Symbol.iterator](): Iterator<T> {
-        return this._items[Symbol.iterator]();
+    return this._items.shift() as T;
+  }
+
+  enqueue(item: T): boolean {
+    this._items.push(item);
+
+    return true;
+  }
+
+  clone(): ArrayQueue<T> {
+    return new ArrayQueue(this._items);
+  }
+
+  peek(): T {
+    if (this.isEmpty) {
+      throw new EmptyQueueException();
     }
 
-    public clear(): boolean {
-        if (this._items.length > 0) {
-            this._items.length = 0;
-
-            return true;
-        }
-
-        return false;
-    }
-
-    public dequeue(): T {
-        if (this.isEmpty) {
-            throw new EmptyQueueException();
-        }
-
-        return this._items.shift() as T;
-    }
-
-    public enqueue(item: T): boolean {
-        this._items.push(item);
-
-        return true;
-    }
-
-    public clone(): ArrayQueue<T> {
-        return new ArrayQueue(this._items);
-    }
-
-    public peek(): T {
-        if (this.isEmpty) {
-            throw new EmptyQueueException();
-        }
-
-        return this._items[0];
-    }
+    return this._items[0];
+  }
 }

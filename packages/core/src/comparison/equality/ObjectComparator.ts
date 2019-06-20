@@ -6,21 +6,21 @@ import { ComparisonResult } from '../order/ComparisonResult';
  * @since 0.0.1
  */
 export class ObjectComparator {
-    private readonly _comparisons: Array<[any, any, Comparator<any>]> = [];
+  private readonly _comparisons: Array<[any, any, Comparator<any>]> = [];
 
-    public get result(): ComparisonResult {
-        for (const [x, y, comparator] of this._comparisons) {
-            const result: ComparisonResult = comparator.compare(x, y);
+  get result(): ComparisonResult {
+    for (const [x, y, comparator] of this._comparisons) {
+      const result: ComparisonResult = comparator.compare(x, y);
 
-            if (result !== ComparisonResult.EQUALS) {
-                return result;
-            }
-        }
-
-        return ComparisonResult.EQUALS;
+      if (result !== ComparisonResult.EQUALS) {
+        return result;
+      }
     }
 
-    public compareFields<T>(x: T, y: T, comparator: Comparator<T>) {
-        this._comparisons.push([x, y, comparator]);
-    }
+    return ComparisonResult.EQUALS;
+  }
+
+  compareFields<T>(x: T, y: T, comparator: Comparator<T>) {
+    this._comparisons.push([x, y, comparator]);
+  }
 }

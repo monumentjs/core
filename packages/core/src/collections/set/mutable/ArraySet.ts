@@ -14,215 +14,213 @@ import { ReadOnlySet } from '../readonly/ReadOnlySet';
  * @mutable
  */
 export class ArraySet<T> extends ReadOnlyCollectionBase<T> implements Set<T>, Cloneable<ArraySet<T>> {
-    private readonly _comparator: EqualityComparator<T>;
-    private readonly _items: ArrayList<T> = new ArrayList();
+  private readonly _comparator: EqualityComparator<T>;
+  private readonly _items: ArrayList<T> = new ArrayList();
 
-    public get length(): number {
-        return this._items.length;
+  get length(): number {
+    return this._items.length;
+  }
+
+  get comparator(): EqualityComparator<T> {
+    return this._comparator;
+  }
+
+  constructor(items?: Iterable<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()) {
+    super();
+    this._comparator = comparator;
+
+    if (items != null) {
+      this.addAll(items);
+    }
+  }
+
+  add(item: T): boolean {
+    return this._items.addIfAbsent(item, this.comparator);
+  }
+
+  addAll(items: Iterable<T>): boolean {
+    const oldLength: number = this.length;
+
+    for (const item of items) {
+      this._items.addIfAbsent(item, this.comparator);
     }
 
-    public get comparator(): EqualityComparator<T> {
-        return this._comparator;
-    }
+    return this.length > oldLength;
+  }
 
-    public constructor(items?: Iterable<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()) {
-        super();
-        this._comparator = comparator;
+  clear(): boolean {
+    return this._items.clear();
+  }
 
-        if (items != null) {
-            this.addAll(items);
+  clone(): ArraySet<T> {
+    return new ArraySet(this, this.comparator);
+  }
+
+  equals(other: ReadOnlySet<T>): boolean {
+    return this.comparator === other.comparator && this.length === other.length && this.containsAll(other);
+  }
+
+  /**
+   * Modifies the current set so that it contains only elements that are also in a specified collection.
+   */
+  intersectWith(other: Iterable<T>): boolean {
+    return this.removeBy((ownItem: T): boolean => {
+      for (const otherItem of other) {
+        if (this.comparator.equals(ownItem, otherItem)) {
+          return false;
         }
+      }
+
+      return true;
+    });
+  }
+
+  isProperSubsetOf(other: Sequence<T>): boolean {
+    if (this.length >= other.length) {
+      return false;
     }
 
-    public add(item: T): boolean {
-        return this._items.addIfAbsent(item, this.comparator);
+    return this.isSubsetOf(other);
+  }
+
+  isProperSupersetOf(other: Sequence<T>): boolean {
+    if (this.length <= other.length) {
+      return false;
     }
 
-    public addAll(items: Iterable<T>): boolean {
-        const oldLength: number = this.length;
+    return this.isSupersetOf(other);
+  }
 
-        for (const item of items) {
-            this._items.addIfAbsent(item, this.comparator);
+  isSubsetOf(other: Sequence<T>): boolean {
+    let isValidSubset: boolean = true;
+
+    for (const ownItem of this) {
+      let isCurrentItemInOtherSet: boolean = false;
+
+      for (const otherItem of other) {
+        if (this.comparator.equals(ownItem, otherItem)) {
+          isCurrentItemInOtherSet = true;
+
+          break;
         }
+      }
 
-        return this.length > oldLength;
+      if (!isCurrentItemInOtherSet) {
+        isValidSubset = false;
+
+        break;
+      }
     }
 
-    public clear(): boolean {
-        return this._items.clear();
-    }
+    return isValidSubset;
+  }
 
-    public clone(): ArraySet<T> {
-        return new ArraySet(this, this.comparator);
-    }
+  isSupersetOf(other: Sequence<T>): boolean {
+    let isValidSuperset: boolean = true;
 
-    public equals(other: ReadOnlySet<T>): boolean {
-        return this.comparator === other.comparator && this.length === other.length && this.containsAll(other);
-    }
+    for (const ownItem of other) {
+      let isOtherItemInCurrentSet: boolean = false;
 
-    /**
-     * Modifies the current set so that it contains only elements that are also in a specified collection.
-     */
-    public intersectWith(other: Iterable<T>): boolean {
-        return this.removeBy(
-            (ownItem: T): boolean => {
-                for (const otherItem of other) {
-                    if (this.comparator.equals(ownItem, otherItem)) {
-                        return false;
-                    }
-                }
+      for (const currentItem of this) {
+        if (this.comparator.equals(currentItem, ownItem)) {
+          isOtherItemInCurrentSet = true;
 
-                return true;
-            }
-        );
-    }
-
-    public isProperSubsetOf(other: Sequence<T>): boolean {
-        if (this.length >= other.length) {
-            return false;
+          break;
         }
+      }
 
-        return this.isSubsetOf(other);
+      if (!isOtherItemInCurrentSet) {
+        isValidSuperset = false;
+
+        break;
+      }
     }
 
-    public isProperSupersetOf(other: Sequence<T>): boolean {
-        if (this.length <= other.length) {
-            return false;
-        }
+    return isValidSuperset;
+  }
 
-        return this.isSupersetOf(other);
+  overlaps(other: ReadOnlySet<T>): boolean {
+    for (const ownItem of this) {
+      for (const otherItem of other) {
+        if (this.comparator.equals(ownItem, otherItem)) {
+          return true;
+        }
+      }
     }
 
-    public isSubsetOf(other: Sequence<T>): boolean {
-        let isValidSubset: boolean = true;
+    return false;
+  }
 
-        for (const ownItem of this) {
-            let isCurrentItemInOtherSet: boolean = false;
+  remove(otherItem: T): boolean {
+    return this._items.remove(otherItem, this.comparator);
+  }
 
-            for (const otherItem of other) {
-                if (this.comparator.equals(ownItem, otherItem)) {
-                    isCurrentItemInOtherSet = true;
+  removeAll(items: Iterable<T>): boolean {
+    return this._items.removeAll(items, this.comparator);
+  }
 
-                    break;
-                }
-            }
+  removeBy(predicate: (item: T) => boolean): boolean {
+    return this._items.removeBy(predicate);
+  }
 
-            if (!isCurrentItemInOtherSet) {
-                isValidSubset = false;
+  retainAll(items: Iterable<T>): boolean {
+    return this._items.retainAll(items, this.comparator);
+  }
 
-                break;
-            }
-        }
-
-        return isValidSubset;
+  setEquals(other: ReadOnlySet<T>): boolean {
+    if (this.length !== other.length) {
+      return false;
     }
 
-    public isSupersetOf(other: Sequence<T>): boolean {
-        let isValidSuperset: boolean = true;
-
-        for (const ownItem of other) {
-            let isOtherItemInCurrentSet: boolean = false;
-
-            for (const currentItem of this) {
-                if (this.comparator.equals(currentItem, ownItem)) {
-                    isOtherItemInCurrentSet = true;
-
-                    break;
-                }
-            }
-
-            if (!isOtherItemInCurrentSet) {
-                isValidSuperset = false;
-
-                break;
-            }
-        }
-
-        return isValidSuperset;
-    }
-
-    public overlaps(other: ReadOnlySet<T>): boolean {
-        for (const ownItem of this) {
-            for (const otherItem of other) {
-                if (this.comparator.equals(ownItem, otherItem)) {
-                    return true;
-                }
-            }
-        }
-
+    for (const otherItem of other) {
+      if (!this.contains(otherItem)) {
         return false;
+      }
     }
 
-    public remove(otherItem: T): boolean {
-        return this._items.remove(otherItem, this.comparator);
-    }
+    for (const currentItem of this) {
+      let currentItemInOtherCollection: boolean = false;
 
-    public removeAll(items: Iterable<T>): boolean {
-        return this._items.removeAll(items, this.comparator);
-    }
+      for (const otherItem of other) {
+        if (this.comparator.equals(currentItem, otherItem)) {
+          currentItemInOtherCollection = true;
 
-    public removeBy(predicate: (item: T) => boolean): boolean {
-        return this._items.removeBy(predicate);
-    }
-
-    public retainAll(items: Iterable<T>): boolean {
-        return this._items.retainAll(items, this.comparator);
-    }
-
-    public setEquals(other: ReadOnlySet<T>): boolean {
-        if (this.length !== other.length) {
-            return false;
+          break;
         }
+      }
 
-        for (const otherItem of other) {
-            if (!this.contains(otherItem)) {
-                return false;
-            }
+      if (!currentItemInOtherCollection) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  symmetricExceptWith(other: Sequence<T>): boolean {
+    let hasChanged: boolean = false;
+
+    for (const otherItem of other) {
+      if (this.contains(otherItem)) {
+        if (this.remove(otherItem)) {
+          hasChanged = true;
         }
-
-        for (const currentItem of this) {
-            let currentItemInOtherCollection: boolean = false;
-
-            for (const otherItem of other) {
-                if (this.comparator.equals(currentItem, otherItem)) {
-                    currentItemInOtherCollection = true;
-
-                    break;
-                }
-            }
-
-            if (!currentItemInOtherCollection) {
-                return false;
-            }
+      } else {
+        if (this.add(otherItem)) {
+          hasChanged = true;
         }
-
-        return true;
+      }
     }
 
-    public symmetricExceptWith(other: Sequence<T>): boolean {
-        let hasChanged: boolean = false;
+    return hasChanged;
+  }
 
-        for (const otherItem of other) {
-            if (this.contains(otherItem)) {
-                if (this.remove(otherItem)) {
-                    hasChanged = true;
-                }
-            } else {
-                if (this.add(otherItem)) {
-                    hasChanged = true;
-                }
-            }
-        }
+  unionWith(other: Sequence<T>): boolean {
+    // TODO: implement
+    throw new MethodNotImplementedException('Method "unionWith" is not implemented yet');
+  }
 
-        return hasChanged;
-    }
-
-    public unionWith(other: Sequence<T>): boolean {
-        // TODO: implement
-        throw new MethodNotImplementedException('Method "unionWith" is not implemented yet');
-    }
-
-    public [Symbol.iterator](): Iterator<T> {
-        return this._items[Symbol.iterator]();
-    }
+  [Symbol.iterator](): Iterator<T> {
+    return this._items[Symbol.iterator]();
+  }
 }

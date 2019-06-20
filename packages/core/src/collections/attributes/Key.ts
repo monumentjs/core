@@ -5,13 +5,13 @@ import { ToString } from '../../base/ToString';
  * @since 0.0.1
  */
 export class Key<T> implements ToString {
-    public readonly description: string;
+  readonly description: string;
 
-    public constructor(description: string) {
-        this.description = description;
-    }
+  constructor(description: string) {
+    this.description = description;
+  }
 
-    public toString(): string {
-        return this.description;
-    }
+  toString(): string {
+    return this.description;
+  }
 }

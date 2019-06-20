@@ -9,35 +9,35 @@ import { IteratorFunction } from '../../function/IteratorFunction';
  * @readonly
  */
 export interface ImmutableList<T> extends ReadOnlyList<T> {
-    add(item: T): ImmutableList<T>;
+  add(item: T): ImmutableList<T>;
 
-    addAll(items: Iterable<T>): ImmutableList<T>;
+  addAll(items: Iterable<T>): ImmutableList<T>;
 
-    addIfAbsent(item: T): ImmutableList<T>;
+  addIfAbsent(item: T): ImmutableList<T>;
 
-    addIfAbsent(item: T, comparator: EqualityComparator<T>): ImmutableList<T>;
+  addIfAbsent(item: T, comparator: EqualityComparator<T>): ImmutableList<T>;
 
-    clear(): ImmutableList<T>;
+  clear(): ImmutableList<T>;
 
-    insert(index: number, item: T): ImmutableList<T>;
+  insert(index: number, item: T): ImmutableList<T>;
 
-    insertAll(index: number, items: Iterable<T>): ImmutableList<T>;
+  insertAll(index: number, items: Iterable<T>): ImmutableList<T>;
 
-    remove(item: T): ImmutableList<T>;
+  remove(item: T): ImmutableList<T>;
 
-    remove(item: T, comparator: EqualityComparator<T>): ImmutableList<T>;
+  remove(item: T, comparator: EqualityComparator<T>): ImmutableList<T>;
 
-    removeAll(items: Iterable<T>): ImmutableList<T>;
+  removeAll(items: Iterable<T>): ImmutableList<T>;
 
-    removeAll(items: Iterable<T>, comparator: EqualityComparator<T>): ImmutableList<T>;
+  removeAll(items: Iterable<T>, comparator: EqualityComparator<T>): ImmutableList<T>;
 
-    removeAt(index: number): ImmutableList<T>;
+  removeAt(index: number): ImmutableList<T>;
 
-    removeBy(predicate: IteratorFunction<T, boolean>): ImmutableList<T>;
+  removeBy(predicate: IteratorFunction<T, boolean>): ImmutableList<T>;
 
-    retainAll(items: Iterable<T>): ImmutableList<T>;
+  retainAll(items: Iterable<T>): ImmutableList<T>;
 
-    retainAll(items: Iterable<T>, comparator: EqualityComparator<T>): ImmutableList<T>;
+  retainAll(items: Iterable<T>, comparator: EqualityComparator<T>): ImmutableList<T>;
 
-    setAt(index: number, newValue: T): ImmutableList<T>;
+  setAt(index: number, newValue: T): ImmutableList<T>;
 }

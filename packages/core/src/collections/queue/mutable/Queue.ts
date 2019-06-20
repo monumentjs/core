@@ -6,12 +6,12 @@ import { ReadOnlyQueue } from '../readonly/ReadOnlyQueue';
  * @mutable
  */
 export interface Queue<T> extends ReadOnlyQueue<T> {
-    clear(): boolean;
+  clear(): boolean;
 
-    /**
-     * @throws {EmptyQueueException}
-     */
-    dequeue(): T;
+  /**
+   * @throws {EmptyQueueException}
+   */
+  dequeue(): T;
 
-    enqueue(item: T): boolean;
+  enqueue(item: T): boolean;
 }

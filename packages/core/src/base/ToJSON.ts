@@ -4,5 +4,5 @@
  * @param T shape of serialized JSON
  */
 export interface ToJSON<T> {
-    toJSON(): T;
+  toJSON(): T;
 }

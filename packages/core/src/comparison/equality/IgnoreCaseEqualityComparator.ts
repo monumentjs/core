@@ -5,31 +5,31 @@ import { EqualityComparator } from './EqualityComparator';
  * @since 0.0.1
  */
 export class IgnoreCaseEqualityComparator implements EqualityComparator<string | null | undefined> {
-    private static _instance: IgnoreCaseEqualityComparator | undefined;
+  private static _instance: IgnoreCaseEqualityComparator | undefined;
 
-    public static get(): IgnoreCaseEqualityComparator {
-        if (this._instance == null) {
-            this._instance = new IgnoreCaseEqualityComparator();
-        }
-
-        return this._instance;
+  static get(): IgnoreCaseEqualityComparator {
+    if (this._instance == null) {
+      this._instance = new IgnoreCaseEqualityComparator();
     }
 
-    private constructor() {}
+    return this._instance;
+  }
 
-    public equals(current: string | null | undefined, other: string | null | undefined): boolean {
-        if (current == null && other == null) {
-            return true;
-        }
+  private constructor() {}
 
-        if (current == null || other == null) {
-            return false;
-        }
-
-        if (current.length !== other.length) {
-            return false;
-        }
-
-        return current.toLowerCase() === other.toLowerCase();
+  equals(current: string | null | undefined, other: string | null | undefined): boolean {
+    if (current == null && other == null) {
+      return true;
     }
+
+    if (current == null || other == null) {
+      return false;
+    }
+
+    if (current.length !== other.length) {
+      return false;
+    }
+
+    return current.toLowerCase() === other.toLowerCase();
+  }
 }

@@ -3,5 +3,5 @@
  * @since 0.0.1
  */
 export interface Equatable<T> {
-    equals(other: T): boolean;
+  equals(other: T): boolean;
 }

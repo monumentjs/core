@@ -5,7 +5,7 @@ import { InvalidOperationException } from '../../exceptions/InvalidOperationExce
  * @since 0.0.1
  */
 export class EmptyStackException extends InvalidOperationException {
-    public constructor() {
-        super('Unable to perform operation on empty stack.');
-    }
+  constructor() {
+    super('Unable to perform operation on empty stack.');
+  }
 }

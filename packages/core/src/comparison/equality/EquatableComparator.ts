@@ -6,7 +6,7 @@ import { EqualityComparator } from './EqualityComparator';
  * @since 0.0.1
  */
 export class EquatableComparator<T extends Equatable<any>> implements EqualityComparator<T> {
-    public equals(x: T, y: T): boolean {
-        return x.equals(y);
-    }
+  equals(x: T, y: T): boolean {
+    return x.equals(y);
+  }
 }

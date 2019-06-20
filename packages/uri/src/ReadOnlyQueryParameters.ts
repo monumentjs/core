@@ -6,25 +6,25 @@ import { ReadOnlyMultiValueMap, ToString } from '@monument/core';
  * @readonly
  */
 export interface ReadOnlyQueryParameters extends ReadOnlyMultiValueMap<string, ToString> {
-    getBoolean(key: string): boolean | undefined;
+  getBoolean(key: string): boolean | undefined;
 
-    getBoolean(key: string, defaultValue: boolean): boolean;
+  getBoolean(key: string, defaultValue: boolean): boolean;
 
-    getFloat(key: string): number | undefined;
+  getFloat(key: string): number | undefined;
 
-    getFloat(key: string, defaultValue: number): number;
+  getFloat(key: string, defaultValue: number): number;
 
-    getFloats(key: string): Iterable<number>;
+  getFloats(key: string): Iterable<number>;
 
-    getInteger(key: string): number | undefined;
+  getInteger(key: string): number | undefined;
 
-    getInteger(key: string, defaultValue: number): number;
+  getInteger(key: string, defaultValue: number): number;
 
-    getIntegers(key: string): Iterable<number>;
+  getIntegers(key: string): Iterable<number>;
 
-    getString(key: string): string | undefined;
+  getString(key: string): string | undefined;
 
-    getString(key: string, defaultValue: string): string;
+  getString(key: string, defaultValue: string): string;
 
-    getStrings(key: string): Iterable<string>;
+  getStrings(key: string): Iterable<string>;
 }

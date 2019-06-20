@@ -4,5 +4,5 @@
  * @param T type of value
  */
 export interface RandomValue<T> {
-    readonly value: T;
+  readonly value: T;
 }

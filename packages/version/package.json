@@ -1,29 +1,29 @@
 {
-    "name": "@monument/version",
-    "version": "0.8.0",
-    "description": "Version value object and support",
-    "keywords": [
-        "version",
-        "semver",
-        "parse",
-        "parser",
-        "serialize",
-        "format"
-    ],
-    "license": "MIT",
-    "homepage": "https://monumentjs.github.io/package/version",
-    "repository": "https://github.com/monumentjs/core.git",
-    "contributors": [
-        {
-            "name": "Alex Chugaev",
-            "email": "achugaev93@gmail.com"
-        }
-    ],
-    "dependencies": {
-        "@monument/core": "^0.8.0"
-    },
-    "publishConfig": {
-        "access": "public"
-    },
-    "gitHead": "d7eb2ca381f7085dbd1a77ef58c43342ed838b31"
+  "name": "@monument/version",
+  "version": "0.8.0",
+  "description": "Version value object and support",
+  "keywords": [
+    "version",
+    "semver",
+    "parse",
+    "parser",
+    "serialize",
+    "format"
+  ],
+  "license": "MIT",
+  "homepage": "https://monumentjs.github.io/package/version",
+  "repository": "https://github.com/monumentjs/core.git",
+  "contributors": [
+    {
+      "name": "Alex Chugaev",
+      "email": "achugaev93@gmail.com"
+    }
+  ],
+  "dependencies": {
+    "@monument/core": "^0.8.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "d7eb2ca381f7085dbd1a77ef58c43342ed838b31"
 }

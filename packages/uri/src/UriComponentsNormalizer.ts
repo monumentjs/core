@@ -7,58 +7,58 @@ import { UriSchema } from './UriSchema';
  * @since 0.0.1
  */
 export class UriComponentsNormalizer {
-    public normalize(components: UriComponents): UriComponents {
-        return {
-            schema: this.getNormalizedSchema(components),
-            userName: components.userName,
-            password: components.password,
-            host: this.getNormalizedHost(components),
-            port: components.port,
-            path: this.getNormalizedPath(components),
-            queryParameters: components.queryParameters,
-            fragment: components.fragment
-        };
+  normalize(components: UriComponents): UriComponents {
+    return {
+      schema: this.getNormalizedSchema(components),
+      userName: components.userName,
+      password: components.password,
+      host: this.getNormalizedHost(components),
+      port: components.port,
+      path: this.getNormalizedPath(components),
+      queryParameters: components.queryParameters,
+      fragment: components.fragment
+    };
+  }
+
+  private getNormalizedHost(components: UriComponents): string | undefined {
+    const { schema, host } = components;
+
+    if (UriSchema.FILE.equals(schema)) {
+      if (!host) {
+        return UriSchema.FILE.defaultHost;
+      }
     }
 
-    private getNormalizedHost(components: UriComponents): string | undefined {
-        const { schema, host } = components;
+    return host;
+  }
 
-        if (UriSchema.FILE.equals(schema)) {
-            if (!host) {
-                return UriSchema.FILE.defaultHost;
-            }
-        }
+  private getNormalizedPath(components: UriComponents): string | undefined {
+    const { path } = components;
 
-        return host;
+    if (path) {
+      const isWindowsAbsolutePath = UriConstants.WINDOWS_ABSOLUTE_PATH_PATTERN.test(path);
+
+      let normalizedPath = path;
+
+      if (isWindowsAbsolutePath) {
+        normalizedPath = UriConstants.PATH_FRAGMENT_DELIMITER + path;
+      }
+
+      normalizedPath = normalizedPath.replace(/[\\/]+/g, UriConstants.PATH_FRAGMENT_DELIMITER);
+
+      return normalizedPath;
     }
 
-    private getNormalizedPath(components: UriComponents): string | undefined {
-        const { path } = components;
+    return path;
+  }
 
-        if (path) {
-            const isWindowsAbsolutePath = UriConstants.WINDOWS_ABSOLUTE_PATH_PATTERN.test(path);
+  private getNormalizedSchema(components: UriComponents): string | undefined {
+    const { schema } = components;
 
-            let normalizedPath = path;
-
-            if (isWindowsAbsolutePath) {
-                normalizedPath = UriConstants.PATH_FRAGMENT_DELIMITER + path;
-            }
-
-            normalizedPath = normalizedPath.replace(/[\\/]+/g, UriConstants.PATH_FRAGMENT_DELIMITER);
-
-            return normalizedPath;
-        }
-
-        return path;
+    if (schema == null) {
+      return schema;
     }
 
-    private getNormalizedSchema(components: UriComponents): string | undefined {
-        const { schema } = components;
-
-        if (schema == null) {
-            return schema;
-        }
-
-        return schema.toLowerCase();
-    }
+    return schema.toLowerCase();
+  }
 }

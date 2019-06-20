@@ -3,7 +3,7 @@
  * @since 0.0.1
  */
 export interface Parser<O> {
-    canParse(source: string): boolean;
+  canParse(source: string): boolean;
 
-    parse(source: string): O;
+  parse(source: string): O;
 }

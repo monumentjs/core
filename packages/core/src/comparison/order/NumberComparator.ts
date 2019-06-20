@@ -6,27 +6,27 @@ import { ComparisonResult } from './ComparisonResult';
  * @since 0.0.1
  */
 export class NumberComparator implements Comparator<number> {
-    private static _instance: NumberComparator | undefined;
+  private static _instance: NumberComparator | undefined;
 
-    public static get(): NumberComparator {
-        if (this._instance == null) {
-            this._instance = new NumberComparator();
-        }
-
-        return this._instance;
+  static get(): NumberComparator {
+    if (this._instance == null) {
+      this._instance = new NumberComparator();
     }
 
-    private constructor() {}
+    return this._instance;
+  }
 
-    public compare(x: number, y: number): ComparisonResult {
-        if (x > y) {
-            return ComparisonResult.GREATER;
-        }
+  private constructor() {}
 
-        if (x < y) {
-            return ComparisonResult.LESS;
-        }
-
-        return ComparisonResult.EQUALS;
+  compare(x: number, y: number): ComparisonResult {
+    if (x > y) {
+      return ComparisonResult.GREATER;
     }
+
+    if (x < y) {
+      return ComparisonResult.LESS;
+    }
+
+    return ComparisonResult.EQUALS;
+  }
 }

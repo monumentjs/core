@@ -6,19 +6,19 @@ import { ReferenceEqualityComparator } from './ReferenceEqualityComparator';
  * @since 0.0.1
  */
 export class ChainedEqualityComparator {
-    private readonly _comparisons: Array<[any, any, EqualityComparator<any>]> = [];
+  private readonly _comparisons: Array<[any, any, EqualityComparator<any>]> = [];
 
-    public get result(): boolean {
-        return this._comparisons.every(([x, y, comparator]) => {
-            return comparator.equals(x, y);
-        });
-    }
+  get result(): boolean {
+    return this._comparisons.every(([x, y, comparator]) => {
+      return comparator.equals(x, y);
+    });
+  }
 
-    public withField<F>(x: F, y: F): this;
-    public withField<F>(x: F, y: F, comparator: EqualityComparator<F>): this;
-    public withField<F>(x: F, y: F, comparator: EqualityComparator<F> = ReferenceEqualityComparator.get()): this {
-        this._comparisons.push([x, y, comparator]);
+  withField<F>(x: F, y: F): this;
+  withField<F>(x: F, y: F, comparator: EqualityComparator<F>): this;
+  withField<F>(x: F, y: F, comparator: EqualityComparator<F> = ReferenceEqualityComparator.get()): this {
+    this._comparisons.push([x, y, comparator]);
 
-        return this;
-    }
+    return this;
+  }
 }

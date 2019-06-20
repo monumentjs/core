@@ -5,19 +5,19 @@ import { EqualityComparator } from './EqualityComparator';
  * @since 0.0.1
  */
 export class ReferenceEqualityComparator implements EqualityComparator<any> {
-    private static _instance: ReferenceEqualityComparator | undefined;
+  private static _instance: ReferenceEqualityComparator | undefined;
 
-    public static get(): ReferenceEqualityComparator {
-        if (this._instance == null) {
-            this._instance = new ReferenceEqualityComparator();
-        }
-
-        return this._instance;
+  static get(): ReferenceEqualityComparator {
+    if (this._instance == null) {
+      this._instance = new ReferenceEqualityComparator();
     }
 
-    private constructor() {}
+    return this._instance;
+  }
 
-    public equals(x: any, y: any): boolean {
-        return x === y;
-    }
+  private constructor() {}
+
+  equals(x: any, y: any): boolean {
+    return x === y;
+  }
 }

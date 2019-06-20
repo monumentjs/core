@@ -6,6 +6,7 @@ export * from './src/base/CastException';
 export * from './src/base/Cloneable';
 export * from './src/base/Disposable';
 export * from './src/base/MemorySize';
+export * from './src/base/Supplier';
 export * from './src/base/ToJSON';
 export * from './src/base/ToString';
 export * from './src/base/Type';

@@ -4,5 +4,5 @@
  * @param T type of output value
  */
 export interface Builder<T> {
-    build(): T;
+  build(): T;
 }

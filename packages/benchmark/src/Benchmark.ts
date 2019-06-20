@@ -1,23 +1,23 @@
 import { times } from '@monument/core';
 
 export class Benchmark {
-    public static once(fn: () => void): number {
-        const startTime = Date.now();
+  static once(fn: () => void): number {
+    const startTime = Date.now();
 
-        fn();
+    fn();
 
-        const endTime = Date.now();
+    const endTime = Date.now();
 
-        return endTime - startTime;
-    }
+    return endTime - startTime;
+  }
 
-    public static repeat(count: number, fn: (num: number) => void): number {
-        const startTime = Date.now();
+  static repeat(count: number, fn: (num: number) => void): number {
+    const startTime = Date.now();
 
-        times(count, fn);
+    times(count, fn);
 
-        const endTime = Date.now();
+    const endTime = Date.now();
 
-        return endTime - startTime;
-    }
+    return endTime - startTime;
+  }
 }

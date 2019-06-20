@@ -1,27 +1,27 @@
 {
-    "name": "@monument/core",
-    "version": "0.8.0",
-    "description": "Core module of TypeScript standard library",
-    "keywords": [
-        "typescript",
-        "standard",
-        "library",
-        "core"
-    ],
-    "license": "MIT",
-    "homepage": "https://monumentjs.github.io/package/core",
-    "repository": "https://github.com/monumentjs/core.git",
-    "contributors": [
-        {
-            "name": "Alex Chugaev",
-            "email": "achugaev93@gmail.com"
-        }
-    ],
-    "dependencies": {
-        "reflect-metadata": "^0.1.12"
-    },
-    "publishConfig": {
-        "access": "public"
-    },
-    "gitHead": "d7eb2ca381f7085dbd1a77ef58c43342ed838b31"
+  "name": "@monument/core",
+  "version": "0.8.0",
+  "description": "Core module of TypeScript standard library",
+  "keywords": [
+    "typescript",
+    "standard",
+    "library",
+    "core"
+  ],
+  "license": "MIT",
+  "homepage": "https://monumentjs.github.io/package/core",
+  "repository": "https://github.com/monumentjs/core.git",
+  "contributors": [
+    {
+      "name": "Alex Chugaev",
+      "email": "achugaev93@gmail.com"
+    }
+  ],
+  "dependencies": {
+    "reflect-metadata": "^0.1.12"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "d7eb2ca381f7085dbd1a77ef58c43342ed838b31"
 }

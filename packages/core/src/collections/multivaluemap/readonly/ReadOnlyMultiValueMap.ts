@@ -11,35 +11,35 @@ import { Equatable } from '../../../comparison/equality/Equatable';
  * @readonly
  */
 export interface ReadOnlyMultiValueMap<K, V>
-    extends Sequence<KeyValuePair<K, V>>,
-        ToArray<KeyValuePair<K, V>>,
-        Equatable<ReadOnlyMultiValueMap<K, V>> {
-    readonly isEmpty: boolean;
-    readonly keys: Iterable<K>;
-    readonly values: Iterable<V>;
-    readonly valuesCount: number;
+  extends Sequence<KeyValuePair<K, V>>,
+    ToArray<KeyValuePair<K, V>>,
+    Equatable<ReadOnlyMultiValueMap<K, V>> {
+  readonly isEmpty: boolean;
+  readonly keys: Iterable<K>;
+  readonly values: Iterable<V>;
+  readonly valuesCount: number;
 
-    containsEntries(entries: Iterable<KeyValuePair<K, V>>): boolean;
+  containsEntries(entries: Iterable<KeyValuePair<K, V>>): boolean;
 
-    containsEntry(key: K, value: V): boolean;
+  containsEntry(key: K, value: V): boolean;
 
-    containsKey(key: K): boolean;
+  containsKey(key: K): boolean;
 
-    containsKeys(keys: Iterable<K>): boolean;
+  containsKeys(keys: Iterable<K>): boolean;
 
-    containsValue(value: V): boolean;
+  containsValue(value: V): boolean;
 
-    containsValues(values: Iterable<V>): boolean;
+  containsValues(values: Iterable<V>): boolean;
 
-    get(key: K): Iterable<V>;
+  get(key: K): Iterable<V>;
 
-    getFirst(key: K): V | undefined;
+  getFirst(key: K): V | undefined;
 
-    getFirst(key: K, fallback: SupplyFunction<V>): V;
+  getFirst(key: K, fallback: SupplyFunction<V>): V;
 
-    keyOf(value: V): K | undefined;
+  keyOf(value: V): K | undefined;
 
-    keysOf(value: V): Iterable<K>;
+  keysOf(value: V): Iterable<K>;
 
-    toSingleValueMap(): ReadOnlyMap<K, V>;
+  toSingleValueMap(): ReadOnlyMap<K, V>;
 }

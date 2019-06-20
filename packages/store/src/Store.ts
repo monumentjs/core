@@ -1,55 +1,83 @@
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Action } from './Action';
-import { ActionReducerFunction } from './ActionReducerFunction';
-import { EffectHandlerFunction } from './EffectHandlerFunction';
+import { Actions } from './Actions';
+import { Effect } from './Effect';
+import { EffectDefMap } from './EffectDefMap';
+import { EffectMapAdapter } from './EffectMapAdapter';
 import { EffectResult } from './EffectResult';
 
-export class Store<TState, TAction extends Action> extends BehaviorSubject<TState> {
-    private readonly _reducer: ActionReducerFunction<TState, TAction>;
-    private readonly _effects: Array<EffectHandlerFunction<TAction>>;
+export abstract class Store<TState, TAction extends Action = Action> {
+  private readonly _actions: Actions;
+  private readonly _state: BehaviorSubject<TState>;
+  private _snapshot: TState;
 
-    public constructor(
-        initialState: TState,
-        reducer: ActionReducerFunction<TState, TAction>,
-        ...effects: Array<EffectHandlerFunction<TAction>>
-    ) {
-        super(initialState);
-        this._reducer = reducer;
-        this._effects = effects;
+  get state(): Observable<TState> {
+    return this._state;
+  }
+
+  get snapshot(): TState {
+    return this._snapshot;
+  }
+
+  constructor(actions: Actions) {
+    this._snapshot = this.getInitialState();
+    this._state = new BehaviorSubject(this._snapshot);
+    this._actions = actions;
+
+    actions.subscribe((action: Action) => {
+      this.onAction(action as TAction);
+    });
+
+    this.useEffects(this.getEffects(actions, this._state));
+  }
+
+  protected abstract getInitialState(): TState;
+
+  protected getEffects(actions: Actions, state: Observable<TState>): EffectDefMap {
+    return {};
+  }
+
+  protected abstract getNextState(currentState: TState, action: TAction): TState;
+
+  private useEffects(effectDefMap: EffectDefMap) {
+    const effectMapAdapter: EffectMapAdapter = new EffectMapAdapter(effectDefMap);
+
+    for (const effect of Object.values(effectMapAdapter)) {
+      effect.get().subscribe((result: EffectResult) => {
+        this.onEffect(effect, result);
+      });
     }
+  }
 
-    public dispatch(action: TAction): void {
-        const oldState: TState = this.getValue();
-        const newState: TState = this._reducer(oldState, action);
+  private onAction(action: TAction): void {
+    const currentState: TState = this._state.value;
+    const nextState: TState = this.getNextState(currentState, action);
 
-        if (oldState !== newState) {
-            this.next(newState);
+    if (nextState !== currentState) {
+      this._snapshot = nextState;
+      this._state.next(nextState);
+    }
+  }
 
-            this._effects.forEach((effect: EffectHandlerFunction<TAction>) => {
-                const effectResult: EffectResult<TAction> = effect(action);
-
-                if (effectResult) {
-                    if (effectResult instanceof Array) {
-                        this.dispatchAll(effectResult);
-                    } else if (effectResult instanceof Promise) {
-                        effectResult.then((result: void | TAction[]) => {
-                            if (result) {
-                                this.dispatchAll(result);
-                            }
-                        });
-                    } else {
-                        effectResult.subscribe((nextAction: TAction) => {
-                            this.dispatch(nextAction);
-                        });
-                    }
-                }
-            });
+  private onEffect(effect: Effect, result: EffectResult): void {
+    if (effect.dispatch) {
+      if (result) {
+        if (result instanceof Array) {
+          for (const action of result) {
+            this._actions.next(action);
+          }
+        } else if (result instanceof Promise) {
+          result.then(_result => {
+            this.onEffect(effect, _result);
+          });
+        } else if (result instanceof Observable) {
+          result.subscribe(action => {
+            this._actions.next(action);
+          });
+        } else {
+          this._actions.next(result);
         }
+      }
     }
-
-    public dispatchAll(actions: TAction[]): void {
-        actions.forEach((action: TAction) => {
-            this.dispatch(action);
-        });
-    }
+  }
 }

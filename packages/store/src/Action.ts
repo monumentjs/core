@@ -1,3 +1,3 @@
 export interface Action {
-    readonly type: string;
+  readonly type: string;
 }

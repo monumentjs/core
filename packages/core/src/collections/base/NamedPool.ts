@@ -3,5 +3,5 @@
  * @since 0.0.1
  */
 export interface NamedPool<T> {
-    [key: string]: T;
+  [key: string]: T;
 }

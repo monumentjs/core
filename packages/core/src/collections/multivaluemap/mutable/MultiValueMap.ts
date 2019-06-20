@@ -7,21 +7,21 @@ import { ReadOnlyMultiValueMap } from '../readonly/ReadOnlyMultiValueMap';
  * @since 0.0.1
  */
 export interface MultiValueMap<K, V> extends ReadOnlyMultiValueMap<K, V> {
-    clear(): boolean;
+  clear(): boolean;
 
-    put(key: K, value: V): boolean;
+  put(key: K, value: V): boolean;
 
-    putAll(entries: Iterable<KeyValuePair<K, V>>): boolean;
+  putAll(entries: Iterable<KeyValuePair<K, V>>): boolean;
 
-    putIfAbsent(key: K, value: V): boolean;
+  putIfAbsent(key: K, value: V): boolean;
 
-    putValues(key: K, values: Iterable<V>): boolean;
+  putValues(key: K, values: Iterable<V>): boolean;
 
-    remove(key: K): Iterable<V> | undefined;
+  remove(key: K): Iterable<V> | undefined;
 
-    removeBy(predicate: MapIteratorFunction<K, V, boolean>): boolean;
+  removeBy(predicate: MapIteratorFunction<K, V, boolean>): boolean;
 
-    removeIf(key: K, value: V): boolean;
+  removeIf(key: K, value: V): boolean;
 
-    replaceIf(key: K, oldValue: V, newValue: V): boolean;
+  replaceIf(key: K, oldValue: V, newValue: V): boolean;
 }
