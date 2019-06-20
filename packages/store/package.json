@@ -9,7 +9,7 @@
   ],
   "dependencies": {
     "@monument/core": "^0.9.0",
-    "rxjs": "^6.4.0"
+    "rxjs": "^6.5.2"
   },
   "license": "MIT",
   "homepage": "https://monumentjs.github.io/package/store",
@@ -23,5 +23,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "c5d4d4226b99d4f336b2215bbe2ae6e889362376"
+  "gitHead": "79cac4e9d5942a2a7253ccd720e56690049c8efa"
 }
