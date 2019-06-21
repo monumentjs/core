@@ -1,34 +1,34 @@
 language: node_js
 node_js:
-    - "node"
-    - "8"
+  - 'node'
+  - '8'
 env:
-    global:
-        - ORG_NAME=monumentjs
-        - SITE_REPO_NAME=monumentjs.github.io
-        - GITHUB_SITE_REPO="github.com/${ORG_NAME}/${SITE_REPO_NAME}.git"
+  global:
+    - ORG_NAME=monumentjs
+    - SITE_REPO_NAME=monumentjs.github.io
+    - GITHUB_SITE_REPO="github.com/${ORG_NAME}/${SITE_REPO_NAME}.git"
 script:
-    - "npm run lint"
-    - "npm run compile"
-    - "npm install"
-    - "npm test"
+  - 'npm run lint'
+  - 'npm run compile'
+  - 'npm install'
+  - 'npm test'
 after_success:
-    # Publish coverage
-    - "npm run coveralls"
-    # Publish docs
-    - "npm run docs"
-    - "git config user.email ${GIT_USER_EMAIL}"
-    - "git config user.name \"${GIT_USER_NAME}\""
-    - "git clone https://${GITHUB_SITE_REPO}"
-    - "cd ${SITE_REPO_NAME}"
-    - "rm -rf ./api"
-    - "rm -rf ./package"
-    - "mv ../package ./package"
-    - "git add ."
-    - "git commit -m \"updated api reference\""
-    - "git push \"https://${GITHUB_TOKEN}@${GITHUB_SITE_REPO}\" master"
+  # Publish coverage
+  - 'npm run coveralls'
+  # Publish docs
+  - 'npm run docs'
+  - 'git config user.email ${GIT_USER_EMAIL}'
+  - 'git config user.name "${GIT_USER_NAME}"'
+  - 'git clone https://${GITHUB_SITE_REPO}'
+  - 'cd ${SITE_REPO_NAME}'
+  - 'rm -rf ./api'
+  - 'rm -rf ./package'
+  - 'mv ../package ./package'
+  - 'git add .'
+  - 'git commit -m "updated api reference"'
+  - 'git push "https://${GITHUB_TOKEN}@${GITHUB_SITE_REPO}" master'
 os:
-    - "linux"
-    - "osx"
+  - 'linux'
+  - 'osx'
 notifications:
-    slack: monumentjs:gkkM1IAYfH4A2eP4ZB6FXGQ3
+  slack: monumentjs:gkkM1IAYfH4A2eP4ZB6FXGQ3
