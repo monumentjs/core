@@ -41,7 +41,7 @@ export class StringBuilder implements Builder<string>, ToString {
     return this;
   }
 
-  appendFormat(format: string, ...values: any[]): this {
+  appendFormat(format: string, ...values: ToString[]): this {
     const template: TemplateString = new TemplateString(format);
 
     this.append(template.fillByPositions(values));
@@ -79,7 +79,7 @@ export class StringBuilder implements Builder<string>, ToString {
     return this;
   }
 
-  prependFormat(format: string, ...values: any[]): this {
+  prependFormat(format: string, ...values: ToString[]): this {
     const template: TemplateString = new TemplateString(format);
 
     this.prepend(template.fillByPositions(values));

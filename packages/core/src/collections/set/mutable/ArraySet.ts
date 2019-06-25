@@ -217,7 +217,7 @@ export class ArraySet<T> extends ReadOnlyCollectionBase<T> implements Set<T>, Cl
 
   unionWith(other: Sequence<T>): boolean {
     // TODO: implement
-    throw new MethodNotImplementedException('Method "unionWith" is not implemented yet');
+    throw new MethodNotImplementedException();
   }
 
   [Symbol.iterator](): Iterator<T> {

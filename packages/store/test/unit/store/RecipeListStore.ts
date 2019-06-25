@@ -35,7 +35,7 @@ export class RecipeListStore extends Store<RecipeListState, RecipeListActions> {
     super(actions);
   }
 
-  protected getInitialState() {
+  protected getInitialState(): RecipeListState {
     return {
       loading: false,
       loaded: false,

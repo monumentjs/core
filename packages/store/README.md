@@ -1,18 +1,29 @@
-# Title
+# Core
 
-TLDR
+[![Travis CI Status](https://img.shields.io/travis/monumentjs/core/master.svg?logo=travis)](https://travis-ci.org/monumentjs/core)
+[![Slack Chat](https://img.shields.io/badge/slack-chat-brightgreen.svg?logo=slack)](https://join.slack.com/t/monumentjs/shared_invite/enQtNDY1ODA1MTExMzQ4LTI0MjllODEwOTk5MjM0NGIwY2YwNzVjNDU3YjEwYzYwYTNjMmI0NjFkNmNjMDFlMjA1NzgzODk0NjcxZTc4NjM)
+[![npm version](https://badge.fury.io/js/%40monument%2Fstore.svg)](https://badge.fury.io/js/%40monument%2Fstore)
+![npm version](https://david-dm.org/monumentjs/store.svg)
 
-| Service | Status |
-| :------ | :----- |
-| NPM Downloads | ![NPM Downloads](https://img.shields.io/npm/dm/@monument/core.svg) |
-| NPM Dependencies | ![Dependencies Status](https://david-dm.org/monument/core.svg) |
-| Monorepo | ![lerna](https://img.shields.io/badge/maintained%20with-lerna-44cc44.svg) |
+Provides store functionality: store itself, shared actions emitter and related abstractions. 
 
+Related links:
 
-# Description
+- [API reference](https://monumentjs.github.io/package/store)
 
-Long description
+# Install
 
+Install with NPM:
+
+```
+npm i @monument/store
+```
+
+Install with Yarn:
+
+```
+yarn add @monument/store
+```
 
 ## Contribution
 

@@ -7,6 +7,7 @@ import { ReadOnlyList } from '../collections/list/readonly/ReadOnlyList';
 import { CollectionUtils } from '../collections/base/CollectionUtils';
 import { RegExpUtils } from './RegExpUtils';
 import { ParsingException } from './parser/ParsingException';
+import { ToString } from '../base/ToString';
 
 const NORMAL_ENTRY_PATTERN: RegExp = /{(\w+)}/g;
 const ESCAPED_ENTRY_PATTERN: RegExp = /\\{(\w+)\\}/g;
@@ -15,7 +16,7 @@ const ESCAPED_ENTRY_PATTERN: RegExp = /\\{(\w+)\\}/g;
  * @author Alex Chugaev
  * @since 0.0.1
  */
-export class TemplateString {
+export class TemplateString implements ToString {
   private readonly _template: string;
   private readonly _allEntries: ReadOnlyList<string>;
   private readonly _uniqueEntries: ReadOnlyList<string>;
@@ -61,13 +62,13 @@ export class TemplateString {
     });
   }
 
-  fillByPositions(values: any[]): string {
+  fillByPositions(values: ToString[]): string {
     return this.fillEntries((key: string): string => {
       const index: number = parseInt(key, 10);
 
       CollectionUtils.validateIndexBounds(values, index);
 
-      return values[index] + EMPTY_STRING;
+      return values[index].toString();
     });
   }
 
@@ -95,12 +96,12 @@ export class TemplateString {
     });
   }
 
-  tryFillByPositions(values: any[]): string {
+  tryFillByPositions(values: ToString[]): string {
     return this.fillEntries((key: string): string => {
       const index: number = parseInt(key, 10);
 
       if (index >= 0 && index < values.length) {
-        return values[index] + EMPTY_STRING;
+        return values[index].toString();
       } else {
         return EMPTY_STRING;
       }
