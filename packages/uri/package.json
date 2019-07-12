@@ -1,6 +1,6 @@
 {
   "name": "@monument/uri",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "Immutable URI implementation",
   "keywords": [
     "uri",
@@ -22,7 +22,7 @@
     }
   ],
   "dependencies": {
-    "@monument/core": "^0.10.0"
+    "@monument/core": "^0.10.1"
   },
   "publishConfig": {
     "access": "public"
