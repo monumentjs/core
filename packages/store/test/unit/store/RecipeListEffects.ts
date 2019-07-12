@@ -12,7 +12,7 @@ export class RecipeListEffects {
     map((recipes: Recipe[]) => new LoadSuccessAction(recipes))
   );
 
-  constructor(private actions: Actions, private client: RecipeListClient) {
+  constructor(private readonly actions: Actions, private readonly client: RecipeListClient) {
   }
 
 }
