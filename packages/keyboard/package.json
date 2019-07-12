@@ -1,10 +1,13 @@
 {
-  "name": "@monument/template",
+  "name": "@monument/keyboard",
   "version": "0.10.0",
   "description": "Template",
   "keywords": [],
   "dependencies": {
     "@monument/core": "^0.10.0"
   },
-  "gitHead": "0ca8c9de1cf44b0b01b07a53fffbab8d9b9d080e"
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "07e26a9c0778c8055dd11e7b918981b8a5ce41b2"
 }
