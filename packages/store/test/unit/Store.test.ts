@@ -1,18 +1,23 @@
 import { ArrayList, List } from '@monument/core';
 import { Actions, Store } from '../..';
-import { LoadAction, RecipeListState, RecipeListStore } from './store/RecipeListStore';
+import { RecipeListStore } from './store/RecipeListStore';
 import { RecipeListClient } from './http/RecipeListClient';
+import { LoadAction } from './store/RecipeListActions';
+import { RecipeListState } from './store/RecipeListState';
+import { RecipeListEffects } from './store/RecipeListEffects';
 
 describe('Store', () => {
   let actions!: Actions;
   let client!: RecipeListClient;
   let store!: RecipeListStore;
+  let effects!: RecipeListEffects;
   let snapshots!: List<RecipeListState>;
 
   beforeEach(() => {
     actions = new Actions();
     client = new RecipeListClient();
-    store = new RecipeListStore(actions, client);
+    effects = new RecipeListEffects(actions, client);
+    store = new RecipeListStore(actions, effects);
     snapshots = new ArrayList();
     store.state.subscribe(snapshot => snapshots.add(snapshot));
   });

@@ -1,13 +1,14 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Action } from './Action';
 import { Actions } from './Actions';
-import { Effect } from './Effect';
-import { EffectDefMap } from './EffectDefMap';
-import { EffectMapAdapter } from './EffectMapAdapter';
 import { EffectResult } from './EffectResult';
+import { Supplier } from '@monument/core';
+import { EffectsSource } from './EffectsSource';
+import { EffectDeclaration } from './EffectDeclaration';
 
 export abstract class Store<TState, TAction extends Action = Action> {
   private readonly _actions: Actions;
+  private readonly _initialStateSupplier: Supplier<TState>;
   private readonly _state: BehaviorSubject<TState>;
   private _snapshot: TState;
 
@@ -19,35 +20,26 @@ export abstract class Store<TState, TAction extends Action = Action> {
     return this._snapshot;
   }
 
-  constructor(actions: Actions) {
-    this._snapshot = this.getInitialState();
+  constructor(actions: Actions, initialStateSupplier: Supplier<TState>, ...effectInstances: object[]) {
+    this._initialStateSupplier = initialStateSupplier;
+    this._snapshot = initialStateSupplier.get();
     this._state = new BehaviorSubject(this._snapshot);
     this._actions = actions;
 
-    actions.subscribe((action: Action) => {
-      this.onAction(action as TAction);
-    });
+    actions.subscribe((action: Action) => this.onAction(action as TAction));
 
-    this.useEffects(this.getEffects(actions, this._state));
-  }
+    for (const instance of effectInstances) {
+      const source = new EffectsSource(instance);
 
-  protected abstract getInitialState(): TState;
+      for (const declaration of source.declarations) {
+        const effect: Observable<EffectResult> = (source.instance as any)[declaration.property];
 
-  protected getEffects(actions: Actions, state: Observable<TState>): EffectDefMap {
-    return {};
+        effect.subscribe(result => this.onEffect(declaration, result));
+      }
+    }
   }
 
   protected abstract getNextState(currentState: TState, action: TAction): TState;
-
-  private useEffects(effectDefMap: EffectDefMap) {
-    const effectMapAdapter: EffectMapAdapter = new EffectMapAdapter(effectDefMap);
-
-    for (const effect of Object.values(effectMapAdapter)) {
-      effect.get().subscribe((result: EffectResult) => {
-        this.onEffect(effect, result);
-      });
-    }
-  }
 
   private onAction(action: TAction): void {
     const currentState: TState = this._state.value;
@@ -59,8 +51,8 @@ export abstract class Store<TState, TAction extends Action = Action> {
     }
   }
 
-  private onEffect(effect: Effect, result: EffectResult): void {
-    if (effect.dispatch) {
+  private onEffect(declaration: EffectDeclaration, result: EffectResult): void {
+    if (declaration.dispatch) {
       if (result) {
         if (result instanceof Array) {
           for (const action of result) {
@@ -68,7 +60,7 @@ export abstract class Store<TState, TAction extends Action = Action> {
           }
         } else if (result instanceof Promise) {
           result.then(_result => {
-            this.onEffect(effect, _result);
+            this.onEffect(declaration, _result);
           });
         } else if (result instanceof Observable) {
           result.subscribe(action => {

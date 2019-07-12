@@ -1,12 +1,10 @@
 // Export public API
 
+export * from './src/decorator/Effect';
 export * from './src/Action';
 export * from './src/Actions';
-export * from './src/Effect';
-export * from './src/EffectAdapter';
-export * from './src/EffectDef';
-export * from './src/EffectDefMap';
-export * from './src/EffectFactory';
-export * from './src/EffectMapAdapter';
+export * from './src/EffectDeclaration';
+export * from './src/EffectDeclarations';
 export * from './src/EffectResult';
+export * from './src/EffectsSource';
 export * from './src/Store';

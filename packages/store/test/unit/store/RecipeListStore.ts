@@ -1,46 +1,19 @@
-import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { Action, Actions, EffectDefMap, Store } from '../../../index';
-import { Recipe } from '../entity/Recipe';
-import { RecipeListClient } from '../http/RecipeListClient';
-
-const LOAD = 'RecipeList Load';
-const LOAD_SUCCESS = 'RecipeList LoadSuccess';
-const LOAD_FAIL = 'RecipeList LoadFail';
-
-export class LoadAction implements Action {
-  readonly type = LOAD;
-}
-
-export class LoadSuccessAction implements Action {
-  readonly type = LOAD_SUCCESS;
-
-  constructor(public recipes: Recipe[]) {}
-}
-
-export class LoadFailAction implements Action {
-  readonly type = LOAD_FAIL;
-}
-
-export type RecipeListActions = LoadAction | LoadSuccessAction | LoadFailAction;
-
-export interface RecipeListState {
-  readonly loading: boolean;
-  readonly loaded: boolean;
-  readonly recipes: Recipe[];
-}
+import { Actions, Store } from '../../..';
+import { LOAD, LOAD_FAIL, LOAD_SUCCESS, RecipeListActions } from './RecipeListActions';
+import { RecipeListState } from './RecipeListState';
+import { RecipeListEffects } from './RecipeListEffects';
 
 export class RecipeListStore extends Store<RecipeListState, RecipeListActions> {
-  constructor(actions: Actions, private readonly recipeListClient: RecipeListClient) {
-    super(actions);
-  }
-
-  protected getInitialState(): RecipeListState {
-    return {
-      loading: false,
-      loaded: false,
-      recipes: []
-    };
+  constructor(actions: Actions, effects: RecipeListEffects) {
+    super(actions, {
+      get(): RecipeListState {
+        return {
+          loading: false,
+          loaded: false,
+          recipes: []
+        };
+      }
+    }, effects);
   }
 
   protected getNextState(currentState: RecipeListState, action: RecipeListActions): RecipeListState {
@@ -64,20 +37,5 @@ export class RecipeListStore extends Store<RecipeListState, RecipeListActions> {
           recipes: []
         };
     }
-  }
-
-  protected getEffects(actions: Actions, state: Observable<RecipeListState>): EffectDefMap {
-    return {
-      load: () => {
-        return actions.ofType<LoadAction>(LOAD).pipe(
-          switchMap(() => {
-            return this.recipeListClient.getRecipes();
-          }),
-          map((recipes: Recipe[]) => {
-            return new LoadSuccessAction(recipes);
-          })
-        );
-      }
-    };
   }
 }
