@@ -8,5 +8,8 @@
     "@monument/store": "^0.10.0",
     "rxjs": "^6.5.2"
   },
-  "gitHead": "07e26a9c0778c8055dd11e7b918981b8a5ce41b2"
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "058fefd15fd1b531daa524717a085de976c0737b"
 }
