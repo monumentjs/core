@@ -1,11 +1,11 @@
 {
   "name": "@monument/logger",
-  "version": "0.0.1",
+  "version": "0.10.0",
   "description": "Logger",
   "keywords": [],
   "dependencies": {
-    "rxjs": "^6.5.2",
-    "@monument/core": "^0.9.0",
-    "@monument/store": "^0.9.0"
+    "@monument/core": "^0.10.0",
+    "@monument/store": "^0.10.0",
+    "rxjs": "^6.5.2"
   }
 }

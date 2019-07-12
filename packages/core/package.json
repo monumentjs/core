@@ -1,6 +1,6 @@
 {
   "name": "@monument/core",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "Core module of TypeScript standard library",
   "keywords": [
     "typescript",
