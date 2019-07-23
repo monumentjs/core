@@ -18,6 +18,7 @@ export * from './src/function/isOdd';
 export * from './src/function/noop';
 export * from './src/function/sleep';
 export * from './src/function/times';
+export * from './src/function/typeOf';
 
 export * from './src/function/CombineFunction';
 export * from './src/function/ProjectFunction';
