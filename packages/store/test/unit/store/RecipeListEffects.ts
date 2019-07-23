@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Actions, Effect } from '../../..';
 import { LOAD, LoadAction, LoadSuccessAction } from './RecipeListActions';
@@ -7,7 +8,7 @@ import { RecipeListClient } from '../http/RecipeListClient';
 export class RecipeListEffects {
 
   @Effect()
-  load = this.actions.ofType<LoadAction>(LOAD).pipe(
+  load: Observable<LoadSuccessAction> = this.actions.ofType<LoadAction>(LOAD).pipe(
     switchMap(() => this.client.getRecipes()),
     map((recipes: Recipe[]) => new LoadSuccessAction(recipes))
   );
