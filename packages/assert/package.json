@@ -1,6 +1,6 @@
 {
   "name": "@monument/assert",
-  "version": "0.0.1",
+  "version": "1.0.0-rc.1",
   "description": "Assertion framework",
   "keywords": ["assert", "assertion", "exception"],
   "dependencies": {
