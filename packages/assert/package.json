@@ -2,9 +2,26 @@
   "name": "@monument/assert",
   "version": "1.0.0",
   "description": "Assertion framework",
-  "keywords": ["assert", "assertion", "exception"],
+  "keywords": [
+    "assert",
+    "assertion",
+    "exception"
+  ],
+  "license": "MIT",
+  "homepage": "https://monumentjs.github.io/package/assert",
+  "repository": "https://github.com/monumentjs/core.git",
+  "contributors": [
+    {
+      "name": "Alex Chugaev",
+      "email": "achugaev93@gmail.com"
+    }
+  ],
   "dependencies": {
     "@monument/core": "^0.9.0",
     "rxjs": "^6.5.2"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "9bb4d123d3d73224c9525fc638a9cf4737c2c7ed"
 }
