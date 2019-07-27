@@ -4,12 +4,12 @@
   "description": "Logger",
   "keywords": [],
   "dependencies": {
-    "@monument/core": "^0.12.1",
-    "@monument/store": "^0.10.1",
+    "@monument/core": "^0.13.0",
+    "@monument/store": "^0.10.2",
     "rxjs": "^6.5.2"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "058fefd15fd1b531daa524717a085de976c0737b"
+  "gitHead": "6fa1943d5ec741125191f1e054c38ffac2f8f0aa"
 }

@@ -17,11 +17,11 @@
     }
   ],
   "dependencies": {
-    "@monument/core": "^0.12.1",
+    "@monument/core": "^0.13.0",
     "rxjs": "^6.5.2"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "9bb4d123d3d73224c9525fc638a9cf4737c2c7ed"
+  "gitHead": "6fa1943d5ec741125191f1e054c38ffac2f8f0aa"
 }

@@ -20,6 +20,6 @@
     }
   ],
   "dependencies": {
-    "@monument/core": "^0.12.1"
+    "@monument/core": "^0.13.0"
   }
 }
