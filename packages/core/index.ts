@@ -11,6 +11,8 @@ export * from './src/base/ToJSON';
 export * from './src/base/ToString';
 export * from './src/base/Type';
 
+export * from './src/contract/argument';
+
 export * from './src/function/identity';
 export * from './src/function/isEven';
 export * from './src/function/isFalsy';
