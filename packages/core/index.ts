@@ -1,8 +1,6 @@
 // Export public API
 
 export * from './src/base/Builder';
-export * from './src/base/CastSupport';
-export * from './src/base/CastException';
 export * from './src/base/Cloneable';
 export * from './src/base/Disposable';
 export * from './src/base/MemorySize';
@@ -22,8 +20,7 @@ export * from './src/function/sleep';
 export * from './src/function/times';
 export * from './src/function/typeOf';
 
-export * from './src/function/CombineFunction';
-export * from './src/function/ProjectFunction';
+export * from './src/collections/function/ProjectFunction';
 export * from './src/function/SupplyFunction';
 
 export * from './src/exceptions/Exception';
@@ -38,8 +35,9 @@ export * from './src/exceptions/OperationNotSupportedException';
 export * from './src/exceptions/RangeException';
 export * from './src/exceptions/RuntimeException';
 
-export * from './src/collections/function/IteratorFunction';
 export * from './src/collections/function/AggregateFunction';
+export * from './src/collections/function/CombineFunction';
+export * from './src/collections/function/IteratorFunction';
 
 export * from './src/collections/attributes/Key';
 export * from './src/collections/attributes/readonly/ReadOnlyAttributeAccessor';
@@ -128,6 +126,7 @@ export * from './src/text/parser/ParsingException';
 export * from './src/text/parser/BooleanParser';
 export * from './src/text/parser/FloatParser';
 export * from './src/text/parser/IntParser';
+export { TypeOfResult } from '@monument/core/src/base/TypeOfResult';
 
 // export * from './src/time/CalendarWeekRule';
 // export * from './src/time/Constants';

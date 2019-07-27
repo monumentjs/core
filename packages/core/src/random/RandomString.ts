@@ -1,9 +1,9 @@
-import { EMPTY_STRING } from '../text/Strings';
-import { InvalidArgumentException } from '../exceptions/InvalidArgumentException';
-import { RandomInt } from './RandomInt';
-import { RandomValue } from './RandomValue';
 import { ToJSON } from '../base/ToJSON';
 import { ToString } from '../base/ToString';
+import { EMPTY_STRING } from '../text/Strings';
+import { argument } from '../contract/argument';
+import { RandomValue } from './RandomValue';
+import { RandomInt } from './RandomInt';
 
 /**
  * @author Alex Chugaev
@@ -52,13 +52,8 @@ export class RandomString implements RandomValue<string>, ToJSON<string>, ToStri
   constructor(length: number);
   constructor(length: number, charset: string);
   constructor(length: number, charset: string = RandomString.ALPHA_NUMERIC_CHARSET) {
-    if (length < 0) {
-      throw new InvalidArgumentException('Char sequence length cannot be negative.');
-    }
-
-    if (charset.length === 0) {
-      throw new InvalidArgumentException('Charset cannot be empty.');
-    }
+    argument(length >= 0, 'Char sequence length must be greater than or equal to 0');
+    argument(charset.length > 0, 'Charset cannot be empty');
 
     this._length = length;
     this._charset = charset;

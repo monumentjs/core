@@ -1,6 +1,6 @@
 {
   "name": "@monument/core",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "Core module of TypeScript standard library",
   "keywords": [
     "typescript",
@@ -18,7 +18,7 @@
     }
   ],
   "dependencies": {
-    "reflect-metadata": "^0.1.12"
+    "reflect-metadata": "^0.1.13"
   },
   "publishConfig": {
     "access": "public"

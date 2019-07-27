@@ -1,4 +1,4 @@
-import { Builder, InvalidArgumentException } from '@monument/core';
+import { argument, Builder } from '@monument/core';
 import { Version } from './Version';
 import { ReleaseStatus } from './ReleaseStatus';
 import { VersionComponents } from './VersionComponents';
@@ -19,9 +19,9 @@ export class VersionBuilder implements VersionComponents, Builder<Version> {
   }
 
   set major(value: number) {
-    if (!isFinite(value) || isNaN(value) || value < 0) {
-      throw new InvalidArgumentException('Version major component is invalid.');
-    }
+    argument(isFinite(value), 'Major component must be a finite number');
+    argument(!isNaN(value), 'Major component must be a number');
+    argument(value >= 0, 'Major component must be greater than or equal to 0');
 
     this._major = value;
   }
@@ -31,9 +31,9 @@ export class VersionBuilder implements VersionComponents, Builder<Version> {
   }
 
   set minor(value: number) {
-    if (!isFinite(value) || isNaN(value) || value < 0) {
-      throw new InvalidArgumentException('Version minor component is invalid.');
-    }
+    argument(isFinite(value), 'Minor component must be a finite number');
+    argument(!isNaN(value), 'Minor component must be a number');
+    argument(value >= 0, 'Minor component must be greater than or equal to 0');
 
     this._minor = value;
   }
@@ -43,9 +43,9 @@ export class VersionBuilder implements VersionComponents, Builder<Version> {
   }
 
   set patch(value: number) {
-    if (!isFinite(value) || isNaN(value) || value < 0) {
-      throw new InvalidArgumentException('Version patch component is invalid.');
-    }
+    argument(isFinite(value), 'Patch component must be a finite number');
+    argument(!isNaN(value), 'Patch component must be a number');
+    argument(value >= 0, 'Patch component must be greater than or equal to 0');
 
     this._patch = value;
   }
@@ -55,9 +55,10 @@ export class VersionBuilder implements VersionComponents, Builder<Version> {
   }
 
   set releaseStatus(value: ReleaseStatus) {
-    if (!isFinite(value) || isNaN(value) || value < ReleaseStatus.ALPHA || value > ReleaseStatus.STABLE) {
-      throw new InvalidArgumentException('Version release status component is invalid.');
-    }
+    argument(isFinite(value), 'Release status must be a finite number');
+    argument(!isNaN(value), 'Release status must be a number');
+    argument(value >= ReleaseStatus.ALPHA, 'Lowest release status is ALPHA');
+    argument(value <= ReleaseStatus.STABLE, 'Highest release status is STABLE');
 
     this._releaseStatus = value;
   }
@@ -67,9 +68,9 @@ export class VersionBuilder implements VersionComponents, Builder<Version> {
   }
 
   set revision(value: number) {
-    if (!isFinite(value) || isNaN(value) || value < 0) {
-      throw new InvalidArgumentException('Version revision component is invalid.');
-    }
+    argument(isFinite(value), 'Revision component must be a finite number');
+    argument(!isNaN(value), 'Revision component must be a number');
+    argument(value >= 0, 'Revision component must be greater than or equal to 0');
 
     this._revision = value;
   }
@@ -88,22 +89,19 @@ export class VersionBuilder implements VersionComponents, Builder<Version> {
     releaseStatus: ReleaseStatus = ReleaseStatus.ALPHA,
     revision: number = 0
   ) {
-    switch (typeof major) {
-      case 'object':
-        const components: VersionComponents = major;
-        this.major = components.major;
-        this.minor = components.minor;
-        this.patch = components.patch;
-        this.releaseStatus = components.releaseStatus;
-        this.revision = components.revision;
-        break;
-      default:
-        this.major = major;
-        this.minor = minor;
-        this.patch = patch;
-        this.releaseStatus = releaseStatus;
-        this.revision = revision;
-        break;
+    if (typeof major === 'object') {
+      const components: VersionComponents = major;
+      this.major = components.major;
+      this.minor = components.minor;
+      this.patch = components.patch;
+      this.releaseStatus = components.releaseStatus;
+      this.revision = components.revision;
+    } else {
+      this.major = major;
+      this.minor = minor;
+      this.patch = patch;
+      this.releaseStatus = releaseStatus;
+      this.revision = revision;
     }
   }
 

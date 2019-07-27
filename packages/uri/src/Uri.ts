@@ -1,6 +1,4 @@
 import {
-  CastException,
-  CastSupport,
   ChainedEqualityComparator,
   EqualityComparator,
   Equatable,
@@ -9,8 +7,7 @@ import {
   PreserveCaseEqualityComparator,
   SupplyFunction,
   ToJSON,
-  ToString,
-  Type
+  ToString
 } from '@monument/core';
 import { UriComponents } from './UriComponents';
 import { UriComponentsNormalizer } from './UriComponentsNormalizer';
@@ -55,7 +52,7 @@ import { QueryParametersObject } from './QueryParametersObject';
  * @immutable
  * @final
  */
-export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<string>, ToJSON<string>, ToString, CastSupport<String> {
+export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<string>, ToJSON<string>, ToString {
   static isValid(source: string): boolean {
     return UriConstants.URI_PATTERN.test(source);
   }
@@ -202,15 +199,6 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
     comparator.withField(this.queryParameters, components.queryParameters || new QueryParameters(), new EquatableComparator());
 
     return comparator.result;
-  }
-
-  castTo(type: Type<String>): String {
-    switch (type) {
-      case String:
-        return this.toString();
-      default:
-        throw new CastException(type);
-    }
   }
 
   getParameter(name: string): ToString | undefined;

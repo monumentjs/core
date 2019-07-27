@@ -1,10 +1,10 @@
 {
   "name": "@monument/keyboard",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "description": "Template",
   "keywords": [],
   "dependencies": {
-    "@monument/core": "^0.10.1"
+    "@monument/core": "^0.12.1"
   },
   "publishConfig": {
     "access": "public"

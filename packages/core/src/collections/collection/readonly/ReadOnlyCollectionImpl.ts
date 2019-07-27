@@ -15,8 +15,8 @@ import { LinkedMultiValueMap } from '../../multivaluemap/mutable/LinkedMultiValu
 import { KeyValuePair } from '../../base/KeyValuePair';
 import { AggregateFunction } from '../../function/AggregateFunction';
 import { IteratorFunction } from '../../function/IteratorFunction';
-import { CombineFunction } from '../../../function/CombineFunction';
-import { ProjectFunction } from '../../../function/ProjectFunction';
+import { CombineFunction } from '../../function/CombineFunction';
+import { ProjectFunction } from '../../function/ProjectFunction';
 import { SupplyFunction } from '../../../function/SupplyFunction';
 
 /**
