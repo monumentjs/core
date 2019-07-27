@@ -8,6 +8,7 @@ export * from './src/base/Supplier';
 export * from './src/base/ToJSON';
 export * from './src/base/ToString';
 export * from './src/base/Type';
+export * from './src/base/TypeOfResult';
 
 export * from './src/contract/argument';
 
@@ -20,7 +21,6 @@ export * from './src/function/sleep';
 export * from './src/function/times';
 export * from './src/function/typeOf';
 
-export * from './src/collections/function/ProjectFunction';
 export * from './src/function/SupplyFunction';
 
 export * from './src/exceptions/Exception';
@@ -38,6 +38,7 @@ export * from './src/exceptions/RuntimeException';
 export * from './src/collections/function/AggregateFunction';
 export * from './src/collections/function/CombineFunction';
 export * from './src/collections/function/IteratorFunction';
+export * from './src/collections/function/ProjectFunction';
 
 export * from './src/collections/attributes/Key';
 export * from './src/collections/attributes/readonly/ReadOnlyAttributeAccessor';
@@ -126,7 +127,6 @@ export * from './src/text/parser/ParsingException';
 export * from './src/text/parser/BooleanParser';
 export * from './src/text/parser/FloatParser';
 export * from './src/text/parser/IntParser';
-export { TypeOfResult } from '@monument/core/src/base/TypeOfResult';
 
 // export * from './src/time/CalendarWeekRule';
 // export * from './src/time/Constants';
