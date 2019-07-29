@@ -17,9 +17,11 @@ export class MarkerFilter implements Filter {
    */
   readonly marker: string;
 
-  constructor(marker: string, readonly onMatch = true, readonly onMismatch = false) { this.marker = marker; }
+  constructor(marker: string, readonly onMatch = true, readonly onMismatch = false) {
+    this.marker = marker;
+  }
 
-  filter(action: LogEvent): boolean {
-    return action.markers.includes(this.marker) ? this.onMatch : this.onMismatch;
+  filter(event: LogEvent): boolean {
+    return event.markers.includes(this.marker) ? this.onMatch : this.onMismatch;
   }
 }

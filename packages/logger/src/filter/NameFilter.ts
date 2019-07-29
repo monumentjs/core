@@ -23,7 +23,7 @@ export class NameFilter implements Filter {
     this.name = name;
   }
 
-  filter(action: LogEvent): boolean {
-    return action.name === this.name ? this.onMatch : this.onMismatch;
+  filter(event: LogEvent): boolean {
+    return event.name === this.name ? this.onMatch : this.onMismatch;
   }
 }

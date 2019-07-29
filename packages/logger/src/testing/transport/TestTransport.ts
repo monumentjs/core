@@ -1,5 +1,5 @@
-import { LogEvent } from '../../core/LogEvent';
 import { Transport } from '../../transport/Transport';
+import { LogEvent } from '../../core/LogEvent';
 
 /**
  * Represents transport designed for testing purposes.
@@ -12,8 +12,8 @@ export class TestTransport extends Transport {
   readonly actions: LogEvent[] = [];
   readonly messages: string[] = [];
 
-  protected send(action: LogEvent): void {
-    this.actions.push(action);
-    this.messages.push(this.layout.serialize(action));
+  protected send(event: LogEvent): void {
+    this.actions.push(event);
+    this.messages.push(this.layout.serialize(event));
   }
 }

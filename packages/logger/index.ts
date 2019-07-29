@@ -1,6 +1,7 @@
 // Export public API
 
 export * from './src/core/Level';
+export * from './src/core/LogAction';
 export * from './src/core/LogEvent';
 export * from './src/core/Logger';
 export * from './src/core/LoggerManager';

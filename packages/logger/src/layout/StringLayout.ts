@@ -12,21 +12,27 @@ import { LogEvent } from '../core/LogEvent';
 export class StringLayout implements Layout {
   private readonly _template: TemplateString;
 
-  constructor(template: string, readonly header: string = EMPTY_STRING, readonly footer: string = EMPTY_STRING) {
+  readonly header: string;
+
+  readonly footer: string;
+
+  constructor(template: string, header: string = EMPTY_STRING, footer: string = EMPTY_STRING) {
+    this.footer = footer;
+    this.header = header;
     this._template = new TemplateString(template);
   }
 
-  serialize(action: LogEvent): string {
+  serialize(event: LogEvent): string {
     const keys: LinkedMap<string, string> = new LinkedMap();
 
-    keys.put('name', action.name);
-    keys.put('message', action.message);
-    keys.put('level', Level[action.level]);
-    keys.put('timestamp', new Date(action.timestamp).toString());
+    keys.put('name', event.name);
+    keys.put('message', event.message);
+    keys.put('level', Level[event.level]);
+    keys.put('timestamp', new Date(event.timestamp).toString());
 
-    if (action.error) {
-      keys.put('errorMessage', action.error.message);
-      keys.put('errorStack', action.error.stack || EMPTY_STRING);
+    if (event.error) {
+      keys.put('errorMessage', event.error.message);
+      keys.put('errorStack', event.error.stack || EMPTY_STRING);
     }
 
     return this._template.fillByKeys(keys);

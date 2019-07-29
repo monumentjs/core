@@ -23,7 +23,7 @@ export class LevelFilter implements Filter {
     this.threshold = threshold;
   }
 
-  filter(action: LogEvent): boolean {
-    return action.level <= this.threshold;
+  filter(event: LogEvent): boolean {
+    return event.level <= this.threshold;
   }
 }

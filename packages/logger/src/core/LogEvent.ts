@@ -1,29 +1,11 @@
-import { Action } from '@monument/store';
 import { Level } from './Level';
 
 /**
- * Defines type of log action.
- * @since 0.0.1
- * @author Alex Chugaev
- * @see LogEvent.type
- */
-export const LOG_EVENT = '@monument.logger.LOG_EVENT';
-
-/**
- * Represents log action dispatched by logger usually to notify transports about log event.
+ * Represents log event dispatched by logger usually to notify transports about log event.
  * @since 0.0.1
  * @author Alex Chugaev
  */
-export class LogEvent implements Action {
-
-  /**
-   * Gets action type.
-   * @since 0.0.1
-   * @author Alex Chugaev
-   * @see LOG_EVENT
-   */
-  readonly type = LOG_EVENT;
-
+export class LogEvent {
   /**
    * Gets log event creation timestamp.
    * @since 0.0.1
@@ -33,25 +15,23 @@ export class LogEvent implements Action {
 
   /**
    * Gets logger name.
+   * @see Logger.name
    * @since 0.0.1
    * @author Alex Chugaev
-   * @see Logger.name
    */
   readonly name: string;
 
   /**
    * Gets error reported with error or fatal log events.
-   * @since 0.0.1
-   * @author Alex Chugaev
    * @see Logger.error
    * @see Logger.fatal
+   * @since 0.0.1
+   * @author Alex Chugaev
    */
   readonly error: Error | undefined;
 
   /**
    * Gets level of log event.
-   * @since 0.0.1
-   * @author Alex Chugaev
    * @see Level
    * @see Logger.trace
    * @see Logger.debug
@@ -59,6 +39,8 @@ export class LogEvent implements Action {
    * @see Logger.warning
    * @see Logger.error
    * @see Logger.fatal
+   * @since 0.0.1
+   * @author Alex Chugaev
    */
   readonly level: Level;
 

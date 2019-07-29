@@ -4,29 +4,43 @@ import { Logger } from './Logger';
 
 /**
  * Represents logger manager. Logger manager caches loggers by name.
+ * @see Logger
  * @since 0.0.1
  * @author Alex Chugaev
- * @see Logger
  */
 export class LoggerManager {
-  private readonly loggers: Map<string, Logger> = new LinkedMap();
+  private readonly cache: Map<string, Logger> = new LinkedMap();
 
-  constructor(private readonly actions: Actions) {}
+  /**
+   * Gets actions bus.
+   * @since 0.0.1
+   * @author Alex Chugaev
+   */
+  private readonly actions: Actions;
+
+  /**
+   * Creates new instance.
+   * @since 0.0.1
+   * @author Alex Chugaev
+   */
+  constructor(actions: Actions) {
+    this.actions = actions;
+  }
 
   /**
    * Gets logger by name. If logger with such name already exists in cache, then cached instance will be returned.
-   * @since 0.0.1
-   * @author Alex Chugaev
    * @see Logger
    * @see Logger.name
+   * @since 0.0.1
+   * @author Alex Chugaev
    */
   get(name: string = ''): Logger {
-    let logger = this.loggers.get(name);
+    let logger: Logger | undefined = this.cache.get(name);
 
     if (logger == null) {
       logger = new Logger(this.actions, name);
 
-      this.loggers.put(name, logger);
+      this.cache.put(name, logger);
     }
 
     return logger;
