@@ -1,6 +1,6 @@
 {
   "name": "@monument/version",
-  "version": "0.10.2",
+  "version": "0.14.0",
   "description": "Version value object and support",
   "keywords": [
     "version",
@@ -20,7 +20,7 @@
     }
   ],
   "dependencies": {
-    "@monument/core": "^0.13.0"
+    "@monument/core": "^0.14.0"
   },
   "publishConfig": {
     "access": "public"
