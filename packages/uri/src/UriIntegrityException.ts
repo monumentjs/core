@@ -1,9 +1,8 @@
-import { InvalidStateException } from '@monument/core';
+import { UriException } from './UriException';
 
 /**
- * @since 0.0.1
+ * @since 0.14.0
  * @author Alex Chugaev
- * @immutable
- * @final
  */
-export class UriIntegrityException extends InvalidStateException {}
+export class UriIntegrityException extends UriException {
+}

@@ -1,252 +1,75 @@
-import { Observable, of } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
-import { EffectSource } from '../../src/EffectSource';
-import { Action } from '../../src/Action';
-import { Reaction } from '../../src/decorator/reaction/Reaction';
-import { Effect } from '../../src/decorator/effect/Effect';
-import { Actions, ofType } from '../../src/Actions';
-import { Store } from '../../src/Store';
-
-//region API LAYER
-
-export interface Product {
-  readonly name: string;
-  readonly description: string;
-  readonly price: number;
-}
-
-export class CartService {
-  addProduct(product: Product): Observable<boolean> {
-    return of(true);
-  }
-
-  removeProduct(product: Product): Observable<boolean> {
-    return of(true);
-  }
-
-  getProducts(): Observable<Product[]> {
-    return of([
-      {
-        name: 'name1',
-        description: 'description1',
-        price: 1
-      },
-      {
-        name: 'name2',
-        description: 'description2',
-        price: 2
-      }
-    ]);
-  }
-}
-
-//endregion
-
-//region STORE LAYER
-//region ACTIONS
-
-export const LOAD = 'CartStore.LOAD';
-export const LOAD_SUCCESS = 'CartStore.LOAD_SUCCESS';
-export const ADD_PRODUCT = 'CartStore.ADD_PRODUCT';
-export const ADD_PRODUCT_SUCCESS = 'CartStore.ADD_PRODUCT_SUCCESS';
-export const REMOVE_PRODUCT = 'CartStore.REMOVE_PRODUCT';
-export const REMOVE_PRODUCT_SUCCESS = 'CartStore.REMOVE_PRODUCT_SUCCESS';
-
-export class Load implements Action {
-  readonly type = LOAD;
-  readonly payload = undefined;
-}
-
-export class LoadSuccess implements Action<Product[]> {
-  readonly type = LOAD_SUCCESS;
-  readonly payload: Product[];
-
-  constructor(payload: Product[]) {
-    this.payload = payload;
-  }
-}
-
-export class AddProduct implements Action<Product> {
-  readonly type = ADD_PRODUCT;
-  readonly payload: Product;
-
-  constructor(payload: Product) {
-    this.payload = payload;
-  }
-}
-
-export class AddProductSuccess implements Action<Product> {
-  readonly type = ADD_PRODUCT_SUCCESS;
-  readonly payload: Product;
-
-  constructor(payload: Product) {
-    this.payload = payload;
-  }
-}
-
-export class RemoveProduct implements Action<Product> {
-  readonly type = REMOVE_PRODUCT;
-  readonly payload: Product;
-
-  constructor(payload: Product) {
-    this.payload = payload;
-  }
-}
-
-export class RemoveProductSuccess implements Action<Product> {
-  readonly type = REMOVE_PRODUCT_SUCCESS;
-  readonly payload: Product;
-
-  constructor(payload: Product) {
-    this.payload = payload;
-  }
-}
-
-//endregion
-
-//region SNAPSHOT
-
-export interface CartStateSnapshot {
-  readonly loading: boolean;
-  readonly loaded: boolean;
-  readonly products: Product[];
-  readonly totalPrice: number;
-  readonly isEmpty: boolean;
-}
-
-//endregion
-
-//region STATE
-
-export class CartState {
-  loading: boolean = false;
-  loaded: boolean = false;
-  products: Product[] = [];
-
-  get totalPrice(): number {
-    return this.products.reduce((total, product) => total + product.price, 0);
-  }
-
-  get isEmpty(): boolean {
-    return this.products.length === 0;
-  }
-
-  @Reaction(LOAD)
-  setLoading() {
-    this.loading = true;
-    this.loaded = false;
-    this.products = [];
-  }
-
-  @Reaction(LOAD_SUCCESS)
-  setLoaded(products: Product[]) {
-    this.loading = false;
-    this.loaded = true;
-    this.products = products;
-  }
-
-  @Reaction(ADD_PRODUCT)
-  addProduct(product: Product) {
-    this.products.push(product);
-  }
-
-  @Reaction(REMOVE_PRODUCT)
-  removeProduct(product: Product) {
-    this.products.splice(this.products.indexOf(product), 1);
-  }
-}
-
-//endregion
-
-//region EFFECTS
-
-export class CartEffects {
-  @Effect()
-  load: EffectSource = this.actions.pipe(
-    ofType<Load>(LOAD),
-    mergeMap(() => {
-      return this.service.getProducts().pipe(
-        map((products: Product[]) => new LoadSuccess(products))
-      );
-    })
-  );
-
-  @Effect()
-  addProduct: EffectSource = this.actions.pipe(
-    ofType<AddProduct>(ADD_PRODUCT),
-    mergeMap((action: AddProduct) => {
-      return this.service.addProduct(action.payload).pipe(map(() => {
-        return new AddProductSuccess(action.payload);
-      }));
-    })
-  );
-
-  @Effect()
-  removeProduct: EffectSource = this.actions.pipe(
-    ofType<RemoveProduct>(REMOVE_PRODUCT),
-    mergeMap((action: RemoveProduct) => {
-      return this.service.removeProduct(action.payload).pipe(map(() => {
-        return new RemoveProductSuccess(action.payload);
-      }));
-    })
-  );
-
-  constructor(private actions: Actions, private service: CartService) {
-  }
-}
-
-//endregion
-
-//region STORE
-
-export class CartStore extends Store<CartState, CartStateSnapshot> {
-  constructor(actions: Actions, state: CartState, cartEffects: CartEffects) {
-    super({
-      actions,
-      state,
-      effects: [cartEffects],
-      takeSnapshot(cartState: CartState): CartStateSnapshot {
-        const { loading, loaded, products, isEmpty, totalPrice } = cartState;
-
-        return {
-          loaded,
-          loading,
-          products: [...products],
-          isEmpty,
-          totalPrice
-        };
-      }
-    });
-  }
-}
-
-//endregion
-
-//endregion
+import { Actions, EffectMediator, ErrorMediator, Errors, Store } from '../..';
+import { CartService } from './store/CartService';
+import { Load } from './store/CartActions';
+import { CartState, CartStateSnapshot } from './store/CartState';
+import { CartStore } from './store/CartStore';
+import { CartEffects } from './store/CartEffects';
+import { CartErrors } from './store/CartErrors';
+import { CartException } from './store/CartException';
 
 describe('Store', function() {
   let actions: Actions;
-  let service: CartService;
-  let state: CartState;
-  let store: CartStore;
-  let effects: CartEffects;
+  let errors: Errors;
+  let cartService: CartService;
+  let cartState: CartState;
+  let cartStore: CartStore;
+  let cartEffects: CartEffects;
+  let cartErrors: CartErrors;
+  let effectMediator: EffectMediator;
+  let errorMediator: ErrorMediator;
 
   beforeEach(() => {
     actions = new Actions();
-    state = new CartState();
-    service = new CartService();
-    effects = new CartEffects(actions, service);
-    store = new CartStore(actions, state, effects);
+    errors = new Errors();
+    cartState = new CartState();
+    cartService = new CartService();
+    cartErrors = new CartErrors();
+    cartStore = new CartStore(actions, cartState);
+    cartEffects = new CartEffects(actions, errors, cartStore, cartService);
+    effectMediator = new EffectMediator(actions, [cartEffects]);
+    errorMediator = new ErrorMediator(errors, [cartErrors]);
   });
 
-  test('reaction is called', function(done) {
+  afterEach(() => {
+    effectMediator.dispose();
+  });
+
+  it('should have proper state snapshot after creation', () => {
+    expect(cartStore.snapshot).toEqual({
+      loaded: false,
+      loading: false,
+      products: [],
+      isEmpty: true,
+      totalPrice: 0
+    });
+  });
+
+  it('should call corresponding reaction methods', function(done) {
     const snapshots: CartStateSnapshot[] = [];
 
-    store.state.subscribe({
+    const loadSpy = spyOn(cartState, 'load').and.callThrough();
+    const loadSuccessSpy = spyOn(cartState, 'loadSuccess').and.callThrough();
+
+    cartStore.stream.subscribe({
       next: snapshot => {
         snapshots.push(snapshot);
       },
       complete: () => {
+        expect(loadSpy).toHaveBeenNthCalledWith(1, {
+          page: 0
+        });
+        expect(loadSuccessSpy).toHaveBeenNthCalledWith(1, [
+          {
+            name: 'name1',
+            description: 'description1',
+            price: 1
+          },
+          {
+            name: 'name2',
+            description: 'description2',
+            price: 2
+          }
+        ]);
         expect(snapshots.length).toBe(3);
         expect(snapshots[0]).toEqual({
           loaded: false,
@@ -280,11 +103,65 @@ describe('Store', function() {
           isEmpty: false,
           totalPrice: 3
         });
-        expect(state.products.length).toBe(2);
         done();
       }
     });
-    actions.next(new Load());
-    store.dispose();
+    actions.next(new Load({
+      page: 0
+    }));
+    cartStore.dispose();
+  });
+
+  it('should handle error', function(done) {
+    const snapshots: CartStateSnapshot[] = [];
+
+    const loadSpy = spyOn(cartState, 'load').and.callThrough();
+    const loadFailSpy = spyOn(cartState, 'loadFail').and.callThrough();
+
+    cartStore.stream.subscribe({
+      next: snapshot => {
+        snapshots.push(snapshot);
+      },
+      complete: () => {
+        expect(loadSpy).toHaveBeenNthCalledWith(1, {
+          page: -1
+        });
+        expect(loadFailSpy).toHaveBeenNthCalledWith(1, new CartException('Invalid page number'));
+        expect(snapshots).toEqual([
+          {
+            loaded: false,
+            loading: false,
+            products: [],
+            isEmpty: true,
+            totalPrice: 0
+          },
+          {
+            loaded: false,
+            loading: true,
+            products: [],
+            isEmpty: true,
+            totalPrice: 0
+          },
+          {
+            loaded: true,
+            loading: false,
+            products: [],
+            isEmpty: true,
+            totalPrice: 0,
+            error: new CartException('Invalid page number')
+          }
+        ]);
+        expect(cartErrors.errors).toEqual([
+          new CartException('Invalid page number')
+        ]);
+        done();
+      }
+    });
+
+    actions.next(new Load({
+      page: -1
+    }));
+
+    cartStore.dispose();
   });
 });

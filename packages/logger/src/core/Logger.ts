@@ -3,96 +3,120 @@ import { Level } from './Level';
 import { LogAction } from './LogAction';
 
 /**
- * Represents logger itself.
- * @since 0.0.1
- * @author Alex Chugaev
+ * Represents logger.
  * @see LoggerManager.get
+ * @since 0.14.0
+ * @author Alex Chugaev
  */
 export class Logger {
+  private readonly _actions: Actions;
 
   /**
    * Gets logger name.
-   * @since 0.0.1
+   * @see LogEvent.logger
+   * @since 0.14.0
    * @author Alex Chugaev
-   * @see LogAction.name
    */
   readonly name: string;
 
-  constructor(private readonly actions: Actions, name: string) {
+  /**
+   * Initializes new instance.
+   * @param actions Actions stream
+   * @param name Logger name
+   * @since 0.14.0
+   * @author Alex Chugaev
+   */
+  constructor(actions: Actions, name: string) {
+    this._actions = actions;
     this.name = name;
   }
 
   /**
    * Sends trace log event.
-   * @since 0.0.1
-   * @author Alex Chugaev
+   * @param message Log event message
+   * @param tags Log event tags
    * @see LogAction
    * @see Level.TRACE
+   * @since 0.14.0
+   * @author Alex Chugaev
    */
-  trace(message: string, markers: string[] = []) {
-    this.actions.next(new LogAction(this.name, Level.TRACE, message, undefined, markers));
+  trace(message: string, tags: ReadonlyArray<string> = []) {
+    this._actions.next(new LogAction(this.name, Level.TRACE, message, undefined, tags));
   }
 
   /**
    * Sends debug log event.
-   * @since 0.0.1
-   * @author Alex Chugaev
+   * @param message Log event message
+   * @param tags Log event tags
    * @see LogAction
    * @see Level.DEBUG
+   * @since 0.14.0
+   * @author Alex Chugaev
    */
-  debug(message: string, markers: string[] = []) {
-    this.actions.next(new LogAction(this.name, Level.DEBUG, message, undefined, markers));
+  debug(message: string, tags: ReadonlyArray<string> = []) {
+    this._actions.next(new LogAction(this.name, Level.DEBUG, message, undefined, tags));
   }
 
   /**
    * Sends info log event.
-   * @since 0.0.1
-   * @author Alex Chugaev
+   * @param message Log event message
+   * @param tags Log event tags
    * @see LogAction
    * @see Level.INFO
+   * @since 0.14.0
+   * @author Alex Chugaev
    */
-  info(message: string, markers: string[] = []) {
-    this.actions.next(new LogAction(this.name, Level.INFO, message, undefined, markers));
+  info(message: string, tags: ReadonlyArray<string> = []) {
+    this._actions.next(new LogAction(this.name, Level.INFO, message, undefined, tags));
   }
 
   /**
    * Sends warning log event.
-   * @since 0.0.1
-   * @author Alex Chugaev
+   * @param message Log event message
+   * @param tags Log event tags
    * @see LogAction
    * @see Level.WARNING
+   * @since 0.14.0
+   * @author Alex Chugaev
    */
-  warning(message: string, markers: string[] = []) {
-    this.actions.next(new LogAction(this.name, Level.WARNING, message, undefined, markers));
+  warning(message: string, tags: ReadonlyArray<string> = []) {
+    this._actions.next(new LogAction(this.name, Level.WARNING, message, undefined, tags));
   }
 
   /**
    * Sends error log event.
-   * @since 0.0.1
-   * @author Alex Chugaev
+   * @param message Log event message
+   * @param tags Log event tags
    * @see LogAction
    * @see Level.ERROR
+   * @since 0.14.0
+   * @author Alex Chugaev
    */
-  error(message: string, markers?: string[]): void;
-  error(error: Error, markers?: string[]): void;
-  error(messageOrError: string | Error, markers: string[] = []): void {
-    const message: string = typeof messageOrError === 'string' ? messageOrError : messageOrError.message;
-    const error: Error = typeof messageOrError === 'string' ? new Error(messageOrError) : messageOrError;
-    this.actions.next(new LogAction(this.name, Level.ERROR, message, error, markers));
-  }
+  error(message: string, tags?: ReadonlyArray<string>): void;
 
   /**
-   * Sends fatal log event.
-   * @since 0.0.1
-   * @author Alex Chugaev
+   * Sends error log event.
+   * @param error Error instance
+   * @param tags Log event tags
    * @see LogAction
-   * @see Level.FATAL
+   * @see Level.ERROR
+   * @since 0.14.0
+   * @author Alex Chugaev
    */
-  fatal(message: string, markers?: string[]): void;
-  fatal(error: Error, markers?: string[]): void;
-  fatal(messageOrError: string | Error, markers: string[] = []) {
+  error(error: Error, tags?: ReadonlyArray<string>): void;
+
+  /**
+   * Sends error log event.
+   * @param messageOrError Log event message or error instance
+   * @param tags Log event tags
+   * @see LogAction
+   * @see Level.ERROR
+   * @since 0.14.0
+   * @author Alex Chugaev
+   */
+  error(messageOrError: string | Error, tags: ReadonlyArray<string> = []): void {
     const message: string = typeof messageOrError === 'string' ? messageOrError : messageOrError.message;
     const error: Error = typeof messageOrError === 'string' ? new Error(messageOrError) : messageOrError;
-    this.actions.next(new LogAction(this.name, Level.FATAL, message, error, markers));
+    this._actions.next(new LogAction(this.name, Level.ERROR, message, error, tags));
   }
 }

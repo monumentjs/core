@@ -1,30 +1,28 @@
 /**
+ * Represents basic type of exception.
  * @author Alex Chugaev
  * @since 0.0.1
  */
-export class Exception extends Error {
-  static cast(error: Error): Exception {
-    if (error instanceof Exception) {
-      return error;
-    }
+export abstract class Exception extends Error {
+  /**
+   * Gets other error which was the cause of this exception.
+   * @author Alex Chugaev
+   * @since 0.14.0
+   */
+  readonly cause: Error | undefined;
 
-    const ex: Exception = new Exception(error.message);
-
-    ex.stack = error.stack;
-
-    return ex;
-  }
-
-  readonly cause: Exception | undefined;
-
+  /**
+   * Initializes new instance.
+   * @param message Exception message
+   * @param cause Other error which was the cause of this exception
+   * @author Alex Chugaev
+   * @since 0.14.0
+   */
   constructor(message: string, cause?: Error) {
     super(message);
 
     this.name = this.constructor.name;
-
-    if (cause != null) {
-      this.cause = Exception.cast(cause);
-    }
+    this.cause = cause;
   }
 
   toString(): string {
@@ -38,7 +36,12 @@ export class Exception extends Error {
 
     if (this.cause != null) {
       value += '\r\nCaused by ';
-      value += this.cause.toString();
+
+      if (this.cause instanceof Exception) {
+        value += this.cause.toString();
+      } else {
+        value += this.cause.stack;
+      }
     }
 
     return value;

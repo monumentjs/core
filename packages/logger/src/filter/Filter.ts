@@ -1,35 +1,21 @@
 import { LogEvent } from '../core/LogEvent';
+import { FilterDecision } from './FilterDecision';
 
 /**
  * Represents log event filter.
- * @since 0.0.1
- * @author Alex Chugaev
  * @see Transport.filters
+ * @since 0.14.0
+ * @author Alex Chugaev
  */
 export interface Filter {
   /**
-   * Gets value returned by filter method when log event match.
-   * @since 0.0.1
-   * @author Alex Chugaev
-   * @see Filter.filter
-   */
-  readonly onMatch: boolean;
-
-  /**
-   * Gets value returned by filter method when log event mismatch.
-   * @since 0.0.1
-   * @author Alex Chugaev
-   * @see Filter.filter
-   */
-  readonly onMismatch: boolean;
-
-  /**
    * Checks whether log event matches filter.
+   * @param event Log event
    * @return onMatch value if log event matches filter, onMismatch value otherwise
-   * @since 0.0.1
-   * @author Alex Chugaev
    * @see Filter.onMatch
    * @see Filter.onMismatch
+   * @since 0.14.0
+   * @author Alex Chugaev
    */
-  filter(action: LogEvent): boolean;
+  decide(event: LogEvent): FilterDecision;
 }

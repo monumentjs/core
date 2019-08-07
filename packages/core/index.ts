@@ -118,6 +118,7 @@ export * from './src/random/RandomInt';
 export * from './src/random/RandomFloat';
 export * from './src/random/RandomString';
 
+export * from './src/text/Lines';
 export * from './src/text/StringBuilder';
 export * from './src/text/Strings';
 export * from './src/text/StringUtils';

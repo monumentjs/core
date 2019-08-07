@@ -4,7 +4,7 @@ import { Action } from './Action';
 /**
  * Represents effect result.
  * @param P Payload type
- * @since 0.0.1
+ * @since 0.11.0
  * @author Alex Chugaev
  */
 export type EffectResult<P = any> =

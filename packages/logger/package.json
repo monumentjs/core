@@ -5,7 +5,7 @@
   "keywords": [],
   "dependencies": {
     "@monument/core": "^0.13.0",
-    "@monument/store": "^0.10.2",
+    "@monument/store": "^0.11.0",
     "rxjs": "^6.5.2"
   },
   "publishConfig": {

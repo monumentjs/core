@@ -1,87 +1,61 @@
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { Disposable } from '@monument/core';
-import { ObjectChangeDetectionProxy } from './proxy/ObjectChangeDetectionProxy';
-import { EffectManager } from './decorator/effect/EffectManager';
-import { EffectDeclaration } from './decorator/effect/EffectDeclaration';
-import { ReactionManager } from './decorator/reaction/ReactionManager';
-import { Actions, ofType } from './Actions';
-import { EffectResult } from './EffectResult';
-import { EffectSource } from './EffectSource';
+import { Actions } from './Actions';
+import { ReactionDecorator } from './ReactionDecorator';
+import { State } from './State';
 
-export interface StoreConfiguration<TState extends Object, TSnapshot extends Object> {
-  readonly actions: Actions;
-  readonly state: TState;
-  readonly effects: object[];
-
-  takeSnapshot(state: TState): TSnapshot;
-}
-
-export abstract class Store<TState extends Object, TSnapshot extends Object> implements Disposable {
-  private readonly _actions: Actions;
+/**
+ * Represents store of the state.
+ * @since 0.11.0
+ * @author Alex Chugaev
+ */
+export abstract class Store<TSnapshot, TState extends State<TSnapshot>> implements Disposable {
   private readonly _snapshot: BehaviorSubject<TSnapshot>;
-  private _effectSubscriptions: Subscription[] = [];
-  private _reactionSubscriptions: Subscription[] = [];
+  private readonly _subscriptions: Subscription[] = [];
 
+  /**
+   * Gets instant state snapshot.
+   * @since 0.11.0
+   * @author Alex Chugaev
+   */
   get snapshot(): TSnapshot {
-    return this._snapshot.getValue();
+    return this._snapshot.value;
   }
 
-  get state(): Observable<TSnapshot> {
+  /**
+   * Gets stream of state snapshots.
+   * @since 0.11.0
+   * @author Alex Chugaev
+   */
+  get stream(): Observable<TSnapshot> {
     return this._snapshot;
   }
 
-  protected constructor({ state, actions, effects, takeSnapshot }: StoreConfiguration<TState, TSnapshot>) {
-    const proxy: ObjectChangeDetectionProxy<TState> = new ObjectChangeDetectionProxy(state);
-    this._actions = actions;
-    this._snapshot = new BehaviorSubject<TSnapshot>(takeSnapshot(state));
+  /**
+   * Initializes new instance.
+   * @param actions Stream of actions
+   * @param state State implementation
+   * @since 0.11.0
+   * @author Alex Chugaev
+   */
+  constructor(actions: Actions, state: TState) {
+    this._snapshot = new BehaviorSubject(state.getSnapshot());
 
-    for (const declaration of ReactionManager.ofInstance(state).declarations) {
-      this._reactionSubscriptions.push(actions.pipe(ofType(declaration.actionType)).subscribe(action => {
-        (proxy.proxy as any)[declaration.methodName](action.payload);
-        this._snapshot.next(takeSnapshot(state));
-      }));
-    }
+    for (const decorator of ReactionDecorator.ofInstance(state)) {
+      const subscription: Subscription = actions.ofType(decorator.actionType).subscribe(action => {
+        (state as any)[decorator.methodName](action.payload);
+        this._snapshot.next(state.getSnapshot());
+      });
 
-    for (const instance of effects) {
-      for (const declaration of EffectManager.ofInstance(instance).declarations) {
-        const effectSource: EffectSource = (instance as any)[declaration.property];
-
-        this._effectSubscriptions.push(effectSource.subscribe(result => this.onEffect(declaration, result)));
-      }
+      this._subscriptions.push(subscription);
     }
   }
 
   dispose(): void {
     this._snapshot.complete();
 
-    for (const subscription of this._effectSubscriptions) {
+    for (const subscription of this._subscriptions) {
       subscription.unsubscribe();
-    }
-
-    for (const subscription of this._reactionSubscriptions) {
-      subscription.unsubscribe();
-    }
-  }
-
-  private onEffect(declaration: EffectDeclaration, result: EffectResult): void {
-    if (declaration.dispatch) {
-      if (result) {
-        if (result instanceof Array) {
-          for (const action of result) {
-            this._actions.next(action);
-          }
-        } else if (result instanceof Promise) {
-          result.then(_result => {
-            this.onEffect(declaration, _result);
-          });
-        } else if (result instanceof Observable) {
-          result.subscribe(action => {
-            this._actions.next(action);
-          });
-        } else {
-          this._actions.next(result);
-        }
-      }
     }
   }
 }

@@ -1,29 +1,45 @@
 import { Filter } from './Filter';
 import { LogEvent } from '../core/LogEvent';
+import { MatchingFilter } from './MatchingFilter';
+import { FilterDecision } from './FilterDecision';
 
 /**
  * Represents filter which filters log events by logger name.
- * @since 0.0.1
- * @author Alex Chugaev
  * @see Filter
+ * @see FilterDecision
  * @see Transport.filters
- * @see Logger.name
+ * @since 0.14.0
+ * @author Alex Chugaev
  */
-export class NameFilter implements Filter {
+export class NameFilter extends MatchingFilter {
   /**
    * Target logger name.
-   * @since 0.0.1
-   * @author Alex Chugaev
-   * @see LogEvent.name
+   * @see LogEvent.logger
    * @see Logger.name
+   * @since 0.14.0
+   * @author Alex Chugaev
    */
   readonly name: string;
 
-  constructor(name: string, readonly onMatch = true, readonly onMismatch = false) {
+  /**
+   * Initializes new instance.
+   * @param name Logger name
+   * @param onMatch Filter decision made on match
+   * @param onMismatch Filter decision made on mismatch
+   * @since 0.14.0
+   * @author Alex Chugaev
+   */
+  constructor(name: string, onMatch: FilterDecision, onMismatch: FilterDecision) {
+    super(onMatch, onMismatch);
     this.name = name;
   }
 
-  filter(event: LogEvent): boolean {
-    return event.name === this.name ? this.onMatch : this.onMismatch;
+  /**
+   * Checks whether log event matches filter.
+   * @since 0.14.0
+   * @author Alex Chugaev
+   */
+  protected match(event: LogEvent): boolean {
+    return event.logger === this.name;
   }
 }
