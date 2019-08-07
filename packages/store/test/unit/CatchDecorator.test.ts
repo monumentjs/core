@@ -12,7 +12,7 @@ class ErrorHandler {
 describe('CatchDecorator', function() {
   describe('decorate()', function() {
     class Dummy {
-      private errors: Error[] = [];
+      readonly errors: Error[] = [];
 
       onError(error: Error) {
         this.errors.push(error);

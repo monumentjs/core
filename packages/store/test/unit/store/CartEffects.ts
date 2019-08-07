@@ -7,7 +7,7 @@ import { CartStore } from './CartStore';
 
 export class CartEffects {
   @Effect()
-  load: EffectSource = this.actions.ofType<Load>(LOAD).pipe(
+  readonly load: EffectSource = this.actions.ofType<Load>(LOAD).pipe(
     mergeMap(action => {
       return this.service.getProducts(action.payload).pipe(
         map((products: Product[]) => new LoadSuccess(products)),
@@ -19,15 +19,15 @@ export class CartEffects {
   );
 
   @Effect({ dispatch: false })
-  loadFail: EffectSource = this.actions.ofType<LoadFail>(LOAD_FAIL).pipe(
+  readonly loadFail: EffectSource = this.actions.ofType<LoadFail>(LOAD_FAIL).pipe(
     tap(action => this.errors.next(action.payload))
   );
 
   constructor(
-    private actions: Actions,
-    private errors: Errors,
-    private store: CartStore,
-    private service: CartService
+    private readonly actions: Actions,
+    private readonly errors: Errors,
+    private readonly store: CartStore,
+    private readonly service: CartService
   ) {
   }
 }

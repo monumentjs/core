@@ -71,12 +71,12 @@ class ShowErrorPopupAction implements Action<string> {
 
 class DataEffects {
   @Effect()
-  empty: EffectSource = this.actions.ofType<EmptyAction>(EMPTY).pipe(
+  readonly empty: EffectSource = this.actions.ofType<EmptyAction>(EMPTY).pipe(
     mapTo(undefined)
   );
 
   @Effect()
-  load: EffectSource = this.actions.ofType<LoadAction>(LOAD).pipe(
+  readonly load: EffectSource = this.actions.ofType<LoadAction>(LOAD).pipe(
     map(action => {
       if (action.payload) {
         return new LoadSuccessAction(['success']);
@@ -90,7 +90,7 @@ class DataEffects {
   );
 
   @Effect()
-  loadAsync: EffectSource = this.actions.ofType<LoadAsyncAction>(LOAD_ASYNC).pipe(
+  readonly loadAsync: EffectSource = this.actions.ofType<LoadAsyncAction>(LOAD_ASYNC).pipe(
     map(async action => {
       if (action.payload) {
         return new LoadSuccessAction(['success']);
@@ -104,7 +104,7 @@ class DataEffects {
   );
 
   @Effect()
-  loadStream: EffectSource = this.actions.ofType<LoadStreamAction>(LOAD_STREAM).pipe(
+  readonly loadStream: EffectSource = this.actions.ofType<LoadStreamAction>(LOAD_STREAM).pipe(
     map(action => {
       if (action.payload) {
         return of(new LoadSuccessAction(['success']));
@@ -117,19 +117,19 @@ class DataEffects {
     })
   );
 
-  constructor(private actions: Actions) {
+  constructor(private readonly actions: Actions) {
   }
 }
 
 class PopupEffects {
-  errors: string[] = [];
+  readonly errors: string[] = [];
 
   @Effect({ dispatch: false })
-  showError: EffectSource = this.actions.ofType<ShowErrorPopupAction>(SHOW_ERROR_POPUP).pipe(
+  readonly showError: EffectSource = this.actions.ofType<ShowErrorPopupAction>(SHOW_ERROR_POPUP).pipe(
     tap(action => this.errors.push(action.payload))
   );
 
-  constructor(private actions: Actions) {
+  constructor(private readonly actions: Actions) {
   }
 }
 
