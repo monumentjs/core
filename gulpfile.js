@@ -9,6 +9,18 @@ const PACKAGES = [
     deps: []
   },
   {
+    name: 'assert',
+    deps: ['core']
+  },
+  {
+    name: 'store',
+    deps: ['core']
+  },
+  {
+    name: 'logger',
+    deps: ['core', 'store']
+  },
+  {
     name: 'uri',
     deps: ['core']
   },
