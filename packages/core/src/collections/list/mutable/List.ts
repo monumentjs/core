@@ -1,4 +1,4 @@
-import { EqualityComparator } from '../../../comparison/equality/EqualityComparator';
+import { EqualsFunction } from '../../../comparison/equality/EqualsFunction';
 import { ReadOnlyList } from '../readonly/ReadOnlyList';
 
 /**
@@ -13,7 +13,7 @@ export interface List<T> extends ReadOnlyList<T> {
 
   addIfAbsent(item: T): boolean;
 
-  addIfAbsent(item: T, comparator: EqualityComparator<T>): boolean;
+  addIfAbsent(item: T, comparator: EqualsFunction<T>): boolean;
 
   clear(): boolean;
 
@@ -23,11 +23,11 @@ export interface List<T> extends ReadOnlyList<T> {
 
   remove(item: T): boolean;
 
-  remove(item: T, comparator: EqualityComparator<T>): boolean;
+  remove(item: T, comparator: EqualsFunction<T>): boolean;
 
   removeAll(items: Iterable<T>): boolean;
 
-  removeAll(items: Iterable<T>, comparator: EqualityComparator<T>): boolean;
+  removeAll(items: Iterable<T>, comparator: EqualsFunction<T>): boolean;
 
   removeAt(index: number): T;
 
@@ -35,7 +35,7 @@ export interface List<T> extends ReadOnlyList<T> {
 
   retainAll(items: Iterable<T>): boolean;
 
-  retainAll(items: Iterable<T>, comparator: EqualityComparator<T>): boolean;
+  retainAll(items: Iterable<T>, comparator: EqualsFunction<T>): boolean;
 
   setAt(index: number, newValue: T): T;
 }

@@ -1,0 +1,9 @@
+{
+  "name": "@monument/date",
+  "version": "0.14.1",
+  "description": "Template",
+  "keywords": [],
+  "dependencies": {
+    "@monument/core": "^0.14.0"
+  }
+}

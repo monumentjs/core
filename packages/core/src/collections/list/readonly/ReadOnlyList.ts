@@ -1,5 +1,5 @@
 import { ReadOnlyCollection } from '../../collection/readonly/ReadOnlyCollection';
-import { EqualityComparator } from '../../../comparison/equality/EqualityComparator';
+import { EqualsFunction } from '../../../comparison/equality/EqualsFunction';
 import { Equatable } from '../../../comparison/equality/Equatable';
 
 /**
@@ -13,7 +13,7 @@ export interface ReadOnlyList<T> extends ReadOnlyCollection<T>, Equatable<ReadOn
 
   equals(other: ReadOnlyList<T>): boolean;
 
-  equals(other: ReadOnlyList<T>, comparator: EqualityComparator<T>): boolean;
+  equals(other: ReadOnlyList<T>, comparator: EqualsFunction<T>): boolean;
 
   /**
    * @throws {IndexOutOfBoundsException} if index out of bounds
@@ -22,25 +22,25 @@ export interface ReadOnlyList<T> extends ReadOnlyCollection<T>, Equatable<ReadOn
 
   indexOf(item: T): number;
 
-  indexOf(item: T, comparator: EqualityComparator<T>): number;
+  indexOf(item: T, comparator: EqualsFunction<T>): number;
 
   indexOf(item: T, startIndex: number): number;
 
-  indexOf(item: T, startIndex: number, comparator: EqualityComparator<T>): number;
+  indexOf(item: T, startIndex: number, comparator: EqualsFunction<T>): number;
 
   indexOf(item: T, startIndex: number, count: number): number;
 
-  indexOf(item: T, startIndex: number, count: number, comparator: EqualityComparator<T>): number;
+  indexOf(item: T, startIndex: number, count: number, comparator: EqualsFunction<T>): number;
 
   lastIndexOf(item: T): number;
 
-  lastIndexOf(item: T, comparator: EqualityComparator<T>): number;
+  lastIndexOf(item: T, comparator: EqualsFunction<T>): number;
 
   lastIndexOf(item: T, startIndex: number): number;
 
-  lastIndexOf(item: T, startIndex: number, comparator: EqualityComparator<T>): number;
+  lastIndexOf(item: T, startIndex: number, comparator: EqualsFunction<T>): number;
 
   lastIndexOf(item: T, startIndex: number, count: number): number;
 
-  lastIndexOf(item: T, startIndex: number, count: number, comparator: EqualityComparator<T>): number;
+  lastIndexOf(item: T, startIndex: number, count: number, comparator: EqualsFunction<T>): number;
 }

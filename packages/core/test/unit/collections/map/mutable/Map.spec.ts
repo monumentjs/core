@@ -1,39 +1,39 @@
 import {
-  EqualityComparator,
-  IgnoreCaseEqualityComparator,
-  IterableEqualityComparator,
+  EqualsFunction,
+  IgnoreCaseEquals,
+  IterableEqualsFactory,
   KeyValuePair,
   Map,
-  PreserveCaseEqualityComparator,
+  PreserveCaseEquals,
   Sequence
 } from '../../../../..';
 
 export function testMap(
   create: <K, V>(
     items?: Sequence<KeyValuePair<K, V>>,
-    keyComparator?: EqualityComparator<K>,
-    valueComparator?: EqualityComparator<V>
+    keyComparator?: EqualsFunction<K>,
+    valueComparator?: EqualsFunction<V>
   ) => Map<K, V>
 ) {
   describe('Map', function() {
-    const iterableEqualityComparator: IterableEqualityComparator<string> = new IterableEqualityComparator();
+    const iterableEqualityComparator: EqualsFunction<Iterable<string>> = IterableEqualsFactory();
     let map!: Map<string, string>;
 
     beforeEach(() => {
       map = create<string, string>(
         [['One', 'ONE'], ['Two', 'TWO'], ['three', 'Three'], ['Three', 'THREE']],
-        IgnoreCaseEqualityComparator.get(),
-        IgnoreCaseEqualityComparator.get()
+        IgnoreCaseEquals,
+        IgnoreCaseEquals
       );
     });
 
     describe('constructor()', function() {
       it('should create new instance of Map', function() {
         expect(map.length).toBe(3);
-        expect(map.keyComparator).toBe(IgnoreCaseEqualityComparator.get());
-        expect(map.valueComparator).toBe(IgnoreCaseEqualityComparator.get());
-        expect(iterableEqualityComparator.equals(map.keys, ['One', 'Two', 'Three'])).toBe(true);
-        expect(iterableEqualityComparator.equals(map.values, ['ONE', 'TWO', 'THREE'])).toBe(true);
+        expect(map.keyComparator).toBe(IgnoreCaseEquals);
+        expect(map.valueComparator).toBe(IgnoreCaseEquals);
+        expect(iterableEqualityComparator(map.keys, ['One', 'Two', 'Three'])).toBe(true);
+        expect(iterableEqualityComparator(map.values, ['ONE', 'TWO', 'THREE'])).toBe(true);
       });
     });
 
@@ -95,7 +95,7 @@ export function testMap(
       it('should not equal if key or value comparators are different', function() {
         const one = create<string, string>([['name', 'Alex'], ['age', '25']]);
 
-        const other = create<string, string>([['name', 'Alex'], ['age', '25']], PreserveCaseEqualityComparator.get());
+        const other = create<string, string>([['name', 'Alex'], ['age', '25']], PreserveCaseEquals);
 
         expect(one.equals(other)).toBe(false);
         expect(other.equals(one)).toBe(false);

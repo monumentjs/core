@@ -1,14 +1,14 @@
 import {
-  ChainedEqualityComparator,
+  MultiValueEquals,
   Comparable,
   ComparisonResult,
   Equatable,
   InvalidArgumentException,
-  NumberComparator,
-  ObjectComparator,
+  NumberCompare,
+  MultiValueCompare,
   StringBuilder,
   ToJSON,
-  ToString
+  ToString, StrictEquals
 } from '@monument/core';
 import { ReleaseStatus } from './ReleaseStatus';
 import { VersionComponents } from './VersionComponents';
@@ -191,15 +191,14 @@ export class Version
   compareTo(other: VersionComponents): ComparisonResult;
   compareTo(other: VersionComponents | string): ComparisonResult {
     const components: VersionComponents = typeof other === 'object' ? other : new Version(other);
-    const comparator: ObjectComparator = new ObjectComparator();
 
-    comparator.compareFields(this.major, components.major, NumberComparator.get());
-    comparator.compareFields(this.minor, components.minor, NumberComparator.get());
-    comparator.compareFields(this.patch, components.patch, NumberComparator.get());
-    comparator.compareFields(this.releaseStatus, components.releaseStatus, NumberComparator.get());
-    comparator.compareFields(this.revision, components.revision, NumberComparator.get());
-
-    return comparator.result;
+    return MultiValueCompare([
+      [this.major, components.major, NumberCompare],
+      [this.minor, components.minor, NumberCompare],
+      [this.patch, components.patch, NumberCompare],
+      [this.releaseStatus, components.releaseStatus, NumberCompare],
+      [this.revision, components.revision, NumberCompare]
+    ]);
   }
 
   equals(other: string): boolean;
@@ -210,15 +209,14 @@ export class Version
     }
 
     const components: VersionComponents = typeof other === 'object' ? other : new Version(other);
-    const comparator: ChainedEqualityComparator = new ChainedEqualityComparator();
 
-    comparator.withField(this.major, components.major);
-    comparator.withField(this.minor, components.minor);
-    comparator.withField(this.patch, components.patch);
-    comparator.withField(this.releaseStatus, components.releaseStatus);
-    comparator.withField(this.revision, components.revision);
-
-    return comparator.result;
+    return MultiValueEquals([
+      [this.major, components.major, StrictEquals],
+      [this.minor, components.minor, StrictEquals],
+      [this.patch, components.patch, StrictEquals],
+      [this.releaseStatus, components.releaseStatus, StrictEquals],
+      [this.revision, components.revision, StrictEquals]
+    ]);
   }
 
   toJSON(): string {

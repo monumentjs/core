@@ -1,6 +1,6 @@
-import { BooleanParser, FloatParser, IntParser, LinkedMultiValueMap, PreserveCaseEqualityComparator, ToString } from '@monument/core';
+import { BooleanParser, FloatParser, IntParser, LinkedMultiValueMap, PreserveCaseEquals, ToString } from '@monument/core';
 import { ReadOnlyQueryParameters } from './ReadOnlyQueryParameters';
-import { QueryParameterValueEqualityComparator } from './QueryParameterValueEqualityComparator';
+import { QueryParameterValueEquals } from './QueryParameterValueEquals';
 import { UriConstants } from './UriConstants';
 import { UriEncoder } from './UriEncoder';
 
@@ -16,7 +16,7 @@ export class QueryParameters extends LinkedMultiValueMap<string, ToString> imple
   constructor();
   constructor(source: string);
   constructor(source?: string) {
-    super(PreserveCaseEqualityComparator.get(), QueryParameterValueEqualityComparator.get());
+    super(PreserveCaseEquals, QueryParameterValueEquals);
 
     if (source != null) {
       const pairs: string[] = source.split(UriConstants.PARAMETERS_DELIMITER);

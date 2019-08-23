@@ -1,4 +1,4 @@
-import { ArrayList, RangeException, EMPTY_STRING, StringUtils } from '../../..';
+import { ArrayList, RangeException, EMPTY_STRING, StringUtils, ToString } from '../../..';
 
 describe('StringUtils', function() {
   it('hasText()', function() {
@@ -166,15 +166,15 @@ describe('StringUtils', function() {
   });
 
   it('collectionToDelimitedString()', function() {
-    expect(StringUtils.collectionToDelimitedString(new ArrayList([]), ' ')).toBe('');
+    expect(StringUtils.collectionToDelimitedString(new ArrayList<ToString>([]), ' ')).toBe('');
 
-    expect(StringUtils.collectionToDelimitedString(new ArrayList(['text']), ' ')).toBe('text');
+    expect(StringUtils.collectionToDelimitedString(new ArrayList<ToString>(['text']), ' ')).toBe('text');
 
-    expect(StringUtils.collectionToDelimitedString(new ArrayList(['text', 'value']), ' ')).toBe('text value');
+    expect(StringUtils.collectionToDelimitedString(new ArrayList<ToString>(['text', 'value']), ' ')).toBe('text value');
 
-    expect(StringUtils.collectionToDelimitedString(new ArrayList(['text', 'value']), ' ', '<')).toBe('<text <value');
+    expect(StringUtils.collectionToDelimitedString(new ArrayList<ToString>(['text', 'value']), ' ', '<')).toBe('<text <value');
 
-    expect(StringUtils.collectionToDelimitedString(new ArrayList(['text', 'value']), ' ', '<', '>')).toBe('<text> <value>');
+    expect(StringUtils.collectionToDelimitedString(new ArrayList<ToString>(['text', 'value']), ' ', '<', '>')).toBe('<text> <value>');
   });
 
   it('padStart()', function() {

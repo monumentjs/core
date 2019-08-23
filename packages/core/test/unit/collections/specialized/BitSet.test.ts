@@ -1,7 +1,7 @@
-import { BitSet, IndexOutOfBoundsException, IterableEqualityComparator, RangeException } from '../../../..';
+import { BitSet, EqualsFunction, IndexOutOfBoundsException, IterableEqualsFactory, RangeException } from '../../../..';
 
 describe('BitSet', function() {
-  const iterableEqualityComparator: IterableEqualityComparator<number | boolean> = new IterableEqualityComparator();
+  const iterableEqualityComparator: EqualsFunction<Iterable<number | boolean>> = IterableEqualsFactory();
 
   it('constructor() create new instance of BitSet class', function() {
     const bitSet: BitSet = new BitSet();
@@ -524,15 +524,15 @@ describe('BitSet', function() {
 
     bits2.and(bits1);
 
-    expect(iterableEqualityComparator.equals(bits2.findBits(true), [2, 4, 6, 8, 12, 14])).toBe(true);
+    expect(iterableEqualityComparator(bits2.findBits(true), [2, 4, 6, 8, 12, 14])).toBe(true);
 
     bits2.or(bits1);
 
-    expect(iterableEqualityComparator.equals(bits2.findBits(true), [0, 2, 4, 6, 8, 10, 12, 14])).toBe(true);
+    expect(iterableEqualityComparator(bits2.findBits(true), [0, 2, 4, 6, 8, 10, 12, 14])).toBe(true);
 
     bits2.xor(bits1);
 
-    expect(iterableEqualityComparator.equals(bits2.findBits(true), [])).toBe(true);
+    expect(iterableEqualityComparator(bits2.findBits(true), [])).toBe(true);
   });
 
   it('intersects() determines whether sets intersects 1', function() {

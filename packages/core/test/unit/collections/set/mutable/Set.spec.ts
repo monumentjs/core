@@ -1,8 +1,8 @@
-import { EqualityComparator, Sequence, Set } from '../../../../..';
+import { EqualsFunction, Sequence, Set } from '../../../../..';
 import { testReadOnlySet } from '../readonly/ReadOnlySet.spec';
 import { assertLengthAndIsEmpty } from '../../collection/readonly/ReadOnlyCollection.spec';
 
-export function testSet(create: <T>(items?: Sequence<T>, comparator?: EqualityComparator<T>) => Set<T>) {
+export function testSet(create: <T>(items?: Sequence<T>, comparator?: EqualsFunction<T>) => Set<T>) {
   describe('Set', function() {
     testReadOnlySet(create);
 
@@ -145,7 +145,7 @@ export function testSet(create: <T>(items?: Sequence<T>, comparator?: EqualityCo
     describe('intersectWith()', function() {
       it('should modify the current set so that it contains only elements that are also in a specified collection #1', function() {
         const current: Set<string> = create(['one', 'two', 'three']);
-        const empty: Set<string> = create([]);
+        const empty: Set<string> = create<string>([]);
 
         expect(current.intersectWith(empty)).toBe(true);
         assertLengthAndIsEmpty(current, 0);
@@ -183,7 +183,7 @@ export function testSet(create: <T>(items?: Sequence<T>, comparator?: EqualityCo
       function() {
         {
           const current: Set<string> = create(['one', 'two', 'three']);
-          const empty: Set<string> = create([]);
+          const empty: Set<string> = create<string>([]);
 
           expect(current.symmetricExceptWith(empty)).toBe(false);
           expect(current.toArray()).toEqual(['one', 'two', 'three']);

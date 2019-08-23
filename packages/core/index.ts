@@ -20,7 +20,6 @@ export * from './src/function/noop';
 export * from './src/function/sleep';
 export * from './src/function/times';
 export * from './src/function/typeOf';
-
 export * from './src/function/SupplyFunction';
 
 export * from './src/exceptions/Exception';
@@ -56,7 +55,7 @@ export * from './src/collections/collection/readonly/ReadOnlyCollection';
 export * from './src/collections/collection/readonly/ReadOnlyCollectionBase';
 export * from './src/collections/collection/readonly/ReadOnlyCollectionImpl';
 
-export * from './src/collections/comparison/IterableEqualityComparator';
+export * from './src/collections/comparison/IterableEqualsFactoty';
 
 export * from './src/collections/iterable/RangeIterable';
 
@@ -93,25 +92,25 @@ export * from './src/collections/specialized/BitSet';
 export * from './src/collections/tree/TreeNode';
 
 export * from './src/comparison/order/Comparable';
-export * from './src/comparison/order/Comparator';
 export * from './src/comparison/order/ComparisonResult';
-export * from './src/comparison/order/NumberComparator';
+export * from './src/comparison/order/ComparableCompare';
+export * from './src/comparison/order/MultiValueCompare';
+export * from './src/comparison/order/NumberCompare';
 export * from './src/comparison/order/Ordered';
 export * from './src/comparison/order/Priority';
-export * from './src/comparison/order/PriorityComparator';
+export * from './src/comparison/order/PriorityCompare';
 export * from './src/comparison/order/SortOrder';
-export * from './src/comparison/order/IgnoreCaseComparator';
-export * from './src/comparison/order/PreserveCaseComparator';
+export * from './src/comparison/order/IgnoreCaseCompare';
+export * from './src/comparison/order/PreserveCaseCompare';
 
-export * from './src/comparison/equality/DeepEqualityComparator';
-export * from './src/comparison/equality/EqualityComparator';
+export * from './src/comparison/equality/DeepEquals';
+export * from './src/comparison/equality/EqualsFunction';
 export * from './src/comparison/equality/Equatable';
 export * from './src/comparison/equality/EquatableComparator';
-export * from './src/comparison/equality/IgnoreCaseEqualityComparator';
-export * from './src/comparison/equality/PreserveCaseEqualityComparator';
-export * from './src/comparison/equality/ObjectComparator';
-export * from './src/comparison/equality/ChainedEqualityComparator';
-export * from './src/comparison/equality/ReferenceEqualityComparator';
+export * from './src/comparison/equality/IgnoreCaseEquals';
+export * from './src/comparison/equality/PreserveCaseEquals';
+export * from './src/comparison/equality/MultiValueEquals';
+export * from './src/comparison/equality/StrictEquals';
 
 export * from './src/random/RandomValue';
 export * from './src/random/RandomInt';

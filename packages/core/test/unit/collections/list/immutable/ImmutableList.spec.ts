@@ -1,4 +1,4 @@
-import { IgnoreCaseEqualityComparator, ImmutableList, IndexOutOfBoundsException, Sequence } from '../../../../..';
+import { IgnoreCaseEquals, ImmutableList, IndexOutOfBoundsException, Sequence } from '../../../../..';
 import { testReadOnlyList } from '../readonly/ReadOnlyList.spec';
 
 export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableList<T>) {
@@ -176,7 +176,7 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
 
       it('should return new list if item was removed with custom equality comparator', function() {
         const list: ImmutableList<string> = create(['One']);
-        const newList: ImmutableList<string> = list.remove('one', IgnoreCaseEqualityComparator.get());
+        const newList: ImmutableList<string> = list.remove('one', IgnoreCaseEquals);
 
         expect(list).not.toBe(newList);
 
@@ -230,7 +230,7 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
 
       it('should return new list if item was removed with custom equality comparator', function() {
         const list: ImmutableList<string> = create(['One']);
-        const newList: ImmutableList<string> = list.removeAll(['one'], IgnoreCaseEqualityComparator.get());
+        const newList: ImmutableList<string> = list.removeAll(['one'], IgnoreCaseEquals);
 
         expect(list).not.toBe(newList);
 
@@ -339,7 +339,7 @@ export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableL
 
       it('should return original list if no items removed', function() {
         const list: ImmutableList<string> = create(['one', 'One', 'ONE', 'two']);
-        const newList: ImmutableList<string> = list.retainAll(['one', 'two'], IgnoreCaseEqualityComparator.get());
+        const newList: ImmutableList<string> = list.retainAll(['one', 'two'], IgnoreCaseEquals);
 
         expect(list).toBe(newList);
 

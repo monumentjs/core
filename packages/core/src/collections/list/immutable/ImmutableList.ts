@@ -1,5 +1,5 @@
 import { ReadOnlyList } from '../readonly/ReadOnlyList';
-import { EqualityComparator } from '../../../comparison/equality/EqualityComparator';
+import { EqualsFunction } from '../../../comparison/equality/EqualsFunction';
 import { IteratorFunction } from '../../function/IteratorFunction';
 
 /**
@@ -15,7 +15,7 @@ export interface ImmutableList<T> extends ReadOnlyList<T> {
 
   addIfAbsent(item: T): ImmutableList<T>;
 
-  addIfAbsent(item: T, comparator: EqualityComparator<T>): ImmutableList<T>;
+  addIfAbsent(item: T, comparator: EqualsFunction<T>): ImmutableList<T>;
 
   clear(): ImmutableList<T>;
 
@@ -25,11 +25,11 @@ export interface ImmutableList<T> extends ReadOnlyList<T> {
 
   remove(item: T): ImmutableList<T>;
 
-  remove(item: T, comparator: EqualityComparator<T>): ImmutableList<T>;
+  remove(item: T, comparator: EqualsFunction<T>): ImmutableList<T>;
 
   removeAll(items: Iterable<T>): ImmutableList<T>;
 
-  removeAll(items: Iterable<T>, comparator: EqualityComparator<T>): ImmutableList<T>;
+  removeAll(items: Iterable<T>, comparator: EqualsFunction<T>): ImmutableList<T>;
 
   removeAt(index: number): ImmutableList<T>;
 
@@ -37,7 +37,7 @@ export interface ImmutableList<T> extends ReadOnlyList<T> {
 
   retainAll(items: Iterable<T>): ImmutableList<T>;
 
-  retainAll(items: Iterable<T>, comparator: EqualityComparator<T>): ImmutableList<T>;
+  retainAll(items: Iterable<T>, comparator: EqualsFunction<T>): ImmutableList<T>;
 
   setAt(index: number, newValue: T): ImmutableList<T>;
 }

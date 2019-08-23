@@ -1,4 +1,4 @@
-import { EqualityComparator } from '../../../comparison/equality/EqualityComparator';
+import { EqualsFunction } from '../../../comparison/equality/EqualsFunction';
 import { Sequence } from '../../base/Sequence';
 import { ReadOnlyCollection } from '../../collection/readonly/ReadOnlyCollection';
 import { Equatable } from '../../../comparison/equality/Equatable';
@@ -8,7 +8,7 @@ import { Equatable } from '../../../comparison/equality/Equatable';
  * @since 0.0.1
  */
 export interface ReadOnlySet<T> extends ReadOnlyCollection<T>, Equatable<ReadOnlySet<T>> {
-  readonly comparator: EqualityComparator<T>;
+  readonly comparator: EqualsFunction<T>;
 
   /**
    * Determines whether the current set is a proper (strict) subset of a specified collection.

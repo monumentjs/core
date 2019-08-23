@@ -1,4 +1,4 @@
-import { EqualityComparator } from '../../../comparison/equality/EqualityComparator';
+import { EqualsFunction } from '../../../comparison/equality/EqualsFunction';
 import { KeyValuePair } from '../../base/KeyValuePair';
 import { Sequence } from '../../base/Sequence';
 import { SupplyFunction } from '../../../function/SupplyFunction';
@@ -12,8 +12,8 @@ export interface ReadOnlyMap<K, V> extends Sequence<KeyValuePair<K, V>>, Equatab
   readonly isEmpty: boolean;
   readonly keys: Iterable<K>;
   readonly values: Iterable<V>;
-  readonly keyComparator: EqualityComparator<K>;
-  readonly valueComparator: EqualityComparator<V>;
+  readonly keyComparator: EqualsFunction<K>;
+  readonly valueComparator: EqualsFunction<V>;
 
   containsEntries(entries: Iterable<KeyValuePair<K, V>>): boolean;
 

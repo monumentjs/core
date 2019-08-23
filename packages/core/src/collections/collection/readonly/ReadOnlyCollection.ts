@@ -1,7 +1,7 @@
 import { ToArray } from '../../base/ToArray';
 import { Sequence } from '../../base/Sequence';
-import { EqualityComparator } from '../../../comparison/equality/EqualityComparator';
-import { Comparator } from '../../../comparison/order/Comparator';
+import { EqualsFunction } from '../../../comparison/equality/EqualsFunction';
+import { CompareFunction } from '../../../comparison/order/CompareFunction';
 import { SortOrder } from '../../../comparison/order/SortOrder';
 import { ToJSON } from '../../../base/ToJSON';
 import { ReadOnlyMultiValueMap } from '../../multivaluemap/readonly/ReadOnlyMultiValueMap';
@@ -53,11 +53,11 @@ export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray
 
   contains(item: T): boolean;
 
-  contains(item: T, comparator: EqualityComparator<T>): boolean;
+  contains(item: T, comparator: EqualsFunction<T>): boolean;
 
   containsAll(items: Sequence<T>): boolean;
 
-  containsAll(items: Sequence<T>, comparator: EqualityComparator<T>): boolean;
+  containsAll(items: Sequence<T>, comparator: EqualsFunction<T>): boolean;
 
   /**
    * Returns a number that represents how many elements in the specified sequence satisfy a condition.
@@ -70,9 +70,9 @@ export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray
   distinct(): ReadOnlyCollection<T>;
 
   /**
-   * Returns distinct elements from a sequence by using a specified EqualityComparator<TItem> to compare values.
+   * Returns distinct elements from a sequence by using a specified EqualsFunction<TItem> to compare values.
    */
-  distinct(comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
+  distinct(comparator: EqualsFunction<T>): ReadOnlyCollection<T>;
 
   entries(): Iterable<KeyValuePair<number, T>>;
 
@@ -82,9 +82,9 @@ export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray
   except(items: Iterable<T>): ReadOnlyCollection<T>;
 
   /**
-   * Produces the set difference of two sequences by using the specified EqualityComparator to compare values.
+   * Produces the set difference of two sequences by using the specified EqualsFunction to compare values.
    */
-  except(items: Iterable<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
+  except(items: Iterable<T>, comparator: EqualsFunction<T>): ReadOnlyCollection<T>;
 
   /**
    * Calls predicate function on each item in sequence.
@@ -178,7 +178,7 @@ export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray
   /**
    * Groups the elements of a sequence according to a specified key selector function and key equality comparator.
    */
-  groupBy<TKey>(keySelector: IteratorFunction<T, TKey>, keyComparator: EqualityComparator<TKey>): ReadOnlyMultiValueMap<TKey, T>;
+  groupBy<TKey>(keySelector: IteratorFunction<T, TKey>, keyComparator: EqualsFunction<TKey>): ReadOnlyMultiValueMap<TKey, T>;
 
   /**
    * Produces the set intersection of two sequences.
@@ -186,9 +186,9 @@ export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray
   intersect(otherItems: Sequence<T>): ReadOnlyCollection<T>;
 
   /**
-   * Produces the set intersection of two sequences by using the specified EqualityComparator<T> to compare values.
+   * Produces the set intersection of two sequences by using the specified EqualsFunction<T> to compare values.
    */
-  intersect(otherItems: Sequence<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
+  intersect(otherItems: Sequence<T>, comparator: EqualsFunction<T>): ReadOnlyCollection<T>;
 
   /**
    * Correlates the elements of two sequences based on matching keys.
@@ -202,14 +202,14 @@ export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray
 
   /**
    * Correlates the elements of two sequences based on matching keys.
-   * A specified EqualityComparator is used to compare keys.
+   * A specified EqualsFunction is used to compare keys.
    */
   join<TOuter, TKey, TResult>(
     outerItems: Sequence<TOuter>,
     outerKeySelector: IteratorFunction<TOuter, TKey>,
     innerKeySelector: IteratorFunction<T, TKey>,
     resultSelector: CombineFunction<T, TOuter, TResult>,
-    keyComparator: EqualityComparator<TKey>
+    keyComparator: EqualsFunction<TKey>
   ): ReadOnlyCollection<TResult>;
 
   /**
@@ -242,12 +242,12 @@ export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray
   /**
    * Sorts the elements of a sequence in ascending order by using a specified comparator.
    */
-  orderBy<TKey>(keySelector: ProjectFunction<T, TKey>, comparator: Comparator<TKey>): ReadOnlyCollection<T>;
+  orderBy<TKey>(keySelector: ProjectFunction<T, TKey>, comparator: CompareFunction<TKey>): ReadOnlyCollection<T>;
 
   /**
    * Sorts the elements of a sequence in ascending order by using a specified comparator.
    */
-  orderBy<TKey>(keySelector: ProjectFunction<T, TKey>, comparator: Comparator<TKey>, sortOrder: SortOrder): ReadOnlyCollection<T>;
+  orderBy<TKey>(keySelector: ProjectFunction<T, TKey>, comparator: CompareFunction<TKey>, sortOrder: SortOrder): ReadOnlyCollection<T>;
 
   /**
    * @throws {NoSuchItemException} if collection is empty
@@ -299,7 +299,7 @@ export interface ReadOnlyCollection<T> extends Sequence<T>, ToJSON<T[]>, ToArray
   /**
    * Produces the set union of two sequences by using a specified IEqualityComparator<TItem>.
    */
-  union(otherItems: Sequence<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
+  union(otherItems: Sequence<T>, comparator: EqualsFunction<T>): ReadOnlyCollection<T>;
 
   /**
    * Applies a specified function to the corresponding elements of two sequences, producing a sequence of the results.

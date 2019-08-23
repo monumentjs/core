@@ -17,7 +17,8 @@
     "strictFunctionTypes": true,
     "baseUrl": "./",
     "paths": {
-      "@monument/*": ["packages/*"]
+      "@monument/core": ["packages/core"],
+      "@monument/core/*": ["packages/core/*"]
     }
   },
   "exclude": ["./node_modules/**"]

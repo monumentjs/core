@@ -1,4 +1,4 @@
-import { IgnoreCaseEqualityComparator, IndexOutOfBoundsException, List, Sequence } from '../../../../..';
+import { IgnoreCaseEquals, IndexOutOfBoundsException, List, Sequence } from '../../../../..';
 import { testReadOnlyList } from '../readonly/ReadOnlyList.spec';
 import { assertLengthAndIsEmpty } from '../../collection/readonly/ReadOnlyCollection.spec';
 
@@ -183,7 +183,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
 
         assertLengthAndIsEmpty(list, 6);
 
-        list.removeAll(['A', 'B'], IgnoreCaseEqualityComparator.get());
+        list.removeAll(['A', 'B'], IgnoreCaseEquals);
 
         assertLengthAndIsEmpty(list, 2);
 
@@ -256,7 +256,7 @@ export function testList(create: <T>(items?: Sequence<T>) => List<T>) {
       it('should use custom equality comparator', function() {
         const list: List<string> = create(['one', 'two', 'three', 'One', 'Two', 'Three']);
 
-        expect(list.retainAll(['one', 'Three'], IgnoreCaseEqualityComparator.get())).toBe(true);
+        expect(list.retainAll(['one', 'Three'], IgnoreCaseEquals)).toBe(true);
 
         assertLengthAndIsEmpty(list, 4);
 

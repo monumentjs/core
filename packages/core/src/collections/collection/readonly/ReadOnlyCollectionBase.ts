@@ -1,10 +1,10 @@
 import { Sequence } from '../../base/Sequence';
 import { ReadOnlyCollection } from './ReadOnlyCollection';
 import { ReadOnlyCollectionImpl } from './ReadOnlyCollectionImpl';
-import { EqualityComparator } from '../../../comparison/equality/EqualityComparator';
-import { ReferenceEqualityComparator } from '../../../comparison/equality/ReferenceEqualityComparator';
+import { EqualsFunction } from '../../../comparison/equality/EqualsFunction';
+import { StrictEquals } from '../../../comparison/equality/StrictEquals';
 import { SortOrder } from '../../../comparison/order/SortOrder';
-import { Comparator } from '../../../comparison/order/Comparator';
+import { CompareFunction } from '../../../comparison/order/CompareFunction';
 import { ReadOnlyMultiValueMap } from '../../multivaluemap/readonly/ReadOnlyMultiValueMap';
 import { KeyValuePair } from '../../base/KeyValuePair';
 import { AggregateFunction } from '../../function/AggregateFunction';
@@ -48,17 +48,17 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
 
   contains(otherItem: T): boolean;
 
-  contains(otherItem: T, comparator: EqualityComparator<T>): boolean;
+  contains(otherItem: T, comparator: EqualsFunction<T>): boolean;
 
-  contains(otherItem: T, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): boolean {
+  contains(otherItem: T, comparator: EqualsFunction<T> = StrictEquals): boolean {
     return new ReadOnlyCollectionImpl(this).contains(otherItem, comparator);
   }
 
   containsAll(items: Sequence<T>): boolean;
 
-  containsAll(items: Sequence<T>, comparator: EqualityComparator<T>): boolean;
+  containsAll(items: Sequence<T>, comparator: EqualsFunction<T>): boolean;
 
-  containsAll(items: Sequence<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): boolean {
+  containsAll(items: Sequence<T>, comparator: EqualsFunction<T> = StrictEquals): boolean {
     return new ReadOnlyCollectionImpl(this).containsAll(items, comparator);
   }
 
@@ -68,9 +68,9 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
 
   distinct(): ReadOnlyCollection<T>;
 
-  distinct(comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
+  distinct(comparator: EqualsFunction<T>): ReadOnlyCollection<T>;
 
-  distinct(comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ReadOnlyCollection<T> {
+  distinct(comparator: EqualsFunction<T> = StrictEquals): ReadOnlyCollection<T> {
     return new ReadOnlyCollectionImpl(this).distinct(comparator);
   }
 
@@ -80,9 +80,9 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
 
   except(otherList: Iterable<T>): ReadOnlyCollection<T>;
 
-  except(otherList: Iterable<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
+  except(otherList: Iterable<T>, comparator: EqualsFunction<T>): ReadOnlyCollection<T>;
 
-  except(otherList: Iterable<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ReadOnlyCollection<T> {
+  except(otherList: Iterable<T>, comparator: EqualsFunction<T> = StrictEquals): ReadOnlyCollection<T> {
     return new ReadOnlyCollectionImpl(this).except(otherList, comparator);
   }
 
@@ -138,20 +138,20 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
 
   groupBy<TKey>(keySelector: IteratorFunction<T, TKey>): ReadOnlyMultiValueMap<TKey, T>;
 
-  groupBy<TKey>(keySelector: IteratorFunction<T, TKey>, keyComparator: EqualityComparator<TKey>): ReadOnlyMultiValueMap<TKey, T>;
+  groupBy<TKey>(keySelector: IteratorFunction<T, TKey>, keyComparator: EqualsFunction<TKey>): ReadOnlyMultiValueMap<TKey, T>;
 
   groupBy<TKey>(
     keySelector: IteratorFunction<T, TKey>,
-    keyComparator: EqualityComparator<TKey> = ReferenceEqualityComparator.get()
+    keyComparator: EqualsFunction<TKey> = StrictEquals
   ): ReadOnlyMultiValueMap<TKey, T> {
     return new ReadOnlyCollectionImpl(this).groupBy(keySelector, keyComparator);
   }
 
   intersect(otherList: Sequence<T>): ReadOnlyCollection<T>;
 
-  intersect(otherList: Sequence<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
+  intersect(otherList: Sequence<T>, comparator: EqualsFunction<T>): ReadOnlyCollection<T>;
 
-  intersect(otherList: Sequence<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ReadOnlyCollection<T> {
+  intersect(otherList: Sequence<T>, comparator: EqualsFunction<T> = StrictEquals): ReadOnlyCollection<T> {
     return new ReadOnlyCollectionImpl(this).intersect(otherList, comparator);
   }
 
@@ -167,7 +167,7 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
     outerKeySelector: IteratorFunction<TOuter, TKey>,
     innerKeySelector: IteratorFunction<T, TKey>,
     resultSelector: CombineFunction<T, TOuter, TResult>,
-    keyComparator: EqualityComparator<TKey>
+    keyComparator: EqualsFunction<TKey>
   ): ReadOnlyCollection<TResult>;
 
   join<TOuter, TKey, TResult>(
@@ -175,7 +175,7 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
     outerKeySelector: IteratorFunction<TOuter, TKey>,
     innerKeySelector: IteratorFunction<T, TKey>,
     resultSelector: CombineFunction<T, TOuter, TResult>,
-    keyComparator: EqualityComparator<TKey> = ReferenceEqualityComparator.get()
+    keyComparator: EqualsFunction<TKey> = StrictEquals
   ): ReadOnlyCollection<TResult> {
     return new ReadOnlyCollectionImpl(this).join(outerList, outerKeySelector, innerKeySelector, resultSelector, keyComparator);
   }
@@ -208,13 +208,13 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
     return new ReadOnlyCollectionImpl(this).min(selector);
   }
 
-  orderBy<TKey>(keySelector: ProjectFunction<T, TKey>, comparator: Comparator<TKey>): ReadOnlyCollection<T>;
+  orderBy<TKey>(keySelector: ProjectFunction<T, TKey>, comparator: CompareFunction<TKey>): ReadOnlyCollection<T>;
 
-  orderBy<TKey>(keySelector: ProjectFunction<T, TKey>, comparator: Comparator<TKey>, sortOrder: SortOrder): ReadOnlyCollection<T>;
+  orderBy<TKey>(keySelector: ProjectFunction<T, TKey>, comparator: CompareFunction<TKey>, sortOrder: SortOrder): ReadOnlyCollection<T>;
 
   orderBy<TKey>(
     keySelector: ProjectFunction<T, TKey>,
-    comparator: Comparator<TKey>,
+    comparator: CompareFunction<TKey>,
     sortOrder: SortOrder = SortOrder.ASCENDING
   ): ReadOnlyCollection<T> {
     return new ReadOnlyCollectionImpl(this).orderBy(keySelector, comparator, sortOrder);
@@ -273,9 +273,9 @@ export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T>
 
   union(otherList: Sequence<T>): ReadOnlyCollection<T>;
 
-  union(otherList: Sequence<T>, comparator: EqualityComparator<T>): ReadOnlyCollection<T>;
+  union(otherList: Sequence<T>, comparator: EqualsFunction<T>): ReadOnlyCollection<T>;
 
-  union(otherList: Sequence<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ReadOnlyCollection<T> {
+  union(otherList: Sequence<T>, comparator: EqualsFunction<T> = StrictEquals): ReadOnlyCollection<T> {
     return new ReadOnlyCollectionImpl(this).union(otherList, comparator);
   }
 

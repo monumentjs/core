@@ -1,9 +1,9 @@
-import { EqualityComparator } from '../../../comparison/equality/EqualityComparator';
+import { EqualsFunction } from '../../../comparison/equality/EqualsFunction';
 import { KeyValuePair } from '../../base/KeyValuePair';
 import { Cloneable } from '../../../base/Cloneable';
 import { MapIteratorFunction } from '../../base/MapIteratorFunction';
 import { Map as IMap } from './Map';
-import { ReferenceEqualityComparator } from '../../../comparison/equality/ReferenceEqualityComparator';
+import { StrictEquals } from '../../../comparison/equality/StrictEquals';
 import { SupplyFunction } from '../../../function/SupplyFunction';
 import { ReadOnlyMap } from '../readonly/ReadOnlyMap';
 
@@ -14,14 +14,14 @@ import { ReadOnlyMap } from '../readonly/ReadOnlyMap';
  */
 export class LinkedMap<K, V> implements IMap<K, V>, Cloneable<LinkedMap<K, V>> {
   private readonly _map: Map<K, V> = new Map();
-  private readonly _keyComparator: EqualityComparator<K>;
-  private readonly _valueComparator: EqualityComparator<V>;
+  private readonly _keyComparator: EqualsFunction<K>;
+  private readonly _valueComparator: EqualsFunction<V>;
 
   get isEmpty(): boolean {
     return this._map.size === 0;
   }
 
-  get keyComparator(): EqualityComparator<K> {
+  get keyComparator(): EqualsFunction<K> {
     return this._keyComparator;
   }
 
@@ -33,7 +33,7 @@ export class LinkedMap<K, V> implements IMap<K, V>, Cloneable<LinkedMap<K, V>> {
     return this._map.size;
   }
 
-  get valueComparator(): EqualityComparator<V> {
+  get valueComparator(): EqualsFunction<V> {
     return this._valueComparator;
   }
 
@@ -43,8 +43,8 @@ export class LinkedMap<K, V> implements IMap<K, V>, Cloneable<LinkedMap<K, V>> {
 
   constructor(
     items?: Iterable<KeyValuePair<K, V>>,
-    keyComparator: EqualityComparator<K> = ReferenceEqualityComparator.get(),
-    valueComparator: EqualityComparator<V> = ReferenceEqualityComparator.get()
+    keyComparator: EqualsFunction<K> = StrictEquals,
+    valueComparator: EqualsFunction<V> = StrictEquals
   ) {
     this._keyComparator = keyComparator;
     this._valueComparator = valueComparator;
@@ -84,7 +84,7 @@ export class LinkedMap<K, V> implements IMap<K, V>, Cloneable<LinkedMap<K, V>> {
 
   containsEntry(key: K, value: V): boolean {
     for (const [ownKey, ownValue] of this) {
-      if (this.keyComparator.equals(key, ownKey) && this.valueComparator.equals(value, ownValue)) {
+      if (this.keyComparator(key, ownKey) && this.valueComparator(value, ownValue)) {
         return true;
       }
     }
@@ -94,7 +94,7 @@ export class LinkedMap<K, V> implements IMap<K, V>, Cloneable<LinkedMap<K, V>> {
 
   containsKey(key: K): boolean {
     for (const ownKey of this._map.keys()) {
-      if (this.keyComparator.equals(key, ownKey)) {
+      if (this.keyComparator(key, ownKey)) {
         return true;
       }
     }
@@ -114,7 +114,7 @@ export class LinkedMap<K, V> implements IMap<K, V>, Cloneable<LinkedMap<K, V>> {
 
   containsValue(value: V): boolean {
     for (const ownValue of this._map.values()) {
-      if (this.valueComparator.equals(value, ownValue)) {
+      if (this.valueComparator(value, ownValue)) {
         return true;
       }
     }
@@ -164,7 +164,7 @@ export class LinkedMap<K, V> implements IMap<K, V>, Cloneable<LinkedMap<K, V>> {
 
   keyOf(value: V): K | undefined {
     for (const [ownKey, ownValue] of this) {
-      if (this.valueComparator.equals(value, ownValue)) {
+      if (this.valueComparator(value, ownValue)) {
         return ownKey;
       }
     }
@@ -172,7 +172,7 @@ export class LinkedMap<K, V> implements IMap<K, V>, Cloneable<LinkedMap<K, V>> {
 
   *keysOf(value: V): Iterable<K> {
     for (const [ownKey, ownValue] of this) {
-      if (this.valueComparator.equals(value, ownValue)) {
+      if (this.valueComparator(value, ownValue)) {
         yield ownKey;
       }
     }
@@ -245,7 +245,7 @@ export class LinkedMap<K, V> implements IMap<K, V>, Cloneable<LinkedMap<K, V>> {
 
   removeIf(key: K, value: V): boolean {
     for (const [ownKey, ownValue] of this) {
-      if (this.keyComparator.equals(key, ownKey) && this.valueComparator.equals(value, ownValue)) {
+      if (this.keyComparator(key, ownKey) && this.valueComparator(value, ownValue)) {
         this._map.delete(ownKey);
 
         return true;
@@ -278,7 +278,7 @@ export class LinkedMap<K, V> implements IMap<K, V>, Cloneable<LinkedMap<K, V>> {
 
   private getEntry(key: K): KeyValuePair<K, V> | undefined {
     for (const entry of this._map) {
-      if (this.keyComparator.equals(entry[0], key)) {
+      if (this.keyComparator(entry[0], key)) {
         return entry;
       }
     }

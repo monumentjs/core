@@ -2,8 +2,8 @@ import { Set } from './Set';
 import { ArrayList } from '../../list/mutable/ArrayList';
 import { Sequence } from '../../base/Sequence';
 import { Cloneable } from '../../../base/Cloneable';
-import { EqualityComparator } from '../../../comparison/equality/EqualityComparator';
-import { ReferenceEqualityComparator } from '../../../comparison/equality/ReferenceEqualityComparator';
+import { EqualsFunction } from '../../../comparison/equality/EqualsFunction';
+import { StrictEquals } from '../../../comparison/equality/StrictEquals';
 import { MethodNotImplementedException } from '../../../exceptions/MethodNotImplementedException';
 import { ReadOnlyCollectionBase } from '../../collection/readonly/ReadOnlyCollectionBase';
 import { ReadOnlySet } from '../readonly/ReadOnlySet';
@@ -14,18 +14,18 @@ import { ReadOnlySet } from '../readonly/ReadOnlySet';
  * @mutable
  */
 export class ArraySet<T> extends ReadOnlyCollectionBase<T> implements Set<T>, Cloneable<ArraySet<T>> {
-  private readonly _comparator: EqualityComparator<T>;
+  private readonly _comparator: EqualsFunction<T>;
   private readonly _items: ArrayList<T> = new ArrayList();
 
   get length(): number {
     return this._items.length;
   }
 
-  get comparator(): EqualityComparator<T> {
+  get comparator(): EqualsFunction<T> {
     return this._comparator;
   }
 
-  constructor(items?: Iterable<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()) {
+  constructor(items?: Iterable<T>, comparator: EqualsFunction<T> = StrictEquals) {
     super();
     this._comparator = comparator;
 
@@ -66,7 +66,7 @@ export class ArraySet<T> extends ReadOnlyCollectionBase<T> implements Set<T>, Cl
   intersectWith(other: Iterable<T>): boolean {
     return this.removeBy((ownItem: T): boolean => {
       for (const otherItem of other) {
-        if (this.comparator.equals(ownItem, otherItem)) {
+        if (this.comparator(ownItem, otherItem)) {
           return false;
         }
       }
@@ -98,7 +98,7 @@ export class ArraySet<T> extends ReadOnlyCollectionBase<T> implements Set<T>, Cl
       let isCurrentItemInOtherSet: boolean = false;
 
       for (const otherItem of other) {
-        if (this.comparator.equals(ownItem, otherItem)) {
+        if (this.comparator(ownItem, otherItem)) {
           isCurrentItemInOtherSet = true;
 
           break;
@@ -122,7 +122,7 @@ export class ArraySet<T> extends ReadOnlyCollectionBase<T> implements Set<T>, Cl
       let isOtherItemInCurrentSet: boolean = false;
 
       for (const currentItem of this) {
-        if (this.comparator.equals(currentItem, ownItem)) {
+        if (this.comparator(currentItem, ownItem)) {
           isOtherItemInCurrentSet = true;
 
           break;
@@ -142,7 +142,7 @@ export class ArraySet<T> extends ReadOnlyCollectionBase<T> implements Set<T>, Cl
   overlaps(other: ReadOnlySet<T>): boolean {
     for (const ownItem of this) {
       for (const otherItem of other) {
-        if (this.comparator.equals(ownItem, otherItem)) {
+        if (this.comparator(ownItem, otherItem)) {
           return true;
         }
       }
@@ -182,7 +182,7 @@ export class ArraySet<T> extends ReadOnlyCollectionBase<T> implements Set<T>, Cl
       let currentItemInOtherCollection: boolean = false;
 
       for (const otherItem of other) {
-        if (this.comparator.equals(currentItem, otherItem)) {
+        if (this.comparator(currentItem, otherItem)) {
           currentItemInOtherCollection = true;
 
           break;

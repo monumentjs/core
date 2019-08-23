@@ -1,7 +1,7 @@
 import { ReadOnlyCollection } from '../../collection/readonly/ReadOnlyCollection';
 import { Cloneable } from '../../../base/Cloneable';
-import { EqualityComparator } from '../../../comparison/equality/EqualityComparator';
-import { ReferenceEqualityComparator } from '../../../comparison/equality/ReferenceEqualityComparator';
+import { EqualsFunction } from '../../../comparison/equality/EqualsFunction';
+import { StrictEquals } from '../../../comparison/equality/StrictEquals';
 import { ReadOnlyCollectionBase } from '../../collection/readonly/ReadOnlyCollectionBase';
 import { List } from './List';
 import { CollectionUtils } from '../../base/CollectionUtils';
@@ -55,9 +55,9 @@ export class ArrayList<T> extends ReadOnlyCollectionBase<T> implements List<T>, 
 
   addIfAbsent(item: T): boolean;
 
-  addIfAbsent(item: T, comparator: EqualityComparator<T>): boolean;
+  addIfAbsent(item: T, comparator: EqualsFunction<T>): boolean;
 
-  addIfAbsent(item: T, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): boolean {
+  addIfAbsent(item: T, comparator: EqualsFunction<T> = StrictEquals): boolean {
     if (this.contains(item, comparator)) {
       return false;
     }
@@ -81,9 +81,9 @@ export class ArrayList<T> extends ReadOnlyCollectionBase<T> implements List<T>, 
 
   equals(other: ReadOnlyList<T>): boolean;
 
-  equals(other: ReadOnlyList<T>, comparator: EqualityComparator<T>): boolean;
+  equals(other: ReadOnlyList<T>, comparator: EqualsFunction<T>): boolean;
 
-  equals(other: ReadOnlyList<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): boolean {
+  equals(other: ReadOnlyList<T>, comparator: EqualsFunction<T> = StrictEquals): boolean {
     if (this === other) {
       return true;
     }
@@ -97,7 +97,7 @@ export class ArrayList<T> extends ReadOnlyCollectionBase<T> implements List<T>, 
     for (const ownItem of this) {
       const otherItem: T = otherIterator.next().value;
 
-      if (!comparator.equals(ownItem, otherItem)) {
+      if (!comparator(ownItem, otherItem)) {
         return false;
       }
     }
@@ -119,21 +119,21 @@ export class ArrayList<T> extends ReadOnlyCollectionBase<T> implements List<T>, 
 
   indexOf(item: T): number;
 
-  indexOf(item: T, comparator: EqualityComparator<T>): number;
+  indexOf(item: T, comparator: EqualsFunction<T>): number;
 
   indexOf(item: T, startIndex: number): number;
 
-  indexOf(item: T, startIndex: number, comparator: EqualityComparator<T>): number;
+  indexOf(item: T, startIndex: number, comparator: EqualsFunction<T>): number;
 
   indexOf(item: T, startIndex: number, count: number): number;
 
-  indexOf(item: T, startIndex: number, count: number, comparator: EqualityComparator<T>): number;
+  indexOf(item: T, startIndex: number, count: number, comparator: EqualsFunction<T>): number;
 
   indexOf(
     item: T,
-    startIndex?: number | EqualityComparator<T>,
-    count?: number | EqualityComparator<T>,
-    comparator?: EqualityComparator<T>
+    startIndex?: number | EqualsFunction<T>,
+    count?: number | EqualsFunction<T>,
+    comparator?: EqualsFunction<T>
   ): number {
     const [_startIndex, _count, _comparator] = this.getIndexOfArgs(startIndex, count, comparator);
 
@@ -143,7 +143,7 @@ export class ArrayList<T> extends ReadOnlyCollectionBase<T> implements List<T>, 
 
     this.forEach(
       (ownItem: T, ownIndex: number) => {
-        if (_comparator.equals(ownItem, item)) {
+        if (_comparator(ownItem, item)) {
           result = ownIndex;
 
           return false;
@@ -180,21 +180,21 @@ export class ArrayList<T> extends ReadOnlyCollectionBase<T> implements List<T>, 
 
   lastIndexOf(item: T): number;
 
-  lastIndexOf(item: T, comparator: EqualityComparator<T>): number;
+  lastIndexOf(item: T, comparator: EqualsFunction<T>): number;
 
   lastIndexOf(item: T, startIndex: number): number;
 
-  lastIndexOf(item: T, startIndex: number, comparator: EqualityComparator<T>): number;
+  lastIndexOf(item: T, startIndex: number, comparator: EqualsFunction<T>): number;
 
   lastIndexOf(item: T, startIndex: number, count: number): number;
 
-  lastIndexOf(item: T, startIndex: number, count: number, comparator: EqualityComparator<T>): number;
+  lastIndexOf(item: T, startIndex: number, count: number, comparator: EqualsFunction<T>): number;
 
   lastIndexOf(
     item: T,
-    startIndex?: number | EqualityComparator<T>,
-    count?: number | EqualityComparator<T>,
-    comparator?: EqualityComparator<T>
+    startIndex?: number | EqualsFunction<T>,
+    count?: number | EqualsFunction<T>,
+    comparator?: EqualsFunction<T>
   ): number {
     const [_startIndex, _count, _comparator] = this.getLastIndexOfArgs(startIndex, count, comparator);
 
@@ -210,7 +210,7 @@ export class ArrayList<T> extends ReadOnlyCollectionBase<T> implements List<T>, 
 
     this.forEachBack(
       (ownItem: T, ownIndex: number) => {
-        if (_comparator.equals(item, ownItem)) {
+        if (_comparator(item, ownItem)) {
           result = ownIndex;
 
           return false;
@@ -225,19 +225,19 @@ export class ArrayList<T> extends ReadOnlyCollectionBase<T> implements List<T>, 
 
   remove(item: T): boolean;
 
-  remove(item: T, comparator: EqualityComparator<T>): boolean;
+  remove(item: T, comparator: EqualsFunction<T>): boolean;
 
-  remove(item: T, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): boolean {
+  remove(item: T, comparator: EqualsFunction<T> = StrictEquals): boolean {
     return this.removeBy((ownItem: T): boolean => {
-      return comparator.equals(item, ownItem);
+      return comparator(item, ownItem);
     });
   }
 
   removeAll(items: Iterable<T>): boolean;
 
-  removeAll(items: Iterable<T>, comparator: EqualityComparator<T>): boolean;
+  removeAll(items: Iterable<T>, comparator: EqualsFunction<T>): boolean;
 
-  removeAll(items: Iterable<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): boolean {
+  removeAll(items: Iterable<T>, comparator: EqualsFunction<T> = StrictEquals): boolean {
     let modified: boolean = false;
 
     for (const item of items) {
@@ -276,12 +276,12 @@ export class ArrayList<T> extends ReadOnlyCollectionBase<T> implements List<T>, 
 
   retainAll(items: Iterable<T>): boolean;
 
-  retainAll(items: Iterable<T>, comparator: EqualityComparator<T>): boolean;
+  retainAll(items: Iterable<T>, comparator: EqualsFunction<T>): boolean;
 
-  retainAll(items: Iterable<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): boolean {
+  retainAll(items: Iterable<T>, comparator: EqualsFunction<T> = StrictEquals): boolean {
     return this.removeBy((ownItem: T): boolean => {
       for (const item of items) {
-        if (comparator.equals(ownItem, item)) {
+        if (comparator(ownItem, item)) {
           return false;
         }
       }
@@ -303,13 +303,13 @@ export class ArrayList<T> extends ReadOnlyCollectionBase<T> implements List<T>, 
   }
 
   private getLastIndexOfArgs(
-    startIndex?: number | EqualityComparator<T>,
-    count?: number | EqualityComparator<T>,
-    comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()
-  ): [number, number, EqualityComparator<T>] {
+    startIndex?: number | EqualsFunction<T>,
+    count?: number | EqualsFunction<T>,
+    comparator: EqualsFunction<T> = StrictEquals
+  ): [number, number, EqualsFunction<T>] {
     let _startIndex: number;
     let _count: number;
-    let _comparator: EqualityComparator<T> = comparator;
+    let _comparator: EqualsFunction<T> = comparator;
 
     switch (typeof startIndex) {
       case 'object':
@@ -341,13 +341,13 @@ export class ArrayList<T> extends ReadOnlyCollectionBase<T> implements List<T>, 
   }
 
   private getIndexOfArgs(
-    startIndex?: number | EqualityComparator<T>,
-    count?: number | EqualityComparator<T>,
-    comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()
-  ): [number, number, EqualityComparator<T>] {
+    startIndex?: number | EqualsFunction<T>,
+    count?: number | EqualsFunction<T>,
+    comparator: EqualsFunction<T> = StrictEquals
+  ): [number, number, EqualsFunction<T>] {
     let _startIndex: number;
     let _count: number;
-    let _comparator: EqualityComparator<T> = comparator;
+    let _comparator: EqualsFunction<T> = comparator;
 
     switch (typeof startIndex) {
       case 'object':

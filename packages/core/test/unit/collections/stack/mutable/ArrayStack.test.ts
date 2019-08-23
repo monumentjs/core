@@ -1,5 +1,5 @@
-import { testStack } from './Stack.spec';
 import { ArrayStack } from '../../../../..';
+import { testStack } from './Stack.spec';
 
 describe('ArrayStack', function() {
   function create<I>(items: Iterable<I> = []): ArrayStack<I> {

@@ -1,10 +1,10 @@
 import {
-  ChainedEqualityComparator,
-  EqualityComparator,
+  EqualsFunction,
   Equatable,
-  EquatableComparator,
-  IgnoreCaseEqualityComparator,
-  PreserveCaseEqualityComparator,
+  EquatableEquals,
+  MultiValueEquals,
+  PreserveCaseEquals,
+  StrictEquals,
   SupplyFunction,
   ToJSON,
   ToString
@@ -176,29 +176,25 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
    * Second parameter specifies when to ignore case of components.
    * @nosideeffects
    */
-  equals(other: UriComponents, ignoreCase: boolean): boolean;
+  equals(other: UriComponents, equals: EqualsFunction<string | undefined>): boolean;
 
-  equals(other: UriComponents | string, ignoreCase: boolean = false): boolean {
+  equals(other: UriComponents | string, equals: EqualsFunction<string | undefined> = PreserveCaseEquals): boolean {
     if (this === other) {
       return true;
     }
 
-    const textComparator: EqualityComparator<string> = ignoreCase
-      ? IgnoreCaseEqualityComparator.get()
-      : PreserveCaseEqualityComparator.get();
-    const comparator = new ChainedEqualityComparator();
     const components: UriComponents = typeof other === 'object' ? other : new Uri(other);
 
-    comparator.withField(this.schema, components.schema, textComparator);
-    comparator.withField(this.userName, components.userName, textComparator);
-    comparator.withField(this.password, components.password, textComparator);
-    comparator.withField(this.host, components.host, textComparator);
-    comparator.withField(this.port, components.port);
-    comparator.withField(this.path, components.path, textComparator);
-    comparator.withField(this.fragment, components.fragment, textComparator);
-    comparator.withField(this.queryParameters, components.queryParameters || new QueryParameters(), new EquatableComparator());
-
-    return comparator.result;
+    return MultiValueEquals([
+      [this.schema, components.schema, equals],
+      [this.userName, components.userName, equals],
+      [this.password, components.password, equals],
+      [this.host, components.host, equals],
+      [this.port, components.port, StrictEquals],
+      [this.path, components.path, equals],
+      [this.fragment, components.fragment, equals],
+      [this.queryParameters, components.queryParameters || new QueryParameters(), EquatableEquals]
+    ]);
   }
 
   getParameter(name: string): ToString | undefined;

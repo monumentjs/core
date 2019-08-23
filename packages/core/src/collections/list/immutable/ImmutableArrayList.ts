@@ -1,9 +1,9 @@
 import { Cloneable } from '../../../base/Cloneable';
 import { ImmutableList } from './ImmutableList';
 import { ReadOnlyCollectionBase } from '../../collection/readonly/ReadOnlyCollectionBase';
-import { EqualityComparator } from '../../../comparison/equality/EqualityComparator';
+import { EqualsFunction } from '../../../comparison/equality/EqualsFunction';
 import { IteratorFunction } from '../../function/IteratorFunction';
-import { ReferenceEqualityComparator } from '../../../comparison/equality/ReferenceEqualityComparator';
+import { StrictEquals } from '../../../comparison/equality/StrictEquals';
 import { ArrayList } from '../mutable/ArrayList';
 import { ReadOnlyList } from '../readonly/ReadOnlyList';
 
@@ -55,8 +55,8 @@ export class ImmutableArrayList<T> extends ReadOnlyCollectionBase<T> implements 
   }
 
   addIfAbsent(item: T): ImmutableList<T>;
-  addIfAbsent(item: T, comparator: EqualityComparator<T>): ImmutableList<T>;
-  addIfAbsent(item: T, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ImmutableList<T> {
+  addIfAbsent(item: T, comparator: EqualsFunction<T>): ImmutableList<T>;
+  addIfAbsent(item: T, comparator: EqualsFunction<T> = StrictEquals): ImmutableList<T> {
     const copy: ImmutableArrayList<T> = this.clone();
 
     if (copy._items.addIfAbsent(item, comparator)) {
@@ -80,9 +80,9 @@ export class ImmutableArrayList<T> extends ReadOnlyCollectionBase<T> implements 
 
   equals(other: ReadOnlyList<T>): boolean;
 
-  equals(other: ReadOnlyList<T>, comparator: EqualityComparator<T>): boolean;
+  equals(other: ReadOnlyList<T>, comparator: EqualsFunction<T>): boolean;
 
-  equals(other: ReadOnlyList<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): boolean {
+  equals(other: ReadOnlyList<T>, comparator: EqualsFunction<T> = StrictEquals): boolean {
     if (this === other) {
       return true;
     }
@@ -96,7 +96,7 @@ export class ImmutableArrayList<T> extends ReadOnlyCollectionBase<T> implements 
     for (const ownItem of this) {
       const otherItem: T = otherIterator.next().value;
 
-      if (!comparator.equals(ownItem, otherItem)) {
+      if (!comparator(ownItem, otherItem)) {
         return false;
       }
     }
@@ -110,21 +110,21 @@ export class ImmutableArrayList<T> extends ReadOnlyCollectionBase<T> implements 
 
   indexOf(item: T): number;
 
-  indexOf(item: T, comparator: EqualityComparator<T>): number;
+  indexOf(item: T, comparator: EqualsFunction<T>): number;
 
   indexOf(item: T, startIndex: number): number;
 
-  indexOf(item: T, startIndex: number, comparator: EqualityComparator<T>): number;
+  indexOf(item: T, startIndex: number, comparator: EqualsFunction<T>): number;
 
   indexOf(item: T, startIndex: number, count: number): number;
 
-  indexOf(item: T, startIndex: number, count: number, comparator: EqualityComparator<T>): number;
+  indexOf(item: T, startIndex: number, count: number, comparator: EqualsFunction<T>): number;
 
   indexOf(
     item: T,
-    startIndex?: number | EqualityComparator<T>,
-    count?: number | EqualityComparator<T>,
-    comparator?: EqualityComparator<T>
+    startIndex?: number | EqualsFunction<T>,
+    count?: number | EqualsFunction<T>,
+    comparator?: EqualsFunction<T>
   ): number {
     // @ts-ignore
     return this._items.indexOf(item, startIndex, count, comparator);
@@ -150,29 +150,29 @@ export class ImmutableArrayList<T> extends ReadOnlyCollectionBase<T> implements 
 
   lastIndexOf(item: T): number;
 
-  lastIndexOf(item: T, comparator: EqualityComparator<T>): number;
+  lastIndexOf(item: T, comparator: EqualsFunction<T>): number;
 
   lastIndexOf(item: T, startIndex: number): number;
 
-  lastIndexOf(item: T, startIndex: number, comparator: EqualityComparator<T>): number;
+  lastIndexOf(item: T, startIndex: number, comparator: EqualsFunction<T>): number;
 
   lastIndexOf(item: T, startIndex: number, count: number): number;
 
-  lastIndexOf(item: T, startIndex: number, count: number, comparator: EqualityComparator<T>): number;
+  lastIndexOf(item: T, startIndex: number, count: number, comparator: EqualsFunction<T>): number;
 
   lastIndexOf(
     item: T,
-    startIndex?: number | EqualityComparator<T>,
-    count?: number | EqualityComparator<T>,
-    comparator?: EqualityComparator<T>
+    startIndex?: number | EqualsFunction<T>,
+    count?: number | EqualsFunction<T>,
+    comparator?: EqualsFunction<T>
   ): number {
     // @ts-ignore
     return this._items.lastIndexOf(item, startIndex, count, comparator);
   }
 
   remove(item: T): ImmutableList<T>;
-  remove(item: T, comparator: EqualityComparator<T>): ImmutableList<T>;
-  remove(item: T, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ImmutableList<T> {
+  remove(item: T, comparator: EqualsFunction<T>): ImmutableList<T>;
+  remove(item: T, comparator: EqualsFunction<T> = StrictEquals): ImmutableList<T> {
     const copy: ImmutableArrayList<T> = this.clone();
 
     if (copy._items.remove(item, comparator)) {
@@ -183,8 +183,8 @@ export class ImmutableArrayList<T> extends ReadOnlyCollectionBase<T> implements 
   }
 
   removeAll(items: Iterable<T>): ImmutableList<T>;
-  removeAll(items: Iterable<T>, comparator: EqualityComparator<T>): ImmutableList<T>;
-  removeAll(items: Iterable<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ImmutableList<T> {
+  removeAll(items: Iterable<T>, comparator: EqualsFunction<T>): ImmutableList<T>;
+  removeAll(items: Iterable<T>, comparator: EqualsFunction<T> = StrictEquals): ImmutableList<T> {
     const copy: ImmutableArrayList<T> = this.clone();
 
     if (copy._items.removeAll(items, comparator)) {
@@ -213,8 +213,8 @@ export class ImmutableArrayList<T> extends ReadOnlyCollectionBase<T> implements 
   }
 
   retainAll(items: Iterable<T>): ImmutableList<T>;
-  retainAll(items: Iterable<T>, comparator: EqualityComparator<T>): ImmutableList<T>;
-  retainAll(items: Iterable<T>, comparator: EqualityComparator<T> = ReferenceEqualityComparator.get()): ImmutableList<T> {
+  retainAll(items: Iterable<T>, comparator: EqualsFunction<T>): ImmutableList<T>;
+  retainAll(items: Iterable<T>, comparator: EqualsFunction<T> = StrictEquals): ImmutableList<T> {
     const copy: ImmutableArrayList<T> = this.clone();
 
     if (copy._items.retainAll(items, comparator)) {

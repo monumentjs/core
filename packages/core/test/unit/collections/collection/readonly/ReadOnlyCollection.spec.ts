@@ -1,11 +1,12 @@
 import {
-  IgnoreCaseComparator,
-  IgnoreCaseEqualityComparator,
+  EqualsFunction,
+  IgnoreCaseCompare,
+  IgnoreCaseEquals,
   IndexOutOfBoundsException,
   InvalidArgumentException,
   InvalidOperationException,
   isEven,
-  IterableEqualityComparator,
+  IterableEqualsFactory,
   NamedPool,
   NoSuchItemException,
   RangeException,
@@ -30,7 +31,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
   describe('ReadOnlyCollection', function() {
     testSequence(create);
 
-    const iterableEqualityComparator: IterableEqualityComparator<string> = new IterableEqualityComparator();
+    const iterableEqualityComparator: EqualsFunction<Iterable<string>> = IterableEqualsFactory();
 
     describe('isEmpty', function() {
       it('should be true when collection is empty', function() {
@@ -181,9 +182,9 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
       it('should determine whether collection contains specified item using custom equality comparator', function() {
         const source: ReadOnlyCollection<string> = create(['one', 'two', 'THREE']);
 
-        expect(source.contains('One', IgnoreCaseEqualityComparator.get())).toBe(true);
-        expect(source.contains('TWO', IgnoreCaseEqualityComparator.get())).toBe(true);
-        expect(source.contains('three', IgnoreCaseEqualityComparator.get())).toBe(true);
+        expect(source.contains('One', IgnoreCaseEquals)).toBe(true);
+        expect(source.contains('TWO', IgnoreCaseEquals)).toBe(true);
+        expect(source.contains('three', IgnoreCaseEquals)).toBe(true);
       });
     });
 
@@ -200,10 +201,10 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
       it('should determine whether collection contains all specified items using custom equality comparator', function() {
         const source: ReadOnlyCollection<string> = create(['one', 'two', 'THREE']);
 
-        expect(source.containsAll([], IgnoreCaseEqualityComparator.get())).toBe(false);
-        expect(source.containsAll(['One'], IgnoreCaseEqualityComparator.get())).toBe(true);
-        expect(source.containsAll(['TWO'], IgnoreCaseEqualityComparator.get())).toBe(true);
-        expect(source.containsAll(['three'], IgnoreCaseEqualityComparator.get())).toBe(true);
+        expect(source.containsAll([], IgnoreCaseEquals)).toBe(false);
+        expect(source.containsAll(['One'], IgnoreCaseEquals)).toBe(true);
+        expect(source.containsAll(['TWO'], IgnoreCaseEquals)).toBe(true);
+        expect(source.containsAll(['three'], IgnoreCaseEquals)).toBe(true);
       });
     });
 
@@ -222,7 +223,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
     describe('distinct()', function() {
       it('should return list of distinct items', function() {
         const list: ReadOnlyCollection<string> = create(['one', 'two', 'One']);
-        const distinctItems: ReadOnlyCollection<string> = list.distinct(IgnoreCaseEqualityComparator.get());
+        const distinctItems: ReadOnlyCollection<string> = list.distinct(IgnoreCaseEquals);
 
         expect(list.length).toBe(3);
         expect(list.toArray()).toEqual(['one', 'two', 'One']);
@@ -235,7 +236,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
     describe('except()', function() {
       it('should return list without specified items using custom comparator', function() {
         const list: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
-        const filteredList: ReadOnlyCollection<string> = list.except(['one', 'Five'], IgnoreCaseEqualityComparator.get());
+        const filteredList: ReadOnlyCollection<string> = list.except(['one', 'Five'], IgnoreCaseEquals);
 
         expect(filteredList).not.toEqual(list);
         expect(filteredList.toArray()).toEqual(['two', 'Three', 'Five']);
@@ -544,8 +545,8 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
         expect(groups.length).toBe(2);
         expect(groups.keys).toContain(3);
         expect(groups.keys).toContain(5);
-        expect(iterableEqualityComparator.equals(groups.get(3), ['one', 'two'])).toBe(true);
-        expect(iterableEqualityComparator.equals(groups.get(5), ['three'])).toBe(true);
+        expect(iterableEqualityComparator(groups.get(3), ['one', 'two'])).toBe(true);
+        expect(iterableEqualityComparator(groups.get(5), ['three'])).toBe(true);
       });
     });
 
@@ -554,20 +555,20 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
         const list: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
         const groups: ReadOnlyMultiValueMap<string, string> = list.groupBy<string>((word: string): string => {
           return word[0].toLowerCase();
-        }, IgnoreCaseEqualityComparator.get());
+        }, IgnoreCaseEquals);
 
         expect(groups.length).toBe(2);
         expect(groups.containsKey('t')).toBe(true);
         expect(groups.containsKey('o')).toBe(true);
-        expect(iterableEqualityComparator.equals(groups.get('t'), ['two', 'Three'])).toBe(true);
-        expect(iterableEqualityComparator.equals(groups.get('o'), ['ONE', 'one', 'One'])).toBe(true);
+        expect(iterableEqualityComparator(groups.get('t'), ['two', 'Three'])).toBe(true);
+        expect(iterableEqualityComparator(groups.get('o'), ['ONE', 'one', 'One'])).toBe(true);
       });
     });
 
     describe('intersect(items)', function() {
       it('should return list without specified items using custom comparator', function() {
         const list: ReadOnlyCollection<string> = create(['two', 'ONE', 'one', 'Three', 'One']);
-        const filteredList: ReadOnlyCollection<string> = list.intersect(create(['one', 'Five']), IgnoreCaseEqualityComparator.get());
+        const filteredList: ReadOnlyCollection<string> = list.intersect(create(['one', 'Five']), IgnoreCaseEquals);
 
         expect(filteredList).not.toEqual(list);
         expect(filteredList.toArray()).toEqual(['ONE', 'one', 'One']);
@@ -602,7 +603,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
           function(x: string, y: string): string[] {
             return [x, y];
           },
-          IgnoreCaseEqualityComparator.get()
+          IgnoreCaseEquals
         );
 
         expect(combo.toArray()).toEqual([
@@ -722,7 +723,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
           (word: string): string => {
             return word.slice(0, 2);
           },
-          IgnoreCaseComparator.get(),
+          IgnoreCaseCompare,
           SortOrder.ASCENDING
         );
 
@@ -735,7 +736,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
           (word: string): string => {
             return word.slice(0, 2);
           },
-          IgnoreCaseComparator.get(),
+          IgnoreCaseCompare,
           SortOrder.NONE
         );
 
@@ -748,7 +749,7 @@ export function testReadOnlyCollection(create: <T>(items?: Sequence<T>) => ReadO
           (word: string): string => {
             return word.slice(0, 2);
           },
-          IgnoreCaseComparator.get(),
+          IgnoreCaseCompare,
           SortOrder.DESCENDING
         );
 

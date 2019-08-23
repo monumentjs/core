@@ -1,7 +1,7 @@
 import { SupplyFunction } from '../../../function/SupplyFunction';
 import { KeyValuePair } from '../../base/KeyValuePair';
-import { EqualityComparator } from '../../../comparison/equality/EqualityComparator';
-import { ReferenceEqualityComparator } from '../../../comparison/equality/ReferenceEqualityComparator';
+import { EqualsFunction } from '../../../comparison/equality/EqualsFunction';
+import { StrictEquals } from '../../../comparison/equality/StrictEquals';
 import { ReadOnlyMultiValueMap } from '../readonly/ReadOnlyMultiValueMap';
 import { ReadOnlyMap } from '../../map/readonly/ReadOnlyMap';
 import { LinkedMap } from '../../map/mutable/LinkedMap';
@@ -13,14 +13,14 @@ import { MultiValueMap } from './MultiValueMap';
  */
 export class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V> {
   private readonly _map: Map<K, V[]> = new Map();
-  private readonly _keyComparator: EqualityComparator<K>;
-  private readonly _valueComparator: EqualityComparator<V>;
+  private readonly _keyComparator: EqualsFunction<K>;
+  private readonly _valueComparator: EqualsFunction<V>;
 
   get isEmpty(): boolean {
     return this._map.size === 0;
   }
 
-  get keyComparator(): EqualityComparator<K> {
+  get keyComparator(): EqualsFunction<K> {
     return this._keyComparator;
   }
 
@@ -42,7 +42,7 @@ export class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V> {
     return length;
   }
 
-  get valueComparator(): EqualityComparator<V> {
+  get valueComparator(): EqualsFunction<V> {
     return this._valueComparator;
   }
 
@@ -59,8 +59,8 @@ export class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V> {
   }
 
   constructor(
-    keyComparator: EqualityComparator<K> = ReferenceEqualityComparator.get(),
-    valueComparator: EqualityComparator<V> = ReferenceEqualityComparator.get()
+    keyComparator: EqualsFunction<K> = StrictEquals,
+    valueComparator: EqualsFunction<V> = StrictEquals
   ) {
     this._keyComparator = keyComparator;
     this._valueComparator = valueComparator;
@@ -96,7 +96,7 @@ export class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V> {
 
   containsEntry(key: K, value: V): boolean {
     for (const [ownKey, ownValue] of this) {
-      if (this.keyComparator.equals(ownKey, key) && this.valueComparator.equals(ownValue, value)) {
+      if (this.keyComparator(ownKey, key) && this.valueComparator(ownValue, value)) {
         return true;
       }
     }
@@ -106,7 +106,7 @@ export class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V> {
 
   containsKey(key: K): boolean {
     for (const ownKey of this.keys) {
-      if (this.keyComparator.equals(ownKey, key)) {
+      if (this.keyComparator(ownKey, key)) {
         return true;
       }
     }
@@ -126,7 +126,7 @@ export class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V> {
 
   containsValue(value: V): boolean {
     for (const ownValue of this.values) {
-      if (this.valueComparator.equals(ownValue, value)) {
+      if (this.valueComparator(ownValue, value)) {
         return true;
       }
     }
@@ -191,7 +191,7 @@ export class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V> {
   keyOf(value: V): K | undefined {
     for (const [ownKey, ownValues] of this._map) {
       for (const ownValue of ownValues) {
-        if (this.valueComparator.equals(ownValue, value)) {
+        if (this.valueComparator(ownValue, value)) {
           return ownKey;
         }
       }
@@ -201,7 +201,7 @@ export class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V> {
   *keysOf(value: V): Iterable<K> {
     for (const [ownKey, ownValues] of this._map) {
       for (const ownValue of ownValues) {
-        if (this.valueComparator.equals(ownValue, value)) {
+        if (this.valueComparator(ownValue, value)) {
           yield ownKey;
           break;
         }
@@ -288,7 +288,7 @@ export class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V> {
 
   removeIf(key: K, value: V): boolean {
     return this.removeBy((ownKey: K, ownValue: V): boolean => {
-      return this.keyComparator.equals(key, ownKey) && this.valueComparator.equals(value, ownValue);
+      return this.keyComparator(key, ownKey) && this.valueComparator(value, ownValue);
     });
   }
 
@@ -300,7 +300,7 @@ export class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V> {
       const [, ownValues] = entry;
 
       ownValues.forEach((ownValue: V, index: number): void => {
-        if (this.valueComparator.equals(oldValue, ownValue)) {
+        if (this.valueComparator(oldValue, ownValue)) {
           ownValues[index] = newValue;
 
           modified = true;
@@ -342,7 +342,7 @@ export class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V> {
 
   private getEntry(key: K): KeyValuePair<K, V[]> | undefined {
     for (const [ownKey, ownValues] of this._map) {
-      if (this.keyComparator.equals(ownKey, key)) {
+      if (this.keyComparator(ownKey, key)) {
         return [ownKey, ownValues];
       }
     }
