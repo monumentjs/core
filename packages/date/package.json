@@ -1,8 +1,24 @@
 {
   "name": "@monument/date",
   "version": "0.14.1",
-  "description": "Template",
-  "keywords": [],
+  "description": "Date and time manipulation",
+  "keywords": [
+    "date",
+    "time",
+    "zone"
+  ],
+  "license": "MIT",
+  "homepage": "https://monumentjs.github.io/package/date",
+  "repository": "https://github.com/monumentjs/core.git",
+  "contributors": [
+    {
+      "name": "Alex Chugaev",
+      "email": "achugaev93@gmail.com"
+    }
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@monument/core": "^0.14.0"
   }

@@ -13,6 +13,10 @@ const PACKAGES = [
     deps: ['core']
   },
   {
+    name: 'date',
+    deps: ['core']
+  },
+  {
     name: 'store',
     deps: ['core']
   },
