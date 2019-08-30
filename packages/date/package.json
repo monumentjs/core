@@ -1,6 +1,6 @@
 {
   "name": "@monument/date",
-  "version": "0.14.1",
+  "version": "0.15.0",
   "description": "Date and time manipulation",
   "keywords": [
     "date",
@@ -20,6 +20,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@monument/core": "^0.14.0"
+    "@monument/core": "^0.15.0"
   }
 }
