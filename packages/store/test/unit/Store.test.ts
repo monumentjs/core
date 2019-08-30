@@ -1,6 +1,6 @@
 import { Actions, EffectMediator, ErrorMediator, Errors, Store } from '../..';
 import { CartService } from './store/CartService';
-import { Load } from './store/CartActions';
+import { Load, LoadFail, LoadSuccess } from './store/CartActions';
 import { CartState, CartStateSnapshot } from './store/CartState';
 import { CartStore } from './store/CartStore';
 import { CartEffects } from './store/CartEffects';
@@ -55,10 +55,10 @@ describe('Store', function() {
         snapshots.push(snapshot);
       },
       complete: () => {
-        expect(loadSpy).toHaveBeenNthCalledWith(1, {
+        expect(loadSpy).toHaveBeenNthCalledWith(1, new Load({
           page: 0
-        });
-        expect(loadSuccessSpy).toHaveBeenNthCalledWith(1, [
+        }));
+        expect(loadSuccessSpy).toHaveBeenNthCalledWith(1, new LoadSuccess([
           {
             name: 'name1',
             description: 'description1',
@@ -69,7 +69,7 @@ describe('Store', function() {
             description: 'description2',
             price: 2
           }
-        ]);
+        ]));
         expect(snapshots.length).toBe(3);
         expect(snapshots[0]).toEqual({
           loaded: false,
@@ -123,10 +123,10 @@ describe('Store', function() {
         snapshots.push(snapshot);
       },
       complete: () => {
-        expect(loadSpy).toHaveBeenNthCalledWith(1, {
+        expect(loadSpy).toHaveBeenNthCalledWith(1, new Load({
           page: -1
-        });
-        expect(loadFailSpy).toHaveBeenNthCalledWith(1, new CartException('Invalid page number'));
+        }));
+        expect(loadFailSpy).toHaveBeenNthCalledWith(1, new LoadFail(new CartException('Invalid page number')));
         expect(snapshots).toEqual([
           {
             loaded: false,

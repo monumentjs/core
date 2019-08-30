@@ -1,6 +1,6 @@
 import { Reaction, State } from '../../..';
 import { Product } from './CartService';
-import { LOAD, LOAD_FAIL, LOAD_SUCCESS } from './CartActions';
+import { LOAD, LOAD_FAIL, LOAD_SUCCESS, LoadFail, LoadSuccess } from './CartActions';
 
 export interface CartStateSnapshot {
   readonly loading: boolean;
@@ -50,17 +50,17 @@ export class CartState implements State<CartStateSnapshot> {
   }
 
   @Reaction(LOAD_SUCCESS)
-  loadSuccess(products: Product[]) {
+  loadSuccess(action: LoadSuccess) {
     this._loading = false;
     this._loaded = true;
-    this._products = products;
+    this._products = action.products;
   }
 
   @Reaction(LOAD_FAIL)
-  loadFail(error: Error) {
+  loadFail(action: LoadFail) {
     this._loading = false;
     this._loaded = true;
-    this._error = error;
+    this._error = action.exception;
   }
 
   getSnapshot(): CartStateSnapshot {

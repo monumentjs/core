@@ -28,7 +28,7 @@ export class TransportMediator implements Disposable {
     this._subscriptions = transports.map(transport => {
       return actions
         .ofType<LogAction>(LOG)
-        .pipe(map(action => action.payload))
+        .pipe(map(action => action.event))
         .subscribe(transport);
     });
   }

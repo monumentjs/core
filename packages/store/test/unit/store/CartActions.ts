@@ -6,29 +6,29 @@ export const LOAD = 'CartStore.LOAD';
 export const LOAD_SUCCESS = 'CartStore.LOAD_SUCCESS';
 export const LOAD_FAIL = 'CartStore.LOAD_FAIL';
 
-export class Load implements Action<PageRequest> {
+export class Load implements Action {
   readonly type = LOAD;
-  readonly payload: PageRequest;
+  readonly request: PageRequest;
 
-  constructor(payload: PageRequest) {
-    this.payload = payload;
+  constructor(request: PageRequest) {
+    this.request = request;
   }
 }
 
-export class LoadSuccess implements Action<Product[]> {
+export class LoadSuccess implements Action {
   readonly type = LOAD_SUCCESS;
-  readonly payload: Product[];
+  readonly products: Product[];
 
-  constructor(payload: Product[]) {
-    this.payload = payload;
+  constructor(products: Product[]) {
+    this.products = products;
   }
 }
 
-export class LoadFail implements Action<CartException> {
+export class LoadFail implements Action {
   readonly type = LOAD_FAIL;
-  readonly payload: CartException;
+  readonly exception: CartException;
 
-  constructor(payload: CartException) {
-    this.payload = payload;
+  constructor(exception: CartException) {
+    this.exception = exception;
   }
 }

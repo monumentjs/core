@@ -9,7 +9,7 @@ export class CartEffects {
   @Effect()
   readonly load: EffectSource = this.actions.ofType<Load>(LOAD).pipe(
     mergeMap(action => {
-      return this.service.getProducts(action.payload).pipe(
+      return this.service.getProducts(action.request).pipe(
         map((products: Product[]) => new LoadSuccess(products)),
         catchError((err => {
           return of([new LoadFail(err)]);
@@ -20,7 +20,7 @@ export class CartEffects {
 
   @Effect({ dispatch: false })
   readonly loadFail: EffectSource = this.actions.ofType<LoadFail>(LOAD_FAIL).pipe(
-    tap(action => this.errors.next(action.payload))
+    tap(action => this.errors.next(action.exception))
   );
 
   constructor(
