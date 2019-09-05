@@ -17,7 +17,7 @@ export const LOG = 'Logger.LOG';
  * @since 0.14.0
  * @author Alex Chugaev
  */
-export class LogAction implements Action<LogEvent> {
+export class LogAction implements Action {
   /**
    * Gets action type.
    * @see LOG
@@ -27,12 +27,12 @@ export class LogAction implements Action<LogEvent> {
   readonly type = LOG;
 
   /**
-   * Gets action payload (log event).
+   * Gets log event.
    * @see LogEvent
    * @since 0.14.0
    * @author Alex Chugaev
    */
-  readonly payload: LogEvent;
+  readonly event: LogEvent;
 
   /**
    * Initialized new instance.
@@ -45,6 +45,6 @@ export class LogAction implements Action<LogEvent> {
    * @author Alex Chugaev
    */
   constructor(name: string, level: Level, message: string, error: Error | undefined, tags: ReadonlyArray<string>) {
-    this.payload = new LogEvent(name, level, message, error, tags);
+    this.event = new LogEvent(name, level, message, error, tags);
   }
 }

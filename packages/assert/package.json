@@ -1,6 +1,6 @@
 {
   "name": "@monument/assert",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "description": "Assertion framework",
   "keywords": [
     "assert",
@@ -17,11 +17,11 @@
     }
   ],
   "dependencies": {
-    "@monument/core": "^0.14.0",
+    "@monument/core": "^0.15.0",
     "rxjs": "^6.5.2"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "6fa1943d5ec741125191f1e054c38ffac2f8f0aa"
+  "gitHead": "9a16a9bdb55875bbad746859180800f7859832b6"
 }

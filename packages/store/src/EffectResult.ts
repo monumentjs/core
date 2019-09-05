@@ -3,13 +3,12 @@ import { Action } from './Action';
 
 /**
  * Represents effect result.
- * @param P Payload type
  * @since 0.11.0
  * @author Alex Chugaev
  */
-export type EffectResult<P = any> =
+export type EffectResult =
   void
-  | Action<P>
-  | Array<Action<P>>
-  | Promise<void | Action<P> | Array<Action<P>>>
-  | Observable<Action<P>>;
+  | Action
+  | Action[]
+  | Promise<void | Action | Action[]>
+  | Observable<Action>;

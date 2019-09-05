@@ -43,7 +43,7 @@ export abstract class Store<TSnapshot, TState extends State<TSnapshot>> implemen
 
     for (const decorator of ReactionDecorator.ofInstance(state)) {
       const subscription: Subscription = actions.ofType(decorator.actionType).subscribe(action => {
-        (state as any)[decorator.methodName](action.payload);
+        (state as any)[decorator.methodName](action);
         this._snapshot.next(state.getSnapshot());
       });
 

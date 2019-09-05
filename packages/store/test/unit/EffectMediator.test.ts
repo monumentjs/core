@@ -10,62 +10,61 @@ const LOAD_SUCCESS = 'LOAD_SUCCESS';
 const LOAD_FAIL = 'LOAD_FAIL';
 const SHOW_ERROR_POPUP = 'SHOW_ERROR_POPUP';
 
-class EmptyAction implements Action<void> {
+class EmptyAction implements Action {
   readonly type = EMPTY;
-  readonly payload: undefined;
 }
 
-class LoadAction implements Action<boolean> {
+class LoadAction implements Action {
   readonly type = LOAD;
+  readonly payload: boolean;
 
-  constructor(
-    readonly payload: boolean
-  ) {
+  constructor(payload: boolean) {
+    this.payload = payload;
   }
 }
 
-class LoadAsyncAction implements Action<boolean> {
+class LoadAsyncAction implements Action {
   readonly type = LOAD_ASYNC;
+  readonly payload: boolean;
 
-  constructor(
-    readonly payload: boolean
-  ) {
+  constructor(payload: boolean) {
+    this.payload = payload;
   }
 }
 
-class LoadStreamAction implements Action<boolean> {
+class LoadStreamAction implements Action {
   readonly type = LOAD_STREAM;
+  readonly payload: boolean;
 
-  constructor(
-    readonly payload: boolean
-  ) {
+  constructor(payload: boolean) {
+    this.payload = payload;
   }
 }
 
-class LoadSuccessAction implements Action<string[]> {
+class LoadSuccessAction implements Action {
   readonly type = LOAD_SUCCESS;
+  readonly payload: string[];
 
-  constructor(
-    readonly payload: string[]
-  ) {
+  constructor(payload: string[]) {
+    this.payload = payload;
   }
 }
 
-class LoadFailAction implements Action<Error> {
+class LoadFailAction implements Action {
   readonly type = LOAD_FAIL;
+  readonly payload: Error;
 
-  constructor(
-    readonly payload: Error
-  ) {
+  constructor(payload: Error) {
+    this.payload = payload;
   }
 }
 
-class ShowErrorPopupAction implements Action<string> {
+class ShowErrorPopupAction implements Action {
   readonly type = SHOW_ERROR_POPUP;
+  readonly payload: string;
 
-  constructor(
-    readonly payload: string
-  ) {
+  constructor(payload: string) {
+    this.payload = payload;
   }
 }
 
@@ -134,7 +133,7 @@ class PopupEffects {
 }
 
 describe('EffectMediator', function() {
-  let history: Array<Action<any>>;
+  let history: Action[];
   let actions: Actions;
   let dataEffects: DataEffects;
   let popupEffects: PopupEffects;

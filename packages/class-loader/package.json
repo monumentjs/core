@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@monument/class-loader",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "description": "Dynamic class loader support",
   "keywords": [
     "class",
@@ -20,6 +20,6 @@
     }
   ],
   "dependencies": {
-    "@monument/core": "^0.14.0"
+    "@monument/core": "^0.15.0"
   }
 }
