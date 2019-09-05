@@ -21,7 +21,6 @@ after_success:
   - 'git config user.name "${GIT_USER_NAME}"'
   - 'git clone https://${GITHUB_SITE_REPO}'
   - 'cd ${SITE_REPO_NAME}'
-  - 'rm -rf ./api'
   - 'rm -rf ./package'
   - 'mv ../package ./package'
   - 'git add .'
