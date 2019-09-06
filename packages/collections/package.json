@@ -1,10 +1,17 @@
 {
-  "name": "@monument/core",
+  "name": "@monument/collections",
   "version": "0.15.0",
-  "description": "Core module of TypeScript standard library",
+  "description": "TypeScript collections",
   "keywords": [
     "typescript",
-    "stdlib",
+    "collections",
+    "map",
+    "list",
+    "array",
+    "queue",
+    "stack",
+    "set",
+    "tree",
     "standard",
     "library",
     "core"
@@ -19,8 +26,8 @@
     }
   ],
   "dependencies": {
-    "reflect-metadata": "^0.1.13",
-    "@monument/collections": "^0.15.0"
+    "@monument/core": "^0.15.0",
+    "reflect-metadata": "^0.1.13"
   },
   "publishConfig": {
     "access": "public"

@@ -1,10 +1,12 @@
 import { EMPTY_STRING } from './Strings';
 import { MissingKeyException } from '../exceptions/MissingKeyException';
-import { LinkedMap } from '../collections/map/mutable/LinkedMap';
-import { ArrayList } from '../collections/list/mutable/ArrayList';
-import { ReadOnlyMap } from '../collections/map/readonly/ReadOnlyMap';
-import { ReadOnlyList } from '../collections/list/readonly/ReadOnlyList';
-import { CollectionUtils } from '../collections/base/CollectionUtils';
+import {
+  ArrayList,
+  CollectionUtils,
+  LinkedMap,
+  ReadOnlyList,
+  ReadOnlyMap
+} from '@monument/collections';
 import { RegExpUtils } from './RegExpUtils';
 import { ParsingException } from './parser/ParsingException';
 import { ToString } from '../base/ToString';
