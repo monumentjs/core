@@ -1,10 +1,12 @@
 import {
   EqualsFunction,
-  IndexOutOfBoundsException,
   RangeException
 } from '@monument/core';
-import { BitSet } from '../../../src/specialized/BitSet';
-import { IterableEqualsFactory } from '../../../src/comparison/IterableEqualsFactoty';
+import {
+  BitSet,
+  IndexOutOfBoundsException,
+  IterableEqualsFactory
+} from '../../../index';
 
 describe('BitSet', function() {
   const iterableEqualityComparator: EqualsFunction<Iterable<number | boolean>> = IterableEqualsFactory();

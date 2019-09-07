@@ -1,58 +1,60 @@
 // Export public API
 
-export * from '../collections/src/function/AggregateFunction';
-export * from '../collections/src/function/CombineFunction';
-export * from '../collections/src/function/IteratorFunction';
-export * from '../collections/src/function/ProjectFunction';
+export * from './src/function/AggregateFunction';
+export * from './src/function/CombineFunction';
+export * from './src/function/IteratorFunction';
+export * from './src/function/ProjectFunction';
 
-export * from '../collections/src/attributes/Key';
-export * from '../collections/src/attributes/readonly/ReadOnlyAttributeAccessor';
-export * from '../collections/src/attributes/mutable/AttributeAccessor';
+export * from './src/exceptions/IndexOutOfBoundsException';
 
-export * from '../collections/src/base/CollectionUtils';
-export * from '../collections/src/base/KeyValuePair';
-export * from '../collections/src/base/MapIteratorFunction';
-export * from '../collections/src/base/NamedPool';
-export * from '../collections/src/base/NoSuchItemException';
-export * from '../collections/src/base/Sequence';
-export * from '../collections/src/base/ToArray';
+export * from './src/attributes/Key';
+export * from './src/attributes/readonly/ReadOnlyAttributeAccessor';
+export * from './src/attributes/mutable/AttributeAccessor';
 
-export * from '../collections/src/collection/readonly/ReadOnlyCollection';
-export * from '../collections/src/collection/readonly/ReadOnlyCollectionBase';
-export * from '../collections/src/collection/readonly/ReadOnlyCollectionImpl';
+export * from './src/base/CollectionUtils';
+export * from './src/base/KeyValuePair';
+export * from './src/base/MapIteratorFunction';
+export * from './src/base/NamedPool';
+export * from './src/base/NoSuchItemException';
+export * from './src/base/Sequence';
+export * from './src/base/ToArray';
 
-export * from '../collections/src/comparison/IterableEqualsFactoty';
+export * from './src/collection/readonly/ReadOnlyCollection';
+export * from './src/collection/readonly/ReadOnlyCollectionBase';
+export * from './src/collection/readonly/ReadOnlyCollectionImpl';
 
-export * from '../collections/src/iterable/RangeIterable';
+export * from './src/comparison/IterableEqualsFactoty';
 
-export * from '../collections/src/list/readonly/ReadOnlyList';
-export * from '../collections/src/list/mutable/List';
-export * from '../collections/src/list/mutable/ArrayList';
-export * from '../collections/src/list/immutable/ImmutableList';
-export * from '../collections/src/list/immutable/ImmutableArrayList';
+export * from './src/iterable/RangeIterable';
 
-export * from '../collections/src/queue/EmptyQueueException';
-export * from '../collections/src/queue/readonly/ReadOnlyQueue';
-export * from '../collections/src/queue/mutable/ArrayQueue';
-export * from '../collections/src/queue/mutable/Queue';
+export * from './src/list/readonly/ReadOnlyList';
+export * from './src/list/mutable/List';
+export * from './src/list/mutable/ArrayList';
+export * from './src/list/immutable/ImmutableList';
+export * from './src/list/immutable/ImmutableArrayList';
 
-export * from '../collections/src/stack/EmptyStackException';
-export * from '../collections/src/stack/readonly/ReadOnlyStack';
-export * from '../collections/src/stack/mutable/ArrayStack';
-export * from '../collections/src/stack/mutable/Stack';
+export * from './src/queue/EmptyQueueException';
+export * from './src/queue/readonly/ReadOnlyQueue';
+export * from './src/queue/mutable/ArrayQueue';
+export * from './src/queue/mutable/Queue';
 
-export * from '../collections/src/set/readonly/ReadOnlySet';
-export * from '../collections/src/set/mutable/Set';
-export * from '../collections/src/set/mutable/ArraySet';
+export * from './src/stack/EmptyStackException';
+export * from './src/stack/readonly/ReadOnlyStack';
+export * from './src/stack/mutable/ArrayStack';
+export * from './src/stack/mutable/Stack';
 
-export * from '../collections/src/map/readonly/ReadOnlyMap';
-export * from '../collections/src/map/mutable/Map';
-export * from '../collections/src/map/mutable/LinkedMap';
+export * from './src/set/readonly/ReadOnlySet';
+export * from './src/set/mutable/Set';
+export * from './src/set/mutable/ArraySet';
 
-export * from '../collections/src/multivaluemap/readonly/ReadOnlyMultiValueMap';
-export * from '../collections/src/multivaluemap/mutable/LinkedMultiValueMap';
-export * from '../collections/src/multivaluemap/mutable/MultiValueMap';
+export * from './src/map/readonly/ReadOnlyMap';
+export * from './src/map/mutable/Map';
+export * from './src/map/mutable/LinkedMap';
 
-export * from '../collections/src/specialized/BitSet';
+export * from './src/multivaluemap/readonly/ReadOnlyMultiValueMap';
+export * from './src/multivaluemap/mutable/LinkedMultiValueMap';
+export * from './src/multivaluemap/mutable/MultiValueMap';
 
-export * from '../collections/src/tree/TreeNode';
+export * from './src/specialized/BitSet';
+
+export * from './src/tree/TreeNode';

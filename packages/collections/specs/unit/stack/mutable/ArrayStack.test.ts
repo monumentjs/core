@@ -1,4 +1,4 @@
-import { ArrayStack } from '../../../../src/stack/mutable/ArrayStack';
+import { ArrayStack } from '../../../../index';
 import { testStack } from './Stack.spec';
 
 describe('ArrayStack', function() {

@@ -1,4 +1,8 @@
-import { KeyValuePair, ReadOnlyMap, ReadOnlyMultiValueMap } from '@monument/core/index';
+import {
+  KeyValuePair,
+  ReadOnlyMap,
+  ReadOnlyMultiValueMap
+} from '../../../../index';
 
 export function assertLengthAndIsEmpty(map: ReadOnlyMultiValueMap<any, any>, expectedLength: number, expectedValuesCount: number): void {
   expect(map.length).toBe(expectedLength);

@@ -2,20 +2,22 @@ import {
   EqualsFunction,
   IgnoreCaseCompare,
   IgnoreCaseEquals,
-  IndexOutOfBoundsException,
   InvalidArgumentException,
   InvalidOperationException,
   isEven,
    RangeException,
   SortOrder,
   times
-} from '@monument/core/index';
-import { IterableEqualsFactory } from '../../../../src/comparison/IterableEqualsFactoty';
-import { NamedPool } from '../../../../src/base/NamedPool';
-import { NoSuchItemException } from '../../../../src/base/NoSuchItemException';
-import { Sequence } from '../../../../src/base/Sequence';
-import { ReadOnlyCollection } from '../../../../src/collection/readonly/ReadOnlyCollection';
-import { ReadOnlyMultiValueMap } from '../../../../src/multivaluemap/readonly/ReadOnlyMultiValueMap';
+} from '@monument/core';
+import {
+  IterableEqualsFactory,
+  IndexOutOfBoundsException,
+  NamedPool,
+  NoSuchItemException,
+  Sequence,
+  ReadOnlyCollection,
+  ReadOnlyMultiValueMap
+} from '../../../../index';
 import { testSequence } from '../../base/Sequence.spec';
 
 interface Book {

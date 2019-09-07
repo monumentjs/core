@@ -1,6 +1,5 @@
 import { EqualsFunction } from '@monument/core';
-import { Sequence } from '../../../../src/base/Sequence';
-import { Set } from '../../../../src/set/mutable/Set';
+import { Sequence, Set } from '../../../../index';
 import { testReadOnlySet } from '../readonly/ReadOnlySet.spec';
 import { assertLengthAndIsEmpty } from '../../collection/readonly/ReadOnlyCollection.spec';
 

@@ -1,11 +1,21 @@
 import { ReadOnlyCollection } from './ReadOnlyCollection';
-import { EqualsFunction, CompareFunction, SortOrder, InvalidOperationException, StrictEquals, RandomInt, IndexOutOfBoundsException, InvalidArgumentException, SupplyFunction} from '@monument/core';
+import {
+  EqualsFunction,
+  CompareFunction,
+  SortOrder,
+  InvalidOperationException,
+  StrictEquals,
+  RandomInt,
+  InvalidArgumentException,
+  SupplyFunction
+} from '@monument/core';
 import { CollectionUtils } from '../../base/CollectionUtils';
 import { NoSuchItemException } from '../../base/NoSuchItemException';
 import { Sequence } from '../../base/Sequence';
 import { ReadOnlyMultiValueMap } from '../../multivaluemap/readonly/ReadOnlyMultiValueMap';
 import { LinkedMultiValueMap } from '../../multivaluemap/mutable/LinkedMultiValueMap';
 import { KeyValuePair } from '../../base/KeyValuePair';
+import { IndexOutOfBoundsException } from '../../exceptions/IndexOutOfBoundsException';
 import { AggregateFunction } from '../../function/AggregateFunction';
 import { IteratorFunction } from '../../function/IteratorFunction';
 import { CombineFunction } from '../../function/CombineFunction';

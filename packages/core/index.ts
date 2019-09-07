@@ -24,7 +24,6 @@ export * from './src/function/SupplyFunction';
 
 export * from './src/exceptions/Exception';
 export * from './src/exceptions/FormatException';
-export * from './src/exceptions/IndexOutOfBoundsException';
 export * from './src/exceptions/InvalidArgumentException';
 export * from './src/exceptions/InvalidOperationException';
 export * from './src/exceptions/InvalidStateException';

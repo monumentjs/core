@@ -1,4 +1,4 @@
-import { ArrayQueue } from '../../../../src/queue/mutable/ArrayQueue';
+import { ArrayQueue } from '../../../../index';
 import { testQueue } from './Queue.spec';
 
 describe('ArrayQueue', function() {

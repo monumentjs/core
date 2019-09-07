@@ -1,5 +1,4 @@
-import { KeyValuePair } from '../../../../src/base/KeyValuePair';
-import { LinkedMultiValueMap } from '../../../../src/multivaluemap/mutable/LinkedMultiValueMap';
+import { KeyValuePair, LinkedMultiValueMap } from '../../../../index';
 import { testMultiValueMap } from './MultiValueMap.spec';
 
 describe('LinkedMultiValueMap', function() {

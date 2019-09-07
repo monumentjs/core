@@ -32,7 +32,7 @@
       "@monument/logger": ["packages/logger"],
       "@monument/logger/*": ["packages/logger/*"],
       "@monument/store": ["packages/store"],
-      "@monument/store/*": ["packages/store/*"],
+      "@monument/store/*": ["packages/store/*"]
     }
   },
   "exclude": ["./node_modules/**"]

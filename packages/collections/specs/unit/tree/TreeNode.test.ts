@@ -1,4 +1,5 @@
-import { InvalidArgumentException, TreeNode } from '@monument/core';
+import { InvalidArgumentException } from '@monument/core';
+import { TreeNode } from '../../../index';
 
 describe('TreeNode', function() {
   let html!: TreeNode;

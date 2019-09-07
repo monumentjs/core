@@ -17,17 +17,20 @@
     "core"
   ],
   "license": "MIT",
-  "homepage": "https://monumentjs.github.io/package/core",
+  "homepage": "https://monumentjs.github.io/package/collections",
   "repository": "https://github.com/monumentjs/core.git",
   "contributors": [
     {
       "name": "Alex Chugaev",
       "email": "achugaev93@gmail.com"
+    },
+    {
+      "name": "Dima Kolodko",
+      "email": "dima@kolodko.pro"
     }
   ],
   "dependencies": {
-    "@monument/core": "^0.15.0",
-    "reflect-metadata": "^0.1.13"
+    "@monument/core": "^0.15.0"
   },
   "publishConfig": {
     "access": "public"

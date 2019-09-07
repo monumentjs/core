@@ -1,6 +1,9 @@
-import { IgnoreCaseEquals, IndexOutOfBoundsException } from '@monument/core';
-import { List } from '../../../../src/list/mutable/List';
-import { Sequence } from '../../../../src/base/Sequence';
+import { IgnoreCaseEquals } from '@monument/core';
+import {
+  IndexOutOfBoundsException,
+  List,
+  Sequence
+} from '../../../../index';
 import { testReadOnlyList } from '../readonly/ReadOnlyList.spec';
 import { assertLengthAndIsEmpty } from '../../collection/readonly/ReadOnlyCollection.spec';
 

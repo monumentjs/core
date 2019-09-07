@@ -1,6 +1,8 @@
-import { EmptyQueueException } from '../../../../src/queue/EmptyQueueException';
-import { Queue } from '../../../../src/queue/mutable/Queue';
-import { Sequence } from '../../../../src/base/Sequence';
+import {
+  EmptyQueueException,
+  Sequence,
+  Queue
+} from '../../../../index';
 import { testReadOnlyQueue } from '../readonly/ReadOnlyQueue.spec';
 
 export function testQueue(create: <I>(items?: Sequence<I>) => Queue<I>) {

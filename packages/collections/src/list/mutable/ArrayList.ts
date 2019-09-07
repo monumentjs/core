@@ -3,10 +3,10 @@ import {
   Cloneable,
   EqualsFunction,
   StrictEquals,
-  IndexOutOfBoundsException,
   RangeException
 } from '@monument/core';
 import { ReadOnlyCollectionBase } from '../../collection/readonly/ReadOnlyCollectionBase';
+import { IndexOutOfBoundsException } from '../../exceptions/IndexOutOfBoundsException';
 import { List } from './List';
 import { CollectionUtils } from '../../base/CollectionUtils';
 import { ReadOnlyCollectionImpl } from '../../collection/readonly/ReadOnlyCollectionImpl';

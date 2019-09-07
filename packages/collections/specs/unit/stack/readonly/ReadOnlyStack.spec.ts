@@ -1,6 +1,8 @@
-import { EmptyStackException } from '../../../../src/stack/EmptyStackException';
-import { ReadOnlyStack } from '../../../../src/stack/readonly/ReadOnlyStack';
-import { Sequence } from '../../../../src/base/Sequence';
+import {
+  EmptyStackException,
+  ReadOnlyStack,
+  Sequence
+} from '../../../../index';
 import { testReadOnlyCollection } from '../../collection/readonly/ReadOnlyCollection.spec';
 
 export function testReadOnlyStack(create: <I>(items?: Sequence<I>) => ReadOnlyStack<I>) {

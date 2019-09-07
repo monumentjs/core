@@ -1,5 +1,4 @@
-import { KeyValuePair } from '../../../../src/base/KeyValuePair';
-import { MultiValueMap } from '../../../../src/multivaluemap/mutable/MultiValueMap';
+import { KeyValuePair, MultiValueMap } from '../../../../index';
 import { assertLengthAndIsEmpty, testReadOnlyMultiValueMap } from '../readonly/ReadOnlyMultiValueMap.spec';
 
 export function testMultiValueMap(create: <K, V>(items?: Iterable<KeyValuePair<K, V>>) => MultiValueMap<K, V>) {

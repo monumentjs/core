@@ -1,6 +1,5 @@
 import { EqualsFunction } from '@monument/core';
-import { KeyValuePair } from '../../../../src/base/KeyValuePair';
-import { LinkedMap } from '../../../../src/map/mutable/LinkedMap';
+import { KeyValuePair, LinkedMap } from '../../../../index';
 import { testMap } from './Map.spec';
 
 describe('LinkedMap', function() {

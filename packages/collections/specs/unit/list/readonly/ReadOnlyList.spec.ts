@@ -1,11 +1,13 @@
 import {
   IgnoreCaseEquals,
-  IndexOutOfBoundsException,
   RangeException,
   StrictEquals
-} from '@monument/core/index';
-import { ReadOnlyList } from '../../../../src/list/readonly/ReadOnlyList';
-import { Sequence } from '../../../../src/base/Sequence';
+} from '@monument/core';
+import {
+  IndexOutOfBoundsException,
+  ReadOnlyList,
+  Sequence
+} from '../../../../index';
 import { testReadOnlyCollection } from '../../collection/readonly/ReadOnlyCollection.spec';
 
 export function testReadOnlyList(create: <I>(items?: Sequence<I>) => ReadOnlyList<I>) {

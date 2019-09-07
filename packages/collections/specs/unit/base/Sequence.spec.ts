@@ -1,4 +1,4 @@
-import { Sequence } from '../../../src/base/Sequence';
+import { Sequence } from '../../../index';
 
 const TEST_ITEMS: string[] = ['one', 'two', 'three'];
 
