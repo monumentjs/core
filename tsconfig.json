@@ -18,7 +18,21 @@
     "baseUrl": "./",
     "paths": {
       "@monument/core": ["packages/core"],
-      "@monument/core/*": ["packages/core/*"]
+      "@monument/core/*": ["packages/core/*"],
+      "@monument/collections": ["packages/collections"],
+      "@monument/collections/*": ["packages/collections/*"],
+      "@monument/assert": ["packages/assert"],
+      "@monument/assert/*": ["packages/assert/*"],
+      "@monument/class-loader": ["packages/class-loader"],
+      "@monument/class-loader/*": ["packages/class-loader/*"],
+      "@monument/date": ["packages/date"],
+      "@monument/date/*": ["packages/date/*"],
+      "@monument/keyboard": ["packages/keyboard"],
+      "@monument/keyboard/*": ["packages/keyboard/*"],
+      "@monument/logger": ["packages/logger"],
+      "@monument/logger/*": ["packages/logger/*"],
+      "@monument/store": ["packages/store"],
+      "@monument/store/*": ["packages/store/*"]
     }
   },
   "exclude": ["./node_modules/**"]
