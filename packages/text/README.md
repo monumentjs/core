@@ -9,7 +9,7 @@ Provides text manipulation solutions
 
 Related links:
 
-- [API reference](https://monumentjs.github.io/package/collections)
+- [API reference](https://monumentjs.github.io/package/text)
 - [Core API reference](https://monumentjs.github.io/package/core)
 
 # Install

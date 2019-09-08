@@ -9,6 +9,13 @@
     "email": "achugaev93@gmail.com",
     "url": "https://github.com/avchugaev"
   },
+  "contributors": [
+    {
+      "name": "Dima Kolodko",
+      "email": "dima@kolodko.pro",
+      "url": "https://github.com/prowwid"
+    }
+  ],
   "dependencies": {
     "@monument/core": "^0.15.0"
   }
