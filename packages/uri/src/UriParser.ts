@@ -1,4 +1,4 @@
-import { EMPTY_STRING, Parser } from '@monument/core';
+import { EMPTY_STRING, Parser } from '@monument/text';
 import { UriComponents } from './UriComponents';
 import { QueryParameters } from './QueryParameters';
 import { UriFormatException } from './UriFormatException';

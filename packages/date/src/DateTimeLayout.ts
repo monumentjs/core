@@ -1,4 +1,6 @@
-import { LinkedMap, MethodNotImplementedException, TemplateString } from '@monument/core';
+import { MethodNotImplementedException } from '@monument/core';
+import { LinkedMap } from '@monument/collections';
+import { TemplateString } from '@monument/text';
 import { DateTimeFormat } from './DateTimeFormat';
 import { DateTimeFields } from './DateTimeFields';
 

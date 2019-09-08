@@ -3,8 +3,21 @@
   "version": "0.15.0",
   "description": "Logger",
   "keywords": [],
+  "author": {
+    "name": "Alex Chugaev",
+    "email": "achugaev93@gmail.com",
+    "url": "https://github.com/avchugaev"
+  },
+  "contributors": [
+    {
+      "name": "Dima Kolodko",
+      "email": "dima@kolodko.pro",
+      "url": "https://github.com/prowwid"
+    }
+  ],
   "dependencies": {
     "@monument/core": "^0.15.0",
+    "@monument/collections": "^0.15.0",
     "@monument/store": "^0.15.0",
     "rxjs": "^6.5.2"
   },

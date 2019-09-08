@@ -1,4 +1,5 @@
-import { StringBuilder, ToString } from '@monument/core';
+import { ToString } from '@monument/core';
+import { StringBuilder } from '@monument/text';
 import { UriSchema } from './UriSchema';
 import { UriComponents } from './UriComponents';
 import { UriComponentsNormalizer } from './UriComponentsNormalizer';

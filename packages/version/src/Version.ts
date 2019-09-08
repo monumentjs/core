@@ -6,10 +6,10 @@ import {
   InvalidArgumentException,
   NumberCompare,
   MultiValueCompare,
-  StringBuilder,
   ToJSON,
   ToString, StrictEquals
 } from '@monument/core';
+import { StringBuilder } from '@monument/text';
 import { ReleaseStatus } from './ReleaseStatus';
 import { VersionComponents } from './VersionComponents';
 import { VersionFormatException } from './VersionFormatException';

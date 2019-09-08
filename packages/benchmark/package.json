@@ -4,6 +4,11 @@
   "version": "0.15.0",
   "description": "Benchmark utils",
   "keywords": [],
+  "author": {
+    "name": "Alex Chugaev",
+    "email": "achugaev93@gmail.com",
+    "url": "https://github.com/avchugaev"
+  },
   "dependencies": {
     "@monument/core": "^0.15.0"
   }

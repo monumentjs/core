@@ -1,4 +1,4 @@
-import { Lines } from '../../..';
+import { Lines } from '../..';
 
 describe('Lines', function() {
   describe('iterator', function() {

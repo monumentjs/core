@@ -1,4 +1,5 @@
-import { ReadOnlyMultiValueMap, ToString } from '@monument/core';
+import { ToString } from '@monument/core';
+import { ReadOnlyMultiValueMap } from '@monument/collections';
 
 /**
  * @since 0.0.1

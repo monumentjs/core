@@ -33,8 +33,6 @@ export * from './src/exceptions/OperationNotSupportedException';
 export * from './src/exceptions/RangeException';
 export * from './src/exceptions/RuntimeException';
 
-export * from '@monument/collections';
-
 export * from './src/comparison/order/Comparable';
 export * from './src/comparison/order/CompareFunction';
 export * from './src/comparison/order/ComparisonResult';
@@ -60,15 +58,7 @@ export * from './src/comparison/equality/StrictEquals';
 export * from './src/random/RandomValue';
 export * from './src/random/RandomInt';
 export * from './src/random/RandomFloat';
-export * from './src/random/RandomString';
 
-export * from './src/text/Lines';
-export * from './src/text/StringBuilder';
-export * from './src/text/Strings';
-export * from './src/text/StringUtils';
-export * from './src/text/TemplateString';
-export * from './src/text/parser/Parser';
-export * from './src/text/parser/ParsingException';
-export * from './src/text/parser/BooleanParser';
-export * from './src/text/parser/FloatParser';
-export * from './src/text/parser/IntParser';
+// backward compatibility layer
+export * from '@monument/collections';
+export * from '@monument/text';
