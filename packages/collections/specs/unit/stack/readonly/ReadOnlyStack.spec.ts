@@ -1,8 +1,5 @@
-import {
-  EmptyStackException,
-  ReadOnlyStack,
-  Sequence
-} from '../../../../index';
+import { EmptyStackException } from '@monument/exceptions';
+import { ReadOnlyStack, Sequence } from '../../../../index';
 import { testReadOnlyCollection } from '../../collection/readonly/ReadOnlyCollection.spec';
 
 export function testReadOnlyStack(create: <I>(items?: Sequence<I>) => ReadOnlyStack<I>) {

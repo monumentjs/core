@@ -1,6 +1,6 @@
-import { ReleaseStatus, Version, VersionFormatException } from '..';
+import { ReleaseStatus, Version } from '..';
 import { ComparisonResult } from '@monument/core';
-import { InvalidArgumentException } from '@monument/exceptions';
+import { InvalidArgumentException, VersionFormatException } from '@monument/exceptions';
 
 describe('Version', function() {
   describe('ZERO', function() {

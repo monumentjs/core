@@ -1,4 +1,4 @@
-import { RuntimeException } from './base/RuntimeException';
+import { RuntimeException } from '../base/RuntimeException';
 
 /**
  * @author Alex Chugaev

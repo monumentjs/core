@@ -7,9 +7,8 @@ import {
   ReadOnlyList,
   ReadOnlyMap
 } from '@monument/collections';
-import { MissingKeyException } from '@monument/exceptions';
+import { MissingKeyException, ParsingException } from '@monument/exceptions';
 import { RegExpUtils } from './RegExpUtils';
-import { ParsingException } from './parser/ParsingException';
 
 const NORMAL_ENTRY_PATTERN: RegExp = /{(\w+)}/g;
 const ESCAPED_ENTRY_PATTERN: RegExp = /\\{(\w+)\\}/g;

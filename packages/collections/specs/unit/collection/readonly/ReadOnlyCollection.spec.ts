@@ -9,13 +9,13 @@ import {
 import {
   InvalidArgumentException,
   InvalidOperationException,
+  IndexOutOfBoundsException,
+  NoSuchItemException,
   RangeException
 } from '@monument/exceptions';
 import {
   IterableEqualsFactory,
-  IndexOutOfBoundsException,
   NamedPool,
-  NoSuchItemException,
   Sequence,
   ReadOnlyCollection,
   ReadOnlyMultiValueMap

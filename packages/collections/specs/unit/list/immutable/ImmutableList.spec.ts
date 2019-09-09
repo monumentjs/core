@@ -1,9 +1,6 @@
 import { IgnoreCaseEquals } from '@monument/core';
-import {
-  ImmutableList,
-  IndexOutOfBoundsException,
-  Sequence
-} from '../../../../index';
+import { IndexOutOfBoundsException } from '@monument/exceptions';
+import { ImmutableList, Sequence } from '../../../../index';
 import { testReadOnlyList } from '../readonly/ReadOnlyList.spec';
 
 export function testImmutableList(create: <T>(items?: Sequence<T>) => ImmutableList<T>) {

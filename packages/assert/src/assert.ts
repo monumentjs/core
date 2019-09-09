@@ -1,7 +1,7 @@
 import { SupplyFunction } from '@monument/core';
+import { AssertionException } from '@monument/exceptions';
 import { Observable, of, throwError } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
-import { AssertionException } from './exception/AssertionException';
 
 /**
  * Asserts expression resolves to {@code true}.
