@@ -3,12 +3,11 @@ import {
   EqualsFunction,
   CompareFunction,
   SortOrder,
-  InvalidOperationException,
   StrictEquals,
   RandomInt,
-  InvalidArgumentException,
   SupplyFunction
 } from '@monument/core';
+import { InvalidOperationException, InvalidArgumentException } from '@monument/exceptions';
 import { CollectionUtils } from '../../base/CollectionUtils';
 import { NoSuchItemException } from '../../base/NoSuchItemException';
 import { Sequence } from '../../base/Sequence';

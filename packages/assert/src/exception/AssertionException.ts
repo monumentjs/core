@@ -1,4 +1,4 @@
-import { RuntimeException } from '@monument/core';
+import { RuntimeException } from '@monument/exceptions';
 
 export class AssertionException extends RuntimeException {
 }

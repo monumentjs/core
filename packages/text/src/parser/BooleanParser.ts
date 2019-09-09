@@ -1,5 +1,5 @@
 import { Parser } from './Parser';
-import { FormatException } from '@monument/core';
+import { FormatException } from '@monument/exceptions';
 
 /**
  * @author Alex Chugaev

@@ -1,16 +1,16 @@
 {
-  "name": "@monument/text",
+  "name": "@monument/exceptions",
   "version": "0.15.0",
-  "description": "TypeScript text manipulation library",
+  "description": "Monument exceptions package",
   "keywords": [
     "typescript",
-    "text",
+    "exceptions",
     "standard",
     "library",
     "core"
   ],
   "license": "MIT",
-  "homepage": "https://monumentjs.github.io/package/text",
+  "homepage": "https://monumentjs.github.io/package/exceptions",
   "repository": "https://github.com/monumentjs/core.git",
   "author": {
     "name": "Alex Chugaev",
@@ -25,9 +25,7 @@
     }
   ],
   "dependencies": {
-    "@monument/core": "^0.15.0",
-    "@monument/collections": "^0.15.0",
-    "@monument/exceptions": "^0.15.0"
+
   },
   "publishConfig": {
     "access": "public"

@@ -27,6 +27,7 @@
   "dependencies": {
     "reflect-metadata": "^0.1.13",
     "@monument/collections": "^0.15.0",
+    "@monument/exceptions": "^0.15.0",
     "@monument/text": "^0.15.0"
   },
   "publishConfig": {

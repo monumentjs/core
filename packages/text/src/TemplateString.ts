@@ -1,5 +1,5 @@
 import { EMPTY_STRING } from './Strings';
-import { MissingKeyException, ToString } from '@monument/core';
+import { ToString } from '@monument/core';
 import {
   ArrayList,
   CollectionUtils,
@@ -7,6 +7,7 @@ import {
   ReadOnlyList,
   ReadOnlyMap
 } from '@monument/collections';
+import { MissingKeyException } from '@monument/exceptions';
 import { RegExpUtils } from './RegExpUtils';
 import { ParsingException } from './parser/ParsingException';
 

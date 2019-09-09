@@ -1,4 +1,4 @@
-import { RuntimeException } from '@monument/core';
+import { RuntimeException } from '@monument/exceptions';
 
 /**
  * @since 0.14.0

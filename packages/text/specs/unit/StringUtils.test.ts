@@ -1,4 +1,5 @@
-import { RangeException, ToString } from '@monument/core';
+import { ToString } from '@monument/core';
+import { RangeException } from '@monument/exceptions';
 import { ArrayList  } from '@monument/collections';
 import { EMPTY_STRING, StringUtils } from '../..';
 

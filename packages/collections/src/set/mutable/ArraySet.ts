@@ -4,9 +4,9 @@ import { Sequence } from '../../base/Sequence';
 import {
   EqualsFunction,
   Cloneable,
-  StrictEquals,
-  MethodNotImplementedException
+  StrictEquals
 } from '@monument/core';
+import { MethodNotImplementedException } from '@monument/exceptions';
 import { ReadOnlyCollectionBase } from '../../collection/readonly/ReadOnlyCollectionBase';
 import { ReadOnlySet } from '../readonly/ReadOnlySet';
 

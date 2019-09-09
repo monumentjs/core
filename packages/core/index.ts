@@ -22,17 +22,6 @@ export * from './src/function/times';
 export * from './src/function/typeOf';
 export * from './src/function/SupplyFunction';
 
-export * from './src/exceptions/Exception';
-export * from './src/exceptions/FormatException';
-export * from './src/exceptions/InvalidArgumentException';
-export * from './src/exceptions/InvalidOperationException';
-export * from './src/exceptions/InvalidStateException';
-export * from './src/exceptions/MethodNotImplementedException';
-export * from './src/exceptions/MissingKeyException';
-export * from './src/exceptions/OperationNotSupportedException';
-export * from './src/exceptions/RangeException';
-export * from './src/exceptions/RuntimeException';
-
 export * from './src/comparison/order/Comparable';
 export * from './src/comparison/order/CompareFunction';
 export * from './src/comparison/order/ComparisonResult';
@@ -61,4 +50,5 @@ export * from './src/random/RandomFloat';
 
 // backward compatibility layer
 export * from '@monument/collections';
+export * from '@monument/exceptions';
 export * from '@monument/text';

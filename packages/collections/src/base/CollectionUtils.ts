@@ -1,4 +1,4 @@
-import { RangeException } from '@monument/core';
+import { RangeException } from '@monument/exceptions';
 import { IndexOutOfBoundsException } from '../exceptions/IndexOutOfBoundsException';
 import { Sequence } from './Sequence';
 

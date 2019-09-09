@@ -2,13 +2,15 @@ import {
   EqualsFunction,
   IgnoreCaseCompare,
   IgnoreCaseEquals,
-  InvalidArgumentException,
-  InvalidOperationException,
   isEven,
-   RangeException,
   SortOrder,
   times
 } from '@monument/core';
+import {
+  InvalidArgumentException,
+  InvalidOperationException,
+  RangeException
+} from '@monument/exceptions';
 import {
   IterableEqualsFactory,
   IndexOutOfBoundsException,

@@ -2,9 +2,9 @@ import { ReadOnlyCollection } from '../../collection/readonly/ReadOnlyCollection
 import {
   Cloneable,
   EqualsFunction,
-  StrictEquals,
-  RangeException
+  StrictEquals
 } from '@monument/core';
+import { RangeException } from '@monument/exceptions';
 import { ReadOnlyCollectionBase } from '../../collection/readonly/ReadOnlyCollectionBase';
 import { IndexOutOfBoundsException } from '../../exceptions/IndexOutOfBoundsException';
 import { List } from './List';

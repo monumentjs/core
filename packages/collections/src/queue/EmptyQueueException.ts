@@ -1,4 +1,4 @@
-import { InvalidOperationException } from '@monument/core';
+import { InvalidOperationException } from '@monument/exceptions';
 
 /**
  * @author Alex Chugaev

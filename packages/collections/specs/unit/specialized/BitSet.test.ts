@@ -1,7 +1,5 @@
-import {
-  EqualsFunction,
-  RangeException
-} from '@monument/core';
+import { EqualsFunction } from '@monument/core';
+import { RangeException } from '@monument/exceptions';
 import {
   BitSet,
   IndexOutOfBoundsException,

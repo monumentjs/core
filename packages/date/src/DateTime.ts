@@ -5,10 +5,10 @@ import {
   ComparisonResult,
   Equatable,
   EquatableEquals,
-  InvalidArgumentException,
   MultiValueCompare,
   MultiValueEquals, ToString
 } from '@monument/core';
+import { InvalidArgumentException } from '@monument/exceptions';
 import { Date } from './Date';
 import { Time } from './Time';
 import { TimeZone } from './TimeZone';

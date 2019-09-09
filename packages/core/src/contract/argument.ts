@@ -1,5 +1,5 @@
 import { SupplyFunction } from '../function/SupplyFunction';
-import { InvalidArgumentException } from '../exceptions/InvalidArgumentException';
+import { InvalidArgumentException } from '@monument/exceptions';
 
 /**
  * Tests expression resolves to `true`.

@@ -1,4 +1,4 @@
-import { Exception } from '../../..';
+import { Exception } from '..';
 
 class TestException extends Exception {
 }
