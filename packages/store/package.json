@@ -15,10 +15,16 @@
   "license": "MIT",
   "homepage": "https://monumentjs.github.io/package/store",
   "repository": "https://github.com/monumentjs/store.git",
+  "author": {
+    "name": "Alex Chugaev",
+    "email": "achugaev93@gmail.com",
+    "url": "https://github.com/avchugaev"
+  },
   "contributors": [
     {
-      "name": "Alex Chugaev",
-      "email": "achugaev93@gmail.com"
+      "name": "Dima Kolodko",
+      "email": "dima@kolodko.pro",
+      "url": "https://github.com/prowwid"
     }
   ],
   "publishConfig": {

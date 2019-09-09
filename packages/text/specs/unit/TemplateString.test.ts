@@ -1,4 +1,5 @@
-import { ReadOnlyMap, TemplateString } from '../../..';
+import { ReadOnlyMap } from '@monument/collections';
+import { TemplateString } from '../..';
 
 describe('TemplateString', function() {
   const MESSAGE_TEMPLATE = 'Hello {0}! Please visit {1} for more details.';

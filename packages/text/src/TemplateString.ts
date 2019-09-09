@@ -1,5 +1,5 @@
 import { EMPTY_STRING } from './Strings';
-import { MissingKeyException } from '../exceptions/MissingKeyException';
+import { MissingKeyException, ToString } from '@monument/core';
 import {
   ArrayList,
   CollectionUtils,
@@ -9,7 +9,6 @@ import {
 } from '@monument/collections';
 import { RegExpUtils } from './RegExpUtils';
 import { ParsingException } from './parser/ParsingException';
-import { ToString } from '../base/ToString';
 
 const NORMAL_ENTRY_PATTERN: RegExp = /{(\w+)}/g;
 const ESCAPED_ENTRY_PATTERN: RegExp = /\\{(\w+)\\}/g;

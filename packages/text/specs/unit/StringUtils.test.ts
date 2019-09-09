@@ -1,4 +1,6 @@
-import { ArrayList, RangeException, EMPTY_STRING, StringUtils, ToString } from '../../..';
+import { RangeException, ToString } from '@monument/core';
+import { ArrayList  } from '@monument/collections';
+import { EMPTY_STRING, StringUtils } from '../..';
 
 describe('StringUtils', function() {
   it('hasText()', function() {

@@ -1,4 +1,4 @@
-import { RuntimeException } from '../../exceptions/RuntimeException';
+import { RuntimeException } from '@monument/core';
 
 /**
  * @author Alex Chugaev

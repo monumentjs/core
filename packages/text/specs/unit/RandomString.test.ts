@@ -1,4 +1,4 @@
-import { RandomString } from '../../..';
+import { RandomString } from '../..';
 
 describe('RandomString', function() {
   describe('constructor(number)', function() {
