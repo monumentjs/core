@@ -14,7 +14,7 @@
     "rxjs": "^6.5.2"
   },
   "license": "MIT",
-  "homepage": "https://monumentjs.github.io/package/store",
+  "homepage": "https://monumentjs.github.io/package/store/latest",
   "repository": "https://github.com/monumentjs/store.git",
   "author": {
     "name": "Alex Chugaev",

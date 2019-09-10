@@ -9,8 +9,8 @@ Provides exceptions used in Monument packages
 
 Related links:
 
-- [API reference](https://monumentjs.github.io/package/exceptions)
-- [Core API reference](https://monumentjs.github.io/package/core)
+- [API reference](https://monumentjs.github.io/package/exceptions/latest)
+- [Core API reference](https://monumentjs.github.io/package/core/latest)
 
 # Install
 

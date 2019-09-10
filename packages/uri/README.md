@@ -9,7 +9,7 @@ Provides URI manipulation functionality: building, parsing, serializing and vali
 
 Related links:
 
-- [API reference](https://monumentjs.github.io/package/uri)
+- [API reference](https://monumentjs.github.io/package/uri/latest)
 
 # Install
 

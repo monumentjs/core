@@ -1,7 +1,7 @@
 {
   "name": "@monument/exceptions",
   "version": "0.15.0",
-  "description": "Monument exceptions package",
+  "description": "Provides reusable generic exceptions",
   "keywords": [
     "typescript",
     "exceptions",
@@ -10,7 +10,7 @@
     "core"
   ],
   "license": "MIT",
-  "homepage": "https://monumentjs.github.io/package/exceptions",
+  "homepage": "https://monumentjs.github.io/package/exceptions/latest",
   "repository": "https://github.com/monumentjs/core.git",
   "author": {
     "name": "Alex Chugaev",

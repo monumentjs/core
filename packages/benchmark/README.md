@@ -9,7 +9,7 @@ Provides benchmark utils
 
 Related links:
 
-- [API reference](https://monumentjs.github.io/package/benchmark)
+- [API reference](https://monumentjs.github.io/package/benchmark/latest)
 
 # Install
 
