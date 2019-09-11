@@ -9,6 +9,7 @@ export * from './src/format/FormatException';
 export * from './src/format/VersionFormatException';
 export * from './src/module/ClassLoaderException';
 export * from './src/text/ParsingException';
+export * from './src/uri/UriException';
 export * from './src/uri/UriFormatException';
 export * from './src/uri/UriIntegrityException';
 export * from './src/InvalidArgumentException';

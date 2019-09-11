@@ -9,4 +9,4 @@ export * from './src/QueryParametersObject';
 export * from './src/UriSchema';
 
 // backward compatibility layer
-export { UriIntegrityException, UriFormatException } from '@monument/exceptions';
+export { UriIntegrityException, UriFormatException, UriException } from '@monument/exceptions';
