@@ -9,7 +9,7 @@ Provides core functionality: collections, exceptions, comparison, random and tex
 
 Related links:
 
-- [API reference](https://monumentjs.github.io/package/core)
+- [API reference](https://monumentjs.github.io/package/core/latest)
 
 # Install
 

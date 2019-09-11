@@ -1,4 +1,5 @@
-import { assert, AssertionException } from '../..';
+import { assert } from '../..';
+import { AssertionException } from '@monument/exceptions';
 import { of } from 'rxjs';
 
 const CUSTOM_MESSAGE = 'Custom message';

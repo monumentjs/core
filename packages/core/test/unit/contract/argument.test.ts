@@ -1,4 +1,5 @@
-import { InvalidArgumentException, argument } from '../../..';
+import { InvalidArgumentException } from '@monument/exceptions';
+import { argument } from '../../..';
 
 describe('argument()', function() {
   it('should throw InvalidArgumentException if expression resolved to false', function() {

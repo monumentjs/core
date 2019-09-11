@@ -1,5 +1,5 @@
 import { Queue } from './Queue';
-import { EmptyQueueException } from '../EmptyQueueException';
+import { EmptyQueueException } from '@monument/exceptions';
 import { ReadOnlyCollectionBase } from '../../collection/readonly/ReadOnlyCollectionBase';
 import { Cloneable } from '@monument/core';
 

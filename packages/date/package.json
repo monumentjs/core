@@ -8,7 +8,7 @@
     "zone"
   ],
   "license": "MIT",
-  "homepage": "https://monumentjs.github.io/package/date",
+  "homepage": "https://monumentjs.github.io/package/date/latest",
   "repository": "https://github.com/monumentjs/core.git",
   "author": {
     "name": "Alex Chugaev",
@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@monument/core": "^0.15.0",
+    "@monument/exceptions": "^0.15.0",
     "@monument/collections": "^0.15.0",
     "@monument/text": "^0.15.0"
   },

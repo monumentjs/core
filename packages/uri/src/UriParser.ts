@@ -1,7 +1,7 @@
 import { EMPTY_STRING, Parser } from '@monument/text';
 import { UriComponents } from './UriComponents';
 import { QueryParameters } from './QueryParameters';
-import { UriFormatException } from './UriFormatException';
+import { UriFormatException } from '@monument/exceptions';
 import { UriConstants } from './UriConstants';
 import { UriComponentsNormalizer } from './UriComponentsNormalizer';
 import { UriEncoder } from './UriEncoder';

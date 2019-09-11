@@ -1,4 +1,4 @@
-import { OperationNotSupportedException } from '@monument/core';
+import { OperationNotSupportedException } from '@monument/exceptions';
 import { Errors } from '../..';
 
 describe('Errors', function() {

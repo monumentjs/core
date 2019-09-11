@@ -3,25 +3,28 @@ import {
   EqualsFunction,
   CompareFunction,
   SortOrder,
-  InvalidOperationException,
   StrictEquals,
   RandomInt,
-  InvalidArgumentException,
   SupplyFunction
 } from '@monument/core';
+import {
+  InvalidOperationException,
+  InvalidArgumentException,
+  NoSuchItemException,
+  IndexOutOfBoundsException
+} from '@monument/exceptions';
 import { CollectionUtils } from '../../base/CollectionUtils';
-import { NoSuchItemException } from '../../base/NoSuchItemException';
 import { Sequence } from '../../base/Sequence';
 import { ReadOnlyMultiValueMap } from '../../multivaluemap/readonly/ReadOnlyMultiValueMap';
 import { LinkedMultiValueMap } from '../../multivaluemap/mutable/LinkedMultiValueMap';
 import { KeyValuePair } from '../../base/KeyValuePair';
-import { IndexOutOfBoundsException } from '../../exceptions/IndexOutOfBoundsException';
 import { AggregateFunction } from '../../function/AggregateFunction';
 import { IteratorFunction } from '../../function/IteratorFunction';
 import { CombineFunction } from '../../function/CombineFunction';
 import { ProjectFunction } from '../../function/ProjectFunction';
 
 /**
+ * @todo need to rename it prior to release of V1
  * @author Alex Chugaev
  * @since 0.0.1
  * @final

@@ -1,6 +1,6 @@
 import { Observable, Subject } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { OperationNotSupportedException } from '@monument/core';
+import { OperationNotSupportedException } from '@monument/exceptions';
 import { Action } from './Action';
 
 /**

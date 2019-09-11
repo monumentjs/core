@@ -1,5 +1,5 @@
 import { Type } from '@monument/core';
-import { ClassLoaderException } from './ClassLoaderException';
+import { ClassLoaderException } from '@monument/exceptions';
 
 /**
  * @author Alex Chugaev

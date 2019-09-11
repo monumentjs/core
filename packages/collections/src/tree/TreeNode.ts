@@ -1,4 +1,4 @@
-import { InvalidArgumentException } from '@monument/core';
+import { InvalidArgumentException } from '@monument/exceptions';
 import { ReadOnlyList } from '../list/readonly/ReadOnlyList';
 import { ArrayList } from '../list/mutable/ArrayList';
 

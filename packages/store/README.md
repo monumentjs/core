@@ -9,7 +9,7 @@ Provides store functionality: store itself, shared actions emitter and related a
 
 Related links:
 
-- [API reference](https://monumentjs.github.io/package/store)
+- [API reference](https://monumentjs.github.io/package/store/latest)
 
 # Install
 

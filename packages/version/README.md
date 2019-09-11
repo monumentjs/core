@@ -9,7 +9,7 @@ Provides version manipulation functionality: building, parsing, serializing and 
 
 Related links:
 
-- [API reference](https://monumentjs.github.io/package/version)
+- [API reference](https://monumentjs.github.io/package/version/latest)
 
 # Install
 

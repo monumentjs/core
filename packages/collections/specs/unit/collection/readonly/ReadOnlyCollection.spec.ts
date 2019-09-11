@@ -2,18 +2,20 @@ import {
   EqualsFunction,
   IgnoreCaseCompare,
   IgnoreCaseEquals,
-  InvalidArgumentException,
-  InvalidOperationException,
   isEven,
-   RangeException,
   SortOrder,
   times
 } from '@monument/core';
 import {
-  IterableEqualsFactory,
+  InvalidArgumentException,
+  InvalidOperationException,
   IndexOutOfBoundsException,
-  NamedPool,
   NoSuchItemException,
+  RangeException
+} from '@monument/exceptions';
+import {
+  IterableEqualsFactory,
+  NamedPool,
   Sequence,
   ReadOnlyCollection,
   ReadOnlyMultiValueMap

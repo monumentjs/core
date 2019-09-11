@@ -1,4 +1,6 @@
 // Export public API
 
 export * from './src/ClassLoader';
-export * from './src/ClassLoaderException';
+
+// backward compatibility layer
+export { ClassLoaderException } from '@monument/exceptions';

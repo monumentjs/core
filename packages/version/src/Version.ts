@@ -3,16 +3,15 @@ import {
   Comparable,
   ComparisonResult,
   Equatable,
-  InvalidArgumentException,
   NumberCompare,
   MultiValueCompare,
   ToJSON,
   ToString, StrictEquals
 } from '@monument/core';
+import { InvalidArgumentException, VersionFormatException } from '@monument/exceptions';
 import { StringBuilder } from '@monument/text';
 import { ReleaseStatus } from './ReleaseStatus';
 import { VersionComponents } from './VersionComponents';
-import { VersionFormatException } from './VersionFormatException';
 import { VersionBuilder } from './VersionBuilder';
 
 /**

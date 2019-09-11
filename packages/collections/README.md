@@ -9,8 +9,8 @@ Provides collections functionality
 
 Related links:
 
-- [API reference](https://monumentjs.github.io/package/collections)
-- [Core API reference](https://monumentjs.github.io/package/core)
+- [API reference](https://monumentjs.github.io/package/collections/latest)
+- [Core API reference](https://monumentjs.github.io/package/core/latest)
 
 # Install
 

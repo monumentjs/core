@@ -1,0 +1,34 @@
+{
+  "name": "@monument/exceptions",
+  "version": "0.15.0",
+  "description": "Provides reusable generic exceptions",
+  "keywords": [
+    "typescript",
+    "exceptions",
+    "standard",
+    "library",
+    "core"
+  ],
+  "license": "MIT",
+  "homepage": "https://monumentjs.github.io/package/exceptions/latest",
+  "repository": "https://github.com/monumentjs/core.git",
+  "author": {
+    "name": "Alex Chugaev",
+    "email": "achugaev93@gmail.com",
+    "url": "https://github.com/avchugaev"
+  },
+  "contributors": [
+    {
+      "name": "Dima Kolodko",
+      "email": "dima@kolodko.pro",
+      "url": "https://github.com/prowwid"
+    }
+  ],
+  "dependencies": {
+
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "9a16a9bdb55875bbad746859180800f7859832b6"
+}

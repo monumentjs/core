@@ -1,4 +1,4 @@
-import { RuntimeException } from '@monument/core';
+import { RuntimeException } from '@monument/exceptions';
 import { Catch, ErrorMediator, Errors } from '../..';
 
 class FirstException extends RuntimeException {
