@@ -10,8 +10,6 @@ export * from './src/base/ToString';
 export * from './src/base/Type';
 export * from './src/base/TypeOfResult';
 
-export * from './src/contract/argument';
-
 export * from './src/function/identity';
 export * from './src/function/isEven';
 export * from './src/function/isFalsy';
@@ -49,6 +47,7 @@ export * from './src/random/RandomInt';
 export * from './src/random/RandomFloat';
 
 // backward compatibility layer
+// export { argument } from '@monument/assert';
 export * from '@monument/collections';
 export * from '@monument/exceptions';
 export * from '@monument/text';
