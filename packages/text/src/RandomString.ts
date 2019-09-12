@@ -1,7 +1,7 @@
+import { argument } from '@monument/assert';
 import {
   ToJSON,
   ToString,
-  argument,
   RandomValue,
   RandomInt
 } from '@monument/core';

@@ -1,5 +1,5 @@
+import { argument } from '@monument/assert';
 import {
-  argument,
   Comparable,
   ComparisonResult,
   Equatable,
