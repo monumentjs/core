@@ -1,8 +1,5 @@
-import {
-  KeyValuePair,
-  ReadOnlyMap,
-  ReadOnlyMultiValueMap
-} from '../../../../index';
+import { KeyValuePair } from '../../../../index';
+import { ReadOnlyMap, ReadOnlyMultiValueMap } from '@monument/contracts';
 
 export function assertLengthAndIsEmpty(map: ReadOnlyMultiValueMap<any, any>, expectedLength: number, expectedValuesCount: number): void {
   expect(map.length).toBe(expectedLength);

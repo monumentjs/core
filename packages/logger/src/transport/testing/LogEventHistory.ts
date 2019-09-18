@@ -1,5 +1,5 @@
 import { LogEvent } from '../../core/LogEvent';
-import { Filter } from '../../filter/Filter';
+import { Filter } from '@monument/contracts';
 import { TransportBase } from '../TransportBase';
 
 /**

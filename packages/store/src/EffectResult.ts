@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { Action } from './Action';
+import { Action } from '@monument/contracts';
 
 /**
  * Represents effect result.

@@ -24,7 +24,7 @@ import { NativeDate } from './NativeDate';
 import { DateTimeLayout } from './DateTimeLayout';
 import { TimeZoneOffset } from './TimeZoneOffset';
 import { Duration } from './Duration';
-import { DateTimeFormat } from './DateTimeFormat';
+import { DateTimeFormat } from '@monument/contracts';
 import { InvariantDateTimeFormat } from './InvariantDateTimeFormat';
 import { MILLISECONDS_IN_MINUTE } from './Constants';
 

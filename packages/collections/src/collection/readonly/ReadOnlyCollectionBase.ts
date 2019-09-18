@@ -1,5 +1,8 @@
-import { Sequence } from '../../base/Sequence';
-import { ReadOnlyCollection } from './ReadOnlyCollection';
+import {
+  Sequence,
+  ReadOnlyCollection,
+  ReadOnlyMultiValueMap
+} from '@monument/contracts';
 import { ReadOnlyCollectionImpl } from './ReadOnlyCollectionImpl';
 import {
   EqualsFunction,
@@ -8,7 +11,6 @@ import {
   CompareFunction,
   SupplyFunction
 } from '@monument/core';
-import { ReadOnlyMultiValueMap } from '../../multivaluemap/readonly/ReadOnlyMultiValueMap';
 import { KeyValuePair } from '../../base/KeyValuePair';
 import { AggregateFunction } from '../../function/AggregateFunction';
 import { IteratorFunction } from '../../function/IteratorFunction';

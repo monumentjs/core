@@ -1,4 +1,4 @@
-import { Action } from '@monument/store';
+import { Action } from '@monument/contracts';
 import { Level } from './Level';
 import { LogEvent } from './LogEvent';
 

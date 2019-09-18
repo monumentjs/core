@@ -1,9 +1,11 @@
 import { EqualsFunction, SupplyFunction, StrictEquals } from '@monument/core';
 import { KeyValuePair } from '../../base/KeyValuePair';
-import { ReadOnlyMultiValueMap } from '../readonly/ReadOnlyMultiValueMap';
-import { ReadOnlyMap } from '../../map/readonly/ReadOnlyMap';
+import {
+  ReadOnlyMultiValueMap,
+  ReadOnlyMap,
+  MultiValueMap
+} from '@monument/contracts';
 import { LinkedMap } from '../../map/mutable/LinkedMap';
-import { MultiValueMap } from './MultiValueMap';
 
 /**
  * @author Alex Chugaev

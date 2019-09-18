@@ -47,7 +47,7 @@ export * from './src/random/RandomInt';
 export * from './src/random/RandomFloat';
 
 // backward compatibility layer
-// export { argument } from '@monument/assert';
+export { argument } from '@monument/assert';
 export * from '@monument/collections';
 export * from '@monument/exceptions';
 export * from '@monument/text';

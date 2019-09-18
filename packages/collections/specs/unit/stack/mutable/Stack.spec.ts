@@ -1,5 +1,5 @@
 import { EmptyStackException } from '@monument/exceptions';
-import { Sequence, Stack } from '../../../../index';
+import { Sequence, Stack } from '@monument/contracts';
 import { testReadOnlyStack } from '../readonly/ReadOnlyStack.spec';
 
 export function testStack(create: <I>(items?: Sequence<I>) => Stack<I>) {

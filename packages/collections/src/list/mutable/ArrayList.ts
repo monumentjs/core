@@ -1,4 +1,8 @@
-import { ReadOnlyCollection } from '../../collection/readonly/ReadOnlyCollection';
+import {
+  ReadOnlyCollection,
+  List,
+  ReadOnlyList
+} from '@monument/contracts';
 import {
   Cloneable,
   EqualsFunction,
@@ -6,10 +10,8 @@ import {
 } from '@monument/core';
 import { IndexOutOfBoundsException, RangeException } from '@monument/exceptions';
 import { ReadOnlyCollectionBase } from '../../collection/readonly/ReadOnlyCollectionBase';
-import { List } from './List';
 import { CollectionUtils } from '../../base/CollectionUtils';
 import { ReadOnlyCollectionImpl } from '../../collection/readonly/ReadOnlyCollectionImpl';
-import { ReadOnlyList } from '../readonly/ReadOnlyList';
 
 /**
  * @author Alex Chugaev

@@ -28,6 +28,7 @@
     "@monument/assert": "^0.15.0",
     "@monument/core": "^0.15.0",
     "@monument/collections": "^0.15.0",
+    "@monument/contracts": "^0.15.0",
     "@monument/exceptions": "^0.15.0"
   },
   "publishConfig": {

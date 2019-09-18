@@ -1,5 +1,5 @@
 import { EqualsFunction, IgnoreCaseEquals } from '@monument/core';
-import { ReadOnlySet, Sequence } from '../../../../index';
+import { ReadOnlySet, Sequence } from '@monument/contracts';
 import { testReadOnlyCollection } from '../../collection/readonly/ReadOnlyCollection.spec';
 
 export function testReadOnlySet(create: <T>(items?: Sequence<T>, comparator?: EqualsFunction<T>) => ReadOnlySet<T>) {

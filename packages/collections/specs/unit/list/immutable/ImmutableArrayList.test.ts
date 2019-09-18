@@ -1,4 +1,5 @@
-import { ImmutableArrayList, Sequence } from '../../../../index';
+import { ImmutableArrayList } from '../../../../index';
+import { Sequence } from '@monument/contracts';
 import { testImmutableList } from './ImmutableList.spec';
 
 describe('ImmutableArrayList', function() {

@@ -1,5 +1,5 @@
-import { EMPTY_STRING, Parser } from '@monument/text';
-import { UriComponents } from './UriComponents';
+import { EMPTY_STRING  } from '@monument/text';
+import { UriComponents, Parser } from '@monument/contracts';
 import { QueryParameters } from './QueryParameters';
 import { UriFormatException } from '@monument/exceptions';
 import { UriConstants } from './UriConstants';

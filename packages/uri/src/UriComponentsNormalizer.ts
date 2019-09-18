@@ -1,4 +1,4 @@
-import { UriComponents } from './UriComponents';
+import { UriComponents } from '@monument/contracts';
 import { UriConstants } from './UriConstants';
 import { UriSchema } from './UriSchema';
 

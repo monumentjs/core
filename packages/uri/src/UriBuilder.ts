@@ -1,9 +1,11 @@
 import { Builder, ToString } from '@monument/core';
 import { Uri } from './Uri';
-import { UriComponents } from './UriComponents';
-import { ReadOnlyQueryParameters } from './ReadOnlyQueryParameters';
+import {
+  UriComponents,
+  ReadOnlyQueryParameters,
+  QueryParametersObject
+} from '@monument/contracts';
 import { QueryParameters } from './QueryParameters';
-import { QueryParametersObject } from './QueryParametersObject';
 
 /**
  * @since 0.0.1

@@ -1,4 +1,4 @@
-import { ReadOnlyMap } from '@monument/collections';
+import { ReadOnlyMap } from '@monument/contracts';
 import { TemplateString } from '../..';
 
 describe('TemplateString', function() {

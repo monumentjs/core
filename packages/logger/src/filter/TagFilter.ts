@@ -1,5 +1,5 @@
 import { LogEvent } from '../core/LogEvent';
-import { Filter } from './Filter';
+import { Filter } from '@monument/contracts';
 import { MatchingFilter } from './MatchingFilter';
 import { FilterDecision } from './FilterDecision';
 

@@ -1,4 +1,4 @@
-import { DateTimeFormat } from './DateTimeFormat';
+import { DateTimeFormat } from '@monument/contracts';
 
 export class InvariantDateTimeFormat implements DateTimeFormat {
   readonly fullMonthNames: ReadonlyArray<string> = [

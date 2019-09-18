@@ -1,5 +1,6 @@
 import { isEven, isOdd } from '@monument/core';
-import { ReadOnlyCollection, ReadOnlyCollectionImpl } from '../../../../index';
+import { ReadOnlyCollectionImpl } from '../../../../index';
+import { ReadOnlyCollection } from '@monument/contracts';
 
 describe('ReadOnlyCollectionImpl', function() {
   describe('lazy calculations', function() {

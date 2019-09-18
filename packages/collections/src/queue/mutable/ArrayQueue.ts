@@ -1,4 +1,4 @@
-import { Queue } from './Queue';
+import { Queue } from '@monument/contracts';
 import { EmptyQueueException } from '@monument/exceptions';
 import { ReadOnlyCollectionBase } from '../../collection/readonly/ReadOnlyCollectionBase';
 import { Cloneable } from '@monument/core';

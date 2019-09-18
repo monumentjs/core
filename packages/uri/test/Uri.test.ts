@@ -1,10 +1,7 @@
 /* tslint:disable:max-file-line-count */
-import {
-  QueryParameters,
-  Uri,
-  UriComponents
-} from '..';
+import { QueryParameters, Uri } from '..';
 import { UriFormatException } from '@monument/exceptions';
+import { UriComponents } from '@monument/contracts';
 
 describe('Uri', function() {
   function testComponents(source: string, components: UriComponents) {

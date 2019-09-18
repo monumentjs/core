@@ -1,8 +1,7 @@
 import { Cloneable } from '@monument/core';
-import { Stack } from './Stack';
+import { Stack, ReadOnlyStack } from '@monument/contracts';
 import { EmptyStackException } from '@monument/exceptions';
 import { ReadOnlyCollectionBase } from '../../collection/readonly/ReadOnlyCollectionBase';
-import { ReadOnlyStack } from '../readonly/ReadOnlyStack';
 
 /**
  * @author Alex Chugaev

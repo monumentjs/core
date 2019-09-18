@@ -3,7 +3,7 @@ import {
   Cloneable,
   ToJSON
 } from '@monument/core';
-import { Sequence } from '../base/Sequence';
+import { Sequence } from '@monument/contracts';
 import { CollectionUtils } from '../base/CollectionUtils';
 
 /**

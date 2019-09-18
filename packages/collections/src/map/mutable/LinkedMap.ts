@@ -6,8 +6,8 @@ import {
 } from '@monument/core';
 import { KeyValuePair } from '../../base/KeyValuePair';
 import { MapIteratorFunction } from '../../base/MapIteratorFunction';
-import { Map as IMap } from './Map';
-import { ReadOnlyMap } from '../readonly/ReadOnlyMap';
+// @todo - research why there's I prefix and remove if it's not needed
+import { Map as IMap, ReadOnlyMap } from '@monument/contracts';
 
 /**
  * @author Alex Chugaev

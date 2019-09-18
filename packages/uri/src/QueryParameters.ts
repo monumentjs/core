@@ -1,7 +1,7 @@
 import { PreserveCaseEquals, ToString } from '@monument/core';
 import { LinkedMultiValueMap } from '@monument/collections';
 import { BooleanParser, FloatParser, IntParser } from '@monument/text';
-import { ReadOnlyQueryParameters } from './ReadOnlyQueryParameters';
+import { ReadOnlyQueryParameters } from '@monument/contracts';
 import { QueryParameterValueEquals } from './QueryParameterValueEquals';
 import { UriConstants } from './UriConstants';
 import { UriEncoder } from './UriEncoder';

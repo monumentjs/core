@@ -2,7 +2,7 @@ import { argument } from '@monument/assert';
 import { Builder } from '@monument/core';
 import { Version } from './Version';
 import { ReleaseStatus } from './ReleaseStatus';
-import { VersionComponents } from './VersionComponents';
+import { VersionComponents } from '@monument/contracts';
 
 /**
  * @author Alex Chugaev

@@ -3,10 +3,9 @@ import { ToString } from '@monument/core';
 import {
   ArrayList,
   CollectionUtils,
-  LinkedMap,
-  ReadOnlyList,
-  ReadOnlyMap
+  LinkedMap
 } from '@monument/collections';
+import { ReadOnlyList, ReadOnlyMap } from '@monument/contracts';
 import { MissingKeyException, ParsingException } from '@monument/exceptions';
 import { RegExpUtils } from './RegExpUtils';
 

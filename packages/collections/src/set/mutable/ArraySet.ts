@@ -1,6 +1,9 @@
-import { Set } from './Set';
+import {
+  Set,
+  Sequence,
+  ReadOnlySet
+} from '@monument/contracts';
 import { ArrayList } from '../../list/mutable/ArrayList';
-import { Sequence } from '../../base/Sequence';
 import {
   EqualsFunction,
   Cloneable,
@@ -8,7 +11,6 @@ import {
 } from '@monument/core';
 import { MethodNotImplementedException } from '@monument/exceptions';
 import { ReadOnlyCollectionBase } from '../../collection/readonly/ReadOnlyCollectionBase';
-import { ReadOnlySet } from '../readonly/ReadOnlySet';
 
 /**
  * @author Alex Chugaev

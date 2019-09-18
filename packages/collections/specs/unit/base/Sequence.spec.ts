@@ -1,4 +1,4 @@
-import { Sequence } from '../../../index';
+import { Sequence } from '@monument/contracts';
 
 const TEST_ITEMS: string[] = ['one', 'two', 'three'];
 

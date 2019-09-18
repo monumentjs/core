@@ -1,4 +1,5 @@
-import { Reaction, State } from '../../..';
+import { Reaction } from '../../..';
+import { State } from '@monument/contracts';
 import { Product } from './CartService';
 import { LOAD, LOAD_FAIL, LOAD_SUCCESS, LoadFail, LoadSuccess } from './CartActions';
 

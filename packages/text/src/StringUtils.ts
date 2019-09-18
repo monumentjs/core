@@ -1,6 +1,7 @@
 import { EMPTY_STRING, SPACE } from './Strings';
 import { RegExpUtils } from './RegExpUtils';
-import { CollectionUtils, ReadOnlyCollection } from '@monument/collections';
+import { CollectionUtils } from '@monument/collections';
+import { ReadOnlyCollection } from '@monument/contracts';
 import { ToString } from '@monument/core';
 
 /**

@@ -1,4 +1,4 @@
-import { Parser } from './Parser';
+import { Parser } from '@monument/contracts';
 import { FormatException } from '@monument/exceptions';
 
 /**

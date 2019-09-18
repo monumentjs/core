@@ -1,5 +1,5 @@
 import { InvalidArgumentException } from '@monument/exceptions';
-import { ReadOnlyList } from '../list/readonly/ReadOnlyList';
+import { ReadOnlyList } from '@monument/contracts';
 import { ArrayList } from '../list/mutable/ArrayList';
 
 /**

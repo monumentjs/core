@@ -3,7 +3,7 @@ import { map } from 'rxjs/operators';
 import { Disposable } from '@monument/core';
 import { Actions } from '@monument/store';
 import { LOG, LogAction } from '../core/LogAction';
-import { Transport } from './Transport';
+import { Transport } from '@monument/contracts';
 
 /**
  * Represents actions stream and transports mediator.

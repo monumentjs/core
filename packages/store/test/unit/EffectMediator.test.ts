@@ -1,6 +1,7 @@
 import { from, of } from 'rxjs';
 import { map, mapTo, tap } from 'rxjs/operators';
-import { Action, Actions, Effect, EffectMediator, EffectSource } from '../..';
+import { Actions, Effect, EffectMediator, EffectSource } from '../..';
+import { Action } from '@monument/contracts';
 
 const EMPTY = 'EMPTY';
 const LOAD = 'LOAD';

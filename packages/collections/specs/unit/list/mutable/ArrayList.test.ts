@@ -1,5 +1,6 @@
 import { testList } from './List.spec';
-import { ArrayList, Sequence } from '../../../../index';
+import { ArrayList } from '../../../../index';
+import { Sequence } from '@monument/contracts';
 
 describe('ArrayList', function() {
   function create<T>(items?: Sequence<T>): ArrayList<T> {

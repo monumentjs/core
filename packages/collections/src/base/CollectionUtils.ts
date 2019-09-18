@@ -1,5 +1,5 @@
 import { RangeException, IndexOutOfBoundsException } from '@monument/exceptions';
-import { Sequence } from './Sequence';
+import { Sequence } from '@monument/contracts';
 
 /**
  * @author Alex Chugaev

@@ -1,8 +1,7 @@
 import { MethodNotImplementedException } from '@monument/exceptions';
 import { LinkedMap } from '@monument/collections';
 import { TemplateString } from '@monument/text';
-import { DateTimeFormat } from './DateTimeFormat';
-import { DateTimeFields } from './DateTimeFields';
+import { DateTimeFormat, DateTimeFields } from '@monument/contracts';
 
 export class DateTimeLayout {
   private readonly _template: TemplateString;

@@ -3,12 +3,8 @@ import {
   IgnoreCaseEquals,
   PreserveCaseEquals,
 } from '@monument/core';
-import {
-  IterableEqualsFactory,
-  KeyValuePair,
-  Map,
-  Sequence
-} from '../../../../index';
+import { IterableEqualsFactory, KeyValuePair } from '../../../../index';
+import { Map, Sequence } from '@monument/contracts';
 
 export function testMap(
   create: <K, V>(

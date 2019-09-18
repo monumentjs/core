@@ -1,7 +1,7 @@
 import { ToString } from '@monument/core';
 import { StringBuilder } from '@monument/text';
 import { UriSchema } from './UriSchema';
-import { UriComponents } from './UriComponents';
+import { UriComponents } from '@monument/contracts';
 import { UriComponentsNormalizer } from './UriComponentsNormalizer';
 import { UriConstants } from './UriConstants';
 import { UriEncoder } from './UriEncoder';

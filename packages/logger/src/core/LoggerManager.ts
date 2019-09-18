@@ -1,7 +1,7 @@
 import { Disposable } from '@monument/core';
-import { LinkedMap, Map } from '@monument/collections';
+import { LinkedMap } from '@monument/collections';
+import { Map, LoggingConfiguration } from '@monument/contracts';
 import { Actions } from '@monument/store';
-import { LoggingConfiguration } from '../configuration/LoggingConfiguration';
 import { TransportMediator } from '../transport/TransportMediator';
 import { Logger } from './Logger';
 

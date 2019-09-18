@@ -1,5 +1,5 @@
 import { IgnoreCaseEquals, StrictEquals } from '@monument/core';
-import { ReadOnlyList, Sequence } from '../../../../index';
+import { ReadOnlyList, Sequence } from '@monument/contracts';
 import { RangeException, IndexOutOfBoundsException } from '@monument/exceptions';
 import { testReadOnlyCollection } from '../../collection/readonly/ReadOnlyCollection.spec';
 

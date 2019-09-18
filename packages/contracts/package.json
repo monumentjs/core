@@ -1,0 +1,51 @@
+{
+  "name": "@monument/contracts",
+  "version": "0.15.0",
+  "description": "Provides generic contracts",
+  "keywords": [
+    "typescript",
+    "contracts",
+    "interfaces",
+    "collections",
+    "map",
+    "list",
+    "array",
+    "queue",
+    "stack",
+    "set",
+    "tree",
+    "net",
+    "text",
+    "string",
+    "uri",
+    "standard",
+    "library",
+    "core"
+  ],
+  "license": "MIT",
+  "homepage": "https://monumentjs.github.io/package/contracts/latest",
+  "repository": "https://github.com/monumentjs/core.git",
+  "author": {
+    "name": "Alex Chugaev",
+    "email": "achugaev93@gmail.com",
+    "url": "https://github.com/avchugaev"
+  },
+  "contributors": [
+    {
+      "name": "Dima Kolodko",
+      "email": "dima@kolodko.pro",
+      "url": "https://github.com/prowwid"
+    }
+  ],
+  "dependencies": {
+    "@monument/core": "^0.15.0",
+    "@monument/collections": "^0.15.0",
+    "@monument/date": "^0.15.0",
+    "@monument/logger": "^0.15.0",
+    "@monument/version": "^0.15.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "9a16a9bdb55875bbad746859180800f7859832b6"
+}

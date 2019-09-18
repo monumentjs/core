@@ -1,4 +1,4 @@
-import { Filter } from './Filter';
+import { Filter } from '@monument/contracts';
 import { LogEvent } from '../core/LogEvent';
 import { MatchingFilter } from './MatchingFilter';
 import { FilterDecision } from './FilterDecision';

@@ -1,5 +1,6 @@
 import { EqualsFunction } from '@monument/core';
-import { ArraySet, Sequence } from '../../../../index';
+import { ArraySet } from '../../../../index';
+import { Sequence } from '@monument/contracts';
 import { testSet } from './Set.spec';
 
 describe('ArraySet', function() {

@@ -1,5 +1,5 @@
 import { EmptyQueueException } from '@monument/exceptions';
-import { Sequence, Queue } from '../../../../index';
+import { Sequence, Queue } from '@monument/contracts';
 import { testReadOnlyQueue } from '../readonly/ReadOnlyQueue.spec';
 
 export function testQueue(create: <I>(items?: Sequence<I>) => Queue<I>) {

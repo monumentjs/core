@@ -1,4 +1,8 @@
-import { ReadOnlyCollection } from './ReadOnlyCollection';
+import {
+  ReadOnlyCollection,
+  Sequence,
+  ReadOnlyMultiValueMap
+} from '@monument/contracts';
 import {
   EqualsFunction,
   CompareFunction,
@@ -14,8 +18,6 @@ import {
   IndexOutOfBoundsException
 } from '@monument/exceptions';
 import { CollectionUtils } from '../../base/CollectionUtils';
-import { Sequence } from '../../base/Sequence';
-import { ReadOnlyMultiValueMap } from '../../multivaluemap/readonly/ReadOnlyMultiValueMap';
 import { LinkedMultiValueMap } from '../../multivaluemap/mutable/LinkedMultiValueMap';
 import { KeyValuePair } from '../../base/KeyValuePair';
 import { AggregateFunction } from '../../function/AggregateFunction';

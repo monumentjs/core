@@ -1,9 +1,11 @@
 /* tslint:disable:no-console */
 import { Level } from '../../core/Level';
 import { LogEvent } from '../../core/LogEvent';
-import { Filter } from '../../filter/Filter';
-import { ConsoleLayout } from './ConsoleLayout';
-import { Transport } from '../Transport';
+import {
+  Filter,
+  ConsoleLayout,
+  Transport
+} from '@monument/contracts';
 import { TransportBase } from '../TransportBase';
 
 /**

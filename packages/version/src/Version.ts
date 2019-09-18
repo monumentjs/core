@@ -11,7 +11,7 @@ import {
 import { InvalidArgumentException, VersionFormatException } from '@monument/exceptions';
 import { StringBuilder } from '@monument/text';
 import { ReleaseStatus } from './ReleaseStatus';
-import { VersionComponents } from './VersionComponents';
+import { VersionComponents } from '@monument/contracts';
 import { VersionBuilder } from './VersionBuilder';
 
 /**

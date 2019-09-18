@@ -1,4 +1,5 @@
-import { DateTime, DateTimeFormat, InvariantDateTimeFormat } from '../..';
+import { DateTime, InvariantDateTimeFormat } from '../..';
+import { DateTimeFormat } from '@monument/contracts';
 
 describe('DateTime', function() {
   describe('toString(pattern, format)', function() {

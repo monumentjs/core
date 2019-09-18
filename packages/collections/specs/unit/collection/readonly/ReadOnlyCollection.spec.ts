@@ -13,13 +13,13 @@ import {
   NoSuchItemException,
   RangeException
 } from '@monument/exceptions';
+import { IterableEqualsFactory } from '../../../../index';
 import {
-  IterableEqualsFactory,
   NamedPool,
   Sequence,
   ReadOnlyCollection,
   ReadOnlyMultiValueMap
-} from '../../../../index';
+} from '@monument/contracts';
 import { testSequence } from '../../base/Sequence.spec';
 
 interface Book {

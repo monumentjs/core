@@ -9,9 +9,12 @@ import {
   ToJSON,
   ToString
 } from '@monument/core';
-import { UriComponents } from './UriComponents';
+import {
+  UriComponents,
+  ReadOnlyQueryParameters,
+  QueryParametersObject
+} from '@monument/contracts';
 import { UriComponentsNormalizer } from './UriComponentsNormalizer';
-import { ReadOnlyQueryParameters } from './ReadOnlyQueryParameters';
 import { QueryParameters } from './QueryParameters';
 import { UriFormatException, UriIntegrityException } from '@monument/exceptions';
 import { UriSchema } from './UriSchema';
@@ -19,7 +22,6 @@ import { UriSerializer } from './UriSerializer';
 import { UriConstants } from './UriConstants';
 import { UriParser } from './UriParser';
 import { UriBuilder } from './UriBuilder';
-import { QueryParametersObject } from './QueryParametersObject';
 
 /**
  * Represents URI (Unified Resource Identifier).

@@ -1,7 +1,7 @@
 import { Observable, Subject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { OperationNotSupportedException } from '@monument/exceptions';
-import { Action } from './Action';
+import { Action } from '@monument/contracts';
 
 /**
  * Represents stream of actions.

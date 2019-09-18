@@ -1,7 +1,6 @@
 import { LogEvent } from '../core/LogEvent';
-import { Filter } from '../filter/Filter';
+import { Filter, Transport} from '@monument/contracts';
 import { FilterDecision } from '../filter/FilterDecision';
-import { Transport } from './Transport';
 
 /**
  * Represents base implementation of transport.
