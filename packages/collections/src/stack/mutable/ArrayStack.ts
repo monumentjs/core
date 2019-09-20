@@ -1,5 +1,8 @@
-import { Cloneable } from '@monument/core';
-import { Stack, ReadOnlyStack } from '@monument/contracts';
+import {
+  Cloneable,
+  Stack,
+  ReadOnlyStack
+} from '@monument/contracts';
 import { EmptyStackException } from '@monument/exceptions';
 import { ReadOnlyCollectionBase } from '../../collection/readonly/ReadOnlyCollectionBase';
 

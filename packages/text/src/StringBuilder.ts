@@ -1,6 +1,6 @@
 import { EMPTY_STRING, EOL_CRLF } from './Strings';
 import { TemplateString } from './TemplateString';
-import { Builder, ToString } from '@monument/core';
+import { Builder, ToString } from '@monument/contracts';
 
 /**
  * @author Alex Chugaev

@@ -1,9 +1,7 @@
 import {
-  EqualsFunction,
   IgnoreCaseCompare,
   IgnoreCaseEquals,
   isEven,
-  SortOrder,
   times
 } from '@monument/core';
 import {
@@ -15,8 +13,10 @@ import {
 } from '@monument/exceptions';
 import { IterableEqualsFactory } from '../../../../index';
 import {
+  EqualsFunction,
   NamedPool,
   Sequence,
+  SortOrder,
   ReadOnlyCollection,
   ReadOnlyMultiValueMap
 } from '@monument/contracts';

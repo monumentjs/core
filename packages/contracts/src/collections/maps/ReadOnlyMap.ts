@@ -1,6 +1,9 @@
-import { EqualsFunction, SupplyFunction, Equatable } from '@monument/core';
 import { KeyValuePair } from '@monument/collections';
+import { Equatable } from '../../data/Equatable';
+import { EqualsFunction } from '../../functions/EqualityComparator';
 import { Sequence } from '../../data/Sequence';
+import { SupplyFunction } from '../../types/SupplyFunction';
+
 
 /**
  * @todo need to change implementations to abstractions

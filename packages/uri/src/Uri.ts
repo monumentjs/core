@@ -1,17 +1,17 @@
 import {
-  EqualsFunction,
-  Equatable,
   EquatableEquals,
   MultiValueEquals,
   PreserveCaseEquals,
   StrictEquals,
-  SupplyFunction,
-  ToJSON,
-  ToString
 } from '@monument/core';
 import {
-  UriComponents,
+  EqualsFunction,
+  Equatable,
   ReadOnlyQueryParameters,
+  SupplyFunction,
+  ToJSON,
+  ToString,
+  UriComponents,
   QueryParametersObject
 } from '@monument/contracts';
 import { UriComponentsNormalizer } from './UriComponentsNormalizer';

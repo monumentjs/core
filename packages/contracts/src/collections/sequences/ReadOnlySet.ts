@@ -1,4 +1,5 @@
-import { EqualsFunction, Equatable } from '@monument/core';
+import { Equatable } from '../../data/Equatable';
+import { EqualsFunction } from '../../functions/EqualityComparator';
 import { Sequence } from '../../data/Sequence';
 import { ReadOnlyCollection } from './ReadOnlyCollection';
 

@@ -1,11 +1,13 @@
 import { argument } from '@monument/assert';
 import {
-  Comparable,
-  ComparisonResult,
-  Equatable,
   NumberCompare,
   StrictEquals
 } from '@monument/core';
+import {
+  ComparisonResult,
+  Comparable,
+  Equatable
+} from '@monument/contracts';
 import { Duration } from './Duration';
 
 export class Seconds implements Comparable<Seconds>, Comparable<number>, Equatable<Seconds>, Equatable<number> {

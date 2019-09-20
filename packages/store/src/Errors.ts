@@ -1,6 +1,6 @@
 import { Observable, Subject } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { Type } from '@monument/core';
+import { Type } from '@monument/contracts';
 import { OperationNotSupportedException } from '@monument/exceptions';
 
 

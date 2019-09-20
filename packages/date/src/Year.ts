@@ -1,11 +1,11 @@
 import { argument } from '@monument/assert';
+import { NumberCompare } from '@monument/core';
 import {
   Comparable,
   ComparisonResult,
   Equatable,
-  NumberCompare,
   ToString
-} from '@monument/core';
+} from '@monument/contracts';
 import { Month } from './Month';
 import { DayOfYear } from './DayOfYear';
 

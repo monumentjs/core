@@ -1,4 +1,4 @@
-import { SupplyFunction } from '@monument/core';
+import { SupplyFunction } from '@monument/contracts';
 import { AssertionException } from '@monument/exceptions';
 import { Observable, of, throwError } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';

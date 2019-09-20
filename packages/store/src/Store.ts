@@ -1,8 +1,7 @@
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { Disposable } from '@monument/core';
 import { Actions } from './Actions';
 import { ReactionDecorator } from './ReactionDecorator';
-import { State } from '@monument/contracts';
+import { Disposable, State } from '@monument/contracts';
 
 /**
  * Represents store of the state.

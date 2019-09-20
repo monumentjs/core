@@ -1,14 +1,12 @@
 import {
+  EqualsFunction,
+  Cloneable,
   Set,
   Sequence,
   ReadOnlySet
 } from '@monument/contracts';
 import { ArrayList } from '../../list/mutable/ArrayList';
-import {
-  EqualsFunction,
-  Cloneable,
-  StrictEquals
-} from '@monument/core';
+import { StrictEquals } from '@monument/core';
 import { MethodNotImplementedException } from '@monument/exceptions';
 import { ReadOnlyCollectionBase } from '../../collection/readonly/ReadOnlyCollectionBase';
 

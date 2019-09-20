@@ -1,5 +1,5 @@
 import { ReadOnlyCollection } from './ReadOnlyCollection';
-import { Equatable } from '@monument/core';
+import { Equatable } from '../../data/Equatable';
 
 /**
  * @author Alex Chugaev

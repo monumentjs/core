@@ -1,16 +1,13 @@
 import {
-  ReadOnlyCollection,
-  Sequence,
-  ReadOnlyMultiValueMap
-} from '@monument/contracts';
-import {
   EqualsFunction,
   CompareFunction,
+  ReadOnlyCollection,
+  ReadOnlyMultiValueMap,
+  Sequence,
   SortOrder,
-  StrictEquals,
-  RandomInt,
   SupplyFunction
-} from '@monument/core';
+} from '@monument/contracts';
+import { StrictEquals, RandomInt } from '@monument/core';
 import {
   InvalidOperationException,
   InvalidArgumentException,

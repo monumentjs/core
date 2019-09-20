@@ -1,4 +1,5 @@
-import { EqualsFunction, StrictEquals } from '@monument/core';
+import { StrictEquals } from '@monument/core';
+import { EqualsFunction } from '@monument/contracts';
 
 export function IterableEqualsFactory<T>(itemEquals: EqualsFunction<T> = StrictEquals) {
   return function IterableEquals(x: Iterable<T>, y: Iterable<T>): boolean {

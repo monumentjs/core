@@ -1,4 +1,8 @@
-import { Comparable, ComparisonResult, Equatable } from '@monument/core';
+import {
+  Comparable,
+  ComparisonResult,
+  Equatable
+} from '@monument/contracts';
 import { Duration } from './Duration';
 
 export class TimeZoneOffset implements Equatable<TimeZoneOffset>, Comparable<TimeZoneOffset> {

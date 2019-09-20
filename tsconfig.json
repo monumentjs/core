@@ -21,6 +21,8 @@
       "@monument/core/*": ["packages/core/*"],
       "@monument/collections": ["packages/collections"],
       "@monument/collections/*": ["packages/collections/*"],
+      "@monument/contracts": ["packages/contracts"],
+      "@monument/contracts/*": ["packages/contracts/*"],
       "@monument/assert": ["packages/assert"],
       "@monument/assert/*": ["packages/assert/*"],
       "@monument/class-loader": ["packages/class-loader"],

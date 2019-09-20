@@ -1,4 +1,4 @@
-import { Equatable } from '@monument/core';
+import { Equatable } from '@monument/contracts';
 
 export class Key implements Equatable<Key> {
   static readonly BACKSPACE = new Key(8, 'Backspace', 'Backspace');

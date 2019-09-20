@@ -1,5 +1,10 @@
-import { Cloneable, EqualsFunction, StrictEquals } from '@monument/core';
-import { ImmutableList, ReadOnlyList } from '@monument/contracts';
+import { StrictEquals } from '@monument/core';
+import {
+  Cloneable,
+  EqualsFunction,
+  ImmutableList,
+  ReadOnlyList
+} from '@monument/contracts';
 import { ReadOnlyCollectionBase } from '../../collection/readonly/ReadOnlyCollectionBase';
 import { IteratorFunction } from '../../function/IteratorFunction';
 import { ArrayList } from '../mutable/ArrayList';

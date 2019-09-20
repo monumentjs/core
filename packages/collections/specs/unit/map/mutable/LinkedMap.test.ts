@@ -1,4 +1,4 @@
-import { EqualsFunction } from '@monument/core';
+import { EqualsFunction } from '@monument/contracts';
 import { KeyValuePair, LinkedMap } from '../../../../index';
 import { testMap } from './Map.spec';
 

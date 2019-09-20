@@ -1,18 +1,16 @@
 import {
-  CompareFunction,
-  EqualsFunction,
-  SortOrder,
-  ToJSON,
-  SupplyFunction
-} from '@monument/core';
-import {
   AggregateFunction,
   IteratorFunction,
   CombineFunction,
   KeyValuePair,
   ProjectFunction
 } from '@monument/collections';
+import { EqualsFunction } from '../../functions/EqualityComparator';
+import { CompareFunction } from '../../types/CompareFunction';
+import { SortOrder } from '../../types/SortOrder';
+import { SupplyFunction } from '../../types/SupplyFunction';
 import { ToArray } from '../../data/ToArray';
+import { ToJSON } from '../../data/ToJSON';
 import { Sequence } from '../../data/Sequence';
 import { ReadOnlyMultiValueMap } from '../maps/ReadOnlyMultiValueMap';
 

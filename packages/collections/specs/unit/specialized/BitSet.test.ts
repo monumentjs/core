@@ -1,4 +1,4 @@
-import { EqualsFunction } from '@monument/core';
+import { EqualsFunction } from '@monument/contracts';
 import { RangeException, IndexOutOfBoundsException } from '@monument/exceptions';
 import { BitSet, IterableEqualsFactory } from '../../../index';
 

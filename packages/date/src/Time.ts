@@ -1,4 +1,14 @@
-import { Comparable, ComparisonResult, Equatable, MultiValueCompare, MultiValueEquals, NumberCompare, StrictEquals } from '@monument/core';
+import {
+  MultiValueCompare,
+  MultiValueEquals,
+  NumberCompare,
+  StrictEquals
+} from '@monument/core';
+import {
+  ComparisonResult,
+  Comparable,
+  Equatable
+} from '@monument/contracts';
 import { Hours } from './Hours';
 import { Minutes } from './Minutes';
 import { Seconds } from './Seconds';

@@ -1,10 +1,10 @@
+import { IgnoreCaseEquals, PreserveCaseEquals } from '@monument/core';
+import { IterableEqualsFactory, KeyValuePair } from '../../../../index';
 import {
   EqualsFunction,
-  IgnoreCaseEquals,
-  PreserveCaseEquals,
-} from '@monument/core';
-import { IterableEqualsFactory, KeyValuePair } from '../../../../index';
-import { Map, Sequence } from '@monument/contracts';
+  Map,
+  Sequence
+} from '@monument/contracts';
 
 export function testMap(
   create: <K, V>(

@@ -23,8 +23,14 @@ export * from './src/collections/maps/ReadOnlyMultiValueMap';
 export * from './src/collections/maps/MultiValueMap';
 
 // data
+export * from './src/data/Comparable';
+export * from './src/data/Equatable';
 export * from './src/data/Sequence';
 export * from './src/data/ToArray';
+export * from './src/data/Ordered';
+export * from './src/data/RandomValue';
+export * from './src/data/ToJSON';
+export * from './src/data/ToString';
 
 // date
 export * from './src/date/DateFields';
@@ -52,3 +58,22 @@ export * from './src/net/uri/QueryParametersObject';
 
 // version
 export * from './src/version/VersionComponents';
+
+// system
+export * from './src/system/Cloneable';
+export * from './src/system/Disposable';
+
+// util
+export * from './src/util/Supplier';
+export * from './src/util/Builder';
+
+// types
+export * from './src/types/Type';
+export * from './src/types/TypeOfResult';
+export * from './src/types/SupplyFunction';
+export * from './src/types/CompareFunction';
+export * from './src/types/EqualsFunction';
+export * from './src/types/ComparisonResult';
+export * from './src/types/Priority';
+export * from './src/types/SortOrder';
+

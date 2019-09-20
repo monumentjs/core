@@ -1,4 +1,4 @@
-import { ComparisonResult } from './ComparisonResult';
+import { ComparisonResult } from '@monument/contracts';
 
 export function IgnoreCaseCompare(current: string, other: string): ComparisonResult {
   const _current = current.toLowerCase();

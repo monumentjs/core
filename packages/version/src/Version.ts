@@ -1,17 +1,20 @@
 import {
   MultiValueEquals,
+  NumberCompare,
+  MultiValueCompare,
+  StrictEquals
+} from '@monument/core';
+import {
   Comparable,
   ComparisonResult,
   Equatable,
-  NumberCompare,
-  MultiValueCompare,
+  VersionComponents,
   ToJSON,
-  ToString, StrictEquals
-} from '@monument/core';
+  ToString
+} from '@monument/contracts';
 import { InvalidArgumentException, VersionFormatException } from '@monument/exceptions';
 import { StringBuilder } from '@monument/text';
 import { ReleaseStatus } from './ReleaseStatus';
-import { VersionComponents } from '@monument/contracts';
 import { VersionBuilder } from './VersionBuilder';
 
 /**

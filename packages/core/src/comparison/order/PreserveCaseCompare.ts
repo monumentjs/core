@@ -1,4 +1,4 @@
-import { ComparisonResult } from './ComparisonResult';
+import { ComparisonResult } from '@monument/contracts';
 
 export function PreserveCaseCompare(current: string, other: string): ComparisonResult {
   if (current > other) {

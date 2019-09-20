@@ -27,6 +27,7 @@
   ],
   "dependencies": {
     "@monument/core": "^0.15.0",
+    "@monument/contracts": "^0.15.0",
     "@monument/exceptions": "^0.15.0"
   }
 }

@@ -1,13 +1,13 @@
-import {
-  EqualsFunction,
-  Cloneable,
-  StrictEquals,
-  SupplyFunction
-} from '@monument/core';
+import { StrictEquals } from '@monument/core';
 import { KeyValuePair } from '../../base/KeyValuePair';
 import { MapIteratorFunction } from '../../base/MapIteratorFunction';
-// @todo - research why there's I prefix and remove if it's not needed
-import { Map as IMap, ReadOnlyMap } from '@monument/contracts';
+import {
+  EqualsFunction,
+  Map as IMap,
+  Cloneable,
+  ReadOnlyMap,
+  SupplyFunction
+} from '@monument/contracts';
 
 /**
  * @author Alex Chugaev

@@ -1,7 +1,6 @@
-import { Queue } from '@monument/contracts';
+import { Queue, Cloneable } from '@monument/contracts';
 import { EmptyQueueException } from '@monument/exceptions';
 import { ReadOnlyCollectionBase } from '../../collection/readonly/ReadOnlyCollectionBase';
-import { Cloneable } from '@monument/core';
 
 /**
  * Represents a first-in, first-out collection of objects.

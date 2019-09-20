@@ -1,4 +1,14 @@
-import { MultiValueEquals, Comparable, ComparisonResult, Equatable, NumberCompare, MultiValueCompare, StrictEquals } from '@monument/core';
+import {
+  MultiValueEquals,
+  NumberCompare,
+  MultiValueCompare,
+  StrictEquals
+} from '@monument/core';
+import {
+  ComparisonResult,
+  Comparable,
+  Equatable
+} from '@monument/contracts';
 import { NativeDate } from './NativeDate';
 import { Year } from './Year';
 import { Month } from './Month';

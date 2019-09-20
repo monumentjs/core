@@ -1,4 +1,9 @@
-import { Equatable, IgnoreCaseEquals, ToJSON, ToString } from '@monument/core';
+import { IgnoreCaseEquals } from '@monument/core';
+import {
+  Equatable,
+  ToJSON,
+  ToString
+} from '@monument/contracts';
 
 const FILE_DEFAULT_HOST = 'localhost';
 

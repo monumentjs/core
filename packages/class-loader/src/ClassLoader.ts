@@ -1,4 +1,4 @@
-import { Type } from '@monument/core';
+import { Type } from '@monument/contracts';
 import { ClassLoaderException } from '@monument/exceptions';
 
 /**

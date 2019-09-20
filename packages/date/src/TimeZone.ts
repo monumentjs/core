@@ -1,5 +1,10 @@
 /* tslint:disable:variable-name */
-import { Equatable, EquatableEquals, MultiValueEquals, StrictEquals } from '@monument/core';
+import {
+  EquatableEquals,
+  MultiValueEquals,
+  StrictEquals
+} from '@monument/core';
+import { Equatable } from '@monument/contracts';
 import { TimeZoneOffset } from './TimeZoneOffset';
 
 /**

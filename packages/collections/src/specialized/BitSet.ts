@@ -1,9 +1,9 @@
 import {
   Equatable,
   Cloneable,
+  Sequence,
   ToJSON
-} from '@monument/core';
-import { Sequence } from '@monument/contracts';
+} from '@monument/contracts';
 import { CollectionUtils } from '../base/CollectionUtils';
 
 /**

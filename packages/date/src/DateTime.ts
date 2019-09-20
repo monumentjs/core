@@ -1,13 +1,17 @@
 import { argument } from '@monument/assert';
 import {
-  Comparable,
   ComparableCompare,
-  ComparisonResult,
-  Equatable,
   EquatableEquals,
   MultiValueCompare,
-  MultiValueEquals, ToString
+  MultiValueEquals
 } from '@monument/core';
+import {
+  ComparisonResult,
+  Equatable,
+  Comparable,
+  DateTimeFormat,
+  ToString
+} from '@monument/contracts';
 import { InvalidArgumentException } from '@monument/exceptions';
 import { Date } from './Date';
 import { Time } from './Time';
@@ -24,7 +28,6 @@ import { NativeDate } from './NativeDate';
 import { DateTimeLayout } from './DateTimeLayout';
 import { TimeZoneOffset } from './TimeZoneOffset';
 import { Duration } from './Duration';
-import { DateTimeFormat } from '@monument/contracts';
 import { InvariantDateTimeFormat } from './InvariantDateTimeFormat';
 import { MILLISECONDS_IN_MINUTE } from './Constants';
 

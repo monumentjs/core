@@ -1,11 +1,10 @@
 import { argument } from '@monument/assert';
+import { NumberCompare, StrictEquals } from '@monument/core';
 import {
-  Comparable,
   ComparisonResult,
-  Equatable,
-  NumberCompare,
-  StrictEquals
-} from '@monument/core';
+  Comparable,
+  Equatable
+} from '@monument/contracts';
 import {
   MILLISECONDS_IN_DAY,
   MILLISECONDS_IN_HOUR,

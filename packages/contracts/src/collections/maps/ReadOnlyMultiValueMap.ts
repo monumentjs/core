@@ -2,7 +2,8 @@ import { ToArray } from '../../data/ToArray';
 import { Sequence } from '../../data/Sequence';
 import { KeyValuePair } from '@monument/collections';
 import { ReadOnlyMap } from './ReadOnlyMap';
-import { Equatable, SupplyFunction } from '@monument/core';
+import { Equatable } from '../../data/Equatable';
+import { SupplyFunction } from '../../types/SupplyFunction';
 
 /**
  * @todo need to change implementations to abstractions

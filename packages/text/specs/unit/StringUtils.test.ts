@@ -1,6 +1,6 @@
-import { ToString } from '@monument/core';
-import { RangeException } from '@monument/exceptions';
 import { ArrayList  } from '@monument/collections';
+import { ToString } from '@monument/contracts';
+import { RangeException } from '@monument/exceptions';
 import { EMPTY_STRING, StringUtils } from '../..';
 
 describe('StringUtils', function() {

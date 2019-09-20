@@ -1,4 +1,4 @@
-import { Equatable } from './Equatable';
+import { Equatable } from '@monument/contracts';
 
 /**
  * @implements EqualsFunction

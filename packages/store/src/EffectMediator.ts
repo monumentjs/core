@@ -1,5 +1,5 @@
 import { Observable, Subscription } from 'rxjs';
-import { Disposable } from '@monument/core';
+import { Disposable } from '@monument/contracts';
 import { EffectDecorator } from './EffectDecorator';
 import { Actions } from './Actions';
 import { EffectSource } from './EffectSource';

@@ -1,5 +1,5 @@
 import { Subscription } from 'rxjs';
-import { Disposable } from '@monument/core';
+import { Disposable } from '@monument/contracts';
 import { Errors } from './Errors';
 import { CatchDecorator } from './CatchDecorator';
 

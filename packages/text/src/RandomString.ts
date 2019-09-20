@@ -3,8 +3,8 @@ import {
   ToJSON,
   ToString,
   RandomValue,
-  RandomInt
-} from '@monument/core';
+} from '@monument/contracts';
+import { RandomInt } from '@monument/core';
 import { EMPTY_STRING } from './Strings';
 
 /**

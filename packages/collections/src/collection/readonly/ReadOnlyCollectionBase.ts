@@ -1,16 +1,14 @@
 import {
+  EqualsFunction,
+  CompareFunction,
+  SupplyFunction,
   Sequence,
+  SortOrder,
   ReadOnlyCollection,
   ReadOnlyMultiValueMap
 } from '@monument/contracts';
 import { ReadOnlyCollectionImpl } from './ReadOnlyCollectionImpl';
-import {
-  EqualsFunction,
-  StrictEquals,
-  SortOrder,
-  CompareFunction,
-  SupplyFunction
-} from '@monument/core';
+import { StrictEquals } from '@monument/core';
 import { KeyValuePair } from '../../base/KeyValuePair';
 import { AggregateFunction } from '../../function/AggregateFunction';
 import { IteratorFunction } from '../../function/IteratorFunction';

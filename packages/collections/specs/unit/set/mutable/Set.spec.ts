@@ -1,5 +1,8 @@
-import { EqualsFunction } from '@monument/core';
-import { Sequence, Set } from '@monument/contracts';
+import {
+  EqualsFunction,
+  Sequence,
+  Set
+} from '@monument/contracts';
 import { testReadOnlySet } from '../readonly/ReadOnlySet.spec';
 import { assertLengthAndIsEmpty } from '../../collection/readonly/ReadOnlyCollection.spec';
 

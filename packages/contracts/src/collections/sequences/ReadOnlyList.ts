@@ -1,5 +1,6 @@
 import { ReadOnlyCollection } from './ReadOnlyCollection';
-import { EqualsFunction, Equatable } from '@monument/core';
+import { Equatable } from '../../data/Equatable';
+import { EqualsFunction } from '../../functions/EqualityComparator';
 
 /**
  * @author Alex Chugaev

@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { Type } from '@monument/core';
+import { Type } from '@monument/contracts';
 
 const DECORATORS = Symbol();
 

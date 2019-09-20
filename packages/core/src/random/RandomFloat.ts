@@ -1,6 +1,8 @@
-import { RandomValue } from './RandomValue';
-import { ToJSON } from '../base/ToJSON';
-import { ToString } from '../base/ToString';
+import {
+  RandomValue,
+  ToJSON,
+  ToString
+} from '@monument/contracts';
 
 /**
  * @author Alex Chugaev

@@ -1,4 +1,4 @@
-import { EqualsFunction } from '@monument/core';
+import { EqualsFunction } from '../../functions/EqualityComparator';
 import { ReadOnlyList } from './ReadOnlyList';
 
 /**

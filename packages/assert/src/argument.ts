@@ -1,4 +1,4 @@
-import { SupplyFunction } from '@monument/core';
+import { SupplyFunction } from '@monument/contracts';
 import { InvalidArgumentException } from '@monument/exceptions';
 
 /**

@@ -1,5 +1,4 @@
-import { Ordered } from './Ordered';
-import { ComparisonResult } from './ComparisonResult';
+import { Ordered, ComparisonResult } from '@monument/contracts';
 
 /**
  * @author Alex Chugaev

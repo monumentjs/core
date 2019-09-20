@@ -1,5 +1,4 @@
-import { ComparisonResult } from './ComparisonResult';
-import { CompareFunction } from './CompareFunction';
+import { ComparisonResult, CompareFunction } from '@monument/contracts';
 
 export type MultiValueCompareCondition<T> = [T, T, CompareFunction<T>];
 

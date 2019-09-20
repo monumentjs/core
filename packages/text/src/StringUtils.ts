@@ -1,8 +1,7 @@
 import { EMPTY_STRING, SPACE } from './Strings';
 import { RegExpUtils } from './RegExpUtils';
 import { CollectionUtils } from '@monument/collections';
-import { ReadOnlyCollection } from '@monument/contracts';
-import { ToString } from '@monument/core';
+import { ReadOnlyCollection, ToString } from '@monument/contracts';
 
 /**
  * @author Alex Chugaev

@@ -1,4 +1,4 @@
-import { EqualsFunction } from './EqualsFunction';
+import { EqualsFunction } from '@monument/contracts';
 
 /**
  * @author Alex Chugaev

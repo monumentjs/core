@@ -1,11 +1,14 @@
 import { EMPTY_STRING } from './Strings';
-import { ToString } from '@monument/core';
 import {
   ArrayList,
   CollectionUtils,
   LinkedMap
 } from '@monument/collections';
-import { ReadOnlyList, ReadOnlyMap } from '@monument/contracts';
+import {
+  ReadOnlyList,
+  ReadOnlyMap,
+  ToString
+} from '@monument/contracts';
 import { MissingKeyException, ParsingException } from '@monument/exceptions';
 import { RegExpUtils } from './RegExpUtils';
 

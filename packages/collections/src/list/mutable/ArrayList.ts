@@ -1,13 +1,11 @@
 import {
+  Cloneable,
+  EqualsFunction,
   ReadOnlyCollection,
   List,
   ReadOnlyList
 } from '@monument/contracts';
-import {
-  Cloneable,
-  EqualsFunction,
-  StrictEquals
-} from '@monument/core';
+import { StrictEquals } from '@monument/core';
 import { IndexOutOfBoundsException, RangeException } from '@monument/exceptions';
 import { ReadOnlyCollectionBase } from '../../collection/readonly/ReadOnlyCollectionBase';
 import { CollectionUtils } from '../../base/CollectionUtils';
