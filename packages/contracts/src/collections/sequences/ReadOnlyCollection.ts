@@ -1,13 +1,11 @@
-import {
-  AggregateFunction,
-  IteratorFunction,
-  CombineFunction,
-  KeyValuePair,
-  ProjectFunction
-} from '@monument/collections';
 import { EqualsFunction } from '../../functions/EqualityComparator';
 import { CompareFunction } from '../../types/CompareFunction';
 import { SortOrder } from '../../types/SortOrder';
+import { KeyValuePair } from '../../types/KeyValuePair';
+import { AggregateFunction } from '../../types/function/AggregateFunction';
+import { CombineFunction } from '../../types/function/CombineFunction';
+import { IteratorFunction } from '../../types/function/IteratorFunction';
+import { ProjectFunction } from '../../types/function/ProjectFunction';
 import { SupplyFunction } from '../../types/SupplyFunction';
 import { ToArray } from '../../data/ToArray';
 import { ToJSON } from '../../data/ToJSON';
@@ -15,7 +13,6 @@ import { Sequence } from '../../data/Sequence';
 import { ReadOnlyMultiValueMap } from '../maps/ReadOnlyMultiValueMap';
 
 /**
- * @todo need to change implementations to abstractions
  * @author Alex Chugaev
  * @since 0.0.1
  * @readonly

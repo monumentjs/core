@@ -1,4 +1,5 @@
-import { KeyValuePair, LinkedMultiValueMap } from '../../../../index';
+import { KeyValuePair } from '@monument/contracts';
+import { LinkedMultiValueMap } from '../../../../index';
 import { testMultiValueMap } from './MultiValueMap.spec';
 
 describe('LinkedMultiValueMap', function() {

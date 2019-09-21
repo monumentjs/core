@@ -1,4 +1,5 @@
-import { FilterDecision, Level, LogEvent, NameFilter } from '../../..';
+import { FilterDecision, LogEvent, NameFilter } from '../../..';
+import { Level } from '@monument/contracts';
 
 describe('NameFilter', function() {
   describe('filter()', function() {

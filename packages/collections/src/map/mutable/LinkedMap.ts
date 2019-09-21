@@ -1,10 +1,10 @@
 import { StrictEquals } from '@monument/core';
-import { KeyValuePair } from '../../base/KeyValuePair';
-import { MapIteratorFunction } from '../../base/MapIteratorFunction';
 import {
-  EqualsFunction,
-  Map as IMap,
   Cloneable,
+  EqualsFunction,
+  KeyValuePair,
+  Map as IMap,
+  MapIteratorFunction,
   ReadOnlyMap,
   SupplyFunction
 } from '@monument/contracts';

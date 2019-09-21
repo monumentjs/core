@@ -1,4 +1,5 @@
-import { ReleaseStatus, VersionBuilder } from '..';
+import { VersionBuilder } from '..';
+import { ReleaseStatus } from '@monument/contracts';
 
 describe('VersionBuilder', function() {
   describe('constructor()', function() {

@@ -1,6 +1,5 @@
-import { Level } from '../core/Level';
 import { LogEvent } from '../core/LogEvent';
-import { Filter } from '@monument/contracts';
+import { Filter, Level } from '@monument/contracts';
 import { FilterDecision } from './FilterDecision';
 
 /**

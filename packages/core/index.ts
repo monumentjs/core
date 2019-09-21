@@ -37,6 +37,8 @@ export * from '@monument/collections';
 export * from '@monument/exceptions';
 export * from '@monument/text';
 export {
+  AggregateFunction,
+  CombineFunction,
   Builder,
   Cloneable,
   Comparable,
@@ -45,8 +47,12 @@ export {
   Disposable,
   EqualsFunction,
   Equatable,
+  IteratorFunction,
+  KeyValuePair,
+  MapIteratorFunction,
   Ordered,
   Priority,
+  ProjectFunction,
   SortOrder,
   Supplier,
   RandomValue,

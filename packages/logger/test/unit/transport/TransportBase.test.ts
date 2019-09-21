@@ -1,4 +1,11 @@
-import { FilterDecision, Level, LogEvent, TagFilter, LogEventHistory, ThresholdFilter } from '../../..';
+import {
+  FilterDecision,
+  LogEvent,
+  TagFilter,
+  LogEventHistory,
+  ThresholdFilter
+} from '../../..';
+import { Level } from '@monument/contracts';
 
 describe('TransportBase', function() {
   describe('next()', function() {

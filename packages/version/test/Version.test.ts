@@ -1,5 +1,5 @@
-import { ReleaseStatus, Version } from '..';
-import { ComparisonResult } from '@monument/contracts';
+import { Version } from '..';
+import { ComparisonResult, ReleaseStatus } from '@monument/contracts';
 import { InvalidArgumentException, VersionFormatException } from '@monument/exceptions';
 
 describe('Version', function() {

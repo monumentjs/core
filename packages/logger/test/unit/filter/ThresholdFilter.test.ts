@@ -1,10 +1,9 @@
 import {
   FilterDecision,
-  Level,
   LogEvent,
   ThresholdFilter
 } from '../../..';
-import { Filter } from '@monument/contracts';
+import { Filter, Level } from '@monument/contracts';
 
 describe('ThresholdFilter', function() {
   function test(filter: Filter, decisions: FilterDecision[]) {

@@ -1,4 +1,4 @@
-import { KeyValuePair } from '@monument/collections';
+import { KeyValuePair } from '../../types/KeyValuePair';
 import { Equatable } from '../../data/Equatable';
 import { EqualsFunction } from '../../functions/EqualityComparator';
 import { Sequence } from '../../data/Sequence';
@@ -6,7 +6,6 @@ import { SupplyFunction } from '../../types/SupplyFunction';
 
 
 /**
- * @todo need to change implementations to abstractions
  * @author Alex Chugaev
  * @since 0.0.1
  */

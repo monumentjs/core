@@ -3,10 +3,10 @@ import {
   Cloneable,
   EqualsFunction,
   ImmutableList,
+  IteratorFunction,
   ReadOnlyList
 } from '@monument/contracts';
 import { ReadOnlyCollectionBase } from '../../collection/readonly/ReadOnlyCollectionBase';
-import { IteratorFunction } from '../../function/IteratorFunction';
 import { ArrayList } from '../mutable/ArrayList';
 
 /**

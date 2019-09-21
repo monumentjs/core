@@ -1,6 +1,11 @@
 import {
+  AggregateFunction,
   EqualsFunction,
+  CombineFunction,
   CompareFunction,
+  IteratorFunction,
+  KeyValuePair,
+  ProjectFunction,
   SupplyFunction,
   Sequence,
   SortOrder,
@@ -9,11 +14,6 @@ import {
 } from '@monument/contracts';
 import { ReadOnlyCollectionImpl } from './ReadOnlyCollectionImpl';
 import { StrictEquals } from '@monument/core';
-import { KeyValuePair } from '../../base/KeyValuePair';
-import { AggregateFunction } from '../../function/AggregateFunction';
-import { IteratorFunction } from '../../function/IteratorFunction';
-import { CombineFunction } from '../../function/CombineFunction';
-import { ProjectFunction } from '../../function/ProjectFunction';
 
 export abstract class ReadOnlyCollectionBase<T> implements ReadOnlyCollection<T> {
   abstract readonly length: number;

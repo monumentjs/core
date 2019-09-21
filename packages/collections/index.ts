@@ -1,15 +1,8 @@
 // Export public API
 
-export * from './src/function/AggregateFunction';
-export * from './src/function/CombineFunction';
-export * from './src/function/IteratorFunction';
-export * from './src/function/ProjectFunction';
-
 export * from './src/attributes/Key';
 
 export * from './src/base/CollectionUtils';
-export * from './src/base/KeyValuePair';
-export * from './src/base/MapIteratorFunction';
 
 export * from './src/collection/readonly/ReadOnlyCollectionBase';
 export * from './src/collection/readonly/ReadOnlyCollectionImpl';

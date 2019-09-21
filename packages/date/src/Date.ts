@@ -7,13 +7,13 @@ import {
 import {
   ComparisonResult,
   Comparable,
-  Equatable
+  DayOfWeek,
+  Equatable,
+  NativeDate
 } from '@monument/contracts';
-import { NativeDate } from './NativeDate';
 import { Year } from './Year';
 import { Month } from './Month';
 import { DayOfMonth } from './DayOfMonth';
-import { DayOfWeek } from './DayOfWeek';
 
 export class Date implements Equatable<Date>, Comparable<Date> {
   static now(): Date {

@@ -1,9 +1,8 @@
 import { ReadOnlyList } from './ReadOnlyList';
 import { EqualsFunction } from '../../functions/EqualityComparator';
-import { IteratorFunction } from '@monument/collections';
+import { IteratorFunction } from '../../types/function/IteratorFunction';
 
 /**
- * @todo need to change implementations to abstractions
  * @author Alex Chugaev
  * @since 0.0.1
  * @immutable

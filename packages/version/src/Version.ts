@@ -8,13 +8,13 @@ import {
   Comparable,
   ComparisonResult,
   Equatable,
+  ReleaseStatus,
   VersionComponents,
   ToJSON,
   ToString
 } from '@monument/contracts';
 import { InvalidArgumentException, VersionFormatException } from '@monument/exceptions';
 import { StringBuilder } from '@monument/text';
-import { ReleaseStatus } from './ReleaseStatus';
 import { VersionBuilder } from './VersionBuilder';
 
 /**

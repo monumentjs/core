@@ -1,4 +1,4 @@
-import { DayOfWeek } from '@monument/date';
+import { DayOfWeek } from './DayOfWeek';
 
 /**
  * @todo need to change implementations to abstractions

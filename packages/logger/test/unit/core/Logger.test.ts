@@ -1,5 +1,6 @@
 import { Actions } from '@monument/store';
-import { Level, Logger, LoggerManager, LogEventHistory } from '../../..';
+import { Level } from '@monument/contracts';
+import { Logger, LoggerManager, LogEventHistory } from '../../..';
 
 describe('Logger', function() {
   const actions: Actions = new Actions();

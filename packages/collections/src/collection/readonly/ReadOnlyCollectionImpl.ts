@@ -1,6 +1,11 @@
 import {
+  AggregateFunction,
   EqualsFunction,
+  CombineFunction,
   CompareFunction,
+  IteratorFunction,
+  KeyValuePair,
+  ProjectFunction,
   ReadOnlyCollection,
   ReadOnlyMultiValueMap,
   Sequence,
@@ -16,11 +21,6 @@ import {
 } from '@monument/exceptions';
 import { CollectionUtils } from '../../base/CollectionUtils';
 import { LinkedMultiValueMap } from '../../multivaluemap/mutable/LinkedMultiValueMap';
-import { KeyValuePair } from '../../base/KeyValuePair';
-import { AggregateFunction } from '../../function/AggregateFunction';
-import { IteratorFunction } from '../../function/IteratorFunction';
-import { CombineFunction } from '../../function/CombineFunction';
-import { ProjectFunction } from '../../function/ProjectFunction';
 
 /**
  * @todo need to rename it prior to release of V1

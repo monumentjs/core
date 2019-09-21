@@ -1,4 +1,4 @@
-import { ReleaseStatus } from '@monument/version';
+import { ReleaseStatus } from './ReleaseStatus';
 
 /**
  * @author Alex Chugaev

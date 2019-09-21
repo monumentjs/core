@@ -1,4 +1,4 @@
-import { Level } from './Level';
+import { Level } from '@monument/contracts';
 
 /**
  * Represents log event dispatched by logger usually to notify transports about log event.

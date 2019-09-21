@@ -1,4 +1,5 @@
-import { KeyValuePair, MapIteratorFunction } from '@monument/collections';
+import { KeyValuePair } from '../../types/KeyValuePair';
+import { MapIteratorFunction } from '../../types/function/MapIteratorFunction';
 import { ReadOnlyMap } from './ReadOnlyMap';
 
 /**

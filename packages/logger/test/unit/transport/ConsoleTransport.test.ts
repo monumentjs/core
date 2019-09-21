@@ -1,4 +1,5 @@
-import { ConsoleTransport, Level, LogEvent } from '../../..';
+import { ConsoleTransport, LogEvent } from '../../..';
+import { Level } from '@monument/contracts';
 
 describe('ConsoleTransport', function() {
   let transport: ConsoleTransport;

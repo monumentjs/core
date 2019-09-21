@@ -1,8 +1,8 @@
-import { KeyValuePair, MapIteratorFunction } from '@monument/collections';
+import { KeyValuePair } from '../../types/KeyValuePair';
+import { MapIteratorFunction } from '../../types/function/MapIteratorFunction';
 import { ReadOnlyMultiValueMap } from './ReadOnlyMultiValueMap';
 
 /**
- * @todo need to change implementations to abstractions
  * @author Alex Chugaev
  * @since 0.0.1
  */

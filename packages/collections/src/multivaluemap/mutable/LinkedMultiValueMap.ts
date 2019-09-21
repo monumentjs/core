@@ -1,7 +1,7 @@
 import { StrictEquals } from '@monument/core';
-import { KeyValuePair } from '../../base/KeyValuePair';
 import {
   EqualsFunction,
+  KeyValuePair,
   MultiValueMap,
   ReadOnlyMap,
   ReadOnlyMultiValueMap,

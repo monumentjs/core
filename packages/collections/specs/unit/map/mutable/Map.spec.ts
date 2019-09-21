@@ -1,7 +1,8 @@
 import { IgnoreCaseEquals, PreserveCaseEquals } from '@monument/core';
-import { IterableEqualsFactory, KeyValuePair } from '../../../../index';
+import { IterableEqualsFactory } from '../../../../index';
 import {
   EqualsFunction,
+  KeyValuePair,
   Map,
   Sequence
 } from '@monument/contracts';

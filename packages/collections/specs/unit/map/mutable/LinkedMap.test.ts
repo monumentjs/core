@@ -1,5 +1,5 @@
-import { EqualsFunction } from '@monument/contracts';
-import { KeyValuePair, LinkedMap } from '../../../../index';
+import { EqualsFunction, KeyValuePair } from '@monument/contracts';
+import { LinkedMap } from '../../../../index';
 import { testMap } from './Map.spec';
 
 describe('LinkedMap', function() {

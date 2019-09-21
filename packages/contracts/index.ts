@@ -37,6 +37,8 @@ export * from './src/date/DateFields';
 export * from './src/date/DateTimeFields';
 export * from './src/date/DateTimeFormat';
 export * from './src/date/TimeFields';
+export * from './src/date/DayOfWeek';
+export * from './src/date/NativeDate';
 
 // store
 export * from './src/store/Action';
@@ -44,6 +46,7 @@ export * from './src/store/State';
 
 // log
 export * from './src/log/LoggingConfiguration';
+export * from './src/log/Level';
 export * from './src/log/Filter';
 export * from './src/log/Transport';
 export * from './src/log/ConsoleLayout';
@@ -58,6 +61,7 @@ export * from './src/net/uri/QueryParametersObject';
 
 // version
 export * from './src/version/VersionComponents';
+export * from './src/version/ReleaseStatus';
 
 // system
 export * from './src/system/Cloneable';
@@ -76,4 +80,9 @@ export * from './src/types/EqualsFunction';
 export * from './src/types/ComparisonResult';
 export * from './src/types/Priority';
 export * from './src/types/SortOrder';
-
+export * from './src/types/KeyValuePair';
+export * from './src/types/function/MapIteratorFunction';
+export * from './src/types/function/AggregateFunction';
+export * from './src/types/function/CombineFunction';
+export * from './src/types/function/IteratorFunction';
+export * from './src/types/function/ProjectFunction';

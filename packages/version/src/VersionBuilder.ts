@@ -1,7 +1,10 @@
 import { argument } from '@monument/assert';
 import { Version } from './Version';
-import { ReleaseStatus } from './ReleaseStatus';
-import { Builder, VersionComponents } from '@monument/contracts';
+import {
+  Builder,
+  ReleaseStatus,
+  VersionComponents
+} from '@monument/contracts';
 
 /**
  * @author Alex Chugaev

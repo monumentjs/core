@@ -7,16 +7,17 @@ import {
 } from '@monument/core';
 import {
   ComparisonResult,
+  DayOfWeek,
   Equatable,
   Comparable,
   DateTimeFormat,
+  NativeDate,
   ToString
 } from '@monument/contracts';
 import { InvalidArgumentException } from '@monument/exceptions';
 import { Date } from './Date';
 import { Time } from './Time';
 import { TimeZone } from './TimeZone';
-import { DayOfWeek } from './DayOfWeek';
 import { Year } from './Year';
 import { Month } from './Month';
 import { DayOfMonth } from './DayOfMonth';
@@ -24,7 +25,6 @@ import { Hours } from './Hours';
 import { Minutes } from './Minutes';
 import { Seconds } from './Seconds';
 import { Milliseconds } from './Milliseconds';
-import { NativeDate } from './NativeDate';
 import { DateTimeLayout } from './DateTimeLayout';
 import { TimeZoneOffset } from './TimeZoneOffset';
 import { Duration } from './Duration';

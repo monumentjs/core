@@ -1,4 +1,5 @@
-import { FilterDecision, Level, LogEvent, TagFilter } from '../../..';
+import { FilterDecision, LogEvent, TagFilter } from '../../..';
+import { Level } from '@monument/contracts';
 
 describe('TagFilter', function() {
   describe('filter()', function() {
