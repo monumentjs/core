@@ -20,7 +20,11 @@
     }
   ],
   "dependencies": {
-    "@monument/core": "^0.15.0"
+    "@monument/assert": "^0.15.0",
+    "@monument/core": "^0.15.0",
+    "@monument/comparison": "^0.15.0",
+    "@monument/exceptions": "^0.15.0",
+    "@monument/text": "^0.15.0"
   },
   "publishConfig": {
     "access": "public"

@@ -1,4 +1,4 @@
-import { Action } from '../../../src/Action';
+import { Action } from '../../..';
 import { PageRequest, Product } from './CartService';
 import { CartException } from './CartException';
 

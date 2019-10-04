@@ -1,4 +1,5 @@
-import { argument, Comparable, ComparisonResult, Equatable, NumberCompare, StrictEquals } from '@monument/core';
+import { argument } from '@monument/assert';
+import { Comparable, ComparisonResult, Equatable, NumberCompare, StrictEquals } from '@monument/comparison';
 import { Duration } from './Duration';
 
 export class Milliseconds implements Comparable<Milliseconds>, Comparable<number>, Equatable<Milliseconds>, Equatable<number> {

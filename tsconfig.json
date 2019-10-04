@@ -12,14 +12,16 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
-    "lib": ["esnext"],
-    "typeRoots": ["./node_modules/@types"],
+    "lib": [
+      "esnext"
+    ],
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
     "strictFunctionTypes": true,
-    "baseUrl": "./",
-    "paths": {
-      "@monument/core": ["packages/core"],
-      "@monument/core/*": ["packages/core/*"]
-    }
+    "baseUrl": "./"
   },
-  "exclude": ["./node_modules/**"]
+  "exclude": [
+    "./node_modules/**"
+  ]
 }

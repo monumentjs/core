@@ -23,3 +23,5 @@ export * from './src/TimeSpan';
 export * from './src/TimeZone';
 export * from './src/TimeZoneOffset';
 export * from './src/Year';
+
+export * from './src/time-zone';

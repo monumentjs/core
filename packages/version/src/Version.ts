@@ -1,19 +1,18 @@
+import { ToJSON, ToString } from '@monument/core';
 import {
-  MultiValueEquals,
   Comparable,
   ComparisonResult,
   Equatable,
-  InvalidArgumentException,
-  NumberCompare,
   MultiValueCompare,
-  StringBuilder,
-  ToJSON,
-  ToString, StrictEquals
-} from '@monument/core';
+  MultiValueEquals,
+  NumberCompare,
+  StrictEquals
+} from '@monument/comparison';
+import { argument } from '@monument/assert';
 import { ReleaseStatus } from './ReleaseStatus';
 import { VersionComponents } from './VersionComponents';
-import { VersionFormatException } from './VersionFormatException';
 import { VersionBuilder } from './VersionBuilder';
+import { VersionParser } from './VersionParser';
 
 /**
  * @author Alex Chugaev
@@ -28,49 +27,8 @@ export class Version
     [ReleaseStatus.BETA]: 'beta',
     [ReleaseStatus.RELEASE_CANDIDATE]: 'rc'
   };
-  private static readonly MAJOR_COMPONENT_INDEX = 1;
-  private static readonly MINOR_COMPONENT_INDEX = 2;
-  private static readonly PATCH_COMPONENT_INDEX = 3;
-  private static readonly RELEASE_STATUS_COMPONENT_INDEX = 5;
-  private static readonly REVISION_COMPONENT_INDEX = 7;
+
   static readonly ZERO: Version = new Version();
-  static readonly PATTERN: RegExp = /^(\d+)\.(\d+)\.(\d+)(-(alpha|beta|rc)(\.(\d+))?)?$/;
-
-  private static getMajor(source: string): number {
-    return parseInt(source, 10);
-  }
-
-  private static getMinor(source: string): number {
-    return parseInt(source, 10);
-  }
-
-  private static getPatch(source: string): number {
-    return parseInt(source, 10);
-  }
-
-  private static getReleaseStatus(source: string | undefined): ReleaseStatus {
-    switch (source) {
-      case 'alpha':
-        return ReleaseStatus.ALPHA;
-
-      case 'beta':
-        return ReleaseStatus.BETA;
-
-      case 'rc':
-        return ReleaseStatus.RELEASE_CANDIDATE;
-
-      default:
-        return ReleaseStatus.STABLE;
-    }
-  }
-
-  private static getRevision(source: string | undefined): number {
-    if (source) {
-      return parseInt(source, 10);
-    } else {
-      return 0;
-    }
-  }
 
   private _major!: number;
   private _minor!: number;
@@ -146,17 +104,14 @@ export class Version
 
     switch (typeof major) {
       case 'string':
-        const parts: RegExpExecArray | null = Version.PATTERN.exec(major);
+        const parser: VersionParser = new VersionParser();
+        const parsed: VersionComponents = parser.parse(major);
 
-        if (parts == null) {
-          throw new VersionFormatException(`Invalid version format.`);
-        }
-
-        _major = Version.getMajor(parts[Version.MAJOR_COMPONENT_INDEX]);
-        _minor = Version.getMinor(parts[Version.MINOR_COMPONENT_INDEX]);
-        _patch = Version.getPatch(parts[Version.PATCH_COMPONENT_INDEX]);
-        _releaseStatus = Version.getReleaseStatus(parts[Version.RELEASE_STATUS_COMPONENT_INDEX]);
-        _revision = Version.getRevision(parts[Version.REVISION_COMPONENT_INDEX]);
+        _major = parsed.major;
+        _minor = parsed.minor;
+        _patch = parsed.patch;
+        _releaseStatus = parsed.releaseStatus;
+        _revision = parsed.revision;
 
         break;
 
@@ -225,18 +180,18 @@ export class Version
 
   toString(): string {
     if (this._serialized == null) {
-      const result: StringBuilder = new StringBuilder();
       const { minor, major, patch, revision, releaseStatus } = this;
+      let result = '';
 
-      result.append(`${major}.${minor}.${patch}`);
+      result += `${major}.${minor}.${patch}`;
 
       if (releaseStatus !== ReleaseStatus.STABLE) {
         const preReleaseStage: string = Version.VERSION_PRE_RELEASE_STAGES[releaseStatus];
 
-        result.append(`-${preReleaseStage}`);
+        result += `-${preReleaseStage}`;
 
         if (revision > 0) {
-          result.append(`.${revision}`);
+          result += `.${revision}`;
         }
       }
 
@@ -287,41 +242,31 @@ export class Version
   }
 
   private setMajor(value: number) {
-    if (!isFinite(value) || isNaN(value) || value < 0) {
-      throw new InvalidArgumentException('Version major component is invalid.');
-    }
+    argument(isFinite(value) && !isNaN(value) && value >= 0, 'Version major component is invalid.');
 
     this._major = value;
   }
 
   private setMinor(value: number) {
-    if (!isFinite(value) || isNaN(value) || value < 0) {
-      throw new InvalidArgumentException('Version minor component is invalid.');
-    }
+    argument(isFinite(value) && !isNaN(value) && value >= 0, 'Version minor component is invalid.');
 
     this._minor = value;
   }
 
   private setPatch(value: number) {
-    if (!isFinite(value) || isNaN(value) || value < 0) {
-      throw new InvalidArgumentException('Version patch component is invalid.');
-    }
+    argument(isFinite(value) && !isNaN(value) && value >= 0, 'Version patch component is invalid.');
 
     this._patch = value;
   }
 
   private setReleaseStatus(value: ReleaseStatus) {
-    if (!isFinite(value) || isNaN(value) || value < ReleaseStatus.ALPHA || value > ReleaseStatus.STABLE) {
-      throw new InvalidArgumentException('Version release status component is invalid.');
-    }
+    argument(isFinite(value) && !isNaN(value) && value >= ReleaseStatus.ALPHA || value <= ReleaseStatus.STABLE, 'Version release status is invalid.');
 
     this._releaseStatus = value;
   }
 
   private setRevision(value: number) {
-    if (!isFinite(value) || isNaN(value) || value < 0) {
-      throw new InvalidArgumentException('Version revision component is invalid.');
-    }
+    argument(isFinite(value) && !isNaN(value) && value >= 0, 'Version revision component is invalid.');
 
     this._revision = value;
   }

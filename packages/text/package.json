@@ -1,0 +1,12 @@
+{
+  "name": "@monument/text",
+  "version": "0.15.0",
+  "description": "Text",
+  "keywords": [],
+  "dependencies": {
+    "@monument/assert": "^0.15.0",
+    "@monument/core": "^0.15.0",
+    "@monument/exceptions": "^0.15.0",
+    "@monument/collections": "^0.15.0"
+  }
+}

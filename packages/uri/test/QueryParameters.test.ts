@@ -1,18 +1,18 @@
-import { QueryParameters } from '..';
+import { Query } from '..';
 
 describe('QueryParameters', function() {
   describe('constructor(string)', function() {
     it('should parse query string', function() {
-      const parameters: QueryParameters = new QueryParameters('q=javascript%20tutorials&p=10&safe=true&lat=1.203&lon=3.402');
+      const parameters: Query = new Query('q=javascript%20tutorials&p=10&safe=true&lat=1.203&lon=3.402');
 
-      expect(parameters.getString('q')).toBe('javascript tutorials');
-      expect(parameters.getString('qq', 'default')).toBe('default');
-      expect(parameters.getString('qqq')).toBe(undefined);
-      expect(parameters.getInteger('p')).toBe(10);
-      expect(parameters.getInteger('pp', 25)).toBe(25);
-      expect(parameters.getInteger('ppp')).toBe(undefined);
-      expect(parameters.getBoolean('safe')).toBe(true);
-      expect(parameters.getBoolean('Safe')).toBe(undefined);
+      expect(parameters.get('q')).toBe('javascript tutorials');
+      expect(parameters.get('qq', 'default')).toBe('default');
+      expect(parameters.get('qqq')).toBe(undefined);
+      expect(parameters.getInt('p')).toBe(10);
+      expect(parameters.getInt('pp', 25)).toBe(25);
+      expect(parameters.getInt('ppp')).toBe(undefined);
+      expect(parameters.getBool('safe')).toBe(true);
+      expect(parameters.getBool('Safe')).toBe(undefined);
       expect(parameters.getFloat('lat')).toBe(1.203);
       expect(parameters.getFloat('lon')).toBe(3.402);
       expect(parameters.getFloat('scale', 0)).toBe(0);
@@ -22,7 +22,7 @@ describe('QueryParameters', function() {
 
   describe('getFloats(string)', function() {
     it('should parse all associated values to float', function() {
-      const parameters: QueryParameters = new QueryParameters('p=1.23&p=4.56&p=7.89');
+      const parameters: Query = new Query('p=1.23&p=4.56&p=7.89');
       const p: number[] = [...parameters.getFloats('p')];
 
       expect(p.length).toBe(3);
@@ -32,8 +32,8 @@ describe('QueryParameters', function() {
 
   describe('getIntegers(string)', function() {
     it('should parse all associated values to int', function() {
-      const parameters: QueryParameters = new QueryParameters('p=1&p=4&p=7');
-      const p: number[] = [...parameters.getIntegers('p')];
+      const parameters: Query = new Query('p=1&p=4&p=7');
+      const p: number[] = [...parameters.getAllInt('p')];
 
       expect(p.length).toBe(3);
       expect(p).toEqual([1, 4, 7]);
@@ -42,8 +42,8 @@ describe('QueryParameters', function() {
 
   describe('getStrings(string)', function() {
     it('should get all associated values as strings', function() {
-      const parameters: QueryParameters = new QueryParameters('p=1&p=4&p=7');
-      const p: string[] = [...parameters.getStrings('p')];
+      const parameters: Query = new Query('p=1&p=4&p=7');
+      const p: string[] = [...parameters.getAll('p')];
 
       expect(p.length).toBe(3);
       expect(p).toEqual(['1', '4', '7']);

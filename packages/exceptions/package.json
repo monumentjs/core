@@ -1,0 +1,8 @@
+{
+  "name": "@monument/exceptions",
+  "version": "0.15.0",
+  "description": "Exceptions",
+  "keywords": [],
+  "dependencies": {
+  }
+}

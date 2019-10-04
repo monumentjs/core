@@ -1,0 +1,10 @@
+{
+  "name": "@monument/random",
+  "version": "0.15.0",
+  "description": "Random",
+  "keywords": [],
+  "dependencies": {
+    "@monument/assert": "^0.15.0",
+    "@monument/core": "^0.15.0"
+  }
+}

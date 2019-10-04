@@ -1,14 +1,14 @@
 import {
-  argument,
   Comparable,
   ComparableCompare,
   ComparisonResult,
   Equatable,
   EquatableEquals,
-  InvalidArgumentException,
   MultiValueCompare,
-  MultiValueEquals, ToString
-} from '@monument/core';
+  MultiValueEquals
+} from '@monument/comparison';
+import { argument, InvalidArgumentException } from '@monument/assert';
+import { ToString } from '@monument/core';
 import { Date } from './Date';
 import { Time } from './Time';
 import { TimeZone } from './TimeZone';
@@ -27,6 +27,7 @@ import { Duration } from './Duration';
 import { DateTimeFormat } from './DateTimeFormat';
 import { InvariantDateTimeFormat } from './InvariantDateTimeFormat';
 import { MILLISECONDS_IN_MINUTE } from './Constants';
+import { GREENWICH_MEAN_TIME } from './time-zone/GreenwichMeanTime';
 
 /**
  * Represents full date with time.
@@ -168,7 +169,7 @@ export class DateTime implements Equatable<DateTime>, Comparable<DateTime>, ToSt
     minutes: number = 0,
     seconds: number = 0,
     milliseconds: number = 0,
-    timeZone: TimeZone = TimeZone.GreenwichMeanTime
+    timeZone: TimeZone = GREENWICH_MEAN_TIME
   ) {
     let _date: Date;
     let _time: Time;
@@ -194,7 +195,7 @@ export class DateTime implements Equatable<DateTime>, Comparable<DateTime>, ToSt
       if (dayOfMonth instanceof TimeZone) {
         _timeZone = dayOfMonth;
       } else {
-        _timeZone = TimeZone.GreenwichMeanTime;
+        _timeZone = GREENWICH_MEAN_TIME;
       }
     } else {
       throw new InvalidArgumentException('Cannot create new DateTime with such arguments');

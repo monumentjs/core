@@ -1,5 +1,4 @@
 import {
-  argument,
   Comparable,
   ComparableCompare,
   ComparisonResult,
@@ -9,7 +8,8 @@ import {
   MultiValueEquals,
   NumberCompare,
   StrictEquals
-} from '@monument/core';
+} from '@monument/comparison';
+import { argument } from '@monument/assert';
 import { Year } from './Year';
 import { Month } from './Month';
 

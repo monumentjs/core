@@ -1,13 +1,13 @@
-import { UriComponents } from './UriComponents';
+import { Components } from './component/Components';
 import { UriConstants } from './UriConstants';
-import { UriSchema } from './UriSchema';
+import { Scheme } from './component/Scheme';
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
  */
 export class UriComponentsNormalizer {
-  normalize(components: UriComponents): UriComponents {
+  normalize(components: Components): Components {
     return {
       schema: this.getNormalizedSchema(components),
       userName: components.userName,
@@ -15,24 +15,24 @@ export class UriComponentsNormalizer {
       host: this.getNormalizedHost(components),
       port: components.port,
       path: this.getNormalizedPath(components),
-      queryParameters: components.queryParameters,
+      queryParameters: components.query,
       fragment: components.fragment
     };
   }
 
-  private getNormalizedHost(components: UriComponents): string | undefined {
-    const { schema, host } = components;
+  private getNormalizedHost(components: Components): string | undefined {
+    const { scheme, host } = components;
 
-    if (UriSchema.FILE.equals(schema)) {
+    if (Scheme.FILE.equals(scheme)) {
       if (!host) {
-        return UriSchema.FILE.defaultHost;
+        return Scheme.FILE.defaultHost;
       }
     }
 
     return host;
   }
 
-  private getNormalizedPath(components: UriComponents): string | undefined {
+  private getNormalizedPath(components: Components): string | undefined {
     const { path } = components;
 
     if (path) {
@@ -41,10 +41,10 @@ export class UriComponentsNormalizer {
       let normalizedPath = path;
 
       if (isWindowsAbsolutePath) {
-        normalizedPath = UriConstants.PATH_FRAGMENT_DELIMITER + path;
+        normalizedPath = '/' + path;
       }
 
-      normalizedPath = normalizedPath.replace(/[\\/]+/g, UriConstants.PATH_FRAGMENT_DELIMITER);
+      normalizedPath = normalizedPath.replace(/[\\/]+/g, '/');
 
       return normalizedPath;
     }
@@ -52,13 +52,13 @@ export class UriComponentsNormalizer {
     return path;
   }
 
-  private getNormalizedSchema(components: UriComponents): string | undefined {
-    const { schema } = components;
+  private getNormalizedSchema(components: Components): string | undefined {
+    const { scheme } = components;
 
-    if (schema == null) {
-      return schema;
+    if (scheme == null) {
+      return scheme;
     }
 
-    return schema.toLowerCase();
+    return scheme.toLowerCase();
   }
 }

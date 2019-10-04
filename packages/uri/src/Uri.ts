@@ -1,26 +1,9 @@
-import {
-  EqualsFunction,
-  Equatable,
-  EquatableEquals,
-  MultiValueEquals,
-  PreserveCaseEquals,
-  StrictEquals,
-  SupplyFunction,
-  ToJSON,
-  ToString
-} from '@monument/core';
-import { UriComponents } from './UriComponents';
-import { UriComponentsNormalizer } from './UriComponentsNormalizer';
-import { ReadOnlyQueryParameters } from './ReadOnlyQueryParameters';
-import { QueryParameters } from './QueryParameters';
-import { UriFormatException } from './UriFormatException';
-import { UriIntegrityException } from './UriIntegrityException';
-import { UriSchema } from './UriSchema';
-import { UriSerializer } from './UriSerializer';
-import { UriConstants } from './UriConstants';
-import { UriParser } from './UriParser';
-import { UriBuilder } from './UriBuilder';
-import { QueryParametersObject } from './QueryParametersObject';
+import { ToJSON, ToString } from '@monument/core';
+import { Equatable, EquatableEquals, MultiValueEquals } from '@monument/comparison';
+import { StringBuilder } from '@monument/text';
+import { Components, Fragment, Host, Password, Path, Port, Query, Scheme, UserName } from './component';
+import { UriFormatException } from './exception';
+import { KeyValuePair } from '@monument/collections';
 
 /**
  * Represents URI (Unified Resource Identifier).
@@ -52,190 +35,92 @@ import { QueryParametersObject } from './QueryParametersObject';
  * @immutable
  * @final
  */
-export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<string>, ToJSON<string>, ToString {
-  static isValid(source: string): boolean {
-    return UriConstants.URI_PATTERN.test(source);
-  }
-
-  private readonly _schema?: string;
-  private readonly _userName?: string;
-  private readonly _password?: string;
-  private readonly _host?: string;
-  private readonly _port?: number;
-  private readonly _path: string;
-  private readonly _fragment?: string;
-  private readonly _queryParameters: QueryParameters;
+export class Uri implements Equatable<Uri>, ToJSON<string>, ToString {
+  private readonly components: Components;
 
   /**
    * Gets fragment component.
    */
-  get fragment(): string | undefined {
-    return this._fragment;
+  get fragment(): Fragment {
+    return this.components.fragment;
   }
 
   /**
    * Gets host component.
    */
-  get host(): string | undefined {
-    return this._host;
+  get host(): Host {
+    return this.components.host;
   }
 
   /**
    * Gets password component.
    */
-  get password(): string | undefined {
-    return this._password;
+  get password(): Password {
+    return this.components.password;
   }
 
   /**
    * Gets path component of this URI.
    */
-  get path(): string {
-    return this._path;
+  get path(): Path {
+    return this.components.path;
   }
 
   /**
    * Gets port component of this URI.
    */
-  get port(): number | undefined {
-    return this._port;
+  get port(): Port {
+    return this.components.port;
   }
 
   /**
    * Gets read-only access to query parameters of this URI.
    */
-  get queryParameters(): ReadOnlyQueryParameters {
-    return this._queryParameters;
+  get query(): Query {
+    return this.components.query;
   }
 
   /**
-   * Gets schema component of this URI.
+   * Gets scheme component of this URI.
    */
-  get schema(): string | undefined {
-    return this._schema;
+  get scheme(): Scheme {
+    return this.components.scheme;
   }
 
   /**
    * Gets user name component of this URI.
    */
-  get userName(): string | undefined {
-    return this._userName;
+  get userName(): UserName {
+    return this.components.userName;
   }
-
-  /**
-   * Creates URI pointing to root location ("/").
-   */
-  constructor();
 
   /**
    * Creates URI by parsing source string.
    * @throws {UriFormatException} if URI represented by source string is has wrong format
    */
-  constructor(source: string);
-
-  /**
-   * Creates URI by copying components from source.
-   * @throws {UriIntegrityException} if combination of given components is wrong
-   */
-  constructor(source: UriComponents);
-
-  constructor(source: UriComponents | string = UriConstants.PATH_FRAGMENT_DELIMITER) {
-    const components: UriComponents = typeof source === 'object' ? source : new UriParser().parse(source);
-    const normalizedComponents: UriComponents = new UriComponentsNormalizer().normalize(components);
-
-    this._schema = normalizedComponents.schema;
-    this._userName = normalizedComponents.userName;
-    this._password = normalizedComponents.password;
-    this._host = normalizedComponents.host;
-    this._port = normalizedComponents.port;
-    this._path = normalizedComponents.path || UriConstants.PATH_FRAGMENT_DELIMITER;
-    this._fragment = normalizedComponents.fragment;
-    this._queryParameters = new QueryParameters();
-
-    if (normalizedComponents.queryParameters) {
-      this._queryParameters.putAll(normalizedComponents.queryParameters);
-    }
-
-    this.validateIntegrity();
+  constructor(components: Components) {
+    this.components = components;
   }
 
-  /**
-   * Determines whether current URI equals to other one represented as string.
-   * @nosideeffects
-   */
-  equals(other: string): boolean;
-
-  /**
-   * Determines whether current URI equals to other one represented as set of URI components.
-   * @nosideeffects
-   */
-  equals(other: UriComponents): boolean;
-
-  /**
-   * Determines whether current URI equals to other one represented as set of URI components.
-   * Second parameter specifies when to ignore case of components.
-   * @nosideeffects
-   */
-  equals(other: UriComponents, equals: EqualsFunction<string | undefined>): boolean;
-
-  equals(other: UriComponents | string, equals: EqualsFunction<string | undefined> = PreserveCaseEquals): boolean {
+  equals(other: Uri): boolean {
     if (this === other) {
       return true;
     }
 
-    const components: UriComponents = typeof other === 'object' ? other : new Uri(other);
-
     return MultiValueEquals([
-      [this.schema, components.schema, equals],
-      [this.userName, components.userName, equals],
-      [this.password, components.password, equals],
-      [this.host, components.host, equals],
-      [this.port, components.port, StrictEquals],
-      [this.path, components.path, equals],
-      [this.fragment, components.fragment, equals],
-      [this.queryParameters, components.queryParameters || new QueryParameters(), EquatableEquals]
+      [this.scheme, other.scheme, EquatableEquals],
+      [this.userName, other.userName, EquatableEquals],
+      [this.password, other.password, EquatableEquals],
+      [this.host, other.host, EquatableEquals],
+      [this.port, other.port, EquatableEquals],
+      [this.path, other.path, EquatableEquals],
+      [this.fragment, other.fragment, EquatableEquals],
+      [this.query, other.query, EquatableEquals]
     ]);
-  }
-
-  getParameter(name: string): ToString | undefined;
-
-  getParameter(name: string, fallback: SupplyFunction<ToString>): ToString;
-
-  getParameter(name: string, fallback?: SupplyFunction<ToString>): ToString | undefined {
-    const value: ToString | undefined = this._queryParameters.getFirst(name);
-
-    if (value != null) {
-      return value;
-    }
-
-    if (fallback != null) {
-      return fallback();
-    }
-  }
-
-  /**
-   * Determines whether this URI has one or more query parameters associated with specified name.
-   * @nosideeffects
-   */
-  hasParameter(name: string): boolean;
-
-  /**
-   * Determines whether this URI has query parameter associated with specified name and containing specified value.
-   * @nosideeffects
-   */
-  hasParameter(name: string, value: ToString): boolean;
-
-  hasParameter(name: string, value?: ToString): boolean {
-    if (value == null) {
-      return this._queryParameters.containsKey(name);
-    } else {
-      return this._queryParameters.containsEntry(name, value);
-    }
   }
 
   /**
    * Serializes current URI to string.
-   * @nosideeffects
    */
   toJSON(): string {
     return this.toString();
@@ -243,10 +128,50 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
 
   /**
    * Serializes current URI to string.
-   * @nosideeffects
    */
   toString(): string {
-    return new UriSerializer().serialize(this);
+    const builder = new StringBuilder();
+
+    if (this.scheme.isDefined) {
+      builder.appendObject(this.scheme);
+      builder.append('://');
+    }
+
+    if (this.host.isDefined) {
+      if (this.userName.isDefined) {
+        builder.appendObject(this.userName);
+
+        if (this.password.isDefined) {
+          builder.append(':');
+          builder.appendObject(this.password);
+        }
+
+        builder.append('@');
+      }
+
+      builder.appendObject(this.host);
+
+      if (this.port.isDefined) {
+        builder.append(':');
+        builder.appendObject(this.port);
+      }
+    }
+
+    if (this.path.isDefined) {
+      builder.appendObject(this.path);
+    }
+
+    if (this.query.isDefined) {
+      builder.append('?');
+      builder.appendObject(this.query);
+    }
+
+    if (this.fragment.isDefined) {
+      builder.append('#');
+      builder.appendObject(this.fragment);
+    }
+
+    return builder.build();
   }
 
   /**
@@ -265,11 +190,9 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
    * @nosideeffects
    */
   withFragment(fragment: string): Uri {
-    const builder: UriBuilder = new UriBuilder(this);
-
-    builder.fragment = fragment;
-
-    return builder.build();
+    return new Uri(this.components.clone({
+      fragment: new Fragment(fragment)
+    }));
   }
 
   /**
@@ -288,11 +211,9 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
    * @nosideeffects
    */
   withHost(host: string): Uri {
-    const builder: UriBuilder = new UriBuilder(this);
-
-    builder.host = host;
-
-    return builder.build();
+    return new Uri(this.components.clone({
+      host: new Host(host)
+    }));
   }
 
   /**
@@ -311,11 +232,9 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
    * @nosideeffects
    */
   withParameter(name: string, value: ToString): Uri {
-    const builder: UriBuilder = new UriBuilder(this);
-
-    builder.addParameter(name, value);
-
-    return builder.build();
+    return new Uri(this.components.clone({
+      query: this.query.withParameter(name, value)
+    }));
   }
 
   /**
@@ -336,12 +255,10 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
    *
    * @nosideeffects
    */
-  withParameters(parameters: QueryParametersObject): Uri {
-    const builder: UriBuilder = new UriBuilder(this);
-
-    builder.setParameters(parameters);
-
-    return builder.build();
+  withQuery(parameters: Iterable<KeyValuePair<string, ToString>>): Uri {
+    return new Uri(this.components.clone({
+      query: new Query(parameters)
+    }));
   }
 
   /**
@@ -360,11 +277,9 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
    * @nosideeffects
    */
   withPassword(password: string): Uri {
-    const builder: UriBuilder = new UriBuilder(this);
-
-    builder.password = password;
-
-    return builder.build();
+    return new Uri(this.components.clone({
+      password: new Password(password)
+    }));
   }
 
   /**
@@ -383,11 +298,9 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
    * @nosideeffects
    */
   withPath(path: string): Uri {
-    const builder: UriBuilder = new UriBuilder(this);
-
-    builder.path = path;
-
-    return builder.build();
+    return new Uri(this.components.clone({
+      path: new Path(path)
+    }));
   }
 
   /**
@@ -406,15 +319,13 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
    * @nosideeffects
    */
   withPort(port: number): Uri {
-    const builder: UriBuilder = new UriBuilder(this);
-
-    builder.port = port;
-
-    return builder.build();
+    return new Uri(this.components.clone({
+      port: new Port(port)
+    }));
   }
 
   /**
-   * Produces new URI based on current definition with overridden schema component.
+   * Produces new URI based on current definition with overridden scheme component.
    *
    * Usage example:
    *
@@ -428,12 +339,10 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
    *
    * @nosideeffects
    */
-  withSchema(schema: string): Uri {
-    const builder: UriBuilder = new UriBuilder(this);
-
-    builder.schema = schema;
-
-    return builder.build();
+  withScheme(scheme: string): Uri {
+    return new Uri(this.components.clone({
+      scheme: new Scheme(scheme)
+    }));
   }
 
   /**
@@ -452,11 +361,9 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
    * @nosideeffects
    */
   withUserName(userName: string): Uri {
-    const builder: UriBuilder = new UriBuilder(this);
-
-    builder.userName = userName;
-
-    return builder.build();
+    return new Uri(this.components.clone({
+      userName: new UserName(userName)
+    }));
   }
 
   /**
@@ -475,11 +382,9 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
    * @nosideeffects
    */
   withoutFragment(): Uri {
-    const builder: UriBuilder = new UriBuilder(this);
-
-    builder.fragment = undefined;
-
-    return builder.build();
+    return new Uri(this.components.clone({
+      fragment: new Fragment()
+    }));
   }
 
   /**
@@ -498,11 +403,9 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
    * @nosideeffects
    */
   withoutHost(): Uri {
-    const builder: UriBuilder = new UriBuilder(this);
-
-    builder.host = undefined;
-
-    return builder.build();
+    return new Uri(this.components.clone({
+      host: new Host()
+    }));
   }
 
   /**
@@ -540,15 +443,9 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
   withoutParameter(name: string, value: ToString): Uri;
 
   withoutParameter(name: string, value?: ToString): Uri {
-    const builder: UriBuilder = new UriBuilder(this);
-
-    if (value == null) {
-      builder.removeParameter(name);
-    } else {
-      builder.removeParameter(name, value);
-    }
-
-    return builder.build();
+    return new Uri(this.components.clone({
+      query: this.components.query.withoutParameter(name, value as any)
+    }));
   }
 
   /**
@@ -567,11 +464,9 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
    * @nosideeffects
    */
   withoutParameters(): Uri {
-    const builder: UriBuilder = new UriBuilder(this);
-
-    builder.clearParameters();
-
-    return builder.build();
+    return new Uri(this.components.clone({
+      query: new Query()
+    }));
   }
 
   /**
@@ -590,11 +485,9 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
    * @nosideeffects
    */
   withoutPassword(): Uri {
-    const builder: UriBuilder = new UriBuilder(this);
-
-    builder.password = undefined;
-
-    return builder.build();
+    return new Uri(this.components.clone({
+      password: new Password()
+    }));
   }
 
   /**
@@ -613,11 +506,9 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
    * @nosideeffects
    */
   withoutPath(): Uri {
-    const builder: UriBuilder = new UriBuilder(this);
-
-    builder.path = undefined;
-
-    return builder.build();
+    return new Uri(this.components.clone({
+      path: new Path()
+    }));
   }
 
   /**
@@ -636,15 +527,13 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
    * @nosideeffects
    */
   withoutPort(): Uri {
-    const builder: UriBuilder = new UriBuilder(this);
-
-    builder.port = undefined;
-
-    return builder.build();
+    return new Uri(this.components.clone({
+      port: new Port()
+    }));
   }
 
   /**
-   * Produces new URI based on current definition without schema component.
+   * Produces new URI based on current definition without scheme component.
    *
    * Usage example:
    *
@@ -658,12 +547,10 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
    *
    * @nosideeffects
    */
-  withoutSchema(): Uri {
-    const builder: UriBuilder = new UriBuilder(this);
-
-    builder.schema = undefined;
-
-    return builder.build();
+  withoutScheme(): Uri {
+    return new Uri(this.components.clone({
+      scheme: new Scheme()
+    }));
   }
 
   /**
@@ -682,21 +569,9 @@ export class Uri implements UriComponents, Equatable<UriComponents>, Equatable<s
    * @nosideeffects
    */
   withoutUserName(): Uri {
-    const builder: UriBuilder = new UriBuilder(this);
-
-    builder.userName = undefined;
-    builder.password = undefined;
-
-    return builder.build();
-  }
-
-  private validateIntegrity(): void {
-    if (!this.host) {
-      if (!UriSchema.FILE.equals(this.schema)) {
-        if (this.schema || this.userName || this.password || this.port) {
-          throw new UriIntegrityException('URI components integrity is broken');
-        }
-      }
-    }
+    return new Uri(this.components.clone({
+      userName: new UserName(),
+      password: new Password()
+    }));
   }
 }

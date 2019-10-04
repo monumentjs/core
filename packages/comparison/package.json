@@ -1,0 +1,9 @@
+{
+  "name": "@monument/comparison",
+  "version": "0.15.0",
+  "description": "Comparison",
+  "keywords": [],
+  "dependencies": {
+    "@monument/core": "^0.15.0"
+  }
+}

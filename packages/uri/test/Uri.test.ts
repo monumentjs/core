@@ -1,22 +1,21 @@
-/* tslint:disable:max-file-line-count */
-import { QueryParameters, Uri, UriComponents, UriFormatException } from '..';
+import { Query, Uri, Components, UriFormatException } from '..';
 
 describe('Uri', function() {
-  function testComponents(source: string, components: UriComponents) {
+  function testComponents(source: string, components: Components) {
     const uri: Uri = new Uri(source);
 
-    expect(uri.schema).toBe(components.schema);
+    expect(uri.scheme).toBe(components.scheme);
     expect(uri.password).toBe(components.password);
     expect(uri.userName).toBe(components.userName);
     expect(uri.host).toBe(components.host);
     expect(uri.port).toBe(components.port);
     expect(uri.path).toBe(components.path);
     expect(uri.fragment).toBe(components.fragment);
-    expect(uri.queryParameters.equals(components.queryParameters || new QueryParameters())).toBe(true);
+    expect(uri.query.equals(components.query || new Query())).toBe(true);
 
-    if (components.queryParameters) {
-      for (const [key, value] of components.queryParameters) {
-        expect(uri.hasParameter(key, value)).toBe(true);
+    if (components.query) {
+      for (const [key, value] of components.query) {
+        expect(uri.query.containsEntry(key, value)).toBe(true);
       }
     }
   }
@@ -565,7 +564,7 @@ describe('Uri', function() {
         host: 'localhost',
         path: '/',
         queryParameters: (() => {
-          const parameters: QueryParameters = new QueryParameters();
+          const parameters: Query = new Query();
 
           parameters.put('age', '25');
           parameters.put('name', 'Alex');
@@ -582,7 +581,7 @@ describe('Uri', function() {
         host: 'localhost',
         path: '/',
         queryParameters: (() => {
-          const parameters: QueryParameters = new QueryParameters();
+          const parameters: Query = new Query();
 
           parameters.put('age', '25');
           parameters.put('name', 'Alex');
@@ -599,7 +598,7 @@ describe('Uri', function() {
         host: 'site.com',
         path: '/',
         queryParameters: (() => {
-          const parameters: QueryParameters = new QueryParameters();
+          const parameters: Query = new Query();
 
           parameters.put('age', '25');
           parameters.put('name', 'Alex');
@@ -616,7 +615,7 @@ describe('Uri', function() {
         host: 'site.com',
         path: '/',
         queryParameters: (() => {
-          const parameters: QueryParameters = new QueryParameters();
+          const parameters: Query = new Query();
 
           parameters.put('age', '25');
           parameters.put('name', 'Alex');
@@ -634,7 +633,7 @@ describe('Uri', function() {
         path: '/',
         port: 3000,
         queryParameters: (() => {
-          const parameters: QueryParameters = new QueryParameters();
+          const parameters: Query = new Query();
 
           parameters.put('age', '25');
           parameters.put('name', 'Alex');
@@ -652,7 +651,7 @@ describe('Uri', function() {
         path: '/',
         port: 3000,
         queryParameters: (() => {
-          const parameters: QueryParameters = new QueryParameters();
+          const parameters: Query = new Query();
 
           parameters.put('age', '25');
           parameters.put('name', 'Alex');
@@ -670,7 +669,7 @@ describe('Uri', function() {
         path: '/',
         port: 3000,
         queryParameters: (() => {
-          const parameters: QueryParameters = new QueryParameters();
+          const parameters: Query = new Query();
 
           parameters.put('age', '25');
           parameters.put('name', 'Alex');
@@ -688,7 +687,7 @@ describe('Uri', function() {
         path: '/',
         port: 3000,
         queryParameters: (() => {
-          const parameters: QueryParameters = new QueryParameters();
+          const parameters: Query = new Query();
 
           parameters.put('age', '25');
           parameters.put('name', 'Alex');
@@ -707,7 +706,7 @@ describe('Uri', function() {
         path: '/',
         port: 3000,
         queryParameters: (() => {
-          const parameters: QueryParameters = new QueryParameters();
+          const parameters: Query = new Query();
 
           parameters.put('age', '25');
           parameters.put('name', 'Alex');
@@ -726,7 +725,7 @@ describe('Uri', function() {
         path: '/',
         port: 3000,
         queryParameters: (() => {
-          const parameters: QueryParameters = new QueryParameters();
+          const parameters: Query = new Query();
 
           parameters.put('age', '25');
           parameters.put('name', 'Alex');
@@ -745,7 +744,7 @@ describe('Uri', function() {
         path: '/',
         port: 3000,
         queryParameters: (() => {
-          const parameters: QueryParameters = new QueryParameters();
+          const parameters: Query = new Query();
 
           parameters.put('age', '25');
           parameters.put('name', 'Alex');
@@ -764,7 +763,7 @@ describe('Uri', function() {
         path: '/',
         port: 3000,
         queryParameters: (() => {
-          const parameters: QueryParameters = new QueryParameters();
+          const parameters: Query = new Query();
 
           parameters.put('age', '25');
           parameters.put('name', 'Alex');
@@ -784,7 +783,7 @@ describe('Uri', function() {
         path: '/',
         port: 3000,
         queryParameters: (() => {
-          const parameters: QueryParameters = new QueryParameters();
+          const parameters: Query = new Query();
 
           parameters.put('age', '25');
           parameters.put('name', 'Alex');
@@ -804,7 +803,7 @@ describe('Uri', function() {
         path: '/',
         port: 3000,
         queryParameters: (() => {
-          const parameters: QueryParameters = new QueryParameters();
+          const parameters: Query = new Query();
 
           parameters.put('age', '25');
           parameters.put('name', 'Alex');
@@ -824,7 +823,7 @@ describe('Uri', function() {
         path: '/',
         port: 3000,
         queryParameters: (() => {
-          const parameters: QueryParameters = new QueryParameters();
+          const parameters: Query = new Query();
 
           parameters.put('age', '25');
           parameters.put('name', 'Alex');
@@ -844,7 +843,7 @@ describe('Uri', function() {
         path: '/',
         port: 3000,
         queryParameters: (() => {
-          const parameters: QueryParameters = new QueryParameters();
+          const parameters: Query = new Query();
 
           parameters.put('age', '25');
           parameters.put('name', 'Alex');
@@ -865,7 +864,7 @@ describe('Uri', function() {
         path: '/',
         port: 3000,
         queryParameters: (() => {
-          const parameters: QueryParameters = new QueryParameters();
+          const parameters: Query = new Query();
 
           parameters.put('age', '25');
           parameters.put('name', 'Alex');
@@ -886,7 +885,7 @@ describe('Uri', function() {
         path: '/',
         port: 3000,
         queryParameters: (() => {
-          const parameters: QueryParameters = new QueryParameters();
+          const parameters: Query = new Query();
 
           parameters.put('age', '25');
           parameters.put('name', 'Alex');
@@ -908,7 +907,7 @@ describe('Uri', function() {
         port: 3000,
         fragment: 'id-3',
         queryParameters: (() => {
-          const parameters: QueryParameters = new QueryParameters();
+          const parameters: Query = new Query();
 
           parameters.put('age', '25');
           parameters.put('name', 'Alex');
@@ -930,7 +929,7 @@ describe('Uri', function() {
         port: 3000,
         fragment: 'id-3',
         queryParameters: (() => {
-          const parameters: QueryParameters = new QueryParameters();
+          const parameters: Query = new Query();
 
           parameters.put('age', '25');
           parameters.put('name', 'Alex');
@@ -1171,7 +1170,7 @@ describe('Uri', function() {
           path: '/path/to/resource',
           fragment: 'footer',
           queryParameters: (() => {
-            const parameters: QueryParameters = new QueryParameters();
+            const parameters: Query = new Query();
 
             parameters.put('q', 'javascript');
             parameters.put('p', 2);
@@ -1246,7 +1245,7 @@ describe('Uri', function() {
           port: 3000,
           fragment: 'id-3',
           queryParameters: (() => {
-            const parameters: QueryParameters = new QueryParameters();
+            const parameters: Query = new Query();
 
             parameters.put('age', '25');
             parameters.put('name', 'Alex');
@@ -1270,7 +1269,7 @@ describe('Uri', function() {
           port: 3000,
           fragment: 'id-3',
           queryParameters: (() => {
-            const parameters: QueryParameters = new QueryParameters();
+            const parameters: Query = new Query();
 
             parameters.put('age', '25');
             parameters.put('name', 'Alex');
@@ -1306,7 +1305,7 @@ describe('Uri', function() {
           host: 'site.com',
           port: 3000,
           queryParameters: (() => {
-            const parameters: QueryParameters = new QueryParameters();
+            const parameters: Query = new Query();
 
             parameters.put('age', '25');
             parameters.put('name', 'Alex');
@@ -1400,7 +1399,7 @@ describe('Uri', function() {
           port: 3000,
           fragment: 'id-3',
           queryParameters: (() => {
-            const parameters: QueryParameters = new QueryParameters();
+            const parameters: Query = new Query();
 
             parameters.put('age', '25');
             parameters.put('name', 'Alex');
@@ -1481,7 +1480,7 @@ describe('Uri', function() {
             port: 3000,
             fragment: 'id-3',
             queryParameters: (() => {
-              const parameters: QueryParameters = new QueryParameters();
+              const parameters: Query = new Query();
 
               parameters.put('age', '25');
               parameters.put('name', 'Alex');
@@ -1499,7 +1498,7 @@ describe('Uri', function() {
   describe('withSchema(schema: string)', function() {
     it('should return new URI with overridden schema component', function() {
       const originalUri: Uri = new Uri('site.com');
-      const newUri: Uri = originalUri.withSchema('https');
+      const newUri: Uri = originalUri.withScheme('https');
 
       expect(originalUri).not.toBe(newUri);
       expect(originalUri.toString()).toBe('site.com');
@@ -1510,7 +1509,7 @@ describe('Uri', function() {
   describe('withoutSchema()', function() {
     it('should return new URI without schema component', function() {
       const originalUri: Uri = new Uri('https://site.com');
-      const newUri: Uri = originalUri.withoutSchema();
+      const newUri: Uri = originalUri.withoutScheme();
 
       expect(originalUri).not.toBe(newUri);
       expect(originalUri.toString()).toBe('https://site.com');
@@ -1710,56 +1709,17 @@ describe('Uri', function() {
     });
   });
 
-  describe('static isValid()', function() {
-    it('should check URI has valid format', function() {
-      expect(Uri.isValid('/')).toBe(true);
-      expect(Uri.isValid('/search')).toBe(true);
-      expect(Uri.isValid('/search?a=1&b=2&c=3')).toBe(true);
-      expect(Uri.isValid('/search#menu')).toBe(true);
-      expect(Uri.isValid('/search/user')).toBe(true);
-      expect(Uri.isValid('/search/user?a=1&b=2&c=3')).toBe(true);
-      expect(Uri.isValid('/search/user#menu')).toBe(true);
-      expect(Uri.isValid('site.com')).toBe(true);
-      expect(Uri.isValid('site.com/search')).toBe(true);
-      expect(Uri.isValid('site.com?a=1&b=2&c=3')).toBe(true);
-      expect(Uri.isValid('site.com#menu')).toBe(true);
-      expect(Uri.isValid('site.com:3000')).toBe(true);
-      expect(Uri.isValid('site.com:3000/search')).toBe(true);
-      expect(Uri.isValid('site.com:3000?a=1&b=2&c=3')).toBe(true);
-      expect(Uri.isValid('site.com:3000#menu')).toBe(true);
-      expect(Uri.isValid('site.com:3000/search')).toBe(true);
-      expect(Uri.isValid('https://site.com')).toBe(true);
-      expect(Uri.isValid('https://site.com:3000')).toBe(true);
-      expect(Uri.isValid('https://site.com:3000/search')).toBe(true);
-      expect(Uri.isValid('https://site.com:3000?a=1&b=2&c=3')).toBe(true);
-      expect(Uri.isValid('https://site.com:3000#menu')).toBe(true);
-      expect(Uri.isValid('https://site.com:3000/search')).toBe(true);
-      expect(Uri.isValid('https://alex@site.com')).toBe(true);
-      expect(Uri.isValid('https://alex@site.com:3000')).toBe(true);
-      expect(Uri.isValid('https://alex@site.com:3000/search')).toBe(true);
-      expect(Uri.isValid('https://alex@site.com:3000?a=1&b=2&c=3')).toBe(true);
-      expect(Uri.isValid('https://alex@site.com:3000#menu')).toBe(true);
-      expect(Uri.isValid('https://alex@site.com:3000/search')).toBe(true);
-      expect(Uri.isValid('https://alex:password@site.com')).toBe(true);
-      expect(Uri.isValid('https://alex:password@site.com:3000')).toBe(true);
-      expect(Uri.isValid('https://alex:password@site.com:3000/search')).toBe(true);
-      expect(Uri.isValid('https://alex:password@site.com:3000?a=1&b=2&c=3')).toBe(true);
-      expect(Uri.isValid('https://alex:password@site.com:3000#menu')).toBe(true);
-      expect(Uri.isValid('https://alex:password@site.com:3000/search')).toBe(true);
-    });
-  });
-
   test('immutability of with* and without* methods', function() {
     const uri: Uri = new Uri();
     const withHost: Uri = uri.withHost('site.com');
-    const withSchema: Uri = withHost.withSchema('https');
+    const withSchema: Uri = withHost.withScheme('https');
     const withPort: Uri = withSchema.withPort(3000);
     const withPath: Uri = withPort.withPath('/path/to/resource');
     const withUserName: Uri = withPath.withUserName('alex');
     const withPassword: Uri = withUserName.withPassword('secret');
     const withFragment: Uri = withPassword.withFragment('section-b');
     const withParameter: Uri = withFragment.withParameter('q', 'typescript');
-    const withParameters: Uri = withParameter.withParameters({
+    const withParameters: Uri = withParameter.withQuery({
       p: 1
     });
 

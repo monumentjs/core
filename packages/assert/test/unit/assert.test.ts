@@ -15,12 +15,6 @@ describe('assert()', function() {
       expect(() => assert(false, CUSTOM_MESSAGE)).toThrow(CUSTOM_MESSAGE);
       expect(() => assert(true, CUSTOM_MESSAGE)).not.toThrow();
     });
-
-    it('should throw AssertionException with custom message supplier', function() {
-      expect(() => assert(false, () => CUSTOM_MESSAGE)).toThrow(AssertionException);
-      expect(() => assert(false, () => CUSTOM_MESSAGE)).toThrow(CUSTOM_MESSAGE);
-      expect(() => assert(true, () => CUSTOM_MESSAGE)).not.toThrow();
-    });
   });
 
   describe('async', function() {
@@ -34,12 +28,6 @@ describe('assert()', function() {
       await expect(assert(Promise.resolve(false), CUSTOM_MESSAGE)).rejects.toThrow(CUSTOM_MESSAGE);
       await expect(assert(Promise.resolve(true), CUSTOM_MESSAGE)).resolves.toBe(undefined);
     });
-
-    it('should throw AssertionException with custom message', async function() {
-      await expect(assert(Promise.resolve(false), () => CUSTOM_MESSAGE)).rejects.toThrow(AssertionException);
-      await expect(assert(Promise.resolve(false), () => CUSTOM_MESSAGE)).rejects.toThrow(CUSTOM_MESSAGE);
-      await expect(assert(Promise.resolve(true), () => CUSTOM_MESSAGE)).resolves.toBe(undefined);
-    });
   });
 
   describe('observable', function() {
@@ -52,12 +40,6 @@ describe('assert()', function() {
       await expect(assert(of(false), CUSTOM_MESSAGE).toPromise()).rejects.toThrow(AssertionException);
       await expect(assert(of(false), CUSTOM_MESSAGE).toPromise()).rejects.toThrow(CUSTOM_MESSAGE);
       await expect(assert(of(true), CUSTOM_MESSAGE).toPromise()).resolves.toBe(undefined);
-    });
-
-    it('should throw AssertionException with custom message supplier', async function() {
-      await expect(assert(of(false), () => CUSTOM_MESSAGE).toPromise()).rejects.toThrow(AssertionException);
-      await expect(assert(of(false), () => CUSTOM_MESSAGE).toPromise()).rejects.toThrow(CUSTOM_MESSAGE);
-      await expect(assert(of(true), () => CUSTOM_MESSAGE).toPromise()).resolves.toBe(undefined);
     });
   });
 });

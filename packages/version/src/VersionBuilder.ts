@@ -1,4 +1,4 @@
-import { argument, Builder } from '@monument/core';
+import { argument } from '@monument/assert';
 import { Version } from './Version';
 import { ReleaseStatus } from './ReleaseStatus';
 import { VersionComponents } from './VersionComponents';
@@ -7,7 +7,7 @@ import { VersionComponents } from './VersionComponents';
  * @author Alex Chugaev
  * @since 0.0.1
  */
-export class VersionBuilder implements VersionComponents, Builder<Version> {
+export class VersionBuilder implements VersionComponents {
   private _major!: number;
   private _minor!: number;
   private _patch!: number;

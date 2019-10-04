@@ -13,5 +13,6 @@ export * from './src/Errors';
 export * from './src/ErrorMediator';
 export * from './src/Reaction';
 export * from './src/ReactionDecorator';
+export * from './src/SimpleAction';
 export * from './src/State';
 export * from './src/Store';

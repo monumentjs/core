@@ -1,4 +1,6 @@
-import { LinkedMap, MethodNotImplementedException, TemplateString } from '@monument/core';
+import { LinkedMap } from '@monument/collections';
+import { NotImplementedException } from '@monument/exceptions';
+import { TemplateString } from '@monument/text';
 import { DateTimeFormat } from './DateTimeFormat';
 import { DateTimeFields } from './DateTimeFields';
 
@@ -42,6 +44,6 @@ export class DateTimeLayout {
   }
 
   parse(source: string): DateTimeFields {
-    throw new MethodNotImplementedException();
+    throw new NotImplementedException();
   }
 }

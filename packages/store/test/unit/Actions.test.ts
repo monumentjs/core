@@ -1,5 +1,5 @@
-import { OperationNotSupportedException } from '@monument/core';
 import { Actions } from '../..';
+import { OperationNotSupportedException } from '@monument/exceptions';
 
 describe('Actions', function() {
   let actions: Actions;
