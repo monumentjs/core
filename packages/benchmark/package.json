@@ -1,11 +1,11 @@
 {
   "private": true,
   "name": "@monument/benchmark",
-  "version": "0.15.0",
+  "version": "0.15.1",
   "description": "Benchmark utils",
   "keywords": [],
   "dependencies": {
-    "@monument/core": "^0.15.0",
+    "@monument/core": "^0.15.1",
     "tslib": "^1.10.0"
   }
 }

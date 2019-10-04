@@ -1,13 +1,13 @@
 {
   "name": "@monument/logger",
-  "version": "0.15.0",
+  "version": "0.15.1",
   "description": "Logger",
   "keywords": [],
   "dependencies": {
-    "@monument/core": "^0.15.0",
-    "@monument/store": "^0.15.0",
-    "tslib": "^1.10.0",
-    "rxjs": "^6.5.3"
+    "@monument/core": "^0.15.1",
+    "@monument/store": "^0.15.1",
+    "rxjs": "^6.5.3",
+    "tslib": "^1.10.0"
   },
   "publishConfig": {
     "access": "public"
