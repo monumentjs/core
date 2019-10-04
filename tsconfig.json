@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es6",
+    "target": "es2015",
     "moduleResolution": "node",
     "sourceMap": true,
     "declaration": true,
@@ -11,6 +11,8 @@
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "downlevelIteration": true,
+    "importHelpers": true,
     "skipLibCheck": true,
     "lib": ["esnext"],
     "typeRoots": ["./node_modules/@types"],

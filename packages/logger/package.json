@@ -6,7 +6,8 @@
   "dependencies": {
     "@monument/core": "^0.15.0",
     "@monument/store": "^0.15.0",
-    "rxjs": "^6.5.2"
+    "tslib": "^1.10.0",
+    "rxjs": "^6.5.3"
   },
   "publishConfig": {
     "access": "public"

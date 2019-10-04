@@ -10,7 +10,8 @@
   "dependencies": {
     "@monument/core": "^0.15.0",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^6.5.2"
+    "tslib": "^1.10.0",
+    "rxjs": "^6.5.3"
   },
   "license": "MIT",
   "homepage": "https://monumentjs.github.io/package/store",

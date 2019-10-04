@@ -4,7 +4,8 @@
   "description": "Template",
   "keywords": [],
   "dependencies": {
-    "@monument/core": "^0.15.0"
+    "@monument/core": "^0.15.0",
+    "tslib": "^1.10.0"
   },
   "publishConfig": {
     "access": "public"
