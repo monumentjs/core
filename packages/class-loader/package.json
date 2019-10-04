@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@monument/class-loader",
-  "version": "0.15.1",
+  "version": "0.15.2",
   "description": "Dynamic class loader support",
   "keywords": [
     "class",
@@ -20,7 +20,7 @@
     }
   ],
   "dependencies": {
-    "@monument/core": "^0.15.1",
+    "@monument/core": "^0.15.2",
     "tslib": "^1.10.0"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@monument/date",
-  "version": "0.15.1",
+  "version": "0.15.2",
   "description": "Date and time manipulation",
   "keywords": [
     "date",
@@ -20,7 +20,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@monument/core": "^0.15.1",
+    "@monument/core": "^0.15.2",
     "tslib": "^1.10.0"
   },
   "gitHead": "9a16a9bdb55875bbad746859180800f7859832b6"
