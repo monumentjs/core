@@ -1,13 +1,16 @@
+import { TextPrinter } from '@monument/text';
+import { Component } from '../base/Component';
 import { Equatable } from '@monument/comparison';
-import { Component } from './Component';
 
 export class Fragment implements Component<string | undefined>, Equatable<Fragment> {
+  static decode(fragment: string | undefined): Fragment {
+    return new Fragment(fragment != null ? decodeURIComponent(fragment) : fragment);
+  }
+
   readonly value: string | undefined;
-  readonly isDefined: boolean;
 
   constructor(fragment?: string) {
     this.value = fragment;
-    this.isDefined = fragment != null;
   }
 
   equals(other: Fragment): boolean {
@@ -15,11 +18,7 @@ export class Fragment implements Component<string | undefined>, Equatable<Fragme
   }
 
   toString(): string {
-    if (this.value != null) {
-      return encodeURIComponent(this.value);
-    } else {
-      return '';
-    }
+    return this.value != null ? encodeURIComponent(this.value) : '';
   }
 
   toJSON(): string | undefined {

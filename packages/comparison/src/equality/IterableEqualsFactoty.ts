@@ -1,11 +1,11 @@
-import { Func2 } from '@monument/core';
+import { Delegate } from '@monument/core';
 import { StrictEquals } from './StrictEquals';
 
 /**
  * @author Alex Chugaev
  * @since 0.14.0
  */
-export function IterableEqualsFactory<T>(itemEquals: Func2<T, T, boolean> = StrictEquals): Func2<Iterable<T>, Iterable<T>, boolean> {
+export function IterableEqualsFactory<T>(itemEquals: Delegate<[T, T], boolean> = StrictEquals): Delegate<[Iterable<T>, Iterable<T>], boolean> {
   return function IterableEquals(x: Iterable<T>, y: Iterable<T>): boolean {
     const xIterator = x[Symbol.iterator]();
     const yIterator = y[Symbol.iterator]();

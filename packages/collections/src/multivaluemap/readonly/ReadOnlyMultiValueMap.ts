@@ -1,4 +1,4 @@
-import { Func, Func2, Func3 } from '@monument/core';
+import { Delegate } from '@monument/core';
 import { Equatable } from '@monument/comparison';
 import { ToArray } from '../../base/ToArray';
 import { Sequence } from '../../base/Sequence';
@@ -8,7 +8,6 @@ import { ReadOnlyMap } from '../../map/readonly/ReadOnlyMap';
 /**
  * @author Alex Chugaev
  * @since 0.0.1
- * @readonly
  */
 export interface ReadOnlyMultiValueMap<K, V>
   extends Sequence<KeyValuePair<K, V>>,
@@ -35,7 +34,7 @@ export interface ReadOnlyMultiValueMap<K, V>
 
   getFirst(key: K): V | undefined;
 
-  getFirst(key: K, fallback: Func<V>): V;
+  getFirst(key: K, fallback: Delegate<[], V>): V;
 
   keyOf(value: V): K | undefined;
 
@@ -43,11 +42,11 @@ export interface ReadOnlyMultiValueMap<K, V>
 
   toSingleValueMap(): ReadOnlyMap<K, V>;
 
-  filter(predicate: Func3<K, V, number, boolean>): ReadOnlyMultiValueMap<K, V>;
+  filter(predicate: Delegate<[K, V, number], boolean>): ReadOnlyMultiValueMap<K, V>;
 
   map<K2, V2>(
-    project: Func3<K, V, number, KeyValuePair<K2, V2>>,
-    compareKeys?: Func2<K2, K2, boolean>,
-    compareValues?: Func2<V2, V2, boolean>
+    project: Delegate<[K, V, number], KeyValuePair<K2, V2>>,
+    compareKeys?: Delegate<[K2, K2], boolean>,
+    compareValues?: Delegate<[V2, V2], boolean>
   ): ReadOnlyMultiValueMap<K2, V2>;
 }

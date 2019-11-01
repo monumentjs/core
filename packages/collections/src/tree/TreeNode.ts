@@ -1,6 +1,6 @@
 import { InvalidArgumentException } from '@monument/assert';
 import { ReadOnlyList } from '../list/readonly/ReadOnlyList';
-import { ArrayList } from '../list/mutable/ArrayList';
+import { MutableArrayList } from '../list/mutable/MutableArrayList';
 
 /**
  * @author Alex Chugaev
@@ -8,7 +8,7 @@ import { ArrayList } from '../list/mutable/ArrayList';
  * @mutable
  */
 export class TreeNode<T = any> {
-  private readonly _childNodes: ArrayList<TreeNode<T>> = new ArrayList();
+  private readonly _childNodes: MutableArrayList<TreeNode<T>> = new MutableArrayList();
   private _parentNode: TreeNode<T> | undefined;
 
   data: T | undefined;

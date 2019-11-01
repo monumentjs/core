@@ -1,16 +1,16 @@
 import { KeyValuePair, Map, Sequence } from '../../../..';
 import { IgnoreCaseEquals, IterableEqualsFactory, PreserveCaseEquals } from '@monument/comparison';
-import { Func2 } from '@monument/core';
+import { Delegate } from '@monument/core';
 
 export function testMap(
   create: <K, V>(
     items?: Sequence<KeyValuePair<K, V>>,
-    keyComparator?: Func2<K, K, boolean>,
-    valueComparator?: Func2<V, V, boolean>
+    keyComparator?: Delegate<[K, K], boolean>,
+    valueComparator?: Delegate<[V, V], boolean>
   ) => Map<K, V>
 ) {
   describe('Map', function() {
-    const iterableEqualityComparator: Func2<Iterable<string>, Iterable<string>, boolean> = IterableEqualsFactory();
+    const iterableEqualityComparator: Delegate<[Iterable<string>, Iterable<string>], boolean> = IterableEqualsFactory();
     let map!: Map<string, string>;
 
     beforeEach(() => {

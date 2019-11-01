@@ -1,7 +1,7 @@
-import { KeyValuePair, MultiValueMap } from '../../../..';
+import { KeyValuePair, MutableMultiValueMap } from '../../../..';
 import { assertLengthAndIsEmpty, testReadOnlyMultiValueMap } from '../readonly/ReadOnlyMultiValueMap.spec';
 
-export function testMultiValueMap(create: <K, V>(items?: Iterable<KeyValuePair<K, V>>) => MultiValueMap<K, V>) {
+export function testMultiValueMap(create: <K, V>(items?: Iterable<KeyValuePair<K, V>>) => MutableMultiValueMap<K, V>) {
   describe('MultiValueMap', function() {
     testReadOnlyMultiValueMap(create);
 
@@ -9,7 +9,7 @@ export function testMultiValueMap(create: <K, V>(items?: Iterable<KeyValuePair<K
       it('should add new pair', function() {
         let emails: string[];
         let names: string[];
-        const map: MultiValueMap<string, string> = create();
+        const map: MutableMultiValueMap<string, string> = create();
 
         map.put('name', 'Alex');
 
@@ -76,7 +76,7 @@ export function testMultiValueMap(create: <K, V>(items?: Iterable<KeyValuePair<K
 
     describe('putAll()', function() {
       it('should add all pairs from given sequence', function() {
-        const map: MultiValueMap<string, string> = create();
+        const map: MutableMultiValueMap<string, string> = create();
 
         map.putAll([['name', 'Alex'], ['name', 'Dmitri'], ['email', 'test@mail.com']]);
 
@@ -96,13 +96,13 @@ export function testMultiValueMap(create: <K, V>(items?: Iterable<KeyValuePair<K
 
     describe('putValues()', function() {
       it('should add all pairs from given map', function() {
-        const map: MultiValueMap<string, string> = create();
+        const map: MutableMultiValueMap<string, string> = create();
 
-        map.putValues('name', ['Alex', 'Dmitri']);
+        map.putMany('name', ['Alex', 'Dmitri']);
 
         assertLengthAndIsEmpty(map, 1, 2);
 
-        map.putValues('email', ['test@mail.com']);
+        map.putMany('email', ['test@mail.com']);
 
         assertLengthAndIsEmpty(map, 2, 3);
 
@@ -122,7 +122,7 @@ export function testMultiValueMap(create: <K, V>(items?: Iterable<KeyValuePair<K
       it('should add pair if such key-value combination is not defined', function() {
         let names: string[];
         let emails: string[];
-        const map: MultiValueMap<string, string> = create();
+        const map: MutableMultiValueMap<string, string> = create();
 
         map.putIfAbsent('name', 'Alex');
 

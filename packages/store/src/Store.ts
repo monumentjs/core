@@ -11,7 +11,7 @@ import { State } from './State';
  */
 export abstract class Store<TSnapshot, TState extends State<TSnapshot>> implements Disposable {
   private readonly _snapshot: BehaviorSubject<TSnapshot>;
-  private readonly _subscriptions: Subscription[] = [];
+  private readonly _subscriptions: Array<Subscription> = [];
 
   /**
    * Gets instant state snapshot.

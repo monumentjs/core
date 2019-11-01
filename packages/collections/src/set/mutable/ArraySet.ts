@@ -1,9 +1,8 @@
-import { Cloneable, Func2 } from '@monument/core';
+import { Cloneable, Delegate } from '@monument/core';
 import { NotImplementedException } from '@monument/exceptions';
 import { StrictEquals } from '@monument/comparison';
 import { Sequence } from '../../base/Sequence';
-import { ReadOnlyCollectionBase } from '../../collection/readonly/ReadOnlyCollectionBase';
-import { ArrayList } from '../../list/mutable/ArrayList';
+import { MutableArrayList } from '../../list/mutable/MutableArrayList';
 import { ReadOnlySet } from '../readonly/ReadOnlySet';
 import { Set } from './Set';
 
@@ -12,21 +11,17 @@ import { Set } from './Set';
  * @since 0.0.1
  * @mutable
  */
-export class ArraySet<T> extends ReadOnlyCollectionBase<T> implements Set<T>, Cloneable<ArraySet<T>> {
-  private readonly _comparator: Func2<T, T, boolean>;
-  private readonly _items: ArrayList<T> = new ArrayList();
+export class ArraySet<T> implements Set<T>, Cloneable<ArraySet<T>> {
+  private readonly _equals: Delegate<[T, T], boolean>;
+  private readonly _items: MutableArrayList<T> = new MutableArrayList();
 
   get length(): number {
     return this._items.length;
   }
 
-  get comparator(): Func2<T, T, boolean> {
-    return this._comparator;
-  }
-
-  constructor(items?: Iterable<T>, comparator: Func2<T, T, boolean> = StrictEquals) {
+  constructor(items?: Iterable<T>, equals: Delegate<[T, T], boolean> = StrictEquals) {
     super();
-    this._comparator = comparator;
+    this._equals = equals;
 
     if (items != null) {
       this.addAll(items);
@@ -53,10 +48,6 @@ export class ArraySet<T> extends ReadOnlyCollectionBase<T> implements Set<T>, Cl
 
   clone(): ArraySet<T> {
     return new ArraySet(this, this.comparator);
-  }
-
-  equals(other: ReadOnlySet<T>): boolean {
-    return this.comparator === other.comparator && this.length === other.length && this.containsAll(other);
   }
 
   /**
@@ -90,7 +81,7 @@ export class ArraySet<T> extends ReadOnlyCollectionBase<T> implements Set<T>, Cl
     return this.isSupersetOf(other);
   }
 
-  isSubsetOf(other: Sequence<T>): boolean {
+  isSubsetOf(other: ReadOnlySet<T>): boolean {
     let isValidSubset: boolean = true;
 
     for (const ownItem of this) {

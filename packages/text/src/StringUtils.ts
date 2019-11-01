@@ -1,5 +1,5 @@
 import { ToString } from '@monument/core';
-import { CollectionUtils, ReadOnlyCollection } from '@monument/collections';
+import { CollectionUtils, Iterables } from '@monument/collections';
 import { RegExpUtils } from './RegExpUtils';
 
 /**
@@ -27,15 +27,15 @@ export class StringUtils {
     return value.length > 0 && /[^\s]/.test(value);
   }
 
-  static getCharacters(input: string): string[] {
+  static getCharacters(input: string): Array<string> {
     return input.split('');
   }
 
-  static split(value: string, delimiters: string, trimTokens: boolean = true, ignoreEmptyTokens: boolean = true): string[] {
-    const delimiterPatternEntries: string[] = this.getDelimitersPatternEntries(delimiters);
+  static split(value: string, delimiters: string, trimTokens: boolean = true, ignoreEmptyTokens: boolean = true): Array<string> {
+    const delimiterPatternEntries: Array<string> = this.getDelimitersPatternEntries(delimiters);
     const delimiterPatternString: string = this.getDelimitersPatternString(delimiterPatternEntries);
     const delimiterPattern: RegExp = this.getDelimitersPattern(delimiterPatternString);
-    let tokens: string[] = value.split(delimiterPattern);
+    let tokens: Array<string> = value.split(delimiterPattern);
 
     if (trimTokens) {
       tokens = tokens.map(token => token.trim());
@@ -69,7 +69,7 @@ export class StringUtils {
   }
 
   static collectionToDelimitedString(
-    values: ReadOnlyCollection<ToString>,
+    values: Iterables<ToString>,
     delimiter: string,
     prefix: string = '',
     suffix: string = ''
@@ -87,7 +87,7 @@ export class StringUtils {
   }
 
   static toCamelCase(input: string): string {
-    let slices: string[] = this.getWords(input);
+    let slices: Array<string> = this.getWords(input);
 
     slices = slices.map((slice: string, index: number): string => {
       const firstChar: string = slice[0];
@@ -103,7 +103,7 @@ export class StringUtils {
   }
 
   static toCapitalCase(input: string): string {
-    let slices: string[] = this.getWords(input);
+    let slices: Array<string> = this.getWords(input);
 
     slices = slices.map((slice: string): string => {
       const firstChar: string = slice[0];
@@ -115,13 +115,13 @@ export class StringUtils {
   }
 
   static toKebabCase(input: string): string {
-    const slices: string[] = this.getWords(input);
+    const slices: Array<string> = this.getWords(input);
 
     return slices.join(this.KEBAB_CASE_DELIMITER).toLowerCase();
   }
 
   static toSnakeCase(input: string): string {
-    const slices: string[] = this.getWords(input);
+    const slices: Array<string> = this.getWords(input);
 
     return slices.join(this.SNAKE_CASE_DELIMITER).toLowerCase();
   }
@@ -180,9 +180,9 @@ export class StringUtils {
     return input;
   }
 
-  static getWords(input: string): string[] {
-    const slices: string[] = this.split(input, this.PUNCTUATION_CHARACTERS);
-    const words: string[] = [];
+  static getWords(input: string): Array<string> {
+    const slices: Array<string> = this.split(input, this.PUNCTUATION_CHARACTERS);
+    const words: Array<string> = [];
 
     slices.forEach((slice: string) => {
       let upperCasedSeqLength: number = 0;
@@ -214,11 +214,11 @@ export class StringUtils {
     return words;
   }
 
-  private static getDelimitersPatternEntries(delimiters: string): string[] {
+  private static getDelimitersPatternEntries(delimiters: string): Array<string> {
     return delimiters.split('').map(ch => RegExpUtils.escape(ch));
   }
 
-  private static getDelimitersPatternString(delimiterPatternEntries: string[]): string {
+  private static getDelimitersPatternString(delimiterPatternEntries: Array<string>): string {
     return delimiterPatternEntries.join('|');
   }
 

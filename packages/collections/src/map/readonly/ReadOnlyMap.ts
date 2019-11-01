@@ -1,4 +1,4 @@
-import { Func, Func2 } from '@monument/core';
+import { Delegate } from '@monument/core';
 import { Equatable } from '@monument/comparison';
 import { KeyValuePair } from '../../base/KeyValuePair';
 import { Sequence } from '../../base/Sequence';
@@ -11,8 +11,8 @@ export interface ReadOnlyMap<K, V> extends Sequence<KeyValuePair<K, V>>, Equatab
   readonly isEmpty: boolean;
   readonly keys: Iterable<K>;
   readonly values: Iterable<V>;
-  readonly keyComparator: Func2<K, K, boolean>;
-  readonly valueComparator: Func2<V, V, boolean>;
+  readonly keyComparator: Delegate<[K, K], boolean>;
+  readonly valueComparator: Delegate<[V, V], boolean>;
 
   containsEntries(entries: Iterable<KeyValuePair<K, V>>): boolean;
 
@@ -28,7 +28,7 @@ export interface ReadOnlyMap<K, V> extends Sequence<KeyValuePair<K, V>>, Equatab
 
   get(key: K): V | undefined;
 
-  get(key: K, fallback: Func<V>): V;
+  get(key: K, fallback: Delegate<[], V>): V;
 
   keyOf(value: V): K | undefined;
 

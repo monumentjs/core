@@ -1,4 +1,5 @@
 import { ReadOnlySet } from '../readonly/ReadOnlySet';
+import { Delegate } from '@monument/core';
 
 /**
  * @author Alex Chugaev
@@ -20,7 +21,7 @@ export interface Set<T> extends ReadOnlySet<T> {
 
   removeAll(items: Iterable<T>): boolean;
 
-  removeBy(predicate: (item: T) => boolean): boolean;
+  removeBy(predicate: Delegate<[T], boolean>): boolean;
 
   retainAll(items: Iterable<T>): boolean;
 

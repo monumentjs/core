@@ -1,46 +1,43 @@
-import { Func2 } from '@monument/core';
+import { Delegate } from '@monument/core';
 import { Equatable } from '@monument/comparison';
-import { ReadOnlyCollection } from '../../collection/readonly/ReadOnlyCollection';
+import { Queryable } from '../../queryable/Queryable';
 
 /**
  * @author Alex Chugaev
  * @since 0.0.1
- * @readonly
  */
-export interface ReadOnlyList<T> extends ReadOnlyCollection<T>, Equatable<ReadOnlyList<T>> {
-  readonly firstIndex: number;
-  readonly lastIndex: number;
+export interface ReadOnlyList<T> extends Queryable<T>, Equatable<ReadOnlyList<T>> {
+  readonly firstIndex: number | undefined;
+  readonly lastIndex: number | undefined;
 
   equals(other: ReadOnlyList<T>): boolean;
 
-  equals(other: ReadOnlyList<T>, comparator: Func2<T, T, boolean>): boolean;
+  equals(other: ReadOnlyList<T>, equals: Delegate<[T, T], boolean>): boolean;
+
+  findIndex(predicate: Delegate<[T, number], boolean>): number | undefined;
+
+  findIndexes(predicate: Delegate<[T, number], boolean>): ReadOnlyList<number>;
 
   /**
-   * @throws {IndexOutOfBoundsException} if index out of bounds
+   * @throws {InvalidArgumentException} if index out of bounds
+   * @author Alex Chugaev
+   * @since 0.16.0
    */
-  getAt(index: number): T;
+  getAt(index: number): T | never;
 
-  indexOf(item: T): number;
+  indexOf(item: T): number | undefined;
 
-  indexOf(item: T, comparator: Func2<T, T, boolean>): number;
+  indexOf(item: T, equals: Delegate<[T, T], boolean>): number | undefined;
 
-  indexOf(item: T, startIndex: number): number;
+  indexOf(item: T, equals: Delegate<[T, T], boolean>, startIndex: number): number | undefined;
 
-  indexOf(item: T, startIndex: number, comparator: Func2<T, T, boolean>): number;
+  indexOf(item: T, equals: Delegate<[T, T], boolean>, startIndex: number, count: number): number | undefined;
 
-  indexOf(item: T, startIndex: number, count: number): number;
+  lastIndexOf(item: T): number | undefined;
 
-  indexOf(item: T, startIndex: number, count: number, comparator: Func2<T, T, boolean>): number;
+  lastIndexOf(item: T, equals: Delegate<[T, T], boolean>): number | undefined;
 
-  lastIndexOf(item: T): number;
+  lastIndexOf(item: T, equals: Delegate<[T, T], boolean>, startIndex: number): number | undefined;
 
-  lastIndexOf(item: T, comparator: Func2<T, T, boolean>): number;
-
-  lastIndexOf(item: T, startIndex: number): number;
-
-  lastIndexOf(item: T, startIndex: number, comparator: Func2<T, T, boolean>): number;
-
-  lastIndexOf(item: T, startIndex: number, count: number): number;
-
-  lastIndexOf(item: T, startIndex: number, count: number, comparator: Func2<T, T, boolean>): number;
+  lastIndexOf(item: T, equals: Delegate<[T, T], boolean>, startIndex: number, count: number): number | undefined;
 }

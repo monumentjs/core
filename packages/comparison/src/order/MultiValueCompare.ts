@@ -1,7 +1,7 @@
-import { Func2 } from '@monument/core';
+import { Delegate } from '@monument/core';
 import { ComparisonResult } from './ComparisonResult';
 
-export type MultiValueCompareCondition<T> = [T, T, Func2<T, T, ComparisonResult>];
+export type MultiValueCompareCondition<T> = [T, T, Delegate<[T, T], ComparisonResult>];
 
 /**
  * @author Alex Chugaev

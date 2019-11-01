@@ -1,9 +1,9 @@
 import { ReadOnlySet, Sequence } from '../../../..';
-import { Func2 } from '@monument/core';
+import { Delegate } from '@monument/core';
 import { IgnoreCaseEquals } from '@monument/comparison';
 import { testReadOnlyCollection } from '../../collection/readonly/ReadOnlyCollection.spec';
 
-export function testReadOnlySet(create: <T>(items?: Sequence<T>, comparator?: Func2<T, T, boolean>) => ReadOnlySet<T>) {
+export function testReadOnlySet(create: <T>(items?: Sequence<T>, comparator?: Delegate<[T, T], boolean>) => ReadOnlySet<T>) {
   describe('ReadOnlySet', function() {
     testReadOnlyCollection(create);
 

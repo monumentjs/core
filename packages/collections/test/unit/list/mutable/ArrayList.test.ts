@@ -1,9 +1,9 @@
-import { ArrayList, Sequence } from '../../../..';
+import { MutableArrayList, Sequence } from '../../../..';
 import { testList } from './List.spec';
 
 describe('ArrayList', function() {
-  function create<T>(items?: Sequence<T>): ArrayList<T> {
-    return new ArrayList(items);
+  function create<T>(items?: Sequence<T>): MutableArrayList<T> {
+    return new MutableArrayList(items);
   }
 
   testList(create);

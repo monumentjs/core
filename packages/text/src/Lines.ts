@@ -2,7 +2,7 @@
 export class Lines implements Iterable<string> {
   static LINE_PATTERN = /\r?\n|\r/g;
 
-  private readonly _source: string[];
+  private readonly _source: Array<string>;
 
   constructor(source: string) {
     this._source = source.split(Lines.LINE_PATTERN);
@@ -14,7 +14,7 @@ export class Lines implements Iterable<string> {
     }
   }
 
-  toArray(): string[] {
+  toArray(): Array<string> {
     return [...this];
   }
 }

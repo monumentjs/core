@@ -1,6 +1,5 @@
 // Export public API
 
-export * from './src/RandomValue';
-export * from './src/RandomInt';
-export * from './src/RandomFloat';
-export * from './src/RandomString';
+export * from './src/randomInt';
+export * from './src/randomFloat';
+export * from './src/randomString';

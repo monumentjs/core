@@ -1,6 +1,6 @@
 import { StringUtils } from '../..';
 import { ToString } from '@monument/core';
-import { ArrayList } from '@monument/collections';
+import { MutableArrayList } from '@monument/collections';
 import { RangeException } from '@monument/exceptions';
 
 describe('StringUtils', function() {
@@ -169,15 +169,15 @@ describe('StringUtils', function() {
   });
 
   it('collectionToDelimitedString()', function() {
-    expect(StringUtils.collectionToDelimitedString(new ArrayList<ToString>([]), ' ')).toBe('');
+    expect(StringUtils.collectionToDelimitedString(new MutableArrayList<ToString>([]), ' ')).toBe('');
 
-    expect(StringUtils.collectionToDelimitedString(new ArrayList<ToString>(['text']), ' ')).toBe('text');
+    expect(StringUtils.collectionToDelimitedString(new MutableArrayList<ToString>(['text']), ' ')).toBe('text');
 
-    expect(StringUtils.collectionToDelimitedString(new ArrayList<ToString>(['text', 'value']), ' ')).toBe('text value');
+    expect(StringUtils.collectionToDelimitedString(new MutableArrayList<ToString>(['text', 'value']), ' ')).toBe('text value');
 
-    expect(StringUtils.collectionToDelimitedString(new ArrayList<ToString>(['text', 'value']), ' ', '<')).toBe('<text <value');
+    expect(StringUtils.collectionToDelimitedString(new MutableArrayList<ToString>(['text', 'value']), ' ', '<')).toBe('<text <value');
 
-    expect(StringUtils.collectionToDelimitedString(new ArrayList<ToString>(['text', 'value']), ' ', '<', '>')).toBe('<text> <value>');
+    expect(StringUtils.collectionToDelimitedString(new MutableArrayList<ToString>(['text', 'value']), ' ', '<', '>')).toBe('<text> <value>');
   });
 
   it('padStart()', function() {

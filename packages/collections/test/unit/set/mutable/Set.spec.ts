@@ -1,9 +1,9 @@
 import { Sequence, Set } from '../../../..';
-import { Func2 } from '@monument/core';
+import { Delegate } from '@monument/core';
 import { testReadOnlySet } from '../readonly/ReadOnlySet.spec';
 import { assertLengthAndIsEmpty } from '../../collection/readonly/ReadOnlyCollection.spec';
 
-export function testSet(create: <T>(items?: Sequence<T>, comparator?: Func2<T, T, boolean>) => Set<T>) {
+export function testSet(create: <T>(items?: Sequence<T>, comparator?: Delegate<[T, T], boolean>) => Set<T>) {
   describe('Set', function() {
     testReadOnlySet(create);
 

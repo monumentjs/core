@@ -1,35 +1,9 @@
-import { argument } from '@monument/assert';
 import { Equatable } from '@monument/comparison';
-import { Component } from './Component';
+import { ReadOnlyList } from '@monument/collections';
+import { Component } from '../base/Component';
+import { PathSegment } from './PathSegment';
 
-export class Path implements Component<string | undefined>, Equatable<Path> {
-  readonly value: string | undefined;
-  readonly isDefined: boolean;
-
-  constructor(path?: string) {
-    if (path != null) {
-      argument(path.length > 0);
-    }
-
-    this.value = path;
-    this.isDefined = !!path;
-  }
-
-  equals(other: Path): boolean {
-    return this.value === other.value;
-  }
-
-  toString(): string {
-    if (this.value) {
-      return encodeURI(this.value);
-    } else {
-      return '';
-    }
-  }
-
-  toJSON(): string | undefined {
-    return this.value;
-  }
-
-  // TODO: isRelative, isAbsolute, segments
+export interface Path extends Component, Equatable<Path> {
+  readonly segments: ReadOnlyList<PathSegment>;
+  readonly extension: string;
 }

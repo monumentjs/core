@@ -1,4 +1,4 @@
-import { Cloneable, Func, Func2 } from '@monument/core';
+import { Cloneable, Delegate } from '@monument/core';
 import { StrictEquals } from '@monument/comparison';
 import { KeyValuePair } from '../../base/KeyValuePair';
 import { ReadOnlyMap } from '../readonly/ReadOnlyMap';
@@ -11,14 +11,14 @@ import { Map as IMap } from './Map';
  */
 export class LinkedMap<K, V> implements IMap<K, V>, Cloneable<LinkedMap<K, V>> {
   private readonly _map: Map<K, V> = new Map();
-  private readonly _keyComparator: Func2<K, K, boolean>;
-  private readonly _valueComparator: Func2<V, V, boolean>;
+  private readonly _keyComparator: Delegate<[K, K], boolean>;
+  private readonly _valueComparator: Delegate<[V, V], boolean>;
 
   get isEmpty(): boolean {
     return this._map.size === 0;
   }
 
-  get keyComparator(): Func2<K, K, boolean> {
+  get keyComparator(): Delegate<[K, K], boolean> {
     return this._keyComparator;
   }
 
@@ -30,7 +30,7 @@ export class LinkedMap<K, V> implements IMap<K, V>, Cloneable<LinkedMap<K, V>> {
     return this._map.size;
   }
 
-  get valueComparator(): Func2<V, V, boolean> {
+  get valueComparator(): Delegate<[V, V], boolean> {
     return this._valueComparator;
   }
 
@@ -40,8 +40,8 @@ export class LinkedMap<K, V> implements IMap<K, V>, Cloneable<LinkedMap<K, V>> {
 
   constructor(
     items?: Iterable<KeyValuePair<K, V>>,
-    keyComparator: Func2<K, K, boolean> = StrictEquals,
-    valueComparator: Func2<V, V, boolean> = StrictEquals
+    keyComparator: Delegate<[K, K], boolean> = StrictEquals,
+    valueComparator: Delegate<[V, V], boolean> = StrictEquals
   ) {
     this._keyComparator = keyComparator;
     this._valueComparator = valueComparator;
@@ -147,9 +147,9 @@ export class LinkedMap<K, V> implements IMap<K, V>, Cloneable<LinkedMap<K, V>> {
 
   get(key: K): V | undefined;
 
-  get(key: K, fallback: Func<V>): V;
+  get(key: K, fallback: Delegate<[], V>): V;
 
-  get(key: K, fallback?: Func<V>): V | undefined {
+  get(key: K, fallback?: Delegate<[], V>): V | undefined {
     const entry = this.getEntry(key);
 
     if (entry != null) {
@@ -226,7 +226,7 @@ export class LinkedMap<K, V> implements IMap<K, V>, Cloneable<LinkedMap<K, V>> {
     }
   }
 
-  removeBy(predicate: Func2<K, V, boolean>): boolean {
+  removeBy(predicate: Delegate<[K, V], boolean>): boolean {
     let modified: boolean | undefined;
 
     for (const [ownKey, ownValue] of this) {

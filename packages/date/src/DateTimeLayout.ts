@@ -1,15 +1,15 @@
 import { LinkedMap } from '@monument/collections';
 import { NotImplementedException } from '@monument/exceptions';
-import { TemplateString } from '@monument/text';
+import { Template } from '@monument/text';
 import { DateTimeFormat } from './DateTimeFormat';
 import { DateTimeFields } from './DateTimeFields';
 
 export class DateTimeLayout {
-  private readonly _template: TemplateString;
+  private readonly _template: Template;
   private readonly _format: DateTimeFormat;
 
   constructor(pattern: string, format: DateTimeFormat) {
-    this._template = new TemplateString(pattern);
+    this._template = new Template(pattern);
     this._format = format;
   }
 

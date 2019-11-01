@@ -22,7 +22,7 @@ npm i @monument/uri
 Install with Yarn:
 
 ```
-yarn add @monument/uri
+yarn append @monument/uri
 ```
 
 ## Contribution

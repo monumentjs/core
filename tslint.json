@@ -2,15 +2,24 @@
   "extends": "tslint:latest",
   "rules": {
     "ban-comma-operator": false,
-    "quotemark": [true, "single", "jsx-double"],
+    "quotemark": [
+      true,
+      "single",
+      "jsx-double"
+    ],
     "eofline": true,
     "ordered-imports": false,
     "only-arrow-functions": false,
     "arrow-parens": {
-      "options": ["ban-single-arg-parens"]
+      "options": [
+        "ban-single-arg-parens"
+      ]
     },
     "no-duplicate-imports": true,
-    "no-consecutive-blank-lines": [true, 2],
+    "no-consecutive-blank-lines": [
+      true,
+      2
+    ],
     "no-trailing-whitespace": true,
     "object-literal-shorthand": false,
     "object-literal-sort-keys": false,
@@ -19,6 +28,10 @@
     "no-default-export": true,
     "no-string-literal": true,
     "prefer-const": true,
+    "array-type": [
+      true,
+      "generic"
+    ],
     "space-before-function-paren": [
       true,
       {
@@ -27,16 +40,27 @@
         "asyncArrow": "always"
       }
     ],
-    "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"],
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-leading-underscore"
+    ],
     "no-empty-interface": true,
     "no-bitwise": false,
     "ban-types": true,
     "no-parameter-properties": false,
     "no-namespace": false,
-    "no-implicit-dependencies": [true, "dev"],
+    "no-implicit-dependencies": [
+      true,
+      "dev"
+    ],
     "prefer-readonly": true,
-    "max-classes-per-file": false,
-    "interface-name": [true, "never-prefix"],
+    "max-classes-per-file": true,
+    "interface-name": [
+      true,
+      "never-prefix"
+    ],
     "interface-over-type-literal": false,
     "no-conditional-assignment": false,
     "no-empty": true,
@@ -47,7 +71,10 @@
     "prefer-conditional-expression": false,
     "no-this-assignment": false,
     "no-return-await": true,
-    "member-access": [true, "no-public"],
+    "member-access": [
+      true,
+      "no-public"
+    ],
     "unified-signatures": false,
     "no-arg": true,
     "cyclomatic-complexity": false,
@@ -74,5 +101,8 @@
       }
     ]
   },
-  "exclude": ["node_modules", "**/*.d.ts"]
+  "exclude": [
+    "node_modules",
+    "**/*.d.ts"
+  ]
 }

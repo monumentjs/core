@@ -1,10 +1,10 @@
-import { Func2 } from '@monument/core';
+import { Delegate } from '@monument/core';
 
 /**
  * @author Alex Chugaev
  * @since 0.14.0
  */
-export type MultiValueEqualsCondition<T> = [T, T, Func2<T, T, boolean>];
+export type MultiValueEqualsCondition<T> = [T, T, Delegate<[T, T], boolean>];
 
 /**
  * @author Alex Chugaev

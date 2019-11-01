@@ -1,10 +1,10 @@
 import { BitSet, IndexOutOfBoundsException } from '../../..';
-import { Func2 } from '@monument/core';
+import { Delegate } from '@monument/core';
 import { RangeException } from '@monument/exceptions';
 import { IterableEqualsFactory } from '@monument/comparison';
 
 describe('BitSet', function() {
-  const iterableEqualityComparator: Func2<Iterable<number | boolean>, Iterable<number | boolean>, boolean> = IterableEqualsFactory();
+  const iterableEqualityComparator: Delegate<[Iterable<number | boolean>, Iterable<number | boolean>], boolean> = IterableEqualsFactory();
 
   it('constructor() create new instance of BitSet class', function() {
     const bitSet: BitSet = new BitSet();

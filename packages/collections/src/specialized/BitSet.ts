@@ -7,10 +7,10 @@ import { CollectionUtils } from '../base/CollectionUtils';
  * @author Alex Chugaev
  * @since 0.0.1
  */
-export class BitSet implements Sequence<boolean>, Cloneable<BitSet>, Equatable<BitSet>, ToJSON<boolean[]> {
+export class BitSet implements Sequence<boolean>, Cloneable<BitSet>, Equatable<BitSet>, ToJSON<Array<boolean>> {
   private static readonly CARDINALITY_ZERO: number = 0;
 
-  static fromBits(bits: boolean[]): BitSet {
+  static fromBits(bits: Array<boolean>): BitSet {
     const bitSet: BitSet = new BitSet(bits.length);
 
     for (let i = 0; i < bits.length; i++) {
@@ -20,7 +20,7 @@ export class BitSet implements Sequence<boolean>, Cloneable<BitSet>, Equatable<B
     return bitSet;
   }
 
-  static fromByteArray(bytes: number[]): BitSet {
+  static fromByteArray(bytes: Array<number>): BitSet {
     const bitSetSize: number = bytes.length * 8;
     const bitSet: BitSet = new BitSet(bitSetSize);
     let bitIndex: number = 0;
@@ -36,7 +36,7 @@ export class BitSet implements Sequence<boolean>, Cloneable<BitSet>, Equatable<B
     return bitSet;
   }
 
-  private readonly _bits: boolean[];
+  private readonly _bits: Array<boolean>;
 
   get cardinality(): number {
     let cardinality: number = BitSet.CARDINALITY_ZERO;
@@ -254,8 +254,8 @@ export class BitSet implements Sequence<boolean>, Cloneable<BitSet>, Equatable<B
     }
   }
 
-  toByteArray(): number[] {
-    const bytes: number[] = [];
+  toByteArray(): Array<number> {
+    const bytes: Array<number> = [];
 
     for (let i = 0; i < this._bits.length; i++) {
       if (i % 8 === 0) {
@@ -270,12 +270,12 @@ export class BitSet implements Sequence<boolean>, Cloneable<BitSet>, Equatable<B
     return bytes;
   }
 
-  toJSON(): boolean[] {
+  toJSON(): Array<boolean> {
     return this._bits;
   }
 
   toString(): string {
-    const setIndexes: number[] = [...this.findBits(true)];
+    const setIndexes: Array<number> = [...this.findBits(true)];
 
     return `{${setIndexes.join(', ')}}`;
   }

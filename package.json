@@ -16,22 +16,23 @@
     "prepublishOnly": "npm run lint && npm run compile && npm install && npm test",
     "postinstall": "npm run bootstrap",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "cleanup": "rm -rf ./coverage && rm -rf ./node_modules && find ./packages -type f -name '*.js' -delete && find ./packages -type f -name '*.d.ts' -delete && find ./packages -type f -name '*.js.map' -delete && find ./packages -type d -name '*node_modules' -exec rm -r {} + && find ./packages -type d -empty -delete"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.18",
-    "coveralls": "^3.0.6",
+    "@types/jest": "^24.0.19",
+    "coveralls": "^3.0.7",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
     "gulp-typedoc": "^2.2.2",
     "jest": "^24.9.0",
-    "lerna": "^3.16.4",
+    "lerna": "^3.18.3",
     "lerna-changelog": "^0.8.2",
     "prettier": "^1.18.2",
-    "ts-jest": "^24.0.2",
-    "tslint": "^5.19.0",
+    "ts-jest": "^24.1.0",
+    "tslint": "^5.20.0",
     "typedoc": "^0.15.0",
-    "typescript": "^3.5.3"
+    "typescript": "^3.6.4"
   },
   "repository": {
     "type": "git",

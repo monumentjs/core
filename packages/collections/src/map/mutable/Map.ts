@@ -1,4 +1,4 @@
-import { Func2 } from '@monument/core';
+import { Delegate } from '@monument/core';
 import { KeyValuePair } from '../../base/KeyValuePair';
 import { ReadOnlyMap } from '../readonly/ReadOnlyMap';
 
@@ -17,7 +17,7 @@ export interface Map<K, V> extends ReadOnlyMap<K, V> {
 
   remove(key: K): V | undefined;
 
-  removeBy(predicate: Func2<K, V, boolean>): boolean;
+  removeBy(predicate: Delegate<[K, V], boolean>): boolean;
 
   removeIf(key: K, value: V): boolean;
 

@@ -22,7 +22,7 @@ npm i @monument/store
 Install with Yarn:
 
 ```
-yarn add @monument/store
+yarn append @monument/store
 ```
 
 ## Contribution

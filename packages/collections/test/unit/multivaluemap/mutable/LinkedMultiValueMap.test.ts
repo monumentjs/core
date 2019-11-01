@@ -1,9 +1,9 @@
-import { KeyValuePair, LinkedMultiValueMap } from '../../../..';
+import { KeyValuePair, MutableLinkedMultiValueMap } from '../../../..';
 import { testMultiValueMap } from './MultiValueMap.spec';
 
 describe('LinkedMultiValueMap', function() {
-  function create<K, V>(items?: Iterable<KeyValuePair<K, V>>): LinkedMultiValueMap<K, V> {
-    const map: LinkedMultiValueMap<K, V> = new LinkedMultiValueMap();
+  function create<K, V>(items?: Iterable<KeyValuePair<K, V>>): MutableLinkedMultiValueMap<K, V> {
+    const map: MutableLinkedMultiValueMap<K, V> = new MutableLinkedMultiValueMap();
 
     if (items) {
       map.putAll(items);
