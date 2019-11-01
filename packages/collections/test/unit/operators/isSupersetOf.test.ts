@@ -1,7 +1,7 @@
 import { isSupersetOf } from '../../../src/operators/isSupersetOf';
 
 describe('isSupersetOf()', function() {
-  it('should determine whether current set is subset of other set', function() {
+  it('should determine whether current set is superset of other set', function() {
     expect(isSupersetOf([], [])).toBe(true);
     expect(isSupersetOf([], [1])).toBe(false);
     expect(isSupersetOf([1], [])).toBe(true);
