@@ -3,7 +3,6 @@ import { randomFloat } from '../..';
 describe('randomFloat()', function() {
   it.each`
       from    | to
-      ${0}    | ${0}
       ${-100} | ${0}
       ${0}    | ${100}
       ${-100} | ${100}
