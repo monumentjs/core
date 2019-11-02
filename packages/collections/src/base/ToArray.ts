@@ -3,5 +3,5 @@
  * @since 0.0.1
  */
 export interface ToArray<T> {
-  toArray(): T[];
+  toArray(): Array<T>;
 }

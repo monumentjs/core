@@ -32,38 +32,4 @@ export class CollectionUtils {
       throw new IndexOutOfBoundsException(index, length);
     }
   }
-
-  static validateSliceBounds(sequence: Sequence<any>, sliceOffset: number, sliceLength: number): void {
-    if (sliceOffset !== 0) {
-      this.validateIndexBounds(sequence, sliceOffset);
-    }
-
-    this.validateLength(sliceLength);
-
-    this.validateSliceRange(sequence, sliceOffset, sliceLength);
-  }
-
-  /**
-   *
-   * @throws {RangeException} length
-   */
-  static validateSliceRange(sequence: Sequence<any>, sliceOffset: number = 0, sliceLength: number = sequence.length - sliceOffset): void {
-    if (sliceOffset < 0) {
-      throw new RangeException(`Slice offset (${sliceOffset}) cannot be less than 0.`);
-    }
-
-    if (sliceLength < 0) {
-      throw new RangeException(`Slice length (${sliceLength}) cannot be less than 0.`);
-    }
-
-    if (sliceLength > sequence.length) {
-      throw new RangeException(`Slice length (${sliceLength}) cannot be greater than length of the sequence (${sequence.length}).`);
-    }
-
-    if (sliceOffset + sliceLength > sequence.length) {
-      throw new RangeException(
-        `Invalid bounds (${sliceOffset}...${sliceOffset + sliceLength}) of slice range, ` + `original range is (0...${sequence.length}).`
-      );
-    }
-  }
 }
