@@ -73,6 +73,8 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<Array<T>>, ToArray<T> 
    */
   except(items: Iterable<T>, equals: Delegate<[T, T], boolean>): Queryable<T>;
 
+  filter<R = T>(predicate: Delegate<[T, number], boolean>): Queryable<R>;
+
   /**
    * Calls predicate function on each item in sequence.
    * Returns new collection containing items for which predicate function returned `true`.

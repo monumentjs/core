@@ -108,6 +108,10 @@ export class QueryableProxy<T, S extends Queryable<T>> implements Queryable<T> {
     return this.source.except(items, equals);
   }
 
+  filter<R = T>(predicate: Delegate<[T, number], boolean>): Queryable<R> {
+    return this.source.filter(predicate);
+  }
+
   /**
    * Calls predicate function on each item in sequence.
    * Returns new collection containing items for which predicate function returned `true`.

@@ -39,6 +39,7 @@ import { skipWhile } from '../operators/skipWhile';
 import { take } from '../operators/take';
 import { takeWhile } from '../operators/takeWhile';
 import { zip } from '../operators/zip';
+import { filter } from '../operators/filter';
 
 export class QueryableBase<T> implements Queryable<T> {
 
@@ -113,6 +114,10 @@ export class QueryableBase<T> implements Queryable<T> {
   except(items: Iterable<T>, _equals: Delegate<[T, T], boolean>): Queryable<T>;
   except(items: Iterable<T>, _equals?: Delegate<[T, T], boolean>): Queryable<T> {
     return new QueryableBase(except(this, items, _equals as Delegate<[T, T], boolean>));
+  }
+
+  filter<R = T>(predicate: Delegate<[T, number], boolean>): Queryable<R> {
+    return new QueryableBase(filter(this, predicate));
   }
 
   findAll(predicate: Delegate<[T, number], boolean>): Queryable<T>;
