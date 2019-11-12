@@ -1,3 +1,4 @@
+import { empty } from '../../../src/operators/empty';
 import { isEmpty } from '../../../src/operators/isEmpty';
 
 describe('isEmpty()', function() {
@@ -5,5 +6,6 @@ describe('isEmpty()', function() {
     expect(isEmpty([])).toBe(true);
     expect(isEmpty([1])).toBe(false);
     expect(isEmpty([1, 2])).toBe(false);
+    expect(isEmpty(empty())).toBe(true);
   });
 });

@@ -1,5 +1,7 @@
 import { argument } from '@monument/assert';
 
+export function chunk<T>(self: Iterable<T>): Iterable<Iterable<T>>;
+export function chunk<T>(self: Iterable<T>, size: number): Iterable<Iterable<T>>;
 export function chunk<T>(self: Iterable<T>, size: number = 1): Iterable<Iterable<T>> {
   argument(size >= 1);
 

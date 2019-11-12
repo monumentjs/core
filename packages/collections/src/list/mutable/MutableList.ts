@@ -1,5 +1,5 @@
-import { Observable } from 'rxjs';
 import { Cloneable, Delegate, Disposable } from '@monument/core';
+import { Observable } from 'rxjs';
 import { ReadOnlyList } from '../readonly/ReadOnlyList';
 import { ListChangeEvent } from './event/ListChangeEvent';
 
@@ -20,9 +20,9 @@ export interface MutableList<T> extends ReadOnlyList<T>, Cloneable<MutableList<T
 
   clear(): boolean;
 
-  insert(index: number, item: T): boolean;
+  insert(position: number, item: T): boolean;
 
-  insertAll(index: number, items: Iterable<T>): boolean;
+  insertAll(position: number, items: Iterable<T>): boolean;
 
   remove(item: T): boolean;
 
@@ -32,7 +32,7 @@ export interface MutableList<T> extends ReadOnlyList<T>, Cloneable<MutableList<T
 
   removeAll(items: Iterable<T>, equals: Delegate<[T, T], boolean>): boolean;
 
-  removeAt(index: number): T | never;
+  removeAt(position: number): T | never;
 
   removeBy(predicate: Delegate<[T, number], boolean>): boolean;
 
@@ -41,9 +41,9 @@ export interface MutableList<T> extends ReadOnlyList<T>, Cloneable<MutableList<T
   retainAll(items: Iterable<T>, equals: Delegate<[T, T], boolean>): boolean;
 
   /**
-   * @throws {IndexOutOfBoundsException}
+   * @throws {InvalidArgumentException}
    * @author Alex Chugaev
    * @since 0.16.0
    */
-  setAt(index: number, newValue: T): T | never;
+  setAt(position: number, newValue: T): T | never;
 }

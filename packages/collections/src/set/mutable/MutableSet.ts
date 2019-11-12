@@ -1,11 +1,15 @@
+import { Observable } from 'rxjs';
 import { ReadOnlySet } from '../readonly/ReadOnlySet';
 import { Delegate } from '@monument/core';
+import { SetChangeEvent } from './event/SetChangeEvent';
 
 /**
  * @author Alex Chugaev
- * @since 0.0.1
+ * @since 0.16.0
  */
-export interface Set<T> extends ReadOnlySet<T> {
+export interface MutableSet<T> extends ReadOnlySet<T> {
+  readonly changed: Observable<SetChangeEvent<T>>;
+
   add(item: T): boolean;
 
   addAll(items: Iterable<T>): boolean;

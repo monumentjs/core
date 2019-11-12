@@ -1,6 +1,8 @@
-import { Delegate } from '@monument/core';
 import { StrictEquals } from '@monument/comparison';
+import { Delegate } from '@monument/core';
 
+export function equals<T>(self: Iterable<T>, other: Iterable<T>): boolean;
+export function equals<T>(self: Iterable<T>, other: Iterable<T>, _equals: Delegate<[T, T], boolean>): boolean;
 export function equals<T>(self: Iterable<T>, other: Iterable<T>, _equals: Delegate<[T, T], boolean> = StrictEquals): boolean {
   if (self === other) {
     return true;

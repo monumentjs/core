@@ -13,7 +13,7 @@ export function all<T>(self: Iterable<T>, predicate: Delegate<[T, number], boole
   }
 
   if (index === 0) {
-    throw new InvalidOperationException(`Operation is not allowed for empty collections.`);
+    throw new InvalidOperationException(`Operation is not allowed for empty iterable`);
   }
 
   return true;

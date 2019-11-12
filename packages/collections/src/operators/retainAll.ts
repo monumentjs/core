@@ -1,7 +1,7 @@
-import { Delegate } from '@monument/core';
 import { StrictEquals } from '@monument/comparison';
-import { removeBy } from './removeBy';
+import { Delegate } from '@monument/core';
 import { contains } from './contains';
+import { removeBy } from './removeBy';
 
 export function retainAll<T>(self: Iterable<T>, others: Iterable<T>): Iterable<T>;
 export function retainAll<T>(self: Iterable<T>, others: Iterable<T>, equals: Delegate<[T, T], boolean>): Iterable<T>;

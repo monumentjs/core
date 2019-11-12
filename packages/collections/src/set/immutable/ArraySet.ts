@@ -1,224 +1,114 @@
-import { argument } from '@monument/assert';
 import { ComparisonResult, SortOrder, StrictEquals } from '@monument/comparison';
 import { Delegate } from '@monument/core';
-import { InvalidOperationException } from '@monument/exceptions';
 import { randomInt } from '@monument/random';
 import { KeyValuePair } from '../../base/KeyValuePair';
+import { aggregate } from '../../operators/aggregate';
+import { all } from '../../operators/all';
+import { any } from '../../operators/any';
 import { append } from '../../operators/append';
 import { appendAll } from '../../operators/appendAll';
-import { equals as _equals } from '../../operators/equals';
-import { findIndex } from '../../operators/findIndex';
-import { indexOf } from '../../operators/indexOf';
-import { insert } from '../../operators/insert';
-import { insertAll } from '../../operators/insertAll';
-import { isEmpty } from '../../operators/isEmpty';
-import { lastIndexOf } from '../../operators/lastIndexOf';
-import { prepend } from '../../operators/prepend';
-import { prependAll } from '../../operators/prependAll';
+import { concat } from '../../operators/concat';
+import { distinct } from '../../operators/distinct';
+import { empty } from '../../operators/empty';
+import { intersect } from '../../operators/intersect';
+import { isProperSubsetOf } from '../../operators/isProperSubsetOf';
+import { isProperSupersetOf } from '../../operators/isProperSupersetOf';
+import { isSubsetOf } from '../../operators/isSubsetOf';
+import { isSupersetOf } from '../../operators/isSupersetOf';
+import { overlaps } from '../../operators/overlaps';
 import { remove } from '../../operators/remove';
 import { removeAll } from '../../operators/removeAll';
-import { removeAt } from '../../operators/removeAt';
 import { removeBy } from '../../operators/removeBy';
 import { retainAll } from '../../operators/retainAll';
-import { setAt } from '../../operators/setAt';
+import { symmetricExceptWith } from '../../operators/symmetricExceptWith';
 import { Queryable } from '../../queryable/Queryable';
 import { QueryableBase } from '../../queryable/QueryableBase';
-import { ReadOnlyList } from '../readonly/ReadOnlyList';
-import { List } from './List';
+import { ReadOnlySet } from '../readonly/ReadOnlySet';
+import { Set } from './Set';
 
-/**
- * Represents immutable list based on native `Array`.
- * @author Alex Chugaev
- * @since 0.16.0
- */
-export class ArrayList<T> implements List<T> {
-  private readonly array: ReadonlyArray<T>;
-  private readonly queryable: QueryableBase<T>;
+export class ArraySet<T> implements Set<T> {
+  private readonly _equals: Delegate<[T, T], boolean>;
+  private readonly array: Array<T>;
+  private readonly queryable: Queryable<T>;
 
   get length(): number {
     return this.array.length;
   }
 
   get isEmpty(): boolean {
-    return this.array.length === 0;
+    return this.length === 0;
   }
 
-  get firstIndex(): number | undefined {
-    return this.isEmpty ? undefined : 0;
-  }
-
-  get lastIndex(): number | undefined {
-    return this.isEmpty ? undefined : this.length - 1;
-  }
-
-  constructor(items: Iterable<T> = []) {
-    this.array = [...items];
+  constructor(items: Iterable<T> = [], equals: Delegate<[T, T], boolean> = StrictEquals) {
+    this._equals = equals;
+    this.array = [...distinct(items, equals)];
     this.queryable = new QueryableBase(this.array);
   }
-
-  //#region Iterable
 
   [Symbol.iterator](): Iterator<T> {
     return this.array[Symbol.iterator]();
   }
 
-  //#endregion
-
-  //#region List
-
-  append(item: T): List<T> {
-    return new ArrayList(append(this.array, item));
+  add(item: T): Set<T> {
+    return new ArraySet(append(this, item), this._equals);
   }
 
-  appendAll(items: Iterable<T>): List<T> {
-    if (isEmpty(items)) {
-      return this;
-    }
-
-    return new ArrayList(appendAll(this.array, items));
+  addAll(items: Iterable<T>): Set<T> {
+    return new ArraySet(appendAll(this, items), this._equals);
   }
 
-  appendIfAbsent(item: T): List<T>;
-  appendIfAbsent(item: T, equals: Delegate<[T, T], boolean>): List<T>;
-  appendIfAbsent(item: T, equals: Delegate<[T, T], boolean> = StrictEquals): List<T> {
-    if (!this.contains(item, equals)) {
-      return this.append(item);
-    }
-
-    return this;
+  clear(): Set<T> {
+    return new ArraySet(empty(), this._equals);
   }
 
-  clear(): List<T> {
-    return this.isEmpty ? this : new ArrayList<T>();
+  intersectWith(other: Iterable<T>): Set<T> {
+    return new ArraySet(intersect(this, other, this._equals));
   }
 
-  insert(position: number, item: T): List<T> {
-    return new ArrayList(insert(this.array, position, item));
+  remove(item: T): Set<T> {
+    return new ArraySet(remove(this, item, this._equals));
   }
 
-  insertAll(position: number, items: Iterable<T>): List<T> {
-    const newList = new ArrayList(insertAll(this.array, position, items));
-
-    return newList.length > this.length ? newList : this;
+  removeAll(items: Iterable<T>): Set<T> {
+    return new ArraySet(removeAll(this, items, this._equals));
   }
 
-  prepend(item: T): List<T> {
-    return new ArrayList(prepend(this.array, item));
+  removeBy(predicate: Delegate<[T, number], boolean>): Set<T> {
+    return new ArraySet(removeBy(this, predicate));
   }
 
-  prependAll(items: Iterable<T>): List<T> {
-    if (isEmpty(items)) {
-      return this;
-    }
-
-    return new ArrayList(prependAll(this.array, items));
+  retainAll(items: Iterable<T>): Set<T> {
+    return new ArraySet(retainAll(this, items, this._equals));
   }
 
-  remove(item: T): List<T>;
-  remove(item: T, equals: Delegate<[T, T], boolean>): List<T>;
-  remove(item: T, equals: Delegate<[T, T], boolean> = StrictEquals): List<T> {
-    const newList = new ArrayList(remove(this.array, item, equals));
-
-    if (newList.length !== this.length) {
-      return newList;
-    }
-
-    return this;
+  symmetricExceptWith(other: Iterable<T>): Set<T> {
+    return new ArraySet(symmetricExceptWith(this, other, this._equals));
   }
 
-  removeAll(items: Iterable<T>): List<T>;
-  removeAll(items: Iterable<T>, equals: Delegate<[T, T], boolean>): List<T>;
-  removeAll(items: Iterable<T>, equals: Delegate<[T, T], boolean> = StrictEquals): List<T> {
-    const newList = new ArrayList(removeAll(this.array, items, equals));
-
-    if (newList.length !== this.length) {
-      return newList;
-    }
-
-    return this;
+  unionWith(other: Iterable<T>): Set<T> {
+    return new ArraySet(concat(this, [other]));
   }
 
-  removeAt(position: number): List<T> {
-    return new ArrayList(removeAt(this.array, position));
+  //#region ReadOnlySet
+
+  isProperSubsetOf(other: ReadOnlySet<T>): boolean {
+    return isProperSubsetOf(this, other, this._equals);
   }
 
-  removeBy(predicate: Delegate<[T, number], boolean>): List<T> {
-    const newList = new ArrayList(removeBy(this.array, predicate));
-
-    if (newList.length !== this.length) {
-      return newList;
-    }
-
-    return this;
+  isProperSupersetOf(other: ReadOnlySet<T>): boolean {
+    return isProperSupersetOf(this, other, this._equals);
   }
 
-  retainAll(items: Iterable<T>): List<T>;
-  retainAll(items: Iterable<T>, equals: Delegate<[T, T], boolean>): List<T>;
-  retainAll(items: Iterable<T>, equals: Delegate<[T, T], boolean> = StrictEquals): List<T> {
-    const newList = new ArrayList(retainAll(this.array, items, equals));
-
-    if (newList.length !== this.length) {
-      return newList;
-    }
-
-    return this;
+  isSubsetOf(other: ReadOnlySet<T>): boolean {
+    return isSubsetOf(this, other, this._equals);
   }
 
-  setAt(position: number, newValue: T): List<T> {
-    return new ArrayList(setAt(this.array, position, newValue));
+  isSupersetOf(other: ReadOnlySet<T>): boolean {
+    return isSupersetOf(this, other, this._equals);
   }
 
-  //#endregion
-
-  toArray(): Array<T> {
-    return this.queryable.toArray();
-  }
-
-  toJSON(): Array<T> {
-    return this.queryable.toJSON();
-  }
-
-  //#region Equatable
-
-  equals(other: ReadOnlyList<T>): boolean;
-  equals(other: ReadOnlyList<T>, equals: Delegate<[T, T], boolean>): boolean;
-  equals(other: ReadOnlyList<T>, equals: Delegate<[T, T], boolean> = StrictEquals): boolean {
-    if (this.length !== other.length) {
-      return false;
-    }
-
-    return _equals(this.queryable, other, equals);
-  }
-
-  //#endregion
-
-  //#region ReadOnlyList
-
-  findIndex(predicate: Delegate<[T, number], boolean>): number | undefined {
-    return findIndex(this.array, predicate);
-  }
-
-  getAt(position: number): T | never {
-    argument(position >= 0, `Position cannot be negative: position=${position}`);
-    argument(position < this.array.length, `Position is out of bounds: position=${position}, length=${this.array.length}`);
-
-    return this.array[position];
-  }
-
-  indexOf(item: T): number | undefined;
-  indexOf(item: T, equals: Delegate<[T, T], boolean>): number | undefined;
-  indexOf(item: T, equals: Delegate<[T, T], boolean>, offset: number): number | undefined;
-  indexOf(item: T, equals: Delegate<[T, T], boolean>, offset: number, limit: number): number | undefined;
-  indexOf(item: T, equals: Delegate<[T, T], boolean> = StrictEquals, offset: number = 0, limit: number = Infinity): number | undefined {
-    return indexOf(this.array, item, equals, offset, limit);
-  }
-
-  lastIndexOf(item: T): number | undefined;
-  lastIndexOf(item: T, equals: Delegate<[T, T], boolean>): number | undefined;
-  lastIndexOf(item: T, equals: Delegate<[T, T], boolean>, offset: number): number | undefined;
-  lastIndexOf(item: T, equals: Delegate<[T, T], boolean>, offset: number, limit: number): number | undefined;
-  lastIndexOf(item: T, equals: Delegate<[T, T], boolean> = StrictEquals, offset: number = 0, limit: number = Infinity): number | undefined {
-    return lastIndexOf(this.array, item, equals, offset, limit);
+  overlaps(other: ReadOnlySet<T>): boolean {
+    return overlaps(this, other, this._equals);
   }
 
   //#endregion
@@ -226,23 +116,15 @@ export class ArrayList<T> implements List<T> {
   //#region Queryable
 
   aggregate<R>(project: Delegate<[R, T, number], R>, initialSeed: R): R {
-    return this.array.reduce((previous, current, index) => project(previous, current, index), initialSeed);
+    return aggregate(this.array, project, initialSeed);
   }
 
   all(predicate: Delegate<[T, number], boolean>): boolean {
-    if (this.isEmpty) {
-      throw new InvalidOperationException(`Operation is not allowed for empty collections.`);
-    }
-
-    return this.array.every((value, index) => predicate(value, index));
+    return all(this.array, predicate);
   }
 
   any(predicate: Delegate<[T, number], boolean>): boolean {
-    if (this.isEmpty) {
-      throw new InvalidOperationException(`Operation is not allowed for empty collections.`);
-    }
-
-    return this.array.some((value, index) => predicate(value, index));
+    return any(this.array, predicate);
   }
 
   average(select: Delegate<[T, number], number>): number {
@@ -261,13 +143,13 @@ export class ArrayList<T> implements List<T> {
 
   contains(item: T): boolean;
   contains(item: T, equals: Delegate<[T, T], boolean>): boolean;
-  contains(item: T, equals: Delegate<[T, T], boolean> = StrictEquals): boolean {
+  contains(item: T, equals: Delegate<[T, T], boolean> = this._equals): boolean {
     return this.queryable.contains(item, equals);
   }
 
   containsAll(items: Iterable<T>): boolean;
   containsAll(items: Iterable<T>, equals: Delegate<[T, T], boolean>): boolean;
-  containsAll(items: Iterable<T>, equals: Delegate<[T, T], boolean> = StrictEquals): boolean {
+  containsAll(items: Iterable<T>, equals: Delegate<[T, T], boolean> = this._equals): boolean {
     return this.queryable.containsAll(items, equals);
   }
 
@@ -277,7 +159,7 @@ export class ArrayList<T> implements List<T> {
 
   distinct(): Queryable<T>;
   distinct(equals: Delegate<[T, T], boolean>): Queryable<T>;
-  distinct(equals: Delegate<[T, T], boolean> = StrictEquals): Queryable<T> {
+  distinct(equals: Delegate<[T, T], boolean> = this._equals): Queryable<T> {
     return this.queryable.distinct(equals);
   }
 
@@ -287,7 +169,7 @@ export class ArrayList<T> implements List<T> {
 
   except(items: Iterable<T>): Queryable<T>;
   except(items: Iterable<T>, equals: Delegate<[T, T], boolean>): Queryable<T>;
-  except(items: Iterable<T>, equals: Delegate<[T, T], boolean> = StrictEquals): Queryable<T> {
+  except(items: Iterable<T>, equals: Delegate<[T, T], boolean> = this._equals): Queryable<T> {
     return this.queryable.except(items, equals);
   }
 
@@ -327,7 +209,7 @@ export class ArrayList<T> implements List<T> {
 
   intersect(otherItems: Iterable<T>): Queryable<T>;
   intersect(otherItems: Iterable<T>, equals: Delegate<[T, T], boolean>): Queryable<T>;
-  intersect(otherItems: Iterable<T>, equals: Delegate<[T, T], boolean> = StrictEquals): Queryable<T> {
+  intersect(otherItems: Iterable<T>, equals: Delegate<[T, T], boolean> = this._equals): Queryable<T> {
     return this.queryable.intersect(otherItems, equals);
   }
 
@@ -418,7 +300,7 @@ export class ArrayList<T> implements List<T> {
 
   union(others: Iterable<T>): Queryable<T>;
   union(others: Iterable<T>, equals: Delegate<[T, T], boolean>): Queryable<T>;
-  union(others: Iterable<T>, equals: Delegate<[T, T], boolean> = StrictEquals): Queryable<T> {
+  union(others: Iterable<T>, equals: Delegate<[T, T], boolean> = this._equals): Queryable<T> {
     return this.queryable.union(others, equals);
   }
 
@@ -427,4 +309,33 @@ export class ArrayList<T> implements List<T> {
   }
 
   //#endregion
+
+  //#region Equatable
+
+  equals(other: ReadOnlySet<T>): boolean {
+    if (this === other) {
+      return true;
+    }
+
+    return this.length === other.length && this.containsAll(other) && other.containsAll(this);
+  }
+
+  //#endregion
+
+  //#region ToArray
+
+  toArray(): Array<T> {
+    return [...this.array];
+  }
+
+  //#endregion
+
+  //#region ToJSON
+
+  toJSON(): Array<T> {
+    return this.toArray();
+  }
+
+  //#endregion
+
 }

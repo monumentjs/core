@@ -1,9 +1,13 @@
-import { Delegate, ToJSON } from '@monument/core';
 import { ComparisonResult, SortOrder } from '@monument/comparison';
+import { Delegate, ToJSON } from '@monument/core';
 import { KeyValuePair } from '../base/KeyValuePair';
 import { Sequence } from '../base/Sequence';
 import { ToArray } from '../base/ToArray';
 
+/**
+ * @author Alex Chugaev
+ * @since 0.16.0
+ */
 export interface Queryable<T> extends Sequence<T>, ToJSON<Array<T>>, ToArray<T> {
   readonly isEmpty: boolean;
 
@@ -76,24 +80,6 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<Array<T>>, ToArray<T> 
   filter<R = T>(predicate: Delegate<[T, number], boolean>): Queryable<R>;
 
   /**
-   * Calls predicate function on each item in sequence.
-   * Returns new collection containing items for which predicate function returned `true`.
-   */
-  findAll(predicate: Delegate<[T, number], boolean>): Queryable<T>;
-
-  /**
-   * Calls predicate function on each item in sequence.
-   * Returns new collection containing items for which predicate function returned `true`.
-   */
-  findAll(predicate: Delegate<[T, number], boolean>, limit: number): Queryable<T>;
-
-  /**
-   * Calls predicate function on each item in sequence.
-   * Returns new collection containing items for which predicate function returned `true`.
-   */
-  findAll(predicate: Delegate<[T, number], boolean>, limit: number, offset: number): Queryable<T>;
-
-  /**
    * Returns first item of collection. If collection is empty, returns default payload.
    */
   first(predicate: Delegate<[T, number], boolean>): T | undefined;
@@ -112,7 +98,7 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<Array<T>>, ToArray<T> 
     selectKey: Delegate<[T, number], K>,
     selectValue: Delegate<[T, number], V>,
     selectResult: Delegate<[K, Iterable<V>], R>
-  ): Iterable<R>;
+  ): Queryable<R>;
 
   /**
    * Groups the elements of a sequence according to a specified key selector function and key equality equals.
@@ -122,7 +108,7 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<Array<T>>, ToArray<T> 
     selectValue: Delegate<[T, number], V>,
     selectResult: Delegate<[K, Iterable<V>], R>,
     keysEquals: Delegate<[K, K], boolean>
-  ): Iterable<R>;
+  ): Queryable<R>;
 
   /**
    * Produces the set intersection of two sequences.
@@ -224,7 +210,7 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<Array<T>>, ToArray<T> 
   /**
    * Returns a specified number of contiguous elements from the run of a sequence.
    */
-  take(length: number): Queryable<T>;
+  take(limit: number): Queryable<T>;
 
   /**
    * Returns elements from a sequence as long as a specified condition is true, and then skips the remaining elements.

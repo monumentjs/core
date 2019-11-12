@@ -11,14 +11,14 @@ describe('findAll()', function() {
 
   it('should find specific amount of items matching predicate', function() {
     const source = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-    const result = findAll(source, isEven, 1, 2);
+    const result = findAll(source, isEven, 2, 1);
 
     expect([...result]).toEqual([4, 6]);
   });
 
   it('should maintain on-demand evaluation evaluation', function() {
     const source = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-    const result = findAll(source, isEven, 1, 4);
+    const result = findAll(source, isEven, 4, 1);
 
     expect([...result]).toEqual([4, 6, 8]);
 

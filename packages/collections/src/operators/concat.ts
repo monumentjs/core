@@ -1,3 +1,4 @@
+
 export function concat<T>(self: Iterable<T>, others: Iterable<Iterable<T>>): Iterable<T> {
   return {
     * [Symbol.iterator](): Iterator<T> {

@@ -1,11 +1,12 @@
-import { Delegate } from '@monument/core';
 import { StrictEquals } from '@monument/comparison';
+import { Delegate } from '@monument/core';
 import { containsAll } from './containsAll';
-import { distinct } from './distinct';
 
+export function isProperSupersetOf<T>(self: Iterable<T>, other: Iterable<T>): boolean;
+export function isProperSupersetOf<T>(self: Iterable<T>, other: Iterable<T>, equals: Delegate<[T, T], boolean>): boolean;
 export function isProperSupersetOf<T>(self: Iterable<T>, other: Iterable<T>, equals: Delegate<[T, T], boolean> = StrictEquals): boolean {
-  const _self = [...distinct(self, equals)];
-  const _other = [...distinct(other, equals)];
+  const _self = [...self];
+  const _other = [...other];
 
   if (_other.length === 0) {
     return true;

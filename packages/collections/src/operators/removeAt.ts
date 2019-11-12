@@ -1,7 +1,7 @@
 import { argument } from '@monument/assert';
 
 export function removeAt<T>(self: Iterable<T>, position: number): Iterable<T> {
-  argument(position >= 0, `removeAt(${position}): Position cannot be negative`);
+  argument(position >= 0, `Position cannot be negative: position=${position}`);
 
   return {
     * [Symbol.iterator](): Iterator<T> {
@@ -15,7 +15,7 @@ export function removeAt<T>(self: Iterable<T>, position: number): Iterable<T> {
         index++;
       }
 
-      argument(position < index, `removeAt(${position}): Position is out of range`);
+      argument(position < index, `Position is out of range: position=${position}, length=${index}`);
     }
   };
 }

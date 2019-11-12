@@ -10,7 +10,7 @@ export function sum<T>(self: Iterable<T>, select: Delegate<[T, number], number>)
   }, 0);
 
   if (count === 0) {
-    throw new InvalidOperationException(`Operation is not allowed for empty collections.`);
+    throw new InvalidOperationException(`Operation is not allowed for empty iterable`);
   }
 
   return total;

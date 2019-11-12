@@ -1,5 +1,7 @@
 import { argument } from '@monument/assert';
 
+export function range(from: number, to: number): Iterable<number>;
+export function range(from: number, to: number, step: number): Iterable<number>;
 export function range(from: number, to: number, step: number = 1): Iterable<number> {
   argument(from <= to);
   argument(step !== 0);

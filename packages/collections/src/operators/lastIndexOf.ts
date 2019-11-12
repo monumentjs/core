@@ -1,9 +1,6 @@
-import { Delegate } from '@monument/core';
+import { argument } from '@monument/assert';
 import { StrictEquals } from '@monument/comparison';
-import { slice } from './slice';
-import { entries } from './entries';
-import { KeyValuePair } from '../../index';
-import { last } from './last';
+import { Delegate } from '@monument/core';
 
 export function lastIndexOf<T>(self: Iterable<T>, other: T): number | undefined;
 export function lastIndexOf<T>(self: Iterable<T>, other: T, equals: Delegate<[T, T], boolean>): number | undefined;
@@ -16,9 +13,32 @@ export function lastIndexOf<T>(
   offset: number = 0,
   limit: number = Infinity
 ): number | undefined {
-  const _entries: Iterable<KeyValuePair<number, T>> = entries(self, (item, index) => [index, item]);
-  const _slice: Iterable<KeyValuePair<number, T>> = slice(_entries, offset, limit);
-  const _result = last(_slice, ([, item]) => equals(item, other));
+  argument(offset >= 0, `Offset cannot be negative: offset=${offset}`);
+  argument(limit >= 0, `Limit cannot be negative: limit=${limit}`);
 
-  return _result ? _result[0] : undefined;
+  if (limit === 0) {
+    return;
+  }
+
+  let index = 0;
+  let itemsLeft = limit;
+  let lastIndex: number | undefined;
+
+  for (const item of self) {
+    if (index >= offset) {
+      if (itemsLeft === 0) {
+        break;
+      }
+
+      if (equals(item, other)) {
+        lastIndex = index;
+      }
+
+      itemsLeft--;
+    }
+
+    index++;
+  }
+
+  return lastIndex;
 }

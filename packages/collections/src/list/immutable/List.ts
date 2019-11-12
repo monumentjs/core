@@ -3,7 +3,7 @@ import { ReadOnlyList } from '../readonly/ReadOnlyList';
 
 /**
  * @author Alex Chugaev
- * @since 0.0.1
+ * @since 0.16.0
  */
 export interface List<T> extends ReadOnlyList<T> {
   append(item: T): List<T>;
@@ -16,9 +16,9 @@ export interface List<T> extends ReadOnlyList<T> {
 
   clear(): List<T>;
 
-  insert(index: number, item: T): List<T>;
+  insert(position: number, item: T): List<T>;
 
-  insertAll(index: number, items: Iterable<T>): List<T>;
+  insertAll(position: number, items: Iterable<T>): List<T>;
 
   prepend(item: T): List<T>;
 
@@ -32,7 +32,7 @@ export interface List<T> extends ReadOnlyList<T> {
 
   removeAll(items: Iterable<T>, equals: Delegate<[T, T], boolean>): List<T>;
 
-  removeAt(index: number): List<T>;
+  removeAt(position: number): List<T>;
 
   removeBy(predicate: Delegate<[T, number], boolean>): List<T>;
 
@@ -40,5 +40,5 @@ export interface List<T> extends ReadOnlyList<T> {
 
   retainAll(items: Iterable<T>, equals: Delegate<[T, T], boolean>): List<T>;
 
-  setAt(index: number, newValue: T): List<T>;
+  setAt(position: number, newValue: T): List<T>;
 }

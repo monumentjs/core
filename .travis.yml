@@ -30,6 +30,16 @@ after_success:
   - 'git add .'
   - 'git commit -m "updated api reference"'
   - 'git push "https://${GITHUB_TOKEN}@${GITHUB_SITE_REPO}" master'
+before_deploy:
+  - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> $HOME/.npmrc 2> /dev/null
+deploy:
+  provider: script
+  on:
+    node: 'node'
+    branch: master
+    tags: true
+  skip_cleanup: true
+  script: 'npm run lerna:publish'
 os:
   - 'linux'
   - 'osx'

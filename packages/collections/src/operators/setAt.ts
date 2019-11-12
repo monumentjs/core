@@ -1,6 +1,6 @@
 import { argument } from '@monument/assert';
 
-export function setAt<T>(self: Iterable<T>, position: number, update: T): Iterable<T> {
+export function setAt<T>(self: Iterable<T>, position: number, value: T): Iterable<T> {
   argument(position >= 0, `Position cannot be negative: position=${position}`);
 
   return {
@@ -9,7 +9,7 @@ export function setAt<T>(self: Iterable<T>, position: number, update: T): Iterab
 
       for (const item of self) {
         if (index === position) {
-          yield update;
+          yield value;
         } else {
           yield item;
         }

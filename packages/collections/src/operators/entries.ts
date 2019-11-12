@@ -1,13 +1,12 @@
-import { Delegate } from '@monument/core';
 import { KeyValuePair } from '../base/KeyValuePair';
 
-export function entries<T, K, V>(self: Iterable<T>, select: Delegate<[T, number], KeyValuePair<K, V>>): Iterable<KeyValuePair<K, V>> {
+export function entries<T>(self: Iterable<T>): Iterable<KeyValuePair<number, T>> {
   return {
-    * [Symbol.iterator](): Iterator<KeyValuePair<K, V>> {
+    * [Symbol.iterator](): Iterator<KeyValuePair<number, T>> {
       let index: number = 0;
 
       for (const item of self) {
-        yield select(item, index);
+        yield [index, item];
 
         index++;
       }

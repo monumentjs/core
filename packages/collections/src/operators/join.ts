@@ -1,5 +1,5 @@
-import { Delegate } from '@monument/core';
 import { StrictEquals } from '@monument/comparison';
+import { Delegate } from '@monument/core';
 
 export function join<T1, T2, K, R>(
   self: Iterable<T1>,

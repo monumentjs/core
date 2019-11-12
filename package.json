@@ -7,8 +7,8 @@
     "compile": "tsc",
     "contributors": "git log --pretty=\"%an <%ae>\" | sort | uniq > CONTRIBUTORS",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
-    "changelog": "lerna-changelog",
     "docs": "gulp docs",
+    "lerna:publish": "lerna publish from-git --yes",
     "lint": "tslint --format stylish --project .",
     "lint:fix": "tslint --fix --format stylish --project .",
     "format": "prettier --check \"**/*.{ts,js,json,yml}\"",
@@ -20,19 +20,18 @@
     "cleanup": "rm -rf ./coverage && rm -rf ./node_modules && find ./packages -type f -name '*.js' -delete && find ./packages -type f -name '*.d.ts' -delete && find ./packages -type f -name '*.js.map' -delete && find ./packages -type d -name '*node_modules' -exec rm -r {} + && find ./packages -type d -empty -delete"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.19",
+    "@types/jest": "^24.0.22",
     "coveralls": "^3.0.7",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
-    "gulp-typedoc": "^2.2.2",
+    "gulp-typedoc": "^2.2.3",
     "jest": "^24.9.0",
     "lerna": "^3.18.3",
-    "lerna-changelog": "^0.8.2",
     "prettier": "^1.18.2",
     "ts-jest": "^24.1.0",
-    "tslint": "^5.20.0",
+    "tslint": "^5.20.1",
     "typedoc": "^0.15.0",
-    "typescript": "^3.6.4"
+    "typescript": "^3.7.2"
   },
   "repository": {
     "type": "git",

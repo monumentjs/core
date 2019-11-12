@@ -7,7 +7,7 @@ export function average<T>(self: Iterable<T>, select: Delegate<[T, number], numb
   const total = sum(self, item => select(item, ++count));
 
   if (count === 0) {
-    throw new InvalidOperationException(`Operation is not allowed for empty source.`);
+    throw new InvalidOperationException(`Operation is not allowed for empty source`);
   }
 
   return total / count;

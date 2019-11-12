@@ -1,45 +1,43 @@
-import { Delegate } from '@monument/core';
 import { ComparisonResult, SortOrder, StrictEquals } from '@monument/comparison';
+import { Delegate } from '@monument/core';
 import { randomInt } from '@monument/random';
 import { KeyValuePair } from '../base/KeyValuePair';
-import { Queryable } from './Queryable';
+import { aggregate } from '../operators/aggregate';
+import { all } from '../operators/all';
+import { any } from '../operators/any';
 import { average } from '../operators/average';
 import { chunk } from '../operators/chunk';
-import { orderBy } from '../operators/orderBy';
-import { sum } from '../operators/sum';
-import { findAll } from '../operators/findAll';
-import { aggregate } from '../operators/aggregate';
-import { random } from '../operators/random';
-import { slice } from '../operators/slice';
-import { join } from '../operators/join';
-import { all } from '../operators/all';
-import { intersect } from '../operators/intersect';
-import { forEach } from '../operators/forEach';
-import { containsAll } from '../operators/containsAll';
-import { union } from '../operators/union';
-import { reverse } from '../operators/reverse';
-import { contains } from '../operators/contains';
-import { entries } from '../operators/entries';
-import { selectMany } from '../operators/selectMany';
-import { except } from '../operators/except';
-import { any } from '../operators/any';
-import { length } from '../operators/length';
-import { isEmpty } from '../operators/isEmpty';
 import { concat } from '../operators/concat';
-import { count } from '../operators/count';
+import { contains } from '../operators/contains';
+import { containsAll } from '../operators/containsAll';
 import { distinct } from '../operators/distinct';
+import { entries } from '../operators/entries';
+import { except } from '../operators/except';
+import { filter } from '../operators/filter';
 import { first } from '../operators/first';
+import { forEach } from '../operators/forEach';
 import { groupBy } from '../operators/groupBy';
+import { intersect } from '../operators/intersect';
+import { isEmpty } from '../operators/isEmpty';
+import { join } from '../operators/join';
 import { last } from '../operators/last';
+import { length } from '../operators/length';
 import { map } from '../operators/map';
 import { max } from '../operators/max';
 import { min } from '../operators/min';
+import { orderBy } from '../operators/orderBy';
+import { random } from '../operators/random';
+import { reverse } from '../operators/reverse';
+import { selectMany } from '../operators/selectMany';
 import { skip } from '../operators/skip';
 import { skipWhile } from '../operators/skipWhile';
+import { slice } from '../operators/slice';
+import { sum } from '../operators/sum';
 import { take } from '../operators/take';
 import { takeWhile } from '../operators/takeWhile';
+import { union } from '../operators/union';
 import { zip } from '../operators/zip';
-import { filter } from '../operators/filter';
+import { Queryable } from './Queryable';
 
 export class QueryableBase<T> implements Queryable<T> {
 
@@ -76,8 +74,8 @@ export class QueryableBase<T> implements Queryable<T> {
 
   chunk(): Queryable<Iterable<T>>;
   chunk(size: number): Queryable<Iterable<T>>;
-  chunk(size?: number): Queryable<Iterable<T>> {
-    return new QueryableBase(chunk(this, size as number));
+  chunk(size: number = 1): Queryable<Iterable<T>> {
+    return new QueryableBase(chunk(this, size));
   }
 
   concat(...others: Array<Iterable<T>>): Queryable<T> {
@@ -85,46 +83,39 @@ export class QueryableBase<T> implements Queryable<T> {
   }
 
   contains(item: T): boolean;
-  contains(item: T, _equals: Delegate<[T, T], boolean>): boolean;
-  contains(item: T, _equals?: Delegate<[T, T], boolean>): boolean {
-    return contains(this, item, _equals as Delegate<[T, T], boolean>);
+  contains(item: T, equals: Delegate<[T, T], boolean>): boolean;
+  contains(item: T, equals: Delegate<[T, T], boolean> = StrictEquals): boolean {
+    return contains(this, item, equals);
   }
 
   containsAll(items: Iterable<T>): boolean;
-  containsAll(items: Iterable<T>, _equals: Delegate<[T, T], boolean>): boolean;
-  containsAll(items: Iterable<T>, _equals?: Delegate<[T, T], boolean>): boolean {
-    return containsAll(this, items, _equals as Delegate<[T, T], boolean>);
+  containsAll(items: Iterable<T>, equals: Delegate<[T, T], boolean>): boolean;
+  containsAll(items: Iterable<T>, equals: Delegate<[T, T], boolean> = StrictEquals): boolean {
+    return containsAll(this, items, equals);
   }
 
   count(predicate: Delegate<[T, number], boolean>): number {
-    return count(this, predicate);
+    return length(filter(this, predicate));
   }
 
   distinct(): Queryable<T>;
-  distinct(_equals: Delegate<[T, T], boolean>): Queryable<T>;
-  distinct(_equals?: Delegate<[T, T], boolean>): Queryable<T> {
-    return new QueryableBase(distinct(this, _equals as Delegate<[T, T], boolean>));
+  distinct(equals: Delegate<[T, T], boolean>): Queryable<T>;
+  distinct(equals: Delegate<[T, T], boolean> = StrictEquals): Queryable<T> {
+    return new QueryableBase(distinct(this, equals));
   }
 
   entries(): Queryable<KeyValuePair<number, T>> {
-    return new QueryableBase(entries(this, (item, index) => [index, item]));
+    return new QueryableBase(entries(this));
   }
 
   except(items: Iterable<T>): Queryable<T>;
-  except(items: Iterable<T>, _equals: Delegate<[T, T], boolean>): Queryable<T>;
-  except(items: Iterable<T>, _equals?: Delegate<[T, T], boolean>): Queryable<T> {
-    return new QueryableBase(except(this, items, _equals as Delegate<[T, T], boolean>));
+  except(items: Iterable<T>, equals: Delegate<[T, T], boolean>): Queryable<T>;
+  except(items: Iterable<T>, equals: Delegate<[T, T], boolean> = StrictEquals): Queryable<T> {
+    return new QueryableBase(except(this, items, equals));
   }
 
   filter<R = T>(predicate: Delegate<[T, number], boolean>): Queryable<R> {
     return new QueryableBase(filter(this, predicate));
-  }
-
-  findAll(predicate: Delegate<[T, number], boolean>): Queryable<T>;
-  findAll(predicate: Delegate<[T, number], boolean>, limit: number): Queryable<T>;
-  findAll(predicate: Delegate<[T, number], boolean>, limit: number, offset: number): Queryable<T>;
-  findAll(predicate: Delegate<[T, number], boolean>, limit?: number, offset?: number): Queryable<T> {
-    return new QueryableBase(findAll(this, predicate, limit as number, offset as number));
   }
 
   first(predicate: Delegate<[T, number], boolean>): T | undefined;
@@ -154,13 +145,13 @@ export class QueryableBase<T> implements Queryable<T> {
     selectResult: Delegate<[K, Iterable<V>], R>,
     keysEquals: Delegate<[K, K], boolean> = StrictEquals
   ): Queryable<R> {
-    return new QueryableBase(groupBy(this, selectKey, selectValue, selectResult, keysEquals as Delegate<[K, K], boolean>));
+    return new QueryableBase(groupBy(this, selectKey, selectValue, selectResult, keysEquals));
   }
 
   intersect(otherItems: Iterable<T>): Queryable<T>;
-  intersect(otherItems: Iterable<T>, _equals: Delegate<[T, T], boolean>): Queryable<T>;
-  intersect(otherItems: Iterable<T>, _equals?: Delegate<[T, T], boolean>): Queryable<T> {
-    return new QueryableBase(intersect(this, otherItems, _equals as Delegate<[T, T], boolean>));
+  intersect(otherItems: Iterable<T>, equals: Delegate<[T, T], boolean>): Queryable<T>;
+  intersect(otherItems: Iterable<T>, equals: Delegate<[T, T], boolean> = StrictEquals): Queryable<T> {
+    return new QueryableBase(intersect(this, otherItems, equals));
   }
 
   join<O, K, R>(
@@ -181,9 +172,9 @@ export class QueryableBase<T> implements Queryable<T> {
     selectInnerKey: Delegate<[T, number], K>,
     selectOuterKey: Delegate<[O, number], K>,
     selectResult: Delegate<[T, O], R>,
-    keysEquals?: Delegate<[K, K], boolean>
+    keysEquals: Delegate<[K, K], boolean> = StrictEquals
   ): Queryable<R> {
-    return new QueryableBase(join(this, others, selectInnerKey, selectOuterKey, selectResult, keysEquals as Delegate<[K, K], boolean>));
+    return new QueryableBase(join(this, others, selectInnerKey, selectOuterKey, selectResult, keysEquals));
   }
 
   last(predicate: Delegate<[T, number], boolean>): T | undefined;
@@ -206,8 +197,8 @@ export class QueryableBase<T> implements Queryable<T> {
 
   orderBy<K>(selectKey: Delegate<[T], K>, compareKeys: Delegate<[K, K], ComparisonResult>): Queryable<T>;
   orderBy<K>(selectKey: Delegate<[T], K>, compareKeys: Delegate<[K, K], ComparisonResult>, sortOrder: SortOrder): Queryable<T>;
-  orderBy<K>(selectKey: Delegate<[T], K>, compareKeys: Delegate<[K, K], ComparisonResult>, sortOrder?: SortOrder): Queryable<T> {
-    return new QueryableBase(orderBy(this, selectKey, compareKeys, sortOrder as SortOrder));
+  orderBy<K>(selectKey: Delegate<[T], K>, compareKeys: Delegate<[K, K], ComparisonResult>, sortOrder: SortOrder = SortOrder.ASCENDING): Queryable<T> {
+    return new QueryableBase(orderBy(this, selectKey, compareKeys, sortOrder));
   }
 
   random(): T;
@@ -249,9 +240,9 @@ export class QueryableBase<T> implements Queryable<T> {
   }
 
   union(others: Iterable<T>): Queryable<T>;
-  union(others: Iterable<T>, _equals: Delegate<[T, T], boolean>): Queryable<T>;
-  union(others: Iterable<T>, _equals?: Delegate<[T, T], boolean>): Queryable<T> {
-    return new QueryableBase(union(this, others, _equals as Delegate<[T, T], boolean>));
+  union(others: Iterable<T>, equals: Delegate<[T, T], boolean>): Queryable<T>;
+  union(others: Iterable<T>, equals: Delegate<[T, T], boolean> = StrictEquals): Queryable<T> {
+    return new QueryableBase(union(this, others, equals));
   }
 
   zip<O, R>(others: Iterable<O>, combine: Delegate<[T, O], R>): Queryable<R> {
