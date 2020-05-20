@@ -1,0 +1,2 @@
+export interface Query<TResult> {
+}

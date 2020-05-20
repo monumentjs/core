@@ -13,7 +13,6 @@ import { MutableSet } from './MutableSet';
 
 /**
  * Represents mutable set based on immutable `ArraySet<T>`.
- * @emits SetChangeEvent when current set changed
  * @see ArraySet
  * @see MutableSet
  * @see SetChangeEvent
@@ -24,11 +23,11 @@ export class MutableArraySet<T> implements MutableSet<T>, Cloneable<MutableArray
   private readonly _equals: Delegate<[T, T], boolean>;
   private readonly _source: BehaviorSubject<Set<T>>;
 
-  protected get source(): Set<T> {
+  private get source(): Set<T> {
     return this._source.value;
   }
 
-  protected set source(list: Set<T>) {
+  private set source(list: Set<T>) {
     this._source.next(list);
   }
 

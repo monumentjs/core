@@ -25,6 +25,7 @@ import { Queryable } from '../../queryable/Queryable';
 import { QueryableBase } from '../../queryable/QueryableBase';
 import { ReadOnlyList } from '../readonly/ReadOnlyList';
 import { List } from './List';
+import { Optional } from '@monument/data';
 
 /**
  * Represents immutable list based on native `Array`.
@@ -43,12 +44,12 @@ export class ArrayList<T> implements List<T> {
     return this.array.length === 0;
   }
 
-  get firstIndex(): number | undefined {
-    return this.isEmpty ? undefined : 0;
+  get firstIndex(): Optional<number> {
+    return this.isEmpty ? Optional.empty() : Optional.of(0);
   }
 
-  get lastIndex(): number | undefined {
-    return this.isEmpty ? undefined : this.length - 1;
+  get lastIndex(): Optional<number> {
+    return this.isEmpty ? Optional.empty() : Optional.of(this.length - 1);
   }
 
   constructor(items: Iterable<T> = []) {
@@ -194,7 +195,7 @@ export class ArrayList<T> implements List<T> {
 
   //#region ReadOnlyList
 
-  findIndex(predicate: Delegate<[T, number], boolean>): number | undefined {
+  findIndex(predicate: Delegate<[T, number], boolean>): Optional<number> {
     return findIndex(this.array, predicate);
   }
 
@@ -205,19 +206,19 @@ export class ArrayList<T> implements List<T> {
     return this.array[position];
   }
 
-  indexOf(item: T): number | undefined;
-  indexOf(item: T, equals: Delegate<[T, T], boolean>): number | undefined;
-  indexOf(item: T, equals: Delegate<[T, T], boolean>, offset: number): number | undefined;
-  indexOf(item: T, equals: Delegate<[T, T], boolean>, offset: number, limit: number): number | undefined;
-  indexOf(item: T, equals: Delegate<[T, T], boolean> = StrictEquals, offset: number = 0, limit: number = Infinity): number | undefined {
+  indexOf(item: T): Optional<number>;
+  indexOf(item: T, equals: Delegate<[T, T], boolean>): Optional<number>;
+  indexOf(item: T, equals: Delegate<[T, T], boolean>, offset: number): Optional<number>;
+  indexOf(item: T, equals: Delegate<[T, T], boolean>, offset: number, limit: number): Optional<number>;
+  indexOf(item: T, equals: Delegate<[T, T], boolean> = StrictEquals, offset: number = 0, limit: number = Infinity): Optional<number> {
     return indexOf(this.array, item, equals, offset, limit);
   }
 
-  lastIndexOf(item: T): number | undefined;
-  lastIndexOf(item: T, equals: Delegate<[T, T], boolean>): number | undefined;
-  lastIndexOf(item: T, equals: Delegate<[T, T], boolean>, offset: number): number | undefined;
-  lastIndexOf(item: T, equals: Delegate<[T, T], boolean>, offset: number, limit: number): number | undefined;
-  lastIndexOf(item: T, equals: Delegate<[T, T], boolean> = StrictEquals, offset: number = 0, limit: number = Infinity): number | undefined {
+  lastIndexOf(item: T): Optional<number>;
+  lastIndexOf(item: T, equals: Delegate<[T, T], boolean>): Optional<number>;
+  lastIndexOf(item: T, equals: Delegate<[T, T], boolean>, offset: number): Optional<number>;
+  lastIndexOf(item: T, equals: Delegate<[T, T], boolean>, offset: number, limit: number): Optional<number>;
+  lastIndexOf(item: T, equals: Delegate<[T, T], boolean> = StrictEquals, offset: number = 0, limit: number = Infinity): Optional<number> {
     return lastIndexOf(this.array, item, equals, offset, limit);
   }
 
@@ -295,10 +296,8 @@ export class ArrayList<T> implements List<T> {
     return this.queryable.filter(predicate);
   }
 
-  first(predicate: Delegate<[T, number], boolean>): T | undefined;
-  first(predicate: Delegate<[T, number], boolean>, fallback: Delegate<[], T>): T;
-  first(predicate: Delegate<[T, number], boolean>, fallback?: Delegate<[], T>): T | undefined {
-    return this.queryable.first(predicate, fallback as Delegate<[], T>);
+  first(): Optional<T> {
+    return this.queryable.first();
   }
 
   forEach(accept: Delegate<[T, number], boolean | void>): void {
@@ -354,10 +353,8 @@ export class ArrayList<T> implements List<T> {
     return this.queryable.join(others, selectInnerKey, selectOuterKey, selectResult, keysEquals);
   }
 
-  last(predicate: Delegate<[T, number], boolean>): T | undefined;
-  last(predicate: Delegate<[T, number], boolean>, fallback: Delegate<[], T>): T;
-  last(predicate: Delegate<[T, number], boolean>, fallback?: Delegate<[], T>): T | undefined {
-    return this.queryable.last(predicate, fallback as Delegate<[], T>);
+  last(): Optional<T> {
+    return this.queryable.last();
   }
 
   map<R>(project: Delegate<[T, number], R>): Queryable<R> {

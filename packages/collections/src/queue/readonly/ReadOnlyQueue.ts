@@ -1,13 +1,15 @@
-import { Iterables } from '../../operators/Iterables';
+import { Queryable } from '../../queryable/Queryable';
 
 /**
  * @author Alex Chugaev
- * @since 0.0.1
+ * @since 0.16.0
  */
-export interface ReadOnlyQueue<T> extends Iterables<T> {
+export interface ReadOnlyQueue<T> extends Queryable<T> {
   /**
    * Returns the oldest element of queue without removing it.
    * @throws {EmptyQueueException} if no elements in queue
+   * @author Alex Chugaev
+   * @since 0.16.0
    */
   peek(): T;
 }

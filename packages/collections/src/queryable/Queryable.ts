@@ -3,88 +3,154 @@ import { Delegate, ToJSON } from '@monument/core';
 import { KeyValuePair } from '../base/KeyValuePair';
 import { Sequence } from '../base/Sequence';
 import { ToArray } from '../base/ToArray';
+import { Optional } from '../../../data';
 
 /**
  * @author Alex Chugaev
  * @since 0.16.0
  */
 export interface Queryable<T> extends Sequence<T>, ToJSON<Array<T>>, ToArray<T> {
+  /**
+   *
+   * @author Alex Chugaev
+   * @since 0.16.0
+   */
   readonly isEmpty: boolean;
 
   /**
    * Applies an accumulator function over a sequence.
    * The specified seed payload is used as the initial accumulator payload.
+   * @author Alex Chugaev
+   * @since 0.16.0
    */
   aggregate<R>(project: Delegate<[R, T, number], R>, initialSeed: R): R;
 
   /**
    * Determines whether all elements of a sequence satisfy a condition.
+   * @author Alex Chugaev
+   * @since 0.16.0
    */
   all(predicate: Delegate<[T, number], boolean>): boolean;
 
   /**
    * Determines whether any element of a sequence satisfies a condition.
+   * @author Alex Chugaev
+   * @since 0.16.0
    */
   any(predicate: Delegate<[T, number], boolean>): boolean;
 
   /**
    * Computes the average of a sequence of values that are obtained by invoking a transform function on each element
    * of the input sequence.
+   * @author Alex Chugaev
+   * @since 0.16.0
    */
   average(select: Delegate<[T, number], number>): number;
 
+  /**
+   *
+   * @author Alex Chugaev
+   * @since 0.16.0
+   */
   chunk(): Queryable<Iterable<T>>;
 
+  /**
+   *
+   * @author Alex Chugaev
+   * @since 0.16.0
+   */
   chunk(size: number): Queryable<Iterable<T>>;
 
   /**
    * Concatenates actual sequence with other one and returns new sequence containing elements of both of them.
+   * @author Alex Chugaev
+   * @since 0.16.0
    */
   concat(...others: Array<Iterable<T>>): Queryable<T>;
 
+  /**
+   *
+   * @author Alex Chugaev
+   * @since 0.16.0
+   */
   contains(item: T): boolean;
 
+  /**
+   *
+   * @author Alex Chugaev
+   * @since 0.16.0
+   */
   contains(item: T, equals: Delegate<[T, T], boolean>): boolean;
 
+  /**
+   *
+   * @author Alex Chugaev
+   * @since 0.16.0
+   */
   containsAll(items: Iterable<T>): boolean;
 
+  /**
+   *
+   * @author Alex Chugaev
+   * @since 0.16.0
+   */
   containsAll(items: Iterable<T>, equals: Delegate<[T, T], boolean>): boolean;
 
   /**
    * Returns a number that represents how many elements in the specified sequence satisfy a condition.
+   * @author Alex Chugaev
+   * @since 0.16.0
    */
   count(predicate: Delegate<[T, number], boolean>): number;
 
   /**
    * Returns distinct elements from a sequence.
+   * @author Alex Chugaev
+   * @since 0.16.0
    */
   distinct(): Queryable<T>;
 
   /**
    * Returns distinct elements from a sequence by using a specified function to compare values.
+   * @author Alex Chugaev
+   * @since 0.16.0
    */
   distinct(equals: Delegate<[T, T], boolean>): Queryable<T>;
 
+  /**
+   *
+   * @author Alex Chugaev
+   * @since 0.16.0
+   */
   entries(): Queryable<KeyValuePair<number, T>>;
 
   /**
    * Produces the set difference of two sequences.
+   * @author Alex Chugaev
+   * @since 0.16.0
    */
   except(items: Iterable<T>): Queryable<T>;
 
   /**
    * Produces the set difference of two sequences by using the specified function to compare values.
+   * @author Alex Chugaev
+   * @since 0.16.0
    */
   except(items: Iterable<T>, equals: Delegate<[T, T], boolean>): Queryable<T>;
 
+  /**
+   *
+   * @author Alex Chugaev
+   * @since 0.16.0
+   */
   filter<R = T>(predicate: Delegate<[T, number], boolean>): Queryable<R>;
 
   /**
-   * Returns first item of collection. If collection is empty, returns default payload.
+   * Returns first element.
+   * @author Alex Chugaev
+   * @since 0.16.0
    */
-  first(predicate: Delegate<[T, number], boolean>): T | undefined;
-
-  first(predicate: Delegate<[T, number], boolean>, fallback: Delegate<[], T>): T;
+  first(): Optional<T>;
 
   /**
    * Calls iterator function for each element of collection.
@@ -145,9 +211,7 @@ export interface Queryable<T> extends Sequence<T>, ToJSON<Array<T>>, ToArray<T> 
   /**
    * Returns last item of collection. If collection is empty, returns default payload.
    */
-  last(predicate: Delegate<[T, number], boolean>): T | undefined;
-
-  last(predicate: Delegate<[T, number], boolean>, fallback: Delegate<[], T>): T;
+  last(): Optional<T>;
 
   /**
    * Projects each element of a sequence into a new form.

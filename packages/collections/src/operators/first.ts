@@ -1,17 +1,11 @@
-import { Delegate } from '@monument/core';
+import { Optional } from '../../../data';
 
-export function first<T>(self: Iterable<T>, predicate: Delegate<[T, number], boolean>): T | undefined;
-export function first<T>(self: Iterable<T>, predicate: Delegate<[T, number], boolean>, fallback: Delegate<[], T>): T;
-export function first<T>(self: Iterable<T>, predicate: Delegate<[T, number], boolean>, fallback?: Delegate<[], T>): T | undefined {
-  let index = 0;
+export function first<T>(self: Iterable<T>): Optional<T> {
+  const result: IteratorResult<T> = self[Symbol.iterator]().next();
 
-  for (const item of self) {
-    if (predicate(item, index)) {
-      return item;
-    }
-
-    index++;
+  if (result.done) {
+    return Optional.empty();
+  } else {
+    return Optional.of(result.value);
   }
-
-  return fallback ? fallback() : undefined;
 }

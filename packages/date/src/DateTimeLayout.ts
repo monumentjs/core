@@ -1,4 +1,3 @@
-import { LinkedMap } from '@monument/collections';
 import { NotImplementedException } from '@monument/exceptions';
 import { Template } from '@monument/text';
 import { DateTimeFormat } from './DateTimeFormat';

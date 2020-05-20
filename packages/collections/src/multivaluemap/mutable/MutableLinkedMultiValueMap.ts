@@ -11,7 +11,7 @@ import { MutableMultiValueMap } from './MutableMultiValueMap';
  * @since 0.0.1
  */
 export class MutableLinkedMultiValueMap<K, V> implements MutableMultiValueMap<K, V> {
-  private readonly _map: Map<K, V[]> = new Map();
+  private readonly _map: Map<K, Array<V>> = new Map();
   private readonly _keyComparator: Delegate<[K, K], boolean>;
   private readonly _valueComparator: Delegate<[V, V], boolean>;
 
@@ -167,7 +167,7 @@ export class MutableLinkedMultiValueMap<K, V> implements MutableMultiValueMap<K,
   }
 
   * get(key: K): Iterable<V> {
-    const entry: KeyValuePair<K, V[]> | undefined = this.getEntry(key);
+    const entry: KeyValuePair<K, Array<V>> | undefined = this.getEntry(key);
 
     if (entry != null) {
       yield* entry[1];
@@ -177,10 +177,10 @@ export class MutableLinkedMultiValueMap<K, V> implements MutableMultiValueMap<K,
   getFirst(key: K): V | undefined;
   getFirst(key: K, fallback: Delegate<[], V>): V;
   getFirst(key: K, fallback?: Delegate<[], V>): V | undefined {
-    const entry: KeyValuePair<K, V[]> | undefined = this.getEntry(key);
+    const entry: KeyValuePair<K, Array<V>> | undefined = this.getEntry(key);
 
     if (entry != null) {
-      const ownValues: V[] = entry[1];
+      const ownValues: Array<V> = entry[1];
 
       if (ownValues.length > 0) {
         return ownValues[0];
@@ -212,7 +212,7 @@ export class MutableLinkedMultiValueMap<K, V> implements MutableMultiValueMap<K,
   }
 
   put(key: K, value: V): boolean {
-    const ownValues: V[] = this.obtainSlot(key);
+    const ownValues: Array<V> = this.obtainSlot(key);
 
     ownValues.push(value);
 
@@ -254,7 +254,7 @@ export class MutableLinkedMultiValueMap<K, V> implements MutableMultiValueMap<K,
   }
 
   remove(key: K): Iterable<V> | undefined {
-    const entry: KeyValuePair<K, V[]> | undefined = this.getEntry(key);
+    const entry: KeyValuePair<K, Array<V>> | undefined = this.getEntry(key);
 
     if (entry) {
       const [ownKey, ownValues] = entry;
@@ -295,7 +295,7 @@ export class MutableLinkedMultiValueMap<K, V> implements MutableMultiValueMap<K,
   }
 
   replaceIf(key: K, oldValue: V, newValue: V): boolean {
-    const entry: KeyValuePair<K, V[]> | undefined = this.getEntry(key);
+    const entry: KeyValuePair<K, Array<V>> | undefined = this.getEntry(key);
     let modified = false;
 
     if (entry != null) {
@@ -364,9 +364,9 @@ export class MutableLinkedMultiValueMap<K, V> implements MutableMultiValueMap<K,
     }, keyComparator, valueComparator);
   }
 
-  protected obtainSlot(key: K): V[] {
-    const entry: KeyValuePair<K, V[]> | undefined = this.getEntry(key);
-    let ownValues: V[];
+  protected obtainSlot(key: K): Array<V> {
+    const entry: KeyValuePair<K, Array<V>> | undefined = this.getEntry(key);
+    let ownValues: Array<V>;
 
     if (entry == null) {
       ownValues = [];
@@ -379,7 +379,7 @@ export class MutableLinkedMultiValueMap<K, V> implements MutableMultiValueMap<K,
     return ownValues;
   }
 
-  private getEntry(key: K): KeyValuePair<K, V[]> | undefined {
+  private getEntry(key: K): KeyValuePair<K, Array<V>> | undefined {
     for (const [ownKey, ownValues] of this._map) {
       if (this.keyComparator(ownKey, key)) {
         return [ownKey, ownValues];

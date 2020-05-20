@@ -45,3 +45,12 @@ os:
   - 'osx'
 notifications:
   slack: monumentjs:gkkM1IAYfH4A2eP4ZB6FXGQ3
+jobs:
+  include:
+    - stage: release
+      node_js: lts/*
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script:
+          - npx semantic-release

@@ -1,0 +1,11 @@
+{
+  "name": "@monument/data",
+  "version": "0.15.0",
+  "description": "Data model support",
+  "keywords": [],
+  "dependencies": {
+    "@monument/core": "^0.15.0",
+    "@monument/exceptions": "^0.15.0",
+    "@monument/comparison": "^0.15.0"
+  }
+}

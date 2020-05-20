@@ -1,20 +1,21 @@
 import { Delegate } from '@monument/core';
 import { Equatable } from '@monument/comparison';
 import { Queryable } from '../../queryable/Queryable';
+import { Optional } from '@monument/data';
 
 /**
  * @author Alex Chugaev
  * @since 0.16.0
  */
 export interface ReadOnlyList<T> extends Queryable<T>, Equatable<ReadOnlyList<T>> {
-  readonly firstIndex: number | undefined;
-  readonly lastIndex: number | undefined;
+  readonly firstIndex: Optional<number>;
+  readonly lastIndex: Optional<number>;
 
   equals(other: ReadOnlyList<T>): boolean;
 
   equals(other: ReadOnlyList<T>, equals: Delegate<[T, T], boolean>): boolean;
 
-  findIndex(predicate: Delegate<[T, number], boolean>): number | undefined;
+  findIndex(predicate: Delegate<[T, number], boolean>): Optional<number>;
 
   /**
    * @throws {InvalidArgumentException} if index out of bounds
@@ -23,19 +24,19 @@ export interface ReadOnlyList<T> extends Queryable<T>, Equatable<ReadOnlyList<T>
    */
   getAt(position: number): T | never;
 
-  indexOf(item: T): number | undefined;
+  indexOf(item: T): Optional<number>;
 
-  indexOf(item: T, equals: Delegate<[T, T], boolean>): number | undefined;
+  indexOf(item: T, equals: Delegate<[T, T], boolean>): Optional<number>;
 
-  indexOf(item: T, equals: Delegate<[T, T], boolean>, offset: number): number | undefined;
+  indexOf(item: T, equals: Delegate<[T, T], boolean>, offset: number): Optional<number>;
 
-  indexOf(item: T, equals: Delegate<[T, T], boolean>, offset: number, limit: number): number | undefined;
+  indexOf(item: T, equals: Delegate<[T, T], boolean>, offset: number, limit: number): Optional<number>;
 
-  lastIndexOf(item: T): number | undefined;
+  lastIndexOf(item: T): Optional<number>;
 
-  lastIndexOf(item: T, equals: Delegate<[T, T], boolean>): number | undefined;
+  lastIndexOf(item: T, equals: Delegate<[T, T], boolean>): Optional<number>;
 
-  lastIndexOf(item: T, equals: Delegate<[T, T], boolean>, offset: number): number | undefined;
+  lastIndexOf(item: T, equals: Delegate<[T, T], boolean>, offset: number): Optional<number>;
 
-  lastIndexOf(item: T, equals: Delegate<[T, T], boolean>, offset: number, limit: number): number | undefined;
+  lastIndexOf(item: T, equals: Delegate<[T, T], boolean>, offset: number, limit: number): Optional<number>;
 }

@@ -1,0 +1,17 @@
+{
+  "name": "@monument/di",
+  "version": "0.15.0",
+  "description": "Extendable platform-agnostic dependency injection framework",
+  "keywords": [],
+  "dependencies": {
+    "@monument/core": "^0.15.0",
+    "@monument/exceptions": "^0.15.0",
+    "@monument/collections": "^0.15.0",
+    "@monument/reflect": "^0.15.0",
+    "rxjs": "^6.5.5"
+  },
+  "scripts": {
+    "example": "ts-node ./test/example/index.ts --project ../../tsconfig.json",
+    "draft01": "ts-node ./src/context/draft01.ts --project ../../tsconfig.json"
+  }
+}

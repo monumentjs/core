@@ -38,6 +38,7 @@ import { takeWhile } from '../operators/takeWhile';
 import { union } from '../operators/union';
 import { zip } from '../operators/zip';
 import { Queryable } from './Queryable';
+import { Optional } from '../../../data';
 
 export class QueryableBase<T> implements Queryable<T> {
 
@@ -118,10 +119,8 @@ export class QueryableBase<T> implements Queryable<T> {
     return new QueryableBase(filter(this, predicate));
   }
 
-  first(predicate: Delegate<[T, number], boolean>): T | undefined;
-  first(predicate: Delegate<[T, number], boolean>, fallback: Delegate<[], T>): T;
-  first(predicate: Delegate<[T, number], boolean>, fallback?: Delegate<[], T>): T | undefined {
-    return first(this, predicate, fallback as Delegate<[], T>);
+  first(): Optional<T> {
+    return first(this);
   }
 
   forEach(consume: Delegate<[T, number], boolean | void>): void {
@@ -177,10 +176,8 @@ export class QueryableBase<T> implements Queryable<T> {
     return new QueryableBase(join(this, others, selectInnerKey, selectOuterKey, selectResult, keysEquals));
   }
 
-  last(predicate: Delegate<[T, number], boolean>): T | undefined;
-  last(predicate: Delegate<[T, number], boolean>, fallback: Delegate<[], T>): T;
-  last(predicate: Delegate<[T, number], boolean>, fallback?: Delegate<[], T>): T | undefined {
-    return last(this, predicate, fallback as Delegate<[], T>);
+  last(): Optional<T> {
+    return last(this);
   }
 
   map<R>(project: Delegate<[T, number], R>): Queryable<R> {

@@ -1,0 +1,11 @@
+{
+  "name": "@monument/cqrs",
+  "version": "0.15.0",
+  "description": "Template",
+  "keywords": [],
+  "dependencies": {
+    "@monument/core": "^0.15.0",
+    "@monument/exceptions": "^0.15.0",
+    "rxjs": "^6.5.5"
+  }
+}

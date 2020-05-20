@@ -20,6 +20,7 @@
       true,
       2
     ],
+    "no-shadowed-variable": false,
     "no-trailing-whitespace": true,
     "object-literal-shorthand": false,
     "object-literal-sort-keys": false,
@@ -57,10 +58,7 @@
     ],
     "prefer-readonly": true,
     "max-classes-per-file": true,
-    "interface-name": [
-      true,
-      "never-prefix"
-    ],
+    "interface-name": false,
     "interface-over-type-literal": false,
     "no-conditional-assignment": false,
     "no-empty": true,

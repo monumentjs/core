@@ -1,0 +1,13 @@
+{
+  "name": "@monument/resource",
+  "version": "0.15.0",
+  "description": "Template",
+  "keywords": [],
+  "dependencies": {
+    "@monument/core": "^0.15.0",
+    "@monument/exceptions": "^0.15.0",
+    "class-transformer": "^0.2.3",
+    "rxjs": "^6.5.5",
+    "ts-essentials": "^6.0.4"
+  }
+}

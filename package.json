@@ -1,6 +1,7 @@
 {
   "private": true,
   "name": "core",
+  "version": "0.15.2",
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "npm run lint:fix && npm run compile && npm run test",
@@ -17,7 +18,12 @@
     "postinstall": "npm run bootstrap",
     "test": "jest",
     "test:watch": "jest --watch",
-    "cleanup": "rm -rf ./coverage && rm -rf ./node_modules && find ./packages -type f -name '*.js' -delete && find ./packages -type f -name '*.d.ts' -delete && find ./packages -type f -name '*.js.map' -delete && find ./packages -type d -name '*node_modules' -exec rm -r {} + && find ./packages -type d -empty -delete"
+    "clean:coverage": "rm -rf ./coverage",
+    "clean:dirs:modules": "rm -rf ./node_modules && find ./packages -type d -name '*node_modules' -exec rm -r {} +",
+    "clean:dirs:empty": "find ./packages -type d -empty -delete",
+    "clean:generated": "find ./packages -type f -name '*.js' -delete && find ./packages -type f -name '*.d.ts' -delete && find ./packages -type f -name '*.js.map' -delete",
+    "clean:all": "npm run clean:coverage && npm run clean:dirs:modules && npm run clean:generated && npm run clean:dirs:empty",
+    "semantic-release": "semantic-release"
   },
   "devDependencies": {
     "@types/jest": "^24.0.22",
@@ -29,9 +35,11 @@
     "lerna": "^3.18.3",
     "prettier": "^1.18.2",
     "ts-jest": "^24.1.0",
+    "ts-node": "^8.10.1",
     "tslint": "^5.20.1",
     "typedoc": "^0.15.0",
-    "typescript": "^3.7.2"
+    "typescript": "^3.7.2",
+    "semantic-release": "^15.13.28"
   },
   "repository": {
     "type": "git",

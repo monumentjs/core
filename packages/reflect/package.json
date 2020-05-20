@@ -1,0 +1,12 @@
+{
+  "name": "@monument/reflect",
+  "version": "0.15.0",
+  "description": "Reflection API",
+  "keywords": [],
+  "dependencies": {
+    "@monument/core": "^0.15.0",
+    "@monument/collections": "^0.15.0",
+    "@monument/exceptions": "^0.15.0",
+    "reflect-metadata": "^0.1.13"
+  }
+}

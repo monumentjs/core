@@ -26,6 +26,7 @@
     "@monument/assert": "^0.15.0",
     "@monument/comparison": "^0.15.0",
     "@monument/core": "^0.15.0",
+    "@monument/data": "^0.15.0",
     "@monument/exceptions": "^0.15.0",
     "@monument/random": "^0.15.0"
   }

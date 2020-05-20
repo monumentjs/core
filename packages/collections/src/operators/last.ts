@@ -1,20 +1,13 @@
-import { Delegate } from '@monument/core';
+import { Optional } from '@monument/data';
 
-export function last<T>(self: Iterable<T>, predicate: Delegate<[T, number], boolean>): T | undefined;
-export function last<T>(self: Iterable<T>, predicate: Delegate<[T, number], boolean>, fallback: Delegate<[], T>): T;
-export function last<T>(self: Iterable<T>, predicate: Delegate<[T, number], boolean>, fallback?: Delegate<[], T>): T | undefined {
-  let lastItem: T | undefined;
+export function last<T>(self: Iterable<T>): Optional<T> {
+  let lastItem!: T;
   let itemFound: boolean = false;
-  let index = 0;
 
   for (const item of self) {
-    if (predicate(item, index)) {
-      lastItem = item;
-      itemFound = true;
-    }
-
-    index++;
+    lastItem = item;
+    itemFound = true;
   }
 
-  return itemFound ? lastItem : fallback ? fallback() : undefined;
+  return itemFound ? Optional.of(lastItem) : Optional.empty();
 }

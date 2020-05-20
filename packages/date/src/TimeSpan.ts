@@ -1,6 +1,7 @@
 import { Duration } from './Duration';
+import { Equatable } from '@monument/comparison';
 
-export class TimeSpan {
+export class TimeSpan implements Equatable<TimeSpan> {
   static fromDays(days: number): TimeSpan {
     return new TimeSpan(days, 0, 0, 0, 0);
   }
@@ -32,5 +33,9 @@ export class TimeSpan {
     this.seconds = seconds;
     this.milliseconds = milliseconds;
     this.duration = Duration.positive(days, hours, minutes, seconds, milliseconds);
+  }
+
+  equals(other: TimeSpan): boolean {
+    return this.duration.equals(other.duration);
   }
 }
