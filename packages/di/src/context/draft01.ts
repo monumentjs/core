@@ -1,78 +1,218 @@
 /* tslint:disable:no-console */
-import { BehaviorSubject, combineLatest, interval, Observable, of, throwError } from 'rxjs';
-import { map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
-import { Type } from '@monument/core';
+import { BehaviorSubject, combineLatest, Observable, of, throwError } from 'rxjs';
+import { map, mergeMap, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { Delegate, Disposable, Type, TypeRef } from '@monument/core';
 import { Class } from '@monument/reflect';
+import { RuntimeException } from '@monument/exceptions';
+import { Key } from '@monument/collections';
 
-export function Injectable(): ClassDecorator {
+export class ComponentDefinitionException extends RuntimeException {
+}
+
+export class NoSuchComponentException extends RuntimeException {
+}
+
+export interface InjectableConfiguration {
+  singleton?: boolean;
+}
+
+export const INJECTABLE = new Key<InjectableConfiguration>('INJECTABLE');
+
+export function Injectable(configuration: InjectableConfiguration = {}): ClassDecorator {
   return target => {
+    const klass = Class.of(target as any);
+
+    klass.metadata.decorate(Injectable, INJECTABLE, configuration);
+  };
+}
+
+export function ComponentExtension(): ClassDecorator {
+  return target => {
+    Injectable()(target);
+
     return target;
   };
 }
 
+export interface Lifecycle {
+  readonly running: Observable<boolean>;
+
+  start(): void;
+
+  stop(): void;
+}
+
+export abstract class AbstractLifecycle implements Lifecycle {
+  private readonly running$ = new BehaviorSubject<boolean>(false);
+
+  get running(): Observable<boolean> {
+    return this.running$.asObservable();
+  }
+
+  start(): void {
+    if (!this.running$.value) {
+      this.running$.next(true);
+    }
+  }
+
+  stop(): void {
+    if (this.running$.value) {
+      this.running$.next(false);
+    }
+  }
+}
+
+export interface ComponentExtensionInterface<T extends object = object> {
+  apply(source: Observable<T>): Observable<T>;
+
+  destroy(source: Observable<T>): Observable<T>;
+}
+
 export interface ComponentFactory {
-  has(type: Type): boolean;
+  has(type: Type | TypeRef): boolean;
 
-  get<T extends object>(type: Type<T>): Observable<T>;
+  get<T extends object>(type: Type<T> | TypeRef<T>): Observable<T>;
+
+  getAll<T extends object>(type: Type<T> | TypeRef<T>): Observable<ReadonlyArray<T>>;
+
+  getMany(types: ReadonlyArray<Type | TypeRef>): Observable<ReadonlyArray<object>>;
 }
 
-export interface HierarchicalComponentFactory extends ComponentFactory {
-  readonly parent?: ComponentFactory;
-
-  hasOwn(type: Type): boolean;
-}
-
-export interface ConfigurableComponentFactory extends HierarchicalComponentFactory {
-  parent?: ComponentFactory;
-
-  create<T extends object>(type: Type<T>): Observable<T>;
+export interface ComponentSubjectFactory extends ComponentFactory {
+  instantiate<T extends object>(type: Type<T>): Observable<T>;
 
   destroy(instance: object): Observable<any>;
 }
 
-export class DefaultComponentFactory implements ConfigurableComponentFactory {
-  private readonly subjects: Array<ProviderSubject>;
+export interface ExtendableComponentFactory extends ComponentSubjectFactory {
+  readonly extensions: ReadonlyArray<Type<ComponentExtensionInterface> | TypeRef<ComponentExtensionInterface>>;
 
-  parent?: ComponentFactory;
+  getExtensions(): Observable<ReadonlyArray<ComponentExtensionInterface>>;
+}
 
-  constructor(providers: ReadonlyArray<ProviderConfiguration>) {
-    this.subjects = providers.map(configuration => new GeneralProviderSubject(this, configuration));
+export interface HierarchicalComponentFactory extends ExtendableComponentFactory {
+  readonly parent: HierarchicalComponentFactory | undefined;
+  readonly dependencies: ReadonlyArray<ComponentFactory>;
+
+  hasOwn(type: Type | TypeRef): boolean;
+}
+
+export interface ConfigurableComponentFactory extends HierarchicalComponentFactory, ComponentSubjectFactory, Lifecycle {
+  parent: HierarchicalComponentFactory | undefined;
+}
+
+export class DefaultComponentFactory extends AbstractLifecycle implements ConfigurableComponentFactory {
+  private readonly subjects: Array<ComponentSubject>;
+
+  readonly dependencies: ReadonlyArray<ComponentFactory>;
+  readonly extensions: ReadonlyArray<Type<ComponentExtensionInterface> | TypeRef<ComponentExtensionInterface>>;
+
+  parent: HierarchicalComponentFactory | undefined;
+
+  constructor(
+    configurations: ReadonlyArray<ComponentConfiguration> = [],
+    dependencies: ReadonlyArray<ComponentFactory> = [],
+    extensions: ReadonlyArray<Type<ComponentExtensionInterface> | TypeRef<ComponentExtensionInterface>> = [],
+    parent?: HierarchicalComponentFactory
+  ) {
+    super();
+    this.parent = parent;
+    this.dependencies = dependencies;
+    this.extensions = extensions;
+    this.subjects = configurations.map(configuration => new GeneralComponentSubject(this, configuration));
   }
 
-  get<T extends object>(type: Type<T>): Observable<T> {
+  has(type: Type | TypeRef): boolean {
+    return this.hasOwn(type) || this.parent?.has(type) || false;
+  }
+
+  hasOwn(type: Type | TypeRef): boolean {
+    return this.subjects.some(subject => subject.provides(type));
+  }
+
+  get<T extends object>(type: Type<T> | TypeRef<T>): Observable<T> {
     for (const subject of this.subjects) {
-      if (subject.provide === type) {
+      if (subject.provides(type)) {
         return subject as unknown as Observable<T>;
       }
     }
 
-    if (this.parent?.has(type)) {
+    for (const dependency of this.dependencies) {
+      if (dependency.has(type)) {
+        return dependency.get(type);
+      }
+    }
+
+    if (this.parent && this.parent.has(type)) {
       return this.parent.get(type);
     }
 
-    // todo: exception
-    return throwError(new Error(`No provider found for class ${type.name}`));
+    return throwError(new NoSuchComponentException(`Instance of ${type.name} is not found in factory hierarchy`));
   }
 
-  create<T extends object>(type: Type<T>): Observable<T> {
-    const deps: Array<Type> = Class.of(type).parameters.map(parameter => parameter.type);
-    const deps$ = deps.length === 0 ? new BehaviorSubject([]) : combineLatest(deps.map(dep => this.get(dep)));
+  getAll<T extends object>(type: Type<T> | TypeRef<T>): Observable<ReadonlyArray<T>> {
+    const subjects = this.subjects.filter(subject => subject.provides(type));
+    const subjects$ = subjects.length === 0 ? new BehaviorSubject([]) : combineLatest(subjects);
 
-    return deps$.pipe(
-      map(args => new type(...args))
+    return subjects$.pipe(
+      switchMap(instances => {
+        if (this.parent) {
+          return this.parent.getAll(type).pipe(
+            map(_instances => [...instances, ..._instances])
+          );
+        }
+
+        return new BehaviorSubject(instances);
+      })
+    ) as any;
+  }
+
+  getMany(types: ReadonlyArray<Type | TypeRef>): Observable<ReadonlyArray<object>> {
+    return types.length > 0 ? combineLatest(types.map(type => this.get(type))) : new BehaviorSubject([]);
+  }
+
+  instantiate<T extends object>(type: Type<T>): Observable<T> {
+    const deps = Class.of(type).ctor.parameters.map(parameter => parameter.type);
+    let instance$ = this.getMany(deps).pipe(map(args => new type(...args)));
+
+    if (!this.getExtensionTypes().includes(type)) {
+      return this.getExtensions().pipe(
+        mergeMap(extensions => {
+          for (const extension of extensions) {
+            instance$ = extension.apply(instance$) as any;
+          }
+
+          return instance$;
+        })
+      );
+    }
+
+    return instance$;
+  }
+
+  destroy(instance: object): Observable<any> {
+    return this.getExtensions().pipe(
+      map(extensions => [...extensions].reduceRight((instance$, extension) => extension.destroy(instance$), of(instance)))
     );
   }
 
-  destroy(instance: object): Observable<void> {
-    return of(undefined);
+  getExtensions(): Observable<ReadonlyArray<ComponentExtensionInterface>> {
+    const extensions = this.getExtensionTypes();
+
+    return this.getMany(extensions) as any;
   }
 
-  has(type: Type): boolean {
-    return this.hasOwn(type) || this.parent?.has(type) || false;
-  }
+  private getExtensionTypes(): ReadonlyArray<Type<ComponentExtensionInterface> | TypeRef<ComponentExtensionInterface>> {
+    const types: Array<Type<ComponentExtensionInterface> | TypeRef<ComponentExtensionInterface>> = [];
+    let factory: HierarchicalComponentFactory | undefined = this;
 
-  hasOwn(type: Type): boolean {
-    return this.subjects.some(subject => subject.provide === type);
+    while (factory) {
+      types.push(...factory.extensions);
+
+      factory = factory.parent;
+    }
+
+    return types;
   }
 }
 
@@ -80,72 +220,82 @@ export interface FactoryComponent<T extends object = object> {
   create(): Observable<T>;
 }
 
-export interface ClassProviderConfiguration<T extends object = object> {
-  provide: Type<T>;
+export interface ClassComponentConfiguration<T extends object = object> {
+  provide: Type<T> | TypeRef<T>;
   useClass: Type<T>;
   singleton?: boolean;
 }
 
-export interface ExistingProviderConfiguration<T extends object = object> {
-  provide: Type<T>;
-  useExisting: Type<T>;
+export interface DelegateComponentConfiguration<T extends object = object> {
+  provide: Type<T> | TypeRef<T>;
+  useDelegate: Delegate<ReadonlyArray<object>, Observable<T>>;
+  deps?: ReadonlyArray<Type | TypeRef>;
   singleton?: boolean;
 }
 
-export interface FactoryProviderConfiguration<T extends object = object> {
-  provide: Type<T>;
-  useFactory: Type<FactoryComponent<T>>;
+export interface FactoryComponentConfiguration<T extends object = object> {
+  provide: Type<T> | TypeRef<T>;
+  useFactory: Type<FactoryComponent<T>> | TypeRef<FactoryComponent<T>>;
   singleton?: boolean;
 }
 
-export interface ValueProviderConfiguration<T extends object = object> {
-  provide: Type<T>;
-  useValue: T;
+export interface ExistingComponentConfiguration<T extends object = object> {
+  provide: Type<T> | TypeRef<T>;
+  useExisting: Type<T> | TypeRef<T>;
+  singleton?: boolean;
 }
 
-export type ProviderConfiguration<T extends object = object> =
-  ClassProviderConfiguration<T>
-  | FactoryProviderConfiguration<T>
-  | ValueProviderConfiguration<T>
-  | ExistingProviderConfiguration<T>;
+export type ComponentConfiguration<T extends object = object> =
+  ClassComponentConfiguration<T>
+  | DelegateComponentConfiguration<T>
+  | FactoryComponentConfiguration<T>
+  | ExistingComponentConfiguration<T>;
 
-export interface ProviderSubject<T extends object = object> extends Observable<T> {
-  readonly provide: Type<T>;
+export interface ComponentSubject<T extends object = object> extends Observable<T> {
   readonly isSingleton: boolean;
+
+  provides(type: Type | TypeRef): boolean;
 }
 
-export class GeneralProviderSubject<T extends object = object> extends Observable<T> implements ProviderSubject<T> {
-  readonly provide: Type<T>;
-  readonly isSingleton: boolean;
+export class GeneralComponentSubject<T extends object = object> extends Observable<T> implements ComponentSubject<T> {
+  private readonly subject: ComponentSubject<T>;
 
-  constructor(factory: ConfigurableComponentFactory, configuration: ProviderConfiguration<T>) {
-    let subject: ProviderSubject<T>;
+  get isSingleton(): boolean {
+    return this.subject.isSingleton;
+  }
+
+  constructor(factory: ComponentSubjectFactory, configuration: ComponentConfiguration<T>) {
+    let subject: ComponentSubject<T>;
 
     if ('useClass' in configuration) {
-      subject = new ClassProviderSubject(factory, configuration);
+      subject = new ClassComponentSubject(factory, configuration);
     } else if ('useFactory' in configuration) {
-      subject = new FactoryProviderSubject(factory, configuration);
+      subject = new FactoryComponentSubject(factory, configuration);
+    } else if ('useDelegate' in configuration) {
+      subject = new DelegateComponentSubject(factory, configuration);
     } else if ('useExisting' in configuration) {
-      subject = new ExistingProviderSubject(factory, configuration);
-    } else if ('useValue' in configuration) {
-      subject = new ValueProviderSubject(configuration);
+      subject = new ExistingComponentSubject(factory, configuration);
     } else {
-      // todo: improve exception
-      throw new Error(`Invalid configuration`);
+      throw new ComponentDefinitionException(`Invalid component configuration`);
     }
 
     super(subscriber => subject.subscribe(subscriber));
 
-    this.provide = subject.provide;
-    this.isSingleton = subject.isSingleton;
+    this.subject = subject;
+  }
+
+  provides(type: Type | TypeRef): boolean {
+    return this.subject.provides(type);
   }
 }
 
-export abstract class AbstractProviderSubject<T extends object = object> extends Observable<T> implements ProviderSubject {
-  readonly provide: Type<T>;
+export abstract class AbstractComponentSubject<T extends object = object> extends Observable<T> implements ComponentSubject<T> {
+  private readonly provide: Type<T> | TypeRef<T>;
+  protected readonly factory: ComponentSubjectFactory;
+
   readonly isSingleton: boolean;
 
-  constructor(provide: Type<T>, isSingleton = true) {
+  protected constructor(factory: ComponentSubjectFactory, provide: Type<T> | TypeRef<T>, isSingleton = true) {
     let singleton$: Observable<T> | undefined;
     let subscribers = 0;
 
@@ -184,13 +334,13 @@ export abstract class AbstractProviderSubject<T extends object = object> extends
           if (isSingleton) {
             if (subscribers === 0) {
               console.log('-', provide.name, 'destroying singleton');
-              this.destroy(instance).pipe(
+              factory.destroy(instance).pipe(
                 tap(() => console.log('-', provide.name, 'has been destroyed', '\n'))
               ).subscribe();
             }
           } else {
             console.log('-', provide.name, 'destroying prototype');
-            this.destroy(instance).pipe(
+            factory.destroy(instance).pipe(
               tap(() => console.log('-', provide.name, 'has been destroyed', '\n'))
             ).subscribe();
           }
@@ -200,91 +350,72 @@ export abstract class AbstractProviderSubject<T extends object = object> extends
 
     this.provide = provide;
     this.isSingleton = isSingleton;
+    this.factory = factory;
+  }
+
+  provides(type: Type | TypeRef): boolean {
+    return this.provide === type;
   }
 
   protected abstract instantiate(): Observable<T>;
-
-  protected abstract destroy(instance: T): Observable<void>;
 }
 
-export class ClassProviderSubject<T extends object = object> extends AbstractProviderSubject<T> {
-  private readonly factory: ConfigurableComponentFactory;
+export class ClassComponentSubject<T extends object = object> extends AbstractComponentSubject<T> {
   private readonly useClass: Type<T>;
 
-  constructor(factory: ConfigurableComponentFactory, { provide, useClass, singleton = true }: ClassProviderConfiguration<T>) {
-    super(provide, singleton);
-    this.factory = factory;
+  constructor(factory: ComponentSubjectFactory, { provide, useClass, singleton = true }: ClassComponentConfiguration<T>) {
+    super(factory, provide, singleton);
     this.useClass = useClass;
   }
 
   protected instantiate(): Observable<T> {
-    return this.factory.create(this.useClass);
-  }
-
-  protected destroy(instance: T): Observable<any> {
-    return this.factory.destroy(instance);
+    return this.factory.instantiate(this.useClass);
   }
 }
 
-export class FactoryProviderSubject<T extends object = object> extends AbstractProviderSubject<T> {
-  private readonly factory: ConfigurableComponentFactory;
-  private readonly useFactory: Type<FactoryComponent<T>>;
+export class DelegateComponentSubject<T extends object = object> extends AbstractComponentSubject<T> {
+  private readonly useDelegate: Delegate<ReadonlyArray<object>, Observable<T>>;
+  private readonly deps: ReadonlyArray<Type | TypeRef>;
 
-  constructor(factory: ConfigurableComponentFactory, { provide, useFactory, singleton = true }: FactoryProviderConfiguration<T>) {
-    super(provide, singleton);
+  constructor(factory: ComponentSubjectFactory, { provide, useDelegate, singleton = true, deps = [] }: DelegateComponentConfiguration<T>) {
+    super(factory, provide, singleton);
+    this.useDelegate = useDelegate;
+    this.deps = deps;
+  }
 
-    this.factory = factory;
+  protected instantiate(): Observable<T> {
+    const deps$ = this.deps.length === 0 ? new BehaviorSubject([]) : combineLatest(this.deps.map(dep => this.factory.get(dep)));
+
+    return deps$.pipe(switchMap(args => this.useDelegate(...args)));
+  }
+}
+
+export class FactoryComponentSubject<T extends object = object> extends AbstractComponentSubject<T> {
+  private readonly useFactory: Type<FactoryComponent<T>> | TypeRef<FactoryComponent<T>>;
+
+  constructor(factory: ComponentSubjectFactory, { provide, useFactory, singleton = true }: FactoryComponentConfiguration<T>) {
+    super(factory, provide, singleton);
     this.useFactory = useFactory;
   }
 
   protected instantiate(): Observable<T> {
     return this.factory.get(this.useFactory).pipe(switchMap(factory => factory.create()));
   }
-
-  protected destroy(instance: T): Observable<any> {
-    return this.factory.destroy(instance);
-  }
 }
 
-export class ExistingProviderSubject<T extends object = object> extends Observable<T> implements ProviderSubject<T> {
-  readonly provide: Type<T>;
-  readonly isSingleton: boolean;
+export class ExistingComponentSubject<T extends object = object> extends AbstractComponentSubject<T> {
+  private readonly useExisting: Type<T> | TypeRef<T>;
 
-  constructor(factory: ConfigurableComponentFactory, { provide, useExisting, singleton = true }: ExistingProviderConfiguration<T>) {
-    let source$: Observable<T> | undefined;
-
-    super(subscriber => {
-      if (source$ == null) {
-        source$ = factory.get(useExisting).pipe(
-          singleton ? shareReplay(1) : map(instance => instance)
-        );
-      }
-
-      return source$.subscribe(subscriber);
-    });
-
-    this.provide = provide;
-    this.isSingleton = singleton;
+  constructor(
+    factory: ComponentSubjectFactory,
+    { provide, useExisting, singleton = true }: ExistingComponentConfiguration<T>
+  ) {
+    super(factory, provide, singleton);
+    this.useExisting = useExisting;
   }
-}
 
-export class ValueProviderSubject<T extends object = object> extends Observable<T> implements ProviderSubject<T> {
-  readonly provide: Type<T>;
-  readonly isSingleton: boolean;
-
-  constructor({ provide, useValue }: ValueProviderConfiguration<T>) {
-    let source$: Observable<T> | undefined;
-
-    super(subscriber => {
-      if (source$ == null) {
-        source$ = of(useValue).pipe(shareReplay(1));
-      }
-
-      return source$.subscribe(subscriber);
-    });
-
-    this.provide = provide;
-    this.isSingleton = true;
+  protected instantiate(): Observable<T> {
+    return this.factory.get(this.useExisting);
   }
 }
 
@@ -311,24 +442,23 @@ class CacheFactory implements FactoryComponent<Cache> {
   }
 
   create(): Observable<Cache> {
-    return interval(1000).pipe(
-      take(3),
-      tap(i => console.log(`\nNew cache - ${i}\n`)),
-      map(() => new Cache())
-    );
+    return of(new Cache());
   }
 }
 
 @Injectable()
-class Logger {
+class Logger implements Disposable {
   static n = 0;
-
   readonly n: number;
 
   constructor(
     private cache: Cache
   ) {
     this.n = Logger.n++;
+  }
+
+  dispose(): void {
+    console.warn('Disposed', this);
   }
 }
 
@@ -381,17 +511,53 @@ class Application {
   }
 }
 
-const factory: ConfigurableComponentFactory = new DefaultComponentFactory([
+@ComponentExtension()
+export class DisposableComponentExtension implements ComponentExtensionInterface<Disposable> {
+  apply(source: Observable<Disposable>): Observable<Disposable> {
+    console.log('DisposableComponentExtension.extend');
+
+    return source;
+  }
+
+  destroy(source: Observable<Disposable>): Observable<Disposable> {
+    console.log('DisposableComponentExtension.destroy');
+
+    return source.pipe(
+      tap(disposable => {
+        if (typeof disposable.dispose === 'function') {
+          disposable.dispose();
+        }
+      })
+    );
+  }
+}
+
+// Factory --------------------------------------------------------------------
+
+const rootFactory = new DefaultComponentFactory([
+  { provide: DisposableComponentExtension, useClass: DisposableComponentExtension }
+], [], [DisposableComponentExtension]);
+
+const cacheFactory = new DefaultComponentFactory([
   { provide: CacheFactory, useClass: CacheFactory },
-  { provide: Cache, useFactory: CacheFactory },
-  { provide: Logger, useClass: Logger, singleton: false },
+  { provide: Cache, useFactory: CacheFactory, singleton: false }
+], [], [], rootFactory);
+
+const loggerFactory = new DefaultComponentFactory([
+  { provide: Logger, useClass: Logger, singleton: false }
+], [cacheFactory], [], rootFactory);
+
+const servicesFactory = new DefaultComponentFactory([
   { provide: LoginHandler, useClass: LoginHandler },
   { provide: UserService, useClass: UserService },
-  { provide: AuthService, useClass: AuthService },
-  { provide: Application, useClass: Application }
-]);
+  { provide: AuthService, useClass: AuthService }
+], [cacheFactory, loggerFactory], [], rootFactory);
 
-const subscription = factory.get(Application).subscribe({
+const applicationFactory = new DefaultComponentFactory([
+  { provide: Application, useClass: Application }
+], [cacheFactory, loggerFactory, servicesFactory], [], rootFactory);
+
+const subscription = applicationFactory.get(Application).subscribe({
   next: application => {
     console.log('\n');
     console.log(application);
@@ -401,7 +567,7 @@ const subscription = factory.get(Application).subscribe({
       console.log('TERMINATE');
       console.log('\n');
       subscription.unsubscribe();
-    }, 10000);
+    }, 1000);
   },
   complete: () => {
     console.log('COMPLETE');

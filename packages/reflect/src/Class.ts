@@ -1,11 +1,11 @@
-import { Type } from '@monument/core';
+import { Constructor } from './Constructor';
 import { Metadata } from './Metadata';
-import { Parameter } from './Parameter';
+import { Type } from '@monument/core';
 
 const KEY = Symbol();
 
 export class Class {
-  static of(type: Function): Class {
+  static of(type: Type): Class {
     let klass: Class | undefined = Reflect.getMetadata(KEY, type);
 
     if (klass == null) {
@@ -17,10 +17,9 @@ export class Class {
   }
 
   readonly metadata = new Metadata();
-  readonly parameters: ReadonlyArray<Parameter>;
+  readonly ctor: Constructor;
 
-  private constructor(readonly target: Function) {
-    const types: Array<Type> = Reflect.getMetadata('design:paramtypes', target) || [];
-    this.parameters = types.map((type, index) => new Parameter(type, index));
+  private constructor(readonly target: Type) {
+    this.ctor = new Constructor(target);
   }
 }
